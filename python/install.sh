@@ -37,11 +37,14 @@ if ! pyenv global | grep "$PYTHON_VERSION"; then
     # for some reason
     pip install flake8
 
-    # Install poetry package manager
-    curl -sSL https://install.python-poetry.org | python3 - --uninstall
-    curl -sSL https://install.python-poetry.org | POETRY_VERSION="$POETRY_VERSION" python3 -
 
     # Make sure executables are available
     pyenv rehash
+fi
+
+if ! poetry -V | grep "$POETRY_VERSION"; then
+    # Install poetry package manager
+    curl -sSL https://install.python-poetry.org | python3 - --uninstall
+    curl -sSL https://install.python-poetry.org | POETRY_VERSION="$POETRY_VERSION" python3 -
 fi
 
