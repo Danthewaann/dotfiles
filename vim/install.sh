@@ -11,7 +11,8 @@ if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
 fi
 
 # Install plugins
-vim --not-a-term +PluginInstall +qall 
+vim --not-a-term +PluginInstall +qall
+vim --not-a-term +VimspectorInstall debugpy +qall
 
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
