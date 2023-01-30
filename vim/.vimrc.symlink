@@ -90,7 +90,8 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-set clipboard=unnamed
+" set clipboard=unnamed
+set clipboard=unnamedplus
 set noswapfile
 set updatetime=400
 set signcolumn=yes
