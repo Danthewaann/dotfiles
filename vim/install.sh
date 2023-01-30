@@ -17,6 +17,6 @@ vim --not-a-term +PluginInstall +qall
 if [[ $OSTYPE == "darwin"* ]]; then
     brew install the_silver_searcher fzf shellcheck
 else
-    sudo apt-get install -qq -y silversearcher-ag fzf shellcheck
+    sudo apt-get install -y silversearcher-ag fzf shellcheck
 fi
 
