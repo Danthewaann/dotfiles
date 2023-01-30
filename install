@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#
+# Run all installers.
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR"/common
+
+export PYTHON_VERSION=3.11.0
+export NODE_VERSION=14.17.6
+
+# find all installers and run them iteratively
+installers=()
+while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name install.sh)
+
+echo ''
+
+for installer in "${installers[@]}"; do
+    info "running installer $installer"
+    if ! output=$(sh -c "$installer" 2>&1); then
+        fail "failed to run installer $installer : installer output -> $output"
+    else
+        success "finished installer $installer"
+    fi
+done
+
+echo ''
+echo '  All installed!'
+

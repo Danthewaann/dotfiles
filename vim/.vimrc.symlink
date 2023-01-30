@@ -1,0 +1,480 @@
+set nocompatible              " required
+filetype off                  " required
+
+" Must define this before loading vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
+
+" Only set this if using nvm
+let g:coc_node_path = '~/.nvm/versions/node/v14.17.6/bin/node'
+
+" Set config location to home
+let g:coc_config_home = '~/'
+
+" Set global coc extensions
+let g:coc_global_extensions = ['coc-eslint', 'coc-prettier', 'coc-sh', 'coc-go', 'coc-tsserver', 'coc-json', 'coc-pyright']
+
+set nobackup
+set nowritebackup
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+" add all your plugins here (note older versions of Vundle
+" used Bundle instead of Plugin)
+
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+Plugin 'romainl/Apprentice'
+Plugin 'scrooloose/nerdtree'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-test/vim-test'
+Plugin 'tpope/vim-dispatch'
+Plugin 'vim-autoformat/vim-autoformat'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-commentary'
+Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'puremourning/vimspector'
+Plugin 'hashivim/vim-terraform'
+Plugin 'iamcco/markdown-preview.nvim'
+Plugin 'vim-python/python-syntax'
+Plugin 'mfukar/robotframework-vim'
+Plugin 'arzg/vim-sh'
+Plugin 'godlygeek/tabular'
+Plugin 'preservim/vim-markdown'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'djoshea/vim-autoread'
+Plugin 'fatih/vim-go'
+
+" Need to also install this for searching through files
+" https://github.com/ggreer/the_silver_searcher
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
+
+" Auto-completion for quotes, parens, brackets, etc.
+Plugin 'Raimondi/delimitMate'
+
+" Must be loaded last
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'PhilRunninger/nerdtree-visual-selection'
+
+" ...
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" GENERAL ===================================================================================================
+syntax on
+let g:python_highlight_all = 1
+set history=10000
+set splitbelow
+set splitright
+set encoding=utf-8
+set rnu nu
+let mapleader = " " " map leader to Space
+
+set mouse=a
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set clipboard=unnamed
+set noswapfile
+set updatetime=400
+set signcolumn=yes
+set timeoutlen=1000
+set textwidth=0 
+set wrapmargin=0
+
+" Make backspaces more powerful
+set backspace=indent,eol,start
+
+" Number of colors
+set t_Co=256
+
+" Hide instead of closing buffers. It allows hiding buffer with unsaved
+" modifications and preserve marks and undo history.
+set hidden
+
+" insert blank lines below and above cursor
+map <leader>o o<C-C>
+map <leader>O O<C-C>
+
+" search for current word in window and highlight it
+nnoremap <leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
+" nnoremap <leader>f :BLines! <C-R><C-W><CR>
+
+" toggle search matches highlighting
+nnoremap <leader>l :set hlsearch!<CR>
+
+" search for current word in all project files
+nnoremap <leader>F :Ag! <C-R><C-W><CR>
+
+" show all buffers
+nnoremap <leader>b :Buffers!<CR>
+
+" save the current buffer
+nnoremap <leader>w :w<CR>
+
+" Treat Ctrl+C exactly like <Escape>.
+imap <C-c> <Esc>
+
+" vim-powered terminal in a split window
+map <C-t>s :term<cr>
+tmap <C-t>s <C-w>:term<cr>
+
+" vim-powered terminal in a vertical split window
+map <C-t>v :vert term<cr>
+tmap <C-t>v <C-w>:vert term<cr>
+
+" vim-powered terminal in new tab
+map <C-t>t :tab term<cr>
+tmap <C-t>t <c-w>:tab term<cr>
+
+" enter normal-mode in terminal
+tmap <C-x> <C-w>N
+
+function! ClearWindows() abort
+    execute 'ccl'
+    execute 'lcl'
+    call s:close_gstatus()
+endfunction
+
+" close the quicklist window
+nnoremap <leader>c :call ClearWindows()<CR>
+
+" Use a line cursor within insert mode and a block cursor everywhere else.
+"
+" Reference chart of values:
+"   Ps = 0  -> blinking block.
+"   Ps = 1  -> blinking block (default).
+"   Ps = 2  -> steady block.
+"   Ps = 3  -> blinking underline.
+"   Ps = 4  -> steady underline.
+"   Ps = 5  -> blinking bar (xterm).
+"   Ps = 6  -> steady bar (xterm).
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+" Highlight the current line when in insert mode.
+autocmd InsertEnter * set cul
+autocmd InsertLeave * set nocul
+
+" Jump to last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" Set filetype for .robot files to enable syntax highlighting
+autocmd BufNewFile,BufRead *.robot setlocal filetype=robot
+
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+set guifont=Hack_Nerd_Font_Mono:h16
+
+" COLOUR THEMES ===================================================================================================
+
+set background=dark
+let g:airline_powerline_fonts = 1
+let g:enable_bold_font = 1
+let g:enable_italic_font = 1
+let g:airline_theme='apprentice'
+colorscheme apprentice
+
+" NAVIGATION ===================================================================================================
+
+" vertical navigation
+nnoremap <C-D> <C-D>zz
+nnoremap <C-J> <C-J>zz
+
+" window pane navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" terminal pane navigation
+tnoremap <C-J> <C-W><C-J>
+tnoremap <C-K> <C-W><C-K>
+tnoremap <C-L> <C-W><C-L>
+tnoremap <C-H> <C-W><C-H>
+tnoremap <C-Q> <C-D>
+
+" exit the current window
+noremap <C-Q> :q<CR>
+
+" tab navigation
+nnoremap <C-b> :tabprevious<CR>
+nnoremap <C-n> :tabnext<CR>
+tnoremap <C-b> <C-W>:tabprevious<CR>
+tnoremap <C-n> <C-W>:tabnext<CR>
+
+" Use <C-j> & <C-k> to move through popup candidates
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
+" Use <C-j> & <C-k> to move through wildmenu candidates
+cnoremap <C-j> <Right>
+cnoremap <C-k> <Left>
+
+" NERDTREE ===================================================================================================
+
+" unmap <C-J> so we can use <C-J> for navigation.
+let NERDTreeMapJumpNextSibling=""
+
+" Set NERDTree window size
+let g:NERDTreeWinSize=60
+
+nnoremap ff :NERDTree<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+let NERDTreeShowHidden=1
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
+let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
+let g:NERDTreeSyntaxEnabledExtensions = ['py', 'tf', 'js', 'css', 'html', 'ts'] " enabled extensions with default colors
+let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors
+let g:NERDTreeHighlightCursorline = 0
+
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
+" COC ===================================================================================================
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :silent call CocActionAsync('format')
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+" organize imports on save for Python
+au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+" nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>p  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" CTRL-P ===================================================================================================
+
+" Close NERDTree window
+let g:ctrlp_dont_split = 'NERD'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|.venv'
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+" VIM-TEST ===================================================================================================
+
+" make test commands execute using dispatch.vim
+let test#strategy = "dispatch"
+let g:dispatch_quickfix_height=20
+
+let test#python#runner = 'pytest'
+let test#python#pytest#options = '-vv'
+
+function! MyGetPosition(path) abort
+  let filename_modifier = get(g:, 'test#filename_modifier', ':.')
+
+  let position = {}
+  let position['file'] = fnamemodify(a:path, filename_modifier)
+  let position['line'] = a:path == expand('%') ? line('.') : 1
+  let position['col']  = a:path == expand('%') ? col('.') : 1
+
+  return position
+endfunction
+
+function! MyDebugNearest() abort
+  let position = MyGetPosition(expand("%"))
+  let runner = test#determine_runner(position['file'])
+  let temp = test#{runner}#build_position("nearest", position)
+  let args = {'configuration': 'Debug Test', 'args': join(temp)}
+  call vimspector#LaunchWithSettings(args)
+endfunction
+
+command! -nargs=0 DebugNearest :call MyDebugNearest()
+
+nnoremap <silent> <leader>dn :DebugNearest<CR>
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ts :TestSuite<CR>
+nnoremap <silent> <leader>tc :TestClass<CR>
+nnoremap <silent> <leader>tl :TestLast<CR>
+    
+nnoremap <silent> <leader>tv :TestVisit<CR>
+
+" VIM-FUGITIVE ===================================================================================================
+
+nnoremap <leader>gs :G<CR>
+nnoremap <leader>gl :G log<CR>
+nnoremap <leader>gp :G push<CR>
+nnoremap <leader>gpf :G push --force<CR>
+
+function! s:ToggleGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			execute l:winnr.'close'
+            return
+		endif
+	endfor
+    keepalt Git
+endfunction
+
+nnoremap <C-s> :call <SID>ToggleGstatus()<CR>
+
+function! s:close_gstatus()
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			execute l:winnr.'close'
+            return
+		endif
+	endfor
+endfunction
+
+command! GstatusClose call s:close_gstatus()
+
+" AUTOFORMAT =====================================================================================================
+
+let g:autoformat_autoindent = 0
+
+" From https://github.com/vim-autoformat/vim-autoformat/issues/270#issuecomment-510759415
+let g:formatdef_mypython = '"poetry run isort - | poetry run black -q -"'
+let g:formatters_python = ['mypython']
+
+" Auto format terraform files on save
+au BufWrite *.tf :Autoformat
+
+" COMMENTARY =====================================================================================================
+
+" Add support for commenting/uncommenting code
+noremap <silent> <leader>/ :Commentary<CR>
+
+" VIMSPECTOR =====================================================================================================
+
+let g:vimspector_install_gadgets = [ 'debugpy' ]
+let g:vimspector_sidebar_width = 80
+let g:vimspector_bottombar_height = 20
+
+" for normal mode - the word under the cursor
+nmap <leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <leader>di <Plug>VimspectorBalloonEval
+nmap <leader>db <Plug>VimspectorBreakpoints
+
+nnoremap <leader>vs <Plug>VimspectorContinue
+nnoremap <leader>vr <Plug>VimspectorRestart
+nnoremap <leader>vq :VimspectorReset<CR>
+
+let g:vimspector_sign_priority = {
+  \    'vimspectorBP':             999,
+  \    'vimspectorBPCond':         2,
+  \    'vimspectorBPLog':          2,
+  \    'vimspectorBPDisabled':     1,
+  \    'vimspectorPC':             999,
+  \    'vimspectorPCBP':           1001,
+  \    'vimspectorCurrentThread':  1000,
+  \    'vimspectorCurrentFrame':   1000,
+  \ }
+
+
+" VIM-MARKDOWN ===================================================================================================
+
+let g:vim_markdown_folding_disabled = 1
+
+" SESSION ========================================================================================================
+
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+
