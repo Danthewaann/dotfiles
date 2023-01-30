@@ -9,7 +9,8 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     sudo apt-get install -qq -y build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev curl \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
+    libpq-dev
 fi
 
 # Install and configure pyenv
@@ -26,5 +27,6 @@ pyenv install -s "$PYTHON_VERSION"
 pyenv global "$PYTHON_VERSION"
 
 # Install poetry package manager
-curl -sSL https://install.python-poetry.org | python3 -
+curl -sSL https://install.python-poetry.org | python3 - --uninstall
+curl -sSL https://install.python-poetry.org | POETRY_VERSION="$POETRY_VERSION" python3 -
 

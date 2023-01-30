@@ -1,11 +1,11 @@
 {
-  "python.venvPath": "${workspaceFolder}/.venv/bin/python",
+  "python.venvPath": "${workspaceRoot}/.venv/bin/python",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
   "python.linting.mypyEnabled": true,
   "python.linting.mypyArgs": [
-    "--config-file=${workspaceFolder}/pyproject.toml"
+    "--config-file=${workspaceRoot}/pyproject.toml"
   ],
   "pyright.testing.provider": "pytest",
   "pyright.organizeimports.provider": "isort",
