@@ -8,11 +8,17 @@ if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
     # Workaround from https://github.com/neoclide/coc.nvim/issues/3258#issuecomment-1056660012
     cd ~/.vim/bundle/coc.nvim || exit
     git checkout release
+    cd -
 fi
 
 # Install plugins
 vim --not-a-term +PluginInstall +qall
-vim --not-a-term +VimspectorInstall debugpy +qall
+
+# Install vimspector debugpy post-install step
+vim --not-a-term "+VimspectorInstall debugpy" +qall
+
+# Install markdown-preview post-install step
+vim --not-a-term "+call mkdp#util#install()" +qall
 
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
