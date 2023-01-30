@@ -2,6 +2,10 @@
 
 set -e
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR"/../common
+
 # Install Vundle vim plugin manager
 if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim

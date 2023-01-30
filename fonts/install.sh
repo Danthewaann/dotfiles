@@ -4,6 +4,8 @@ set -e
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+source "$SCRIPT_DIR"/../common
+
 # Install Hack Nerd font family
 if [[ $OSTYPE == "darwin"* ]]; then
     brew tap homebrew/cask-fonts

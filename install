@@ -8,10 +8,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$SCRIPT_DIR"/common
 
-export PYTHON_VERSION=3.8.2
-export POETRY_VERSION=1.1.15
-export NODE_VERSION=14.17.6
-
 # find all installers and run them iteratively
 installers=()
 while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name install.sh)

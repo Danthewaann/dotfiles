@@ -2,6 +2,10 @@
 
 set -e
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR"/../common
+
 # Install Python build dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
     xcode-select --install
@@ -23,10 +27,21 @@ fi
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-pyenv install -s "$PYTHON_VERSION"
-pyenv global "$PYTHON_VERSION"
 
-# Install poetry package manager
-curl -sSL https://install.python-poetry.org | python3 - --uninstall
-curl -sSL https://install.python-poetry.org | POETRY_VERSION="$POETRY_VERSION" python3 -
+# Only install provided Python version if it isn't already available
+if ! pyenv global | grep "$PYTHON_VERSION"; then
+    pyenv install -s "$PYTHON_VERSION"
+    pyenv global "$PYTHON_VERSION"
+
+    # Need to make sure flake8 is installed for coc-pyright to work correctly
+    # for some reason
+    pip install flake8
+
+    # Install poetry package manager
+    curl -sSL https://install.python-poetry.org | python3 - --uninstall
+    curl -sSL https://install.python-poetry.org | POETRY_VERSION="$POETRY_VERSION" python3 -
+
+    # Make sure executables are available
+    pyenv rehash
+fi
 

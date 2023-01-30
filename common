@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Everything in this script is available to all install.sh files
+
+export PYTHON_VERSION=3.8.2
+export POETRY_VERSION=1.1.15
+export NODE_VERSION=14.17.6
+
 info () {
   printf "\r  [ \033[00;34m..\033[0m ] %s\n" "$1"
 }

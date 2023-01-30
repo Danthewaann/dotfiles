@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-set -xe
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR"/../common
 
 # Install docker engine 
 if [[ $OSTYPE == "darwin"* ]]; then

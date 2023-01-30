@@ -1,11 +1,11 @@
 {
-  "python.venvPath": "${workspaceRoot}/.venv/bin/python",
+  "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
   "python.linting.mypyEnabled": true,
   "python.linting.mypyArgs": [
-    "--config-file=${workspaceRoot}/pyproject.toml"
+    "--config-file=${workspaceFolder}/pyproject.toml"
   ],
   "pyright.testing.provider": "pytest",
   "pyright.organizeimports.provider": "isort",
@@ -17,7 +17,7 @@
       "command": "robotframework_ls",
       "filetypes": ["robot"],
       "settings": {
-        "robot.language-server.python": "${workspaceRoot}/.venv/bin/python",
+        "robot.language-server.python": "${workspaceFolder}/.venv/bin/python",
         "robot.pythonpath": [
           "${workspaceRoot}/.venv/lib/python3.8/site-packages/",
           "${workspaceRoot}/keywords/",
