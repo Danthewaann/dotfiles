@@ -34,9 +34,9 @@ if ! pyenv global | grep "$PYTHON_VERSION"; then
     pyenv global "$PYTHON_VERSION"
 
     # Need to make sure flake8 is installed for coc-pyright to work correctly
-    # for some reason
-    pip install flake8
-
+    # for some reason. I also added other packages here for general use so 
+    # my vim setup works when editing standalone files outside of a project.
+    pip install flake8 black isort mypy
 
     # Make sure executables are available
     pyenv rehash
