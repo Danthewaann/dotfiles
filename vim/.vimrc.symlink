@@ -423,7 +423,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " make test commands execute using dispatch.vim
 let test#strategy = "dispatch"
-let g:dispatch_quickfix_height=20
+let g:dispatch_quickfix_height = 20
 
 let test#python#runner = 'pytest'
 let test#python#pytest#options = '-vv'
@@ -556,5 +556,6 @@ let g:session_autosave = 'no'
 
 " VIM-BBYE =======================================================================================================
 
+" Close the current buffer without closing the window
 nnoremap <leader>q :Bdelete<CR>
 
