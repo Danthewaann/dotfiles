@@ -279,8 +279,8 @@ function ScrollPopUp(down)
     return 1
 endfunction
 
-nnoremap <expr> <c-d> ScrollPopUp(1) ? '<esc>' : '<c-d>'
-nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>'
+nnoremap <expr> <c-d> ScrollPopUp(1) ? '<esc>' : '<c-d>zz'
+nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>zz'
 
 " NERDTREE ===================================================================================================
 
