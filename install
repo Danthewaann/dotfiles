@@ -19,10 +19,11 @@ for installer in "${installers[@]}"; do
     if ! output=$(sh -c "$installer" 2>&1); then
         fail "failed to run installer $installer : installer output -> $output"
     else
-        success "finished installer $installer"
+        success "finished installer $installer : output logged to $LOG_FILE"
+        log_to_file ".." "installer $installer output : $output"
     fi
 done
 
 echo ''
-echo '  All installed!'
+echo 'All installed!'
 

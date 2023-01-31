@@ -16,13 +16,13 @@ if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
 fi
 
 # Install plugins
-vim --not-a-term +PluginInstall +qall
+vim --not-a-term +PluginInstall +qall > /dev/null 2>&1
 
-# Install vimspector debugpy post-install step
-vim --not-a-term "+VimspectorInstall debugpy" +qall
+# vimspector debugpy post-install step
+vim --not-a-term "+VimspectorInstall debugpy" +qall > /dev/null 2>&1
 
-# Install markdown-preview post-install step
-vim --not-a-term "+call mkdp#util#install()" +qall
+# markdown-preview post-install step
+vim --not-a-term "+call mkdp#util#install()" +qall > /dev/null 2>&1
 
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then

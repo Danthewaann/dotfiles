@@ -1,25 +1,48 @@
 #!/usr/bin/env bash
 
-# Everything in this script is available to all install.sh files
+# Everything in this script is available to all script files
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 export PYTHON_VERSION=3.8.2
 export POETRY_VERSION=1.1.15
 export NODE_VERSION=14.17.6
+export LOG_FILE="$SCRIPT_DIR/debug.log"
 
 info () {
-  printf "\r  [ \033[00;34m..\033[0m ] %s\n" "$1"
+    local cur_date=$(get_date)
+    printf "\r%s [ \033[00;34m..\033[0m ] %s\n" "$cur_date" "$1"
+    log_to_file ".." "$1" "$cur_date"
 }
 
 user () {
-  printf "\r  [ \033[0;33m??\033[0m ] %s\n" "$1"
+    local cur_date=$(get_date)
+    printf "\r%s [ \033[0;33m??\033[0m ] %s\n" "$cur_date" "$1"
+    log_to_file "??" "$1" "$cur_date"
 }
 
 success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] %s\n" "$1"
+    local cur_date=$(get_date)
+    printf "\r\033[2K%s [ \033[00;32mOK\033[0m ] %s\n" "$cur_date" "$1"
+    log_to_file "OK" "$1" "$cur_date"
 }
 
 fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
-  echo ''
-  exit
+    local cur_date=$(get_date)
+    printf "\r\033[2K%s [\033[0;31mFAIL\033[0m] %s\n" "$cur_date" "$1"
+    log_to_file "FAIL" "$1" "$cur_date"
+    echo ''
+    exit
+}
+
+log_to_file () {
+    local cur_date=${3:-$(get_date)}
+    printf "%s [ %s ] %s\n" "$cur_date" "$1" "$2" >> "$LOG_FILE"
+
+}
+
+get_date () {
+    date +"%Y-%m-%dT%H:%M:%S%z"
 }

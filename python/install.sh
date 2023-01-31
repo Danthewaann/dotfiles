@@ -21,6 +21,7 @@ fi
 if [[ ! -d ~/.pyenv ]]; then
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
     cd ~/.pyenv && src/configure && make -C src
+    cd -
 fi
 
 # Install and set global Python version using pyenv
