@@ -24,6 +24,9 @@ vim --not-a-term "+VimspectorInstall debugpy" +qall > /dev/null 2>&1
 # markdown-preview post-install step
 vim --not-a-term "+call mkdp#util#install()" +qall > /dev/null 2>&1
 
+# Install binaries for vim-go plugin
+vim --not-a-term "+GoInstallBinaries" +qall > /dev/null 2>&1
+
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
     brew install the_silver_searcher fzf shellcheck
