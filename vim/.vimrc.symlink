@@ -11,7 +11,18 @@ let g:coc_node_path = '~/.nvm/versions/node/v14.17.6/bin/node'
 let g:coc_config_home = '~/'
 
 " Set global coc extensions
-let g:coc_global_extensions = ['coc-eslint', 'coc-prettier', 'coc-sh', 'coc-go', 'coc-tsserver', 'coc-json', 'coc-pyright', 'coc-git', 'coc-css']
+let g:coc_global_extensions = [
+    \'coc-eslint', 
+    \'coc-prettier',
+    \'coc-sh', 
+    \'coc-go',
+    \'coc-tsserver',
+    \'coc-json',
+    \'coc-pyright',
+    \'coc-git',
+    \'coc-css',
+    \'coc-toml'
+\]
 
 set nobackup
 set nowritebackup
@@ -54,6 +65,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'djoshea/vim-autoread'
 Plugin 'fatih/vim-go'
+Plugin 'moll/vim-bbye'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -306,14 +318,14 @@ endif
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)zz
+nmap <silent> ]g <Plug>(coc-diagnostic-next)zz
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)zz
+nmap <silent> gy <Plug>(coc-type-definition)zz
+nmap <silent> gi <Plug>(coc-implementation)zz
+nmap <silent> gr <Plug>(coc-references
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -431,8 +443,8 @@ command! GstatusClose call s:close_gstatus()
 let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_grep = 'ag'
 
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
+nmap ]h <Plug>(GitGutterNextHunk)zz
+nmap [h <Plug>(GitGutterPrevHunk)zz
 nmap hp <Plug>(GitGutterPreviewHunk)
 nmap hu <Plug>(GitGutterUndoHunk)
 omap ih <Plug>(GitGutterTextObjectInnerPending)
@@ -492,4 +504,8 @@ let g:vim_markdown_folding_disabled = 1
 
 let g:session_autoload = 'no'
 let g:session_autosave = 'no'
+
+" VIM-BBYE =======================================================================================================
+
+nnoremap <leader>q :Bdelete<CR>
 
