@@ -4,12 +4,13 @@
 
 set -e
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 export PYTHON_VERSION=3.8.2
 export POETRY_VERSION=1.1.15
 export NODE_VERSION=14.17.6
-export LOG_FILE="$SCRIPT_DIR/debug.log"
+export GO_VERSION=1.19.5
+export LOG_FILE="$BASE_DIR/debug.log"
 
 info () {
     local cur_date=$(get_date)
