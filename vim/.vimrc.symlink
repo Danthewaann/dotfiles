@@ -105,7 +105,7 @@ set expandtab
 " set clipboard=unnamed
 set clipboard=unnamedplus
 set noswapfile
-set updatetime=400
+set updatetime=200
 set signcolumn=yes
 set timeoutlen=1000
 set textwidth=0 
@@ -202,6 +202,18 @@ if (has("termguicolors"))
 endif
 
 set guifont=Hack_Nerd_Font_Mono:h16
+
+" Allow indenting the current line in normal mode
+nnoremap <Tab> >>
+nnoremap <S-Tab> <<
+
+" Allow indenting the selected lines in visual mode
+xnoremap <Tab> >gv
+xnoremap <S-Tab> <gv
+
+" Jump list (previous, next), needed as I'm using TAB for indentation
+nnoremap { <C-O>        
+nnoremap } <C-I>         
 
 " COLOUR THEMES ===================================================================================================
 
