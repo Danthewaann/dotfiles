@@ -39,7 +39,8 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-Plugin 'romainl/Apprentice'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'sainnhe/edge'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
@@ -217,12 +218,20 @@ nnoremap } <C-I>
 
 " COLOUR THEMES ===================================================================================================
 
+" Don't show mode information as it is included in the statusline
+set noshowmode
+
 set background=dark
 let g:airline_powerline_fonts = 1
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
-let g:airline_theme='apprentice'
-colorscheme apprentice
+
+let g:edge_style = 'default'
+let g:edge_better_performance = 1
+let g:airline_theme = 'edge'
+let g:edge_enable_italic = 1
+let g:edge_disable_italic_comment = 1
+colorscheme edge
 
 " NAVIGATION ===================================================================================================
 
@@ -500,6 +509,12 @@ omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
 xmap ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+
+let g:gitgutter_signs=0
+function! GitStatus()
+  return join(filter(map(['A','M','D'], {i,v -> v.': '.GitGutterGetHunkSummary()[i]}), 'v:val[-1:]'), ' ')
+endfunction
+set statusline+=%{GitStatus()}
 
 " AUTOFORMAT =====================================================================================================
 
