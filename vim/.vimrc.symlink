@@ -40,7 +40,7 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'sheerun/vim-polyglot'
-Plugin 'sainnhe/edge'
+Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
@@ -220,12 +220,8 @@ let g:airline_powerline_fonts = 1
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
 
-let g:edge_style = 'default'
-let g:edge_better_performance = 1
-let g:airline_theme = 'edge'
-let g:edge_enable_italic = 1
-let g:edge_disable_italic_comment = 1
-colorscheme edge
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
 
 " NAVIGATION ===================================================================================================
 
