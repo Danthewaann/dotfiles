@@ -133,12 +133,6 @@ nnoremap <leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
 " toggle search matches highlighting
 nnoremap <leader>l :set hlsearch!<CR>
 
-" search for current word in all project files
-nnoremap <leader>F :Ag! <C-R><C-W><CR>
-
-" show all buffers
-nnoremap <leader>b :Buffers!<CR>
-
 " save the current buffer
 nnoremap <leader>w :w<CR>
 
@@ -246,8 +240,11 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " terminal pane navigation
-tnoremap <C-J> <C-W><C-J>
-tnoremap <C-K> <C-W><C-K>
+
+" These maps interfere with fzf.vim popup window navigation
+" tnoremap <C-J> <C-W><C-J>
+" tnoremap <C-K> <C-W><C-K>
+
 tnoremap <C-L> <C-W><C-L>
 tnoremap <C-H> <C-W><C-H>
 tnoremap <C-Q> <C-D>
@@ -468,10 +465,8 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
-nnoremap <leader>gs :G<CR>
-nnoremap <leader>gl :G log<CR>
 nnoremap <leader>gp :G push<CR>
-nnoremap <leader>gpf :G push --force<CR>
+nnoremap <leader>gfp :G push --force<CR>
 
 function! s:ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
@@ -574,3 +569,16 @@ let g:session_autosave = 'no'
 " Close the current buffer without closing the window
 nnoremap <leader>q :Bdelete<CR>
 
+" VIM-FZF ========================================================================================================
+
+" search in all project files
+nnoremap <leader>F :Ag<CR>
+
+" show all buffers
+nnoremap <leader>b :Buffers<CR>
+
+" show changed files
+nnoremap <leader>gs :GFiles?<CR>
+
+" show commits
+nnoremap <leader>gl :Commits<CR>
