@@ -430,7 +430,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " VIM-TEST ===================================================================================================
 
-" make test commands execute using dispatch.vim
+" make test commands execute using floaterm
 let test#strategy = "floaterm"
 let g:floaterm_wintype = "split"
 let g:floaterm_height = 0.3
