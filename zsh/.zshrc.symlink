@@ -116,6 +116,9 @@ export PATH="$HOME/.local/bin:$PATH"
 # Add golang to path
 export PATH=$PATH:/usr/local/go/bin
 
+# Set term colour for tmux
+export TERM=xterm-256color
+
 # Some aliases
 alias ll='ls -alF'
 alias la='ls -A'
