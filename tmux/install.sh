@@ -16,3 +16,6 @@ if [[ ! -d ~/.tmux/plugins/tpm ]]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
+# Install TPM plugins
+~/.tmux/plugins/tpm/scripts/install_plugins.sh
+
