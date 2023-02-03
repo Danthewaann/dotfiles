@@ -500,14 +500,14 @@ command! GstatusClose call s:close_gstatus()
 let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_grep = 'ag'
 
-nmap ]h <Plug>(GitGutterNextHunk)zz
-nmap [h <Plug>(GitGutterPrevHunk)zz
-nmap hp <Plug>(GitGutterPreviewHunk)
-nmap hu <Plug>(GitGutterUndoHunk)
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap ]c <Plug>(GitGutterNextHunk)zz
+nmap [c <Plug>(GitGutterPrevHunk)zz
+nmap cp <Plug>(GitGutterPreviewHunk)
+nmap cu <Plug>(GitGutterUndoHunk)
+omap ic <Plug>(GitGutterTextObjectInnerPending)
+omap ac <Plug>(GitGutterTextObjectOuterPending)
+xmap ic <Plug>(GitGutterTextObjectInnerVisual)
+xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 let g:gitgutter_signs=0
 function! GitStatus()
