@@ -8,7 +8,7 @@ source "$SCRIPT_DIR"/../common
 
 # Install docker engine 
 if [[ $OSTYPE == "darwin"* ]]; then
-    info "Skipping docker install on macos"
+    echo "Skipping docker install on macos"
     exit 0
 else
     # From https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository

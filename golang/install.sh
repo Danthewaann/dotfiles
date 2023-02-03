@@ -7,7 +7,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/../common
 
 if [[ $OSTYPE == "darwin"* ]]; then
-    info "Skipping golang install on macos"
+    echo "Skipping golang install on macos"
     exit 0
 else
     if [[ ! -f "$SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz" ]]; then

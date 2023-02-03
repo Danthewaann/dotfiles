@@ -9,7 +9,7 @@ source "$SCRIPT_DIR"/../common
 # Install Python build dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
     xcode-select --install
-    brew install openssl readline sqlite3 xz zlib tcl-tk
+    brew install openssl readline sqlite3 xz zlib tcl-tk 
 else
     sudo apt-get install -y python3 python3-setuptools build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev curl \
