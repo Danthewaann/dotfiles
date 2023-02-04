@@ -117,10 +117,10 @@ install_symlinks () {
     done
 }
 
-    echo ''
+echo ''
 
-    setup_gitconfig
-    install_symlinks
+setup_gitconfig
+install_symlinks
 
-    echo ''
-    echo 'All bootstrapped!'
+echo ''
+echo 'All bootstrapped!'
