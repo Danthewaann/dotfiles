@@ -382,7 +382,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)zz
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)zz
 nmap <silent> gy <Plug>(coc-type-definition)zz
-nmap <silent> gi <Plug>(coc-implementation)zz
+" nmap <silent> gi <Plug>(coc-implementation)zz
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
@@ -603,3 +603,17 @@ let g:fzf_colors = {
   \ 'marker':     ['fg', 'Keyword'],
   \ 'spinner':    ['fg', 'Label'],
   \ 'header':     ['fg', 'Comment'] }
+
+" CHEATSHEET ======================================================================================================
+"
+" ga -> get encoding of character at cursor
+" gq -> autoformat current paragraph
+" gf -> open path at cursor or selection
+" gi -> go back to the last place you were in insert mode
+"
+" ap, ip -> operate on continuous lines
+"
+" Edit multiple lines (add double quote to end of each line) - V -> :s/$/” -> <CR>
+"
+" Replace a word in a file selectively
+" /word -> cgn -> replacement -> <CR> -> . (to repeat)
