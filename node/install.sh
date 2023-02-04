@@ -7,8 +7,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
 
-# Install nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+run_command "downloading nvm" "downloaded nvm" \
+    "curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
 
 export NVM_DIR="$HOME/.nvm"
 # shellcheck disable=SC1091
@@ -17,9 +17,17 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Install node and npm
-nvm install "$NODE_VERSION"
-nvm alias default "$NODE_VERSION"
-nvm use default
+run_command "installing node $NODE_VERSION" "installed node $NODE_VERSION" \
+    "nvm install $NODE_VERSION"
+
+run_command "making node $NODE_VERSION the default" "made node $NODE_VERSION the default" \
+    "nvm alias default $NODE_VERSION"
+
+run_command "using node $NODE_VERSION" "node $NODE_VERSION is being used" \
+    "nvm use default"
 
 # Install bash language server
-npm -i -g bash-language-server
+info "installing bash-language-server"
+run_command "installing bash-language-server" "installed bash-language-server" \
+    "npm i -g bash-language-server"
+

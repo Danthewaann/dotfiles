@@ -16,30 +16,25 @@ info () {
     local cur_date
     cur_date=$(get_date)
     printf "\r%s [ \033[00;34m..\033[0m ] %s\n" "$cur_date" "$1"
-    log_to_file ".." "$1" "$cur_date"
 }
 
 user () {
     local cur_date
     cur_date=$(get_date)
     printf "\r%s [ \033[0;33m??\033[0m ] %s\n" "$cur_date" "$1"
-    log_to_file "??" "$1" "$cur_date"
 }
 
 success () {
     local cur_date
     cur_date=$(get_date)
     printf "\r\033[2K%s [ \033[00;32mOK\033[0m ] %s\n" "$cur_date" "$1"
-    log_to_file "OK" "$1" "$cur_date"
 }
 
 fail () {
     local cur_date
     cur_date=$(get_date)
     printf "\r\033[2K%s [\033[0;31mFAIL\033[0m] %s\n" "$cur_date" "$1"
-    log_to_file "FAIL" "$1" "$cur_date"
-    echo ''
-    exit
+    exit 1
 }
 
 log_to_file () {
@@ -53,8 +48,17 @@ get_date () {
     date +"%Y-%m-%dT%H:%M:%S%z"
 }
 
-installer_info () {
-    while read -r data; do
-        printf "\t%s\n" "$data"
+run_command () {
+    local pre_log=$1
+    local post_log=$2
+    shift; shift
+
+    info "$pre_log"
+    while [[ $# -gt 0 ]]; do
+        if ! output=$(eval "$1" 2>&1); then
+            fail "$output"
+        fi
+        shift
     done
+    success "$post_log"
 }

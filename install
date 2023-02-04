@@ -14,16 +14,13 @@ while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name inst
 
 echo ''
 
-info "running installers : output logged to $LOG_FILE"
+info "running installers : output logged to $LOG_FILE" | tee -a "$LOG_FILE"
 for installer in "${installers[@]}"; do
-    info "running installer $installer"
-    echo '' 
-    if ! sh -c "$installer" | installer_info 2>&1 | tee -a "$LOG_FILE"; then
-        echo ''
-        fail "failed to run installer $installer"
+    info "running installer $installer" | tee -a "$LOG_FILE"
+    if ! sh -c "$installer" | tee -a "$LOG_FILE" 2>&1; then
+        fail "failed to run installer $installer" | tee -a "$LOG_FILE"
     else
-        echo ''
-        success "finished installer $installer"
+        success "finished installer $installer" | tee -a "$LOG_FILE"
     fi
 done
 
