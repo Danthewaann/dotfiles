@@ -8,8 +8,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/../common
 
 if [[ $OSTYPE == "darwin"* ]]; then
-    echo "Skipping golang install on macos"
-    exit 0
+    # TODO: Need to make sure go is available in PATH
+    brew install go
 else
     if [[ ! -f "$SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz" ]]; then
         wget -O "$SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz" "https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz"

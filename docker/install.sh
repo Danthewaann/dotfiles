@@ -9,8 +9,9 @@ source "$SCRIPT_DIR"/../common
 
 # Install docker engine 
 if [[ $OSTYPE == "darwin"* ]]; then
-    echo "Skipping docker install on macos"
-    exit 0
+    # From https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos
+    # TODO: Need to fully test this
+    brew install hyperkit minikube docker docker-compose
 else
     # From https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
     sudo apt-get install -y \
