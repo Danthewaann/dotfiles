@@ -1,44 +1,44 @@
 {
-  "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
-  "python.formatting.provider": "black",
-  "python.linting.enabled": true,
-  "python.linting.flake8Enabled": true,
-  "python.linting.mypyEnabled": true,
-  "python.linting.mypyArgs": [
-    "--config-file=${workspaceFolder}/pyproject.toml"
-  ],
-  "diagnostic.virtualText": true,
-  "diagnostic.virtualTextCurrentLineOnly": false,
-  "pyright.testing.provider": "pytest",
-  "pyright.organizeimports.provider": "isort",
-  "pyright.inlayHints.variableTypes": false,
-  "pyright.inlayHints.functionReturnTypes": false,
-  "python.analysis.typeCheckingMode": "off",
-  "languageserver": {
-    "robotframework_ls": {
-      "command": "robotframework_ls",
-      "filetypes": ["robot"],
-      "settings": {
-        "robot.language-server.python": "${workspaceFolder}/.venv/bin/python",
-        "robot.pythonpath": [
-          "${workspaceRoot}/.venv/lib/python3.8/site-packages/",
-          "${workspaceRoot}/keywords/",
-          "${workspaceRoot}/variables/",
-          "${workspaceRoot}/libraries/"
-        ],
-        "robot.codeLens.enable": true,
-        "robot.lint.enabled": false
-      }
-    }
-  },
-  "coc.preferences.willSaveHandlerTimeout": 1000,
-  "[python][javascript][typescript][typescriptreact]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "eslint.autoFixOnSave": true,
-  "git.addedSign.hlGroup": "GitGutterAdd",
-  "git.changedSign.hlGroup": "GitGutterChange",
-  "git.removedSign.hlGroup": "GitGutterDelete",
-  "git.topRemovedSign.hlGroup": "GitGutterDelete",
-  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete"
+    "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyArgs": [
+        "--config-file=${workspaceFolder}/pyproject.toml"
+    ],
+    "diagnostic.virtualText": true,
+    "diagnostic.virtualTextCurrentLineOnly": false,
+    "pyright.testing.provider": "pytest",
+    "pyright.organizeimports.provider": "isort",
+    "pyright.inlayHints.variableTypes": false,
+    "pyright.inlayHints.functionReturnTypes": false,
+    "python.analysis.typeCheckingMode": "off",
+    "languageserver": {
+        "robotframework_ls": {
+            "command": "robotframework_ls",
+            "filetypes": ["robot"],
+            "settings": {
+                "robot.language-server.python": "${workspaceFolder}/.venv/bin/python",
+                "robot.pythonpath": [
+                    "${workspaceRoot}/.venv/lib/python3.8/site-packages/",
+                    "${workspaceRoot}/keywords/",
+                    "${workspaceRoot}/variables/",
+                    "${workspaceRoot}/libraries/"
+                ],
+                "robot.codeLens.enable": true,
+                "robot.lint.enabled": false
+            }
+        }
+    },
+    "coc.preferences.willSaveHandlerTimeout": 1000,
+    "[python][javascript][typescript][typescriptreact]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "eslint.autoFixOnSave": true,
+    "git.addedSign.hlGroup": "GitGutterAdd",
+    "git.changedSign.hlGroup": "GitGutterChange",
+    "git.removedSign.hlGroup": "GitGutterDelete",
+    "git.topRemovedSign.hlGroup": "GitGutterDelete",
+    "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete"
 }

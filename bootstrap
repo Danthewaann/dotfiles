@@ -9,119 +9,118 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/common
 
 setup_gitconfig () {
-  if ! [[ -f git/.gitconfig.symlink ]]
-  then
-    info 'setup gitconfig'
+    if ! [[ -f git/.gitconfig.symlink ]]; then
+        info 'setup gitconfig'
 
-    git_credential='cache'
-    if [ "$(uname -s)" == "Darwin" ]
-    then
-      git_credential='osxkeychain'
+        git_credential='cache'
+        if [ "$(uname -s)" == "Darwin" ]
+        then
+            git_credential='osxkeychain'
+        fi
+
+        user ' - What is your github author name?'
+        read -r -e git_authorname
+        user ' - What is your github author email?'
+        read -r -e git_authoremail
+
+        sed -e "s/AUTHORNAME/$git_authorname/g" \
+            -e "s/AUTHOREMAIL/$git_authoremail/g" \
+            -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" \
+            git/.gitconfig.symlink.example > git/.gitconfig.symlink
+
+        success 'gitconfig'
     fi
-
-    user ' - What is your github author name?'
-    read -r -e git_authorname
-    user ' - What is your github author email?'
-    read -r -e git_authoremail
-
-    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/.gitconfig.symlink.example > git/.gitconfig.symlink
-
-    success 'gitconfig'
-  fi
 }
 
 
 link_file () {
-  local src=$1 dst=$2
+    local src=$1 dst=$2
 
-  local overwrite= backup= skip=
-  local action=
+    local overwrite=
+    local backup=
+    local skip=
+    local action=
+    local currentSrc=
 
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
-  then
+    if [ -f "$dst" ] || [ -d "$dst" ] || [ -L "$dst" ]; then
+        if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]; then
+            currentSrc="$(readlink "$dst")"
 
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
+            if [ "$currentSrc" == "$src" ]; then
+                skip=true
+            else
+                user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+                    [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+                read -r -n 1 action
 
-      local currentSrc="$(readlink $dst)"
+                case "$action" in
+                    o )
+                    overwrite=true
+                    ;;
+                    O )
+                    overwrite_all=true
+                    ;;
+                    b )
+                    backup=true
+                    ;;
+                    B )
+                    backup_all=true
+                    ;;
+                    s )
+                    skip=true
+                    ;;
+                    S )
+                    skip_all=true
+                    ;;
+                    * )
+                    ;;
+                esac
+            fi
+        fi
 
-      if [ "$currentSrc" == "$src" ]
-      then
+        overwrite=${overwrite:-$overwrite_all}
+        backup=${backup:-$backup_all}
+        skip=${skip:-$skip_all}
 
-        skip=true;
+        if [ "$overwrite" == "true" ]; then
+            rm -rf "$dst"
+            success "removed $dst"
+        fi
 
-      else
+        if [ "$backup" == "true" ]; then
+            mv "$dst" "${dst}.backup"
+            success "moved $dst to ${dst}.backup"
+        fi
 
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
-
-      fi
-
+        if [ "$skip" == "true" ]; then
+            success "skipped $src"
+        fi
     fi
 
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
-    then
-      rm -rf "$dst"
-      success "removed $dst"
+    if [ "$skip" != "true" ]; then  # "false" or empty
+        ln -s "$1" "$2"
+        success "linked $1 to $2"
     fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      success "moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      success "skipped $src"
-    fi
-  fi
-
-  if [ "$skip" != "true" ]  # "false" or empty
-  then
-    ln -s "$1" "$2"
-    success "linked $1 to $2"
-  fi
 }
 
 install_symlinks () {
-  info 'installing symlinks'
+    info 'installing symlinks'
 
-  local overwrite_all=false backup_all=false skip_all=false
+    local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -H "$SCRIPT_DIR" -maxdepth 2 -name '*.symlink')
-  do
-    dst="$HOME/$(basename "${src%.*}")"
-    link_file "$src" "$dst"
-  done
+    symlinks=()
+    while IFS=" " read -r line; do symlinks+=("$line"); done < <(find -H "$SCRIPT_DIR" -maxdepth 2 -name '*.symlink')
+
+    for src in "${symlinks[@]}"; do
+        dst="$HOME/$(basename "${src%.*}")"
+        link_file "$src" "$dst"
+    done
 }
 
-echo ''
+    echo ''
 
-setup_gitconfig
-install_symlinks
+    setup_gitconfig
+    install_symlinks
 
-echo ''
-echo 'All bootstrapped!'
+    echo ''
+    echo 'All bootstrapped!'
