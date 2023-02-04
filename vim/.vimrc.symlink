@@ -68,6 +68,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'djoshea/vim-autoread'
 Plugin 'fatih/vim-go'
 Plugin 'moll/vim-bbye'
+Plugin 'christoomey/vim-tmux-navigator'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
