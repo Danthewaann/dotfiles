@@ -13,6 +13,13 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     run_command "installing tmux" "installed tmux" \
         "sudo apt-get install -y tmux"
+
+    # From https://github.com/denysdovhan/one-gnome-terminal
+    if [[ ! -f $SCRIPT_DIR/.installed_one_dark_theme ]]; then
+        run_command "installing one dark GNOME terminal theme" "installed one dark GNOME terminal theme" \
+            "curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh | bash"
+        touch "$SCRIPT_DIR/.installed_one_dark_theme"
+    fi
 fi
 
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then

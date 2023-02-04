@@ -23,7 +23,8 @@ set -g @plugin 'odedlaz/tmux-onedark-theme'
 set -g status-position top
 
 # Needed to ensure tmux uses 256 colours
-set -g default-terminal "xterm"
+set -g default-terminal "xterm-256color"
+set -ag terminal-overrides ",xterm-256color:Tc"
 
 # Set tab names to be the current working directory
 set-option -g status-interval 5
