@@ -10,6 +10,10 @@ bind-key j select-pane -D
 bind-key k select-pane -U
 bind-key l select-pane -R
 
+# Kill window and panes without confirmation
+bind-key & kill-window
+bind-key x kill-pane
+
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'christoomey/vim-tmux-navigator'
