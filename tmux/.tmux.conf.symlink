@@ -23,6 +23,7 @@ set -g @plugin 'odedlaz/tmux-onedark-theme'
 set -g status-position top
 
 # Needed to ensure tmux uses 256 colours
+# From https://wiki.archlinux.org/title/tmux#256_colors
 set -g default-terminal "xterm-256color"
 set -ag terminal-overrides ",xterm-256color:Tc"
 
