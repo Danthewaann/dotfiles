@@ -31,9 +31,10 @@ run_command "installing plugins" "installed plugins" \
 run_command "configuring coc" "configured coc" \
     "cd $HOME/.vim/bundle/coc.nvim && git checkout release" \
 
-# vimspector debugpy post-install step
+# vimspector gadgets post-install step
 run_command "configuring vimspector" "configured vimspector" \
-    "vim --not-a-term \"+VimspectorInstall debugpy\" +qall"
+    "vim --not-a-term \"+VimspectorInstall debugpy\" +qall" \
+    "vim --not-a-term \"+VimspectorInstall vscode-node-debug2\" +qall"
 
 # markdown-preview post-install step
 run_command "configuring markdown-preview" "configured markdown-preview" \

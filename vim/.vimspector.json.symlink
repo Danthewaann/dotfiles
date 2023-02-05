@@ -1,0 +1,112 @@
+{
+    "configurations": {
+        "python - debug test": {
+            "adapter": "debugpy",
+            "variables": {
+                "venv": {
+                    "shell": ["poetry", "env", "info", "-p"]
+                }
+            },
+            "configuration": {
+                "type": "python",
+                "request": "launch",
+                "protocol": "auto",
+                "stopOnEntry": false,
+                "console": "internalConsole",
+                "python": "${venv}/bin/python",
+                "program": "${venv}/bin/pytest",
+                "args": ["*${args}"],
+                "cwd": "${workspaceRoot}"
+            },
+            "breakpoints": {
+                "exception": {
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
+            }
+        },
+        "python - debug current file": {
+            "adapter": "debugpy",
+            "variables": {
+                "venv": {
+                    "shell": ["poetry", "env", "info", "-p"]
+                }
+            },
+            "configuration": {
+                "type": "python",
+                "request": "launch",
+                "protocol": "auto",
+                "stopOnEntry": false,
+                "console": "internalConsole",
+                "python": "${venv}/bin/python",
+                "program": "${file}",
+                "args": ["*${args}"],
+                "cwd": "${workspaceRoot}"
+            },
+            "breakpoints": {
+                "exception": {
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
+            }
+        },
+        "javascript - debug test": {
+            "adapter": "vscode-node",
+            "configuration": {
+                "type": "node",
+                "request": "launch",
+                "protocol": "auto",
+                "stopOnEntry": false,
+                "program": "${workspaceFolder}/node_modules/.bin/jest",
+                "args": [
+                    "*${args}",
+                    "--config",
+                    "${workspaceFolder}/jest.config.ts"
+                ],
+                "console": "internalConsole",
+                "cwd": "${workspaceFolder}",
+                "smartStep": true,
+                "skipFiles": [
+                    "${workspaceFolder}/node_modules/**/*.js",
+                    "<node_internals>/**/*.js"
+                ]
+            },
+            "breakpoints": {
+                "exception": {
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
+            }
+        },
+        "javascript - debug current file": {
+            "adapter": "vscode-node",
+            "configuration": {
+                "type": "node",
+                "request": "launch",
+                "program": "${workspaceFolder}/node_modules/.bin/jest",
+                "args": [
+                    "${fileBasenameNoExtension}",
+                    "--config",
+                    "${workspaceFolder}/jest.config.ts"
+                ],
+                "console": "internalConsole",
+                "smartStep": true,
+                "skipFiles": [
+                    "${workspaceFolder}/node_modules/**/*.js",
+                    "<node_internals>/**/*.js"
+                ],
+                "cwd": "${workspaceFolder}"
+            },
+            "breakpoints": {
+                "exception": {
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
+            }
+        }
+    }
+}

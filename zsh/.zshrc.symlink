@@ -127,3 +127,9 @@ alias l='ls -CF'
 function pprint() {
   python -m json.tool
 }
+
+# Needed to create a symlink from ~/.vimspector.json to ./.vimspector.json
+# as some configurations only work with dependencies in the current directory
+function link_vimspector_config() {
+    ln -s "$HOME/.vimspector.json" "$(pwd -P)/.vimspector.json"
+}

@@ -454,7 +454,7 @@ function! MyDebugNearest() abort
   let position = MyGetPosition(expand("%"))
   let runner = test#determine_runner(position['file'])
   let temp = test#{runner}#build_position("nearest", position)
-  let args = {'configuration': 'Debug Test', 'args': join(temp)}
+  let args = {'configuration': split(runner, '#')[0] . ' - debug test', 'args': join(temp)}
   call vimspector#LaunchWithSettings(args)
 endfunction
 
