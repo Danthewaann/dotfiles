@@ -190,7 +190,7 @@ autocmd InsertLeave * set nocul
 
 " Jump to last position when reopening a file
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
 " Set filetype for .robot files to enable syntax highlighting
@@ -200,7 +200,7 @@ autocmd BufNewFile,BufRead *.robot setlocal filetype=robot
 "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
 " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 if (has("termguicolors"))
-  set termguicolors
+    set termguicolors
 endif
 
 set guifont=Hack_Nerd_Font_Mono:h16
@@ -364,15 +364,15 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+    inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -390,11 +390,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
+    if CocAction('hasProvider', 'hover')
+        call CocActionAsync('doHover')
+    else
+        call feedkeys('K', 'in')
+    endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
@@ -423,7 +423,6 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " CTRL-P ===================================================================================================
 
-" Close NERDTree window
 let g:ctrlp_dont_split = 'NERD'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|.venv'
 let g:ctrlp_show_hidden = 1
@@ -435,27 +434,32 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 let test#strategy = "floaterm"
 let g:floaterm_wintype = "split"
 let g:floaterm_height = 0.3
-
 let test#python#runner = 'pytest'
 let test#python#pytest#options = '-vv'
 
 function! MyGetPosition(path) abort
-  let filename_modifier = get(g:, 'test#filename_modifier', ':.')
-
-  let position = {}
-  let position['file'] = fnamemodify(a:path, filename_modifier)
-  let position['line'] = a:path == expand('%') ? line('.') : 1
-  let position['col']  = a:path == expand('%') ? col('.') : 1
-
-  return position
+    let filename_modifier = get(g:, 'test#filename_modifier', ':.')
+    let position = {}
+    let position['file'] = fnamemodify(a:path, filename_modifier)
+    let position['line'] = a:path == expand('%') ? line('.') : 1
+    let position['col']  = a:path == expand('%') ? col('.') : 1
+    return position
 endfunction
 
 function! MyDebugNearest() abort
-  let position = MyGetPosition(expand("%"))
-  let runner = test#determine_runner(position['file'])
-  let temp = test#{runner}#build_position("nearest", position)
-  let args = {'configuration': split(runner, '#')[0] . ' - debug test', 'args': join(temp)}
-  call vimspector#LaunchWithSettings(args)
+    let position = MyGetPosition(expand("%"))
+    let runner = test#determine_runner(position['file'])
+    let lang = split(runner, '#')[0]
+    let build_args = test#{runner}#build_position("nearest", position)
+    if lang == 'go'
+        " Need to reverse the build args for `delve test`
+        " e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to 
+        " `.pkg/concurrency -- -run 'TestCheckWebsites$'`
+        let args = build_args[1] . ' -- ' . build_args[0]
+    else
+        let args = join(build_args)
+    endif
+    call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
 endfunction
 
 command! -nargs=0 DebugNearest :call MyDebugNearest()
@@ -474,24 +478,24 @@ nnoremap <leader>gp :G push<CR>
 nnoremap <leader>gfp :G push --force<CR>
 
 function! s:ToggleGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			execute l:winnr.'close'
+    for l:winnr in range(1, winnr('$'))
+        if !empty(getwinvar(l:winnr, 'fugitive_status'))
+            execute l:winnr.'close'
             return
-		endif
-	endfor
+        endif
+    endfor
     keepalt Git
 endfunction
 
 nnoremap <C-g> :call <SID>ToggleGstatus()<CR>
 
 function! s:close_gstatus()
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			execute l:winnr.'close'
+    for l:winnr in range(1, winnr('$'))
+        if !empty(getwinvar(l:winnr, 'fugitive_status'))
+            execute l:winnr.'close'
             return
-		endif
-	endfor
+        endif
+    endfor
 endfunction
 
 command! GstatusClose call s:close_gstatus()
@@ -512,7 +516,7 @@ xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 let g:gitgutter_signs=0
 function! GitStatus()
-  return join(filter(map(['A','M','D'], {i,v -> v.': '.GitGutterGetHunkSummary()[i]}), 'v:val[-1:]'), ' ')
+    return join(filter(map(['A','M','D'], {i,v -> v.': '.GitGutterGetHunkSummary()[i]}), 'v:val[-1:]'), ' ')
 endfunction
 set statusline+=%{GitStatus()}
 
@@ -534,7 +538,7 @@ noremap <silent> <leader>/ :Commentary<CR>
 
 " VIMSPECTOR =====================================================================================================
 
-let g:vimspector_install_gadgets = [ 'debugpy' ]
+let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-node-debug2', 'delve' ]
 let g:vimspector_sidebar_width = 80
 let g:vimspector_bottombar_height = 20
 

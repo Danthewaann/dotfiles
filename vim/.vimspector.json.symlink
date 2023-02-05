@@ -1,10 +1,13 @@
 {
     "configurations": {
-        "python - debug test": {
+        "python - base conf": {
             "adapter": "debugpy",
             "variables": {
                 "venv": {
                     "shell": ["poetry", "env", "info", "-p"]
+                },
+                "CWD": {
+                    "shell": "pwd"
                 }
             },
             "configuration": {
@@ -14,9 +17,8 @@
                 "stopOnEntry": false,
                 "console": "internalConsole",
                 "python": "${venv}/bin/python",
-                "program": "${venv}/bin/pytest",
                 "args": ["*${args}"],
-                "cwd": "${workspaceRoot}"
+                "cwd": "${CWD}"
             },
             "breakpoints": {
                 "exception": {
@@ -24,52 +26,76 @@
                     "uncaught": "Y",
                     "userUnhandled": "Y"
                 }
+            }
+        },
+        "python - debug test": {
+            "extends": "python - base conf",
+            "configuration": {
+                "program": "${venv}/bin/pytest"
             }
         },
         "python - debug current file": {
-            "adapter": "debugpy",
+            "extends": "python - base conf",
+            "configuration": {
+                "program": "${file}"
+            }
+        },
+        "go - base conf": {
+            "adapter": "delve",
             "variables": {
-                "venv": {
-                    "shell": ["poetry", "env", "info", "-p"]
+                "CWD": {
+                    "shell": "pwd"
                 }
             },
             "configuration": {
-                "type": "python",
                 "request": "launch",
-                "protocol": "auto",
                 "stopOnEntry": false,
                 "console": "internalConsole",
-                "python": "${venv}/bin/python",
-                "program": "${file}",
-                "args": ["*${args}"],
-                "cwd": "${workspaceRoot}"
+                "program": "${fileDirname}",
+                "mode": "debug",
+                "cwd": "${CWD}"
             },
             "breakpoints": {
                 "exception": {
                     "raised": "N",
-                    "uncaught": "Y",
+                    "uncaught": "N",
                     "userUnhandled": "Y"
                 }
             }
         },
-        "javascript - debug test": {
+        "go - debug test": {
+            "extends": "go - base conf",
+            "configuration": {
+                "mode": "test",
+                "args": ["*${args}"]
+            }
+        },
+        "go - debug current file": {
+            "extends": "go - base conf"
+        },
+        "javascript - base conf": {
             "adapter": "vscode-node",
+            "variables": {
+                "CWD": {
+                    "shell": "pwd"
+                }
+            },
             "configuration": {
                 "type": "node",
                 "request": "launch",
                 "protocol": "auto",
                 "stopOnEntry": false,
-                "program": "${workspaceFolder}/node_modules/.bin/jest",
+                "program": "${CWD}/node_modules/.bin/jest",
                 "args": [
                     "*${args}",
                     "--config",
-                    "${workspaceFolder}/jest.config.ts"
+                    "${CWD}/jest.config.ts"
                 ],
                 "console": "internalConsole",
-                "cwd": "${workspaceFolder}",
+                "cwd": "${CWD}",
                 "smartStep": true,
                 "skipFiles": [
-                    "${workspaceFolder}/node_modules/**/*.js",
+                    "${CWD}/node_modules/**/*.js",
                     "<node_internals>/**/*.js"
                 ]
             },
@@ -81,31 +107,24 @@
                 }
             }
         },
-        "javascript - debug current file": {
-            "adapter": "vscode-node",
+        "javascript - debug test": {
+            "extends": "javascript - base conf",
             "configuration": {
-                "type": "node",
-                "request": "launch",
-                "program": "${workspaceFolder}/node_modules/.bin/jest",
+                "args": [
+                    "*${args}",
+                    "--config",
+                    "${CWD}/jest.config.ts"
+                ]
+            }
+        },
+        "javascript - debug current test file": {
+            "extends": "javascript - base conf",
+            "configuration": {
                 "args": [
                     "${fileBasenameNoExtension}",
                     "--config",
-                    "${workspaceFolder}/jest.config.ts"
-                ],
-                "console": "internalConsole",
-                "smartStep": true,
-                "skipFiles": [
-                    "${workspaceFolder}/node_modules/**/*.js",
-                    "<node_internals>/**/*.js"
-                ],
-                "cwd": "${workspaceFolder}"
-            },
-            "breakpoints": {
-                "exception": {
-                    "raised": "N",
-                    "uncaught": "Y",
-                    "userUnhandled": "Y"
-                }
+                    "${CWD}/jest.config.ts"
+                ]
             }
         }
     }

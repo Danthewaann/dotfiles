@@ -33,8 +33,7 @@ run_command "configuring coc" "configured coc" \
 
 # vimspector gadgets post-install step
 run_command "configuring vimspector" "configured vimspector" \
-    "vim --not-a-term \"+VimspectorInstall debugpy\" +qall" \
-    "vim --not-a-term \"+VimspectorInstall vscode-node-debug2\" +qall"
+    "vim --not-a-term \"+VimspectorInstall\" +qall"
 
 # markdown-preview post-install step
 run_command "configuring markdown-preview" "configured markdown-preview" \
