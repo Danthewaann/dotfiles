@@ -27,7 +27,6 @@ run_command "using node $NODE_VERSION" "node $NODE_VERSION is being used" \
     "nvm use default"
 
 # Install bash language server
-info "installing bash-language-server"
 run_command "installing bash-language-server" "installed bash-language-server" \
     "npm i -g bash-language-server"
 
