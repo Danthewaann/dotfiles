@@ -544,11 +544,16 @@ let g:vimspector_bottombar_height = 20
 
 " for normal mode - the word under the cursor
 nmap <leader>di <Plug>VimspectorBalloonEval
+
 " for visual mode, the visually selected text
 xmap <leader>di <Plug>VimspectorBalloonEval
-nmap <leader>db <Plug>VimspectorBreakpoints
 
-nnoremap <leader>vs <Plug>VimspectorContinue
+nmap <leader><F11> <Plug>VimspectorUpFrame
+nmap <leader><F12> <Plug>VimspectorDownFrame
+nmap <leader>B <Plug>VimspectorBreakpoints
+nmap <leader>D <Plug>VimspectorDisassemble
+
+nnoremap <leader>vc <Plug>VimspectorContinue
 nnoremap <leader>vr <Plug>VimspectorRestart
 nnoremap <leader>vq :VimspectorReset<CR>
 
