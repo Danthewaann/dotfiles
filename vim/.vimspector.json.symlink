@@ -86,11 +86,7 @@
                 "protocol": "auto",
                 "stopOnEntry": false,
                 "program": "${CWD}/node_modules/.bin/jest",
-                "args": [
-                    "*${args}",
-                    "--config",
-                    "${CWD}/jest.config.ts"
-                ],
+                "args": [],
                 "console": "internalConsole",
                 "cwd": "${CWD}",
                 "smartStep": true,
@@ -111,9 +107,9 @@
             "extends": "javascript - base conf",
             "configuration": {
                 "args": [
-                    "*${args}",
                     "--config",
-                    "${CWD}/jest.config.ts"
+                    "${CWD}/jest.config.ts",
+                    "*${args}"
                 ]
             }
         },
@@ -121,9 +117,9 @@
             "extends": "javascript - base conf",
             "configuration": {
                 "args": [
-                    "${fileBasenameNoExtension}",
                     "--config",
-                    "${CWD}/jest.config.ts"
+                    "${CWD}/jest.config.ts",
+                    "${fileBasenameNoExtension}"
                 ]
             }
         }
