@@ -336,6 +336,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in
 autocmd BufEnter NERD_tree_* normal zz
 
 " Center the NERDTree buffer when navigating through it
+" From https://vim.fandom.com/wiki/Keep_your_cursor_centered_vertically_on_the_screen#Centering_automatically_with_autocmds
 augroup vimrc_nerdtree
   autocmd!
   autocmd FileType nerdtree let &scrolloff=winheight(win_getid())/2 
