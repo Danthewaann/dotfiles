@@ -92,7 +92,6 @@ filetype plugin indent on    " required
 
 " GENERAL ===================================================================================================
 syntax on
-let g:python_highlight_all = 1
 set history=10000
 set splitbelow
 set splitright
@@ -105,7 +104,6 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-" set clipboard=unnamed
 set clipboard=unnamedplus
 set noswapfile
 set updatetime=200
@@ -153,9 +151,10 @@ tmap <C-t>v <C-w>:vert term<cr>
 map <C-t>t :tab term<cr>
 tmap <C-t>t <c-w>:tab term<cr>
 
-" enter normal-mode in terminal
+" enter normal-mode in vim terminal
 tmap <C-x> <C-w>N
 
+" close the quicklist and git windows
 function! ClearWindows() abort
     execute 'ccl'
     execute 'lcl'
@@ -163,7 +162,6 @@ function! ClearWindows() abort
     call s:close_gstatus()
 endfunction
 
-" close the quicklist window
 nnoremap <leader>c :call ClearWindows()<CR>
 
 " Use a line cursor within insert mode and a block cursor everywhere else.
@@ -383,7 +381,6 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)zz
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)zz
 nmap <silent> gy <Plug>(coc-type-definition)zz
-" nmap <silent> gi <Plug>(coc-implementation)zz
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
