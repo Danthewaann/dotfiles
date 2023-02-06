@@ -331,6 +331,16 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
+" Center the NERDTree buffer when entering it
+" From https://vi.stackexchange.com/questions/20619/nerdtree-maximize-on-enter
+autocmd BufEnter NERD_tree_* normal zz
+
+" Center the NERDTree buffer when navigating through it
+augroup vimrc_nerdtree
+  autocmd!
+  autocmd FileType nerdtree let &scrolloff=winheight(win_getid())/2 
+augroup END
+
 " COC ===================================================================================================
 
 " Add `:Format` command to format current buffer.
