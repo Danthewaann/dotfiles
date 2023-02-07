@@ -275,6 +275,9 @@ tnoremap <C-L> <C-W><C-L>
 tnoremap <C-H> <C-W><C-H>
 tnoremap <C-Q> <C-D>
 
+" paste clipboard into a vim terminal
+tnoremap <C-p> <C-W>"+
+
 " exit the current window
 noremap <C-Q> :q<CR>
 
