@@ -235,12 +235,27 @@ let g:onedark_terminal_italics = 1
 " vertical navigation
 nnoremap <C-D> <C-D>zz
 nnoremap <C-J> <C-J>zz
-nnoremap j jzz
-nnoremap k kzz
 
-" move the visual selection up or down a line
-vnoremap <C-j> :m '>+1<CR>gv
-vnoremap <C-k> :m '<-2<CR>gv
+" Allow gnome terminal to send alt keys to vim in the
+" format that vim expects
+" From https://stackoverflow.com/a/10216459
+" NOTE: Need to manually disable shortcuts in gnome terminal as well
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+set timeout ttimeoutlen=50
+
+" move the current line up of down a line
+" From https://vim.fandom.com/wiki/Moving_lines_up_or_down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " window pane navigation
 nnoremap <C-J> <C-W><C-J>
@@ -268,8 +283,8 @@ tnoremap <C-b> <C-W>:tabprevious<CR>
 tnoremap <C-n> <C-W>:tabnext<CR>
 
 " Use <C-j> & <C-k> to move through popup candidates
-inoremap <C-j> <C-n>
-inoremap <C-k> <C-p>
+" inoremap <C-j> <C-n>
+" inoremap <C-k> <C-p>
 
 " Use <C-j> & <C-k> to move through wildmenu candidates
 cnoremap <C-j> <Right>
