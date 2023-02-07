@@ -3,3 +3,4 @@ git/.gitconfig.symlink
 debug.log
 *.tar.gz
 *.installed*
+Session.vim
