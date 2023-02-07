@@ -238,6 +238,10 @@ nnoremap <C-J> <C-J>zz
 nnoremap j jzz
 nnoremap k kzz
 
+" move the visual selection up or down a line
+vnoremap <C-j> :m '>+1<CR>gv
+vnoremap <C-k> :m '<-2<CR>gv
+
 " window pane navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
