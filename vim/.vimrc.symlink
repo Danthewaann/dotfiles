@@ -258,6 +258,8 @@ set timeout ttimeoutlen=50
 " vnoremap <A-k> :m '<-2<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 vnoremap <C-j> :m '>+1<CR>gv=gv
+inoremap <C-k> <Esc>:m .+1<CR>==gi
+inoremap <C-j> <Esc>:m .-2<CR>==gi
 
 " window pane navigation
 nnoremap <C-J> <C-W><C-J>
