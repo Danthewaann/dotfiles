@@ -127,9 +127,36 @@ set hidden
 map <leader>o o<C-C>
 map <leader>O O<C-C>
 
+" Allow gnome terminal to send alt keys to vim in the
+" format that vim expects
+" From https://stackoverflow.com/a/10216459
+" NOTE: Need to manually disable shortcuts in gnome terminal as well
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+set timeout ttimeoutlen=50
+
+" move the current line up of down a line
+" From https://vim.fandom.com/wiki/Moving_lines_up_or_down
+" nnoremap <A-j> :m .+1<CR>==
+" nnoremap <A-k> :m .-2<CR>==
+" inoremap <A-j> <Esc>:m .+1<CR>==gi
+" inoremap <A-k> <Esc>:m .-2<CR>==gi
+" vnoremap <A-j> :m '>+1<CR>gv=gv
+" vnoremap <A-k> :m '<-2<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+vnoremap <C-j> :m '>+1<CR>gv=gv
+inoremap <C-k> <Esc>:m .+1<CR>==gi
+inoremap <C-j> <Esc>:m .-2<CR>==gi
+
+" paste the clipboard contents in insert mode
+inoremap <C-p> <C-r>+
+
 " search for current word in window and highlight it
 nnoremap <leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
-" nnoremap <leader>f :BLines! <C-R><C-W><CR>
 
 " toggle search matches highlighting
 nnoremap <leader>l :set hlsearch!<CR>
@@ -235,31 +262,6 @@ let g:onedark_terminal_italics = 1
 " vertical navigation
 nnoremap <C-D> <C-D>zz
 nnoremap <C-J> <C-J>zz
-
-" Allow gnome terminal to send alt keys to vim in the
-" format that vim expects
-" From https://stackoverflow.com/a/10216459
-" NOTE: Need to manually disable shortcuts in gnome terminal as well
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-set timeout ttimeoutlen=50
-
-" move the current line up of down a line
-" From https://vim.fandom.com/wiki/Moving_lines_up_or_down
-" nnoremap <A-j> :m .+1<CR>==
-" nnoremap <A-k> :m .-2<CR>==
-" inoremap <A-j> <Esc>:m .+1<CR>==gi
-" inoremap <A-k> <Esc>:m .-2<CR>==gi
-" vnoremap <A-j> :m '>+1<CR>gv=gv
-" vnoremap <A-k> :m '<-2<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
-vnoremap <C-j> :m '>+1<CR>gv=gv
-inoremap <C-k> <Esc>:m .+1<CR>==gi
-inoremap <C-j> <Esc>:m .-2<CR>==gi
 
 " window pane navigation
 nnoremap <C-J> <C-W><C-J>
@@ -453,10 +455,16 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}%{ObsessionSt
 
 " CTRL-P ===================================================================================================
 
-let g:ctrlp_dont_split = 'NERD'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|.venv'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_reuse_window = 'NERD'
+let g:my_ctrlp_ignore_args = [
+    \ '--ignore ".git"', 
+    \ '--ignore "DS_Store"', 
+    \ '--ignore "node_modules"',
+    \ '--ignore ".venv"',
+    \ '--ignore "Session.vim"'
+\ ]
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden ' . join(my_ctrlp_ignore_args) . ' -g ""'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 
 " VIM-TEST ===================================================================================================
 
@@ -658,3 +666,5 @@ let g:fzf_colors = {
 " /word -> cgn -> replacement -> <CR> -> . (to repeat)
 "
 " :Obess to start recording you vim session to a Session.vim file in current directory
+"
+" To surround a visual selection in quotes highlight your selection and then press S<quote>
