@@ -12,7 +12,9 @@ bind-key l select-pane -R
 
 # Kill window and panes without confirmation
 bind-key & kill-window
+bind-key a kill-window -a
 bind-key x kill-pane
+bind-key q kill-session
 
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'

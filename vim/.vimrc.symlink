@@ -357,14 +357,18 @@ let g:NERDTreeSyntaxEnabledExtensions = ['py', 'tf', 'js', 'css', 'html', 'ts'] 
 let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors
 let g:NERDTreeHighlightCursorline = 0
 
-" Start NERDTree when Vim starts with a directory argument.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
-
 " Center the NERDTree buffer when entering it
 " From https://vi.stackexchange.com/questions/20619/nerdtree-maximize-on-enter
 autocmd BufEnter NERD_tree_* normal zz
+
+" Start NERDTree automatically when opening a file or directory
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " COC ===================================================================================================
 
