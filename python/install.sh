@@ -34,12 +34,12 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # Only install provided Python version if it isn't already available
-if ! pyenv global | grep "$PYTHON_VERSION" > /dev/null 2>&1; then
-    run_command "installing python $PYTHON_VERSION" "installed python $PYTHON_VERSION" \
-        "pyenv install -s $PYTHON_VERSION"
+if ! pyenv global | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
+    run_command "installing python $MY_PYTHON_VERSION" "installed python $MY_PYTHON_VERSION" \
+        "pyenv install -s $MY_PYTHON_VERSION"
 
-    run_command "setting global python version to $PYTHON_VERSION" "setted global python version to $PYTHON_VERSION" \
-        "pyenv global $PYTHON_VERSION"
+    run_command "setting global python version to $MY_PYTHON_VERSION" "setted global python version to $MY_PYTHON_VERSION" \
+        "pyenv global $MY_PYTHON_VERSION"
 
     # Need to make sure flake8 is installed for coc-pyright to work correctly
     # for some reason. I also added other packages here for general use so 
@@ -52,10 +52,10 @@ if ! pyenv global | grep "$PYTHON_VERSION" > /dev/null 2>&1; then
         "pyenv rehash"
 fi
 
-if ! poetry -V | grep "$POETRY_VERSION" > /dev/null 2>&1; then
+if ! poetry -V | grep "$MY_POETRY_VERSION" > /dev/null 2>&1; then
     # Install poetry package manager
-    run_command "installing poetry version $POETRY_VERSION" "installed poetry version $POETRY_VERSION" \
+    run_command "installing poetry version $MY_POETRY_VERSION" "installed poetry version $MY_POETRY_VERSION" \
         "curl -sSL https://install.python-poetry.org | python3 - --uninstall" \
-        "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -"
+        "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$MY_POETRY_VERSION python3 -"
 fi
 

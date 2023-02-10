@@ -5,7 +5,7 @@ filetype off                  " required
 let g:vimspector_enable_mappings = 'HUMAN'
 
 " Only set this if using nvm
-let g:coc_node_path = '~/.nvm/versions/node/v14.18.0/bin/node'
+let g:coc_node_path = '~/.nvm/versions/node/v$MY_NODE_VERSION/bin/node'
 
 " Set config location to home
 let g:coc_config_home = '~/'
