@@ -662,9 +662,15 @@ let g:fzf_colors = {
 " CHEATSHEET ======================================================================================================
 "
 " ga -> get encoding of character at cursor
-" gq -> autoformat current paragraph
+" gq<CR> -> autoformat current paragraph
+" gqq -> autoformat current line
 " gf -> open path at cursor or selection
 " gi -> go back to the last place you were in insert mode
+" gu -> lowercase text object
+" gU -> uppercase text object
+" ~ -> change case of current character
+" J -> join lines
+" g& -> run last substitution on the whole file
 "
 " ap, ip -> operate on continuous lines
 "
