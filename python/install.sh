@@ -47,6 +47,9 @@ if ! pyenv global | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
     run_command "installing python linters and formatters" "installed python linters and formatters"\
         "pip install flake8 black isort mypy"
 
+    run_command "installing ipython" "installed ipython"\
+        "pip install ipython"
+
     # Make sure executables are available
     run_command "rehashing pyenv" "rehashed pyenv" \
         "pyenv rehash"

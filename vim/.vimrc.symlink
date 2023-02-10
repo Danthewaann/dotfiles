@@ -164,6 +164,56 @@ vnoremap <leader>f y/\V<C-R>=escape(@",'/\')<CR><CR>:set hlsearch<CR>
 " toggle search matches highlighting
 nnoremap <leader>l :set hlsearch!<CR>
 
+" check path to python executable
+function! GetPythonExc() abort
+    if !empty(glob('.venv/bin/ipython')) && !isdirectory('.venv/bin/ipython')
+        let python_path = '.venv/bin/ipython --no-autoindent --no-confirm-exit'
+    elseif !empty(glob('.venv/bin/python')) && !isdirectory('.venv/bin/python')
+        let python_path = '.venv/bin/python'
+    else
+        let python_path = 'python'
+    endif
+    return python_path
+endfunction
+
+" paste the visual selection into a python REPL
+vnoremap <expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
+
+function! ReplaceCurrentWord()
+  call inputsave()
+  let replace = input('Enter replacement: ')
+  call inputrestore()
+  execute '%s/' . expand("<cword>") . '/' . replace . '/g'
+endfunction
+
+function! GetVisualSelection()
+    " Why is this not a built-in Vim script function?!
+    " From https://stackoverflow.com/a/6271254
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+    if len(lines) == 0
+        return ''
+    endif
+    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+    return join(lines, "\n")
+endfunction
+
+function! ReplaceSelection()
+  call inputsave()
+  let replace = input('Enter replacement: ')
+  call inputrestore()
+  let v = GetVisualSelection()
+  execute '%s/' . v . '/' . replace . '/g'
+endfunction
+
+" replace current word in current file 
+nnoremap <leader>rp :call ReplaceCurrentWord()<CR>
+
+" replace visual selection in current file
+vnoremap <leader>rp :call ReplaceSelection()<CR>
+
 " save the current buffer
 nnoremap <leader>w :w<CR>
 
@@ -187,12 +237,6 @@ tmap <C-x> <C-w>N
 
 " open up a floaterm
 nnoremap <leader>vp :FloatermNew<CR>
-
-" vv to generate new vertical split
-nnoremap <silent> vv <C-w>v
-
-" ss to generate new horizontal split
-nnoremap <silent> ss <C-w>s
 
 " close the quicklist and git windows
 function! ClearWindows() abort
@@ -354,10 +398,10 @@ let NERDTreeMapJumpNextSibling=""
 let g:NERDTreeWinSize=60
 
 " toggle NERDTree
-nnoremap nt :NERDTreeToggle<CR>
+nnoremap ,, :NERDTreeToggle<CR>
 
 " open NERDTree with buffer shown inside it
-nnoremap nft :NERDTreeFind<CR>
+nnoremap ,. :NERDTreeFind<CR>
 
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 let NERDTreeShowHidden=1
