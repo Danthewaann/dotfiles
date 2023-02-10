@@ -350,8 +350,8 @@ let NERDTreeMapJumpNextSibling=""
 " Set NERDTree window size
 let g:NERDTreeWinSize=60
 
-" open NERDTree
-nnoremap nt :NERDTree<CR>
+" toggle NERDTree
+nnoremap nt :NERDTreeToggle<CR>
 
 " open NERDTree with buffer shown inside it
 nnoremap nft :NERDTreeFind<CR>
