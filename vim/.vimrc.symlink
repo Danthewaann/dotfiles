@@ -5,7 +5,7 @@ filetype off                  " required
 let g:vimspector_enable_mappings = 'HUMAN'
 
 " Only set this if using nvm
-let g:coc_node_path = '~/.nvm/versions/node/v$MY_NODE_VERSION/bin/node'
+let g:coc_node_path = '~/.nvm/versions/node/v' . expand('$MY_NODE_VERSION') . '/bin/node'
 
 " Set config location to home
 let g:coc_config_home = '~/'
@@ -157,6 +157,9 @@ inoremap <C-p> <C-r>+
 
 " search for current word in window and highlight it
 nnoremap <leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
+
+" search for visual selection in current file
+vnoremap <leader>f y/\V<C-R>=escape(@",'/\')<CR><CR>:set hlsearch<CR>
 
 " toggle search matches highlighting
 nnoremap <leader>l :set hlsearch!<CR>
@@ -632,6 +635,9 @@ nnoremap <C-f> :Files<CR>
 
 " search in all project files
 nnoremap <leader>F :Ag<CR>
+
+" search for visual selection in project files
+vnoremap <leader>F y:Ag <C-R>=escape(@",'/\')<CR><CR>
 
 " show all buffers
 nnoremap <leader>b :Buffers<CR>
