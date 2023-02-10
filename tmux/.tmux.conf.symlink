@@ -51,8 +51,9 @@ set-option -g automatic-rename-format '#{b:pane_current_path}'
 setw -g mouse on
 
 # Set easier window split keys
-bind-key v split-window -h
-bind-key h split-window -v
+
+bind v split-window -h -c "#{pane_current_path}"
+bind h split-window -v -c "#{pane_current_path}"
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'

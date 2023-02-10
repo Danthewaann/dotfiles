@@ -182,6 +182,15 @@ tmap <C-t>t <c-w>:tab term<cr>
 " enter normal-mode in vim terminal
 tmap <C-x> <C-w>N
 
+" open up a floaterm
+nnoremap <leader>vp :FloatermNew<CR>
+
+" vv to generate new vertical split
+nnoremap <silent> vv <C-w>v
+
+" ss to generate new horizontal split
+nnoremap <silent> ss <C-w>s
+
 " close the quicklist and git windows
 function! ClearWindows() abort
     execute 'ccl'
@@ -341,8 +350,11 @@ let NERDTreeMapJumpNextSibling=""
 " Set NERDTree window size
 let g:NERDTreeWinSize=60
 
-nnoremap ff :NERDTree<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
+" open NERDTree
+nnoremap nt :NERDTree<CR>
+
+" open NERDTree with buffer shown inside it
+nnoremap nft :NERDTreeFind<CR>
 
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 let NERDTreeShowHidden=1
@@ -361,14 +373,10 @@ let g:NERDTreeHighlightCursorline = 0
 " From https://vi.stackexchange.com/questions/20619/nerdtree-maximize-on-enter
 autocmd BufEnter NERD_tree_* normal zz
 
-" Start NERDTree automatically when opening a file or directory
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
+" Start NERDTree when Vim starts with a directory argument.
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " COC ===================================================================================================
 
@@ -460,14 +468,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}%{ObsessionSt
 " CTRL-P ===================================================================================================
 
 let g:ctrlp_reuse_window = 'NERD'
-let g:my_ctrlp_ignore_args = [
-    \ '--ignore ".git"', 
-    \ '--ignore "DS_Store"', 
-    \ '--ignore "node_modules"',
-    \ '--ignore ".venv"',
-    \ '--ignore "Session.vim"'
-\ ]
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden ' . join(my_ctrlp_ignore_args) . ' -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -p ~/.gitignore -p .gitignore -g ""'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 
 " VIM-TEST ===================================================================================================
@@ -625,6 +626,9 @@ let g:session_autosave = 'no'
 nnoremap <leader>q :Bdelete<CR>
 
 " VIM-FZF ========================================================================================================
+
+" open up a fzf files window
+nnoremap <C-f> :Files<CR>
 
 " search in all project files
 nnoremap <leader>F :Ag<CR>

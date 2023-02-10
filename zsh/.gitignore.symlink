@@ -1,0 +1,14 @@
+.DS_Store
+.hg
+.svn
+.git
+*.vscode
+.vimspector.json
+node_modules
+.venv
+
+# Temporary files
+*.swp
+*.swo
+*~
+Session.vim

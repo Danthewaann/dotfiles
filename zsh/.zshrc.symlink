@@ -120,6 +120,11 @@ export PATH=$PATH:$HOME/go/bin
 # Set term colour for tmux
 export TERM=xterm-256color
 
+# Setup fzf to use ag for search and to use ~/.gitignore
+if type ag &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='ag -p ~/.gitignore -g ""'
+fi
+
 # Some aliases
 alias ll='ls -alF'
 alias la='ls -A'
