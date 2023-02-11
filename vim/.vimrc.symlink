@@ -70,6 +70,7 @@ Plugin 'fatih/vim-go'
 Plugin 'moll/vim-bbye'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-obsession'
+Plugin 'romainl/vim-cool'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -160,9 +161,6 @@ nnoremap <leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
 
 " search for visual selection in current file
 vnoremap <leader>f y/\V<C-R>=escape(@",'/\')<CR><CR>:set hlsearch<CR>
-
-" toggle search matches highlighting
-nnoremap <leader>l :set hlsearch!<CR>
 
 " check path to python executable
 function! GetPythonExc() abort
