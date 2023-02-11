@@ -204,7 +204,7 @@ function! ReplaceSelection()
   call inputsave()
   let replace = escape(input('Enter replacement: '),'/\')
   call inputrestore()
-  let v = GetVisualSelection()
+  let v = escape(GetVisualSelection(), '/\')
   execute '%s/' . v . '/' . replace . '/g'
 endfunction
 
