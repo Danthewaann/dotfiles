@@ -403,16 +403,6 @@ nnoremap ,. :NERDTreeFind<CR>
 
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 let NERDTreeShowHidden=1
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeGitStatusUseNerdFonts = 1
-let g:NERDTreeSyntaxDisableDefaultExtensions = 1
-let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
-let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
-let g:NERDTreeSyntaxEnabledExtensions = ['py', 'tf', 'js', 'css', 'html', 'ts'] " enabled extensions with default colors
-let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors
-let g:NERDTreeHighlightCursorline = 0
 
 " Center the NERDTree buffer when entering it
 " From https://vi.stackexchange.com/questions/20619/nerdtree-maximize-on-enter
