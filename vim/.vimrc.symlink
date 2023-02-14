@@ -666,7 +666,7 @@ nnoremap <leader>q :Bdelete<CR>
 nnoremap <C-f> :Files<CR>
 
 " search in all project files
-nnoremap <leader>F :Ag<CR>
+nnoremap <leader>F :Ag<Space>
 
 " search for visual selection in project files
 vnoremap <leader>F y:Ag <C-R>=escape(@",'/\')<CR><CR>
