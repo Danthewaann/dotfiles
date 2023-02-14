@@ -709,6 +709,8 @@ let g:fzf_colors = {
 " ~ -> change case of current character
 " J -> join lines
 " g& -> run last substitution on the whole file
+" g_ -> move to last blank character in the line (like $)
+" _ -> move to the first blank character in the line (like 0)
 "
 " ap, ip -> operate on continuous lines
 "
