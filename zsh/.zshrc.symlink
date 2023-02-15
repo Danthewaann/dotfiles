@@ -101,7 +101,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Global variables used in my installers and dotfiles
-export MY_NODE_VERSION=14.18.0
 export MY_PYTHON_VERSION=3.8.2
 export MY_POETRY_VERSION=1.1.15
 export MY_NODE_VERSION=14.18.0
@@ -126,6 +125,9 @@ export PATH=$PATH:$HOME/go/bin
 
 # Set term colour for tmux
 export TERM=xterm-256color
+
+# Set theme for bat
+export BAT_THEME="TwoDark"
 
 # Setup fzf to use ag for search and to use ~/.gitignore
 if type ag &> /dev/null; then

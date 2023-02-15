@@ -306,10 +306,10 @@ set background=dark
 let g:airline_powerline_fonts = 1
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
-
-colorscheme onedark
 let g:airline_theme = 'onedark'
 let g:onedark_terminal_italics = 1
+let g:onedark_hide_endofbuffer = 1
+colorscheme onedark
 
 " NAVIGATION ===================================================================================================
 
