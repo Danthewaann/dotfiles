@@ -62,3 +62,13 @@ if ! poetry -V | grep "$MY_POETRY_VERSION" > /dev/null 2>&1; then
         "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$MY_POETRY_VERSION python3 -"
 fi
 
+if [[ ! -f "$SCRIPT_DIR/geckodriver.tar.gz" ]]; then
+    run_command "downloading firefox geckodriver" "downloaded firefox geckodriver" \
+        "wget -O $SCRIPT_DIR/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.32.2/geckodriver-v0.32.2-linux64.tar.gz"
+
+    run_command "unpacking $SCRIPT_DIR/geckodriver.tar.gz to -> /usr/local/bin/geckodriver" \
+                "unpacked $SCRIPT_DIR/geckodriver.tar.gz to -> /usr/local/bin/geckodriver" \
+                "sudo rm -rf /usr/local/bin/geckodriver && \\
+                sudo tar -C /usr/local/bin -xzf $SCRIPT_DIR/geckodriver.tar.gz"
+fi
+
