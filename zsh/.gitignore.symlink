@@ -6,6 +6,7 @@
 .vimspector.json
 node_modules
 .venv
+*.pyc
 
 # Temporary files
 *.swp
