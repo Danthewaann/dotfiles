@@ -220,6 +220,9 @@ nnoremap <silent><C-Q> :q<CR>
 " exit vim completely
 nnoremap <silent><leader>qa :qa!<CR>
 
+" save and exit current buffer
+nnoremap <silent><leader>wq :wq<CR>
+
 " Treat Ctrl+C exactly like <Escape>.
 imap <C-C> <Esc>
 
