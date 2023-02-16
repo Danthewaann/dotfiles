@@ -39,6 +39,7 @@
         "coc.preferences.formatOnSave": true
     },
     "eslint.autoFixOnSave": true,
+    "go.goplsOptions": {"gofumpt": true},
     "git.addedSign.hlGroup": "GitGutterAdd",
     "git.changedSign.hlGroup": "GitGutterChange",
     "git.removedSign.hlGroup": "GitGutterDelete",

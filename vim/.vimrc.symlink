@@ -424,7 +424,6 @@ command! -nargs=0 OR :silent call CocAction('runCommand', 'editor.action.organiz
 au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
 au BufWritePre *.ts :silent call CocAction('runCommand', 'editor.action.organizeImport')
 au BufWritePre *.js :silent call CocAction('runCommand', 'editor.action.organizeImport')
-au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -695,6 +694,11 @@ let g:fzf_colors = {
   \ 'marker':     ['fg', 'Keyword'],
   \ 'spinner':    ['fg', 'Label'],
   \ 'header':     ['fg', 'Comment'] }
+
+" VIM-GO ==========================================================================================================
+
+" Show godoc output in a popup window
+let g:go_doc_popup_window = 1
 
 " CHEATSHEET ======================================================================================================
 "
