@@ -39,7 +39,6 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-Plugin 'sheerun/vim-polyglot'
 Plugin 'joshdick/onedark.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -54,13 +53,9 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-commentary'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'puremourning/vimspector'
-Plugin 'hashivim/vim-terraform'
 Plugin 'iamcco/markdown-preview.nvim'
-Plugin 'vim-python/python-syntax'
 Plugin 'mfukar/robotframework-vim'
-Plugin 'arzg/vim-sh'
 Plugin 'godlygeek/tabular'
-Plugin 'preservim/vim-markdown'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 Plugin 'tpope/vim-surround'
@@ -71,6 +66,7 @@ Plugin 'moll/vim-bbye'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-obsession'
 Plugin 'romainl/vim-cool'
+Plugin 'sheerun/vim-polyglot'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -124,10 +120,6 @@ set t_Co=256
 " modifications and preserve marks and undo history.
 set hidden
 
-" insert blank lines below and above cursor
-map <leader>o o<C-C>
-map <leader>O O<C-C>
-
 " Allow gnome terminal to send alt keys to vim in the
 " format that vim expects
 " From https://stackoverflow.com/a/10216459
@@ -148,19 +140,23 @@ set timeout ttimeoutlen=50
 " inoremap <A-k> <Esc>:m .-2<CR>==gi
 " vnoremap <A-j> :m '>+1<CR>gv=gv
 " vnoremap <A-k> :m '<-2<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
-vnoremap <C-j> :m '>+1<CR>gv=gv
-inoremap <C-k> <Esc>:m .+1<CR>==gi
-inoremap <C-j> <Esc>:m .-2<CR>==gi
+vnoremap <silent><C-K> :m '<-2<CR>gv=gv
+vnoremap <silent><C-J> :m '>+1<CR>gv=gv
+inoremap <silent><C-K> <Esc>:m .+1<CR>==gi
+inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 
 " paste the clipboard contents in insert mode
-inoremap <C-p> <C-r>+
+inoremap <C-P> <C-R>+
+
+" insert blank lines below and above cursor
+nnoremap <leader>o o<C-C>
+nnoremap <leader>O O<C-C>
 
 " search for current word in window and highlight it
-nnoremap <leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
+nnoremap <silent><leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
 
 " search for visual selection in current file
-vnoremap <leader>f y/\V<C-R>=escape(@",'/\')<CR><CR>:set hlsearch<CR>
+vnoremap <silent><leader>f y/\V<C-R>=escape(@",'/\')<CR><CR>:set hlsearch<CR>
 
 " check path to python executable
 function! GetPythonExc() abort
@@ -175,7 +171,7 @@ function! GetPythonExc() abort
 endfunction
 
 " paste the visual selection into a python REPL
-vnoremap <expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
+vnoremap <silent><expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
 
 function! ReplaceCurrentWord()
   call inputsave()
@@ -207,34 +203,43 @@ function! ReplaceSelection()
 endfunction
 
 " replace current word in current file 
-nnoremap <leader>rp :call ReplaceCurrentWord()<CR>
+nnoremap <silent><leader>rp :call ReplaceCurrentWord()<CR>
 
 " replace visual selection in current file
-vnoremap <leader>rp :call ReplaceSelection()<CR>
+vnoremap <silent><leader>rp :call ReplaceSelection()<CR>
 
 " save the current buffer
-nnoremap <leader>w :w<CR>
+nnoremap <silent><leader>w :w<CR>
+
+" paste clipboard into a vim terminal
+tnoremap <C-P> <C-W>"+
+
+" exit the current window
+nnoremap <silent><C-Q> :q<CR>
+
+" exit vim completely
+nnoremap <silent><leader>qa :qa!<CR>
 
 " Treat Ctrl+C exactly like <Escape>.
-imap <C-c> <Esc>
+imap <C-C> <Esc>
 
 " vim-powered terminal in a split window
-map <C-t>s :term<cr>
-tmap <C-t>s <C-w>:term<cr>
+map <silent><C-T>s :term<CR>
+tmap <silent><C-T>s <C-W>:term<cR>
 
 " vim-powered terminal in a vertical split window
-map <C-t>v :vert term<cr>
-tmap <C-t>v <C-w>:vert term<cr>
+map <silent><C-T>v :vert term<CR>
+tmap <silent><C-T>v <C-W>:vert term<CR>
 
 " vim-powered terminal in new tab
-map <C-t>t :tab term<cr>
-tmap <C-t>t <c-w>:tab term<cr>
+map <silent><C-T>t :tab term<CR>
+tmap <silent><C-T>t <C-W>:tab term<cR>
 
 " enter normal-mode in vim terminal
-tmap <C-x> <C-w>N
+tmap <C-X> <C-W>N
 
 " open up a floaterm
-nnoremap <leader>vp :FloatermNew<CR>
+nnoremap <silent><leader>vp :FloatermNew<CR>
 
 " close the quicklist and git windows
 function! ClearWindows() abort
@@ -244,7 +249,7 @@ function! ClearWindows() abort
     call s:close_gstatus()
 endfunction
 
-nnoremap <leader>c :call ClearWindows()<CR>
+nnoremap <silent><leader>c :call ClearWindows()<CR>
 
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
@@ -333,17 +338,11 @@ tnoremap <C-L> <C-W><C-L>
 tnoremap <C-H> <C-W><C-H>
 tnoremap <C-Q> <C-D>
 
-" paste clipboard into a vim terminal
-tnoremap <C-p> <C-W>"+
-
-" exit the current window
-noremap <C-Q> :q<CR>
-
 " tab navigation
-nnoremap <C-b> :tabprevious<CR>
-nnoremap <C-n> :tabnext<CR>
-tnoremap <C-b> <C-W>:tabprevious<CR>
-tnoremap <C-n> <C-W>:tabnext<CR>
+nnoremap <silent><C-b> :tabprevious<CR>
+nnoremap <silent><C-n> :tabnext<CR>
+tnoremap <silent><C-b> <C-W>:tabprevious<CR>
+tnoremap <silent><C-n> <C-W>:tabnext<CR>
 
 " Use <C-j> & <C-k> to move through popup candidates
 " inoremap <C-j> <C-n>
@@ -539,7 +538,7 @@ function! MyDebugNearest() abort
     call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
 endfunction
 
-command! -nargs=0 DebugNearest :call MyDebugNearest()
+command! -nargs=0 DebugNearest :silent call MyDebugNearest()
 
 nnoremap <silent> <leader>dn :DebugNearest<CR>
 nnoremap <silent> <leader>tn :TestNearest<CR>
@@ -551,8 +550,8 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
-nnoremap <leader>gp :G push<CR>
-nnoremap <leader>gfp :G push --force<CR>
+nnoremap <silent><leader>gp :G push<CR>
+nnoremap <silent><leader>gfp :G push --force<CR>
 
 function! s:ToggleGstatus() abort
     for l:winnr in range(1, winnr('$'))
@@ -564,7 +563,7 @@ function! s:ToggleGstatus() abort
     keepalt Git
 endfunction
 
-nnoremap <C-g> :call <SID>ToggleGstatus()<CR>
+nnoremap <silent><C-g> :call <SID>ToggleGstatus()<CR>
 
 function! s:close_gstatus()
     for l:winnr in range(1, winnr('$'))
@@ -575,7 +574,7 @@ function! s:close_gstatus()
     endfor
 endfunction
 
-command! GstatusClose call s:close_gstatus()
+command! GstatusClose :silent call s:close_gstatus()
 
 " VIM-GITGUTTER ================================================================================================== 
 
@@ -611,7 +610,7 @@ au BufWrite *.tf :Autoformat
 " COMMENTARY =====================================================================================================
 
 " Add support for commenting/uncommenting code
-noremap <silent> <leader>/ :Commentary<CR>
+nnoremap <silent> <leader>/ :Commentary<CR>
 
 " VIMSPECTOR =====================================================================================================
 
@@ -620,19 +619,19 @@ let g:vimspector_sidebar_width = 80
 let g:vimspector_bottombar_height = 20
 
 " for normal mode - the word under the cursor
-nmap <leader>di <Plug>VimspectorBalloonEval
+nnoremap <leader>vi <Plug>VimspectorBalloonEval
 
 " for visual mode, the visually selected text
-xmap <leader>di <Plug>VimspectorBalloonEval
+xnoremap <leader>vi <Plug>VimspectorBalloonEval
 
-nmap <leader><F11> <Plug>VimspectorUpFrame
-nmap <leader><F12> <Plug>VimspectorDownFrame
-nmap <leader>B <Plug>VimspectorBreakpoints
-nmap <leader>D <Plug>VimspectorDisassemble
+nnoremap <leader><F11> <Plug>VimspectorUpFrame
+nnoremap <leader><F12> <Plug>VimspectorDownFrame
+nnoremap <leader>vb <Plug>VimspectorBreakpoints
+nnoremap <leader>vd <Plug>VimspectorDisassemble
 
 nnoremap <leader>vc <Plug>VimspectorContinue
 nnoremap <leader>vr <Plug>VimspectorRestart
-nnoremap <leader>vq :VimspectorReset<CR>
+nnoremap <silent><leader>vq :VimspectorReset<CR>
 
 let g:vimspector_sign_priority = {
   \    'vimspectorBP':             999,
@@ -658,24 +657,24 @@ let g:session_autosave = 'no'
 " VIM-BBYE =======================================================================================================
 
 " Close the current buffer without closing the window
-nnoremap <leader>q :Bdelete<CR>
+nnoremap <silent><leader>d :Bdelete<CR>
 
 " VIM-FZF ========================================================================================================
 
 " open up a fzf files window
-nnoremap <C-f> :Files<CR>
+nnoremap <silent><C-f> :Files<CR>
 
 " search in all project files
-nnoremap <leader>F :Ag<Space>
+nnoremap <silent><leader>F :Ag<Space>
 
 " search for visual selection in project files
-vnoremap <leader>F y:Ag <C-R>=escape(@",'/\')<CR><CR>
+vnoremap <silent><leader>F y:Ag <C-R>=escape(@",'/\')<CR><CR>
 
 " show all buffers
-nnoremap <leader>b :Buffers<CR>
+nnoremap <silent><leader>b :Buffers<CR>
 
 " show changed files
-nnoremap <leader>gs :GFiles?<CR>
+nnoremap <silent><leader>gs :GFiles?<CR>
 
 " show commits
 nnoremap <leader>gl :Commits<CR>
