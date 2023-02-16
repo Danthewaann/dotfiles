@@ -76,3 +76,7 @@ else
                     sudo tar -C /usr/local/bin -xzf $SCRIPT_DIR/geckodriver.tar.gz"
     fi
 fi
+
+run_command "creating global $HOME/.config/black file" "created global $HOME/.config/black file" \
+    "echo \"[tool.black]\" > $HOME/.config/black" \
+    "echo \"line-length = 79\" >> $HOME/.config/black" \
