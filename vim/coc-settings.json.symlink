@@ -6,9 +6,6 @@
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
-    "python.linting.mypyArgs": [
-        "--config-file=${workspaceFolder}/pyproject.toml"
-    ],
     "suggest.virtualText": true,
     "diagnostic.virtualText": true,
     "diagnostic.virtualTextCurrentLineOnly": false,
