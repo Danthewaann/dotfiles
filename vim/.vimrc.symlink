@@ -656,7 +656,7 @@ let g:session_autosave = 'no'
 " VIM-BBYE =======================================================================================================
 
 " Close the current buffer without closing the window
-nnoremap <silent><leader>d :Bdelete<CR>
+nnoremap <silent><leader>db :Bdelete<CR>
 
 " VIM-FZF ========================================================================================================
 
