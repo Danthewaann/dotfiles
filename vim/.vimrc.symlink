@@ -124,13 +124,13 @@ set hidden
 " format that vim expects
 " From https://stackoverflow.com/a/10216459
 " NOTE: Need to manually disable shortcuts in gnome terminal as well
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-set timeout ttimeoutlen=50
+" let c='a'
+" while c <= 'z'
+  " exec "set <A-".c.">=\e".c
+  " exec "imap \e".c." <A-".c.">"
+  " let c = nr2char(1+char2nr(c))
+" endw
+" set timeout ttimeoutlen=50
 
 " move the current line up of down a line
 " From https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -609,7 +609,7 @@ au BufWrite *.tf :Autoformat
 " COMMENTARY =====================================================================================================
 
 " Add support for commenting/uncommenting code
-nnoremap <silent> <leader>/ :Commentary<CR>
+noremap <silent> <leader>/ :Commentary<CR>
 
 " VIMSPECTOR =====================================================================================================
 
@@ -618,15 +618,15 @@ let g:vimspector_sidebar_width = 80
 let g:vimspector_bottombar_height = 20
 
 " for normal mode - the word under the cursor
-nnoremap <leader>vi <Plug>VimspectorBalloonEval
+nmap <leader>vi <Plug>VimspectorBalloonEval
 
 " for visual mode, the visually selected text
-xnoremap <leader>vi <Plug>VimspectorBalloonEval
+xmap <leader>vi <Plug>VimspectorBalloonEval
 
-nnoremap <leader><F11> <Plug>VimspectorUpFrame
-nnoremap <leader><F12> <Plug>VimspectorDownFrame
-nnoremap <leader>vb <Plug>VimspectorBreakpoints
-nnoremap <leader>vd <Plug>VimspectorDisassemble
+nmap <leader><F11> <Plug>VimspectorUpFrame
+nmap <leader><F12> <Plug>VimspectorDownFrame
+nmap <leader>vb <Plug>VimspectorBreakpoints
+nmap <leader>vd <Plug>VimspectorDisassemble
 
 nnoremap <leader>vc <Plug>VimspectorContinue
 nnoremap <leader>vr <Plug>VimspectorRestart
