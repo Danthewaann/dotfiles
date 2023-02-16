@@ -597,12 +597,8 @@ set statusline+=%{GitStatus()}
 
 " AUTOFORMAT =====================================================================================================
 
-let g:autoformat_autoindent = 0
-
-" From https://github.com/vim-autoformat/vim-autoformat/issues/270#issuecomment-510759415
-let g:formatdef_mypython = '"poetry run isort - | poetry run black -q -"'
-let g:formatters_python = ['mypython']
-
+" TODO: Will need to install terraform for this to work.
+" I don't use terraform at the moment so I'll keep this as is.
 " Auto format terraform files on save
 au BufWrite *.tf :Autoformat
 
@@ -661,7 +657,7 @@ nnoremap <silent><leader>db :Bdelete<CR>
 " VIM-FZF ========================================================================================================
 
 " open up a fzf files window
-nnoremap <silent><C-f> :Files<CR>
+nnoremap <silent><C-F> :Files<CR>
 
 " search in all project files
 nnoremap <silent><leader>F :Ag<Space>
