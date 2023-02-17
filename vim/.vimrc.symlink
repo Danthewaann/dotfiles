@@ -68,6 +68,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-obsession'
 Plugin 'romainl/vim-cool'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'jgdavey/tslime.vim'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -510,10 +511,8 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 
 " VIM-TEST ===================================================================================================
 
-" make test commands execute using vimterminal
-let test#strategy = "vimterminal"
+let test#strategy = "tslime"
 let test#vim#term_position = 'botright 20'
-let test#python#runner = 'pytest'
 let test#python#pytest#options = '-vv'
 
 function! MyGetPosition(path) abort
@@ -699,6 +698,12 @@ let g:fzf_colors = {
 
 " Show godoc output in a popup window
 let g:go_doc_popup_window = 1
+
+" TSLIME ==========================================================================================================
+
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+let g:tslime_autoset_pane = 1
 
 " CHEATSHEET ======================================================================================================
 "
