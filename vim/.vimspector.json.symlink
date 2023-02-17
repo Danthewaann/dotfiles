@@ -97,6 +97,7 @@
             },
             "breakpoints": {
                 "exception": {
+                    "all": "N",
                     "raised": "N",
                     "uncaught": "Y",
                     "userUnhandled": "Y"

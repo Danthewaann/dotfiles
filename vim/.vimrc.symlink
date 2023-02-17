@@ -512,6 +512,7 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 " VIM-TEST ===================================================================================================
 
 let test#strategy = "tslime"
+let test#python#runner = 'pytest'
 let test#vim#term_position = 'botright 20'
 let test#python#pytest#options = '-vv'
 
@@ -613,8 +614,8 @@ noremap <silent> <leader>/ :Commentary<CR>
 " VIMSPECTOR =====================================================================================================
 
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-node-debug2', 'delve' ]
-let g:vimspector_sidebar_width = 80
-let g:vimspector_bottombar_height = 20
+let g:vimspector_sidebar_width = 50
+let g:vimspector_bottombar_height = 10
 
 " for normal mode - the word under the cursor
 nmap <leader>vi <Plug>VimspectorBalloonEval
