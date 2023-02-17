@@ -53,6 +53,8 @@ set-option -g automatic-rename-format '#{b:pane_current_path}'
 setw -g mouse on
 
 # Set easier window split keys
+bind \" split-window -v -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
 bind v split-window -h -c "#{pane_current_path}" -p 40
 bind h split-window -v -c "#{pane_current_path}" -p 25
 
