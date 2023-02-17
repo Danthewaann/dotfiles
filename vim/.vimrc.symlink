@@ -394,19 +394,31 @@ nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>zz'
 
 " NERDTREE ===================================================================================================
 
+" Set the NERDTree statusline
+let NERDTreeStatusline="NERDTree"
+
+" Remove bookmarks and help text from NERDTree
+let g:NERDTreeMinimalUI = 1
+
 " unmap <C-J> so we can use <C-J> for navigation.
 let NERDTreeMapJumpNextSibling=""
 
 " Set NERDTree window size
-let g:NERDTreeWinSize=60
+let g:NERDTreeWinSize=35
 
 " open NERDTree
-nnoremap ,, :NERDTree<CR>
+nnoremap <silent> <leader>nn :NERDTree<CR>
+
+" close NERDTree
+nnoremap <silent> <leader>nc :NERDTreeClose<CR>
 
 " open NERDTree with buffer shown inside it
-nnoremap ,. :NERDTreeFind<CR>
+nnoremap <silent> <leader>nf :NERDTreeFind<CR>
 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+" ignore files in NERDTree
+let NERDTreeIgnore=['\.pyc$', '\~$'] 
+
+" show hidden files
 let NERDTreeShowHidden=1
 
 " Center the NERDTree buffer when entering it
