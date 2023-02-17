@@ -53,6 +53,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing bat" "installed bat" \
         "brew install bat"
+
+    run_command "installing ripgrep" "installed ripgrep" \
+        "brew install ripgrep"
 else
     run_command "installing vim plugin dependencies" "installed vim plugin dependencies" \
         "sudo apt-get install -y silversearcher-ag fzf shellcheck"
@@ -72,5 +75,8 @@ else
 
     run_command "installing bat" "installed bat" \
         "sudo dpkg -i $SCRIPT_DIR/bat.deb"
+
+    run_command "installing ripgrep" "installed ripgrep" \
+        "sudo apt-get install -y ripgrep"
 fi
 
