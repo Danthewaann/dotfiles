@@ -58,7 +58,6 @@ Plugin 'iamcco/markdown-preview.nvim'
 Plugin 'mfukar/robotframework-vim'
 Plugin 'godlygeek/tabular'
 Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'djoshea/vim-autoread'
@@ -647,11 +646,6 @@ let g:vimspector_sign_priority = {
 " VIM-MARKDOWN ===================================================================================================
 
 let g:vim_markdown_folding_disabled = 1
-
-" SESSION ========================================================================================================
-
-let g:session_autoload = 'no'
-let g:session_autosave = 'no'
 
 " VIM-BBYE =======================================================================================================
 
