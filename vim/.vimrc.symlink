@@ -110,6 +110,8 @@ set signcolumn=yes
 set timeoutlen=1000
 set textwidth=0 
 set wrapmargin=0
+set incsearch
+set hlsearch
 
 " Make backspaces more powerful
 set backspace=indent,eol,start
@@ -716,6 +718,10 @@ let g:tslime_autoset_pane = 1
 " _ -> move to the first blank character in the line (like 0)
 "
 " ap, ip -> operate on continuous lines
+" 
+" gcc -> comment out a line
+" gcap -> comment of the current paragraph
+" gcgc -> uncomment adjacent lines
 "
 " Edit multiple lines (add double quote to end of each line) - V -> :s/$/” -> <CR>
 "
