@@ -107,7 +107,12 @@ set clipboard=unnamedplus
 set noswapfile
 set updatetime=200
 set signcolumn=yes
-set timeoutlen=1000
+
+" From https://stackoverflow.com/a/58042714
+set ttimeout
+set ttimeoutlen=1
+set ttyfast
+
 set textwidth=0 
 set wrapmargin=0
 set incsearch
@@ -264,13 +269,16 @@ nnoremap <silent><leader>c :call ClearWindows()<CR>
 "   Ps = 4  -> steady underline.
 "   Ps = 5  -> blinking bar (xterm).
 "   Ps = 6  -> steady bar (xterm).
-if exists('$TMUX')
-    let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
-    let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-else
-    let &t_SI .= "\<Esc>[6 q"
-    let &t_EI .= "\<Esc>[2 q"
-endif
+" if exists('$TMUX')
+"     let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+"     let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+" else
+"     let &t_SI .= "\<Esc>[6 q"
+"     let &t_EI .= "\<Esc>[2 q"
+" endif
+
+let &t_SI .= "\<Esc>[6 q"
+let &t_EI .= "\<Esc>[2 q"
 
 " Jump to last position when reopening a file
 if has("autocmd")
