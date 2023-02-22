@@ -61,5 +61,8 @@ bind h split-window -v -c "#{pane_current_path}" -p 25
 # Reduce <ESC> delay for vim inside tmux
 set-option -sg escape-time 30
 
+# Enter copy mode
+bind x copy-mode
+
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
