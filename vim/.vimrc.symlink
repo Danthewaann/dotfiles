@@ -272,10 +272,6 @@ else
     let &t_EI .= "\<Esc>[2 q"
 endif
 
-" Highlight the current line when in insert mode.
-autocmd InsertEnter * set cul
-autocmd InsertLeave * set nocul
-
 " Jump to last position when reopening a file
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -430,6 +426,9 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
 " COC ===================================================================================================
+
+" Disable transparent cursor
+let g:coc_disable_transparent_cursor = 1
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :silent call CocActionAsync('format')
