@@ -22,7 +22,8 @@ let g:coc_global_extensions = [
     \'coc-git',
     \'coc-css',
     \'coc-html',
-    \'coc-toml'
+    \'coc-toml',
+    \'coc-clangd'
 \]
 
 set nobackup

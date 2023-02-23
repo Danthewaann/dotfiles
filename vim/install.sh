@@ -43,6 +43,9 @@ run_command "configuring markdown-preview" "configured markdown-preview" \
 run_command "installing go binaries for vim-go" "installed go binaries for vim-go" \
     "vim --not-a-term \"+GoInstallBinaries\" +qall"
 
+run_command "installing clangd" "installed clangd" \
+    "vim --not-a-term \"+CocCommand clangd.install\" +qall"
+
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing vim plugin dependencies" "installed vim plugin dependencies" \
