@@ -116,6 +116,11 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# Add brew to path if running on macos
+if [[ $OSTYPE == "darwin"* ]] && [[ -f /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Add poetry binary to path
 export PATH="$HOME/.local/bin:$PATH"
 
