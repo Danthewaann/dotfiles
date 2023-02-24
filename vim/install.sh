@@ -83,3 +83,6 @@ else
         "sudo apt-get install -y ripgrep"
 fi
 
+mkdir -p "$HOME/.config/clangd"
+link_file "$SCRIPT_DIR/clangd_config.yaml" "$HOME/.config/clangd/config.yaml"
+
