@@ -51,15 +51,5 @@ echo ''
 setup_gitconfig
 install_symlinks
 
-if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing brew" "installed brew" \
-        "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-
-    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-        run_command "installing oh-my-zsh" "installed oh-my-zsh" \
-            "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
-    fi
-fi
-
 echo ''
 echo 'All bootstrapped!'
