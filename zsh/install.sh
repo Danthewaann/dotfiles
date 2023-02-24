@@ -11,6 +11,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "setting up key-repeat" "set up key-repeat" \
         "defaults write -g InitialKeyRepeat -int 10" \  # normal minimum is 15 (225 ms)
         "defaults write -g KeyRepeat -int 1" # normal minimum is 2 (30 ms)
+    
+    run_command "installing brew" "installed brew" \
+        "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
 else
     run_command "setting up key-repeat" "set up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30" \
@@ -21,3 +24,4 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
     run_command "installing oh-my-zsh" "installed oh-my-zsh" \
         "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
 fi
+
