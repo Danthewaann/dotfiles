@@ -14,8 +14,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
     success "installed brew"
 
     if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-        run_command "installing oh-my-zsh" "installed oh-my-zsh" \
-            "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
+        info "installing oh-my-zsh"
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        success "installed oh-my-zsh"
     fi
 else
     fail "this script can only be run on macos"
