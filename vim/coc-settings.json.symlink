@@ -9,7 +9,6 @@
     "suggest.virtualText": true,
     "diagnostic.virtualText": true,
     "diagnostic.virtualTextCurrentLineOnly": false,
-    "diagnostic.level": "error",
     "pyright.testing.provider": "pytest",
     "pyright.organizeimports.provider": "isort",
     "pyright.inlayHints.variableTypes": false,
