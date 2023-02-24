@@ -49,7 +49,7 @@ run_command "installing clangd" "installed clangd" \
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing vim plugin dependencies" "installed vim plugin dependencies" \
-        "brew install the_silver_searcher fzf shellcheck"
+        "brew install fzf shellcheck"
 
     run_command "installing git-delta" "installed git-delta" \
         "brew install git-delta"
@@ -61,7 +61,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
         "brew install ripgrep"
 else
     run_command "installing vim plugin dependencies" "installed vim plugin dependencies" \
-        "sudo apt-get install -y silversearcher-ag fzf shellcheck"
+        "sudo apt-get install -y fzf shellcheck"
 
     if [[ ! -f "$SCRIPT_DIR/git-delta.deb" ]]; then
         run_command "downloading git-delta" "downloaded git-delta"\
@@ -83,6 +83,7 @@ else
         "sudo apt-get install -y ripgrep"
 fi
 
+info "linking files"
 mkdir -p "$HOME/.config/clangd"
 link_file "$SCRIPT_DIR/clangd_config.yaml" "$HOME/.config/clangd/config.yaml"
 

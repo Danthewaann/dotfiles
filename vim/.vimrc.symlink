@@ -526,7 +526,11 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}%{ObsessionSt
 " CTRL-P ===================================================================================================
 
 let g:ctrlp_reuse_window = 'NERD'
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -p ~/.gitignore -p .gitignore -g ""'
+
+" From https://elliotekj.com/posts/2016/11/22/setup-ctrlp-to-use-ripgrep-in-vim/
+set grepprg=rg\ --colour=never
+let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --ignore-file ~/.gitignore --ignore-file .gitignore --glob ""'
+let g:ctrlp_use_caching = 0
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 
 " VIM-TEST ===================================================================================================
@@ -602,7 +606,7 @@ command! GstatusClose :silent call s:close_gstatus()
 " VIM-GITGUTTER ================================================================================================== 
 
 let g:gitgutter_sign_allow_clobber = 1
-let g:gitgutter_grep = 'ag'
+let g:gitgutter_grep = 'rg --color=never'
 
 nmap ]c <Plug>(GitGutterNextHunk)zz
 nmap [c <Plug>(GitGutterPrevHunk)zz
@@ -679,10 +683,10 @@ nnoremap <silent><leader>db :Bdelete<CR>
 nnoremap <silent><C-F> :Files<CR>
 
 " search in all project files
-nnoremap <silent><leader>F :Ag<Space>
+nnoremap <silent><leader>F :Rg<Space>
 
 " search for visual selection in project files
-vnoremap <silent><leader>F y:Ag <C-R>=escape(@",'/\')<CR><CR>
+vnoremap <silent><leader>F y:Rg <C-R>=escape(@",'/\')<CR><CR>
 
 " show all buffers
 nnoremap <silent><leader>b :Buffers<CR>
