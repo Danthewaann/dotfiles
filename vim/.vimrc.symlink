@@ -69,6 +69,7 @@ Plugin 'tpope/vim-obsession'
 Plugin 'romainl/vim-cool'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'jgdavey/tslime.vim'
+Plugin 'kshenoy/vim-signature'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -724,6 +725,17 @@ let g:go_doc_popup_window = 1
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
 let g:tslime_autoset_pane = 1
+
+" VIM-SIGNATURE ===================================================================================================
+
+" Highlight all marks and markers
+let g:SignatureMarkTextHLDynamic = 1
+let g:SignatureMarkerTextHLDynamic = 1
+
+" VIM-DISPATCH ====================================================================================================
+
+" Disable all mappings provided by vim-dispatch
+let g:dispatch_no_maps = 1
 
 " CHEATSHEET ======================================================================================================
 "
