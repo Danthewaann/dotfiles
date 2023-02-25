@@ -17,10 +17,11 @@ else
         "sudo apt-get install -y vim"
 fi
 
-# Install Vundle vim plugin manager
-if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
-    run_command "installing vundle plugin manager" "installed vundle plugin manager" \
-        "git clone git@github.com:VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim"
+# Install vim-plug plugin manager
+if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
+    run_command "installing vim-plug plugin manager" "installed vim-plug plugin manager" \
+        "curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \\
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 fi
 
 # Install plugins
@@ -29,15 +30,11 @@ run_command "installing plugins" "installed plugins" \
 
 # Workaround from https://github.com/neoclide/coc.nvim/issues/3258#issuecomment-1056660012
 run_command "configuring coc" "configured coc" \
-    "cd $HOME/.vim/bundle/coc.nvim && git checkout release" \
+    "cd $HOME/.vim/plugged/coc.nvim && git checkout release" \
 
 # vimspector gadgets post-install step
 run_command "configuring vimspector" "configured vimspector" \
     "vim --not-a-term \"+VimspectorInstall\" +qall"
-
-# markdown-preview post-install step
-run_command "configuring markdown-preview" "configured markdown-preview" \
-    "vim --not-a-term \"+call mkdp#util#install()\" +qall"
 
 # Install binaries for vim-go plugin
 run_command "installing go binaries for vim-go" "installed go binaries for vim-go" \

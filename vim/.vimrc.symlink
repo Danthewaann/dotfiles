@@ -29,67 +29,68 @@ let g:coc_global_extensions = [
 set nobackup
 set nowritebackup
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-" add all your plugins here (note older versions of Vundle
-" used Bundle instead of Plugin)
+" Make sure you use single quotes
 
-Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-Plugin 'joshdick/onedark.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-test/vim-test'
-Plugin 'tpope/vim-dispatch'
-Plugin 'voldikss/vim-floaterm'
-Plugin 'vim-autoformat/vim-autoformat'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-commentary'
-Plugin 'michaeljsmith/vim-indent-object'
-Plugin 'puremourning/vimspector'
-Plugin 'iamcco/markdown-preview.nvim'
-Plugin 'mfukar/robotframework-vim'
-Plugin 'godlygeek/tabular'
-Plugin 'xolox/vim-misc'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'djoshea/vim-autoread'
-Plugin 'fatih/vim-go'
-Plugin 'moll/vim-bbye'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'tpope/vim-obsession'
-Plugin 'romainl/vim-cool'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'jgdavey/tslime.vim'
-Plugin 'kshenoy/vim-signature'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'joshdick/onedark.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-test/vim-test'
+Plug 'tpope/vim-dispatch'
+Plug 'voldikss/vim-floaterm'
+Plug 'vim-autoformat/vim-autoformat'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-commentary'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'puremourning/vimspector'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'mfukar/robotframework-vim'
+Plug 'godlygeek/tabular'
+Plug 'xolox/vim-misc'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'djoshea/vim-autoread'
+Plug 'fatih/vim-go'
+Plug 'moll/vim-bbye'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-obsession'
+Plug 'romainl/vim-cool'
+Plug 'sheerun/vim-polyglot'
+Plug 'jgdavey/tslime.vim'
+Plug 'kshenoy/vim-signature'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Auto-completion for quotes, parens, brackets, etc.
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 
 " Must be loaded last
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'PhilRunninger/nerdtree-visual-selection'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
+Plug 'PhilRunninger/nerdtree-visual-selection'
 
-" ...
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Initialize plugin system
+" - Automatically executes `filetype plugin indent on` and `syntax enable`.
+call plug#end()
+" You can revert the settings after the call like so:
+"   filetype indent off   " Disable file-type-specific indentation
+"   syntax off            " Disable syntax highlighting
 
 " GENERAL ===================================================================================================
 syntax on
