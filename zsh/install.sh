@@ -17,8 +17,4 @@ else
         "gsettings set org.gnome.desktop.peripherals.keyboard delay 250"
 fi
 
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-    run_command "installing oh-my-zsh" "installed oh-my-zsh" \
-        "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
-fi
 
