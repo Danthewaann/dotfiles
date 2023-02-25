@@ -20,7 +20,7 @@ fi
 # Install Vundle vim plugin manager
 if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
     run_command "installing vundle plugin manager" "installed vundle plugin manager" \
-        "git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim"
+        "git clone git@github.com:VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim"
 fi
 
 # Install plugins
