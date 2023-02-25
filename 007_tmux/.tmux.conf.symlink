@@ -15,7 +15,7 @@ bind-key -r C-l select-window -t :+
 # Kill window and panes without confirmation
 bind-key & kill-window
 bind-key a kill-window -a
-bind-key x kill-pane
+bind-key e kill-pane
 bind-key q kill-session
 
 # List of plugins
