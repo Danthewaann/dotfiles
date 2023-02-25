@@ -26,7 +26,7 @@ fi
 
 # Install plugins
 run_command "installing plugins" "installed plugins" \
-    "vim --not-a-term +PluginInstall +qall"
+    "vim --not-a-term +PlugInstall +qall"
 
 # Workaround from https://github.com/neoclide/coc.nvim/issues/3258#issuecomment-1056660012
 run_command "configuring coc" "configured coc" \
