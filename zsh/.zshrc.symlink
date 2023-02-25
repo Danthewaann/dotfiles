@@ -103,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 # Global variables used in my installers and dotfiles
 export MY_PYTHON_VERSION=3.11.0
 export MY_POETRY_VERSION=1.1.15
-export MY_NODE_VERSION=14.18.0
+export MY_NODE_VERSION=19.0.0
 export MY_GO_VERSION=1.19.5
 
 # Setup node version manager
