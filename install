@@ -10,7 +10,7 @@ source "$SCRIPT_DIR"/common
 
 # find all installers and run them iteratively
 installers=()
-while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name install.sh)
+while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name install.sh | sort)
 
 echo ''
 
