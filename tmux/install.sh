@@ -16,7 +16,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
             "curl -L -o $SCRIPT_DIR/onedark_macos.zip https://github.com/nathanbuchar/atom-one-dark-terminal/releases/download/v1.0.3/terminal.zip"
     fi
     run_command "unpacking one dark MACOS terminal theme" "unpacked one dark MACOS terminal theme" \
-        "unzip -o $SCRIPT_DIR/onedark_macos.zip -d $SCRIPT_DIR"
+        "unzip -o $SCRIPT_DIR/onedark_macos.zip -d $SCRIPT_DIR/onedark_macos"
 else
     run_command "installing tmux" "installed tmux" \
         "sudo apt-get install -y tmux"
