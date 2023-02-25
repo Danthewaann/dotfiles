@@ -611,7 +611,10 @@ command! GstatusClose :silent call s:close_gstatus()
 " VIM-GITGUTTER ================================================================================================== 
 
 let g:gitgutter_sign_allow_clobber = 1
-let g:gitgutter_grep = 'rg --color=never'
+
+if executable("rg")
+    let g:gitgutter_grep = 'rg --color=never'
+endif
 
 nmap ]c <Plug>(GitGutterNextHunk)zz
 nmap [c <Plug>(GitGutterPrevHunk)zz
