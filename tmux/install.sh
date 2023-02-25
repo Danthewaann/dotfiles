@@ -10,15 +10,22 @@ source "$SCRIPT_DIR"/../common
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing tmux" "installed tmux" \
         "brew install tmux"
+
+    if [[ ! -f $SCRIPT_DIR/onedark.itermcolors ]]; then
+        run_command "downloading one dark MACOS terminal theme" "downloaded one dark MACOS terminal theme" \
+            "wget -O $SCRIPT_DIR/onedark_macos.zip https://github.com/nathanbuchar/atom-one-dark-terminal/releases/download/v1.0.3/terminal.zip"
+    fi
+    run_command "unpacking one dark MACOS terminal theme" "unpacked one dark MACOS terminal theme" \
+        "sudo unzip -o $SCRIPT_DIR/onedark_macos.zip -d $SCRIPT_DIR"
 else
     run_command "installing tmux" "installed tmux" \
         "sudo apt-get install -y tmux"
 
     # From https://github.com/denysdovhan/one-gnome-terminal
-    if [[ ! -f $SCRIPT_DIR/.installed_one_dark_theme ]]; then
+    if [[ ! -f $SCRIPT_DIR/.gnome_installed_one_dark_theme ]]; then
         run_command "installing one dark GNOME terminal theme" "installed one dark GNOME terminal theme" \
             "curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh | bash"
-        touch "$SCRIPT_DIR/.installed_one_dark_theme"
+        touch "$SCRIPT_DIR/.gnome_installed_one_dark_theme"
     fi
 fi
 

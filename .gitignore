@@ -2,6 +2,7 @@
 git/.gitconfig.symlink
 debug.log
 *.tar.gz
-*.installed*
+*.gnome_installed_one_dark_theme*
+*onedark_macos*
 Session.vim
 *.deb
