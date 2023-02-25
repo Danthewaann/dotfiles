@@ -1,6 +1,6 @@
 .DS_Store
 *.zip
-git/.gitconfig.symlink
+001_git/.gitconfig.symlink
 debug.log
 *.tar.gz
 *.gnome_installed_one_dark_theme*
