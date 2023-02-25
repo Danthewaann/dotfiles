@@ -11,12 +11,12 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing tmux" "installed tmux" \
         "brew install tmux"
 
-    if [[ ! -f $SCRIPT_DIR/onedark_macos.zip ]]; then
-        run_command "downloading one dark MACOS terminal theme" "downloaded one dark MACOS terminal theme" \
-            "curl -L -o $SCRIPT_DIR/onedark_macos.zip https://github.com/nathanbuchar/atom-one-dark-terminal/releases/download/v1.0.3/terminal.zip"
+    run_command "installing iterm2" "installed iterm2" \
+        "brew install --cask iterm2"
 
-        run_command "unpacking one dark MACOS terminal theme" "unpacked one dark MACOS terminal theme" \
-            "unzip -o $SCRIPT_DIR/onedark_macos.zip -d $SCRIPT_DIR/onedark_macos"
+    if [[ ! -f $SCRIPT_DIR/onedark.itermcolors ]]; then
+        run_command "downloading one dark MACOS iterm2 theme" "downloaded one dark MACOS iterm2 theme" \
+            "curl -L -o $SCRIPT_DIR/onedark.itermcolors https://raw.githubusercontent.com/one-dark/iterm-one-dark-theme/main/One%20Dark.itermcolors"
     fi
 else
     run_command "installing tmux" "installed tmux" \
