@@ -132,7 +132,7 @@ export PATH=$PATH:$HOME/go/bin
 if [[ $OSTYPE == "darwin"* ]]; then
     export CLICOLOR=1
     export LSCOLORS=ExFxBxDxCxegedabagacad
-    export TERM=screen-256color
+    export TERM=xterm-256color
 else
     export TERM=xterm-256color
 fi
