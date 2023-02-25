@@ -10,7 +10,7 @@ source "$SCRIPT_DIR"/../common
 # Install vim 9
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing vim" "installed vim" \
-        "brew install vim"
+        "brew install macvim"
 else
     run_command "installing vim" "installed vim" \
         "sudo add-apt-repository -y ppa:jonathonf/vim" \
