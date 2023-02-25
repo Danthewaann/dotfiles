@@ -58,7 +58,7 @@ fi
 if type poetry &> /dev/null; then
     # Re-install poetry package manager
     if ! poetry -V | grep "$MY_POETRY_VERSION" > /dev/null 2>&1; then
-        run_command "installing poetry version $MY_POETRY_VERSION" "installed poetry version $MY_POETRY_VERSION" \
+        run_command "re-installing poetry version $MY_POETRY_VERSION" "re-installed poetry version $MY_POETRY_VERSION" \
             "curl -sSL https://install.python-poetry.org | python3 - --uninstall" \
             "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$MY_POETRY_VERSION python3 -"
     fi
