@@ -4,8 +4,12 @@ filetype off                  " required
 " Must define this before loading vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
 
-" Only set this if using nvm
-let g:coc_node_path = '~/.nvm/versions/node/v' . expand('$MY_NODE_VERSION') . '/bin/node'
+let my_node_path = '~/.nvm/versions/node/v' . expand('$MY_NODE_VERSION') . '/bin/node'
+
+" Only set this if node is available
+if !empty(glob(my_node_path))
+    let g:coc_node_path = my_node_path
+endif
 
 " Set config location to home
 let g:coc_config_home = '~/'
