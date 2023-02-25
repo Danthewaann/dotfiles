@@ -55,10 +55,16 @@ if ! pyenv global | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
         "pyenv rehash"
 fi
 
-if ! poetry -V | grep "$MY_POETRY_VERSION" > /dev/null 2>&1; then
+if type poetry &> /dev/null; then
+    # Re-install poetry package manager
+    if ! poetry -V | grep "$MY_POETRY_VERSION" > /dev/null 2>&1; then
+        run_command "installing poetry version $MY_POETRY_VERSION" "installed poetry version $MY_POETRY_VERSION" \
+            "curl -sSL https://install.python-poetry.org | python3 - --uninstall" \
+            "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$MY_POETRY_VERSION python3 -"
+    fi
+else
     # Install poetry package manager
     run_command "installing poetry version $MY_POETRY_VERSION" "installed poetry version $MY_POETRY_VERSION" \
-        "curl -sSL https://install.python-poetry.org | python3 - --uninstall" \
         "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$MY_POETRY_VERSION python3 -"
 fi
 
