@@ -12,7 +12,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
     # From https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos
     # TODO: Need to fully test this
     run_command "installing dependencies" "installed dependencies" \
-        "brew install hyperkit minikube docker docker-compose"
+        "brew install qemu minikube docker docker-compose"
 else
     # From https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
     run_command "installing dependencies" "installed dependencies" \
