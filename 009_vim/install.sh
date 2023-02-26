@@ -32,14 +32,17 @@ run_command "installing plugins" "installed plugins" \
 run_command "configuring coc" "configured coc" \
     "cd $HOME/.vim/plugged/coc.nvim && git checkout release" \
 
+# TODO: I don't think this works as expected
 # vimspector gadgets post-install step
 run_command "configuring vimspector" "configured vimspector" \
     "vim --not-a-term \"+VimspectorInstall\" +qall"
 
+# TODO: I don't think this works as expected
 # Install binaries for vim-go plugin
 run_command "installing go binaries for vim-go" "installed go binaries for vim-go" \
     "vim --not-a-term \"+GoInstallBinaries\" +qall"
 
+# TODO: I don't think this works as expected
 run_command "installing clangd" "installed clangd" \
     "vim --not-a-term \"+CocCommand clangd.install\" +qall"
 
