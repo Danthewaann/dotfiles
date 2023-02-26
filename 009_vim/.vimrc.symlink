@@ -78,6 +78,7 @@ Plug 'romainl/vim-cool'
 Plug 'sheerun/vim-polyglot'
 Plug 'jgdavey/tslime.vim'
 Plug 'kshenoy/vim-signature'
+Plug 'pixelneo/vim-python-docstring'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -756,6 +757,11 @@ let g:SignatureMarkerTextHLDynamic = 1
 
 " Disable all mappings provided by vim-dispatch
 let g:dispatch_no_maps = 1
+
+" VIM-PYTHON-DOCSTRING ============================================================================================
+
+" Generate docstring for def or class on current line
+nnoremap <silent> <leader>ds :Docstring<CR>
 
 " CHEATSHEET ======================================================================================================
 "
