@@ -9,7 +9,8 @@ source "$SCRIPT_DIR"/../common
 
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "setting up initial key-repeat" "set up initial key-repeat" \
-        "defaults write -g InitialKeyRepeat -int 15" \
+        "defaults write -g InitialKeyRepeat -int 15"
+
     run_command "setting up key-repeat" "set up key-repeat" \
         "defaults write -g KeyRepeat -int 2"
 else
