@@ -68,6 +68,9 @@ else
         "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$MY_POETRY_VERSION python3 -"
 fi
 
+run_command "configuring poetry" "configured poetry" \
+    "poetry config virtualenvs.in-project true"
+
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing firefox geckodriver" "installed firefox geckodriver" \
         "brew install geckodriver"
