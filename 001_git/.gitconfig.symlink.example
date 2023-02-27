@@ -166,9 +166,7 @@
 	t = tag
 	td = tag -d
 	#############
-	w = show
-	wp = show -p
-	wr = show -p --no-color
+	w = worktree
 	#############
 	svnr = svn rebase
 	svnd = svn dcommit
