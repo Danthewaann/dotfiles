@@ -159,3 +159,10 @@ function pprint() {
   python -m json.tool
 }
 
+function gitwadd() {
+    local branch_name="$1"
+    local escaped_name=${branch_name//\//-}
+    git w add $escaped_name
+    cd $escaped_name
+    git branch -m $branch_name
+}
