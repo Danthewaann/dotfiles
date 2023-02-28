@@ -595,11 +595,37 @@ function! MyDebugNearest() abort
     call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
 endfunction
 
-command! -nargs=0 DebugNearest :silent call MyDebugNearest()
+function! MyTestNearest() abort
+    let position = MyGetPosition(expand("%"))
+    let runner = test#determine_runner(position['file'])
+    let lang = split(runner, '#')[0]
+    if lang != 'python'
+        execute 'TestNearest'
+        return
+    endif
 
-nnoremap <silent> <leader>dn :DebugNearest<CR>
-nnoremap <silent> <leader>tn :TestNearest<CR>
-nnoremap <silent> <leader>tf :TestFile<CR>
+    let build_args = test#{runner}#build_position("nearest", position)
+    let args = 'make unit test='.join(build_args)
+    echo args
+endfunction
+
+function! MyTestFile() abort
+    let position = MyGetPosition(expand("%"))
+    let runner = test#determine_runner(position['file'])
+    let lang = split(runner, '#')[0]
+    if lang != 'python'
+        execute 'TestNearest'
+        return
+    endif
+
+    let build_args = test#{runner}#build_position("file", position)
+    let args = 'make unit test='.join(build_args)
+    echo args
+endfunction
+
+nnoremap <leader>dn :call MyDebugNearest()<CR>
+nnoremap <silent> <leader>tn :call MyTestNearest()<CR>
+nnoremap <silent> <leader>tf :call MyTestFile()<CR>
 nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tc :TestClass<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
