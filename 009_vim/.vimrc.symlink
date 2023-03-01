@@ -789,6 +789,11 @@ let g:dispatch_no_maps = 1
 " Generate docstring for def or class on current line
 nnoremap <silent> <leader>ds :Docstring<CR>
 
+" VIM-AIRLINE =====================================================================================================
+
+" truncate the branch name
+let g:airline#extensions#branch#format = 2
+
 " CHEATSHEET ======================================================================================================
 "
 " ga -> get encoding of character at cursor
