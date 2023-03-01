@@ -629,10 +629,24 @@ function! MyTestFile() abort
     call Send_to_Tmux(s:pretty_command(args)."\n")
 endfunction
 
+function! MyTestSuite() abort
+    let position = MyGetPosition(expand("%"))
+    let runner = test#determine_runner(position['file'])
+    let lang = split(runner, '#')[0]
+    if lang != 'python'
+        execute 'TestSuite'
+        return
+    endif
+
+    let build_args = test#{runner}#build_position("suite", position)
+    let args = 'make unit test='.join(build_args)
+    call Send_to_Tmux(s:pretty_command(args)."\n")
+endfunction
+
 nnoremap <leader>dn :call MyDebugNearest()<CR>
 nnoremap <silent> <leader>tn :call MyTestNearest()<CR>
 nnoremap <silent> <leader>tf :call MyTestFile()<CR>
-nnoremap <silent> <leader>ts :TestSuite<CR>
+nnoremap <silent> <leader>ts :call MyTestSuite()<CR>
 nnoremap <silent> <leader>tc :TestClass<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
