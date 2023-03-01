@@ -8,6 +8,7 @@
     "python.linting.mypyEnabled": true,
     "suggest.virtualText": true,
     "diagnostic.virtualText": true,
+    "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
     "pyright.testing.provider": "pytest",
     "pyright.organizeimports.provider": "isort",
