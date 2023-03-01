@@ -171,3 +171,15 @@ function gitwadd() {
     cd $escaped_name
     git branch -m $branch_name
 }
+
+# From https://github.com/tpope/vim-obsession/issues/11
+# Auto start vim-obession when starting vim with no args
+function vim() {
+    if test $# -gt 0; then
+        env vim "$@"
+    elif test -f Session.vim; then
+        env vim -S
+    else
+        env vim -c Obsession
+    fi
+}
