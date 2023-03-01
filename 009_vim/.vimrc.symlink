@@ -53,7 +53,8 @@ Plug 'joshdick/onedark.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
 Plug 'voldikss/vim-floaterm'
@@ -124,7 +125,6 @@ endif
 set noswapfile
 set updatetime=200
 set signcolumn=yes
-set laststatus=2
 
 " From https://stackoverflow.com/a/58042714
 set ttimeout
@@ -333,8 +333,10 @@ nnoremap } <C-I>
 set noshowmode
 
 set background=dark
+let g:airline_powerline_fonts = 1
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
+let g:airline_theme = 'onedark'
 let g:onedark_hide_endofbuffer = 1
 colorscheme onedark
 
@@ -414,19 +416,6 @@ nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>zz'
 
 " Set the NERDTree statusline
 let NERDTreeStatusline="NERDTree"
-
-" From https://vi.stackexchange.com/a/22414
-" This disables NERDTree in lightline
-augroup filetype_nerdtree
-    au!
-    au FileType nerdtree call s:disable_lightline_on_nerdtree()
-    au WinEnter,BufWinEnter,TabEnter * call s:disable_lightline_on_nerdtree()
-augroup END
-
-function s:disable_lightline_on_nerdtree() abort
-    let nerdtree_winnr = index(map(range(1, winnr('$')), {_,v -> getbufvar(winbufnr(v), '&ft')}), 'nerdtree') + 1
-    call timer_start(0, {-> nerdtree_winnr && setwinvar(nerdtree_winnr, '&stl', '%#Normal#')})
-endfunction
 
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
@@ -799,12 +788,6 @@ let g:dispatch_no_maps = 1
 
 " Generate docstring for def or class on current line
 nnoremap <silent> <leader>ds :Docstring<CR>
-
-" VIM-LIGHTLINE ===================================================================================================
-
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ }
 
 " CHEATSHEET ======================================================================================================
 "
