@@ -746,6 +746,21 @@ let g:vimspector_sign_priority = {
   \    'vimspectorCurrentFrame':   1000,
   \ }
 
+" Custom stuff for adding breakpoint() statements
+" From https://gist.github.com/berinhard/523420
+func! s:SetBreakpoint()
+    cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'breakpoint()')
+endf
+
+func! s:RemoveBreakpoint()
+    exe 'silent! g/^\s*breakpoint()/d'
+endf
+
+func! s:ToggleBreakpoint()
+    if getline('.')=~#'^\s*breakpoint()' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
+endf
+
+nnoremap <silent> <leader>i :call <SID>ToggleBreakpoint()<CR>
 
 " VIM-MARKDOWN ===================================================================================================
 
