@@ -19,20 +19,20 @@ let g:coc_config_home = '~/'
 
 " Set global coc extensions
 let g:coc_global_extensions = [
-    \'coc-eslint', 
-    \'coc-prettier',
-    \'coc-sh', 
-    \'coc-go',
-    \'coc-tsserver',
-    \'coc-json',
-    \'coc-pyright',
-    \'coc-git',
-    \'coc-css',
-    \'coc-html',
-    \'coc-toml',
-    \'coc-clangd',
-    \'coc-rust-analyzer'
-\]
+            \'coc-eslint',
+            \'coc-prettier',
+            \'coc-sh',
+            \'coc-go',
+            \'coc-tsserver',
+            \'coc-json',
+            \'coc-pyright',
+            \'coc-git',
+            \'coc-css',
+            \'coc-html',
+            \'coc-toml',
+            \'coc-clangd',
+            \'coc-rust-analyzer'
+            \]
 
 set nobackup
 set nowritebackup
@@ -117,9 +117,9 @@ set shiftwidth=4
 set expandtab
 
 if system('uname -s') == "Darwin\n"
-  set clipboard=unnamed 
+    set clipboard=unnamed
 else
-  set clipboard=unnamedplus
+    set clipboard=unnamedplus
 endif
 
 set noswapfile
@@ -131,7 +131,7 @@ set ttimeout
 set ttimeoutlen=1
 set ttyfast
 
-set textwidth=0 
+set textwidth=0
 set wrapmargin=0
 set incsearch
 set hlsearch
@@ -152,9 +152,9 @@ set hidden
 " NOTE: Need to manually disable shortcuts in gnome terminal as well
 " let c='a'
 " while c <= 'z'
-  " exec "set <A-".c.">=\e".c
-  " exec "imap \e".c." <A-".c.">"
-  " let c = nr2char(1+char2nr(c))
+" exec "set <A-".c.">=\e".c
+" exec "imap \e".c." <A-".c.">"
+" let c = nr2char(1+char2nr(c))
 " endw
 " set timeout ttimeoutlen=50
 
@@ -200,10 +200,10 @@ endfunction
 vnoremap <silent><expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
 
 function! ReplaceCurrentWord()
-  call inputsave()
-  let replace = escape(input('Enter replacement: '),'/\')
-  call inputrestore()
-  execute '%s/' . expand("<cword>") . '/' . replace . '/g'
+    call inputsave()
+    let replace = escape(input('Enter replacement: '),'/\')
+    call inputrestore()
+    execute '%s/' . expand("<cword>") . '/' . replace . '/g'
 endfunction
 
 function! GetVisualSelection()
@@ -221,14 +221,14 @@ function! GetVisualSelection()
 endfunction
 
 function! ReplaceSelection()
-  call inputsave()
-  let replace = escape(input('Enter replacement: '),'/\')
-  call inputrestore()
-  let v = escape(GetVisualSelection(), '/\')
-  execute '%s/' . v . '/' . replace . '/g'
+    call inputsave()
+    let replace = escape(input('Enter replacement: '),'/\')
+    call inputrestore()
+    let v = escape(GetVisualSelection(), '/\')
+    execute '%s/' . v . '/' . replace . '/g'
 endfunction
 
-" replace current word in current file 
+" replace current word in current file
 nnoremap <silent><leader>rp :call ReplaceCurrentWord()<CR>
 
 " replace visual selection in current file
@@ -324,8 +324,8 @@ xnoremap <Tab> >gv
 xnoremap <S-Tab> <gv
 
 " Jump list (previous, next), needed as I'm using TAB for indentation
-nnoremap { <C-O>        
-nnoremap } <C-I>         
+nnoremap { <C-O>
+nnoremap } <C-I>
 
 " COLOUR THEMES ===================================================================================================
 
@@ -436,7 +436,7 @@ nnoremap <silent> <leader>nc :NERDTreeClose<CR>
 nnoremap <silent> <leader>nf :NERDTreeFind<CR>
 
 " ignore files in NERDTree
-let NERDTreeIgnore=['\.pyc$', '\~$'] 
+let NERDTreeIgnore=['\.pyc$', '\~$']
 
 " show hidden files
 let NERDTreeShowHidden=1
@@ -461,7 +461,7 @@ command! -nargs=0 Format :silent call CocActionAsync('format')
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
-" organize imports on save 
+" organize imports on save
 " au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
 " au BufWritePre *.ts :silent call CocAction('runCommand', 'editor.action.organizeImport')
 " au BufWritePre *.js :silent call CocAction('runCommand', 'editor.action.organizeImport')
@@ -472,15 +472,15 @@ command! -nargs=0 OR :silent call CocAction('runCommand', 'editor.action.organiz
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+            \ coc#pum#visible() ? coc#pum#next(1) :
+            \ CheckBackspace() ? "\<Tab>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
     let col = col('.') - 1
@@ -575,7 +575,7 @@ function! MyDebugNearest() abort
     let build_args = test#{runner}#build_position("nearest", position)
     if lang == 'go'
         " Need to reverse the build args for `delve test`
-        " e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to 
+        " e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to
         " `.pkg/concurrency -- -run 'TestCheckWebsites$'`
         let args = build_args[1] . ' -- ' . build_args[0]
     else
@@ -679,7 +679,7 @@ endfunction
 
 command! GstatusClose :silent call s:close_gstatus()
 
-" VIM-GITGUTTER ================================================================================================== 
+" VIM-GITGUTTER ==================================================================================================
 
 let g:gitgutter_sign_allow_clobber = 1
 
@@ -736,15 +736,15 @@ nnoremap <leader>vr <Plug>VimspectorRestart
 nnoremap <silent><leader>vq :VimspectorReset<CR>
 
 let g:vimspector_sign_priority = {
-  \    'vimspectorBP':             999,
-  \    'vimspectorBPCond':         2,
-  \    'vimspectorBPLog':          2,
-  \    'vimspectorBPDisabled':     1,
-  \    'vimspectorPC':             999,
-  \    'vimspectorPCBP':           1001,
-  \    'vimspectorCurrentThread':  1000,
-  \    'vimspectorCurrentFrame':   1000,
-  \ }
+            \    'vimspectorBP':             999,
+            \    'vimspectorBPCond':         2,
+            \    'vimspectorBPLog':          2,
+            \    'vimspectorBPDisabled':     1,
+            \    'vimspectorPC':             999,
+            \    'vimspectorPCBP':           1001,
+            \    'vimspectorCurrentThread':  1000,
+            \    'vimspectorCurrentFrame':   1000,
+            \ }
 
 " Custom stuff for adding breakpoint() statements
 " From https://gist.github.com/berinhard/523420
@@ -797,21 +797,21 @@ nnoremap <silent><leader>gs :GFiles?<CR>
 nnoremap <leader>gl :Commits<CR>
 
 " use colours from the current colour scheme
-let g:fzf_colors = { 
-  \ 'fg':         ['fg', 'Normal'],
-  \ 'bg':         ['bg', 'Normal'],
-  \ 'preview-bg': ['bg', 'NormalFloat'],
-  \ 'hl':         ['fg', 'Comment'],
-  \ 'fg+':        ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':        ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':        ['fg', 'Statement'],
-  \ 'info':       ['fg', 'PreProc'],
-  \ 'border':     ['fg', 'Ignore'],
-  \ 'prompt':     ['fg', 'Conditional'],
-  \ 'pointer':    ['fg', 'Exception'],
-  \ 'marker':     ['fg', 'Keyword'],
-  \ 'spinner':    ['fg', 'Label'],
-  \ 'header':     ['fg', 'Comment'] }
+let g:fzf_colors = {
+            \ 'fg':         ['fg', 'Normal'],
+            \ 'bg':         ['bg', 'Normal'],
+            \ 'preview-bg': ['bg', 'NormalFloat'],
+            \ 'hl':         ['fg', 'Comment'],
+            \ 'fg+':        ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':        ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':        ['fg', 'Statement'],
+            \ 'info':       ['fg', 'PreProc'],
+            \ 'border':     ['fg', 'Ignore'],
+            \ 'prompt':     ['fg', 'Conditional'],
+            \ 'pointer':    ['fg', 'Exception'],
+            \ 'marker':     ['fg', 'Keyword'],
+            \ 'spinner':    ['fg', 'Label'],
+            \ 'header':     ['fg', 'Comment'] }
 
 " VIM-GO ==========================================================================================================
 
@@ -848,15 +848,15 @@ let g:airline#extensions#branch#displayed_head_limit = 15
 
 " From https://www.reddit.com/r/vim/comments/crs61u/best_airline_settings/
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline                                            
+let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline
 let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
-let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)      
-let g:airline#extensions#tabline#fnamemod = ':t'       " disable file paths in the tab                                                    
-let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right                                                           
-let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline                                                 
-let g:airline#extensions#tabline#tab_min_count = 1     " minimum of 1 tab needed to display the tabline                                  
-let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline               
-let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers                                                              
+let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)
+let g:airline#extensions#tabline#fnamemod = ':t'       " disable file paths in the tab
+let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right
+let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline
+let g:airline#extensions#tabline#tab_min_count = 1     " minimum of 1 tab needed to display the tabline
+let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline
+let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers
 let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird ornage arrow on the tabline
 
 " CHEATSHEET ======================================================================================================
@@ -875,7 +875,7 @@ let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird orna
 " _ -> move to the first blank character in the line (like 0)
 "
 " ap, ip -> operate on continuous lines
-" 
+"
 " gcc -> comment out a line
 " gcap -> comment of the current paragraph
 " gcgc -> uncomment adjacent lines
