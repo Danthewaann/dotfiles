@@ -16,7 +16,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     run_command "setting up key-repeat" "set up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30" \
-        "gsettings set org.gnome.desktop.peripherals.keyboard delay 250"
+        "gsettings set org.gnome.desktop.peripherals.keyboard delay 150"
 fi
 
 
