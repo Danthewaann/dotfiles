@@ -584,6 +584,23 @@ function! MyDebugNearest() abort
     call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
 endfunction
 
+function! s:pretty_command(cmd) abort
+    let cmds = []
+    let separator = '; '
+
+    if !get(g:, 'test#preserve_screen')
+        call add(l:cmds, 'clear')
+    endif
+
+    if get(g:, 'test#echo_command', 1)
+        call add(l:cmds, 'echo -e '.shellescape(a:cmd))
+    endif
+
+    call add(l:cmds, a:cmd)
+
+    return join(l:cmds, l:separator)
+endfunction
+
 function! MyTestNearest() abort
     let position = MyGetPosition(expand("%"))
     let runner = test#determine_runner(position['file'])
@@ -595,7 +612,7 @@ function! MyTestNearest() abort
 
     let build_args = test#{runner}#build_position("nearest", position)
     let args = 'make unit test='.join(build_args)
-    echo args
+    call Send_to_Tmux(s:pretty_command(args)."\n")
 endfunction
 
 function! MyTestFile() abort
@@ -603,13 +620,13 @@ function! MyTestFile() abort
     let runner = test#determine_runner(position['file'])
     let lang = split(runner, '#')[0]
     if lang != 'python'
-        execute 'TestNearest'
+        execute 'TestFile'
         return
     endif
 
     let build_args = test#{runner}#build_position("file", position)
     let args = 'make unit test='.join(build_args)
-    echo args
+    call Send_to_Tmux(s:pretty_command(args)."\n")
 endfunction
 
 nnoremap <leader>dn :call MyDebugNearest()<CR>
