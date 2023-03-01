@@ -771,6 +771,11 @@ let g:vim_markdown_folding_disabled = 1
 " Close the current buffer without closing the window
 nnoremap <silent><leader>db :Bdelete<CR>
 
+" Delete all buffers except the current one
+" From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
+command! BufOnly silent! execute "%bd|e#|bd#"
+nnoremap <silent><leader>dab :BufOnly<CR>
+
 " VIM-FZF ========================================================================================================
 
 " open up a fzf files window
@@ -840,6 +845,9 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 " truncate the branch name
 let g:airline#extensions#branch#format = 1
 let g:airline#extensions#branch#displayed_head_limit = 15
+
+" enable tabline
+let g:airline#extensions#tabline#enabled = 1
 
 " CHEATSHEET ======================================================================================================
 "
