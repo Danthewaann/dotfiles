@@ -35,6 +35,9 @@ set -g @continuum-boot 'off'
 set -g @resurrect-capture-pane-contents 'on'
 set -g @resurrect-strategy-vim 'session'
 
+# If using MacVim this is needed to be able to restore vim sessions
+set -g @resurrect-processes '~Vim -> vim'
+
 # Move the statusline to the top
 set -g status-position top
 
