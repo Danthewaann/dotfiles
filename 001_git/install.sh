@@ -20,3 +20,6 @@ else
     run_command "installing github cli" "installed github cli" \
         "sudo dpkg -i $SCRIPT_DIR/gh_2.23.0_linux_amd64.deb"
 fi
+
+run_command "configuring github cli" "configured github cli" \
+    "gh config set editor vim"
