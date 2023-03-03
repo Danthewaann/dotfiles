@@ -173,6 +173,10 @@ function gitwadd() {
     git branch -m $branch_name
 }
 
+function gitprcreate() {
+    gh pr create --head $(git branch --show-current)
+}
+
 # From https://github.com/tpope/vim-obsession/issues/11
 # Auto start vim-obession when starting vim with no args
 function vim() {
