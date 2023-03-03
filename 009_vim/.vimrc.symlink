@@ -79,6 +79,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'jgdavey/tslime.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'pixelneo/vim-python-docstring'
+Plug 'pechorin/any-jump.vim'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -866,6 +867,17 @@ let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in th
 let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline
 let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers
 let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird ornage arrow on the tabline
+
+" VIM-ANY-JUMP ====================================================================================================
+
+" Prefered search engine: rg or ag
+let g:any_jump_search_prefered_engine = 'rg'
+
+" Show line numbers in search rusults
+let g:any_jump_list_numbers = 1
+
+" Auto group results by filename
+" let g:any_jump_grouping_enabled = 1
 
 " CHEATSHEET ======================================================================================================
 "
