@@ -82,11 +82,7 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -184,7 +180,14 @@ function gitprcreate() {
 # From https://github.com/tpope/vim-obsession/issues/11
 # Auto start vim-obession when starting vim with no args
 function vim() {
-    if test $# -gt 0; then
+    if test -d "$1"; then
+        cd "$1"
+        if test ! -f "$1"/Session.vim; then
+            env vim -c Obsession .
+        else
+            env vim -S
+        fi
+    elif test $# -gt 0; then
         env vim "$@"
     elif test -f Session.vim; then
         env vim -S
