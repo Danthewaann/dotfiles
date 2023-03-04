@@ -37,10 +37,17 @@ set -g @resurrect-capture-pane-contents 'on'
 set -g @resurrect-strategy-vim 'session'
 
 # If using MacVim this is needed to be able to restore vim sessions
-set -g @resurrect-processes '~Vim -> vim'
+if-shell -b '[ $OSTYPE == "darwin"* ]' {
+    set -g @resurrect-processes '~Vim -> vim'
+}
 
 # Move the statusline to the top
 set -g status-position top
+
+# Allow home and end keys to work
+# From https://stackoverflow.com/a/55616731
+bind-key -n Home send Escape "OH"
+bind-key -n End send Escape "OF"
 
 # Needed to ensure tmux uses 256 colours
 # From https://wiki.archlinux.org/title/tmux#256_colors
@@ -78,6 +85,17 @@ bind-key -r < swap-window -t :-1
 
 # Enter copy mode
 bind x copy-mode
+
+# Setup vim like yank binds
+unbind-key -T copy-mode-vi v
+bind-key -T copy-mode-vi v \
+  send-keys -X begin-selection
+bind-key -T copy-mode-vi 'C-v' \
+  send-keys -X rectangle-toggle
+bind-key -T copy-mode-vi y \
+  send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi MouseDragEnd1Pane \
+  send-keys -X copy-pipe-and-cancel "pbcopy"
 
 # Make sure tmux keeps track of the correct cursor
 # From https://stackoverflow.com/a/42118416
