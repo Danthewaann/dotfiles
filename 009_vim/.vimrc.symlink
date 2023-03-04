@@ -564,8 +564,8 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 " VIM-TEST ===================================================================================================
 
 let test#strategy = "tslime"
-let test#python#runner = 'pytest'
-let test#vim#term_position = 'botright 20'
+let test#custom_runners = {"python": ["make"]}
+let test#python#runner = 'make'
 let test#python#pytest#options = '-vv'
 
 function! MyGetPosition(path) abort
@@ -593,69 +593,10 @@ function! MyDebugNearest() abort
     call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
 endfunction
 
-function! s:pretty_command(cmd) abort
-    let cmds = []
-    let separator = '; '
-
-    if !get(g:, 'test#preserve_screen')
-        call add(l:cmds, 'clear')
-    endif
-
-    if get(g:, 'test#echo_command', 1)
-        call add(l:cmds, 'echo -e '.shellescape(a:cmd))
-    endif
-
-    call add(l:cmds, a:cmd)
-
-    return join(l:cmds, l:separator)
-endfunction
-
-function! MyTestNearest() abort
-    let position = MyGetPosition(expand("%"))
-    let runner = test#determine_runner(position['file'])
-    let lang = split(runner, '#')[0]
-    if lang != 'python'
-        execute 'TestNearest'
-        return
-    endif
-
-    let build_args = test#{runner}#build_position("nearest", position)
-    let args = 'make unit test='.join(build_args)
-    call Send_to_Tmux(s:pretty_command(args)."\n")
-endfunction
-
-function! MyTestFile() abort
-    let position = MyGetPosition(expand("%"))
-    let runner = test#determine_runner(position['file'])
-    let lang = split(runner, '#')[0]
-    if lang != 'python'
-        execute 'TestFile'
-        return
-    endif
-
-    let build_args = test#{runner}#build_position("file", position)
-    let args = 'make unit test='.join(build_args)
-    call Send_to_Tmux(s:pretty_command(args)."\n")
-endfunction
-
-function! MyTestSuite() abort
-    let position = MyGetPosition(expand("%"))
-    let runner = test#determine_runner(position['file'])
-    let lang = split(runner, '#')[0]
-    if lang != 'python'
-        execute 'TestSuite'
-        return
-    endif
-
-    let build_args = test#{runner}#build_position("suite", position)
-    let args = 'make unit test='.join(build_args)
-    call Send_to_Tmux(s:pretty_command(args)."\n")
-endfunction
-
 nnoremap <leader>dn :call MyDebugNearest()<CR>
-nnoremap <silent> <leader>tn :call MyTestNearest()<CR>
-nnoremap <silent> <leader>tf :call MyTestFile()<CR>
-nnoremap <silent> <leader>ts :call MyTestSuite()<CR>
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tc :TestClass<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
