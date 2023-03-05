@@ -285,6 +285,20 @@ tmap <C-X> <C-W>N
 " open up a floaterm
 nnoremap <silent><leader>vp :FloatermNew<CR>
 
+" From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
+" Setup a way to keep track of breakpoint() calls in Python code
+function! BreakpointQuickFixList()
+	return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+endfunction
+
+command! -nargs=0 BreakpointQuickFixList cgetexpr BreakpointQuickFixList()
+
+augroup quickfix
+	autocmd!
+	autocmd QuickFixCmdPost cgetexpr cwindow
+	autocmd QuickFixCmdPost lgetexpr lwindow
+augroup END
+
 " close the quicklist and git windows
 function! ClearWindows() abort
     execute 'ccl'
