@@ -151,6 +151,23 @@ set hidden
 autocmd InsertEnter * set cul
 autocmd InsertLeave * set nocul
 
+" Jump to last position when reopening a file
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+if (has("termguicolors"))
+    set termguicolors
+endif
+
+set guifont=Hack_Nerd_Font_Mono:h16
+
+" Set filetype for .robot files to enable syntax highlighting
+autocmd BufNewFile,BufRead *.robot setlocal filetype=robot
+
 " Allow gnome terminal to send alt keys to vim in the
 " format that vim expects
 " From https://stackoverflow.com/a/10216459
@@ -178,10 +195,6 @@ inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 
 " paste the clipboard contents in insert mode
 inoremap <C-P> <C-R>+
-
-" insert blank lines below and above cursor
-nnoremap <leader>o o<C-C>
-nnoremap <leader>O O<C-C>
 
 " search for current word in window and highlight it
 nnoremap <silent><leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
@@ -303,23 +316,6 @@ nnoremap <silent><leader>c :call ClearWindows()<CR>
 let &t_SI .= "\<Esc>[6 q"
 let &t_EI .= "\<Esc>[2 q"
 
-" Jump to last position when reopening a file
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-
-" Set filetype for .robot files to enable syntax highlighting
-autocmd BufNewFile,BufRead *.robot setlocal filetype=robot
-
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-if (has("termguicolors"))
-    set termguicolors
-endif
-
-set guifont=Hack_Nerd_Font_Mono:h16
-
 " Allow indenting the current line in normal mode
 nnoremap <Tab> >>
 nnoremap <S-Tab> <<
@@ -329,8 +325,8 @@ xnoremap <Tab> >gv
 xnoremap <S-Tab> <gv
 
 " Jump list (previous, next), needed as I'm using TAB for indentation
-nnoremap { <C-O>
-nnoremap } <C-I>
+nnoremap < <C-O>
+nnoremap > <C-I>
 
 " COLOUR THEMES ===================================================================================================
 
@@ -345,10 +341,6 @@ let g:airline_theme = 'onedark'
 let g:onedark_hide_endofbuffer = 1
 colorscheme onedark
 
-" highlight extra whitespace
-" highlight BadWhitespace ctermbg=red guibg=darkred
-" au BufRead,BufNewFile * match BadWhitespace /\s\+$/
-
 " NAVIGATION ===================================================================================================
 
 " vertical navigation
@@ -356,6 +348,8 @@ nnoremap <C-D> <C-D>zz
 nnoremap <C-J> <C-J>zz
 nnoremap gg ggzz
 nnoremap G Gzz
+nnoremap { {zz
+nnoremap } }zz
 
 " window pane navigation
 nnoremap <C-J> <C-W><C-J>
@@ -546,8 +540,6 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}%{ObsessionStatus()}
-
 " CTRL-P ===================================================================================================
 
 let g:ctrlp_reuse_window = 'NERD'
@@ -647,10 +639,6 @@ xmap ic <Plug>(GitGutterTextObjectInnerVisual)
 xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 let g:gitgutter_signs=0
-function! GitStatus()
-    return join(filter(map(['A','M','D'], {i,v -> v.': '.GitGutterGetHunkSummary()[i]}), 'v:val[-1:]'), ' ')
-endfunction
-set statusline+=%{GitStatus()}
 
 " AUTOFORMAT =====================================================================================================
 
