@@ -252,9 +252,6 @@ nnoremap <silent><leader>rp :call ReplaceCurrentWord()<CR>
 " replace visual selection in current file
 vnoremap <silent><leader>rp :call ReplaceSelection()<CR>
 
-" save the current buffer
-nnoremap <silent><leader>w :w<CR>
-
 " paste clipboard into a vim terminal
 tnoremap <C-P> <C-W>"+
 
