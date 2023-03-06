@@ -284,14 +284,48 @@ nnoremap <silent><leader>vp :FloatermNew<CR>
 
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 " Setup a way to keep track of breakpoint() calls in Python code
-function! BreakpointQuickFixList()
+let g:has_breakpoints = 0
+let g:breakpoints_qf_open = 0
+
+function! GetAllBreakpoints()
 	return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+endfunction
+
+function! DeleteAllBreakpoints()
+	let breakpoints = GetAllBreakpoints()
+    let list = split(breakpoints, '\n')
+    let files = []
+    for item in list
+        let file = split(item, ':')[0]
+        if index(files, file) < 0
+            call add(files, file)
+            call system('sed -i -e /breakpoint\(\)/d ' . file)
+        endif
+    endfor
+endfunction
+
+command! -nargs=0 DeleteAllBreakpoints call DeleteAllBreakpoints()
+
+function! BreakpointQuickFixList()
+	let breakpoints = GetAllBreakpoints()
+    if empty(breakpoints)
+        echohl WarningMsg
+        echo "No breakpoint()s found"
+        echohl None
+        let g:breakpoints_qf_open = 0
+        let g:has_breakpoints = 0
+    else
+        let g:breakpoints_qf_open = 1
+        let g:has_breakpoints = 1
+    endif
+    return breakpoints
 endfunction
 
 command! -nargs=0 BreakpointQuickFixList cgetexpr BreakpointQuickFixList()
 
 augroup quickfix
 	autocmd!
+    autocmd BufWritePost *.py if g:has_breakpoints == 1 && g:breakpoints_qf_open | execute 'BreakpointQuickFixList' | endif
 	autocmd QuickFixCmdPost cgetexpr cwindow
 	autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
