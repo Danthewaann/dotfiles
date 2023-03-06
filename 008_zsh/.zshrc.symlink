@@ -194,5 +194,8 @@ function vim() {
 
 # Delete all git worktrees in current directory that contain sc-TICKET_NUMBER
 function gitwdeleteall() {
+    echo "Deleting worktrees"
     find . -name "*-sc-[0-9]*" -maxdepth 1 | xargs -L 1 git w remove
+    echo "Deleting worktree branches"
+    git branch -D $(git branch)
 }
