@@ -302,6 +302,9 @@ function! DeleteAllBreakpoints()
             call system('sed -i -e /breakpoint\(\)/d ' . file)
         endif
     endfor
+    if !empty(files) && g:breakpoints_qf_open == 1
+       cgetexpr BreakpointQuickFixList()
+    endif
 endfunction
 
 command! -nargs=0 DeleteAllBreakpoints call DeleteAllBreakpoints()
