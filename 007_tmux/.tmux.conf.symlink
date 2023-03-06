@@ -37,7 +37,7 @@ set -g @resurrect-capture-pane-contents 'on'
 set -g @resurrect-strategy-vim 'session'
 
 # If using MacVim this is needed to be able to restore vim sessions
-if-shell -b '[ $OSTYPE == "darwin"* ]' {
+if-shell '[[ $(uname -s) = Darwin ]]' {
     set -g @resurrect-processes '~Vim -> vim'
 }
 
