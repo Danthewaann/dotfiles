@@ -170,11 +170,7 @@ function gitwadd() {
 }
 
 function gitprcreate() {
-    local labels=()
-    for label in "$@"; do
-        labels+=("--label $label")
-    done
-    gh pr create --head $(git branch --show-current) --assignee "@me" $labels
+    gh pr create --head $(git branch --show-current) --assignee "@me" "$@"
 }
 
 # From https://github.com/tpope/vim-obsession/issues/11
