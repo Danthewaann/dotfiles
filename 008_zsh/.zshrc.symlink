@@ -178,10 +178,10 @@ function gitprcreate() {
 function vim() {
     if test -d "$1"; then
         cd "$1"
-        if test ! -f "$1"/Session.vim; then
-            env vim -c Obsession .
-        else
+        if test -f Session.vim; then
             env vim -S
+        else
+            env vim -c Obsession .
         fi
     elif test $# -gt 0; then
         env vim "$@"
