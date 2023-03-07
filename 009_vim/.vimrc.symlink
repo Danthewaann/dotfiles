@@ -13,7 +13,6 @@ else
     let g:coc_start_at_startup = 0
 endif
 
-
 " Set config location to home
 let g:coc_config_home = '~/'
 
@@ -56,15 +55,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
-Plug 'tpope/vim-dispatch'
-Plug 'voldikss/vim-floaterm'
-Plug 'vim-autoformat/vim-autoformat'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'puremourning/vimspector'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'mfukar/robotframework-vim'
 Plug 'godlygeek/tabular'
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
@@ -164,9 +159,6 @@ if (has("termguicolors"))
 endif
 
 set guifont=Hack_Nerd_Font_Mono:h16
-
-" Set filetype for .robot files to enable syntax highlighting
-autocmd BufNewFile,BufRead *.robot setlocal filetype=robot
 
 " Allow gnome terminal to send alt keys to vim in the
 " format that vim expects
@@ -278,9 +270,6 @@ tmap <silent><C-T>t <C-W>:tab term<cR>
 
 " enter normal-mode in vim terminal
 tmap <C-X> <C-W>N
-
-" open up a floaterm
-nnoremap <silent><leader>vp :FloatermNew<CR>
 
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 " Setup a way to keep track of breakpoint() calls in Python code
@@ -406,11 +395,6 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " terminal pane navigation
-
-" These maps interfere with fzf.vim popup window navigation
-" tnoremap <C-J> <C-W><C-J>
-" tnoremap <C-K> <C-W><C-K>
-
 tnoremap <C-L> <C-W><C-L>
 tnoremap <C-H> <C-W><C-H>
 tnoremap <C-Q> <C-D>
@@ -420,14 +404,6 @@ nnoremap <silent><C-b> :tabprevious<CR>
 nnoremap <silent><C-n> :tabnext<CR>
 tnoremap <silent><C-b> <C-W>:tabprevious<CR>
 tnoremap <silent><C-n> <C-W>:tabnext<CR>
-
-" Use <C-j> & <C-k> to move through popup candidates
-" inoremap <C-j> <C-n>
-" inoremap <C-k> <C-p>
-
-" Use <C-j> & <C-k> to move through wildmenu candidates
-cnoremap <C-j> <Right>
-cnoremap <C-k> <Left>
 
 " Allow scrolling up and down in a popup (such as function docstring in Python)
 " From https://github.com/neoclide/coc.nvim/issues/1405#issuecomment-570062098
@@ -512,11 +488,6 @@ command! -nargs=0 Format :silent call CocActionAsync('format')
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
-" organize imports on save
-" au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
-" au BufWritePre *.ts :silent call CocAction('runCommand', 'editor.action.organizeImport')
-" au BufWritePre *.js :silent call CocAction('runCommand', 'editor.action.organizeImport')
-
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: There's always complete item selected by default, you may want to enable
 " no select by `"suggest.noselect": true` in your configuration file.
@@ -572,13 +543,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Mappings for CoCList
+" Mappings for CocList
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
 nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-" nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
 nnoremap <silent><nowait> <space>p  :<C-u>CocList outline<cr>
 " Search workspace symbols.
@@ -687,13 +656,6 @@ xmap ic <Plug>(GitGutterTextObjectInnerVisual)
 xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 let g:gitgutter_signs=0
-
-" AUTOFORMAT =====================================================================================================
-
-" TODO: Will need to install terraform for this to work.
-" I don't use terraform at the moment so I'll keep this as is.
-" Auto format terraform files on save
-au BufWrite *.tf :Autoformat
 
 " COMMENTARY =====================================================================================================
 
@@ -816,11 +778,6 @@ let g:tslime_autoset_pane = 1
 let g:SignatureMarkTextHLDynamic = 1
 let g:SignatureMarkerTextHLDynamic = 1
 
-" VIM-DISPATCH ====================================================================================================
-
-" Disable all mappings provided by vim-dispatch
-let g:dispatch_no_maps = 1
-
 " VIM-PYTHON-DOCSTRING ============================================================================================
 
 " Generate docstring for def or class on current line
@@ -852,9 +809,6 @@ let g:any_jump_search_prefered_engine = 'rg'
 
 " Show line numbers in search rusults
 let g:any_jump_list_numbers = 1
-
-" Auto group results by filename
-" let g:any_jump_grouping_enabled = 1
 
 " CHEATSHEET ======================================================================================================
 "
