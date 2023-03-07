@@ -199,3 +199,8 @@ function gitwdeleteall() {
     echo "Deleting worktree branches"
     git branch -D $(git branch)
 }
+
+# Expose current dir of where tmux was ran to tmux
+function tmux() { 
+    TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
+}

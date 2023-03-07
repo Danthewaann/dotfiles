@@ -72,6 +72,9 @@ bind % split-window -h -c "#{pane_current_path}"
 bind v split-window -h -c "#{pane_current_path}" -p 35
 bind h split-window -v -c "#{pane_current_path}" -p 30
 
+# Make sure new windows open using dir that tmux was launched in
+bind c new-window -c '#{TMUX_CURRENT_DIR}'
+
 # Set pane border status
 set -g pane-border-status top
 set -g pane-border-format ""
