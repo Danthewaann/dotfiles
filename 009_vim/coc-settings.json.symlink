@@ -33,8 +33,8 @@
             }
         }
     },
-    "coc.preferences.formatOnSaveTimeout": 1000,
-    "coc.preferences.willSaveHandlerTimeout": 1000,
+    "coc.preferences.formatOnSaveTimeout": 2000,
+    "coc.preferences.willSaveHandlerTimeout": 2000,
     "[python][javascript][typescript][typescriptreact]": {
         "coc.preferences.formatOnSave": true
     },
