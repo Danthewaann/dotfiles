@@ -113,7 +113,7 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # Add brew to path if running on macos
-if [[ $OSTYPE == "darwin"* ]] && [[ -f /opt/homebrew/bin/brew ]]; then
+if [[ $OSTYPE == "darwin"* ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew";
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
     export HOMEBREW_REPOSITORY="/opt/homebrew";
@@ -130,35 +130,18 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
 
 # Add rust stuff to path
-if [[ -f "$HOME/.cargo/env" ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-# Set term colour for tmux
-if [[ $OSTYPE == "darwin"* ]]; then
-    export CLICOLOR=1
-    export LSCOLORS=ExFxBxDxCxegedabagacad
-    export TERM=xterm-256color
-else
-    export TERM=xterm-256color
-fi
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Set theme for bat
 export BAT_THEME="TwoDark"
 
 # Setup fzf to use ripgrep for search and to use ~/.gitignore
-if type rg &> /dev/null; then
-    export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.gitignore --ignore-file .gitignore --glob ""'
-fi
+export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.gitignore --ignore-file .gitignore --glob ""'
 
 # Some aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-function pprint() {
-  python -m json.tool
-}
 
 function gitwadd() {
     local branch_name="$1"
