@@ -232,9 +232,9 @@ endfunction
 
 function! ReplaceSelection()
     call inputsave()
-    let replace = escape(input('Enter replacement: '),'/\')
+    let replace = escape(input('Enter replacement: '),'/\[\]\')
     call inputrestore()
-    let v = escape(GetVisualSelection(), '/\')
+    let v = escape(GetVisualSelection(), '/\[\]\')
     execute '%s/' . v . '/' . replace . '/g'
 endfunction
 
