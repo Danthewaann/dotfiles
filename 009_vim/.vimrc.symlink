@@ -322,11 +322,12 @@ augroup quickfix
 	autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 
-" close the quicklist and git windows
+" close the quicklist, git and NERDTree windows
 function! ClearWindows() abort
     execute 'ccl'
     execute 'lcl'
     execute 'pclose'
+    execute 'NERDTreeClose'
     call s:close_gstatus()
 endfunction
 
