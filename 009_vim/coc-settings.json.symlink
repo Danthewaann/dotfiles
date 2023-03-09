@@ -33,6 +33,7 @@
             }
         }
     },
+    "diagnostic.refreshOnInsertMode": true,
     "coc.preferences.formatOnSaveTimeout": 2000,
     "coc.preferences.willSaveHandlerTimeout": 2000,
     "[python][javascript][typescript][typescriptreact]": {
