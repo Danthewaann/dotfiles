@@ -210,10 +210,11 @@ endfunction
 vnoremap <silent><expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
 
 function! ReplaceCurrentWord()
+    let current_word = expand("<cword>")
     call inputsave()
-    let replace = escape(input('Enter replacement: '),'/\')
+    let replace = escape(input('Enter replacement: ', current_word),'/\')
     call inputrestore()
-    execute '%s/' . expand("<cword>") . '/' . replace . '/g'
+    execute '%s/' . current_word . '/' . replace . '/g'
 endfunction
 
 function! GetVisualSelection()
@@ -231,10 +232,11 @@ function! GetVisualSelection()
 endfunction
 
 function! ReplaceSelection()
+    let selection = GetVisualSelection()
     call inputsave()
-    let replace = escape(input('Enter replacement: '),'/\[\]\')
+    let replace = escape(input('Enter replacement: ', selection),'/\[\]\')
     call inputrestore()
-    let v = escape(GetVisualSelection(), '/\[\]\')
+    let v = escape(selection, '/\[\]\')
     execute '%s/' . v . '/' . replace . '/g'
 endfunction
 
