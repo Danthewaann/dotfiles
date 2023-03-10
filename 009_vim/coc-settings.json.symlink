@@ -37,7 +37,7 @@
     "coc.preferences.formatOnSaveTimeout": 2000,
     "coc.preferences.willSaveHandlerTimeout": 2000,
     "[python][javascript][typescript][typescriptreact]": {
-        "coc.preferences.formatOnSave": true
+        "coc.preferences.formatOnSave": false
     },
     "eslint.autoFixOnSave": true,
     "go.goplsOptions": {"gofumpt": true},

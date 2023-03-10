@@ -540,6 +540,13 @@ command! -nargs=0 Format :silent call CocActionAsync('format')
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
+function! SortFormatAndSave() abort
+    execute "silent OR" | execute "silent Format" | execute "w" 
+endfunction
+
+" sort imports, format and save the current file
+nnoremap <silent><leader>o :call SortFormatAndSave()<CR>
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: There's always complete item selected by default, you may want to enable
 " no select by `"suggest.noselect": true` in your configuration file.
