@@ -414,8 +414,8 @@ xnoremap <Tab> >gv
 xnoremap <S-Tab> <gv
 
 " Jump list (previous, next), needed as I'm using TAB for indentation
-nnoremap < <C-O>
-nnoremap > <C-I>
+nnoremap < <C-O>zz
+nnoremap > <C-I>zz
 
 " COLOUR THEMES ===================================================================================================
 
