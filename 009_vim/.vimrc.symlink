@@ -75,6 +75,7 @@ Plug 'dcrblack/tslime.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'pixelneo/vim-python-docstring'
 Plug 'pechorin/any-jump.vim'
+Plug 'dhruvasagar/vim-buffer-history'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -414,8 +415,12 @@ xnoremap <Tab> >gv
 xnoremap <S-Tab> <gv
 
 " Jump list (previous, next), needed as I'm using TAB for indentation
-nnoremap < <C-O>zz
-nnoremap > <C-I>zz
+nnoremap H <C-O>zz
+nnoremap L <C-I>zz
+
+" Jump through buffers (previous, next)
+nnoremap <silent> < :BufferHistoryBack<CR>
+nnoremap <silent> > :BufferHistoryForward<CR>
 
 " COLOUR THEMES ===================================================================================================
 
