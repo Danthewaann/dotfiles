@@ -39,7 +39,7 @@
     "[python][javascript][typescript][typescriptreact]": {
         "coc.preferences.formatOnSave": false
     },
-    "eslint.autoFixOnSave": true,
+    "eslint.autoFixOnSave": false,
     "go.goplsOptions": {"gofumpt": true},
     "git.addedSign.hlGroup": "GitGutterAdd",
     "git.changedSign.hlGroup": "GitGutterChange",
