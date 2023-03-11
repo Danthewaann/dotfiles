@@ -185,3 +185,13 @@ function gitwdeleteall() {
 function tmux() { 
     TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
 }
+
+# Get just the name of the current git repository
+function getreponame() {
+    basename -s .git $(git config --get remote.origin.url)
+}
+
+# Get test name of the test container for the current repo
+function gettestcontainer() {
+    docker ps | grep -w $(getreponame)-test | awk '{print $NF}'
+}

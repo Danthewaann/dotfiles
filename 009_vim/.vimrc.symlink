@@ -666,7 +666,12 @@ function! MyDebugNearest() abort
     else
         let args = join(build_args)
     endif
-    call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
+    let runner_type = get(g:, 'test#python#runner', 'pytest')
+    if lang == 'python' && runner_type == 'make'
+        call vimspector#LaunchWithSettings({'configuration': 'remote-launch', 'args': args})
+    else
+        call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
+    endif
 endfunction
 
 nnoremap <leader>dn :call MyDebugNearest()<CR>

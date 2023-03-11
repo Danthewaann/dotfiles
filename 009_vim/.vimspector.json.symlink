@@ -1,5 +1,79 @@
 {
+    "adapters": {
+        "python-remote": {
+            "variables": {
+                "container": {
+                    "shell": ["gettestcontainer"]
+                },
+                "port": 5678
+            },
+            "port": "${port}",
+            "launch": {
+                "remote": {
+                    "container": "${container}",
+                    "runCommand": [
+                        "python", "-Xfrozen_modules=off", "-m", "debugpy",
+                        "--listen", "0.0.0.0:${port}",
+                        "--wait-for-client",
+                        "%CMD%"
+                    ]
+                },
+                "delay": "1000m"
+            },
+            "attach": {
+                "remote": {
+                    "container": "${container}",
+                    "pidCommand": [
+                        "pgrep", "pytest"
+                    ],
+                    "attachCommand": [
+                        "python", "-m", "debugpy", "--listen", "0.0.0.0:${port}",
+                        "--pid", "%PID%"
+                    ]
+                },
+                "delay": "1000m" 
+            }
+        }
+    },
     "configurations": {
+        "remote-launch": {
+            "adapter": "python-remote",
+            "remote-request": "launch",
+            "remote-cmdLine": [
+               "-m", "pytest", "*${args}"
+            ],
+            "configuration": {
+                "request": "attach",
+                "pathMappings": [
+                    {
+                        "localRoot": "${workspaceRoot}",
+                        "remoteRoot": "/root"
+                    }
+                ],
+                "console": "internalConsole",
+                "justMyCode": true
+            },
+            "breakpoints": {
+                "exception": {
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
+            }
+        },
+        "remote-attach": {
+            "adapter": "python-remote",
+            "remote-request": "attach",
+            "configuration": {
+                "request": "attach",
+                "pathMappings": [
+                    {
+                        "localRoot": "${workspaceRoot}",
+                        "remoteRoot": "/usr/src/app"
+                    }
+                ]
+            }
+        },
         "python - base conf": {
             "adapter": "debugpy",
             "variables": {
