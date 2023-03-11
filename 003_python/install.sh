@@ -10,7 +10,7 @@ source "$SCRIPT_DIR"/../common
 # Install Python build dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing dependencies" "installed dependencies" \
-        "brew install openssl readline sqlite3 xz zlib tcl-tk"
+        "brew install python3 openssl readline sqlite3 xz zlib tcl-tk"
 else
     run_command "installing dependencies" "installed dependencies" \
         "sudo apt-get install -y python3 python3-setuptools build-essential libssl-dev zlib1g-dev \\
