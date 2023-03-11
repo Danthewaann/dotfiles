@@ -13,6 +13,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "setting up key-repeat" "set up key-repeat" \
         "defaults write -g KeyRepeat -int 1"
+
+    run_command "installing watch" "installed watch" \
+        "brew install watch"
 else
     run_command "setting up key-repeat" "set up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30" \
