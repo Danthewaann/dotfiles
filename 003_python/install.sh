@@ -45,7 +45,7 @@ if ! pyenv global | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
     # for some reason. I also added other packages here for general use so 
     # my vim setup works when editing standalone files outside of a project.
     run_command "installing python linters and formatters" "installed python linters and formatters"\
-        "pip install flake8 black isort mypy"
+        "pip install flake8 black isort mypy ruff"
 
     run_command "installing ipython" "installed ipython"\
         "pip install ipython"
