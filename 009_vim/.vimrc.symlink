@@ -189,11 +189,16 @@ inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 " paste the clipboard contents in insert mode
 inoremap <C-P> <C-R>+
 
+" escape the provided input for a regex search
+function! Escape(input) abort
+   return escape(a:input,'/\[\]\.\(\)')
+endfunction
+
 " search for current word in window and highlight it
-nnoremap <silent><leader>f :/<C-R><C-W><CR>:set hlsearch<CR>
+nmap <silent><leader>f :/\V<C-R><C-W><CR>
 
 " search for visual selection in current file
-vnoremap <silent><leader>f y/\V<C-R>=escape(@",'/\')<CR><CR>:set hlsearch<CR>
+vmap <silent><leader>f y/\V<C-R>=@"<CR><CR>
 
 " check path to python executable
 function! GetPythonExc() abort
@@ -213,7 +218,7 @@ vnoremap <silent><expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
 function! ReplaceCurrentWord()
     let current_word = expand("<cword>")
     call inputsave()
-    let replace = escape(input('Enter replacement: ', current_word),'/\')
+    let replace = Escape(input('Enter replacement: ', current_word))
     call inputrestore()
     execute '%s/' . current_word . '/' . replace . '/g'
 endfunction
@@ -235,9 +240,9 @@ endfunction
 function! ReplaceSelection()
     let selection = GetVisualSelection()
     call inputsave()
-    let replace = escape(input('Enter replacement: ', selection),'/\[\]\')
+    let replace = Escape(input('Enter replacement: ', selection))
     call inputrestore()
-    let v = escape(selection, '/\[\]\')
+    let v = Escape(selection)
     execute '%s/' . v . '/' . replace . '/g'
 endfunction
 
@@ -623,7 +628,7 @@ function! MyDebugNearest() abort
     endif
 endfunction
 
-nnoremap <leader>dn :call MyDebugNearest()<CR>
+nnoremap <silent> <leader>dn :call MyDebugNearest()<CR>
 nnoremap <silent> <leader>tn :TestNearest<CR>
 nnoremap <silent> <leader>tf :TestFile<CR>
 nnoremap <silent> <leader>ts :TestSuite<CR>
@@ -635,6 +640,7 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 nnoremap <silent><leader>gp :G push<CR>
 nnoremap <silent><leader>gfp :G push --force<CR>
+nnoremap <silent><leader>gg :call <SID>ToggleGstatus()<CR>
 
 function! s:ToggleGstatus() abort
     for l:winnr in range(1, winnr('$'))
@@ -645,8 +651,6 @@ function! s:ToggleGstatus() abort
     endfor
     keepalt Git
 endfunction
-
-nnoremap <silent><C-g> :call <SID>ToggleGstatus()<CR>
 
 function! s:close_gstatus()
     for l:winnr in range(1, winnr('$'))
@@ -805,7 +809,7 @@ nnoremap <silent><C-F> :Files<CR>
 nnoremap <leader>F :Rg<Space>
 
 " search for visual selection in project files
-vnoremap <silent><leader>F y:Rg <C-R>=escape(@",'/\')<CR><CR>
+vnoremap <silent><leader>F y:Rg <C-R>=Escape(@")<CR><CR>
 
 " show all buffers
 nnoremap <silent><leader>b :Buffers<CR>
