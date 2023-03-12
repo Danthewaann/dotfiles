@@ -734,19 +734,28 @@ endf
 func! s:SetBreakpoint()
     let cur_line_num = line('.')
     let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
-    while cur_line['whitespace'] == 0
-        if cur_line_num == 0
-            break
-        endif
-        let cur_line_num = cur_line_num-1
-        let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
-    endwhile
 
-    " check if the next line is indented more than the current line.
-    " if it is, use the indentation level of that line
+    " check the next line first to see if it is indented more than the current line.
+    " if it is, use the indentation level of that line.
+    " otherwise go through all previous lines to get the correct indentation level.
     let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
     if strlen(cur_line['whitespace']) > 0 && next_line['whitespace'] > cur_line['whitespace']
         let cur_line['whitespace'] = next_line['whitespace']
+    else
+        while cur_line['whitespace'] == 0
+            if cur_line_num == 0
+                break
+            endif
+            let cur_line_num = cur_line_num-1
+            let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
+        endwhile
+
+        " check if the next line is indented more than the current line.
+        " if it is, use the indentation level of that line
+        let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
+        if strlen(cur_line['whitespace']) > 0 && next_line['whitespace'] > cur_line['whitespace']
+            let cur_line['whitespace'] = next_line['whitespace']
+        endif
     endif
     cal append('.', repeat(' ', cur_line['whitespace']) . 'breakpoint()')
 endf
