@@ -721,9 +721,31 @@ let g:vimspector_sign_priority = {
             \ }
 
 " Custom stuff for adding breakpoint() statements
-" From https://gist.github.com/berinhard/523420
+" Partially from https://gist.github.com/berinhard/523420
+func! s:GetLineContentAndWhitespace(line_num) 
+    let cur_line_content = getline(a:line_num)
+    let cur_line_whitespace = strlen(matchstr(cur_line_content, '^\s*'))
+    return {'content': cur_line_content, 'whitespace': cur_line_whitespace}
+endf
+
 func! s:SetBreakpoint()
-    cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'breakpoint()')
+    let cur_line_num = line('.')
+    let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
+    while cur_line['whitespace'] == 0
+        if cur_line_num == 0
+            break
+        endif
+        let cur_line_num = cur_line_num-1
+        let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
+    endwhile
+
+    " check if the next line is indented more than the current line.
+    " if it is, use the indentation level of that line
+    let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
+    if strlen(cur_line['whitespace']) > 0 && next_line['whitespace'] > cur_line['whitespace']
+        let cur_line['whitespace'] = next_line['whitespace']
+    endif
+    cal append('.', repeat(' ', cur_line['whitespace']) . 'breakpoint()')
 endf
 
 func! s:RemoveBreakpoint()
