@@ -690,6 +690,9 @@ noremap <silent> <leader>/ :Commentary<CR>
 
 " VIMSPECTOR =====================================================================================================
 
+" open vimspector settings
+command! VimspectorConfig :e ~/.vimspector.json
+
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-node-debug2', 'delve' ]
 let g:vimspector_sidebar_width = 50
 let g:vimspector_bottombar_height = 10
