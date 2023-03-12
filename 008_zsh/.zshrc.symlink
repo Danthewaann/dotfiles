@@ -193,5 +193,13 @@ function getreponame() {
 
 # Get test name of the test container for the current repo
 function gettestcontainer() {
-    docker ps | grep -w $(getreponame)-test | awk '{print $NF}'
+    reponame=$(getreponame)
+    testcontainer=$(docker ps | grep -w $reponame-test | grep _test_run | awk '{print $NF}' | head -n 1)
+
+    if [[ -z $testcontainer ]]; then
+        >&2 echo "No test container found for $reponame"
+        return 1
+    fi
+
+    echo $testcontainer
 }
