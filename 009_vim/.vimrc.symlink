@@ -832,9 +832,6 @@ augroup END
 function! s:CustomiseUI()
     let wins = g:vimspector_session_windows
 
-    " don't think I need watches for now
-    call win_execute( wins.watches, 'q' )
-
     " Enable keyboard-hover for vars and watches
     call win_gotoid( g:vimspector_session_windows.variables )
     nmap <silent><buffer> i <Plug>VimspectorBalloonEval
