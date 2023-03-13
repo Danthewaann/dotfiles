@@ -69,7 +69,6 @@ Plug 'fatih/vim-go'
 Plug 'moll/vim-bbye'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-obsession'
-Plug 'romainl/vim-cool'
 Plug 'sheerun/vim-polyglot'
 Plug 'dcrblack/tslime.vim'
 Plug 'kshenoy/vim-signature'
@@ -196,10 +195,19 @@ function! Escape(input) abort
 endfunction
 
 " search for current word in window and highlight it
-nmap <silent><leader>f :/\V<C-R><C-W><CR>
+nmap <silent><leader>f :/\V<C-R><C-W><CR>:set hlsearch<CR>
 
 " search for visual selection in current file
-vmap <silent><leader>f y/\V<C-R>=@"<CR><CR>
+vmap <silent><leader>f y/\V<C-R>=@"<CR><CR>:set hlsearch<CR>
+
+" toggle highlighting for search
+nnoremap <silent><leader>l :set hlsearch!<CR>
+
+" enable highlighting when search through matches
+nnoremap n :set hlsearch<CR>n
+nnoremap N :set hlsearch<CR>N
+nnoremap * :set hlsearch<CR>*
+nnoremap # :set hlsearch<CR>#
 
 " check path to python executable
 function! GetPythonExc() abort
@@ -819,6 +827,88 @@ augroup quickfix
     autocmd BufWritePost *.py if g:has_breakpoints == 1 && g:breakpoints_qf_open | execute 'BreakpointQuickFixList' | endif
 	autocmd QuickFixCmdPost cgetexpr cwindow
 	autocmd QuickFixCmdPost lgetexpr lwindow
+augroup END
+
+function! s:CustomiseUI()
+    let wins = g:vimspector_session_windows
+
+    " don't think I need watches for now
+    call win_execute( wins.watches, 'q' )
+
+    " Enable keyboard-hover for vars and watches
+    call win_gotoid( g:vimspector_session_windows.variables )
+    nmap <silent><buffer> i <Plug>VimspectorBalloonEval
+
+    call win_gotoid( g:vimspector_session_windows.code )
+    nmap <silent><buffer> i <Plug>VimspectorBalloonEval
+endfunction
+
+function s:SetUpTerminal()
+    if !has_key( g:vimspector_session_windows, 'terminal' )
+        " There's a neovim bug which means that this doesn't work in neovim
+        return
+    endif
+    let terminal_win = g:vimspector_session_windows.terminal
+
+    " add binds for easier navigation
+    call win_gotoid( terminal_win )
+    tnoremap <silent><buffer> <C-J> <C-W><C-J>
+    tnoremap <silent><buffer> <C-K> <C-W><C-K>
+    tnoremap <silent><buffer> <C-L> <C-W><C-L>
+    tnoremap <silent><buffer> <C-H> <C-W><C-H>
+endfunction
+
+let s:mapped = {}
+
+function! s:OnJumpToFrame() abort
+    if has_key(s:mapped, string(bufnr()))
+        return
+    endif
+
+    nmap <silent><buffer> i <Plug>VimspectorBalloonEval
+
+    let s:mapped[string(bufnr())] = {'modifiable': &modifiable}
+
+    " set filetype to python for now to get syntax highlighting
+    " when doing remote debugging via a docker container
+    setlocal filetype=python
+    setlocal nomodifiable
+endfunction
+
+function! s:OnDebugEnd() abort
+    let original_buf = bufnr()
+    let hidden = &hidden
+    augroup VimspectorSwapExists
+        au!
+        autocmd SwapExists * let v:swapchoice='o'
+    augroup END
+
+    try
+        set hidden
+        for bufnr in keys(s:mapped)
+            try
+                execute 'buffer' bufnr
+                silent! nunmap <buffer> i
+
+                let &l:modifiable = s:mapped[ bufnr ][ 'modifiable' ]
+            endtry
+        endfor
+    finally
+        execute 'noautocmd buffer' original_buf
+        let &hidden = hidden
+    endtry
+
+    au! VimspectorSwapExists
+
+    let s:mapped = {}
+endfunction
+
+augroup MyVimspectorCustomisation
+    autocmd!
+    autocmd User VimspectorUICreated call s:CustomiseUI()
+    autocmd User VimspectorTerminalOpened call s:SetUpTerminal()
+    autocmd User VimspectorJumpedToFrame call s:OnJumpToFrame()
+    autocmd User VimspectorDebugEnded ++nested call s:OnDebugEnd()
 augroup END
 
 " VIM-MARKDOWN ===================================================================================================

@@ -50,7 +50,6 @@
                         "remoteRoot": "/root"
                     }
                 ],
-                "redirectOutput": true,
                 "console": "internalConsole",
                 "justMyCode": true
             },
