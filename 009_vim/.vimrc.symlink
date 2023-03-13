@@ -834,10 +834,13 @@ function! s:CustomiseUI()
 
     " Enable keyboard-hover for vars and watches
     call win_gotoid( g:vimspector_session_windows.variables )
-    nmap <silent><buffer> i <Plug>VimspectorBalloonEval
+    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
+
+    call win_gotoid( g:vimspector_session_windows.watches )
+    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
 
     call win_gotoid( g:vimspector_session_windows.code )
-    nmap <silent><buffer> i <Plug>VimspectorBalloonEval
+    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
 endfunction
 
 function s:SetUpTerminal()
@@ -853,6 +856,9 @@ function s:SetUpTerminal()
     tnoremap <silent><buffer> <C-K> <C-W><C-K>
     tnoremap <silent><buffer> <C-L> <C-W><C-L>
     tnoremap <silent><buffer> <C-H> <C-W><C-H>
+    " swap terminal position with console position
+    " only works when I have a vertical tmux pane open
+    execute 'wincmd x'
 endfunction
 
 let s:mapped = {}
@@ -862,7 +868,7 @@ function! s:OnJumpToFrame() abort
         return
     endif
 
-    nmap <silent><buffer> i <Plug>VimspectorBalloonEval
+    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
 
     let s:mapped[string(bufnr())] = {'modifiable': &modifiable}
 
@@ -885,7 +891,7 @@ function! s:OnDebugEnd() abort
         for bufnr in keys(s:mapped)
             try
                 execute 'buffer' bufnr
-                silent! nunmap <buffer> i
+                silent! nunmap <buffer> o
 
                 let &l:modifiable = s:mapped[ bufnr ][ 'modifiable' ]
             endtry
