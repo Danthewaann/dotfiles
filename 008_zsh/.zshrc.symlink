@@ -153,7 +153,29 @@ function gitwadd() {
 }
 
 function gitprcreate() {
-    gh pr create --head $(git branch --show-current) --assignee "@me" "$@"
+    local pr_types=(python ruby go docker docs)
+    local pr_type=
+    for item in "$@"; do
+        if [[ " ${pr_types[*]} " =~ " ${item} " ]]; then
+            pr_type=$item
+        fi
+    done
+
+    if [[ -z $pr_type ]]; then
+        >&2 echo "ERROR: you need to provide a PR type as a label in (${pr_types[@]})"
+        return 1
+    fi
+
+    >&2 echo
+    local last_commit=$(git log -1 --pretty=%B)
+    >&2 echo "Using \"$last_commit\" as PR title"
+    gh pr create --head $(git branch --show-current) --assignee "@me" --title "$last_commit" "$@" || return $?
+    local url=$(gh pr view --json url --jq .url)
+
+    >&2 echo "The below has been copied to your clipboard! 📋\n"
+    local output=$(printf "%s\n:point_up: :%s: %s\n" $url $pr_type $last_commit)
+    echo $output
+    echo $output | pbcopy
 }
 
 # From https://github.com/tpope/vim-obsession/issues/11
