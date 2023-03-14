@@ -113,6 +113,7 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set scrolloff=5 
+set hlsearch
 
 if system('uname -s') == "Darwin\n"
     set clipboard=unnamed
@@ -392,7 +393,7 @@ colorscheme onedark
 
 " vertical navigation
 nnoremap <C-D> <C-D>zz
-nnoremap <C-J> <C-J>zz
+nnoremap <C-U> <C-U>zz
 nnoremap gg ggzz
 nnoremap G Gzz
 nnoremap { {zz
@@ -542,7 +543,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)zz
 nmap <silent> gd <Plug>(coc-definition)zz
 nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>zz
 nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>zz
-nmap <silent> gv :call CocAction('jumpDefinition', 'vsplit')<CR>zz
+nmap <silent> gh :call CocAction('jumpDefinition', 'vsplit')<CR>zz
 nmap <silent> gy <Plug>(coc-type-definition)zz
 nmap <silent> gr <Plug>(coc-references)
 
