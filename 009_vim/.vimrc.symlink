@@ -882,7 +882,6 @@ function! s:OnJumpToFrame() abort
     " set filetype to python for now to get syntax highlighting
     " when doing remote debugging via a docker container
     setlocal filetype=python
-    setlocal nomodifiable
 endfunction
 
 function! s:OnDebugEnd() abort
