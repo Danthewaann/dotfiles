@@ -928,22 +928,22 @@ nnoremap <silent><leader>dab :BufOnly<CR>
 " VIM-FZF ========================================================================================================
 
 " open up a fzf files window
-nnoremap <silent><C-F> :Files<CR>
+nnoremap <silent><C-F> :Files!<CR>
 
 " search in all project files
-nnoremap <leader>F :Rg<Space>
+nnoremap <leader>F :Rg!<Space>
 
 " search for visual selection in project files
-vnoremap <silent><leader>F y:Rg <C-R>=Escape(@")<CR><CR>
+vnoremap <silent><leader>F y:Rg! <C-R>=Escape(@")<CR><CR>
 
 " show all buffers
-nnoremap <silent><leader>b :Buffers<CR>
+nnoremap <silent><leader>b :Buffers!<CR>
 
 " show changed files
-nnoremap <silent><leader>gs :GFiles?<CR>
+nnoremap <silent><leader>gs :GFiles!?<CR>
 
 " show commits
-nnoremap <leader>gl :Commits<CR>
+nnoremap <leader>gl :Commits!<CR>
 
 " use colours from the current colour scheme
 let g:fzf_colors = {
