@@ -75,6 +75,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'pixelneo/vim-python-docstring'
 Plug 'pechorin/any-jump.vim'
 Plug 'dhruvasagar/vim-buffer-history'
+Plug 'romainl/vim-cool'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -130,8 +131,6 @@ set ttyfast
 
 set textwidth=0
 set wrapmargin=0
-set incsearch
-set hlsearch
 
 " Make backspaces more powerful
 set backspace=indent,eol,start
@@ -199,15 +198,6 @@ nmap <silent><leader>f :/\V<C-R><C-W><CR>:set hlsearch<CR>
 
 " search for visual selection in current file
 vmap <silent><leader>f y/\V<C-R>=@"<CR><CR>:set hlsearch<CR>
-
-" toggle highlighting for search
-nnoremap <silent><leader>l :set hlsearch!<CR>
-
-" enable highlighting when search through matches
-nnoremap n :set hlsearch<CR>n
-nnoremap N :set hlsearch<CR>N
-nnoremap * :set hlsearch<CR>*
-nnoremap # :set hlsearch<CR>#
 
 " check path to python executable
 function! GetPythonExc() abort
