@@ -857,6 +857,19 @@ function s:SetUpTerminal()
     " swap terminal position with console position
     " only works when I have a vertical tmux pane open
     execute 'wincmd x'
+
+    let console_win = g:vimspector_session_windows.output
+    call win_gotoid( console_win )
+    inoremap <silent><buffer> <C-J> <C-W>j
+    inoremap <silent><buffer> <C-K> <C-W>k
+    inoremap <silent><buffer> <C-L> <C-W>l
+    inoremap <silent><buffer> <C-H> <C-W>h
+    inoremap <silent><buffer> <F5> <C-O>:call vimspector#Continue()<CR>
+    inoremap <silent><buffer> <F10> <C-O>:call vimspector#StepOver()<CR>
+    inoremap <silent><buffer> <F11> <C-O>:call vimspector#StepInto()<CR>
+    inoremap <silent><buffer> <F12> <C-O>:call vimspector#StepOut()<CR>
+    setlocal scrolloff=0
+    setlocal modifiable
 endfunction
 
 let s:mapped = {}
@@ -910,6 +923,51 @@ augroup MyVimspectorCustomisation
     autocmd User VimspectorJumpedToFrame call s:OnJumpToFrame()
     autocmd User VimspectorDebugEnded ++nested call s:OnDebugEnd()
 augroup END
+
+" allow for command history in VimspectorPrompt
+" from https://github.com/puremourning/vimspector/issues/52#issuecomment-699027787
+augroup vimspector_command_history
+    autocmd!
+    autocmd FileType VimspectorPrompt call InitializeVimspectorCommandHistory()
+augroup end
+
+function! InitializeVimspectorCommandHistory()
+    if !exists('b:vimspector_command_history')
+        inoremap <silent> <buffer> <CR> <C-o>:call VimspectorCommandHistoryAdd()<CR>
+        inoremap <silent> <buffer> <Up> <C-o>:call VimspectorCommandHistoryUp()<CR>
+        inoremap <silent> <buffer> <Down> <C-o>:call VimspectorCommandHistoryDown()<CR>
+        inoremap <silent> <buffer> <C-c> <C-c>dd:startinsert<CR>
+        let b:vimspector_command_history = []
+        let b:vimspector_command_history_pos = 0
+    endif
+endfunction
+
+function! VimspectorCommandHistoryAdd()
+    let line = trim(getline('.'))
+    if line != '>'
+        call add(b:vimspector_command_history, line)
+        let b:vimspector_command_history_pos = len(b:vimspector_command_history)
+    endif
+    call feedkeys("\<CR>i", 'tn')
+endfunction
+
+function! VimspectorCommandHistoryUp()
+    if len(b:vimspector_command_history) == 0 || b:vimspector_command_history_pos == 0
+        return
+    endif
+    call setline('.', b:vimspector_command_history[b:vimspector_command_history_pos - 1])
+    call feedkeys("\<C-o>A", 'tn')
+    let b:vimspector_command_history_pos = b:vimspector_command_history_pos - 1
+endfunction
+
+function! VimspectorCommandHistoryDown()
+    if b:vimspector_command_history_pos == len(b:vimspector_command_history)
+        return
+    endif
+    call setline('.', b:vimspector_command_history[b:vimspector_command_history_pos - 1])
+    call feedkeys("\<C-o>A", 'tn')
+    let b:vimspector_command_history_pos = b:vimspector_command_history_pos + 1
+endfunction
 
 " VIM-MARKDOWN ===================================================================================================
 
