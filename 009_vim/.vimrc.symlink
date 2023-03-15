@@ -220,7 +220,7 @@ function! ReplaceCurrentWord()
     call inputsave()
     let replace = Escape(input('Enter replacement: ', current_word))
     call inputrestore()
-    execute '%s/' . current_word . '/' . replace . '/g'
+    execute '%s/\V' . current_word . '/' . replace . '/g'
 endfunction
 
 function! GetVisualSelection()
@@ -240,10 +240,9 @@ endfunction
 function! ReplaceSelection()
     let selection = GetVisualSelection()
     call inputsave()
-    let replace = Escape(input('Enter replacement: ', selection))
+    let replace = input('Enter replacement: ', selection)
     call inputrestore()
-    let v = Escape(selection)
-    execute '%s/' . v . '/' . replace . '/g'
+    execute '%s/\V' . selection . '/' . replace . '/g'
 endfunction
 
 " replace current word in current file
