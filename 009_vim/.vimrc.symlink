@@ -114,6 +114,7 @@ set shiftwidth=4
 set expandtab
 set scrolloff=5 
 set hlsearch
+set incsearch
 
 if system('uname -s') == "Darwin\n"
     set clipboard=unnamed
@@ -195,7 +196,7 @@ function! Escape(input) abort
 endfunction
 
 " search for current word in window and highlight it
-nmap <silent><leader>f :/\V<C-R><C-W><CR>:set hlsearch<CR>
+nmap <silent><leader>f viw<leader>f
 
 " search for visual selection in current file
 vmap <silent><leader>f y/\V<C-R>=@"<CR><CR>:set hlsearch<CR>
