@@ -11,6 +11,7 @@
     "diagnostic.level": "error",
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
+    "diagnostic.autoRefresh": true,
     "pyright.testing.provider": "pytest",
     "pyright.organizeimports.provider": "isort",
     "pyright.inlayHints.variableTypes": false,
