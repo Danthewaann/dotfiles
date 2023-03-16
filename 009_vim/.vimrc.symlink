@@ -214,7 +214,8 @@ endfunction
 nmap <silent><leader>f viw<leader>f
 
 " search for visual selection in current file
-vmap <silent><leader>f y/\V<C-R>=@"<CR><CR>:set hlsearch<CR>
+" yanks to the k register so we don't override the 0 register (or clipboard)
+vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>:set hlsearch<CR>
 
 " check path to python executable
 function! GetPythonExc() abort
