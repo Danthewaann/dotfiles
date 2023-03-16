@@ -217,7 +217,12 @@ function getreponame() {
 
 # Get test name of the test container for the current repo
 function gettestcontainer() {
-    reponame=$(getreponame)
+    if [[ -f .env ]]; then
+        reponame=$(grep -i "compose_project_name" .env | awk -F'=' '{print $2}')
+    else
+        reponame=$(getreponame)
+    fi
+
     testcontainer=$(docker ps | grep $reponame | grep _test_run | awk '{print $NF}' | head -n 1)
 
     if [[ -z $testcontainer ]]; then
