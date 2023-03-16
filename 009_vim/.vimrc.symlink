@@ -286,6 +286,8 @@ function! ClearWindows() abort
     execute 'pclose'
     execute 'NERDTreeClose'
     call s:close_gstatus()
+    " TODO: Need a better fix for this if I quit the quickfix window directly
+    let g:breakpoints_qf_open = 0
 endfunction
 
 nnoremap <silent><leader>c :call ClearWindows()<CR>
