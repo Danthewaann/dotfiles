@@ -104,7 +104,8 @@ set history=10000
 set splitbelow
 set splitright
 set encoding=utf-8
-set rnu nu
+set relativenumber
+set number
 let mapleader = " " " map leader to Space
 
 set mouse=a
@@ -115,6 +116,9 @@ set expandtab
 set scrolloff=5 
 set hlsearch
 set incsearch
+
+" set spell checking for markdown files
+autocmd FileType markdown setlocal spell spelllang=en_us,en_gb
 
 if system('uname -s') == "Darwin\n"
     set clipboard=unnamed
@@ -145,8 +149,8 @@ set t_Co=256
 set hidden
 
 " Highlight the current line when in insert mode.
-autocmd InsertEnter * set cul
-autocmd InsertLeave * set nocul
+autocmd InsertEnter * set cursorline
+autocmd InsertLeave * set nocursorline
 
 " Jump to last position when reopening a file
 if has("autocmd")
