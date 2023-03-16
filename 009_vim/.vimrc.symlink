@@ -1058,8 +1058,8 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 let g:airline#extensions#branch#enabled = 0
 
 " truncate the branch name
-let g:airline#extensions#branch#format = 1
-let g:airline#extensions#branch#displayed_head_limit = 10
+let g:airline#extensions#branch#format = 0
+let g:airline#extensions#branch#displayed_head_limit = 999
 
 " From https://www.reddit.com/r/vim/comments/crs61u/best_airline_settings/
 let g:airline#extensions#tabline#enabled = 1
