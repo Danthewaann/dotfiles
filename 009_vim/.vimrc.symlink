@@ -480,8 +480,17 @@ let NERDTreeMapJumpNextSibling=""
 " Set NERDTree window size
 let g:NERDTreeWinSize=35
 
-" open NERDTree
-nnoremap <silent> <leader>nn :NERDTree<CR>
+" open or refresh NERDTree
+function! OpenOrRefreshNERDTree() abort
+    let bnr = bufwinnr('NERD_tree_*')
+    if bnr > 0
+        execute 'silent NERDTreeRefreshRoot'
+    else
+        execute 'NERDTree'
+    endif
+endfunction
+
+nnoremap <silent> <leader>nn :call OpenOrRefreshNERDTree()<CR>
 
 " close NERDTree
 nnoremap <silent> <leader>nc :NERDTreeClose<CR>
