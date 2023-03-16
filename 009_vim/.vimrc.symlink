@@ -927,14 +927,13 @@ function s:SetUpTerminal()
     tnoremap <silent><buffer> <C-L> <C-W><C-L>
     tnoremap <silent><buffer> <C-H> <C-W><C-H>
 
-    resize-5
     " swap terminal position with console position
     " only works when I have a vertical tmux pane open
     if g:moved_terminal != 1
+        resize-5
         execute 'wincmd x'
         let g:moved_terminal = 1
     endif
-
 endfunction
 
 let s:mapped = {}
