@@ -532,10 +532,12 @@ function! s:save(error, result) abort
 endfunction
 
 function! s:format(error, result) abort
+    echo "Formatting..."
     call CocActionAsync('format', function("s:save"))
 endfunction
 
 function! SortFormatAndSave() abort
+    echo "Sorting..."
     call CocActionAsync('runCommand', 'editor.action.organizeImport', function("s:format"))
 endfunction
 
