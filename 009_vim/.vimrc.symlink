@@ -297,13 +297,11 @@ tmap <C-X> <C-W>N
 
 " close the quicklist, git and NERDTree windows
 function! ClearWindows() abort
-    execute 'ccl'
+    call s:close_gstatus()
+    call QuitQF()
     execute 'lcl'
     execute 'pclose'
     execute 'NERDTreeClose'
-    call s:close_gstatus()
-    " TODO: Need a better fix for this if I quit the quickfix window directly
-    let g:breakpoints_qf_open = 0
 endfunction
 
 nnoremap <silent><leader>c :call ClearWindows()<CR>
@@ -465,8 +463,8 @@ function ScrollPopUp(down)
     return 1
 endfunction
 
-nnoremap <expr> <c-d> ScrollPopUp(1) ? '<esc>' : '<c-d>zz'
-nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>zz'
+nnoremap <expr> <c-d> ScrollPopUp(1) ? '<esc>' : '<c-d>'
+nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>'
 
 " NERDTREE ===================================================================================================
 
@@ -870,13 +868,19 @@ function! BreakpointQuickFixList()
     return breakpoints
 endfunction
 
-command! -nargs=0 BreakpointQuickFixList cgetexpr BreakpointQuickFixList()
+command! -nargs=0 BreakpointQuickFixList cgetexpr BreakpointQuickFixList() | call setqflist([], 'a', {'title': 'PythonBreakpoints'})
+
+function QuitQF()
+    let g:breakpoints_qf_open = 0
+    execute 'ccl'
+endfunction
 
 augroup quickfix
 	autocmd!
-    autocmd BufWritePost *.py if g:has_breakpoints == 1 && g:breakpoints_qf_open | execute 'BreakpointQuickFixList' | endif
+    autocmd BufWritePost *.py if g:has_breakpoints && g:breakpoints_qf_open | execute 'BreakpointQuickFixList' | endif
 	autocmd QuickFixCmdPost cgetexpr cwindow
 	autocmd QuickFixCmdPost lgetexpr lwindow
+    autocmd FileType qf noremap <silent><buffer> <C-q> :call QuitQF()<CR>
 augroup END
 
 function! s:CustomiseUI()
