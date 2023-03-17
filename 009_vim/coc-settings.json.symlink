@@ -12,7 +12,7 @@
     "suggest.virtualText": true,
     "suggest.insertMode": "insert",
     "diagnostic.virtualText": true,
-    "diagnostic.level": "error",
+    "diagnostic.level": "warning",
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
     "diagnostic.autoRefresh": true,
