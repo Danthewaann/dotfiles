@@ -1055,6 +1055,11 @@ nnoremap <silent><leader>dab :BufOnly<CR>
 
 " VIM-FZF ========================================================================================================
 
+" override Rg command to also search hidden files
+command! -bang -nargs=* Rg call
+            \ fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>),
+            \ 1, fzf#vim#with_preview(), <bang>0)
+
 " open up a fzf files window
 nnoremap <silent><C-F> :Files!<CR>
 
