@@ -302,6 +302,7 @@ function! ClearWindows() abort
     execute 'lcl'
     execute 'pclose'
     execute 'NERDTreeClose'
+    execute 'helpclose'
 endfunction
 
 nnoremap <silent><leader>c :call ClearWindows()<CR>
@@ -900,12 +901,7 @@ function! s:CustomiseUI()
     call win_gotoid( g:vimspector_session_windows.code )
     nmap <silent><buffer> o <Plug>VimspectorBalloonEval
 
-    if !has_key( g:vimspector_session_windows, 'output' )
-        " There's a neovim bug which means that this doesn't work in neovim
-        return
-    endif
     let console_win = g:vimspector_session_windows.output
-
     call win_gotoid( console_win )
     inoremap <silent><buffer> <C-J> <C-W>j
     inoremap <silent><buffer> <C-K> <C-W>k
