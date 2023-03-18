@@ -1062,7 +1062,7 @@ nnoremap <silent><C-F> :Files!<CR>
 nnoremap <leader>F :Rg!<Space>
 
 " search for visual selection in project files
-vnoremap <silent><leader>F y:Rg! <C-R>=Escape(@")<CR><CR>
+vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 
 " show all buffers
 nnoremap <silent><leader>b :Buffers!<CR>
