@@ -135,8 +135,13 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Set theme for bat
 export BAT_THEME="TwoDark"
 
-# Setup fzf to use ripgrep for search and to use ~/.gitignore
-export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.gitignore --ignore-file .gitignore --glob ""'
+# Setup fzf to use ripgrep for search
+export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --no-ignore '\
+'--glob "" '\
+'--glob "!*.pyc" '\
+'--glob "!.venv/**" '\
+'--glob "!.mypy_cache/**" '\
+'--glob "!.pytest_cache/**"'
 
 # Some aliases
 alias ll='ls -alF'
