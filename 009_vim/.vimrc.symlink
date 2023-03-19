@@ -217,6 +217,12 @@ nmap <silent><leader>f viw<leader>f
 " yanks to the k register so we don't override the 0 register (or clipboard)
 vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>:set hlsearch<CR>
 
+" center screen after moving through matches
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+
 " check path to python executable
 function! GetPythonExc() abort
     if !empty(glob('.venv/bin/ipython')) && !isdirectory('.venv/bin/ipython')
