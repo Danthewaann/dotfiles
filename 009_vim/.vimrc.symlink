@@ -124,7 +124,7 @@ set maxmempattern=2000000
 " set spell checking for markdown files
 augroup spell_checking
     autocmd!
-    autocmd FileType markdown.gitcommit setlocal spell spelllang=en_us,en_gb
+    autocmd FileType markdown,gitcommit setlocal spell spelllang=en_us,en_gb
 augroup END
 
 if system('uname -s') == "Darwin\n"
