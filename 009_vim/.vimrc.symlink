@@ -945,17 +945,21 @@ endfunction
 let s:mapped = {}
 
 function! s:OnJumpToFrame() abort
-    if has_key(s:mapped, string(bufnr()))
+    let buf_nr = bufnr()
+    let file_extension = expand('%:e')
+    " set filetype to python for now to get syntax highlighting
+    " when doing remote debugging via a docker container
+    if file_extension == "py"
+        setlocal filetype=python
+    endif
+
+    if has_key(s:mapped, string(buf_nr))
         return
     endif
 
     nmap <silent><buffer> o <Plug>VimspectorBalloonEval
 
-    let s:mapped[string(bufnr())] = {'modifiable': &modifiable}
-
-    " set filetype to python for now to get syntax highlighting
-    " when doing remote debugging via a docker container
-    setlocal filetype=python
+    let s:mapped[string(buf_nr)] = {'modifiable': &modifiable}
 endfunction
 
 function! s:OnDebugEnd() abort
