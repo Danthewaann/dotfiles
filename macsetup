@@ -21,6 +21,10 @@ if [[ $OSTYPE == "darwin"* ]]; then
         run_command "deleting $HOME/.zshrc" "deleted $HOME/.zshrc" \
             "rm -f $HOME/.zshrc"
     fi
+
+    info "installing rosetta"
+    /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+    success "installed rosetta"
 else
     fail "this script can only be run on macos"
 fi
