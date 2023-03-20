@@ -25,13 +25,15 @@ else
         "gsettings set org.gnome.desktop.peripherals.keyboard delay 150"
 fi
 
-if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
+ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+
+if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autosuggestions ]]; then
     run_command "installing zsh-autosuggestions" "installed zsh-autosuggestions" \
-        "git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        "git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
 
-if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
+if [[ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]]; then
     run_command "installing zsh-syntax-highlighting" "installed zsh-syntax-highlighting" \
-        "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 
