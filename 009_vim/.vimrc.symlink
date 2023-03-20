@@ -215,7 +215,7 @@ nmap <silent><leader>f viw<leader>f
 
 " search for visual selection in current file
 " yanks to the k register so we don't override the 0 register (or clipboard)
-vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>:set hlsearch<CR>
+vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
 
 " center screen after moving through matches
 nnoremap n nzz
