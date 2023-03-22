@@ -721,6 +721,23 @@ endfunction
 
 command! GstatusClose :silent call s:close_gstatus()
 
+function! GetTicketNumber() abort
+    return trim(system('git branch --show-current | grep -Eo "sc-[0-9]+" | grep -Eo "\d+"'))
+endfunction
+
+function! ReplaceTicketNumberInPRFile() abort
+    let ticket_number = GetTicketNumber()
+    if empty(ticket_number)
+        echohl WarningMsg
+        echo "No ticketnumber found for current branch"
+        echohl None
+    else
+        execute '%s/TICKET_NUMBER/' . ticket_number . '/g'
+    endif
+endfunction
+
+command! ReplaceTicketNumberInPRFile :silent call ReplaceTicketNumberInPRFile()
+
 " VIM-GITGUTTER ==================================================================================================
 
 let g:gitgutter_sign_allow_clobber = 1
