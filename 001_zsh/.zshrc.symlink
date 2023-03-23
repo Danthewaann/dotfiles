@@ -232,3 +232,16 @@ function gettestcontainer() {
 
     echo $testcontainer
 }
+
+# Get the ticketnumber for the current repo branch
+function getticketnumber() {
+    currentbranch=$(git branch --show-current )
+    ticketnumber=$(echo $currentbranch | grep -Eo "sc-[0-9]+" | grep -Eo "\d+")
+
+    if [[ -z $ticketnumber ]]; then
+        >&2 echo "ERROR: No ticketnumber found for $currentbranch"
+        return 1
+    fi
+
+    echo $ticketnumber
+}
