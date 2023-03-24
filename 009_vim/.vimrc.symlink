@@ -653,24 +653,8 @@ nnoremap <silent><nowait> <leader>S  :call CocSearchForSelectionInWorkspace()<cr
 " nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 " nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
-
-function! ToggleDiagnostics() abort
-    echo "Toggling diagnostics..."
-    call CocAction('diagnosticToggle')
-    sleep 200m
-    call feedkeys(':','nx')
-endfunction
-
-nnoremap <silent><nowait> <leader>k  :call ToggleDiagnostics()<CR>
-
-function! RefreshDiagnostics() abort
-    echo "Refreshing diagnostics..."
-    call CocAction('diagnosticRefresh')
-    sleep 200m
-    call feedkeys(':','nx')
-endfunction
-
-nnoremap <silent><nowait> <leader>l  :call RefreshDiagnostics()<CR>
+nnoremap <silent><nowait> <leader>k  :call CocAction('diagnosticToggle')<CR>
+nnoremap <silent><nowait> <leader>l  :call CocAction('diagnosticRefresh')<CR>
 
 " CTRL-P ===================================================================================================
 
