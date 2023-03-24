@@ -4,6 +4,7 @@
     "python.formatting.blackPath": "black",
     "python.sortImports.path": "isort",
     "python.linting.enabled": true,
+    "pyright.disableDiagnostics": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
     "python.analysis.diagnosticMode": "workspace",
@@ -11,12 +12,11 @@
     "python.analysis.typeCheckingMode": "basic",
     "suggest.virtualText": true,
     "suggest.insertMode": "insert",
+    "diagnostic.level": "hint",
+    "diagnostic.autoRefresh": false,
     "diagnostic.virtualText": true,
-    "diagnostic.level": "warning",
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
-    "diagnostic.autoRefresh": true,
-    "diagnostic.refreshOnInsertMode": true,
     "pyright.testing.provider": "pytest",
     "pyright.organizeimports.provider": "isort",
     "pyright.inlayHints.variableTypes": false,
@@ -38,8 +38,8 @@
             }
         }
     },
-    "coc.preferences.formatOnSaveTimeout": 2000,
-    "coc.preferences.willSaveHandlerTimeout": 2000,
+    "coc.preferences.formatOnSaveTimeout": 5000,
+    "coc.preferences.willSaveHandlerTimeout": 5000,
     "[python][javascript][typescript][typescriptreact]": {
         "coc.preferences.formatOnSave": false
     },
