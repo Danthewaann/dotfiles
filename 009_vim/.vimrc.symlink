@@ -704,6 +704,12 @@ endfunction
 function! MyDebugNearest() abort
     let position = MyGetPosition(expand("%"))
     let runner = test#determine_runner(position['file'])
+    if runner == 0
+        echohl WarningMsg
+        echo "Not a test file"
+        echohl None
+        return
+    endif
     let lang = split(runner, '#')[0]
     let build_args = test#{runner}#build_position("nearest", position)
     if lang == 'go'
