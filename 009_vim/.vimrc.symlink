@@ -701,7 +701,7 @@ endfunction
 function! MyDebugNearest() abort
     let position = MyGetPosition(expand("%"))
     let runner = test#determine_runner(position['file'])
-    if runner == 0
+    if empty(runner)
         echohl WarningMsg
         echo "Not a test file"
         echohl None
