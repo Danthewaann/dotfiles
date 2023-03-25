@@ -205,6 +205,20 @@ inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 " paste the clipboard contents in insert mode
 inoremap <C-P> <C-R>+
 
+" inspired from https://vi.stackexchange.com/questions/3951/deleting-in-vim-and-then-pasting-without-new-line
+function! PasteInLine(before = v:true) abort
+    let line = trim(getreg('"'))
+    let mode = "a"
+    if a:before
+        let mode = "i"
+    endif
+    execute "normal! " . mode . line . "\<Esc>"
+endfunction
+
+" Paste yanked line without line breaks before/after cursor position
+nnoremap <silent> gP :call PasteInLine()<CR>
+nnoremap <silent> gp :call PasteInLine(v:false)<CR>
+
 " escape the provided input for a regex search
 function! Escape(input) abort
    return escape(a:input,'/\[\]\.\(\)')
@@ -1008,12 +1022,12 @@ let s:mapped = {}
 
 function! s:OnJumpToFrame() abort
     let buf_nr = bufnr()
-    let file_extension = expand('%:e')
-    " set filetype to python for now to get syntax highlighting
-    " when doing remote debugging via a docker container
-    if file_extension == "py"
-        setlocal filetype=python
-    endif
+    " let file_extension = expand('%:e')
+    " " set filetype to python for now to get syntax highlighting
+    " " when doing remote debugging via a docker container
+    " if file_extension == "py"
+    "     setlocal filetype=python
+    " endif
 
     if has_key(s:mapped, string(buf_nr))
         return
