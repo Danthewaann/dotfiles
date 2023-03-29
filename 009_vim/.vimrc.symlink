@@ -77,6 +77,8 @@ Plug 'pechorin/any-jump.vim'
 Plug 'dhruvasagar/vim-buffer-history'
 Plug 'romainl/vim-cool'
 Plug 'gcmt/taboo.vim'
+Plug 'Konfekt/FastFold'
+Plug 'tmhedberg/SimpylFold'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -144,6 +146,8 @@ set ttyfast
 
 set textwidth=0
 set wrapmargin=0
+set foldmethod=indent
+set nofoldenable
 
 " Make backspaces more powerful
 set backspace=indent,eol,start
@@ -236,6 +240,9 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
+
+" toggle folding
+nnoremap <leader>z zi
 
 " check path to python executable
 function! GetPythonExc() abort
