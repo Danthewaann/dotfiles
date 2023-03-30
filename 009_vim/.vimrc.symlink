@@ -755,6 +755,8 @@ function! s:ToggleGstatus() abort
         endif
     endfor
     keepalt Git
+    " Make the Git window smaller
+    resize-15
 endfunction
 
 function! s:close_gstatus()
