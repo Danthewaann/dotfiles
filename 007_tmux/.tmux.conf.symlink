@@ -69,7 +69,7 @@ set -g base-index 1
 # Set easier window split keys
 bind \" split-window -v -c "#{pane_current_path}"
 bind % split-window -h -c "#{pane_current_path}"
-bind v split-window -h -c "#{pane_current_path}" -p 30
+bind v split-window -h -c "#{pane_current_path}" -p 35
 bind h split-window -v -c "#{pane_current_path}" -p 25
 
 # Make sure new windows open using dir that tmux was launched in
