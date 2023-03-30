@@ -745,7 +745,7 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 nnoremap <silent><leader>gp :G push<CR>
 nnoremap <silent><leader>gfp :G push --force<CR>
-nnoremap <silent><leader>gg :call <SID>ToggleGstatus()<CR>
+nnoremap <silent><leader>gs :call <SID>ToggleGstatus()<CR>
 
 function! s:ToggleGstatus() abort
     for l:winnr in range(1, winnr('$'))
@@ -1149,7 +1149,7 @@ vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 nnoremap <silent><leader>b :Buffers!<CR>
 
 " show changed files
-nnoremap <silent><leader>gs :GFiles!?<CR>
+nnoremap <silent><leader>gf :GFiles!?<CR>
 
 " show commits
 nnoremap <leader>gl :Commits!<CR>
