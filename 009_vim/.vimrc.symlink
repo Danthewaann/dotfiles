@@ -1128,8 +1128,28 @@ nnoremap <silent><leader>db :Bdelete<CR>
 
 " Delete all buffers except the current one
 " From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
-command! BufOnly silent! execute "%bd|e#|bd#"
-nnoremap <silent><leader>dab :BufOnly<CR>
+" command! BufOnly silent! execute "%bd|e#|bd#"
+" nnoremap <silent><leader>dab :BufOnly<CR>
+
+" Delete all(saved) but visible buffers
+" From https://vi.stackexchange.com/a/27106
+func! Delete_buffers()
+    " all visible buffers in all tabs
+    let buflist = []
+    for i in range(tabpagenr('$'))
+        call extend(buflist, tabpagebuflist(i + 1))
+    endfor
+
+    " all existing buffers
+    for bnr in range(1, bufnr("$"))
+        if index(buflist, bnr) == -1 && buflisted(bnr)
+            exe 'bd ' . bnr
+        endif
+    endfor
+endfunc
+
+" kill-all but visible buffers
+nnoremap <silent> <leader>dab :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
 
 " VIM-FZF ========================================================================================================
 
