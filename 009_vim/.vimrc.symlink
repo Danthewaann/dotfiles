@@ -555,13 +555,7 @@ augroup END
 " Disable transparent cursor
 let g:coc_disable_transparent_cursor = 1
 
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :silent call CocActionAsync('format')
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR :silent call CocActionAsync('runCommand', 'editor.action.organizeImport')
-
-function! s:save(error, result) abort
+function! Save(error = v:null, result = v:null) abort
     if a:error == v:null
         execute "w"
     else
@@ -571,10 +565,9 @@ function! s:save(error, result) abort
     endif
 endfunction
 
-function! s:format(error, result) abort
+function! Format(error = v:null, result = v:null, callback = "Save") abort
     if a:error == v:null
-        echo "Formatting..."
-        call CocActionAsync('format', function("s:save"))
+        call CocActionAsync('format', function(a:callback))
     else
         echohl WarningMsg
         echo a:error
@@ -582,13 +575,24 @@ function! s:format(error, result) abort
     endif
 endfunction
 
-function! SortFormatAndSave() abort
-    echo "Sorting..."
-    call CocActionAsync('runCommand', 'editor.action.organizeImport', function("s:format"))
+function! Sort(error = v:null, result = v:null, callback = "Save") abort
+    if a:error == v:null
+        call CocActionAsync('runCommand', 'editor.action.organizeImport', function(a:callback))
+    else
+        echohl WarningMsg
+        echo a:error
+        echohl None
+    endif
 endfunction
 
-" sort imports, format and save the current file
-nnoremap <silent><leader>o :call SortFormatAndSave()<CR>
+" use `:O` to organize imports of current buffer
+command! -nargs=0 O :call Sort()
+
+" Add `:F` command to format current buffer
+command! -nargs=0 F :call Format()
+
+" use `:OF` to organize imports and format current buffer
+command! -nargs=0 OF :call Sort(v:null, v:null, "Format")
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: There's always complete item selected by default, you may want to enable
