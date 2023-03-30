@@ -467,19 +467,6 @@ nnoremap <silent><C-n> :tabnext<CR>
 tnoremap <silent><C-b> <C-W>:tabprevious<CR>
 tnoremap <silent><C-n> <C-W>:tabnext<CR>
 
-" Go to tab by number
-" From https://superuser.com/a/675119
-noremap <silent><leader>1 :tabn1<CR>
-noremap <silent><leader>2 :tabn2<CR>
-noremap <silent><leader>3 :tabn3<CR>
-noremap <silent><leader>4 :tabn4<CR>
-noremap <silent><leader>5 :tabn5<CR>
-noremap <silent><leader>6 :tabn6<CR>
-noremap <silent><leader>7 :tabn7<CR>
-noremap <silent><leader>8 :tabn8<CR>
-noremap <silent><leader>9 :tabn9<CR>
-noremap <silent><leader>0 :tablast<CR>
-
 " Allow scrolling up and down in a popup (such as function docstring in Python)
 " From https://github.com/neoclide/coc.nvim/issues/1405#issuecomment-570062098
 function FindCursorPopUp()
@@ -1208,8 +1195,8 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 " VIM-AIRLINE =====================================================================================================
 
 let g:taboo_tabline = 0
-let g:taboo_tab_format = "%N %r"
-let g:airline#extensions#taboo#enabled = 1
+let g:taboo_tab_format = "%N %f"
+let g:airline#extensions#taboo#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 
 " truncate the branch name
@@ -1223,11 +1210,28 @@ let g:airline#extensions#tabline#tabs_label = ''       " can put text here like 
 let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)
 let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right
 " let g:airline#extensions#tabline#fnamemod = ':t'       " disable file paths in the tab
+let g:airline#extensions#tabline#formatter = 'short_path'
 let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline
 let g:airline#extensions#tabline#tab_min_count = 2     " minimum of 2 tabs needed to display the tabline
 let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline
-let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers
+let g:airline#extensions#tabline#show_tab_nr = 2       " disable tab numbers
+let g:airline#extensions#tabline#tab_nr_type = 1       " show number for each tab
 let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird orange arrow on the tabline
+
+" Go to tab by number
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>0 <Plug>AirlineSelectTab0
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>= <Plug>AirlineSelectNextTab
 
 " VIM-ANY-JUMP ====================================================================================================
 
