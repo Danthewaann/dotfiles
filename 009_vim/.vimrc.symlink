@@ -538,11 +538,11 @@ let NERDTreeIgnore = ['\.pyc$', '\~$']
 " show hidden files
 let NERDTreeShowHidden = 1
 
-" Center the NERDTree buffer when entering it and refresh it
+" Center the NERDTree buffer when entering it
 " From https://vi.stackexchange.com/questions/20619/nerdtree-maximize-on-enter
 augroup center_nerd_tree
     autocmd!
-    autocmd BufEnter NERD_tree_* execute 'silent NERDTreeRefreshRoot' | normal zz
+    autocmd BufEnter NERD_tree_* normal zz
 augroup END
 
 " Start NERDTree when Vim starts with a directory argument.
