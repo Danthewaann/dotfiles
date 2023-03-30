@@ -300,9 +300,6 @@ tnoremap <C-P> <C-W>"+
 " exit the current window
 nnoremap <silent><C-Q> :q<CR>
 
-" exit vim completely
-nnoremap <silent><leader>qa :qa!<CR>
-
 " Treat Ctrl+C exactly like <Escape>.
 imap <C-C> <Esc>
 
