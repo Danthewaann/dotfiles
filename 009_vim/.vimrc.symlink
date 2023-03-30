@@ -73,7 +73,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'dcrblack/tslime.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'pixelneo/vim-python-docstring'
-Plug 'pechorin/any-jump.vim'
 Plug 'dhruvasagar/vim-buffer-history'
 Plug 'romainl/vim-cool'
 Plug 'gcmt/taboo.vim'
@@ -1234,14 +1233,6 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>0 <Plug>AirlineSelectTab0
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>= <Plug>AirlineSelectNextTab
-
-" VIM-ANY-JUMP ====================================================================================================
-
-" Prefered search engine: rg or ag
-let g:any_jump_search_prefered_engine = 'rg'
-
-" Show line numbers in search rusults
-let g:any_jump_list_numbers = 1
 
 " CHEATSHEET ======================================================================================================
 "
