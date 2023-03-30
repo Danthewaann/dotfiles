@@ -764,6 +764,12 @@ function! s:close_gstatus()
     endfor
 endfunction
 
+augroup fugitive_au
+  autocmd!
+  " Make sure the Git window height stays fixed
+  autocmd FileType fugitive setlocal winfixheight
+augroup END
+
 command! GstatusClose :silent call s:close_gstatus()
 
 function! GetTicketNumber() abort
