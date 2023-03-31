@@ -526,14 +526,14 @@ function! Sort(error = v:null, result = v:null, callback = "Save") abort
     endif
 endfunction
 
-" use `:O` to organize imports of current buffer
-command! -nargs=0 O :call Sort()
+" use `:S` to organize imports of current buffer
+command! -nargs=0 S :call Sort()
 
-" Add `:F` command to format current buffer
-command! -nargs=0 F :call Format()
+" Add `:W` command to format current buffer
+command! -nargs=0 W :call Format()
 
-" use `:OF` to organize imports and format current buffer
-command! -nargs=0 OF :call Sort(v:null, v:null, "Format")
+" use `:WW` to organize imports and format current buffer
+command! -nargs=0 WW :call Sort(v:null, v:null, "Format")
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -635,6 +635,7 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30'
 " VIM-TEST ===================================================================================================
 
 let test#strategy = "tslime"
+let test#vim#term_position = 'botright 20'
 let test#custom_runners = {"python": ["make"]}
 let test#python#runner = 'make'
 let test#python#pytest#options = '-vv'
