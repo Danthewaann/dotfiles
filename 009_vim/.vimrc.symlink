@@ -236,22 +236,6 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 
-
-" check path to python executable
-function! GetPythonExc() abort
-    if !empty(glob('.venv/bin/ipython')) && !isdirectory('.venv/bin/ipython')
-        let python_path = '.venv/bin/ipython --no-autoindent --no-confirm-exit'
-    elseif !empty(glob('.venv/bin/python')) && !isdirectory('.venv/bin/python')
-        let python_path = '.venv/bin/python'
-    else
-        let python_path = 'python'
-    endif
-    return python_path
-endfunction
-
-" paste the visual selection into a python REPL
-vnoremap <silent><expr><leader>p ':FloatermNew ' . GetPythonExc() . "\<CR>"
-
 function! ReplaceCurrentWord()
     let current_word = expand("<cword>")
     call inputsave()
