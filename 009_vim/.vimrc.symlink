@@ -296,18 +296,6 @@ tmap <silent><C-T>t <C-W>:tab term<CR>
 " enter normal-mode in vim terminal
 tmap <C-X> <C-W>N
 
-" close the quicklist, git and NERDTree windows
-function! ClearWindows() abort
-    call s:close_gstatus()
-    call QuitQF()
-    execute 'lcl'
-    execute 'pclose'
-    execute 'NERDTreeClose'
-    execute 'helpclose'
-endfunction
-
-nnoremap <silent><leader>c :call ClearWindows()<CR>
-
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
 " Reference chart of values:
@@ -887,7 +875,7 @@ function! DeleteAllBreakpoints()
             call system('sed -i -e /breakpoint\(\)/d ' . file)
         endif
     endfor
-    if !empty(files) && g:breakpoints_qf_open == 1
+    if !empty(files)
        cgetexpr BreakpointQuickFixList()
     endif
 endfunction
@@ -900,28 +888,16 @@ function! BreakpointQuickFixList()
         echohl WarningMsg
         echo "No breakpoint()s found"
         echohl None
-        let g:breakpoints_qf_open = 0
-        let g:has_breakpoints = 0
-    else
-        let g:breakpoints_qf_open = 1
-        let g:has_breakpoints = 1
     endif
     return breakpoints
 endfunction
 
 command! -nargs=0 BreakpointQuickFixList cgetexpr BreakpointQuickFixList() | call setqflist([], 'a', {'title': 'PythonBreakpoints'})
 
-function QuitQF()
-    let g:breakpoints_qf_open = 0
-    execute 'ccl'
-endfunction
-
 augroup quickfix
 	autocmd!
-    autocmd BufWritePost *.py if g:has_breakpoints && g:breakpoints_qf_open | execute 'BreakpointQuickFixList' | endif
 	autocmd QuickFixCmdPost cgetexpr cwindow
 	autocmd QuickFixCmdPost lgetexpr lwindow
-    autocmd FileType qf noremap <silent><buffer> <C-q> :call QuitQF()<CR>
 augroup END
 
 function! s:CustomiseUI()
