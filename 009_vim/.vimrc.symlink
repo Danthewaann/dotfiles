@@ -226,9 +226,6 @@ function! Escape(input) abort
    return escape(a:input,'/\[\]\.\(\)')
 endfunction
 
-" search for current word in window and highlight it
-nmap <silent><leader>f viw<leader>f
-
 " search for visual selection in current file
 " yanks to the k register so we don't override the 0 register (or clipboard)
 vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
@@ -304,7 +301,7 @@ imap <C-C> <Esc>
 
 " vim-powered terminal in a split window
 map <silent><C-T>s :term<CR>
-tmap <silent><C-T>s <C-W>:term<cR>
+tmap <silent><C-T>s <C-W>:term<CR>
 
 " vim-powered terminal in a vertical split window
 map <silent><C-T>v :vert term<CR>
@@ -312,7 +309,7 @@ tmap <silent><C-T>v <C-W>:vert term<CR>
 
 " vim-powered terminal in new tab
 map <silent><C-T>t :tab term<CR>
-tmap <silent><C-T>t <C-W>:tab term<cR>
+tmap <silent><C-T>t <C-W>:tab term<CR>
 
 " enter normal-mode in vim terminal
 tmap <C-X> <C-W>N
