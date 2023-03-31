@@ -73,7 +73,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'dcrblack/tslime.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'pixelneo/vim-python-docstring'
-Plug 'dhruvasagar/vim-buffer-history'
 Plug 'romainl/vim-cool'
 Plug 'gcmt/taboo.vim'
 Plug 'Konfekt/FastFold'
@@ -399,10 +398,6 @@ let &t_RT = "\e[23;2t"
 " using a color theme with a background color in terminals such as
 " kitty that do not support background color erase.
 let &t_ut=''
-
-" Jump through buffers (previous, next)
-nnoremap <silent> < :BufferHistoryBack<CR>
-nnoremap <silent> > :BufferHistoryForward<CR>
 
 " COLOUR THEMES ===================================================================================================
 
