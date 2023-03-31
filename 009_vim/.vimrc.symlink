@@ -117,6 +117,7 @@ set expandtab
 set scrolloff=5 
 set hlsearch
 set incsearch
+set nostartofline
 
 " maximum amount of memory (in Kbyte) to use for pattern matching.
 set maxmempattern=2000000
