@@ -400,18 +400,6 @@ let &t_RT = "\e[23;2t"
 " kitty that do not support background color erase.
 let &t_ut=''
 
-" Allow indenting the current line in normal mode
-nnoremap <Tab> >>
-nnoremap <S-Tab> <<
-
-" Allow indenting the selected lines in visual mode
-xnoremap <Tab> >gv
-xnoremap <S-Tab> <gv
-
-" Jump list (previous, next), needed as I'm using TAB for indentation
-nnoremap H <C-O>zz
-nnoremap L <C-I>zz
-
 " Jump through buffers (previous, next)
 nnoremap <silent> < :BufferHistoryBack<CR>
 nnoremap <silent> > :BufferHistoryForward<CR>
