@@ -974,14 +974,14 @@ function! s:CustomiseUI()
 
     " Enable keyboard-hover for vars and watches
     call win_gotoid( g:vimspector_session_windows.variables )
-    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
+    nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
     nmap <silent><buffer> <Tab> <Enter>
 
     call win_gotoid( g:vimspector_session_windows.watches )
-    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
+    nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
 
     call win_gotoid( g:vimspector_session_windows.code )
-    nmap <silent><buffer> o <Plug>VimspectorBalloonEval
+    nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
 
     let console_win = g:vimspector_session_windows.output
     call win_gotoid( console_win )
