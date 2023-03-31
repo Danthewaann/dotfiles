@@ -236,8 +236,6 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 
-" toggle folding
-nnoremap <leader>z zi
 
 " check path to python executable
 function! GetPythonExc() abort
