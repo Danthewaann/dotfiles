@@ -411,6 +411,27 @@ colorscheme onedark
 
 " NAVIGATION ===================================================================================================
 
+" vertical navigation
+nnoremap <C-D> <C-D>zz
+nnoremap <C-U> <C-U>zz
+nnoremap gg ggzz
+nnoremap G Gzz
+nnoremap { {zz
+nnoremap } }zz
+
+" window pane navigation
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
+
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <C-H> :<C-U>TmuxNavigateLeft<cr>
+nnoremap <silent> <C-J> :<C-U>TmuxNavigateDown<cr>
+nnoremap <silent> <C-K> :<C-U>TmuxNavigateUp<cr>
+nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
+
 " Allow scrolling up and down in a popup (such as function docstring in Python)
 " From https://github.com/neoclide/coc.nvim/issues/1405#issuecomment-570062098
 function FindCursorPopUp()
@@ -442,26 +463,8 @@ function ScrollPopUp(down)
     return 1
 endfunction
 
-" vertical navigation
-nnoremap <expr> <C-D> ScrollPopUp(1) ? '<ESC>' : '<C-D>zz'
-nnoremap <expr> <C-U> ScrollPopUp(0) ? '<ESC>' : '<C-U>zz'
-nnoremap gg ggzz
-nnoremap G Gzz
-nnoremap { {zz
-nnoremap } }zz
-
-" window pane navigation
-" nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-" nnoremap <C-L> <C-W><C-L>
-" nnoremap <C-H> <C-W><C-H>
-
-let g:tmux_navigator_no_mappings = 1
-nnoremap <silent> <C-H> :<C-U>TmuxNavigateLeft<cr>
-nnoremap <silent> <C-J> :<C-U>TmuxNavigateDown<cr>
-nnoremap <silent> <C-K> :<C-U>TmuxNavigateUp<cr>
-nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
-nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
+nnoremap <expr> <C-J> ScrollPopUp(1) ? '<ESC>' : '<C-J>'
+nnoremap <expr> <C-K> ScrollPopUp(0) ? '<ESC>' : '<C-K>'
 
 " terminal pane navigation
 tnoremap <C-L> <C-W><C-L>
