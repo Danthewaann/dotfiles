@@ -389,13 +389,6 @@ nnoremap G Gzz
 nnoremap { {zz
 nnoremap } }zz
 
-let g:tmux_navigator_no_mappings = 1
-nnoremap <silent> <C-H> :<C-U>TmuxNavigateLeft<cr>
-nnoremap <silent> <C-J> :<C-U>TmuxNavigateDown<cr>
-nnoremap <silent> <C-K> :<C-U>TmuxNavigateUp<cr>
-nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
-nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
-
 " Allow scrolling up and down in a popup (such as function docstring in Python)
 " From https://github.com/neoclide/coc.nvim/issues/1405#issuecomment-570062098
 function FindCursorPopUp()
@@ -427,8 +420,12 @@ function ScrollPopUp(down)
     return 1
 endfunction
 
-nnoremap <expr> <C-J> ScrollPopUp(1) ? '<ESC>' : '<C-J>'
-nnoremap <expr> <C-K> ScrollPopUp(0) ? '<ESC>' : '<C-K>'
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <C-H> :<C-U>TmuxNavigateLeft<cr>
+nnoremap <silent> <expr> <C-J> ScrollPopUp(1) ? '<ESC>' : ':<C-U>TmuxNavigateDown' . "\<CR>"
+nnoremap <silent> <expr> <C-K> ScrollPopUp(0) ? '<ESC>' : ':<C-U>TmuxNavigateUp' . "\<CR>"
+nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
 
 " terminal pane navigation
 tnoremap <C-L> <C-W><C-L>
