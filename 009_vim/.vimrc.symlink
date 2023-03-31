@@ -1025,12 +1025,12 @@ let s:mapped = {}
 
 function! s:OnJumpToFrame() abort
     let buf_nr = bufnr()
-    " let file_extension = expand('%:e')
-    " " set filetype to python for now to get syntax highlighting
-    " " when doing remote debugging via a docker container
-    " if file_extension == "py"
-    "     setlocal filetype=python
-    " endif
+    let file_extension = expand('%:e')
+    " set filetype to python for now to get syntax highlighting
+    " when doing remote debugging via a docker container
+    if file_extension == "py"
+        setlocal filetype=python
+    endif
 
     if has_key(s:mapped, string(buf_nr))
         return
