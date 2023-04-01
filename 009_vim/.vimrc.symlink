@@ -881,13 +881,13 @@ function! DeleteAllBreakpoints()
         endif
     endfor
     if !empty(files)
-       cgetexpr BreakpointQuickFixList()
+       lgetexpr BreakpointsLocationList()
     endif
 endfunction
 
 command! -nargs=0 DeleteAllBreakpoints call DeleteAllBreakpoints()
 
-function! BreakpointQuickFixList()
+function! BreakpointsLocationList()
 	let breakpoints = GetAllBreakpoints()
     if empty(breakpoints)
         echohl WarningMsg
@@ -897,7 +897,7 @@ function! BreakpointQuickFixList()
     return breakpoints
 endfunction
 
-command! -nargs=0 BreakpointQuickFixList cgetexpr BreakpointQuickFixList() | call setqflist([], 'a', {'title': 'PythonBreakpoints'})
+command! -nargs=0 Breakpoints lgetexpr BreakpointsLocationList() | call setloclist(0, [], 'a', {'title': 'PythonBreakpoints'})
 
 augroup quickfix
 	autocmd!
