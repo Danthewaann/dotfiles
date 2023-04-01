@@ -78,6 +78,7 @@ Plug 'gcmt/taboo.vim'
 Plug 'Konfekt/FastFold'
 Plug 'tmhedberg/SimpylFold'
 Plug 'dhruvasagar/vim-buffer-history'
+Plug 'tpope/vim-unimpaired'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
