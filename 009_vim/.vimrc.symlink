@@ -77,6 +77,7 @@ Plug 'romainl/vim-cool'
 Plug 'gcmt/taboo.vim'
 Plug 'Konfekt/FastFold'
 Plug 'tmhedberg/SimpylFold'
+Plug 'dhruvasagar/vim-buffer-history'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -389,6 +390,10 @@ nnoremap gg ggzz
 nnoremap G Gzz
 nnoremap { {zz
 nnoremap } }zz
+
+" Jump through buffers (previous, next)
+nnoremap <silent> H :bprevious<CR>
+nnoremap <silent> L :bnext<CR>
 
 " Allow scrolling up and down in a popup (such as function docstring in Python)
 " From https://github.com/neoclide/coc.nvim/issues/1405#issuecomment-570062098
