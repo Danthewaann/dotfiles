@@ -145,8 +145,7 @@ alias l='ls -CF'
 
 function gitwadd() {
     local branch_name="$1"
-    trimmed_name=$(echo $branch_name | cut  -d'/' -f2-)
-    echo $trimmed_name
+    local trimmed_name=$(echo $branch_name | cut  -d'/' -f2-)
     git w add $trimmed_name
     cd $trimmed_name
     git branch -m $branch_name
