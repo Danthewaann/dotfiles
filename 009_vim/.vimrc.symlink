@@ -693,8 +693,8 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
-nnoremap <silent><leader>gp :G push<CR>
-nnoremap <silent><leader>gfp :G push --force<CR>
+nnoremap <silent><leader>gpp :G push<CR>
+nnoremap <silent><leader>gpf :G push --force<CR>
 nnoremap <silent><leader>gs :call <SID>ToggleGstatus()<CR>
 
 function! s:ToggleGstatus() abort
