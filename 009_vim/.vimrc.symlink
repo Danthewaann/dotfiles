@@ -537,13 +537,13 @@ function! Sort(error = v:null, result = v:null, callback = "Save") abort
     endif
 endfunction
 
-" use `:S` to organize imports of current buffer
+" use `:S` to organize imports and save current buffer
 command! -nargs=0 S :call Sort()
 
-" Add `:W` command to format current buffer
+" Add `:W` command to format and save current buffer
 command! -nargs=0 W :call Format()
 
-" use `:WW` to organize imports and format current buffer
+" use `:WWW` to organize imports, format and save current buffer
 command! -nargs=0 WW :call Sort(v:null, v:null, "Format")
 
 " Use tab for trigger completion with characters ahead and navigate.
