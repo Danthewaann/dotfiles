@@ -392,6 +392,10 @@ nnoremap G Gzz
 nnoremap { {zz
 nnoremap } }zz
 
+" Jump list navigation
+nnoremap <C-I> <C-I>zz
+nnoremap <C-O> <C-O>zz
+
 " Jump through buffers (previous, next)
 nnoremap <silent> H :bprevious<CR>zz
 nnoremap <silent> L :bnext<CR>zz
