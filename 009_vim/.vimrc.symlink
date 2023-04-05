@@ -699,12 +699,12 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 nnoremap <silent><leader>gpp :G push<CR>
 nnoremap <silent><leader>gpf :G push --force<CR>
-nnoremap <silent><leader>gs :call <SID>ToggleGstatus()<CR>
+nnoremap <silent><leader>gs :call OpenOrRefreshGitStatus()<CR>
 
-function! s:ToggleGstatus() abort
+function! OpenOrRefreshGitStatus() abort
     for l:winnr in range(1, winnr('$'))
         if !empty(getwinvar(l:winnr, 'fugitive_status'))
-            execute l:winnr.'close'
+            execute 'Git'
             return
         endif
     endfor
