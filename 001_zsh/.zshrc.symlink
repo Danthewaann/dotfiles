@@ -206,9 +206,13 @@ function gitwdeleteall() {
 
     for worktree in $worktrees; do
         echo "\nDeleting worktree and branch for : $worktree"
-        git w remove $worktree
+        local result=$(git w remove $worktree 2>&1)
+        if [[ $? -ne 0 ]]; then
+            echo "  $result"
+            continue
+        fi
         # Remove the first `.` character from the worktree
-        local deletingbranch=$(git branch -d $(git branch -l "*${worktree:1}") 2>&1)
+        local deletingbranch=$(git branch -d $(git branch -l "*${worktree:1}" | cut -d' ' -f2- | xargs) 2>&1)
         echo "  $deletingbranch"
     done
 }
