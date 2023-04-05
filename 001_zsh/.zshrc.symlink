@@ -213,7 +213,7 @@ function gitwdeleteall() {
     for worktree in $worktrees; do
         echo "\nDeleting worktree and branch for : $worktree"
         local result=$(git w remove $worktree 2>&1)
-        if [[ $? -ne 0 ]]; then
+        if [[ -n $result ]]; then
             echo "  $result"
             continue
         fi
