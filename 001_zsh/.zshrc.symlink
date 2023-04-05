@@ -198,6 +198,12 @@ function vim() {
 
 # Delete all git worktrees in current directory that contain sc-TICKET_NUMBER
 function gitwdeleteall() {
+    local barerepo=$(git rev-parse --is-bare-repository)
+    if [[ $barerepo != "true" ]]; then
+        echo "Must be run in bare repository"
+        return 1
+    fi
+
     local worktrees=($(dirname $(find . -name ".git") | grep -vE "^./(main|master)$"))
     if [[ ${#worktrees[@]} -eq 0 ]]; then
         echo "No worktrees to delete"
@@ -211,9 +217,13 @@ function gitwdeleteall() {
             echo "  $result"
             continue
         fi
+
         # Remove the first `.` character from the worktree
         local deletingbranch=$(git branch -d $(git branch -l "*${worktree:1}" | cut -d' ' -f2- | xargs) 2>&1)
         echo "  $deletingbranch"
+
+        # Completely clean up the parent dirs of the worktree
+        rm -rf $(echo $worktree | cut -d/ -f1-2)
     done
 }
 
