@@ -23,3 +23,6 @@ fi
 
 run_command "configuring github cli" "configured github cli" \
     "gh config set editor vim"
+
+info "linking git post-checkout hook"
+link_file "$SCRIPT_DIR/post-checkout" "$HOME/post-checkout"
