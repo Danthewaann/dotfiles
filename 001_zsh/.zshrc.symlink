@@ -165,13 +165,18 @@ function gitprcreate() {
         return 1
     fi
 
-    >&2 echo
     local last_commit=$(git log -1 --pretty=%B)
-    >&2 echo "Using \"$last_commit\" as PR title"
-    gh pr create --head $(git branch --show-current) --assignee "@me" --title "$last_commit" "$@" || return $?
+    >&2 echo "\nUsing \"$last_commit\" as PR title"
+
+    gh pr create \
+        --head $(git branch --show-current) \
+        --assignee "@me" \
+        --title "$last_commit" \
+        "$@" || return $?
+
     local url=$(gh pr view --json url --jq .url)
 
-    >&2 echo "The below has been copied to your clipboard! 📋\n"
+    >&2 echo "\nThe below has been copied to your clipboard! 📋\n"
     local output=$(printf "%s\n:point_up: :%s: %s\n" $url $pr_type $last_commit)
     echo $output
     echo $output | pbcopy
@@ -257,7 +262,7 @@ function gettestcontainer() {
 
 # Get the ticketnumber for the current repo branch
 function getticketnumber() {
-    currentbranch=$(git branch --show-current )
+    currentbranch=$(git branch --show-current) 
     ticketnumber=$(echo $currentbranch | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+")
 
     if [[ -z $ticketnumber ]]; then
