@@ -280,6 +280,35 @@ function gitwdeleteall() {
     done
 }
 
+function gitupdatebase() {
+    if [[ ! -f .git ]]; then
+        >&2 echo "Must be in a git repo"
+        return 1
+    fi
+
+    local current_dir=$(pwd)
+
+    cd ..
+
+    >&2 echo
+    if [[ -d main ]]; then
+        >&2 echo "Entering main"
+        cd main
+    elif [[ -d master ]]; then
+        >&2 echo "Entering master"
+        cd master
+    else
+        >&2 echo "main or master worktree not found"
+        cd $current_dir
+        return 1
+    fi
+
+    >&2 echo "Updating with remote"
+    git pull
+
+    cd $current_dir
+}
+
 # Expose current dir of where tmux was ran to tmux
 function tmux() { 
     TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
