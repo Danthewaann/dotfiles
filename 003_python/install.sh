@@ -38,7 +38,7 @@ if ! pyenv global | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
     run_command "installing python $MY_PYTHON_VERSION" "installed python $MY_PYTHON_VERSION" \
         "pyenv install -s $MY_PYTHON_VERSION"
 
-    run_command "setting global python version to $MY_PYTHON_VERSION" "setted global python version to $MY_PYTHON_VERSION" \
+    run_command "setting global python version to $MY_PYTHON_VERSION" "set global python version to $MY_PYTHON_VERSION" \
         "pyenv global $MY_PYTHON_VERSION"
 
     # Need to make sure flake8 is installed for coc-pyright to work correctly
@@ -89,3 +89,6 @@ fi
 run_command "creating global $HOME/.config/black file" "created global $HOME/.config/black file" \
     "echo \"[tool.black]\" > $HOME/.config/black" \
     "echo \"line-length = 79\" >> $HOME/.config/black" \
+
+info "linking pyrightconfig.json"
+link_file "$SCRIPT_DIR/pyrightconfig.json" "$HOME/pyrightconfig.json"
