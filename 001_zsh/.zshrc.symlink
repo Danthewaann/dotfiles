@@ -152,32 +152,50 @@ function gitwadd() {
 }
 
 function gitprcreate() {
+    local args=()
     local pr_types=(python ruby go docker docs)
     local pr_type=
-    for item in "$@"; do
-        if [[ " ${pr_types[*]} " =~ " ${item} " ]]; then
-            pr_type=$item
-        fi
+    local pr_title=
+
+    while [[ $# -gt 0 ]]; do
+        local add_args=true
+        case $1 in
+        -l|--label)
+            if [[ " ${pr_types[*]} " =~ " ${2} " ]]; then
+                pr_type=$2
+            fi
+            args+=($1 $2)
+            shift; shift
+            ;;
+        -t|--title)
+            pr_title="$2"
+            shift; shift
+            ;;
+        esac
     done
 
     if [[ -z $pr_type ]]; then
-        >&2 echo "ERROR: you need to provide a PR type as a label in (${pr_types[@]})"
+        >&2 echo "\nERROR: you need to provide a PR type as a label in (${pr_types[@]})"
         return 1
     fi
 
-    local last_commit=$(git log -1 --pretty=%B)
-    >&2 echo "\nUsing \"$last_commit\" as PR title"
+    if [[ -z $pr_title ]]; then
+        pr_title=$(git log -1 --pretty=%B)
+        >&2 echo "\nNo PR title provided, defaulting to last commit message \"$pr_title\""
+    else
+        >&2 echo "\nUsing \"$pr_title\" as PR title"
+    fi
 
     gh pr create \
         --head $(git branch --show-current) \
         --assignee "@me" \
-        --title "$last_commit" \
-        "$@" || return $?
+        --title "$pr_title" \
+        "$args" || return $?
 
     local url=$(gh pr view --json url --jq .url)
 
     >&2 echo "\nThe below has been copied to your clipboard! 📋\n"
-    local output=$(printf "%s\n:point_up: :%s: %s\n" $url $pr_type $last_commit)
+    local output=$(printf "%s\n:point_up: :%s: %s\n" $url $pr_type $pr_title)
     echo $output
     echo $output | pbcopy
 }
