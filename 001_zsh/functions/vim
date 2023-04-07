@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 # From https://github.com/tpope/vim-obsession/issues/11
 # Auto start vim-obession when starting vim with no args
 if test -d "$1"; then

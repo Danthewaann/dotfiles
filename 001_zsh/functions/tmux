@@ -1,6 +1,4 @@
 #!/bin/bash
 
-set -e
-
 # Expose current dir of where tmux was ran to tmux
 TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
