@@ -39,6 +39,9 @@ fi
 
 info "linking custom scripts in bin"
 for f in "$SCRIPT_DIR"/bin/*; do
-    link_file "$f" "$HOME/.local/bin/$(basename $f)"
+    link_file "$f" "$HOME/.local/bin/$(basename "$f")"
 done
+
+info "linking zsh functions"
+link_file "$SCRIPT_DIR/functions" "$HOME/.zsh_functions"
 
