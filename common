@@ -2,7 +2,7 @@
 
 # Everything in this script is available to all script files
 
-set -e
+set -eo pipefail
 
 BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -45,14 +45,14 @@ get_date () {
 }
 
 run_command () {
-    local pre_log=$1
-    shift; shift
+    local msg=$1; shift
 
-    info "$pre_log"
+    info "$msg"
     info "~~~~~~~~~~~~~~~~~~~~~~~~"
     while [[ $# -gt 0 ]]; do
         if ! eval "$1" 2>&1 | while IFS= read -r line; do info "$line"; done; then
-            fail "failed to run command"
+            info ""
+            fail "failed!"
         fi
         shift
     done

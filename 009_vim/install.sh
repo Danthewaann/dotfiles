@@ -9,77 +9,77 @@ source "$SCRIPT_DIR"/../common
 
 # Install vim 9
 if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing vim" "installed vim" \
+    run_command "installing vim" \
         "brew install macvim"
 else
-    run_command "installing vim" "installed vim" \
+    run_command "installing vim" \
         "sudo add-apt-repository -y ppa:jonathonf/vim" \
         "sudo apt-get install -y vim"
 fi
 
 # Install vim-plug plugin manager
 if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
-    run_command "installing vim-plug plugin manager" "installed vim-plug plugin manager" \
+    run_command "installing vim-plug plugin manager" \
         "curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \\
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 fi
 
 # Install plugins
-run_command "installing plugins" "installed plugins" \
+run_command "installing plugins" \
     "vim --not-a-term +PlugInstall +qall"
 
 # Workaround from https://github.com/neoclide/coc.nvim/issues/3258#issuecomment-1056660012
-run_command "configuring coc" "configured coc" \
+run_command "configuring coc" \
     "cd $HOME/.vim/plugged/coc.nvim && git checkout release" \
 
 # TODO: I don't think this works as expected
 # vimspector gadgets post-install step
-run_command "configuring vimspector" "configured vimspector" \
+run_command "configuring vimspector" \
     "vim --not-a-term \"+VimspectorInstall\" +qall"
 
 # TODO: I don't think this works as expected
 # Install binaries for vim-go plugin
-run_command "installing go binaries for vim-go" "installed go binaries for vim-go" \
+run_command "installing go binaries for vim-go" \
     "vim --not-a-term \"+GoInstallBinaries\" +qall"
 
 # TODO: I don't think this works as expected
-run_command "installing clangd" "installed clangd" \
+run_command "installing clangd" \
     "vim --not-a-term \"+CocCommand clangd.install\" +qall"
 
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing vim plugin dependencies" "installed vim plugin dependencies" \
+    run_command "installing vim plugin dependencies" \
         "brew install fzf shellcheck"
 
-    run_command "installing git-delta" "installed git-delta" \
+    run_command "installing git-delta" \
         "brew install git-delta"
 
-    run_command "installing bat" "installed bat" \
+    run_command "installing bat" \
         "brew install bat"
 
-    run_command "installing ripgrep" "installed ripgrep" \
+    run_command "installing ripgrep" \
         "brew install ripgrep"
 else
-    run_command "installing vim plugin dependencies" "installed vim plugin dependencies" \
+    run_command "installing vim plugin dependencies" \
         "sudo apt-get install -y fzf shellcheck"
 
     if [[ ! -f "$SCRIPT_DIR/git-delta.deb" ]]; then
-        run_command "downloading git-delta" "downloaded git-delta"\
+        run_command "downloading git-delta" \
             "wget -O $SCRIPT_DIR/git-delta.deb https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb"
     fi
 
-    run_command "installing git-delta" "installed git-delta" \
+    run_command "installing git-delta" \
         "sudo dpkg -i $SCRIPT_DIR/git-delta.deb"
 
     if [[ ! -f "$SCRIPT_DIR/bat.deb" ]]; then
-        run_command "downloading bat" "downloaded bat"\
+        run_command "downloading bat" \
             "wget -O $SCRIPT_DIR/bat.deb https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1_amd64.deb"
     fi
 
-    run_command "installing bat" "installed bat" \
+    run_command "installing bat" \
         "sudo dpkg -i $SCRIPT_DIR/bat.deb"
 
-    run_command "installing ripgrep" "installed ripgrep" \
+    run_command "installing ripgrep" \
         "sudo apt-get install -y ripgrep"
 fi
 

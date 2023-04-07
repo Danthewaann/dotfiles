@@ -12,18 +12,22 @@ source "$SCRIPT_DIR"/common
 installers=()
 while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name install.sh | sort)
 
-echo ''
+echo ""
 
 info "running installers : output logged to $LOG_FILE" | tee -a "$LOG_FILE"
 for installer in "${installers[@]}"; do
+    info ""
     info "running installer $installer" | tee -a "$LOG_FILE"
+    info "==========================================="
+    info ""
     if ! sh -c "$installer" | tee -a "$LOG_FILE" 2>&1; then
         fail "failed to run installer $installer" | tee -a "$LOG_FILE"
     else
         success "finished installer $installer" | tee -a "$LOG_FILE"
+        info "==========================================="
     fi
 done
 
-echo ''
-echo 'All installed!'
+echo ""
+echo "All installed!"
 
