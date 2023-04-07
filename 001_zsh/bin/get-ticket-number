@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+# Get the ticketnumber for the current repo branch
+currentbranch=$(git branch --show-current) 
+ticketnumber=$(echo "$currentbranch" | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+")
+
+if [[ -z $ticketnumber ]]; then
+    >&2 echo "ERROR: No ticketnumber found for $currentbranch"
+    return 1
+fi
+
+echo "$ticketnumber"

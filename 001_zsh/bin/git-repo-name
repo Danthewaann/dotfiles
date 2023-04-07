@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+# Get just the name of the current git repository
+basename -s .git "$(git config --get remote.origin.url)"
+

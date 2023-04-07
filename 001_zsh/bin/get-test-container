@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+# Get test name of the test container for the current repo
+if [[ -f .env ]]; then
+    reponame=$(grep -i "compose_project_name" .env | awk -F'=' '{print $2}')
+else
+    reponame=$(get-repo-name)
+fi
+
+testcontainer=$(docker ps | grep "$reponame" | grep _test_run | awk '{print $NF}' | head -n 1)
+
+if [[ -z $testcontainer ]]; then
+    >&2 echo "ERROR: No test container found for $reponame"
+    return 1
+fi
+
+echo "$testcontainer"
+

@@ -37,3 +37,8 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]]; then
         "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 
+info "linking custom scripts in bin"
+for f in "$SCRIPT_DIR"/bin/*; do
+    link_file "$f" "$HOME/.local/bin/$(basename $f)"
+done
+

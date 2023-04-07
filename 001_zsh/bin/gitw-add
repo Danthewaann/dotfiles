@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+branch_name="$1"
+trimmed_name=$(echo "$branch_name" | cut  -d'/' -f2-)
+converted_name=${trimmed_name//\//-}
+git w add "$converted_name"
+cd "$converted_name" || exit
+git branch -m "$branch_name" || git checkout "$branch_name"
+
