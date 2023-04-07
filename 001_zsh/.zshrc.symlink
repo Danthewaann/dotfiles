@@ -75,6 +75,7 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode)
 source $ZSH/oh-my-zsh.sh
 
 # From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
+# and https://htr3n.github.io/2018/07/faster-zsh/
 # On slow systems, checking the cached .zcompdump file to see if it must be 
 # regenerated adds a noticable delay to zsh startup.  This little hack restricts 
 # it to once a day.  It should be pasted into your own completion file.
@@ -115,10 +116,10 @@ export EDITOR='vim'
 
 # Autoload functions
 fpath=($fpath $HOME/.zsh_functions)
-autoload vim
-autoload tmux
-autoload nvm
-autoload pyenv
+autoload -Uz vim
+autoload -Uz tmux
+autoload -Uz nvm
+autoload -Uz pyenv
 
 # Global variables used in my installers and dotfiles
 export MY_PYTHON_VERSION=3.11.0
