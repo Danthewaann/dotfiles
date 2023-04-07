@@ -3,7 +3,7 @@
         "python-remote": {
             "variables": {
                 "container": {
-                    "shell": ["gettestcontainer"]
+                    "shell": ["get-test-container"]
                 },
                 "port": 5678
             },
