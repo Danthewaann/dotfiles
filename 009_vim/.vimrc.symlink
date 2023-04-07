@@ -853,7 +853,7 @@ func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*breakpoint()' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
 
-nnoremap <silent> <leader>i :call <SID>ToggleBreakpoint()<CR>
+nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
 
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 " Setup a way to keep track of breakpoint() calls in Python code
