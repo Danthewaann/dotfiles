@@ -10,12 +10,6 @@ source "$SCRIPT_DIR"/../common
 run_command "downloading nvm" \
     "curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
 
-export NVM_DIR="$HOME/.nvm"
-# shellcheck disable=SC1091
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# shellcheck disable=SC1091
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # Install node and npm
 run_command "installing node $MY_NODE_VERSION" \
     "nvm install $MY_NODE_VERSION"

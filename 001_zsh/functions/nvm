@@ -9,7 +9,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Use the default nvm alias
 if [[ -e ~/.nvm/alias/default ]]; then
-    PATH="$PATH:$HOME.nvm/versions/node/$(< ~/.nvm/alias/default)/bin"
+    PATH="$PATH:$HOME/.nvm/versions/node/$(< ~/.nvm/alias/default)/bin"
 fi
 
 # Invoke the real nvm function now
