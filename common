@@ -46,17 +46,19 @@ get_date () {
 
 run_command () {
     local pre_log=$1
-    local post_log=$2
     shift; shift
 
     info "$pre_log"
+    info "~~~~~~~~~~~~~~~~~~~~~~~~"
     while [[ $# -gt 0 ]]; do
-        if ! output=$(eval "$1" 2>&1); then
-            fail "$output"
+        if ! eval "$1" 2>&1 | while IFS= read -r line; do info "$line"; done; then
+            fail "failed to run command"
         fi
         shift
     done
-    success "$post_log"
+    info ""
+    success "done!"
+    info ""
 }
 
 link_file () {
