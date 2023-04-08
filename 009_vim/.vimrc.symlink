@@ -867,9 +867,6 @@ nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
 
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 " Setup a way to keep track of breakpoint() calls in Python code
-let g:has_breakpoints = 0
-let g:breakpoints_qf_open = 0
-
 function! GetAllBreakpoints()
 	return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
 endfunction
