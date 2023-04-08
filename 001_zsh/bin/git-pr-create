@@ -21,11 +21,16 @@ while [[ $# -gt 0 ]]; do
         pr_title="$2"
         shift; shift
         ;;
+    *)
+        args+=("$1")
+        shift
+        ;;
     esac
 done
 
 if [[ -z $pr_type ]]; then
-    >&2 printf "\nERROR: you need to provide a PR type in a -l|--label flag, examples (%s)\n" "${pr_types[*]}"
+    >&2 printf "\nERROR: you need to provide a valid PR type in a -l|--label flag\n"
+    >&2 printf "valid PR types -> (%s)\n" "${pr_types[*]}"
     exit 1
 fi
 
