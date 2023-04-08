@@ -736,16 +736,16 @@ endfunction
 
 function! ReplaceTicketNumberInPRFile() abort
     let ticket_number = GetTicketNumber()
-    if empty(ticket_number)
+    if v:shell_error != 0
         echohl WarningMsg
-        echo "No ticketnumber found for current branch"
+        echo ticket_number
         echohl None
     else
         execute '%s/TICKET_NUMBER/' . ticket_number . '/g'
     endif
 endfunction
 
-command! ReplaceTicketNumberInPRFile :silent call ReplaceTicketNumberInPRFile()
+command! -nargs=0 ReplaceTicketNumberInPRFile :call ReplaceTicketNumberInPRFile()
 
 " VIM-GITGUTTER ==================================================================================================
 
