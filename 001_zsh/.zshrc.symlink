@@ -120,6 +120,7 @@ autoload -Uz vim
 autoload -Uz tmux
 autoload -Uz nvm
 autoload -Uz pyenv
+autoload -Uz rbenv
 
 # Global variables used in my installers and dotfiles
 export MY_PYTHON_VERSION=3.11.0

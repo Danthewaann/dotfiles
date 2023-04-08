@@ -28,32 +28,27 @@ if [[ ! -d ~/.pyenv ]]; then
         "cd ~/.pyenv && src/configure && make -C src && cd -"
 fi
 
-# Install and set global Python version using pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
 # Only install provided Python version if it isn't already available
-if ! pyenv global | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
+if ! pyenv versions | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
     run_command "installing python $MY_PYTHON_VERSION" \
         "pyenv install -s $MY_PYTHON_VERSION"
-
-    run_command "setting global python version to $MY_PYTHON_VERSION" \
-        "pyenv global $MY_PYTHON_VERSION"
-
-    # Need to make sure flake8 is installed for coc-pyright to work correctly
-    # for some reason. I also added other packages here for general use so 
-    # my vim setup works when editing standalone files outside of a project.
-    run_command "installing python linters and formatters" \
-        "pip install flake8 black isort mypy ruff"
-
-    run_command "installing ipython" \
-        "pip install ipython"
-
-    # Make sure executables are available
-    run_command "rehashing pyenv" \
-        "pyenv rehash"
 fi
+
+run_command "setting global python version to $MY_PYTHON_VERSION" \
+    "pyenv global $MY_PYTHON_VERSION"
+
+# Need to make sure flake8 is installed for coc-pyright to work correctly
+# for some reason. I also added other packages here for general use so 
+# my vim setup works when editing standalone files outside of a project.
+run_command "installing python linters and formatters" \
+    "pip install flake8 black isort mypy ruff"
+
+run_command "installing ipython" \
+    "pip install ipython"
+
+# Make sure executables are available
+run_command "rehashing pyenv" \
+    "pyenv rehash"
 
 if type poetry &> /dev/null; then
     # Re-install poetry package manager
