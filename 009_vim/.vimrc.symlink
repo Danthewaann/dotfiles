@@ -235,9 +235,12 @@ function! Escape(input) abort
    return escape(a:input,'/\[\]\.\(\)')
 endfunction
 
+" search for current word in window and highlight it
+nmap <silent><leader>f viw<leader>f
+
 " search for visual selection in current file
 " yanks to the k register so we don't override the 0 register (or clipboard)
-vmap <silent><leader>F "ky/\V<C-R>=@k<CR><CR>
+vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
 
 " center screen after moving through matches
 nnoremap n nzz
@@ -1106,10 +1109,10 @@ command! -bang -nargs=* Rg call
 nnoremap <silent><C-F> :Files!<CR>
 
 " search in all project files
-nnoremap <leader>f :Rg!<Space>
+nnoremap <leader>F :Rg!<Space>
 
 " search for visual selection in project files
-vnoremap <silent><leader>f "ky:Rg! <C-R>=Escape(@k)<CR><CR>
+vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 
 " show all buffers
 nnoremap <silent><leader>b :Buffers!<CR>
