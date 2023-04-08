@@ -75,7 +75,6 @@ Plug 'dcrblack/tslime.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'pixelneo/vim-python-docstring'
 Plug 'romainl/vim-cool'
-Plug 'gcmt/taboo.vim'
 Plug 'Konfekt/FastFold'
 Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-unimpaired'
@@ -903,7 +902,6 @@ augroup quickfix
 augroup END
 
 function! s:CustomiseUI()
-    execute 'TabooRename Debugger'
     let wins = g:vimspector_session_windows
 
     " Enable keyboard-hover for vars and watches
@@ -1157,9 +1155,6 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 
 " VIM-AIRLINE =====================================================================================================
 
-let g:taboo_tabline = 0
-let g:taboo_tab_format = "%N %f"
-let g:airline#extensions#taboo#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 
 " truncate the branch name
