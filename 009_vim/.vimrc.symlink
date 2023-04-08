@@ -210,18 +210,24 @@ inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 inoremap <C-P> <C-R>+
 
 " inspired from https://vi.stackexchange.com/questions/3951/deleting-in-vim-and-then-pasting-without-new-line
-function! PasteInLine(before = v:true) abort
+function! PasteInLine(before = v:true, visual = v:false) abort
     let line = trim(getreg('"'))
-    let mode = "a"
-    if a:before
-        let mode = "i"
+    if a:visual
+        let selection = GetVisualSelection()
+        execute 's/\V' . selection . '/' . line . '/g'
+    else
+        let mode = "a"
+        if a:before
+            let mode = "i"
+        endif
+        execute "normal! " . mode . line . "\<Esc>"
     endif
-    execute "normal! " . mode . line . "\<Esc>"
 endfunction
 
 " Paste yanked line without line breaks before/after cursor position
 nnoremap <silent> gP :call PasteInLine()<CR>
 nnoremap <silent> gp :call PasteInLine(v:false)<CR>
+vnoremap <silent> gp :call PasteInLine(v:false, v:true)<CR>
 
 " escape the provided input for a regex search
 function! Escape(input) abort
@@ -230,7 +236,7 @@ endfunction
 
 " search for visual selection in current file
 " yanks to the k register so we don't override the 0 register (or clipboard)
-vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
+vmap <silent><leader>F "ky/\V<C-R>=@k<CR><CR>
 
 " center screen after moving through matches
 nnoremap n nzz
@@ -1099,10 +1105,10 @@ command! -bang -nargs=* Rg call
 nnoremap <silent><C-F> :Files!<CR>
 
 " search in all project files
-nnoremap <leader>F :Rg!<Space>
+nnoremap <leader>f :Rg!<Space>
 
 " search for visual selection in project files
-vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
+vnoremap <silent><leader>f "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 
 " show all buffers
 nnoremap <silent><leader>b :Buffers!<CR>
