@@ -2,30 +2,47 @@
 
 set -e
 
-if [[ ! -f .git ]]; then
-    >&2 echo "Must be in a git repo"
-    exit 1
+function update_base() {
+    >&2 echo
+
+    base_worktree=
+    if [[ -d main ]]; then
+        base_worktree="main"
+    elif [[ -d master ]]; then
+        base_worktree="master"
+    else
+        >&2 echo "ERROR: main or master worktree not found"
+        return 1
+    fi
+
+    >&2 echo "Entering '$base_worktree' base worktree"
+    cd "$base_worktree" || exit
+
+    >&2 echo "Updating with remote"
+    # shellcheck disable=SC2210
+    >&2 git pull 
+
+    echo "$base_worktree"
+}
+
+is_bare_repo=$(git rev-parse --is-bare-repository)
+if [[ $is_bare_repo == "true" ]]; then
+    update_base
+    exit
 fi
 
-current_dir=$(pwd)
-
-cd ..
-
->&2 echo
-if [[ -d main ]]; then
-    >&2 echo "Entering main"
-    cd main || exit
-elif [[ -d master ]]; then
-    >&2 echo "Entering master"
-    cd master || exit
+in_worktree=$(git rev-parse --is-inside-work-tree)
+if [[ $in_worktree == "true" ]]; then
+    while true; do
+        cd ..
+        is_bare_repo=$(git rev-parse --is-bare-repository)
+        if [[ $is_bare_repo == "true" ]]; then
+            update_base
+            break
+        fi
+    done
 else
-    >&2 echo "main or master worktree not found"
-    cd "$current_dir" || exit
+    echo "Must be run inside a git worktree"
     exit 1
 fi
-
->&2 echo "Updating with remote"
-git pull
-
-cd "$current_dir" || exit
 

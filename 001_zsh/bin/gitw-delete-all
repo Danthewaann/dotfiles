@@ -3,8 +3,8 @@
 set -e
 
 # Delete all git worktrees in current bare repository
-barerepo=$(git rev-parse --is-bare-repository)
-if [[ $barerepo != "true" ]]; then
+is_bare_repo=$(git rev-parse --is-bare-repository)
+if [[ $is_bare_repo != "true" ]]; then
     echo "Must be run in bare repository"
     exit 1
 fi
