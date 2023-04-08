@@ -3,6 +3,7 @@ bind r source-file ~/.tmux.conf
 
 set -g prefix C-s
 set -g renumber-windows on
+set -g focus-events on
 
 # act like vim
 setw -g mode-keys vi
