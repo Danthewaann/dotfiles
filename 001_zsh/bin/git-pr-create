@@ -10,10 +10,11 @@ pr_title=
 while [[ $# -gt 0 ]]; do
     case $1 in
     -l|--label)
+        # shellcheck disable=SC2076
         if [[ " ${pr_types[*]} " =~ " ${2} " ]]; then
             pr_type=$2
         fi
-        args+=($1 $2)
+        args+=("$1" "$2")
         shift; shift
         ;;
     -t|--title)
@@ -24,26 +25,26 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z $pr_type ]]; then
-    >&2 echo "\nERROR: you need to provide a PR type as a label in (${pr_types[@]})"
-    return 1
+    >&2 printf "\nERROR: you need to provide a PR type in a -l|--label flag, examples (%s)\n" "${pr_types[*]}"
+    exit 1
 fi
 
 if [[ -z $pr_title ]]; then
     pr_title=$(git log -1 --pretty=%B)
-    >&2 echo "\nNo PR title provided, defaulting to last commit message \"$pr_title\""
+    >&2 printf "\nNo PR title provided, defaulting to last commit message \"%s\"\n" "$pr_title"
 else
-    >&2 echo "\nUsing \"$pr_title\" as PR title"
+    >&2 printf "\nUsing \"%s\" as PR title\n" "$pr_title"
 fi
 
 gh pr create \
     --head "$(git branch --show-current)" \
     --assignee "@me" \
     --title "$pr_title" \
-    "$args" || return $?
+    "${args[@]}" || return $?
 
-local url=$(gh pr view --json url --jq .url)
+url=$(gh pr view --json url --jq .url)
 
->&2 echo "\nThe below has been copied to your clipboard! 📋\n"
+>&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
 output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$pr_type" "$pr_title")
 echo "$output"
 echo "$output" | pbcopy

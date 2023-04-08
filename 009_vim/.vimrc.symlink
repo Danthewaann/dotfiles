@@ -728,7 +728,7 @@ augroup fugitive_au
 augroup END
 
 function! GetTicketNumber() abort
-    return trim(system('git branch --show-current | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+"'))
+    return trim(system('get-ticket-number'))
 endfunction
 
 function! ReplaceTicketNumberInPRFile() abort

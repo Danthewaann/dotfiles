@@ -6,19 +6,19 @@ set -e
 barerepo=$(git rev-parse --is-bare-repository)
 if [[ $barerepo != "true" ]]; then
     echo "Must be run in bare repository"
-    return 1
+    exit 1
 fi
 
-worktrees=($(git w list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1))
+worktrees=()
+while IFS='' read -r line; do worktrees+=("$line"); done < <(git worktree list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1)
 if [[ ${#worktrees[@]} -eq 0 ]]; then
     echo "No worktrees to delete"
-    return 1
+    exit 1
 fi
 
-for worktree in $worktrees; do
-    echo "\nDeleting worktree : $worktree"
-    result=$(git w remove $worktree 2>&1)
-    if [[ -n $result ]]; then
+for worktree in "${worktrees[@]}"; do
+    printf "\nDeleting worktree : %s\n" "$worktree"
+    if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
         echo "  $result"
         continue
     fi
