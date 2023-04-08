@@ -761,11 +761,6 @@ xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 let g:gitgutter_signs=0
 
-" COMMENTARY =====================================================================================================
-
-" Add support for commenting/uncommenting code
-noremap <silent> <leader>/ :Commentary<CR>
-
 " VIMSPECTOR =====================================================================================================
 
 " open vimspector settings
