@@ -7,7 +7,7 @@
     "pyright.disableDiagnostics": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
-    "python.analysis.diagnosticMode": "openFilesOnly",
+    "python.analysis.diagnosticMode": "workspace",
     "python.analysis.useLibraryCodeForTypes": true,
     "python.analysis.typeCheckingMode": "basic",
     "suggest.virtualText": true,
@@ -18,9 +18,10 @@
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
     "pyright.testing.provider": "pytest",
-    "pyright.organizeimports.provider": "isort",
+    "pyright.organizeimports.provider": "pyright",
     "pyright.inlayHints.variableTypes": false,
     "pyright.inlayHints.functionReturnTypes": false,
+    "list.source.symbols.defaultAction": "open",
     "languageserver": {
         "robotframework_ls": {
             "command": "robotframework_ls",
