@@ -36,8 +36,3 @@ git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # Gets all branches from origin
 git fetch origin
 
-if [[ -f "$HOME/post-checkout" ]]; then
-    >&2 echo "linking $HOME/post-checkout to .bare/hooks/post-checkout"
-    ln -s "$HOME/post-checkout" .bare/hooks/post-checkout 
-fi
-
