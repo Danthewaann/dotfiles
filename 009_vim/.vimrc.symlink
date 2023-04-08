@@ -214,8 +214,7 @@ inoremap <C-P> <C-R>+
 function! PasteInLine(before = v:true, visual = v:false) abort
     let line = trim(getreg('*'))
     if a:visual
-        let selection = GetVisualSelection()
-        execute 's/\V' . selection . '/' . line . '/g'
+        execute 'normal gv' . '"kdi' . line
     else
         let mode = "a"
         if a:before
