@@ -766,7 +766,14 @@ command! -nargs=0 ReplaceTicketNumberInPRFile :call ReplaceTicketNumberInPRFile(
 
 " VIM-GITGUTTER ==================================================================================================
 
+" don't preserve non-gitgutter signs
 let g:gitgutter_sign_allow_clobber = 1
+
+" disable default mappings
+let g:gitgutter_map_keys = 0
+
+" preview hunk changes in a popup windowe(s)let g:gitgutter_grep = 'rg --color=neendif
+let g:gitgutter_preview_win_floating = 1
 
 if executable("rg")
     let g:gitgutter_grep = 'rg --color=never'
@@ -780,6 +787,15 @@ omap ic <Plug>(GitGutterTextObjectInnerPending)
 omap ac <Plug>(GitGutterTextObjectOuterPending)
 xmap ic <Plug>(GitGutterTextObjectInnerVisual)
 xmap ac <Plug>(GitGutterTextObjectOuterVisual)
+
+" show all hunks in all buffers in quickfix window
+nnoremap <silent><leader>ggq :GitGutterQuickFix<CR>:copen<CR>
+
+" fold all unchanged lines in buffer
+nnoremap <silent><leader>ggf :GitGutterFold<CR>
+
+" show a diff of changes in current buffer
+nnoremap <silent><leader>ggd :GitGutterDiffOrig<CR>
 
 let g:gitgutter_signs=0
 
