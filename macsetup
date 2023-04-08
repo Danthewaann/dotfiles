@@ -18,7 +18,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         success "installed oh-my-zsh"
 
-        run_command "deleting $HOME/.zshrc" "deleted $HOME/.zshrc" \
+        run_command "deleting $HOME/.zshrc" \
             "rm -f $HOME/.zshrc"
     fi
 
