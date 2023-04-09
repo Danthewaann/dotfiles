@@ -742,8 +742,8 @@ nmap <leader>gkc <Plug>(coc-git-keepcurrent)
 nmap <leader>gki <Plug>(coc-git-keepincoming)
 nmap <leader>gkb <Plug>(coc-git-keepboth)
 
-" show commit of current chunk
-nmap <leader>gc <Plug>(coc-git-commit)
+" show chunks in current buffer
+nmap <leader>gc :CocList gchunks<CR>
 
 " open current line in browser
 nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
