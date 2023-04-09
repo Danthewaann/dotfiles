@@ -786,6 +786,12 @@ nnoremap <silent><leader>gb :call ToggleGitBlameVirtualText()<CR>
 nnoremap <silent><leader>gpp :G push<CR>
 nnoremap <silent><leader>gpf :G push --force<CR>
 
+augroup fugitive_au
+  autocmd!
+  " Make sure the Git window height stays fixed
+  autocmd FileType fugitive setlocal winfixheight
+augroup END
+
 function! GetTicketNumber() abort
     return trim(system('get-ticket-number'))
 endfunction
