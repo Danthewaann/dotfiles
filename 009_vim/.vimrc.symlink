@@ -41,7 +41,6 @@ let g:coc_global_extensions = [
             \'coc-yank',
             \'coc-markdownlint',
             \'coc-docker',
-            \'coc-webview',
             \]
 
 set nobackup
