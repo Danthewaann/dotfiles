@@ -3,7 +3,7 @@
 # From https://github.com/tpope/vim-obsession/issues/11
 # Auto start vim-obession when starting vim with no args
 if test -d "$1"; then
-    cd "$1"
+    cd "$1" || exit
     if test -f Session.vim; then
         env vim -S
     else
