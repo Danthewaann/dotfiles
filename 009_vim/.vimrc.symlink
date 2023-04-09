@@ -785,25 +785,6 @@ nnoremap <silent><leader>gb :call ToggleGitBlameVirtualText()<CR>
 
 nnoremap <silent><leader>gpp :G push<CR>
 nnoremap <silent><leader>gpf :G push --force<CR>
-nnoremap <silent><leader>gs :call OpenOrRefreshGitStatus()<CR>
-
-function! OpenOrRefreshGitStatus() abort
-    for l:winnr in range(1, winnr('$'))
-        if !empty(getwinvar(l:winnr, 'fugitive_status'))
-            execute 'Git'
-            return
-        endif
-    endfor
-    keepalt Git
-    " Make the Git window smaller
-    resize-10
-endfunction
-
-augroup fugitive_au
-  autocmd!
-  " Make sure the Git window height stays fixed
-  autocmd FileType fugitive setlocal winfixheight
-augroup END
 
 function! GetTicketNumber() abort
     return trim(system('get-ticket-number'))
