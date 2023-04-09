@@ -599,8 +599,6 @@ nmap <silent> gr <Plug>(coc-references)
 xmap <leader>ca  <Plug>(coc-codeaction-selected)
 nmap <leader>ca  <Plug>(coc-codeaction-line)
 
-" Remap keys for apply code actions affect whole buffer
-nmap <leader>cs  <Plug>(coc-codeaction-source)
 " Apply the most preferred quickfix action to fix diagnostic on the current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
