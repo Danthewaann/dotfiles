@@ -1,6 +1,6 @@
 " Returns true if the given file belongs to your test runner
 function! test#python#make#test_file(file)
-    if fnamemodify(a:file, ':t') =~# g:test#python#pytest#file_pattern
+    if fnamemodify(a:file, ':t') =~# g:test#python#pytest#file_pattern || fnamemodify(a:file, ':e') == "py"
         if exists('g:test#python#runner')
             return g:test#python#runner ==# 'make'
         else
