@@ -642,7 +642,7 @@ nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
 " Manage extensions
 nnoremap <silent><nowait> <leader>e  :<C-u>CocList extensions<CR>
 " Show commands
-nnoremap <silent><nowait> <leader>c  :<C-u>CocList commands<CR>
+nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>
 " Find symbol of current document.
