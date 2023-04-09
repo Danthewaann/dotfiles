@@ -723,12 +723,12 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 " COC-GIT ========================================================================================================
 
 " navigate chunks of current buffer
-nmap [c <Plug>(coc-git-prevchunk)
-nmap ]c <Plug>(coc-git-nextchunk)
+nmap [c <Plug>(coc-git-prevchunk)zz
+nmap ]c <Plug>(coc-git-nextchunk)zz
 
 " navigate conflicts of current buffer
-nmap [h <Plug>(coc-git-prevconflict)
-nmap ]h <Plug>(coc-git-nextconflict)
+nmap [h <Plug>(coc-git-prevconflict)zz
+nmap ]h <Plug>(coc-git-nextconflict)zz
 
 " resolve conflict at current chunk
 nmap <leader>gkc <Plug>(coc-git-keepcurrent)
