@@ -639,6 +639,10 @@ endfunction
 " Mappings for CocList
 " Show all diagnostics.
 nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
+" Manage extensions
+nnoremap <silent><nowait> <leader>e  :<C-u>CocList extensions<CR>
+" Show commands
+nnoremap <silent><nowait> <leader>c  :<C-u>CocList commands<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>
 " Find symbol of current document.
@@ -742,19 +746,19 @@ nmap <leader>gc <Plug>(coc-git-commit)
 nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
 
 " fold unchanged lines in current buffer
-nmap <silent><leader>gf :call CocActionAsync('runCommand', 'git.foldUnchanged')<CR>
+nmap <silent><leader>gf :call CocAction('runCommand', 'git.foldUnchanged')<CR>
 
-" fold unchanged lines in current buffer
-nmap <silent><leader>gd :call CocActionAsync('runCommand', 'git.diffCached')<CR>
+" show diff of staged changes in current buffer
+nmap <silent><leader>gd :call CocAction('runCommand', 'git.diffCached')<CR>
 
-" show chunk diff at current position
-nmap <silent><leader>cs :echo "Staging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkStage')<CR>
+" stage chunk at current position
+nmap <silent><leader>gs :echo "Staging chunk..."<CR>:silent call CocAction('runCommand', 'git.chunkStage')<CR>
 
-" show chunk diff at current position
-nmap <silent><leader>cus :echo "Unstaging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkUnstage')<CR>
+" unstage chunk at current position
+nmap <silent><leader>gu :echo "Unstaging chunk..."<CR>:silent call CocAction('runCommand', 'git.chunkUnstage')<CR>
 
-" show chunk diff at current position
-nmap cu :silent call CocActionAsync('runCommand', 'git.chunkUndo')<CR>
+" undo chunk at current position
+nmap cu :silent call CocAction('runCommand', 'git.chunkUndo')<CR>
 
 " show chunk diff at current position
 nmap cp <Plug>(coc-git-chunkinfo)
