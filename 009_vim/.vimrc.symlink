@@ -56,7 +56,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'michaeljsmith/vim-indent-object'
 " Plug 'puremourning/vimspector'
@@ -721,6 +720,67 @@ nnoremap <silent> <leader>tc :TestClass<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
+" COC-GIT ========================================================================================================
+
+" navigate chunks of current buffer
+nmap [c <Plug>(coc-git-prevchunk)
+nmap ]c <Plug>(coc-git-nextchunk)
+
+" navigate conflicts of current buffer
+nmap [h <Plug>(coc-git-prevconflict)
+nmap ]h <Plug>(coc-git-nextconflict)
+
+" resolve conflict at current chunk
+nmap <leader>gkc <Plug>(coc-git-keepcurrent)
+nmap <leader>gki <Plug>(coc-git-keepincoming)
+nmap <leader>gkb <Plug>(coc-git-keepboth)
+
+" show commit of current chunk
+nmap <leader>gc <Plug>(coc-git-commit)
+
+" open current line in browser
+nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
+
+" fold unchanged lines in current buffer
+nmap <silent><leader>gf :call CocActionAsync('runCommand', 'git.foldUnchanged')<CR>
+
+" fold unchanged lines in current buffer
+nmap <silent><leader>gd :call CocActionAsync('runCommand', 'git.diffCached')<CR>
+
+" show chunk diff at current position
+nmap <silent><leader>cs :echo "Staging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkStage')<CR>
+
+" show chunk diff at current position
+nmap <silent><leader>cus :echo "Unstaging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkUnstage')<CR>
+
+" show chunk diff at current position
+nmap cu :silent call CocActionAsync('runCommand', 'git.chunkUndo')<CR>
+
+" show chunk diff at current position
+nmap cp <Plug>(coc-git-chunkinfo)
+
+" create text object for git chunks
+omap ic <Plug>(coc-git-chunk-inner)
+xmap ic <Plug>(coc-git-chunk-inner)
+omap ac <Plug>(coc-git-chunk-outer)
+xmap ac <Plug>(coc-git-chunk-outer)
+
+" hide git blame virtual text by default
+let g:coc_git_hide_blame_virtual_text = 1
+
+function! ToggleGitBlameVirtualText() abort
+    let current = get(g:, 'coc_git_hide_blame_virtual_text', 0)
+    if current == 0
+        echo "Toggling git blame off"
+    else
+        echo "Toggling git blame on"
+    endif
+    let g:coc_git_hide_blame_virtual_text = !current
+endfunction
+
+" toggle git blame virtual text
+nnoremap <silent><leader>gb :call ToggleGitBlameVirtualText()<CR>
+
 " VIM-FUGITIVE ===================================================================================================
 
 nnoremap <silent><leader>gpp :G push<CR>
@@ -761,41 +821,6 @@ function! ReplaceTicketNumberInPRFile() abort
 endfunction
 
 command! -nargs=0 ReplaceTicketNumberInPRFile :call ReplaceTicketNumberInPRFile()
-
-" VIM-GITGUTTER ==================================================================================================
-
-" don't preserve non-gitgutter signs
-let g:gitgutter_sign_allow_clobber = 1
-
-" disable default mappings
-let g:gitgutter_map_keys = 0
-
-" preview hunk changes in a popup windowe(s)let g:gitgutter_grep = 'rg --color=neendif
-let g:gitgutter_preview_win_floating = 1
-
-if executable("rg")
-    let g:gitgutter_grep = 'rg --color=never'
-endif
-
-nmap ]c <Plug>(GitGutterNextHunk)zz
-nmap [c <Plug>(GitGutterPrevHunk)zz
-nmap cp <Plug>(GitGutterPreviewHunk)
-nmap cu <Plug>(GitGutterUndoHunk)
-omap ic <Plug>(GitGutterTextObjectInnerPending)
-omap ac <Plug>(GitGutterTextObjectOuterPending)
-xmap ic <Plug>(GitGutterTextObjectInnerVisual)
-xmap ac <Plug>(GitGutterTextObjectOuterVisual)
-
-" show all hunks in all buffers in quickfix window
-nnoremap <silent><leader>ggq :GitGutterQuickFix<CR>:copen<CR>
-
-" fold all unchanged lines in buffer
-nnoremap <silent><leader>ggf :GitGutterFold<CR>
-
-" show a diff of changes in current buffer
-nnoremap <silent><leader>ggd :GitGutterDiffOrig<CR>
-
-let g:gitgutter_signs=0
 
 " VIMSPECTOR =====================================================================================================
 
@@ -1139,7 +1164,7 @@ vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 nnoremap <silent><leader>b :Buffers!<CR>
 
 " show changed files
-nnoremap <silent><leader>gf :GFiles!?<CR>
+nnoremap <silent><leader>ggf :GFiles!?<CR>
 
 " show commits
 nnoremap <leader>gl :Commits!<CR>
@@ -1175,9 +1200,8 @@ let g:tslime_pre_command = "C-c"
 
 " VIM-SIGNATURE ===================================================================================================
 
-" Highlight all marks and markers
-let g:SignatureMarkTextHLDynamic = 1
-let g:SignatureMarkerTextHLDynamic = 1
+" list all global marks
+nnoremap <leader>m :SignatureListGlobalMarks<CR>
 
 " VIM-PYTHON-DOCSTRING ============================================================================================
 
@@ -1187,6 +1211,7 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 " VIM-AIRLINE =====================================================================================================
 
 let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#hunks#coc_git = 1
 
 " truncate the branch name
 let g:airline#extensions#branch#format = 0
