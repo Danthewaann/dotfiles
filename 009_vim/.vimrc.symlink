@@ -28,6 +28,7 @@ let g:coc_global_extensions = [
             \'coc-git',
             \'coc-css',
             \'coc-html',
+            \'coc-htmlhint',
             \'coc-toml',
             \'coc-clangd',
             \'coc-rust-analyzer',
@@ -37,6 +38,10 @@ let g:coc_global_extensions = [
             \'coc-dictionary',
             \'coc-syntax',
             \'coc-sql',
+            \'coc-yank',
+            \'coc-markdownlint',
+            \'coc-docker',
+            \'coc-webview',
             \]
 
 set nobackup
@@ -601,7 +606,7 @@ nmap <silent> gr <Plug>(coc-references)
 " Applying code actions to the selected code block
 " Example: `<leader>aap` for current paragraph
 xmap <leader>ca  <Plug>(coc-codeaction-selected)
-nmap <leader>ca  <Plug>(coc-codeaction-line)
+nmap <leader>ca  <Plug>(coc-codeaction)
 
 " Apply the most preferred quickfix action to fix diagnostic on the current line
 nmap <leader>qf  <Plug>(coc-fix-current)
@@ -654,6 +659,8 @@ nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<CR>
 " Search workspace jump locations.
 nnoremap <silent><nowait> <leader>l  :<C-u>CocList location<CR>
+" Show yank history
+nnoremap <silent><nowait> <leader>y  :<C-u>CocList -A --normal yank<CR>
 " Search workspace symbols.
 nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<CR>
 " Search for the current current word in workspace symbols.
