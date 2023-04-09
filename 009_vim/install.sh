@@ -24,32 +24,13 @@ if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 fi
 
-# Install plugins
-run_command "installing plugins" \
-    "vim --not-a-term +PlugInstall +qall"
-
-# Workaround from https://github.com/neoclide/coc.nvim/issues/3258#issuecomment-1056660012
-run_command "configuring coc" \
-    "cd $HOME/.vim/plugged/coc.nvim && git checkout release" \
-
-# TODO: I don't think this works as expected
-# vimspector gadgets post-install step
-run_command "configuring vimspector" \
-    "vim --not-a-term \"+VimspectorInstall\" +qall"
-
-# TODO: I don't think this works as expected
-# Install binaries for vim-go plugin
-run_command "installing go binaries for vim-go" \
-    "vim --not-a-term \"+GoInstallBinaries\" +qall"
-
-# TODO: I don't think this works as expected
-run_command "installing clangd" \
-    "vim --not-a-term \"+CocCommand clangd.install\" +qall"
-
 # Install vim plugin dependencies
 if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing vim plugin dependencies" \
-        "brew install fzf shellcheck"
+    run_command "installing fzf" \
+        "brew install fzf"
+
+    run_command "installing shellcheck" \
+        "brew install shellcheck"
 
     run_command "installing git-delta" \
         "brew install git-delta"
@@ -60,8 +41,11 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing ripgrep" \
         "brew install ripgrep"
 else
-    run_command "installing vim plugin dependencies" \
-        "sudo apt-get install -y fzf shellcheck"
+    run_command "installing fzf" \
+        "sudo apt-get install -y fzf"
+
+    run_command "installing shellcheck" \
+        "sudo apt-get install -y shellcheck"
 
     if [[ ! -f "$SCRIPT_DIR/git-delta.deb" ]]; then
         run_command "downloading git-delta" \
@@ -83,14 +67,18 @@ else
         "sudo apt-get install -y ripgrep"
 fi
 
+# Install vim plugins
+run_command "installing vim plugins" \
+    "vim --not-a-term +PlugInstall\! +qall > /dev/null 2>&1"
+
 info "linking clangd config"
 mkdir -p "$HOME/.config/clangd"
 link_file "$SCRIPT_DIR/clangd_config.yaml" "$HOME/.config/clangd/config.yaml"
 
 info "linking directories in autoload"
-for d in $SCRIPT_DIR/autoload/*; do
+for d in "$SCRIPT_DIR"/autoload/*; do
     if [[ -d "$d" ]]; then
-        link_file "$d" "$HOME/.vim/autoload/$(basename $d)"
+        link_file "$d" "$HOME/.vim/autoload/$(basename "$d")"
     fi
 done
 
