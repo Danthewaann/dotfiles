@@ -2,25 +2,27 @@
 
 set -e
 
+>&2 echo
+
 # Delete all git worktrees in current bare repository
-is_bare_repo=$(git rev-parse --is-bare-repository)
+if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo != "true" ]]; then
-    echo "Must be run in bare repository"
+    >&2 echo "ERROR: Must be run in a bare repository"
     exit 1
 fi
 
 worktrees=()
 while IFS='' read -r line; do worktrees+=("$line"); done < <(git worktree list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1)
 if [[ ${#worktrees[@]} -eq 0 ]]; then
-    echo "No worktrees to delete"
+    >&2 echo "ERROR: No worktrees to delete"
     exit 1
 fi
 
 for worktree in "${worktrees[@]}"; do
-    printf "\nDeleting worktree : %s\n" "$worktree"
+    >&2 printf "\nDeleting worktree : %s\n" "$worktree"
     if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
         echo "  $result"
         continue
     fi
-    echo "  Successfully deleted $worktree"
+    >&2 echo "  Successfully deleted $worktree"
 done

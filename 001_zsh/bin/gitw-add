@@ -2,6 +2,14 @@
 
 set -e 
 
+>&2 echo
+
+if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
+if [[ $is_bare_repo != "true" ]]; then
+    >&2 echo "ERROR: Must be run in a bare repository"
+    exit 1
+fi
+
 branch_name="$1"; shift
 
 if [[ -z $branch_name ]]; then
