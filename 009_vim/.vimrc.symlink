@@ -686,6 +686,9 @@ endif
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30'
 
+" ignore files matching these patterns when expanding wildcards
+set wildignore+=*/.git/*,*.venv/*,*node_modules/*,*/tmp/*,*.swp
+
 " VIM-TEST ===================================================================================================
 
 let test#strategy = "tslime"
