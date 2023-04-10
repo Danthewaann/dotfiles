@@ -22,23 +22,6 @@
     "pyright.inlayHints.variableTypes": false,
     "pyright.inlayHints.functionReturnTypes": false,
     "list.source.symbols.defaultAction": "open",
-    "languageserver": {
-        "robotframework_ls": {
-            "command": "robotframework_ls",
-            "filetypes": ["robot"],
-            "settings": {
-                "robot.language-server.python": "${workspaceFolder}/.venv/bin/python",
-                "robot.pythonpath": [
-                    "${workspaceRoot}/.venv/lib/python3.8/site-packages/",
-                    "${workspaceRoot}/keywords/",
-                    "${workspaceRoot}/variables/",
-                    "${workspaceRoot}/libraries/"
-                ],
-                "robot.codeLens.enable": true,
-                "robot.lint.enabled": false
-            }
-        }
-    },
     "coc.preferences.formatOnSaveTimeout": 5000,
     "coc.preferences.willSaveHandlerTimeout": 5000,
     "[python][javascript][typescript][typescriptreact]": {
