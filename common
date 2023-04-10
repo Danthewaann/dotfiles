@@ -70,19 +70,15 @@ link_file () {
     local action=
     local currentSrc=
 
-    local overwrite_all=${overwrite_all:-false}
-    local backup_all=${backup_all:-false}
-    local skip_all=${skip_all:-false}
-
     if [ -f "$dst" ] || [ -d "$dst" ] || [ -L "$dst" ]; then
         if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]; then
-            currentSrc="$(readlink "$dst")"
+            if ! currentSrc="$(readlink "$dst")"; then true; fi
 
             if [ "$currentSrc" == "$src" ]; then
                 skip=true
             else
-                user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-                    [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+                user "File already exists: $dst ($(basename "$src")), what do you want to do?"
+                user "[s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
                 read -r -n 1 action
 
                 case "$action" in

@@ -34,20 +34,29 @@ setup_gitconfig () {
 install_symlinks () {
     info "running symlinks : output logged to $LOG_FILE" | tee -a "$LOG_FILE"
 
-    local overwrite_all=false backup_all=false skip_all=false
+    overwrite_all=false backup_all=false skip_all=false
 
-    symlinks=()
-    while IFS=" " read -r line; do symlinks+=("$line"); done < <(find -H "$SCRIPT_DIR" -maxdepth 2 -name 'symlink.sh' | sort)
+    symlink_files=()
+    while IFS=" " read -r line; do symlink_files+=("$line"); done < <(find -H "$SCRIPT_DIR" -maxdepth 2 -name 'symlink.sh' | sort)
 
-    for symlink in "${symlinks[@]}"; do
+    for symlink_file in "${symlink_files[@]}"; do
         info ""
-        info "running symlink $symlink" | tee -a "$LOG_FILE"
+        info "running symlink file $symlink_file" | tee -a "$LOG_FILE"
         info "==========================================="
         info ""
-        if ! sh -c "$symlink" | tee -a "$LOG_FILE" 2>&1; then
-            fail "failed to run symlink $symlink" | tee -a "$LOG_FILE"
+        if ! symlinks=$(sh -c "$symlink_file" 2>&1); then
+            fail "failed to run symlink file $symlink_file" | tee -a "$LOG_FILE"
         else
-            success "finished symlink $symlink" | tee -a "$LOG_FILE"
+            for link in "${symlinks[@]}"; do
+                lines=()
+                while IFS=$'\n' read -r line; do lines+=("$line"); done < <(echo "$link" | tr "\n" "\n")
+                for line in "${lines[@]}"; do
+                    IFS=" " read -r -a parts <<< "$line"
+                    link_file "${parts[0]}" "${parts[1]}"
+                done
+            done
+            info ""
+            success "finished symlink file $symlink_file" | tee -a "$LOG_FILE"
             info "==========================================="
         fi
     done
