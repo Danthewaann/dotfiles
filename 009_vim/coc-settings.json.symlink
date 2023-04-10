@@ -41,6 +41,7 @@
     },
     "coc.preferences.formatOnSaveTimeout": 5000,
     "coc.preferences.willSaveHandlerTimeout": 5000,
+    "post.root": "~/.coc-post",
     "[python][javascript][typescript][typescriptreact]": {
         "coc.preferences.formatOnSave": false
     },

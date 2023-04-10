@@ -71,6 +71,8 @@ fi
 run_command "installing vim plugins" \
     "vim --not-a-term +PlugInstall\! +qall > /dev/null 2>&1"
 
+run_command "creating $HOME/.coc-post directory" "mkdir -p $HOME/.coc-post"
+
 info "linking clangd config"
 mkdir -p "$HOME/.config/clangd"
 link_file "$SCRIPT_DIR/clangd_config.yaml" "$HOME/.config/clangd/config.yaml"
@@ -81,5 +83,4 @@ for d in "$SCRIPT_DIR"/autoload/*; do
         link_file "$d" "$HOME/.vim/autoload/$(basename "$d")"
     fi
 done
-
 

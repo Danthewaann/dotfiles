@@ -41,6 +41,7 @@ let g:coc_global_extensions = [
             \'coc-yank',
             \'coc-markdownlint',
             \'coc-docker',
+            \'coc-post',
             \]
 
 set nobackup
