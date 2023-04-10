@@ -802,6 +802,75 @@ endfunction
 " toggle git blame virtual text
 nnoremap <silent><leader>gb :call ToggleGitBlameVirtualText()<CR>
 
+" COC-POST =======================================================================================================
+
+function Post() abort
+    if &filetype != 'post'
+        echohl WarningMsg
+        echo "Can only run :Post in a .post file!"
+        echohl None
+        return
+    endif
+        
+    let changed_post_file = 0
+    let post_buf = win_getid()
+
+    " if this post file requires an API_KEY, make sure to set it
+    if search('@API_KEY@') != 0
+        let coc_post_api_key = trim(system("cat ~/.coc-post-api-key"))
+        if v:shell_error
+            echohl WarningMsg
+            echo "This post file requires an API_KEY"
+            echohl None
+            return
+        endif
+        execute '%s/@API_KEY@/' . coc_post_api_key . '/g'
+        execute 'w'
+        let changed_post_file = 1
+    endif
+
+    " run the post file
+    execute 'CocCommand post.do'
+
+    " make sure the post output window is visible before proceeding
+    let timeout = 10
+    let cur_buf = win_getid()
+    while timeout > 0 && cur_buf == post_buf
+        sleep 100ms
+        let timeout = timeout - 1
+        let cur_buf = win_getid()
+    endwhile
+
+    " make sure the request body has been displayed before proceeding
+    let timeout = 10
+    while timeout > 0 && search("Body") == 0
+        sleep 1000ms
+        let timeout = timeout - 1
+    endwhile
+
+    " if there is an apiKey in the body, use it for future requests
+    let api_key = search("apiKey")
+    if api_key != 0
+        let line = trim(split(getline(api_key), ":")[1])
+        let line = substitute(line, '"', '', 'g')
+        let line = substitute(line, ',', '', 'g')
+        call system("echo " . line . " > ~/.coc-post-api-key")
+    endif
+
+    if changed_post_file == 1
+        " go back to the post file to undo our changes
+        call win_gotoid(post_buf)
+        execute 'u'
+        execute 'w'
+    endif
+endfunction
+
+" run current post file
+command! -nargs=0 Post call Post()
+
+" show all post files
+nnoremap <silent><leader>cp :CocList post<CR>
+
 " VIM-FUGITIVE ===================================================================================================
 
 nnoremap <silent><leader>gpp :G push<CR>
