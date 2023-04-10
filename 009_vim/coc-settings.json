@@ -18,7 +18,7 @@
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
     "pyright.testing.provider": "pytest",
-    "pyright.organizeimports.provider": "pyright",
+    "pyright.organizeimports.provider": "isort",
     "pyright.inlayHints.variableTypes": false,
     "pyright.inlayHints.functionReturnTypes": false,
     "list.source.symbols.defaultAction": "open",
