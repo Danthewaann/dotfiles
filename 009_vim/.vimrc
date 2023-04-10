@@ -816,15 +816,16 @@ function Post() abort
     let post_buf = win_getid()
 
     " if this post file requires an API_KEY, make sure to set it
-    if search('@API_KEY@') != 0
+    let api_key_line = search('@API_KEY@')
+    if api_key_line != 0
         let coc_post_api_key = trim(system("cat ~/.coc-post-api-key"))
-        if v:shell_error
+        if v:shell_error || empty(coc_post_api_key)
             echohl WarningMsg
             echo "This post file requires an API_KEY"
             echohl None
             return
         endif
-        execute '%s/@API_KEY@/' . coc_post_api_key . '/g'
+        execute api_key_line . ' s/@API_KEY@/' . coc_post_api_key . '/g'
         execute 'w'
         let changed_post_file = 1
     endif
