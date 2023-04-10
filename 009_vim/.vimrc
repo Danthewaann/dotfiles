@@ -42,6 +42,7 @@ let g:coc_global_extensions = [
             \'coc-markdownlint',
             \'coc-docker',
             \'coc-post',
+            \'coc-snippets',
             \]
 
 set nobackup
@@ -87,6 +88,7 @@ Plug 'romainl/vim-cool'
 Plug 'Konfekt/FastFold'
 Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-unimpaired'
+Plug 'honza/vim-snippets'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
