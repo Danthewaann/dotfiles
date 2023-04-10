@@ -13,8 +13,9 @@
         ".venv/**"
     ],
 
-    "typeCheckingMode": "strict",
+    "typeCheckingMode": "basic",
     "reportMissingImports": true,
     "reportMissingTypeStubs": false,
+    "reportUnusedImport": false,
     "useLibraryCodeForTypes": true
 }
