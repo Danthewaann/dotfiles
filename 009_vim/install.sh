@@ -73,14 +73,3 @@ run_command "installing vim plugins" \
 
 run_command "creating $HOME/.coc-post directory" "mkdir -p $HOME/.coc-post"
 
-info "linking clangd config"
-mkdir -p "$HOME/.config/clangd"
-link_file "$SCRIPT_DIR/clangd_config.yaml" "$HOME/.config/clangd/config.yaml"
-
-info "linking directories in autoload"
-for d in "$SCRIPT_DIR"/autoload/*; do
-    if [[ -d "$d" ]]; then
-        link_file "$d" "$HOME/.vim/autoload/$(basename "$d")"
-    fi
-done
-

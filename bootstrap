@@ -9,12 +9,11 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/common
 
 setup_gitconfig () {
-    if ! [[ -f 001_git/.gitconfig.symlink ]]; then
+    if ! [[ -f "$SCRIPT_DIR"/001_git/.gitconfig ]]; then
         info 'setup gitconfig'
 
         git_credential='cache'
-        if [ "$(uname -s)" == "Darwin" ]
-        then
+        if [ "$(uname -s)" == "Darwin" ]; then
             git_credential='osxkeychain'
         fi
 
@@ -26,23 +25,31 @@ setup_gitconfig () {
         sed -e "s/AUTHORNAME/$git_authorname/g" \
             -e "s/AUTHOREMAIL/$git_authoremail/g" \
             -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" \
-            001_git/.gitconfig.symlink.example > 001_git/.gitconfig.symlink
+            "$SCRIPT_DIR"/001_git/.gitconfig.example > "$SCRIPT_DIR"/001_git/.gitconfig
 
         success 'gitconfig'
     fi
 }
 
 install_symlinks () {
-    info 'installing symlinks'
+    info "running symlinks : output logged to $LOG_FILE" | tee -a "$LOG_FILE"
 
     local overwrite_all=false backup_all=false skip_all=false
 
     symlinks=()
-    while IFS=" " read -r line; do symlinks+=("$line"); done < <(find -H "$SCRIPT_DIR" -maxdepth 2 -name '*.symlink')
+    while IFS=" " read -r line; do symlinks+=("$line"); done < <(find -H "$SCRIPT_DIR" -maxdepth 2 -name 'symlink.sh' | sort)
 
-    for src in "${symlinks[@]}"; do
-        dst="$HOME/$(basename "${src%.*}")"
-        link_file "$src" "$dst"
+    for symlink in "${symlinks[@]}"; do
+        info ""
+        info "running symlink $symlink" | tee -a "$LOG_FILE"
+        info "==========================================="
+        info ""
+        if ! sh -c "$symlink" | tee -a "$LOG_FILE" 2>&1; then
+            fail "failed to run symlink $symlink" | tee -a "$LOG_FILE"
+        else
+            success "finished symlink $symlink" | tee -a "$LOG_FILE"
+            info "==========================================="
+        fi
     done
 }
 

@@ -124,7 +124,7 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-set scrolloff=5 
+set scrolloff=5
 set hlsearch
 set incsearch
 set nostartofline
@@ -239,7 +239,7 @@ vnoremap <silent> gp :call PasteInLine(v:false, v:true)<CR>
 
 " escape the provided input for a regex search
 function! Escape(input) abort
-   return escape(a:input,'/\[\]\.\(\)')
+    return escape(a:input,'/\[\]\.\(\)')
 endfunction
 
 " search for current word in window and highlight it
@@ -811,7 +811,7 @@ function Post() abort
         echohl None
         return
     endif
-        
+
     let changed_post_file = 0
     let post_buf = win_getid()
 
@@ -877,9 +877,9 @@ nnoremap <silent><leader>gpp :G push<CR>
 nnoremap <silent><leader>gpf :G push --force<CR>
 
 augroup fugitive_au
-  autocmd!
-  " Make sure the Git window height stays fixed
-  autocmd FileType fugitive setlocal winfixheight
+    autocmd!
+    " Make sure the Git window height stays fixed
+    autocmd FileType fugitive setlocal winfixheight
 augroup END
 
 function! GetTicketNumber() abort
@@ -947,7 +947,7 @@ let g:vimspector_sign_priority = {
 
 " Custom stuff for adding breakpoint() statements
 " Partially from https://gist.github.com/berinhard/523420
-func! s:GetLineContentAndWhitespace(line_num) 
+func! s:GetLineContentAndWhitespace(line_num)
     let cur_line_content = getline(a:line_num)
     let cur_line_whitespace = strlen(matchstr(cur_line_content, '^\s*'))
     return {'content': cur_line_content, 'whitespace': cur_line_whitespace}
@@ -995,11 +995,11 @@ nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 " Setup a way to keep track of breakpoint() calls in Python code
 function! GetAllBreakpoints()
-	return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+    return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
 endfunction
 
 function! DeleteAllBreakpoints()
-	let breakpoints = GetAllBreakpoints()
+    let breakpoints = GetAllBreakpoints()
     let list = split(breakpoints, '\n')
     let files = []
     for item in list
@@ -1010,14 +1010,14 @@ function! DeleteAllBreakpoints()
         endif
     endfor
     if !empty(files)
-       lgetexpr BreakpointsLocationList()
+        lgetexpr BreakpointsLocationList()
     endif
 endfunction
 
 command! -nargs=0 DeleteAllBreakpoints call DeleteAllBreakpoints()
 
 function! BreakpointsLocationList()
-	let breakpoints = GetAllBreakpoints()
+    let breakpoints = GetAllBreakpoints()
     if empty(breakpoints)
         echohl WarningMsg
         echo "No breakpoint()s found"
@@ -1029,9 +1029,9 @@ endfunction
 command! -nargs=0 Breakpoints lgetexpr BreakpointsLocationList() | call setloclist(0, [], 'a', {'title': 'PythonBreakpoints'})
 
 augroup quickfix
-	autocmd!
-	autocmd QuickFixCmdPost cgetexpr cwindow
-	autocmd QuickFixCmdPost lgetexpr lwindow
+    autocmd!
+    autocmd QuickFixCmdPost cgetexpr cwindow
+    autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 
 function! s:CustomiseUI()

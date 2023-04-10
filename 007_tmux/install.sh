@@ -21,12 +21,6 @@ else
         "sudo apt-get install -y kitty"
 fi
 
-info "linking OneDark.conf colour theme for kitty"
-link_file "$SCRIPT_DIR/OneDark.conf" "$HOME/.config/kitty/OneDark.conf"
-
-info "linking kitty.conf"
-link_file "$SCRIPT_DIR/kitty.conf" "$HOME/.config/kitty/kitty.conf"
-
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
     run_command "cloning tpm to -> ~/.tmux/plugins/tpm" \
         "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"

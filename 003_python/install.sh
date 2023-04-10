@@ -84,5 +84,3 @@ run_command "creating global $HOME/.config/black file" \
     "echo \"[tool.black]\" > $HOME/.config/black" \
     "echo \"line-length = 79\" >> $HOME/.config/black" \
 
-info "linking pyrightconfig.json"
-link_file "$SCRIPT_DIR/pyrightconfig.json" "$HOME/pyrightconfig.json"
