@@ -672,8 +672,21 @@ nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
 
-" nnoremap <silent><nowait> <leader>k  :call CocAction('diagnosticToggle')<CR>
-" nnoremap <silent><nowait> <leader>l  :call CocAction('diagnosticRefresh')<CR>
+function ToggleDiagnostics() abort
+    let diagnostic_info = get(b:, 'coc_diagnostic_info', {})
+    if diagnostic_info == {}
+        echo "Toggling diagnostics on"
+    else
+        echo "Toggling diagnostics off"
+    endif
+    call CocActionAsync('diagnosticToggle')
+endfunction
+
+" Toggle diagnostics
+nnoremap <silent><nowait> <leader>dt  :call ToggleDiagnostics()<CR>
+
+" Refresh diagnostics
+nnoremap <silent><nowait> <leader>dr  :echo "Refreshing diagnostics"<CR>:call CocActionAsync('diagnosticRefresh')<CR>
 
 " CTRL-P ===================================================================================================
 
