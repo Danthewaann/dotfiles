@@ -38,7 +38,7 @@ run_command "setting global python version to $MY_PYTHON_VERSION" \
     "pyenv global $MY_PYTHON_VERSION"
 
 # Need to make sure flake8 is installed for coc-pyright to work correctly
-# for some reason. I also added other packages here for general use so 
+# for some reason. I also added other packages here for general use so
 # my vim setup works when editing standalone files outside of a project.
 run_command "installing python linters and formatters" \
     "pip install flake8 black isort mypy ruff"
@@ -79,8 +79,4 @@ else
                     sudo tar -C /usr/local/bin -xzf $SCRIPT_DIR/geckodriver.tar.gz"
     fi
 fi
-
-run_command "creating global $HOME/.config/black file" \
-    "echo \"[tool.black]\" > $HOME/.config/black" \
-    "echo \"line-length = 79\" >> $HOME/.config/black" \
 

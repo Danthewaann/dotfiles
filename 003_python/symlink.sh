@@ -8,3 +8,5 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/../common
 
 link_file "$SCRIPT_DIR/pyrightconfig.json" "$HOME/pyrightconfig.json"
+
+link_file "$SCRIPT_DIR/black" "$HOME/.config/black"
