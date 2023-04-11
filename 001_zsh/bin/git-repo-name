@@ -2,6 +2,12 @@
 
 set -e
 
-# Get just the name of the current git repository
-basename -s .git "$(git config --get remote.origin.url)"
+>&2 echo
 
+# Get just the name of the current git repository
+if ! remote=$(git config --get remote.origin.url); then
+    >&2 echo "ERROR: remote repo not found, are you in a git repo?"
+    exit 1
+fi
+
+basename -s .git "$remote"

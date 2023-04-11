@@ -2,6 +2,8 @@
 
 set -e
 
+>&2 echo
+
 # Get test name of the test container for the current repo
 if [[ -f .env ]]; then
     reponame=$(grep -i "compose_project_name" .env | awk -F'=' '{print $2}')

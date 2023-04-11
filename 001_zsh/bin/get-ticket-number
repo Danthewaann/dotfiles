@@ -2,6 +2,8 @@
 
 set -e
 
+>&2 echo
+
 # Get the ticketnumber for the current repo branch
 currentbranch=$(git branch --show-current) 
 

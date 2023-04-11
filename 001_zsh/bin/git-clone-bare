@@ -11,9 +11,16 @@ set -e
 # git-clone-bare-for-worktrees git@github.com:name/repo.git my-repo
 # => Clones to a /my-repo directory
 
+>&2 echo
+
 url=$1
 basename=${url##*/}
 name=${2:-${basename%.*}}
+
+if [[ -d "$name" ]]; then
+    >&2 echo "ERROR: directory '$name' already exists"
+    exit 1
+fi
 
 mkdir "$name"
 cd "$name" || exit
