@@ -754,7 +754,7 @@ nnoremap <silent> <leader>tf :TestFile<CR>
 nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tc :TestClass<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
-nnoremap <silent> <leader>tv :TestVisit<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>zz
 
 " COC-GIT ========================================================================================================
 
