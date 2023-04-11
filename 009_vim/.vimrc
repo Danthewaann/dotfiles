@@ -89,6 +89,7 @@ Plug 'Konfekt/FastFold'
 Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-unimpaired'
 Plug 'honza/vim-snippets'
+Plug 'rhysd/conflict-marker.vim'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -1348,6 +1349,29 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>0 <Plug>AirlineSelectTab0
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>= <Plug>AirlineSelectNextTab
+
+" VIM-CONFLICT-MARKER =============================================================================================
+
+" disable matchit as I don't use it
+let g:conflict_marker_enable_matchit = 0
+
+" disable the default highlight group
+let g:conflict_marker_highlight_group = ''
+
+" Include text after begin and end markers
+let g:conflict_marker_begin = '^<<<<<<< .*$'
+let g:conflict_marker_end   = '^>>>>>>> .*$'
+
+highlight ConflictMarkerBegin guibg=#2f7366
+highlight ConflictMarkerOurs guibg=#2f7366
+highlight ConflictMarkerTheirs guibg=#2f628e
+highlight ConflictMarkerEnd guibg=#2f628e
+highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81
+
+" hi DiffChange guibg=#5f005f guifg=#ABB2BF
+" hi DiffAdd    guibg=#2f7366 guifg=#ABB2BF
+" hi DiffRemove guibg=#600000 guifg=#ABB2BF
+" hi DiffText   guibg=#2f628e guifg=#ABB2BF
 
 " CHEATSHEET ======================================================================================================
 "
