@@ -771,6 +771,10 @@ nmap <leader>gkc <Plug>(coc-git-keepcurrent)
 nmap <leader>gki <Plug>(coc-git-keepincoming)
 nmap <leader>gkb <Plug>(coc-git-keepboth)
 
+" git push binds
+nmap <silent><leader>gpp :CocCommand git.push<CR>
+nmap <silent><leader>gfp :CocCommand git.push --force<CR>
+
 " show chunks in current buffer
 nmap <leader>gch :CocList gchunks<CR>
 
@@ -890,11 +894,8 @@ nnoremap <silent><leader>cp :CocList post<CR>
 " VIM-FUGITIVE ===================================================================================================
 
 nnoremap <silent><leader>gcc :G commit<CR>
-nnoremap <silent><leader>gce :G! commit --amend --no-edit<CR>
-
+nnoremap <silent><leader>gce :G commit --amend --no-edit<CR>
 nnoremap <silent><leader>gca :G commit --amend<CR>
-nnoremap <silent><leader>gpp :G! push<CR>
-nnoremap <silent><leader>gpf :G! push --force<CR>
 
 augroup fugitive_au
     autocmd!
