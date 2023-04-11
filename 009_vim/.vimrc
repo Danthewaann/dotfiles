@@ -891,6 +891,7 @@ nnoremap <silent><leader>cp :CocList post<CR>
 
 nnoremap <silent><leader>gcc :G commit<CR>
 nnoremap <silent><leader>gce :G! commit --amend --no-edit<CR>
+
 nnoremap <silent><leader>gca :G commit --amend<CR>
 nnoremap <silent><leader>gpp :G! push<CR>
 nnoremap <silent><leader>gpf :G! push --force<CR>
