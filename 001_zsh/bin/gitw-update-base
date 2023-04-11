@@ -3,7 +3,7 @@
 set -e
 
 function update_base() {
-    base_worktree=$(gitw-get-base 2> /dev/null)
+    base_worktree=$(gitw-get-base)
 
     >&2 echo "Entering '$base_worktree' base worktree"
     cd "$base_worktree" || exit
@@ -21,6 +21,8 @@ if [[ $is_bare_repo == "true" ]]; then
     exit
 fi
 
+updated_base=0
+
 if ! in_worktree=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $in_worktree == "true" ]]; then
     while true; do
@@ -29,6 +31,7 @@ if [[ $in_worktree == "true" ]]; then
         is_bare_repo=$(git rev-parse --is-bare-repository)
         if [[ $is_bare_repo == "true" ]]; then
             update_base
+            updated_base=1
             break
         fi
         # If we made it to the root dir we need to break out here
@@ -36,5 +39,7 @@ if [[ $in_worktree == "true" ]]; then
     done
 fi
 
->&2 echo "ERROR: Must be run inside a git worktree or bare repository"
-exit 1
+if [[ $updated_base -ne 1 ]]; then
+    >&2 echo "ERROR: Must be run inside a git worktree or bare repository"
+    exit 1
+fi

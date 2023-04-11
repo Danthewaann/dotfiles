@@ -14,17 +14,16 @@ function get_base() {
         return 1
     fi
 
-    >&2 echo -n "Base worktree is: "
     echo "$base_worktree"
 }
-
->&2 echo
 
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo == "true" ]]; then
     get_base
     exit
 fi
+
+got_base=0
 
 if ! in_worktree=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $in_worktree == "true" ]]; then
@@ -33,6 +32,7 @@ if [[ $in_worktree == "true" ]]; then
         if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
         if [[ $is_bare_repo == "true" ]]; then
             get_base
+            got_base=1
             break
         fi
         # If we made it to the root dir we need to break out here
@@ -40,5 +40,7 @@ if [[ $in_worktree == "true" ]]; then
     done
 fi
 
->&2 echo "ERROR: Must be run inside a git worktree or bare repository"
-exit 1
+if [[ $got_base -ne 1 ]]; then
+    >&2 echo "ERROR: Must be run inside a git worktree or bare repository"
+    exit 1
+fi

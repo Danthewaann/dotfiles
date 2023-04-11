@@ -2,8 +2,6 @@
 
 set -e
 
->&2 echo
-
 # Delete all git worktrees in current bare repository
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo != "true" ]]; then

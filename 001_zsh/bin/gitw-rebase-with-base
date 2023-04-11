@@ -2,15 +2,15 @@
 
 set -e
 
->&2 echo
-
 if ! in_worktree=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $in_worktree == "true" ]]; then
     gitw-update-base
-    base_worktree=$(gitw-get-base 2> /dev/null)
+    base_worktree=$(gitw-get-base)
+    >&2 echo
     >&2 echo "Rebasing with '$base_worktree' base worktree"
     >&2 git rebase "$base_worktree"
+else
+    >&2 echo "ERROR: Must be run inside a git worktree"
+    exit 1
 fi
 
->&2 echo "ERROR: Must be run inside a git worktree"
-exit 1
