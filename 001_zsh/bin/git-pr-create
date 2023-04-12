@@ -41,11 +41,13 @@ else
     >&2 printf "\nUsing \"%s\" as PR title\n" "$pr_title"
 fi
 
+>&2 echo
+
 gh pr create \
     --head "$(git branch --show-current)" \
     --assignee "@me" \
     --title "$pr_title" \
-    "${args[@]}" || return $?
+    "${args[@]}" || exit $?
 
 url=$(gh pr view --json url --jq .url)
 
