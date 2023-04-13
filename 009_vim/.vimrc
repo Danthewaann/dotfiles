@@ -794,13 +794,13 @@ nmap <silent><leader>gfu :call CocAction('runCommand', 'git.foldUnchanged')<CR>
 nmap <silent><leader>gd :call CocAction('runCommand', 'git.diffCached')<CR>
 
 " stage chunk at current position
-nmap <silent><leader>gs :echo "Staging chunk..."<CR>:silent call CocAction('runCommand', 'git.chunkStage')<CR>
+nmap <silent><leader>gs :echo "Staging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkStage', function('CocGitRefreshGitStatus'))<CR>
 
 " unstage chunk at current position
-nmap <silent><leader>gu :echo "Unstaging chunk..."<CR>:silent call CocAction('runCommand', 'git.chunkUnstage')<CR>
+nmap <silent><leader>gu :echo "Unstaging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkUnstage', function('CocGitRefreshGitStatus'))<CR>
 
 " undo chunk at current position
-nmap cu :silent call CocAction('runCommand', 'git.chunkUndo')<CR>
+nmap cu :silent call CocActionAsync('runCommand', 'git.chunkUndo', function('CocGitRefreshGitStatus'))<CR>
 
 " show chunk diff at current position
 nmap cp <Plug>(coc-git-chunkinfo)
