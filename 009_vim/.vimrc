@@ -782,7 +782,7 @@ nmap <leader>gch :CocList gchunks<CR>
 nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
 
 " fold unchanged lines in current buffer
-nmap <silent><leader>gf :call CocAction('runCommand', 'git.foldUnchanged')<CR>
+nmap <silent><leader>gfu :call CocAction('runCommand', 'git.foldUnchanged')<CR>
 
 " show diff of staged changes in current buffer
 nmap <silent><leader>gd :call CocAction('runCommand', 'git.diffCached')<CR>
@@ -893,6 +893,7 @@ nnoremap <silent><leader>cp :CocList post<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
+nnoremap <silent><leader>gg :G!<CR>
 nnoremap <silent><leader>gcc :G commit<CR>
 nnoremap <silent><leader>gce :G commit --amend --no-edit<CR>
 nnoremap <silent><leader>gca :G commit --amend<CR>
@@ -1266,7 +1267,7 @@ vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 nnoremap <silent><leader>b :Buffers!<CR>
 
 " show changed files
-nnoremap <silent><leader>ggf :GFiles!?<CR>
+nnoremap <silent><leader>gfs :GFiles!?<CR>
 
 " show commits
 nnoremap <leader>gl :Commits!<CR>
