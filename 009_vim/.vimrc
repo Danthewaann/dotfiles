@@ -771,9 +771,15 @@ nmap <leader>gkc <Plug>(coc-git-keepcurrent)
 nmap <leader>gki <Plug>(coc-git-keepincoming)
 nmap <leader>gkb <Plug>(coc-git-keepboth)
 
+function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
+    let win_id = win_getid()
+    call RefreshGitStatus()
+    call win_gotoid(win_id)
+endfunction
+
 " git push binds
-nmap <silent><leader>gpp :CocCommand git.push<CR>
-nmap <silent><leader>gfp :CocCommand git.push --force<CR>
+nmap <silent><leader>gpp :call CocActionAsync('runCommand', 'git.push', function('CocGitRefreshGitStatus'))<CR>
+nmap <silent><leader>gfp :call CocActionAsync('runCommand', 'git.push', '--force', function('CocGitRefreshGitStatus'))<CR>
 
 " show chunks in current buffer
 nmap <leader>gch :CocList gchunks<CR>
@@ -893,10 +899,28 @@ nnoremap <silent><leader>cp :CocList post<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
-nnoremap <silent><leader>gg :G!<CR>
+nnoremap <silent><leader>gg :call OpenOrRefreshGitStatus()<CR>
 nnoremap <silent><leader>gcc :G commit<CR>
 nnoremap <silent><leader>gce :G commit --amend --no-edit<CR>
 nnoremap <silent><leader>gca :G commit --amend<CR>
+
+function! RefreshGitStatus() abort
+    for l:winnr in range(1, winnr('$'))
+        if getwinvar(l:winnr, '&filetype') == "fugitive"
+            execute 'Git'
+            return v:true
+        endif
+    endfor
+    return v:false
+endfunction
+
+function! OpenOrRefreshGitStatus() abort
+    let git_open = RefreshGitStatus()
+    if ! git_open
+        Git
+        resize-15
+    endif
+endfunction
 
 augroup fugitive_au
     autocmd!
