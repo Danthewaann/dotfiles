@@ -7,7 +7,7 @@
     "pyright.disableDiagnostics": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
-    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.diagnosticMode": "openFilesOnly",
     "python.analysis.useLibraryCodeForTypes": true,
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoImportCompletions": true,
