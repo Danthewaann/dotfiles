@@ -6,6 +6,7 @@ args=()
 pr_types=(python ruby go docker docs)
 pr_type=
 pr_title=
+pr_is_draft=0
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -20,6 +21,11 @@ while [[ $# -gt 0 ]]; do
     -t|--title)
         pr_title="$2"
         shift; shift
+        ;;
+    -d|--draft)
+        pr_is_draft=1
+        args+=("$1")
+        shift 
         ;;
     *)
         args+=("$1")
@@ -51,8 +57,13 @@ gh pr create \
 
 url=$(gh pr view --json url --jq .url)
 
+if [[ $pr_is_draft -ne 0 ]]; then
+    output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$pr_type" "$pr_title")
+else
+    output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$pr_type" "$pr_title")
+fi
+
 >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$pr_type" "$pr_title")
 echo "$output"
 echo "$output" | pbcopy
 
