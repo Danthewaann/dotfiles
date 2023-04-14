@@ -321,12 +321,11 @@ tmap <silent><C-T>t <C-W>:tab term<CR>
 tmap <C-X> <C-W>N
 
 " Run a command in a terminal in a new tab
-function RunCmdInTerminal(cmd, args) abort
+function RunCmdInTerminal(cmd, ...) abort
     execute '$tab new'
-    echom a:args
-    if !empty(a:args)
-        let cmd = [a:cmd, a:args]
-        let name = a:cmd . ' ' . a:args
+    if !empty(a:000)
+        let cmd = [a:cmd] + a:000
+        let name = a:cmd . ' ' . join(a:000)
     else
         let cmd = [a:cmd]
         let name = a:cmd
@@ -339,7 +338,7 @@ function RunCmdInTerminal(cmd, args) abort
 endfunction
 
 " Command to run make commands in a terminal
-command! -nargs=* Make :call RunCmdInTerminal('make', <q-args>)
+command! -nargs=* Make :call RunCmdInTerminal('make', <f-args>)
 
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
