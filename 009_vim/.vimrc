@@ -565,6 +565,9 @@ augroup END
 
 " COC ===================================================================================================
 
+" Restart Coc
+nnoremap <silent><leader>cr :CocRestart<CR><CR>
+
 " Open pyrightconfig settings
 command! PyrightConfig :e ~/pyrightconfig.json
 
