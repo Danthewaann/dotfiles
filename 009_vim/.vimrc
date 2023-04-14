@@ -734,7 +734,7 @@ set wildignore+=*/.git/*,*.venv/*,*node_modules/*,*/tmp/*,*.swp
 " VIM-TEST ===================================================================================================
 
 let test#strategy = "vimterminal"
-let test#vim#term_position = 'tab'
+let test#vim#term_position = '$tab'
 let test#custom_runners = {"python": ["make"]}
 let test#python#runner = 'make'
 let test#python#pytest#options = '-vv'
