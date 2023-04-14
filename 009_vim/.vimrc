@@ -101,7 +101,10 @@ Plug 'Raimondi/delimitMate'
 " Must be loaded last
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
+
+" NOTE: I had to disable this plugin do to this issue: https://github.com/ryanoasis/vim-devicons/issues/384
+" Plug 'ryanoasis/vim-devicons'
+
 Plug 'PhilRunninger/nerdtree-visual-selection'
 
 " Initialize plugin system
