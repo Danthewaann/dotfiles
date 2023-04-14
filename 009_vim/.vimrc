@@ -303,15 +303,15 @@ nnoremap <silent><C-Q> :q<CR>
 imap <C-C> <Esc>
 
 " vim-powered terminal in a split window
-map <silent><C-T>s :term<CR>
+map <silent><C-T>s :set termwinsize=20x0<CR>:term<CR>
 tmap <silent><C-T>s <C-W>:term<CR>
 
 " vim-powered terminal in a vertical split window
-map <silent><C-T>v :vert term<CR>
+map <silent><C-T>v :set termwinsize=0x100<CR>:vert term<CR>
 tmap <silent><C-T>v <C-W>:vert term<CR>
 
 " vim-powered terminal in new tab
-map <silent><C-T>t :tab term<CR>
+map <silent><C-T>t :set termwinsize=0x0<CR>:tab term<CR>
 tmap <silent><C-T>t <C-W>:tab term<CR>
 
 " enter normal-mode in vim terminal
