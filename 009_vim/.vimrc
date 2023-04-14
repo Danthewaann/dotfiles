@@ -455,6 +455,8 @@ nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
 " terminal pane navigation
 tnoremap <C-L> <C-W><C-L>
 tnoremap <C-H> <C-W><C-H>
+tnoremap <C-K> <C-W><C-K>
+tnoremap <C-J> <C-W><C-J>
 tnoremap <C-Q> <C-D>
 
 " tab navigation
@@ -462,6 +464,28 @@ nnoremap <silent><C-b> :tabprevious<CR>
 nnoremap <silent><C-n> :tabnext<CR>
 tnoremap <silent><C-b> <C-W>:tabprevious<CR>
 tnoremap <silent><C-n> <C-W>:tabnext<CR>
+
+" Go to tab by number
+noremap <C-W>1 :tabn1<CR>
+noremap <C-W>2 :tabn2<CR>
+noremap <C-W>3 :tabn3<CR>
+noremap <C-W>4 :tabn4<CR>
+noremap <C-W>5 :tabn5<CR>
+noremap <C-W>6 :tabn6<CR>
+noremap <C-W>7 :tabn7<CR>
+noremap <C-W>8 :tabn8<CR>
+noremap <C-W>9 :tabn9<CR>
+noremap <C-W>0 :tablast<cr>
+tnoremap <C-W>1 <C-W>:tabn1<CR>
+tnoremap <C-W>2 <C-W>:tabn2<CR>
+tnoremap <C-W>3 <C-W>:tabn3<CR>
+tnoremap <C-W>4 <C-W>:tabn4<CR>
+tnoremap <C-W>5 <C-W>:tabn5<CR>
+tnoremap <C-W>6 <C-W>:tabn6<CR>
+tnoremap <C-W>7 <C-W>:tabn7<CR>
+tnoremap <C-W>8 <C-W>:tabn8<CR>
+tnoremap <C-W>9 <C-W>:tabn9<CR>
+tnoremap <C-W>0 <C-W>:tablast<cr>
 
 " NERDTREE ===================================================================================================
 
@@ -1358,21 +1382,6 @@ let g:airline#extensions#tabline#show_splits = 0       " disables the buffer nam
 let g:airline#extensions#tabline#show_tab_nr = 2       " disable tab numbers
 let g:airline#extensions#tabline#tab_nr_type = 1       " show number for each tab
 let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird orange arrow on the tabline
-
-" Go to tab by number
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>0 <Plug>AirlineSelectTab0
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>= <Plug>AirlineSelectNextTab
 
 " VIM-CONFLICT-MARKER =============================================================================================
 
