@@ -320,6 +320,27 @@ tmap <silent><C-T>t <C-W>:tab term<CR>
 " enter normal-mode in vim terminal
 tmap <C-X> <C-W>N
 
+" Run a command in a terminal in a new tab
+function RunCmdInTerminal(cmd, args) abort
+    execute '$tab new'
+    echom a:args
+    if !empty(a:args)
+        let cmd = [a:cmd, a:args]
+        let name = a:cmd . ' ' . a:args
+    else
+        let cmd = [a:cmd]
+        let name = a:cmd
+    endif
+    call term_start(cmd, {'curwin': 1, 'term_name': name})
+    au BufLeave <buffer> wincmd p
+    nnoremap <buffer> <Enter> :q<CR>
+    redraw
+    echo "Press <Enter> to exit test runner terminal (<Ctrl-C> first if command is still running)"
+endfunction
+
+" Command to run make commands in a terminal
+command! -nargs=* Make :call RunCmdInTerminal('make', <q-args>)
+
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
 " Reference chart of values:
