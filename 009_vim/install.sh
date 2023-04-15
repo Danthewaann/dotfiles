@@ -40,6 +40,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing ripgrep" \
         "brew install ripgrep"
+
+    run_command "installing watchman" \
+        "brew install watchman"
 else
     run_command "installing fzf" \
         "sudo apt-get install -y fzf"
@@ -65,6 +68,14 @@ else
 
     run_command "installing ripgrep" \
         "sudo apt-get install -y ripgrep"
+
+    if [[ ! -f "$SCRIPT_DIR/watchman.deb" ]]; then
+        run_command "downloading watchman" \
+            "wget -O $SCRIPT_DIR/watchman.deb https://github.com/facebook/watchman/releases/download/v2023.04.10.00/watchman_ubuntu22.04_v2023.04.10.00.deb"
+    fi
+
+    run_command "installing watchman" \
+        "sudo dpkg -i $SCRIPT_DIR/watchman.deb"
 fi
 
 # Install vim plugins
