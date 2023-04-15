@@ -321,8 +321,8 @@ tmap <silent><C-T>t <C-W>:tab term<CR>
 tmap <C-X> <C-W>N
 
 " Run a command in a terminal in a new tab
-function RunCmdInTerminal(cmd, ...) abort
-    execute '$tab new'
+function RunCmdInTerminal(cmd, pos, ...) abort
+    execute a:pos . ' new'
     if !empty(a:000)
         let cmd = [a:cmd] + a:000
         let name = a:cmd . ' ' . join(a:000)
@@ -337,8 +337,10 @@ function RunCmdInTerminal(cmd, ...) abort
     echo "Press <Enter> to exit test runner terminal (<Ctrl-C> first if command is still running)"
 endfunction
 
-" Command to run make commands in a terminal
-command! -nargs=* Make :call RunCmdInTerminal('make', <f-args>)
+" Commands to run make commands in a terminal
+command! -nargs=* Make :call RunCmdInTerminal('make', "$tab", <f-args>)
+command! -nargs=* SMake :call RunCmdInTerminal('make', "20 split", <f-args>)
+command! -nargs=* VMake :call RunCmdInTerminal('make', "100 vsplit", <f-args>)
 
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
