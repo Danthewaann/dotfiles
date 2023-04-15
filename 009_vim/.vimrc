@@ -491,26 +491,26 @@ tnoremap <silent><C-b> <C-W>:tabprevious<CR>
 tnoremap <silent><C-n> <C-W>:tabnext<CR>
 
 " Go to tab by number
-noremap <C-W>1 :tabn1<CR>
-noremap <C-W>2 :tabn2<CR>
-noremap <C-W>3 :tabn3<CR>
-noremap <C-W>4 :tabn4<CR>
-noremap <C-W>5 :tabn5<CR>
-noremap <C-W>6 :tabn6<CR>
-noremap <C-W>7 :tabn7<CR>
-noremap <C-W>8 :tabn8<CR>
-noremap <C-W>9 :tabn9<CR>
-noremap <C-W>0 :tablast<cr>
-tnoremap <C-W>1 <C-W>:tabn1<CR>
-tnoremap <C-W>2 <C-W>:tabn2<CR>
-tnoremap <C-W>3 <C-W>:tabn3<CR>
-tnoremap <C-W>4 <C-W>:tabn4<CR>
-tnoremap <C-W>5 <C-W>:tabn5<CR>
-tnoremap <C-W>6 <C-W>:tabn6<CR>
-tnoremap <C-W>7 <C-W>:tabn7<CR>
-tnoremap <C-W>8 <C-W>:tabn8<CR>
-tnoremap <C-W>9 <C-W>:tabn9<CR>
-tnoremap <C-W>0 <C-W>:tablast<cr>
+noremap <silent><C-W>1 :tabn1<CR>
+noremap <silent><C-W>2 :tabn2<CR>
+noremap <silent><C-W>3 :tabn3<CR>
+noremap <silent><C-W>4 :tabn4<CR>
+noremap <silent><C-W>5 :tabn5<CR>
+noremap <silent><C-W>6 :tabn6<CR>
+noremap <silent><C-W>7 :tabn7<CR>
+noremap <silent><C-W>8 :tabn8<CR>
+noremap <silent><C-W>9 :tabn9<CR>
+noremap <silent><C-W>0 :tablast<cr>
+tnoremap <silent><C-W>1 <C-W>:tabn1<CR>
+tnoremap <silent><C-W>2 <C-W>:tabn2<CR>
+tnoremap <silent><C-W>3 <C-W>:tabn3<CR>
+tnoremap <silent><C-W>4 <C-W>:tabn4<CR>
+tnoremap <silent><C-W>5 <C-W>:tabn5<CR>
+tnoremap <silent><C-W>6 <C-W>:tabn6<CR>
+tnoremap <silent><C-W>7 <C-W>:tabn7<CR>
+tnoremap <silent><C-W>8 <C-W>:tabn8<CR>
+tnoremap <silent><C-W>9 <C-W>:tabn9<CR>
+tnoremap <silent><C-W>0 <C-W>:tablast<cr>
 
 " NERDTREE ===================================================================================================
 
