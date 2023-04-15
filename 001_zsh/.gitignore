@@ -14,3 +14,8 @@ pyrightconfig.json
 *.swo
 *~
 Session.vim
+
+# Python files with this extension are getting generated for some reason.
+# I think it might be coc-pyright failing to format a file and it just
+# dumps the file contents to disk in case you need it.
+*.py-e
