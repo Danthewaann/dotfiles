@@ -296,8 +296,8 @@ nnoremap <silent><leader>rp :call ReplaceCurrentWord()<CR>
 " replace visual selection in current file
 vnoremap <silent><leader>rp :call ReplaceSelection()<CR>
 
-" paste clipboard into a vim terminal
-tnoremap <C-P> <C-W>"+
+" run last replace command if it is set
+nnoremap <silent><leader>rl :call ReplaceLast()<CR>
 
 " exit the current window
 nnoremap <silent><C-Q> :q<CR>
