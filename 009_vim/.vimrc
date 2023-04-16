@@ -477,18 +477,20 @@ nnoremap <silent> <expr> <C-K> ScrollPopUp(0) ? '<ESC>' : ':<C-U>TmuxNavigateUp'
 nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
 nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
 
-" terminal pane navigation
-tnoremap <C-L> <C-W><C-L>
-tnoremap <C-H> <C-W><C-H>
-tnoremap <C-K> <C-W><C-K>
-tnoremap <C-J> <C-W><C-J>
+" close the terminal window
 tnoremap <C-Q> <C-D>
 
+" window navigation
+tnoremap <C-H> <C-W><C-H>
+tnoremap <C-J> <C-W><C-J>
+tnoremap <C-K> <C-W><C-K>
+tnoremap <C-L> <C-W><C-L>
+
 " tab navigation
-nnoremap <silent><C-b> :tabprevious<CR>
-nnoremap <silent><C-n> :tabnext<CR>
-tnoremap <silent><C-b> <C-W>:tabprevious<CR>
-tnoremap <silent><C-n> <C-W>:tabnext<CR>
+nnoremap <silent><C-W><C-H> :tabprevious<CR>
+tnoremap <silent><C-W><C-H> <C-W>:tabprevious<CR>
+nnoremap <silent><C-W><C-L> :tabnext<CR>
+tnoremap <silent><C-W><C-L> <C-W>:tabnext<CR>
 
 " Go to tab by number
 noremap <silent><C-W>1 :tabn1<CR>
