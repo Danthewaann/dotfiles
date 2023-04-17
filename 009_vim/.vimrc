@@ -260,12 +260,17 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 
+" keep track of last replace operation
+let g:last_replace_operation = ""
+
 function! ReplaceCurrentWord()
     let current_word = expand("<cword>")
     call inputsave()
     let replace = Escape(input('Enter replacement: ', current_word))
     call inputrestore()
-    execute '%s/\V' . current_word . '/' . replace . '/g'
+    let cmd = '%s/\V' . current_word . '/' . replace . '/g'
+    execute cmd
+    let g:last_replace_operation = cmd
 endfunction
 
 function! GetVisualSelection()
@@ -287,7 +292,19 @@ function! ReplaceSelection()
     call inputsave()
     let replace = input('Enter replacement: ', selection)
     call inputrestore()
-    execute '%s/\V' . selection . '/' . replace . '/g'
+    let cmd = '%s/\V' . selection . '/' . replace . '/g'
+    execute cmd
+    let g:last_replace_operation = cmd
+endfunction
+
+function! ReplaceLast()
+    if g:last_replace_operation != ""
+        execute g:last_replace_operation
+    else
+        echohl WarningMsg
+        echo "No replacement set"
+        echohl None
+    endif
 endfunction
 
 " replace current word in current file
