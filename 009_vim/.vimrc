@@ -783,6 +783,28 @@ let test#custom_runners = {"python": ["make"]}
 let test#python#runner = 'make'
 let test#python#pytest#options = '-vv'
 
+function! SetVimTestTermPosition() abort
+    echo "1. Tab\n2. Horizontal Split\n3. Vertical Split"
+    call inputsave()
+    let num = Escape(input('Enter position num: '))
+    call inputrestore()
+    redraw
+    if num == 1
+        echo "Setting to tab"
+        let g:test#vim#term_position = '$tab'
+    elseif num == 2
+        echo "Setting to horizontal split"
+        let g:test#vim#term_position = 'botright 20'
+    elseif num == 3
+        echo "Setting to vertical split"
+        let g:test#vim#term_position = '100 vsplit'
+    else
+        echohl WarningMsg
+        echo "Num not valid"
+        echohl None
+    endif
+endfunction
+
 function! MyGetPosition(path) abort
     let filename_modifier = get(g:, 'test#filename_modifier', ':.')
     let position = {}
@@ -819,6 +841,7 @@ function! MyDebugNearest() abort
     endif
 endfunction
 
+nnoremap <silent> <leader>tp :call SetVimTestTermPosition()<CR>
 nnoremap <silent> <leader>dn :call MyDebugNearest()<CR>
 nnoremap <silent> <leader>tn :TestNearest<CR>
 nnoremap <silent> <leader>tf :TestFile<CR>
