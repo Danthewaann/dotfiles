@@ -351,7 +351,7 @@ function RunCmdInTerminal(cmd, pos, ...) abort
     au BufLeave <buffer> wincmd p
     nnoremap <buffer> <Enter> :q<CR>
     redraw
-    echo "Press <Enter> to exit test runner terminal (<Ctrl-C> first if command is still running)"
+    echo "Press <Enter> to exit terminal (<Ctrl-C> first if command is still running)"
 endfunction
 
 " Commands to run make commands in a terminal
