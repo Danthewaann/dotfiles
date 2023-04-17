@@ -335,7 +335,7 @@ map <silent><C-T>t :$tab term<CR>
 tmap <silent><C-T>t <C-W>:tab term<CR>
 
 " enter normal-mode in vim terminal
-tmap <C-X> <C-W>N
+tnoremap <C-X> <C-W>N
 
 " Run a command in a terminal in a new tab
 function RunCmdInTerminal(cmd, pos, ...) abort
@@ -508,6 +508,10 @@ nnoremap <silent><C-W><C-H> :tabprevious<CR>
 tnoremap <silent><C-W><C-H> <C-W>:tabprevious<CR>
 nnoremap <silent><C-W><C-L> :tabnext<CR>
 tnoremap <silent><C-W><C-L> <C-W>:tabnext<CR>
+
+" open a new tab
+nnoremap <silent><C-W>N :tabnew<CR>
+tnoremap <silent><C-W>N <C-W>:tabnew<CR>
 
 " Go to tab by number
 noremap <silent><C-W>1 :tabn1<CR>
