@@ -774,7 +774,7 @@ if executable("rg")
     let g:ctrlp_use_caching = 0
 endif
 
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:50'
 
 " ignore files matching these patterns when expanding wildcards
 set wildignore+=*/.git/*,*.venv/*,*node_modules/*,*/tmp/*,*.swp
