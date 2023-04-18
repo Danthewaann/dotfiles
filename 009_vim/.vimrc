@@ -1048,8 +1048,7 @@ command! -nargs=0 ReplaceTicketNumberInPRFile :call ReplaceTicketNumberInPRFile(
 command! VimspectorConfig :e ~/.vimspector.json
 
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-node-debug2', 'delve' ]
-let g:vimspector_sidebar_width = 50
-let g:vimspector_bottombar_height = 10
+let g:vimspector_bottombar_height = 25
 
 " for custom UI stuff below
 " keep track of when we moved the terminal so we
@@ -1222,11 +1221,11 @@ function s:SetUpTerminal()
 
     " swap terminal position with console position
     " only works when I have a vertical tmux pane open
-    if g:moved_terminal != 1
-        resize-5
-        execute 'wincmd x'
-        let g:moved_terminal = 1
-    endif
+    " if g:moved_terminal != 1
+    "     resize-5
+    "     execute 'wincmd x'
+    "     let g:moved_terminal = 1
+    " endif
 endfunction
 
 let s:mapped = {}
