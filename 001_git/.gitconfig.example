@@ -219,3 +219,5 @@
     colorMoved = default
 [push]
     autoSetupRemote = true
+[oh-my-zsh]
+    hide-info = 1

@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="amuse"
+# ZSH_THEME="amuse"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +70,7 @@ ZSH_THEME="amuse"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode virtualenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -150,3 +150,22 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# Custom prompt based on the amuse theme
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
+# Must use Powerline font, for \uE0A0 to render.
+ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}\uE0A0 "
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}!"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[green]%}?"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
+ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
+
+PROMPT=$'\n%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)$ '
+
+VIRTUAL_ENV_DISABLE_PROMPT=0
+ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
+ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
+ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
+ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
