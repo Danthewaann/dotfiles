@@ -11,7 +11,7 @@ else
     reponame=$(git-repo-name)
 fi
 
-testcontainer=$(docker ps | grep "$reponame" | grep _test_run | awk '{print $NF}' | head -n 1)
+testcontainer=$(docker ps | grep "$reponame" | grep -E "(-|_)test(-|_)run" | awk '{print $NF}' | head -n 1)
 
 if [[ -z $testcontainer ]]; then
     >&2 echo "ERROR: No test container found for $reponame"
