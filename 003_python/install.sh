@@ -46,6 +46,9 @@ run_command "installing python linters and formatters" \
 run_command "installing ipython" \
     "pip install ipython"
 
+run_command "installing pre-commit" \
+    "pip install pre-commit"
+
 # Make sure executables are available
 run_command "rehashing pyenv" \
     "pyenv rehash"
