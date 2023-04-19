@@ -1447,6 +1447,7 @@ let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end o
 let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
 let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)
 let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right
+let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline                                                 
 let g:airline#extensions#tabline#formatter = 'short_path_improved'
 let g:airline#extensions#tabline#show_tab_nr = 2       " disable tab numbers
 let g:airline#extensions#tabline#tab_nr_type = 1       " show number for each tab
