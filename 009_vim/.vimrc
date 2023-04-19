@@ -1433,10 +1433,11 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 
 " VIM-AIRLINE =====================================================================================================
 
-let g:airline#extensions#branch#enabled = 0
+" enable coc git in tabline
 let g:airline#extensions#hunks#coc_git = 1
 
 " truncate the branch name
+let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#branch#format = 0
 let g:airline#extensions#branch#displayed_head_limit = 999
 
@@ -1446,14 +1447,11 @@ let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end o
 let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
 let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)
 let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right
-let g:airline#extensions#tabline#fnamemod = ':t'       " disable file paths in the tab
-" let g:airline#extensions#tabline#formatter = 'short_path'
-let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline
-let g:airline#extensions#tabline#tab_min_count = 2     " minimum of 2 tabs needed to display the tabline
-let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline
+let g:airline#extensions#tabline#formatter = 'short_path_improved'
 let g:airline#extensions#tabline#show_tab_nr = 2       " disable tab numbers
 let g:airline#extensions#tabline#tab_nr_type = 1       " show number for each tab
 let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird orange arrow on the tabline
+let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'  " ignore tab names in tabline
 
 " VIM-CONFLICT-MARKER =============================================================================================
 
