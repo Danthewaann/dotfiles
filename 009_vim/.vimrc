@@ -1340,7 +1340,7 @@ nnoremap <silent><leader>db :Bdelete<CR>
 
 " Delete all buffers except the current one
 " From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
-" command! BufOnly silent! execute "%bd|e#|bd#"
+command! BufOnly silent! execute "%bd|e#|bd#"
 " nnoremap <silent><leader>dab :BufOnly<CR>
 
 " Delete all(saved) but visible buffers
