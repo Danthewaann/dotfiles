@@ -1451,6 +1451,7 @@ let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in th
 let g:airline#extensions#tabline#formatter = 'short_path_improved'
 let g:airline#extensions#tabline#show_tab_nr = 2       " disable tab numbers
 let g:airline#extensions#tabline#tab_nr_type = 1       " show number for each tab
+let g:airline#extensions#tabline#tab_min_count = 1     " minimum of 1 tab needed to display the tabline
 let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird orange arrow on the tabline
 let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'  " ignore tab names in tabline
 
