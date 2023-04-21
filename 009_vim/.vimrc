@@ -114,52 +114,103 @@ call plug#end()
 "   syntax off            " Disable syntax highlighting
 
 " GENERAL ===================================================================================================
-syntax on
+
+" Enable syntax highlighting
+if has('syntax')
+  syntax on
+endif
+
+" Make sure we use UTF-8 encoding
+set encoding=utf-8
+
+" Use <Space> as leader key
+let mapleader = " "
+
+" Set number of commands to remember
 set history=10000
+
+" Open splits naturally to the below and to the right
 set splitbelow
 set splitright
-set encoding=utf-8
-set relativenumber
-set number
-let mapleader = " " " map leader to Space
 
-set mouse=a
-set tabstop=4
-set softtabstop=4
+" Display lines numbers
+set number
+
+" Display relative line numbers for easier vertical jumps
+set relativenumber
+
+" Enable use of the mouse for all modes
+if has('mouse')
+  set mouse=a
+endif
+
+" Set the command window height to 2 lines, to avoid many cases of having to
+" "press <Enter> to continue"
+set cmdheight=2
+
+" Indentation settings for using 4 spaces instead of tabs.
+" Do not change 'tabstop' from its default value of 8 with this setup.
 set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 set expandtab
+
+" Make sure at 5 lines are above/below the cursor
 set scrolloff=5
+
+" Highlight searches and update the highlight incrementally
 set hlsearch
 set incsearch
+
+" Stop certain movements from always going to the first character of a line.
 set nostartofline
 
-" maximum amount of memory (in Kbyte) to use for pattern matching.
+" Use case insensitive search, except when using capital letters
+set ignorecase
+set smartcase
+
+" Set maximum amount of memory (in Kbyte) to use for pattern matching.
 set maxmempattern=2000000
 
-" set spell checking for markdown files
+" Better command-line completion
+set wildmenu
+
+" Set spell checking for markdown files
 augroup spell_checking
     autocmd!
     autocmd FileType markdown,gitcommit setlocal spell spelllang=en_us,en_gb
 augroup END
 
+" Set the clipboard up to use the system clipboard to allow pasting from other programs
 if system('uname -s') == "Darwin\n"
     set clipboard=unnamed
 else
     set clipboard=unnamedplus
 endif
 
+" Don't use a swapfile
 set noswapfile
+
+" Instead of failing a command because of unsaved changes, instead raise a
+" dialogue asking if you wish to save changed files.
+set confirm
+
 set updatetime=50
+
+" Enable the signs column for things like displaying git changes and markers
 set signcolumn=yes
 
 " From https://stackoverflow.com/a/58042714
-set ttimeout
-set ttimeoutlen=1
-set ttyfast
+" Quickly time out on keycodes, but never time out on mappings
+set notimeout ttimeout ttimeoutlen=200 ttyfast
 
 set textwidth=0
 set wrapmargin=0
+
+" Use indent for folds
 set foldmethod=indent
+
+" Don't enable folds when opening a file automatically
 set nofoldenable
 
 " Make backspaces more powerful
@@ -218,6 +269,10 @@ vnoremap <silent><C-K> :m '<-2<CR>gv=gv
 vnoremap <silent><C-J> :m '>+1<CR>gv=gv
 inoremap <silent><C-K> <Esc>:m .+1<CR>==gi
 inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
+
+" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
+" which is the default
+map Y y$
 
 " paste the clipboard contents in insert mode
 inoremap <C-P> <C-R>+
