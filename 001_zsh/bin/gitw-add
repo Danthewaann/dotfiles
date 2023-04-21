@@ -70,8 +70,8 @@ if ! output=$(git branch -m "$branch_name" 2>&1); then
     fi
 else
     # Check if the branch exists remotely, if it does hard reset to it
-    >&2 echo "Branch '$branch_name' exists remotely, hard resetting"
     if git branch -r | grep "$branch_name" > /dev/null 2>&1; then
+        >&2 echo "Branch '$branch_name' exists remotely, hard resetting"
         git reset --hard origin/"$branch_name"
     fi
 fi
