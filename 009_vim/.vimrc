@@ -1421,6 +1421,9 @@ let g:vim_markdown_folding_disabled = 1
 
 " VIM-DADBOD ======================================================================================================
 
+" Open DB connections window
+nnoremap <silent><leader>db :DBUI<CR>
+
 " Unmap these as I use <C-J/K> for navigating windows
 autocmd FileType dbui unmap <buffer> <C-J>
 autocmd FileType dbui unmap <buffer> <C-K>
@@ -1431,7 +1434,7 @@ autocmd FileType dbui map <Tab> <Plug>(DBUI_SelectLine)
 " VIM-BBYE =======================================================================================================
 
 " Close the current buffer without closing the window
-nnoremap <silent><leader>db :Bdelete<CR>
+nnoremap <silent><leader>bd :Bdelete<CR>
 
 " Delete all buffers except the current one
 " 
@@ -1458,7 +1461,7 @@ func! Delete_buffers()
 endfunc
 
 " Kill-all but visible buffers
-nnoremap <silent> <leader>dab :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
+nnoremap <silent> <leader>bda :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
 
 " VIM-FZF ========================================================================================================
 
@@ -1481,7 +1484,7 @@ nnoremap <leader>F :Rg!<Space>
 vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 
 " Show all buffers
-nnoremap <silent><leader>b :Buffers!<CR>
+nnoremap <silent><leader>bb :Buffers!<CR>
 
 " Show changed files
 nnoremap <silent><leader>gfs :GFiles!?<CR>
