@@ -101,7 +101,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" NOTE: I had to disable this plugin do to this issue: https://github.com/ryanoasis/vim-devicons/issues/384
+" NOTE: I had to disable this plugin due to this issue: https://github.com/ryanoasis/vim-devicons/issues/384
 " Plug 'ryanoasis/vim-devicons'
 
 Plug 'PhilRunninger/nerdtree-visual-selection'
@@ -175,7 +175,7 @@ set maxmempattern=2000000
 " Better command-line completion
 set wildmenu
 
-" Set spell checking for markdown files
+" Set spell checking for markdown and gitcommit files
 augroup spell_checking
     autocmd!
     autocmd FileType markdown,gitcommit setlocal spell spelllang=en_us,en_gb
@@ -204,6 +204,7 @@ set signcolumn=yes
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200 ttyfast
 
+" Disable line width of no newlines are inserted
 set textwidth=0
 set wrapmargin=0
 
@@ -222,6 +223,12 @@ set t_Co=256
 " Hide instead of closing buffers. It allows hiding buffer with unsaved
 " modifications and preserve marks and undo history.
 set hidden
+
+" Don't show mode information as it is included in the statusline
+set noshowmode
+
+" Set font (not sure if I need this)
+set guifont=Hack_Nerd_Font_Mono:h16
 
 " Highlight the current line when in insert mode.
 augroup highlight_cursorline
@@ -242,8 +249,6 @@ augroup END
 if (has("termguicolors"))
     set termguicolors
 endif
-
-set guifont=Hack_Nerd_Font_Mono:h16
 
 " Allow gnome terminal to send alt keys to vim in the
 " format that vim expects
@@ -274,10 +279,10 @@ inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 " which is the default
 map Y y$
 
-" paste the clipboard contents in insert mode
+" Paste the clipboard contents in insert mode
 inoremap <C-P> <C-R>+
 
-" inspired from https://vi.stackexchange.com/questions/3951/deleting-in-vim-and-then-pasting-without-new-line
+" Inspired from https://vi.stackexchange.com/questions/3951/deleting-in-vim-and-then-pasting-without-new-line
 function! PasteInLine(before = v:true, visual = v:false) abort
     let line = trim(getreg('*'))
     if a:visual
@@ -296,25 +301,25 @@ nnoremap <silent> gP :call PasteInLine()<CR>
 nnoremap <silent> gp :call PasteInLine(v:false)<CR>
 vnoremap <silent> gp :call PasteInLine(v:false, v:true)<CR>
 
-" escape the provided input for a regex search
+" Escape the provided input for a regex search
 function! Escape(input) abort
     return escape(a:input,'/\[\]\.\(\)')
 endfunction
 
-" search for current word in window and highlight it
+" Search for current word in window and highlight it
 nmap <silent><leader>f viw<leader>f
 
-" search for visual selection in current file
+" Search for visual selection in current file
 " yanks to the k register so we don't override the 0 register (or clipboard)
 vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
 
-" center screen after moving through matches
+" Center screen after moving through matches
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 
-" keep track of last replace operation
+" Keep track of last replace operation
 let g:last_replace_operation = ""
 
 function! ReplaceCurrentWord()
@@ -361,34 +366,34 @@ function! ReplaceLast()
     endif
 endfunction
 
-" replace current word in current file
+" Replace current word in current file
 nnoremap <silent><leader>rp :call ReplaceCurrentWord()<CR>
 
-" replace visual selection in current file
+" Replace visual selection in current file
 vnoremap <silent><leader>rp :call ReplaceSelection()<CR>
 
-" run last replace command if it is set
+" Run last replace command if it is set
 nnoremap <silent><leader>rl :call ReplaceLast()<CR>
 
-" exit the current window
+" Exit the current window
 nnoremap <silent><C-Q> :q<CR>
 
 " Treat Ctrl+C exactly like <Escape>.
 imap <C-C> <Esc>
 
-" vim-powered terminal in a split window
+" Vim-powered terminal in a split window
 map <silent><C-T>s :20 split new<CR>:term ++curwin<CR>
 tmap <silent><C-T>s <C-W>:term<CR>
 
-" vim-powered terminal in a vertical split window
+" Vim-powered terminal in a vertical split window
 map <silent><C-T>v :100 vsplit new<CR>:term ++curwin<CR>
 tmap <silent><C-T>v <C-W>:vert term<CR>
 
-" vim-powered terminal in new tab
+" Vim-powered terminal in new tab
 map <silent><C-T>t :$tab term<CR>
 tmap <silent><C-T>t <C-W>:tab term<CR>
 
-" enter normal-mode in vim terminal
+" Enter normal-mode in vim terminal
 tnoremap <C-X> <C-W>N
 
 " Run a command in a terminal in a new tab
@@ -436,9 +441,9 @@ let &t_EI .= "\<Esc>[2 q"
 
 " From kitty
 " Mouse support
-set mouse=a
 set ttymouse=sgr
 set balloonevalterm
+
 " Styled and colored underline support
 let &t_AU = "\e[58:5:%dm"
 let &t_8u = "\e[58:2:%lu:%lu:%lum"
@@ -447,19 +452,23 @@ let &t_Cs = "\e[4:3m"
 let &t_ds = "\e[4:4m"
 let &t_Ds = "\e[4:5m"
 let &t_Ce = "\e[4:0m"
+
 " Strikethrough
 let &t_Ts = "\e[9m"
 let &t_Te = "\e[29m"
+
 " Truecolor support
 let &t_8f = "\e[38:2:%lu:%lu:%lum"
 let &t_8b = "\e[48:2:%lu:%lu:%lum"
 let &t_RF = "\e]10;?\e\\"
 let &t_RB = "\e]11;?\e\\"
+
 " Bracketed paste
 let &t_BE = "\e[?2004h"
 let &t_BD = "\e[?2004l"
 let &t_PS = "\e[200~"
 let &t_PE = "\e[201~"
+
 " Cursor control
 let &t_RC = "\e[?12$p"
 let &t_SH = "\e[%d q"
@@ -468,25 +477,24 @@ let &t_SI = "\e[5 q"
 let &t_SR = "\e[3 q"
 let &t_EI = "\e[1 q"
 let &t_VS = "\e[?12l"
+
 " Focus tracking
 let &t_fe = "\e[?1004h"
 let &t_fd = "\e[?1004l"
 execute "set <FocusGained>=\<Esc>[I"
 execute "set <FocusLost>=\<Esc>[O"
+
 " Window title
 let &t_ST = "\e[22;2t"
 let &t_RT = "\e[23;2t"
 
-" vim hardcodes background color erase even if the terminfo file does
+" Vim hardcodes background color erase even if the terminfo file does
 " not contain bce. This causes incorrect background rendering when
 " using a color theme with a background color in terminals such as
 " kitty that do not support background color erase.
 let &t_ut=''
 
 " COLOUR THEMES ===================================================================================================
-
-" Don't show mode information as it is included in the statusline
-set noshowmode
 
 set background=dark
 let g:airline_powerline_fonts = 1
@@ -498,7 +506,7 @@ colorscheme onedark
 
 " NAVIGATION ===================================================================================================
 
-" vertical navigation
+" Vertical navigation
 nnoremap <C-D> <C-D>zz
 nnoremap <C-U> <C-U>zz
 nnoremap gg ggzz
@@ -511,6 +519,7 @@ nnoremap <C-I> <C-I>zz
 nnoremap <C-O> <C-O>zz
 
 " Allow scrolling up and down in a popup (such as function docstring in Python)
+"
 " From https://github.com/neoclide/coc.nvim/issues/1405#issuecomment-570062098
 function FindCursorPopUp()
     let radius = get(a:000, 0, 2)
@@ -548,36 +557,36 @@ nnoremap <silent> <expr> <C-K> ScrollPopUp(0) ? '<ESC>' : ':<C-U>TmuxNavigateUp'
 nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
 nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
 
-" close the terminal window
+" Close the terminal window
 tnoremap <C-Q> <C-D>
 
-" window navigation
+" Window navigation
 tnoremap <C-H> <C-W><C-H>
 tnoremap <C-J> <C-W><C-J>
 tnoremap <C-K> <C-W><C-K>
 tnoremap <C-L> <C-W><C-L>
 
-" tab navigation
+" Tab navigation
 nnoremap <silent><C-W><C-H> :tabprevious<CR>
 tnoremap <silent><C-W><C-H> <C-W>:tabprevious<CR>
 nnoremap <silent><C-W><C-L> :tabnext<CR>
 tnoremap <silent><C-W><C-L> <C-W>:tabnext<CR>
 
-" open a new tab
+" Open a new tab
 nnoremap <silent><C-W>N :tabnew<CR>
 tnoremap <silent><C-W>N <C-W>:tabnew<CR>
 
 " Go to tab by number
-noremap <silent><C-W>1 :tabn1<CR>
-noremap <silent><C-W>2 :tabn2<CR>
-noremap <silent><C-W>3 :tabn3<CR>
-noremap <silent><C-W>4 :tabn4<CR>
-noremap <silent><C-W>5 :tabn5<CR>
-noremap <silent><C-W>6 :tabn6<CR>
-noremap <silent><C-W>7 :tabn7<CR>
-noremap <silent><C-W>8 :tabn8<CR>
-noremap <silent><C-W>9 :tabn9<CR>
-noremap <silent><C-W>0 :tablast<cr>
+noremap  <silent><C-W>1 :tabn1<CR>
+noremap  <silent><C-W>2 :tabn2<CR>
+noremap  <silent><C-W>3 :tabn3<CR>
+noremap  <silent><C-W>4 :tabn4<CR>
+noremap  <silent><C-W>5 :tabn5<CR>
+noremap  <silent><C-W>6 :tabn6<CR>
+noremap  <silent><C-W>7 :tabn7<CR>
+noremap  <silent><C-W>8 :tabn8<CR>
+noremap  <silent><C-W>9 :tabn9<CR>
+noremap  <silent><C-W>0 :tablast<cr>
 tnoremap <silent><C-W>1 <C-W>:tabn1<CR>
 tnoremap <silent><C-W>2 <C-W>:tabn2<CR>
 tnoremap <silent><C-W>3 <C-W>:tabn3<CR>
@@ -600,13 +609,13 @@ let NERDTreeMapCustomOpen = "<Tab>"
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
 
-" unmap <C-J> so we can use <C-J> for navigation.
+" Unmap <C-J> so we can use <C-J> for navigation.
 let NERDTreeMapJumpNextSibling = ""
 
 " Set NERDTree window size
 let g:NERDTreeWinSize = 35
 
-" open or refresh NERDTree
+" Open or refresh NERDTree
 function! OpenOrRefreshNERDTree() abort
     let bnr = bufwinnr('NERD_tree_*')
     if bnr > 0
@@ -618,19 +627,20 @@ endfunction
 
 nnoremap <silent> <leader>nn :call OpenOrRefreshNERDTree()<CR>
 
-" close NERDTree
+" Close NERDTree
 nnoremap <silent> <leader>nc :NERDTreeClose<CR>
 
-" open NERDTree with buffer shown inside it
+" Open NERDTree with buffer shown inside it
 nnoremap <silent> <leader>nf :NERDTreeFind<CR>
 
-" ignore files in NERDTree
+" Ignore files in NERDTree
 let NERDTreeIgnore = ['\.pyc$', '\~$']
 
-" show hidden files
+" Show hidden files
 let NERDTreeShowHidden = 1
 
 " Center the NERDTree buffer when entering it
+"
 " From https://vi.stackexchange.com/questions/20619/nerdtree-maximize-on-enter
 augroup center_nerd_tree
     autocmd!
@@ -683,16 +693,17 @@ function! Sort(error = v:null, result = v:null, callback = "Save") abort
     endif
 endfunction
 
-" use `:S` to organize imports and save current buffer
+" Use `:S` to organize imports and save current buffer
 command! -nargs=0 S :call Sort()
 
 " Add `:W` command to format and save current buffer
 command! -nargs=0 W :call Format()
 
-" use `:WWW` to organize imports, format and save current buffer
+" Use `:WW` to organize imports, format and save current buffer
 command! -nargs=0 WW :call Sort(v:null, v:null, "Format")
 
 " Use tab for trigger completion with characters ahead and navigate.
+"
 " NOTE: There's always complete item selected by default, you may want to enable
 " no select by `"suggest.noselect": true` in your configuration file.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -735,6 +746,7 @@ nmap <silent> gy <Plug>(coc-type-definition)zz
 nmap <silent> gr <Plug>(coc-references)
 
 " Applying code actions to the selected code block
+"
 " Example: `<leader>aap` for current paragraph
 xmap <leader>ca  <Plug>(coc-codeaction-selected)
 nmap <leader>ca  <Plug>(coc-codeaction-line)
@@ -763,6 +775,7 @@ augroup END
 nmap <leader>rn <Plug>(coc-rename)
 
 " Map function and class text objects
+"
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
@@ -778,26 +791,37 @@ function! CocSearchForSelectionInWorkspace()
 endfunction
 
 " Mappings for CocList
+"
 " Show all diagnostics.
 nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
+
 " Manage extensions
 nnoremap <silent><nowait> <leader>e  :<C-u>CocList extensions<CR>
+
 " Show commands
 nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<CR>
+
 " Resume latest coc list
 nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>
+
 " Find symbol of current document.
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<CR>
+
 " Search workspace jump locations.
 nnoremap <silent><nowait> <leader>l  :<C-u>CocList location<CR>
+
 " Show yank history
 nnoremap <silent><nowait> <leader>y  :<C-u>CocList -A --normal yank<CR>
+
 " Search workspace symbols.
 nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<CR>
+
 " Search for the current current word in workspace symbols.
 nnoremap <silent><nowait> <leader>S  :call CocSearchForSelectionInWorkspace()<CR>
+
 " Do default action for next item.
 nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
+
 " Do default action for previous item.
 nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
 
@@ -830,7 +854,7 @@ endif
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:50'
 
-" ignore files matching these patterns when expanding wildcards
+" Ignore files matching these patterns when expanding wildcards
 set wildignore+=*/.git/*,*.venv/*,*node_modules/*,*/tmp/*,*.swp
 
 " VIM-TEST ===================================================================================================
@@ -910,15 +934,15 @@ nnoremap <silent> <leader>tv :TestVisit<CR>zz
 
 " COC-GIT ========================================================================================================
 
-" navigate chunks of current buffer
+" Navigate chunks of current buffer
 nmap [c <Plug>(coc-git-prevchunk)zz
 nmap ]c <Plug>(coc-git-nextchunk)zz
 
-" navigate conflicts of current buffer
+" Navigate conflicts of current buffer
 nmap [h <Plug>(coc-git-prevconflict)zz
 nmap ]h <Plug>(coc-git-nextconflict)zz
 
-" resolve conflict at current chunk
+" Resolve conflict at current chunk
 nmap <leader>gkc <Plug>(coc-git-keepcurrent)
 nmap <leader>gki <Plug>(coc-git-keepincoming)
 nmap <leader>gkb <Plug>(coc-git-keepboth)
@@ -929,41 +953,41 @@ function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
     call win_gotoid(win_id)
 endfunction
 
-" git push binds
+" Git push binds
 nmap <silent><leader>gpp :call CocActionAsync('runCommand', 'git.push', function('CocGitRefreshGitStatus'))<CR>
 nmap <silent><leader>gfp :call CocActionAsync('runCommand', 'git.push', '--force', function('CocGitRefreshGitStatus'))<CR>
 
-" show chunks in current buffer
+" Show chunks in current buffer
 nmap <leader>gch :CocList gchunks<CR>
 
-" open current line in browser
+" Open current line in browser
 nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
 
-" fold unchanged lines in current buffer
+" Fold unchanged lines in current buffer
 nmap <silent><leader>gfu :call CocAction('runCommand', 'git.foldUnchanged')<CR>
 
-" show diff of staged changes in current buffer
+" Show diff of staged changes in current buffer
 nmap <silent><leader>gd :call CocAction('runCommand', 'git.diffCached')<CR>
 
-" stage chunk at current position
+" Stage chunk at current position
 nmap <silent><leader>gs :echo "Staging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkStage', function('CocGitRefreshGitStatus'))<CR>
 
-" unstage chunk at current position
+" Unstage chunk at current position
 nmap <silent><leader>gu :echo "Unstaging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkUnstage', function('CocGitRefreshGitStatus'))<CR>
 
-" undo chunk at current position
+" Undo chunk at current position
 nmap cu :silent call CocActionAsync('runCommand', 'git.chunkUndo', function('CocGitRefreshGitStatus'))<CR>
 
-" show chunk diff at current position
+" Show chunk diff at current position
 nmap cp <Plug>(coc-git-chunkinfo)
 
-" create text object for git chunks
+" Create text object for git chunks
 omap ic <Plug>(coc-git-chunk-inner)
 xmap ic <Plug>(coc-git-chunk-inner)
 omap ac <Plug>(coc-git-chunk-outer)
 xmap ac <Plug>(coc-git-chunk-outer)
 
-" hide git blame virtual text by default
+" Hide git blame virtual text by default
 let g:coc_git_hide_blame_virtual_text = 1
 
 function! ToggleGitBlameVirtualText() abort
@@ -976,7 +1000,7 @@ function! ToggleGitBlameVirtualText() abort
     let g:coc_git_hide_blame_virtual_text = !current
 endfunction
 
-" toggle git blame virtual text
+" Toggle git blame virtual text
 nnoremap <silent><leader>gb :call ToggleGitBlameVirtualText()<CR>
 
 " COC-POST =======================================================================================================
@@ -992,7 +1016,7 @@ function Post() abort
     let changed_post_file = 0
     let post_buf = win_getid()
 
-    " if this post file requires an API_KEY, make sure to set it
+    " If this post file requires an API_KEY, make sure to set it
     let api_key_line = search('@API_KEY@')
     if api_key_line != 0
         let coc_post_api_key = trim(system("cat ~/.coc-post-api-key"))
@@ -1007,10 +1031,10 @@ function Post() abort
         let changed_post_file = 1
     endif
 
-    " run the post file
+    " Run the post file
     execute 'CocCommand post.do'
 
-    " make sure the post output window is visible before proceeding
+    " Make sure the post output window is visible before proceeding
     let timeout = 10
     let cur_buf = win_getid()
     while timeout > 0 && cur_buf == post_buf
@@ -1019,14 +1043,14 @@ function Post() abort
         let cur_buf = win_getid()
     endwhile
 
-    " make sure the request body has been displayed before proceeding
+    " Make sure the request body has been displayed before proceeding
     let timeout = 10
     while timeout > 0 && search("Body") == 0
         sleep 1000ms
         let timeout = timeout - 1
     endwhile
 
-    " if there is an apiKey in the body, use it for future requests
+    " If there is an apiKey in the body, use it for future requests
     let api_key = search("apiKey")
     if api_key != 0
         let line = trim(split(getline(api_key), ":")[1])
@@ -1036,17 +1060,17 @@ function Post() abort
     endif
 
     if changed_post_file == 1
-        " go back to the post file to undo our changes
+        " Go back to the post file to undo our changes
         call win_gotoid(post_buf)
         execute 'u'
         execute 'w'
     endif
 endfunction
 
-" run current post file
+" Run current post file
 command! -nargs=0 Post call Post()
 
-" show all post files
+" Show all post files
 nnoremap <silent><leader>cp :CocList post<CR>
 
 " VIM-FUGITIVE ===================================================================================================
@@ -1099,21 +1123,21 @@ command! -nargs=0 ReplaceTicketNumberInPRFile :call ReplaceTicketNumberInPRFile(
 
 " VIMSPECTOR =====================================================================================================
 
-" open vimspector settings
+" Open vimspector settings
 command! VimspectorConfig :e ~/.vimspector.json
 
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-node-debug2', 'delve' ]
 let g:vimspector_bottombar_height = 25
 
-" for custom UI stuff below
+" For custom UI stuff below
 " keep track of when we moved the terminal so we
 " don't keep moving it when restarting a vimspector session
 let g:moved_terminal = 0
 
-" for normal mode - the word under the cursor
+" For normal mode - the word under the cursor
 nmap <leader>vi <Plug>VimspectorBalloonEval
 
-" for visual mode, the visually selected text
+" For visual mode, the visually selected text
 xmap <leader>vi <Plug>VimspectorBalloonEval
 
 nmap <leader><F11> <Plug>VimspectorUpFrame
@@ -1143,6 +1167,7 @@ let g:vimspector_sign_priority = {
             \ }
 
 " Custom stuff for adding breakpoint() statements
+"
 " Partially from https://gist.github.com/berinhard/523420
 func! s:GetLineContentAndWhitespace(line_num)
     let cur_line_content = getline(a:line_num)
@@ -1154,7 +1179,7 @@ func! s:SetBreakpoint()
     let cur_line_num = line('.')
     let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
 
-    " check the next line first to see if it is indented more than the current line.
+    " Check the next line first to see if it is indented more than the current line.
     " if it is, use the indentation level of that line.
     " otherwise go through all previous lines to get the correct indentation level.
     let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
@@ -1169,7 +1194,7 @@ func! s:SetBreakpoint()
             let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
         endwhile
 
-        " check if the next line is indented more than the current line.
+        " Check if the next line is indented more than the current line.
         " if it is, use the indentation level of that line
         let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
         if strlen(cur_line['whitespace']) > 0 && next_line['whitespace'] > cur_line['whitespace']
@@ -1190,6 +1215,7 @@ endf
 nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
 
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
+"
 " Setup a way to keep track of breakpoint() calls in Python code
 function! GetAllBreakpoints()
     return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
@@ -1267,14 +1293,14 @@ function s:SetUpTerminal()
     endif
     let terminal_win = g:vimspector_session_windows.terminal
 
-    " add binds for easier navigation
+    " Add binds for easier navigation
     call win_gotoid( terminal_win )
     tnoremap <silent><buffer> <C-J> <C-W><C-J>
     tnoremap <silent><buffer> <C-K> <C-W><C-K>
     tnoremap <silent><buffer> <C-L> <C-W><C-L>
     tnoremap <silent><buffer> <C-H> <C-W><C-H>
 
-    " swap terminal position with console position
+    " Swap terminal position with console position
     " only works when I have a vertical tmux pane open
     " if g:moved_terminal != 1
     "     resize-5
@@ -1288,7 +1314,7 @@ let s:mapped = {}
 function! s:OnJumpToFrame() abort
     let buf_nr = bufnr()
     let file_extension = expand('%:e')
-    " set filetype to python for now to get syntax highlighting
+    " Set filetype to python for now to get syntax highlighting
     " when doing remote debugging via a docker container
     if file_extension == "py"
         setlocal filetype=python
@@ -1339,7 +1365,8 @@ augroup MyVimspectorCustomisation
     autocmd User VimspectorDebugEnded ++nested call s:OnDebugEnd()
 augroup END
 
-" allow for command history in VimspectorPrompt
+" Allow for command history in VimspectorPrompt
+"
 " from https://github.com/puremourning/vimspector/issues/52#issuecomment-699027787
 augroup vimspector_command_history
     autocmd!
@@ -1394,20 +1421,22 @@ let g:vim_markdown_folding_disabled = 1
 nnoremap <silent><leader>db :Bdelete<CR>
 
 " Delete all buffers except the current one
+" 
 " From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
 command! BufOnly silent! execute "%bd|e#|bd#"
 " nnoremap <silent><leader>dab :BufOnly<CR>
 
 " Delete all(saved) but visible buffers
+"
 " From https://vi.stackexchange.com/a/27106
 func! Delete_buffers()
-    " all visible buffers in all tabs
+    " All visible buffers in all tabs
     let buflist = []
     for i in range(tabpagenr('$'))
         call extend(buflist, tabpagebuflist(i + 1))
     endfor
 
-    " all existing buffers
+    " All existing buffers
     for bnr in range(1, bufnr("$"))
         if index(buflist, bnr) == -1 && buflisted(bnr)
             exe 'bd ' . bnr
@@ -1415,39 +1444,39 @@ func! Delete_buffers()
     endfor
 endfunc
 
-" kill-all but visible buffers
+" Kill-all but visible buffers
 nnoremap <silent> <leader>dab :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
 
 " VIM-FZF ========================================================================================================
 
-" override Rg command to also search hidden files
+" Override Rg command to also search hidden files
 command! -bang -nargs=* Rg call
             \ fzf#vim#grep("rg --hidden --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>),
             \ 1, fzf#vim#with_preview(), <bang>0)
 
-" NOTE: tmux seems to insert a `I` character when I run any of the
+" NOTE: Tmux seems to insert a `I` character when I run any of the
 " below fzf commands
 " Issue: https://github.com/junegunn/fzf.vim/issues/1356
 "
-" open up a fzf files window
+" Open up a fzf files window
 nnoremap <silent><C-F> :Files!<CR>
 
-" search in all project files
+" Search in all project files
 nnoremap <leader>F :Rg!<Space>
 
-" search for visual selection in project files
+" Search for visual selection in project files
 vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
 
-" show all buffers
+" Show all buffers
 nnoremap <silent><leader>b :Buffers!<CR>
 
-" show changed files
+" Show changed files
 nnoremap <silent><leader>gfs :GFiles!?<CR>
 
-" show commits
+" Show commits
 nnoremap <leader>gl :Commits!<CR>
 
-" use colours from the current colour scheme
+" Use colours from the current colour scheme
 let g:fzf_colors = {
             \ 'fg':         ['fg', 'Normal'],
             \ 'bg':         ['bg', 'Normal'],
@@ -1478,7 +1507,7 @@ let g:tslime_pre_command = "C-c"
 
 " VIM-SIGNATURE ===================================================================================================
 
-" list all global marks
+" List all global marks
 nnoremap <leader>m :SignatureListGlobalMarks<CR>
 
 " VIM-PYTHON-DOCSTRING ============================================================================================
@@ -1488,34 +1517,61 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 
 " VIM-AIRLINE =====================================================================================================
 
-" enable coc git in tabline
+" Enable coc git in tabline
 let g:airline#extensions#hunks#coc_git = 1
 
-" truncate the branch name
+" Disable vim-fugitive branch name integration
 let g:airline#extensions#branch#enabled = 0
+
+" Don't format the branch name (leave it as it is)
 let g:airline#extensions#branch#format = 0
+
+" Don't truncate long branch names (set the branch name limit to 999)
 let g:airline#extensions#branch#displayed_head_limit = 999
 
 " From https://www.reddit.com/r/vim/comments/crs61u/best_airline_settings/
+" Enable the tabline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline
-let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
-let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)
-let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right
-let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline                                                 
+
+" Remove 'X' at the end of the tabline
+let g:airline#extensions#tabline#show_close_button = 0 
+
+" Can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
+let g:airline#extensions#tabline#tabs_label = ''       
+
+" Can put text here like TABS to denote tabs (I clear it so nothing is shown)
+let g:airline#extensions#tabline#buffers_label = ''    
+
+" Don't show tab numbers on the right
+let g:airline#extensions#tabline#show_tab_count = 0    
+
+" Don't show buffers in the tabline                                                 
+let g:airline#extensions#tabline#show_buffers = 0      
+
+" Show the short path of the file
 let g:airline#extensions#tabline#formatter = 'short_path_improved'
-let g:airline#extensions#tabline#show_tab_nr = 2       " disable tab numbers
-let g:airline#extensions#tabline#tab_nr_type = 1       " show number for each tab
-let g:airline#extensions#tabline#tab_min_count = 1     " minimum of 1 tab needed to display the tabline
-let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird orange arrow on the tabline
-let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'  " ignore tab names in tabline
+
+" Disable tab numbers
+let g:airline#extensions#tabline#show_tab_nr = 2       
+
+" Show number for each tab
+let g:airline#extensions#tabline#tab_nr_type = 1       
+
+" Minimum of 1 tab needed to display the tabline
+let g:airline#extensions#tabline#tab_min_count = 1     
+
+" Disables the weird orange arrow on the tabline
+let g:airline#extensions#tabline#show_tab_type = 0     
+
+" Ignore tab names in tabline
+let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'  
 
 " VIM-CONFLICT-MARKER =============================================================================================
 
-" disable matchit as I don't use it
+" Disable matchit as I don't use it
 let g:conflict_marker_enable_matchit = 0
 
-" disable the default highlight group
+" Disable the default highlight group
 let g:conflict_marker_highlight_group = ''
 
 " Include text after begin and end markers
