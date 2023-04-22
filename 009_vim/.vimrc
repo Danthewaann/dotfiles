@@ -97,7 +97,7 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
-" Auto-completion for quotes, parens, brackets, etc.
+" Auto-completion for quotes, parens, brackets, etc
 Plug 'Raimondi/delimitMate'
 
 " Must be loaded last
@@ -110,7 +110,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 
 " Initialize plugin system
-" - Automatically executes `filetype plugin indent on` and `syntax enable`.
+" - Automatically executes `filetype plugin indent on` and `syntax enable`
 call plug#end()
 " You can revert the settings after the call like so:
 "   filetype indent off   " Disable file-type-specific indentation
@@ -151,8 +151,8 @@ endif
 " "press <Enter> to continue"
 set cmdheight=2
 
-" Indentation settings for using 4 spaces instead of tabs.
-" Do not change 'tabstop' from its default value of 8 with this setup.
+" Indentation settings for using 4 spaces instead of tabs
+" Do not change 'tabstop' from its default value of 8 with this setup
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
@@ -165,14 +165,14 @@ set scrolloff=5
 set hlsearch
 set incsearch
 
-" Stop certain movements from always going to the first character of a line.
+" Stop certain movements from always going to the first character of a line
 set nostartofline
 
 " Use case insensitive search, except when using capital letters
 set ignorecase
 set smartcase
 
-" Set maximum amount of memory (in Kbyte) to use for pattern matching.
+" Set maximum amount of memory (in Kbyte) to use for pattern matching
 set maxmempattern=2000000
 
 " Better command-line completion
@@ -195,9 +195,10 @@ endif
 set noswapfile
 
 " Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
+" dialogue asking if you wish to save changed files
 set confirm
 
+" Set the update time so vim refreshes quickly
 set updatetime=50
 
 " Enable the signs column for things like displaying git changes and markers
@@ -207,7 +208,7 @@ set signcolumn=yes
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200 ttyfast
 
-" Disable line width of no newlines are inserted
+" Disable line width so no long lines don't get broken up
 set textwidth=0
 set wrapmargin=0
 
@@ -224,7 +225,7 @@ set backspace=indent,eol,start
 set t_Co=256
 
 " Hide instead of closing buffers. It allows hiding buffer with unsaved
-" modifications and preserve marks and undo history.
+" modifications and preserve marks and undo history
 set hidden
 
 " Don't show mode information as it is included in the statusline
@@ -233,7 +234,7 @@ set noshowmode
 " Set font (not sure if I need this)
 set guifont=Hack_Nerd_Font_Mono:h16
 
-" Highlight the current line when in insert mode.
+" Highlight the current line when in insert mode
 augroup highlight_cursorline
     autocmd!
     autocmd InsertEnter * set cursorline
@@ -381,7 +382,7 @@ nnoremap <silent><leader>rl :call ReplaceLast()<CR>
 " Exit the current window
 nnoremap <silent><C-Q> :q<CR>
 
-" Treat Ctrl+C exactly like <Escape>.
+" Treat Ctrl+C exactly like <Escape>
 imap <C-C> <Esc>
 
 " Vim-powered terminal in a split window
@@ -421,16 +422,16 @@ command! -nargs=* Make :call RunCmdInTerminal('make', "$tab", <f-args>)
 command! -nargs=* SMake :call RunCmdInTerminal('make', "20 split", <f-args>)
 command! -nargs=* VMake :call RunCmdInTerminal('make', "100 vsplit", <f-args>)
 
-" Use a line cursor within insert mode and a block cursor everywhere else.
+" Use a line cursor within insert mode and a block cursor everywhere else
 "
 " Reference chart of values:
-"   Ps = 0  -> blinking block.
-"   Ps = 1  -> blinking block (default).
-"   Ps = 2  -> steady block.
-"   Ps = 3  -> blinking underline.
-"   Ps = 4  -> steady underline.
-"   Ps = 5  -> blinking bar (xterm).
-"   Ps = 6  -> steady bar (xterm).
+"   Ps = 0  -> blinking block
+"   Ps = 1  -> blinking block (default)
+"   Ps = 2  -> steady block
+"   Ps = 3  -> blinking underline
+"   Ps = 4  -> steady underline
+"   Ps = 5  -> blinking bar (xterm)
+"   Ps = 6  -> steady bar (xterm)
 " if exists('$TMUX')
 "     let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
 "     let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
@@ -494,7 +495,7 @@ let &t_RT = "\e[23;2t"
 " Vim hardcodes background color erase even if the terminfo file does
 " not contain bce. This causes incorrect background rendering when
 " using a color theme with a background color in terminals such as
-" kitty that do not support background color erase.
+" kitty that do not support background color erase
 let &t_ut=''
 
 " COLOUR THEMES ===================================================================================================
@@ -612,7 +613,7 @@ let NERDTreeMapCustomOpen = "<Tab>"
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
 
-" Unmap <C-J> so we can use <C-J> for navigation.
+" Unmap <C-J> so we can use <C-J> for navigation
 let NERDTreeMapJumpNextSibling = ""
 
 " Set NERDTree window size
@@ -650,7 +651,7 @@ augroup center_nerd_tree
     autocmd BufEnter NERD_tree_* normal zz
 augroup END
 
-" Start NERDTree when Vim starts with a directory argument.
+" Start NERDTree when Vim starts with a directory argument
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
 "     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
@@ -705,12 +706,12 @@ command! -nargs=0 W :call Format()
 " Use `:WW` to organize imports, format and save current buffer
 command! -nargs=0 WW :call Sort(v:null, v:null, "Format")
 
-" Use tab for trigger completion with characters ahead and navigate.
+" Use tab for trigger completion with characters ahead and navigate
 "
 " NOTE: There's always complete item selected by default, you may want to enable
-" no select by `"suggest.noselect": true` in your configuration file.
+" no select by `"suggest.noselect": true` in your configuration file
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
+" other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
             \ coc#pum#visible() ? coc#pum#next(1) :
             \ CheckBackspace() ? "\<Tab>" :
@@ -718,7 +719,7 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice.
+" <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
             \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
@@ -727,7 +728,7 @@ function! CheckBackspace() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
+" Use <c-space> to trigger completion
 if has('nvim')
     inoremap <silent><expr> <c-space> coc#refresh()
 else
@@ -735,12 +736,12 @@ else
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
 nmap <silent> <leader>cd :CocDiagnostics<CR>
 nmap <silent> [d <Plug>(coc-diagnostic-prev)zz
 nmap <silent> ]d <Plug>(coc-diagnostic-next)zz
 
-" GoTo code navigation.
+" GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)zz
 nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>zz
 nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>zz
@@ -757,7 +758,7 @@ nmap <leader>ca  <Plug>(coc-codeaction-line)
 " Apply the most preferred quickfix action to fix diagnostic on the current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Use K to show documentation in preview window.
+" Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
@@ -768,13 +769,13 @@ function! ShowDocumentation()
     endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
+" Highlight the symbol and its references when holding the cursor
 augroup highlight_symbol
     autocmd!
     autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
 
-" Symbol renaming.
+" Symbol renaming
 nmap <leader>rn <Plug>(coc-rename)
 
 " Map function and class text objects
@@ -795,7 +796,7 @@ endfunction
 
 " Mappings for CocList
 "
-" Show all diagnostics.
+" Show all diagnostics
 nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
 
 " Manage extensions
@@ -807,25 +808,25 @@ nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>
 
-" Find symbol of current document.
+" Find symbol of current document
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<CR>
 
-" Search workspace jump locations.
+" Search workspace jump locations
 nnoremap <silent><nowait> <leader>l  :<C-u>CocList location<CR>
 
 " Show yank history
 nnoremap <silent><nowait> <leader>y  :<C-u>CocList -A --normal yank<CR>
 
-" Search workspace symbols.
+" Search workspace symbols
 nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<CR>
 
-" Search for the current current word in workspace symbols.
+" Search for the current current word in workspace symbols
 nnoremap <silent><nowait> <leader>S  :call CocSearchForSelectionInWorkspace()<CR>
 
-" Do default action for next item.
+" Do default action for next item
 nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
 
-" Do default action for previous item.
+" Do default action for previous item
 nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
 
 function ToggleDiagnostics() abort
@@ -1182,9 +1183,9 @@ func! s:SetBreakpoint()
     let cur_line_num = line('.')
     let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
 
-    " Check the next line first to see if it is indented more than the current line.
-    " if it is, use the indentation level of that line.
-    " otherwise go through all previous lines to get the correct indentation level.
+    " Check the next line first to see if it is indented more than the current line
+    " if it is, use the indentation level of that line
+    " otherwise go through all previous lines to get the correct indentation level
     let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
     if strlen(cur_line['whitespace']) > 0 && next_line['whitespace'] > cur_line['whitespace']
         let cur_line['whitespace'] = next_line['whitespace']
@@ -1197,7 +1198,7 @@ func! s:SetBreakpoint()
             let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
         endwhile
 
-        " Check if the next line is indented more than the current line.
+        " Check if the next line is indented more than the current line
         " if it is, use the indentation level of that line
         let next_line = s:GetLineContentAndWhitespace(cur_line_num+1)
         if strlen(cur_line['whitespace']) > 0 && next_line['whitespace'] > cur_line['whitespace']
