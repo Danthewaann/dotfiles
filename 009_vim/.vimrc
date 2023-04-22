@@ -42,6 +42,7 @@ let g:coc_global_extensions = [
             \'coc-markdownlint',
             \'coc-docker',
             \'coc-post',
+            \'coc-db',
             \]
 
 set nobackup
@@ -88,6 +89,8 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-unimpaired'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/conflict-marker.vim'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -1415,6 +1418,15 @@ endfunction
 
 let g:vim_markdown_folding_disabled = 1
 
+" VIM-DADBOD ======================================================================================================
+
+" Unmap these as I use <C-J/K> for navigating windows
+autocmd FileType dbui unmap <buffer> <C-J>
+autocmd FileType dbui unmap <buffer> <C-K>
+
+" Use tab for opening drawers
+autocmd FileType dbui map <Tab> <Plug>(DBUI_SelectLine)
+
 " VIM-BBYE =======================================================================================================
 
 " Close the current buffer without closing the window
@@ -1618,3 +1630,4 @@ highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81
 " :Obess to start recording you vim session to a Session.vim file in current directory
 "
 " To surround a visual selection in quotes highlight your selection and then press S<quote>
+
