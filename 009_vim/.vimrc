@@ -1458,15 +1458,15 @@ autocmd FileType dbui map <Tab> <Plug>(DBUI_SelectLine)
 nnoremap <silent><leader>bd :Bdelete<CR>
 
 " Delete all buffers except the current one
-" 
+"
 " From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
 command! BufOnly silent! execute "%bd|e#|bd#"
-" nnoremap <silent><leader>dab :BufOnly<CR>
+nnoremap <silent><leader>bo :BufOnly<CR>
 
 " Delete all(saved) but visible buffers
 "
 " From https://vi.stackexchange.com/a/27106
-func! Delete_buffers()
+function! Delete_buffers() abort
     " All visible buffers in all tabs
     let buflist = []
     for i in range(tabpagenr('$'))
@@ -1476,10 +1476,10 @@ func! Delete_buffers()
     " All existing buffers
     for bnr in range(1, bufnr("$"))
         if index(buflist, bnr) == -1 && buflisted(bnr)
-            exe 'bd ' . bnr
+            execute 'bdelete ' . bnr
         endif
     endfor
-endfunc
+endfunction
 
 " Kill-all but visible buffers
 nnoremap <silent> <leader>bda :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
@@ -1571,37 +1571,37 @@ let g:airline#extensions#branch#displayed_head_limit = 999
 let g:airline#extensions#tabline#enabled = 1
 
 " Remove 'X' at the end of the tabline
-let g:airline#extensions#tabline#show_close_button = 0 
+let g:airline#extensions#tabline#show_close_button = 0
 
 " Can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
-let g:airline#extensions#tabline#tabs_label = ''       
+let g:airline#extensions#tabline#tabs_label = ''
 
 " Can put text here like TABS to denote tabs (I clear it so nothing is shown)
-let g:airline#extensions#tabline#buffers_label = ''    
+let g:airline#extensions#tabline#buffers_label = ''
 
 " Don't show tab numbers on the right
-let g:airline#extensions#tabline#show_tab_count = 0    
+let g:airline#extensions#tabline#show_tab_count = 0
 
-" Don't show buffers in the tabline                                                 
-let g:airline#extensions#tabline#show_buffers = 0      
+" Don't show buffers in the tabline
+let g:airline#extensions#tabline#show_buffers = 0
 
 " Show the short path of the file
 let g:airline#extensions#tabline#formatter = 'short_path_improved'
 
 " Disable tab numbers
-let g:airline#extensions#tabline#show_tab_nr = 2       
+let g:airline#extensions#tabline#show_tab_nr = 2
 
 " Show number for each tab
-let g:airline#extensions#tabline#tab_nr_type = 1       
+let g:airline#extensions#tabline#tab_nr_type = 1
 
 " Minimum of 1 tab needed to display the tabline
-let g:airline#extensions#tabline#tab_min_count = 1     
+let g:airline#extensions#tabline#tab_min_count = 1
 
 " Disables the weird orange arrow on the tabline
-let g:airline#extensions#tabline#show_tab_type = 0     
+let g:airline#extensions#tabline#show_tab_type = 0
 
 " Ignore tab names in tabline
-let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'  
+let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'
 
 " VIM-CONFLICT-MARKER =============================================================================================
 
