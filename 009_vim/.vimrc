@@ -1421,6 +1421,9 @@ let g:vim_markdown_folding_disabled = 1
 
 " VIM-DADBOD ======================================================================================================
 
+" Use nerd fonts for the UI
+let g:db_ui_use_nerd_fonts = 1
+
 " Open DB connections window
 nnoremap <silent><leader>db :DBUI<CR>
 
