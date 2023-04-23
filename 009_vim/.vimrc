@@ -564,6 +564,10 @@ nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
 " Close the terminal window
 tnoremap <C-Q> <C-D>
 
+" Close all buffers in the current window
+nnoremap <silent><C-W>q :windo bdelete!<CR>
+tnoremap <silent><C-W>q <C-W>:windo bdelete!<CR>
+
 " Window navigation
 tnoremap <C-H> <C-W><C-H>
 tnoremap <C-J> <C-W><C-J>
