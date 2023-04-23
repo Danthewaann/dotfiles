@@ -1087,6 +1087,16 @@ nnoremap <silent><leader>cp :CocList post<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
+" Switch to insert mode immediately when opening a new commit message
+"
+" From https://jnrowe-vim.readthedocs.io/after/ftplugin/gitcommit.html
+augroup jnrowe_gitcommit
+    autocmd!
+    autocmd BufEnter */COMMIT_EDITMSG if len(getline('.')) == 0 |
+    \       startinsert |
+    \   endif
+augroup END
+
 nnoremap <silent><leader>gg :call OpenOrRefreshGitStatus()<CR>
 nnoremap <silent><leader>gcc :G commit<CR>
 nnoremap <silent><leader>gce :G commit --amend --no-edit<CR>
