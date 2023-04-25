@@ -806,25 +806,28 @@ endfunction
 " Mappings for CocList
 "
 " Show all diagnostics
-nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<CR>
+nnoremap <silent><nowait> <leader>ld  :<C-u>CocList diagnostics<CR>
 
 " Manage extensions
-nnoremap <silent><nowait> <leader>e  :<C-u>CocList extensions<CR>
+nnoremap <silent><nowait> <leader>le  :<C-u>CocList extensions<CR>
 
 " Show commands
-nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<CR>
+nnoremap <silent><nowait> <leader>lc  :<C-u>CocList commands<CR>
 
 " Resume latest coc list
-nnoremap <silent><nowait> <leader>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <leader>lr  :<C-u>CocListResume<CR>
 
 " Find symbol of current document
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<CR>
 
+" Show workspace folders
+nnoremap <silent><nowait> <leader>lf  :<C-u>CocList folders<CR>
+
 " Search workspace jump locations
-nnoremap <silent><nowait> <leader>l  :<C-u>CocList location<CR>
+nnoremap <silent><nowait> <leader>ll  :<C-u>CocList location<CR>
 
 " Show yank history
-nnoremap <silent><nowait> <leader>y  :<C-u>CocList -A --normal yank<CR>
+nnoremap <silent><nowait> <leader>ly  :<C-u>CocList -A --normal yank<CR>
 
 " Search workspace symbols
 nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<CR>
