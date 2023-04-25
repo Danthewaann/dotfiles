@@ -43,6 +43,7 @@ let g:coc_global_extensions = [
             \'coc-docker',
             \'coc-post',
             \'coc-db',
+            \'coc-snippets',
             \]
 
 set nobackup
