@@ -207,7 +207,7 @@ set signcolumn=yes
 
 " From https://stackoverflow.com/a/58042714
 " Quickly time out on keycodes, but never time out on mappings
-set notimeout ttimeout ttimeoutlen=200 ttyfast
+set notimeout ttimeout ttimeoutlen=50 ttyfast
 
 " Disable line width so no long lines don't get broken up
 set textwidth=0
