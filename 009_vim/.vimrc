@@ -673,9 +673,6 @@ augroup END
 
 " COC ===================================================================================================
 
-autocmd FileType python let b:coc_root_patterns = ['.venv', 'pyproject.toml']
-autocmd FileType gitcommit let b:coc_root_patterns = []
-
 " Restart Coc
 nnoremap <silent><leader>cr :CocRestart<CR><CR>
 

@@ -40,8 +40,8 @@
     "git.addGBlameToVirtualText": true,
     "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/15.0.6/clangd_15.0.6/bin/clangd",
     "rust-analyzer.server.path": "~/.cargo/bin/rust-analyzer",
-    "workspace.workspaceFolderCheckCwd": false,
-    "workspace.ignoredFolders": [
-        "$HOME", "$HOME/Workspace/**",
-    ]
+    "workspace.rootPatterns": [
+        ".venv",
+        "pyproject.toml",
+    ],
 }
