@@ -9,8 +9,13 @@ function update_base() {
     cd "$base_worktree" || exit
 
     >&2 echo "Updating with remote"
-    # shellcheck disable=SC2210
     >&2 git pull 
+
+    if [[ -f "poetry.lock" ]]; then
+        >&2 echo
+        >&2 echo "Updating dependencies"
+        poetry install
+    fi
 }
 
 >&2 echo
