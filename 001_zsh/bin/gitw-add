@@ -5,11 +5,13 @@ set -e
 args=()
 branch_name=
 checkout_only=0
+copy_venv=0
 
 function usage() {
     cat <<-END
 branch_name      name of the branch to create
 --checkout-only  only checkout the branch
+--copy           copy .venv from base worktree into new worktree
 END
 }
 
@@ -21,6 +23,10 @@ while [[ $# -gt 0 ]]; do
         ;;
     --checkout-only)
         checkout_only=1
+        shift
+        ;;
+    --copy)
+        copy_venv=1
         shift
         ;;
     *)
@@ -49,6 +55,8 @@ fi
 
 # Remove the first path segment if branch name contains forward slashes
 trimmed_name=$(echo "$branch_name" | cut -d'/' -f2-)
+
+current_dir=$(pwd)
 
 # Convert all forward slashes to dashes
 converted_name=${trimmed_name//\//-}
@@ -82,7 +90,13 @@ fi
 
 # Optional post checkout steps
 if [[ $checkout_only -ne 1 ]]; then
-    if [[ -f "poetry.lock" ]]; then
+    base_worktree=$(gitw-get-base)
+    if [[ $copy_venv -eq 1 ]] && [[ -d "../$base_worktree/.venv" ]]; then
+        >&2 printf "\nCopying ../%s/.venv to .venv\n" "$base_worktree"
+        mkdir -p "$current_dir/$converted_name/.venv"
+        # From https://www.zylk.net/en/web-2-0/blog/-/blogs/how-to-copy-files-in-linux-faster-and-safer-than-cp
+        cd "$current_dir/$base_worktree/.venv"; tar cf - . | (cd "$current_dir/$converted_name/.venv"; tar xvf -) 2> /dev/null
+    elif [[ -f "poetry.lock" ]]; then
         >&2 echo
         >&2 echo "========================"
         >&2 echo "Running poetry install"
