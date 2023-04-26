@@ -56,8 +56,6 @@ converted_name=${trimmed_name//\//-}
 # Create a new worktree using the converted name
 git worktree add "$converted_name" "$@"
 
->&2 echo
-
 # Enter the new worktree
 cd "$converted_name" || exit
 
@@ -65,14 +63,20 @@ cd "$converted_name" || exit
 if ! output=$(git branch -m "$branch_name" 2>&1); then
     # If the branch name already exists, check it out instead of creating it
     if [[ $output == *"already exists"* ]]; then
-        >&2 echo "Branch '$branch_name' already exists"
-        git checkout "$branch_name"
+        >&2 printf "\nBranch '%s' exists locally, switching to it\n" "$branch_name"
+        if ! output=$(git checkout "$branch_name" 2>&1); then
+            >&2 echo "ERROR: Failed to checkout branch : $output"
+            exit 1
+        fi
     fi
 else
     # Check if the branch exists remotely, if it does hard reset to it
     if git branch -r | grep "$branch_name" > /dev/null 2>&1; then
-        >&2 echo "Branch '$branch_name' exists remotely, hard resetting"
-        git reset --hard origin/"$branch_name"
+        >&2 printf "\nBranch '%s' exists remotely, hard resetting to it\n" "$branch_name"
+        if ! output=$(git reset --hard origin/"$branch_name" 2>&1); then
+            >&2 echo "ERROR: Failed to hard reset branch : $output"
+            exit 1
+        fi
     fi
 fi
 
@@ -83,7 +87,6 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo "========================"
         >&2 echo "Running poetry install"
         >&2 echo "========================"
-        >&2 echo
         poetry install
     fi
 
@@ -92,7 +95,6 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo "==============================="
         >&2 echo "Linking pyrightconfig.json file"
         >&2 echo "==============================="
-        >&2 echo
         ln -s "$HOME/pyrightconfig.json" "pyrightconfig.json"
     fi
 fi
