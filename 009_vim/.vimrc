@@ -1143,6 +1143,13 @@ endfunction
 
 command! -nargs=0 ReplaceTicketNumberInPRFile :call ReplaceTicketNumberInPRFile()
 
+" Automatically replace the ticket number in a PR markdown file created with
+" the `git-pr-create` script
+augroup replace_ticket_number_in_pr_file
+    autocmd!
+    autocmd BufEnter *.md if expand('$GIT_PR_CREATE_RAN') == 1 | call ReplaceTicketNumberInPRFile() | endif
+augroup END
+
 " VIMSPECTOR =====================================================================================================
 
 " Open vimspector settings

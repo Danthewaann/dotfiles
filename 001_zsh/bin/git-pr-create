@@ -49,11 +49,15 @@ fi
 
 >&2 echo
 
+export GIT_PR_CREATE_RAN=1
+
 gh pr create \
     --head "$(git branch --show-current)" \
     --assignee "@me" \
     --title "$pr_title" \
     "${args[@]}" || exit $?
+
+unset "$GIT_PR_CREATE_RAN"
 
 url=$(gh pr view --json url --jq .url)
 
