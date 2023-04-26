@@ -185,6 +185,12 @@ augroup spell_checking
     autocmd FileType markdown,gitcommit setlocal spell spelllang=en_us,en_gb
 augroup END
 
+" Disable line wrapping, sign column and line numbers in the vim terminal (especially in terminal normal mode)
+augroup vim_terminal_settings
+  autocmd!
+  autocmd TerminalWinOpen * set nowrap nonumber norelativenumber signcolumn=no
+augroup end
+
 " Set the clipboard up to use the system clipboard to allow pasting from other programs
 if system('uname -s') == "Darwin\n"
     set clipboard=unnamed
@@ -666,6 +672,9 @@ augroup END
 "     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
 " COC ===================================================================================================
+
+autocmd FileType python let b:coc_root_patterns = ['.venv', 'pyproject.toml']
+autocmd FileType gitcommit let b:coc_root_patterns = []
 
 " Restart Coc
 nnoremap <silent><leader>cr :CocRestart<CR><CR>

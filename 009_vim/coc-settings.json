@@ -7,7 +7,7 @@
     "pyright.disableDiagnostics": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
-    "python.analysis.diagnosticMode": "openFilesOnly",
+    "python.analysis.diagnosticMode": "workspace",
     "python.analysis.useLibraryCodeForTypes": true,
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoImportCompletions": true,
@@ -39,5 +39,9 @@
     "git.conflict.enabled": false,
     "git.addGBlameToVirtualText": true,
     "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/15.0.6/clangd_15.0.6/bin/clangd",
-    "rust-analyzer.server.path": "~/.cargo/bin/rust-analyzer"
+    "rust-analyzer.server.path": "~/.cargo/bin/rust-analyzer",
+    "workspace.workspaceFolderCheckCwd": false,
+    "workspace.ignoredFolders": [
+        "$HOME", "$HOME/Workspace/**",
+    ]
 }
