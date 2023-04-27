@@ -188,7 +188,7 @@ augroup END
 " Disable line wrapping, sign column and line numbers in the vim terminal (especially in terminal normal mode)
 augroup vim_terminal_settings
   autocmd!
-  autocmd TerminalWinOpen * set nowrap nonumber norelativenumber signcolumn=no
+  autocmd TerminalWinOpen * setlocal nowrap nonumber norelativenumber signcolumn=no
 augroup end
 
 " Set the clipboard up to use the system clipboard to allow pasting from other programs
