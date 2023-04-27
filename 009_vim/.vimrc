@@ -1622,17 +1622,6 @@ let g:conflict_marker_highlight_group = ''
 let g:conflict_marker_begin = '^<<<<<<< .*$'
 let g:conflict_marker_end   = '^>>>>>>> .*$'
 
-highlight ConflictMarkerBegin guibg=#2f7366
-highlight ConflictMarkerOurs guibg=#2f7366
-highlight ConflictMarkerTheirs guibg=#2f628e
-highlight ConflictMarkerEnd guibg=#2f628e
-highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81
-
-" hi DiffChange guibg=#5f005f guifg=#ABB2BF
-" hi DiffAdd    guibg=#2f7366 guifg=#ABB2BF
-" hi DiffRemove guibg=#600000 guifg=#ABB2BF
-" hi DiffText   guibg=#2f628e guifg=#ABB2BF
-
 " CHEATSHEET ======================================================================================================
 "
 " ga -> get encoding of character at cursor
