@@ -1593,7 +1593,7 @@ let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_buffers = 0
 
 " Show the short path of the file
-let g:airline#extensions#tabline#formatter = 'short_path_improved'
+let g:airline#extensions#tabline#formatter = 'short_path'
 
 " Disable tab numbers
 let g:airline#extensions#tabline#show_tab_nr = 2
