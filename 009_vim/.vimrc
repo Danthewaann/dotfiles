@@ -148,9 +148,9 @@ if has('mouse')
   set mouse=a
 endif
 
-" Set the command window height to 2 lines, to avoid many cases of having to
+" Can set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
-set cmdheight=2
+set cmdheight=1
 
 " Indentation settings for using 4 spaces instead of tabs
 " Do not change 'tabstop' from its default value of 8 with this setup
