@@ -43,3 +43,14 @@ git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # Gets all branches from origin
 git fetch origin
 
+>&2 echo "Creating base worktree"
+if git branch -r | grep origin/master; then
+    base_worktree=master
+elif git branch -r | grep origin/main; then
+    base_worktree=main
+else
+    >&2 echo "ERROR: cannot determine base worktree, main or master don't exist"
+    exit 1
+fi
+
+gitw-add "$base_worktree"
