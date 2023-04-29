@@ -1592,8 +1592,8 @@ let g:airline#extensions#tabline#show_tab_count = 0
 " Don't show buffers in the tabline
 let g:airline#extensions#tabline#show_buffers = 0
 
-" Show the short path of the file
-let g:airline#extensions#tabline#formatter = 'short_path'
+" Don't show open splits per tab (on the right side on the tabline)
+let g:airline#extensions#tabline#show_splits = 0
 
 " Disable tab numbers
 let g:airline#extensions#tabline#show_tab_nr = 2
@@ -1607,8 +1607,34 @@ let g:airline#extensions#tabline#tab_min_count = 1
 " Disables the weird orange arrow on the tabline
 let g:airline#extensions#tabline#show_tab_type = 0
 
-" Ignore tab names in tabline
-let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|make'
+" Use a custom tabtitle formatter
+let g:airline#extensions#tabline#tabtitle_formatter = 'MyTabTitleFormatter'
+
+function MyTabTitleFormatter(n)
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let bufnr = buflist[winnr - 1]
+    let winid = win_getid(winnr, a:n)
+    let title = bufname(bufnr)
+
+    if empty(title)
+        if getqflist({'qfbufnr' : 0}).qfbufnr == bufnr
+            let title = '[Quickfix List]'
+        elseif winid && getloclist(winid, {'qfbufnr' : 0}).qfbufnr == bufnr
+            let title = '[Location List]'
+        else
+            let title = '[No Name]'
+        endif
+    elseif title =~ '^make .*'
+        let title = title
+    else
+        let parent = fnamemodify(title, ':h:t')
+        let file = fnamemodify(title, ':t')
+        let title = join([parent, file], "/")
+    endif
+
+    return title
+endfunction
 
 " VIM-CONFLICT-MARKER =============================================================================================
 
