@@ -1255,7 +1255,13 @@ nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
 "
 " Setup a way to keep track of breakpoint() calls in Python code
 function! GetAllBreakpoints()
-    return system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+    let breakpoints = system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+    if empty(breakpoints)
+        echohl WarningMsg
+        echo "No breakpoint()s found"
+        echohl None
+    endif
+    return breakpoints
 endfunction
 
 function! DeleteAllBreakpoints()
@@ -1269,24 +1275,10 @@ function! DeleteAllBreakpoints()
             call system('sed -i -e /breakpoint\(\)/d ' . file)
         endif
     endfor
-    if !empty(files)
-        lgetexpr BreakpointsLocationList()
-    endif
 endfunction
 
 command! -nargs=0 DeleteAllBreakpoints call DeleteAllBreakpoints()
-
-function! BreakpointsLocationList()
-    let breakpoints = GetAllBreakpoints()
-    if empty(breakpoints)
-        echohl WarningMsg
-        echo "No breakpoint()s found"
-        echohl None
-    endif
-    return breakpoints
-endfunction
-
-command! -nargs=0 Breakpoints lgetexpr BreakpointsLocationList() | call setloclist(0, [], 'a', {'title': 'PythonBreakpoints'})
+command! -nargs=0 Breakpoints lgetexpr GetAllBreakpoints() | call setloclist(0, [], 'a', {'title': 'PythonBreakpoints'})
 
 augroup quickfix
     autocmd!
