@@ -429,6 +429,11 @@ command! -nargs=* Make :call RunCmdInTerminal('make', "$tab", <f-args>)
 command! -nargs=* SMake :call RunCmdInTerminal('make', "20 split", <f-args>)
 command! -nargs=* VMake :call RunCmdInTerminal('make', "100 vsplit", <f-args>)
 
+" Useful make commands
+nnoremap <leader>ml :Make lint<CR>
+nnoremap <leader>mt :Make test<CR>
+nnoremap <leader>ms :Make shell<CR>
+
 " Use a line cursor within insert mode and a block cursor everywhere else
 "
 " Reference chart of values:
@@ -1552,7 +1557,7 @@ let g:tslime_pre_command = "C-c"
 " VIM-SIGNATURE ===================================================================================================
 
 " List all global marks
-nnoremap <leader>m :SignatureListGlobalMarks<CR>
+nnoremap <leader>M :SignatureListGlobalMarks<CR>
 
 " VIM-PYTHON-DOCSTRING ============================================================================================
 
