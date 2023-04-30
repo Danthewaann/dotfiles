@@ -1476,7 +1476,7 @@ nnoremap <silent><leader>bd :Bdelete<CR>
 "
 " From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
 command! BufOnly silent! execute "%bd|e#|bd#"
-nnoremap <silent><leader>bo :BufOnly<CR>
+nnoremap <silent><leader>bo :BufOnly<CR>:echo "Deleted all buffers"<CR>
 
 " Delete all(saved) but visible buffers
 "
