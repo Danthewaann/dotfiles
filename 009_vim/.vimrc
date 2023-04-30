@@ -1098,7 +1098,10 @@ endfunction
 command! -nargs=0 Post call Post()
 
 " Show all post files
-nnoremap <silent><leader>cp :CocList post<CR>
+nnoremap <silent><leader>pl :CocList post<CR>
+
+" Execute current post file
+nnoremap <silent><leader>pp :Post<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
