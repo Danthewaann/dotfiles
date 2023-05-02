@@ -1453,7 +1453,7 @@ let g:db_ui_use_nerd_fonts = 1
 let g:db_ui_winwidth = 80
 
 " Open DB connections window
-nnoremap <silent><leader>db :DBUI<CR>
+nnoremap <silent><leader>db :tabnew<CR>:DBUI<CR>
 
 " Unmap these as I use <C-J/K> for navigating windows
 autocmd FileType dbui unmap <buffer> <C-J>
