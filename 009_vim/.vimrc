@@ -1449,6 +1449,9 @@ let g:vim_markdown_folding_disabled = 1
 " Use nerd fonts for the UI
 let g:db_ui_use_nerd_fonts = 1
 
+" Use a drawer with a bigger width
+let g:db_ui_winwidth = 80
+
 " Open DB connections window
 nnoremap <silent><leader>db :DBUI<CR>
 
