@@ -70,7 +70,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-commentary'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'puremourning/vimspector'
+Plug 'dcrblack/vimspector'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
