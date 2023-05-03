@@ -1649,13 +1649,6 @@ endfunction
 " Disable matchit as I don't use it
 let g:conflict_marker_enable_matchit = 0
 
-" Disable the default highlight group
-let g:conflict_marker_highlight_group = ''
-
-" Include text after begin and end markers
-let g:conflict_marker_begin = '^<<<<<<< .*$'
-let g:conflict_marker_end   = '^>>>>>>> .*$'
-
 " CHEATSHEET ======================================================================================================
 "
 " ga -> get encoding of character at cursor
