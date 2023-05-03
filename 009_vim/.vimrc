@@ -1628,6 +1628,11 @@ function MyTabTitleFormatter(n)
         else
             let title = '[No Name]'
         endif
+    elseif title =~ '^make unit test=.*'
+        let parts = split(title, "=")
+        let cmd = parts[0]
+        let test = get(parts, 1, 'Test Suite')
+        let title = '[Test] ' . fnamemodify(test, ':t')
     elseif title =~ '^make .*'
         let title = title
     else
