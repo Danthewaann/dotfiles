@@ -70,7 +70,11 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-commentary'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'dcrblack/vimspector'
+
+if !has('nvim')
+    Plug 'dcrblack/vimspector'
+endif
+
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
@@ -186,10 +190,12 @@ augroup spell_checking
 augroup END
 
 " Disable line wrapping, sign column and line numbers in the vim terminal (especially in terminal normal mode)
-augroup vim_terminal_settings
-  autocmd!
-  autocmd TerminalWinOpen * setlocal nowrap nonumber norelativenumber signcolumn=no
-augroup end
+if !has('nvim')
+    augroup vim_terminal_settings
+      autocmd!
+      autocmd TerminalWinOpen * setlocal nowrap nonumber norelativenumber signcolumn=no
+    augroup end
+endif
 
 " Set the clipboard up to use the system clipboard to allow pasting from other programs
 if system('uname -s') == "Darwin\n"
@@ -457,8 +463,11 @@ let &t_EI .= "\<Esc>[2 q"
 
 " From kitty
 " Mouse support
-set ttymouse=sgr
-set balloonevalterm
+
+if !has('nvim')
+    set ttymouse=sgr
+    set balloonevalterm
+endif
 
 " Styled and colored underline support
 let &t_AU = "\e[58:5:%dm"
@@ -497,8 +506,11 @@ let &t_VS = "\e[?12l"
 " Focus tracking
 let &t_fe = "\e[?1004h"
 let &t_fd = "\e[?1004l"
-execute "set <FocusGained>=\<Esc>[I"
-execute "set <FocusLost>=\<Esc>[O"
+
+if !has('nvim')
+    execute "set <FocusGained>=\<Esc>[I"
+    execute "set <FocusLost>=\<Esc>[O"
+endif
 
 " Window title
 let &t_ST = "\e[22;2t"
