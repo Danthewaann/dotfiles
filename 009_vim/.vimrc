@@ -1296,6 +1296,9 @@ endfunction
 command! -nargs=0 DeleteAllBreakpoints call DeleteAllBreakpoints()
 command! -nargs=0 Breakpoints lgetexpr GetAllBreakpoints() | call setloclist(0, [], 'a', {'title': 'PythonBreakpoints'})
 
+" Delete all Python breakpoints
+nnoremap <silent> dab :DeleteAllBreakpoints<CR>
+
 augroup quickfix
     autocmd!
     autocmd QuickFixCmdPost cgetexpr cwindow
