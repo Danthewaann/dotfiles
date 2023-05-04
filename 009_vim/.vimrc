@@ -663,8 +663,8 @@ endfunction
 
 nnoremap <silent> <leader>nn :call OpenOrRefreshNERDTree()<CR>
 
-" Close NERDTree
-nnoremap <silent> <leader>nc :NERDTreeClose<CR>
+" Toggle NERDTree
+nnoremap <silent> <C-N> :NERDTreeToggle<CR>
 
 " Open NERDTree with buffer shown inside it
 nnoremap <silent> <leader>nf :NERDTreeFind<CR>
