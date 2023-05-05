@@ -72,6 +72,42 @@ export ZSH="$HOME/.oh-my-zsh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
 
+# Do the initialization when the script is sourced (i.e. Initialize instantly)
+ZVM_INIT_MODE=sourcing
+
+# Use `fb` to escape to normal mode
+ZVM_VI_ESCAPE_BINDKEY=fd
+
+# Disable the cursor style feature
+ZVM_CURSOR_STYLE_ENABLED=false
+
+# The plugin will auto execute this zvm_after_select_vi_mode function
+function zvm_after_select_vi_mode() {
+  case $ZVM_MODE in
+    $ZVM_MODE_NORMAL)
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}N%{$reset_color%} $ "
+    ;;
+    $ZVM_MODE_INSERT)
+        PROMPT="$BASE_PROMPT$ "
+    ;;
+    $ZVM_MODE_VISUAL)
+      # Something you want to do...
+    ;;
+    $ZVM_MODE_VISUAL_LINE)
+      # Something you want to do...
+    ;;
+    $ZVM_MODE_REPLACE)
+      # Something you want to do...
+    ;;
+  esac
+}
+
+zvm_after_init() {
+    # Override <C-P> and <C-N> to cycle through command history (including suggested commands)
+    zvm_bindkey viins '^P' up-line-or-search
+    zvm_bindkey viins '^N' down-line-or-search
+}
+
 source $ZSH/oh-my-zsh.sh
 
 # From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
@@ -162,17 +198,11 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
-PROMPT=$'\n%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)$ '
+BASE_PROMPT=$'\n%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)'
+PROMPT="$BASE_PROMPT$ "
 
 VIRTUAL_ENV_DISABLE_PROMPT=0
 ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
 ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
-
-# Use emacs key bindings for the terminal
-bindkey -e
-
-# Override <C-P> and <C-N> to cycle through command history (including suggested commands)
-bindkey "^P" up-line-or-search
-bindkey "^N" down-line-or-search
