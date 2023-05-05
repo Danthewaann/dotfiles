@@ -37,3 +37,8 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]]; then
         "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 
+if [[ ! -d $ZSH_CUSTOM/plugins/zsh-vi-mode ]]; then
+    run_command "installing zsh-vi-mode" \
+        "git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode"
+fi
+
