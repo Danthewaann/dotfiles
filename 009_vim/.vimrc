@@ -1121,7 +1121,7 @@ nnoremap <silent><leader>pp :Post<CR>
 
 " VIM-FUGITIVE ===================================================================================================
 
-nnoremap <silent><leader>gg :call OpenOrRefreshGitStatus()<CR>
+nnoremap <silent><leader>gg  :G<CR>
 nnoremap <silent><leader>gcc :G commit<CR>
 nnoremap <silent><leader>gce :G commit --amend --no-edit<CR>
 nnoremap <silent><leader>gca :G commit --amend<CR>
@@ -1134,14 +1134,6 @@ function! RefreshGitStatus() abort
         endif
     endfor
     return v:false
-endfunction
-
-function! OpenOrRefreshGitStatus() abort
-    let git_open = RefreshGitStatus()
-    if ! git_open
-        Git
-        resize-15
-    endif
 endfunction
 
 augroup fugitive_au
