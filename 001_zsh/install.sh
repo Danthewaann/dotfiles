@@ -32,9 +32,9 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autosuggestions ]]; then
         "git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
 
-if [[ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]]; then
-    run_command "installing zsh-syntax-highlighting" \
-        "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+if [[ ! -d $ZSH_CUSTOM/plugins/fast-syntax-highlighting ]]; then
+    run_command "installing fast-syntax-highlighting" \
+        "git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting"
 fi
 
 if [[ ! -d $ZSH_CUSTOM/plugins/zsh-vi-mode ]]; then
