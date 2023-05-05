@@ -1630,6 +1630,11 @@ function MyTabTitleFormatter(n)
     let bufnr = buflist[winnr - 1]
     let winid = win_getid(winnr, a:n)
     let title = bufname(bufnr)
+    let mod = ""
+
+    if getbufvar(bufnr, "&mod")
+        let mod = "*"
+    endif
 
     if empty(title)
         if getqflist({'qfbufnr' : 0}).qfbufnr == bufnr
@@ -1652,7 +1657,7 @@ function MyTabTitleFormatter(n)
         let title = join([parent, file], "/")
     endif
 
-    return title
+    return title . mod
 endfunction
 
 " VIM-CONFLICT-MARKER =============================================================================================
