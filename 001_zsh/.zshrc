@@ -169,3 +169,10 @@ ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
 ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+
+# Use emacs key bindings for the terminal
+bindkey -e
+
+# Override <C-P> and <C-N> to cycle through command history (including suggested commands)
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search

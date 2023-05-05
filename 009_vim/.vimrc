@@ -413,10 +413,6 @@ tmap <silent><C-T>t <C-W>:tab term<CR>
 " Enter normal-mode in vim terminal
 tnoremap <C-X> <C-W>N
 
-" Use <C-P> and <C-N> to cycle through terminal history
-tnoremap <C-P> <Up>
-tnoremap <C-N> <Down>
-
 " Run a command in a terminal in a new tab
 function RunCmdInTerminal(cmd, pos, ...) abort
     execute a:pos . ' new'
