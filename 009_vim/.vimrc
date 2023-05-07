@@ -96,6 +96,7 @@ Plug 'honza/vim-snippets'
 Plug 'rhysd/conflict-marker.vim'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'tpope/vim-abolish'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
