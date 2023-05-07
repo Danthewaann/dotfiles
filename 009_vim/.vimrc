@@ -646,6 +646,9 @@ let NERDTreeMapCustomOpen = "<Tab>"
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
 
+" Auto delete buffers when deleting a file
+let NERDTreeAutoDeleteBuffer=1
+
 " Unmap <C-J> so we can use <C-J> for navigation
 let NERDTreeMapJumpNextSibling = ""
 
