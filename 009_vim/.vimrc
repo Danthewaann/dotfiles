@@ -97,6 +97,7 @@ Plug 'rhysd/conflict-marker.vim'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'tpope/vim-abolish'
+Plug 'junegunn/gv.vim'
 
 " Need to also install this for searching through files
 " https://github.com/ggreer/the_silver_searcher
@@ -413,6 +414,10 @@ tmap <silent><C-T>t <C-W>:tab term<CR>
 
 " Enter normal-mode in vim terminal
 tnoremap <C-X> <C-W>N
+
+" Use <C-P> and <C-N> to cycle through history in vim command mode
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
 
 " Run a command in a terminal in a new tab
 function RunCmdInTerminal(cmd, pos, ...) abort
@@ -1532,7 +1537,7 @@ nnoremap <silent><leader>bb :Buffers!<CR>
 nnoremap <silent><leader>gfs :GFiles!?<CR>
 
 " Show commits
-nnoremap <leader>gl :Commits!<CR>
+nnoremap <silent><leader>gl :GV<CR>
 
 " Use colours from the current colour scheme
 let g:fzf_colors = {
