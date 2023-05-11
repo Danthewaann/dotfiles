@@ -72,10 +72,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
 
-# Do the initialization when the script is sourced (i.e. Initialize instantly)
-ZVM_INIT_MODE=sourcing
-
-# Use `fb` to escape to normal mode
+# Use `fd` to enter normal mode in zsh
 ZVM_VI_ESCAPE_BINDKEY=fd
 
 # Disable the cursor style feature
