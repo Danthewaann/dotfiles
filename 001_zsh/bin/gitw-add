@@ -5,13 +5,13 @@ set -e
 args=()
 branch_name=
 checkout_only=0
-copy_venv=1
+copy_venv=0
 
 function usage() {
     cat <<-END
 branch_name      name of the branch to create
 --checkout-only  only checkout the branch
---no-copy        don't copy .venv from base worktree into new worktree
+--copy           copy .venv from base worktree into new worktree
 END
 }
 
@@ -25,8 +25,8 @@ while [[ $# -gt 0 ]]; do
         checkout_only=1
         shift
         ;;
-    --no-copy)
-        copy_venv=0
+    --copy)
+        copy_venv=1
         shift
         ;;
     *)
@@ -112,7 +112,7 @@ if [[ $checkout_only -ne 1 ]]; then
         poetry install
     fi
 
-    if [[ -f "pyproject.toml" ]] && [[ -f "$HOME/pyrightconfig.json" ]]; then
+    if [[ -f "pyproject.toml" ]] && [[ -f "$HOME/pyrightconfig.json" ]] && ! [[ -f "pyrightconfig.json" ]]; then
         >&2 echo
         >&2 echo "==============================="
         >&2 echo "Linking pyrightconfig.json file"
