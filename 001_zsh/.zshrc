@@ -88,13 +88,13 @@ function zvm_after_select_vi_mode() {
         PROMPT="$BASE_PROMPT$ "
     ;;
     $ZVM_MODE_VISUAL)
-      # Something you want to do...
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}V%{$reset_color%} $ "
     ;;
     $ZVM_MODE_VISUAL_LINE)
-      # Something you want to do...
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}V%{$reset_color%} $ "
     ;;
     $ZVM_MODE_REPLACE)
-      # Something you want to do...
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}R%{$reset_color%} $ "
     ;;
   esac
 }
