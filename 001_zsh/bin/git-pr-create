@@ -3,7 +3,7 @@
 set -e
 
 args=()
-pr_types=(python ruby go docker docs)
+pr_types=(python ruby go docker docs documentation)
 pr_type=
 pr_title=
 pr_is_draft=0
