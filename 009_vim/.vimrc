@@ -332,6 +332,15 @@ nmap <silent><leader>f viw<leader>f
 " yanks to the k register so we don't override the 0 register (or clipboard)
 vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
 
+" Run Rg in a terminal window as a job
+command! -nargs=* Search call RunCmdInTerminal("rg", "tab$", "--hidden", "--column", "--line-number", "--no-heading", "--color=always", "--smart-case", "--", <f-args>)
+
+" Search in all project files
+nmap <silent><leader>F viw<leader>F
+
+" Search for visual selection in project files
+vnoremap <silent><leader>F "ky:Search <C-R>=Escape(@k)<CR><CR>
+
 " Center screen after moving through matches
 nnoremap n nzz
 nnoremap N Nzz
@@ -1524,12 +1533,6 @@ command! -bang -nargs=* Rg call
 " Open up a fzf files window
 nnoremap <silent><C-F> :Files!<CR>
 
-" Search in all project files
-nnoremap <leader>F :Rg!<Space>
-
-" Search for visual selection in project files
-vnoremap <silent><leader>F "ky:Rg! <C-R>=Escape(@k)<CR><CR>
-
 " Show all buffers
 nnoremap <silent><leader>bb :Buffers!<CR>
 
@@ -1649,6 +1652,9 @@ function MyTabTitleFormatter(n)
         else
             let title = '[No Name]'
         endif
+    elseif title =~ '^rg *'
+        let parts = split(title, " ")
+        let title = '[Search] ' . join(parts[8:])
     elseif title =~ '^make unit test=.*'
         let parts = split(title, "=")
         let cmd = parts[0]
