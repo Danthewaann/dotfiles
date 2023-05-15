@@ -1662,7 +1662,7 @@ function MyTabTitleFormatter(n)
         let title = '[Test] ' . fnamemodify(test, ':t')
     elseif title =~ '^make .*'
         let title = title
-    else
+    elseif !empty(glob(title))
         let parent = fnamemodify(title, ':h:t')
         let file = fnamemodify(title, ':t')
         let title = join([parent, file], "/")
