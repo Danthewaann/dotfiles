@@ -17,5 +17,8 @@
     "reportMissingImports": true,
     "reportMissingTypeStubs": false,
     "reportUnusedImport": false,
-    "useLibraryCodeForTypes": true
+    "useLibraryCodeForTypes": true,
+    "venvPath": ".",
+    "venv": ".venv"
 }
+
