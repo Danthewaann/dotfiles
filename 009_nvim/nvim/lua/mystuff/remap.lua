@@ -5,7 +5,6 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-
 vim.keymap.set("n", "Y", "y$")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -23,14 +22,15 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>")
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>")
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>")
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>")
-vim.keymap.set("t", "<C-h>", "<C-w><C-h>")
-vim.keymap.set("t", "<C-j>", "<C-w><C-j>")
-vim.keymap.set("t", "<C-k>", "<C-w><C-k>")
-vim.keymap.set("t", "<C-l>", "<C-w><C-l>")
+vim.keymap.set("t", "<C-h>", "<C-\\><C-o>C-h>")
+vim.keymap.set("t", "<C-j>", "<C-\\><C-o>C-j>")
+vim.keymap.set("t", "<C-k>", "<C-\\><C-o>C-k>")
+vim.keymap.set("t", "<C-l>", "<C-\\><C-o><C-l>")
 
 vim.keymap.set("n", "<C-t>s", ":20 split new<CR>:term<CR>i")
 vim.keymap.set("n", "<C-t>v", ":100 vsplit new<CR>:term<CR>i")
 vim.keymap.set("n", "<C-t>t", ":tabnew<CR>:term<CR>i")
+vim.keymap.set("t", "<C-t>t", "<C-\\><C-o>:tabnew<CR>:term<CR>i")
 
 vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
 vim.keymap.set("n", "<leader>gcc", "<cmd> silent G commit<CR>")
@@ -41,3 +41,8 @@ vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 
 vim.keymap.set("n", "<leader>nn", "<cmd> silent NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>nf", "<cmd> silent NvimTreeFindFile<CR>")
+
+vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
+vim.keymap.set("t", "<C-w><C-h>", "<C-\\><C-o>:tabprevious<CR>")
+vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
+vim.keymap.set("t", "<C-w><C-l>", "<C-\\><C-o>:tabnext<CR>")
