@@ -313,7 +313,7 @@ nmap <silent><leader>f viw<leader>f
 vmap <silent><leader>f "ky/\V<C-R>=@k<CR><CR>
 
 " Run Rg in a terminal window as a job
-command! -nargs=* Search call RunCmdInTerminal("rg", "tab$", "--hidden", "--column", "--line-number", "--no-heading", "--color=always", "--smart-case", "--", <f-args>)
+command! -nargs=* Search call RunCmdInTerminal("rg", "tab$", "--hidden", "--column", "--line-number", "--no-heading", "--color=always", "--smart-case", "--", <q-args>)
 
 " Search in all project files
 nmap <silent><leader>F viw<leader>F
