@@ -914,6 +914,12 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:50'
 " Ignore files matching these patterns when expanding wildcards
 set wildignore+=*/.git/*,*.venv/*,*node_modules/*,*/tmp/*,*.swp
 
+" Use <C-r> to paste into Ctrlp command prompt (I don't use regex search)
+let g:ctrlp_prompt_mappings = {
+            \ 'ToggleRegex()':        [''],
+            \ 'PrtInsert("c")':       ['<MiddleMouse>', '<insert>', "<C-r>"],
+            \ }
+
 " VIM-TEST ===================================================================================================
 
 let test#strategy = "vimterminal"
