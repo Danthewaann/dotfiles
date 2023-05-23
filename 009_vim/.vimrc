@@ -1226,6 +1226,10 @@ function! DeleteAllBreakpoints()
     let breakpoints = GetAllBreakpoints()
     let list = split(breakpoints, '\n')
     let files = []
+    if len(list) > 0
+        echo "Deleting all breakpoint()s"
+        sleep 150m
+    endif
     for item in list
         let file = split(item, ':')[0]
         if index(files, file) < 0
