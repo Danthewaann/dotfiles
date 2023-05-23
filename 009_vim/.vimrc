@@ -347,61 +347,11 @@ nnoremap N Nzzzv
 nnoremap * *zzzv
 nnoremap # #zzzv
 
-" Keep track of last replace operation
-let g:last_replace_operation = ""
-
-function! ReplaceCurrentWord()
-    let current_word = expand("<cword>")
-    call inputsave()
-    let replace = Escape(input('Enter replacement: ', current_word))
-    call inputrestore()
-    let cmd = '%s/\V' . current_word . '/' . replace . '/g'
-    execute cmd
-    let g:last_replace_operation = cmd
-endfunction
-
-function! GetVisualSelection()
-    " Why is this not a built-in Vim script function?!
-    " From https://stackoverflow.com/a/6271254
-    let [line_start, column_start] = getpos("'<")[1:2]
-    let [line_end, column_end] = getpos("'>")[1:2]
-    let lines = getline(line_start, line_end)
-    if len(lines) == 0
-        return ''
-    endif
-    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
-    let lines[0] = lines[0][column_start - 1:]
-    return join(lines, "\n")
-endfunction
-
-function! ReplaceSelection()
-    let selection = GetVisualSelection()
-    call inputsave()
-    let replace = input('Enter replacement: ', selection)
-    call inputrestore()
-    let cmd = '%s/\V' . selection . '/' . replace . '/g'
-    execute cmd
-    let g:last_replace_operation = cmd
-endfunction
-
-function! ReplaceLast()
-    if g:last_replace_operation != ""
-        execute g:last_replace_operation
-    else
-        echohl WarningMsg
-        echo "No replacement set"
-        echohl None
-    endif
-endfunction
-
 " Replace current word in current file
-nnoremap <silent><leader>rp :call ReplaceCurrentWord()<CR>
+nnoremap <leader>rp :%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>
 
 " Replace visual selection in current file
-vnoremap <silent><leader>rp :call ReplaceSelection()<CR>
-
-" Run last replace command if it is set
-nnoremap <silent><leader>rl :call ReplaceLast()<CR>
+vnoremap <leader>rp "ky:%s/<C-R>=@k<CR>/<C-R>=@k<CR>/gI<Left><Left><Left>
 
 " Exit the current window
 nnoremap <silent><C-Q> :q<CR>
