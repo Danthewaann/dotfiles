@@ -269,30 +269,10 @@ if (has("termguicolors"))
     set termguicolors
 endif
 
-" Allow gnome terminal to send alt keys to vim in the
-" format that vim expects
-" From https://stackoverflow.com/a/10216459
-" NOTE: Need to manually disable shortcuts in gnome terminal as well
-" let c='a'
-" while c <= 'z'
-" exec "set <A-".c.">=\e".c
-" exec "imap \e".c." <A-".c.">"
-" let c = nr2char(1+char2nr(c))
-" endw
-" set timeout ttimeoutlen=50
-
-" move the current line up of down a line
+" Move the current visual selection up or down a line at a time
 " From https://vim.fandom.com/wiki/Moving_lines_up_or_down
-" nnoremap <A-j> :m .+1<CR>==
-" nnoremap <A-k> :m .-2<CR>==
-" inoremap <A-j> <Esc>:m .+1<CR>==gi
-" inoremap <A-k> <Esc>:m .-2<CR>==gi
-" vnoremap <A-j> :m '>+1<CR>gv=gv
-" vnoremap <A-k> :m '<-2<CR>gv=gv
 vnoremap <silent><C-K> :m '<-2<CR>gv=gv
 vnoremap <silent><C-J> :m '>+1<CR>gv=gv
-inoremap <silent><C-K> <Esc>:m .+1<CR>==gi
-inoremap <silent><C-J> <Esc>:m .-2<CR>==gi
 
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
