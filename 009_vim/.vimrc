@@ -166,7 +166,7 @@ set tabstop=4
 set expandtab
 
 " Make sure at 5 lines are above/below the cursor
-set scrolloff=5
+set scrolloff=8
 
 " Highlight searches and update the highlight incrementally
 set hlsearch
@@ -194,8 +194,8 @@ augroup END
 " Disable line wrapping, sign column and line numbers in the vim terminal (especially in terminal normal mode)
 if !has('nvim')
     augroup vim_terminal_settings
-      autocmd!
-      autocmd TerminalWinOpen * setlocal nowrap nonumber norelativenumber signcolumn=no
+        autocmd!
+        autocmd TerminalWinOpen * setlocal nowrap nonumber norelativenumber signcolumn=no
     augroup end
 endif
 
