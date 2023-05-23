@@ -342,10 +342,10 @@ nmap <silent><leader>F viw<leader>F
 vnoremap <silent><leader>F "ky:Search <C-R>=Escape(@k)<CR><CR>
 
 " Center screen after moving through matches
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap * *zzzv
+nnoremap # #zzzv
 
 " Keep track of last replace operation
 let g:last_replace_operation = ""
