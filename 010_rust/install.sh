@@ -13,5 +13,9 @@ run_command "installing rust" \
 run_command "installing rust-analyzer" \
     "$(which rustup) component add rust-analyzer"
 
+if [[ -L "$HOME/.cargo/bin/rust-analyzer" ]]; then
+    rm -f "$HOME/.cargo/bin/rust-analyzer"
+fi
+
 info "linking rust-analyzer"
 link_file "$(rustup which --toolchain stable rust-analyzer)" "$HOME/.cargo/bin/rust-analyzer"
