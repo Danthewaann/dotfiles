@@ -1592,6 +1592,8 @@ function MyTabTitleFormatter(n)
         else
             let title = '[No Name]'
         endif
+    elseif &filetype == "fugitive"
+        let title = '[Git]'
     elseif title =~ '^rg *'
         let parts = split(title, " ")
         let title = '[Search] ' . join(parts[8:])
