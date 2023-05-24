@@ -28,14 +28,20 @@ if [[ ! -d ~/.rbenv/plugins/ruby-build ]]; then
         "git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
 fi
 
-
-# Only install provided Ruby version if it isn't already available
-if ! rbenv versions | grep "2.6.8" > /dev/null 2>&1; then
-    # From https://stackoverflow.com/a/74821955
-    run_command "installing ruby 2.6.8" "RUBY_CFLAGS=\"-w\" rbenv install 2.6.8"
+# Setup Ruby version manager
+eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
+if [[ $OSTYPE == "darwin"* ]]; then
+    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+    export RUBY_CONFIGURE_OPTS
 fi
 
-run_command "setting global ruby version to 2.6.8" "rbenv global 2.6.8"
+# Only install provided Ruby version if it isn't already available
+if ! rbenv versions | grep "3.2.2" > /dev/null 2>&1; then
+    # From https://stackoverflow.com/a/74821955
+    run_command "installing ruby 3.2.2" "RUBY_CFLAGS=\"-w\" rbenv install 3.2.2"
+fi
+
+run_command "setting global ruby version to 3.2.2" "rbenv global 3.2.2"
 
 # Need to install this version of nokogiri to be able to install solargraph LSP
 run_command "installing nokogiri" "gem install nokogiri -v 1.13.10"

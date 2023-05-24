@@ -28,6 +28,11 @@ if [[ ! -d ~/.pyenv ]]; then
         "cd ~/.pyenv && src/configure && make -C src && cd -"
 fi
 
+# Setup Python version manager
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$("$PYENV_ROOT"/bin/pyenv init -)"
+
 # Only install provided Python version if it isn't already available
 if ! pyenv versions | grep "$MY_PYTHON_VERSION" > /dev/null 2>&1; then
     run_command "installing python $MY_PYTHON_VERSION" \
