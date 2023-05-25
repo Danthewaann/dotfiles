@@ -961,9 +961,6 @@ nmap <leader>gch :CocList gchunks<CR>
 " Open current line in browser
 nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
 
-" Fold unchanged lines in current buffer
-nmap <silent><leader>gfu :call CocAction('runCommand', 'git.foldUnchanged')<CR>
-
 " Show diff of staged changes in current buffer
 nmap <silent><leader>gd :call CocAction('runCommand', 'git.diffCached')<CR>
 
