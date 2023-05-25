@@ -953,7 +953,7 @@ endfunction
 
 " Git push binds
 nmap <silent><leader>gpp :call CocActionAsync('runCommand', 'git.push', function('CocGitRefreshGitStatus'))<CR>
-nmap <silent><leader>gfp :call CocActionAsync('runCommand', 'git.push', '--force', function('CocGitRefreshGitStatus'))<CR>
+nmap <silent><leader>gpf :call CocActionAsync('runCommand', 'git.push', '--force', function('CocGitRefreshGitStatus'))<CR>
 
 " Show chunks in current buffer
 nmap <leader>gch :CocList gchunks<CR>
@@ -1478,11 +1478,20 @@ nnoremap <silent><C-F> :Files!<CR>
 " Show all buffers
 nnoremap <silent><leader>bb :Buffers!<CR>
 
+" Show search history
+nnoremap <silent><leader>hs :History!/<CR>
+
+" Show command history
+nnoremap <silent><leader>hc :History!:<CR>
+
 " Show changed files
-nnoremap <silent><leader>gfs :GFiles!?<CR>
+nnoremap <silent><leader>gf :GFiles!?<CR>
 
 " Show commits
-nnoremap <silent><leader>gl :GV<CR>
+nnoremap <silent><leader>gl :Commits!<CR>
+
+" Show commits
+nnoremap <silent><leader>gv :GV<CR>
 
 " Use colours from the current colour scheme
 let g:fzf_colors = {
