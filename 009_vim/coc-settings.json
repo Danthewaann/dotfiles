@@ -15,7 +15,7 @@
     "suggest.insertMode": "insert",
     "diagnostic.level": "hint",
     "diagnostic.autoRefresh": true,
-    "diagnostic.virtualText": false,
+    "diagnostic.virtualText": true,
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
     "pyright.testing.provider": "pytest",
