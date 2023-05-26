@@ -936,15 +936,6 @@ nnoremap <silent> <leader>tv :TestVisit<CR>zz
 nmap [c <Plug>(coc-git-prevchunk)zz
 nmap ]c <Plug>(coc-git-nextchunk)zz
 
-" Navigate conflicts of current buffer
-nmap [h <Plug>(coc-git-prevconflict)zz
-nmap ]h <Plug>(coc-git-nextconflict)zz
-
-" Resolve conflict at current chunk
-nmap <leader>gkc <Plug>(coc-git-keepcurrent)
-nmap <leader>gki <Plug>(coc-git-keepincoming)
-nmap <leader>gkb <Plug>(coc-git-keepboth)
-
 function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
     let win_id = win_getid()
     call RefreshGitStatus()
