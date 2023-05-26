@@ -22,26 +22,29 @@ return require('packer').startup(function(use)
 
     use 'mbbill/undotree'
 
-    use {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v2.x',
-        requires = {
-            -- LSP Support
-            {'neovim/nvim-lspconfig'},             -- Required
-            {                                      -- Optional
-                'williamboman/mason.nvim',
-                run = function()
-                    pcall(vim.cmd, 'MasonUpdate')
-                end,
-            },
-            {'williamboman/mason-lspconfig.nvim'}, -- Optional
+    vim.cmd("let g:coc_config_home = '~/'")
+    use {'neoclide/coc.nvim', branch = 'release'}
 
-            -- Autocompletion
-            {'hrsh7th/nvim-cmp'},     -- Required
-            {'hrsh7th/cmp-nvim-lsp'}, -- Required
-            {'L3MON4D3/LuaSnip'},     -- Required
-        }
-    }
+    -- use {
+    --     'VonHeikemen/lsp-zero.nvim',
+    --     branch = 'v2.x',
+    --     requires = {
+    --         -- LSP Support
+    --         {'neovim/nvim-lspconfig'},             -- Required
+    --         {                                      -- Optional
+    --             'williamboman/mason.nvim',
+    --             run = function()
+    --                 pcall(vim.cmd, 'MasonUpdate')
+    --             end,
+    --         },
+    --         {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+    --         -- Autocompletion
+    --         {'hrsh7th/nvim-cmp'},     -- Required
+    --         {'hrsh7th/cmp-nvim-lsp'}, -- Required
+    --         {'L3MON4D3/LuaSnip'},     -- Required
+    --     }
+    -- }
 
     use {
         'nvim-tree/nvim-tree.lua',
@@ -100,5 +103,11 @@ return require('packer').startup(function(use)
     use 'tpope/vim-repeat'
     use 'tpope/vim-dadbod'
     use 'kristijanhusak/vim-dadbod-ui'
+    use 'junegunn/gv.vim'
+    use 'Raimondi/delimitMate'
+    use 'christoomey/vim-tmux-navigator'
+    use 'pixelneo/vim-python-docstring'
+    use 'honza/vim-snippets'
+    use 'rhysd/conflict-marker.vim'
 
 end)
