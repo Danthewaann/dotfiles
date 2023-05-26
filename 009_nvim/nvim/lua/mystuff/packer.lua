@@ -87,11 +87,12 @@ return require('packer').startup(function(use)
         requires = { { 'hoob3rt/lualine.nvim', opt=true }, {'kyazdani42/nvim-web-devicons', opt = true} }
     }
 
-    use 'vim-test/vim-test' 
+    use 'vim-test/vim-test'
     use 'michaeljsmith/vim-indent-object'
     use 'romainl/vim-cool'
-    use 'tpope/vim-fugitive' 
-    use 'tpope/vim-commentary' 
+    use 'tpope/vim-fugitive'
+    use 'airblade/vim-gitgutter'
+    use 'tpope/vim-commentary'
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-abolish'
     use 'tpope/vim-obsession'
