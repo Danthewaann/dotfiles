@@ -110,4 +110,9 @@ return require('packer').startup(function(use)
     use 'honza/vim-snippets'
     use 'rhysd/conflict-marker.vim'
 
+    use {
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+    }
+
 end)
