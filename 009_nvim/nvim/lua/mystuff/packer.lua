@@ -82,10 +82,6 @@ return require('packer').startup(function(use)
                     show_tabs_only = true, -- this shows only tabs instead of tabs + buffers
                 }
             }
-            vim.cmd[[
-              set guioptions-=e " Use showtabline in gui vim
-              set sessionoptions+=tabpages,globals " store tabpages and globals in session
-            ]]
         end,
         requires = { { 'hoob3rt/lualine.nvim', opt=true }, {'kyazdani42/nvim-web-devicons', opt = true} }
     }
