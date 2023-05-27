@@ -220,3 +220,10 @@ nnoremap <silent><nowait> <leader>dt  :call ToggleDiagnostics()<CR>
 
 " Refresh diagnostics
 nnoremap <silent><nowait> <leader>dr  :echo "Refreshing diagnostics"<CR>:call CocActionAsync('diagnosticRefresh')<CR>
+
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <C-H> :<C-U>TmuxNavigateLeft<cr>
+nnoremap <silent> <expr> <C-J> coc#float#has_scroll() ? coc#float#scroll(1) : ":<C-U>TmuxNavigateDown" . "\<CR>"
+nnoremap <silent> <expr> <C-K> coc#float#has_scroll() ? coc#float#scroll(0) : ":<C-U>TmuxNavigateUp" . "\<CR>" 
+nnoremap <silent> <C-L> :<C-U>TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :<C-U>TmuxNavigatePrevious<cr>
