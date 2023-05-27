@@ -34,12 +34,6 @@ nmap cu :silent call CocActionAsync('runCommand', 'git.chunkUndo', function('Coc
 " Show chunk diff at current position
 nmap cp <Plug>(coc-git-chunkinfo)
 
-" Create text object for git chunks
-omap ic <Plug>(coc-git-chunk-inner)
-xmap ic <Plug>(coc-git-chunk-inner)
-omap ac <Plug>(coc-git-chunk-outer)
-xmap ac <Plug>(coc-git-chunk-outer)
-
 " Hide git blame virtual text by default
 let g:coc_git_hide_blame_virtual_text = 1
 
