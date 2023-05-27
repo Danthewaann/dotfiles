@@ -1,7 +1,7 @@
 require('lualine').setup({
     options = {
         disabled_filetypes = {
-            statusline = { "NvimTree", "fugitive" }
+            statusline = { "NvimTree", "fugitive", "dbui" }
         }
     },
     sections = {
