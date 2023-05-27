@@ -40,8 +40,8 @@ vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
 vim.keymap.set("t", "<C-w>q", "<C-\\><C-n>:tabclose<CR>")
 
 -- Close all tabs except current one
-vim.keymap.set("n", "<C-w>q", "<cmd> tabonly<CR>")
-vim.keymap.set("t", "<C-w>q", "<C-\\><C-n>:tabonly<CR>")
+vim.keymap.set("n", "<C-w>to", "<cmd> tabonly<CR>")
+vim.keymap.set("t", "<C-w>to", "<C-\\><C-n>:tabonly<CR>")
 
 -- Open a new tab
 vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>")
