@@ -6,6 +6,7 @@ function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
     let win_id = win_getid()
     call RefreshGitStatus()
     call win_gotoid(win_id)
+    execute 'e'
 endfunction
 
 " Git push binds
