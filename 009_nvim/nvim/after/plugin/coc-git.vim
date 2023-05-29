@@ -10,8 +10,8 @@ function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
 endfunction
 
 " Git push binds
-nmap <silent><leader>gpp :call CocActionAsync('runCommand', 'git.push', function('CocGitRefreshGitStatus'))<CR>
-nmap <silent><leader>gpf :call CocActionAsync('runCommand', 'git.push', '--force', function('CocGitRefreshGitStatus'))<CR>
+nmap <silent><leader>gpp :G push<CR>
+nmap <silent><leader>gpf :G push --force<CR>
 
 " Show chunks in current buffer
 nmap <leader>gch :CocList gchunks<CR>
