@@ -104,4 +104,4 @@ let g:tslime_autoset_pane = 1
 let g:tslime_pre_command = "C-c"
 
 " Start new terminals in insert mode
-autocmd TermOpen * startinsert
+autocmd TermOpen * if &buftype ==# 'terminal' | startinsert | endif
