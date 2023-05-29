@@ -47,30 +47,10 @@ nnoremap <leader>ml :Make lint<CR>
 nnoremap <leader>mt :Make test<CR>
 nnoremap <leader>ms :Make shell<CR>
 
-" Run Rg in a terminal window as a job
-command! -nargs=* Search call RunCmdInTerminal(
-            \"rg", 
-            \"tab$", 
-            \"--hidden", 
-            \"--column",
-            \"--line-number",
-            \"--no-heading", 
-            \"--color=always",
-            \"--smart-case", 
-            \"--", 
-            \<q-args>,
-            \)
-
 " Escape the provided input for a regex search
 function! Escape(input) abort
     return escape(a:input,'/\[\]\.\(\)')
 endfunction
-
-" Search in all project files
-nmap <silent><leader>F viw<leader>F
-
-" Search for visual selection in project files
-vnoremap <silent><leader>F "ky:Search <C-R>=Escape(@k)<CR><CR>
 
 function! RefreshGitStatus() abort
     for l:winnr in range(1, winnr('$'))

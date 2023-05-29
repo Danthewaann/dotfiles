@@ -10,6 +10,20 @@ telescope.setup {
     }
 }
 
+-- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
+function vim.getVisualSelection()
+    vim.cmd('noau normal! "vy"')
+    local text = vim.fn.getreg('v')
+    vim.fn.setreg('v', {})
+
+    text = string.gsub(text, "\n", "")
+    if #text > 0 then
+        return text
+    else
+        return ''
+    end
+end
+
 local builtin = require('telescope.builtin')
 
 -- Resume last picker
@@ -43,3 +57,12 @@ vim.keymap.set('n', '<leader>gl', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>ps', function()
 	builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
+
+-- Search for the current word in project files
+vim.keymap.set('n', '<leader>F', builtin.grep_string, {});
+
+-- Search for the current visual selection in project files
+vim.keymap.set('v', '<leader>F', function()
+    local test = vim.getVisualSelection()
+    builtin.grep_string({ search = test })
+end);
