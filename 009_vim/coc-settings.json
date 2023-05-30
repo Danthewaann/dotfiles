@@ -45,4 +45,6 @@
         ".venv",
         "pyproject.toml",
     ],
+    "colors.enable": true,
+    "highlight.colorNames.enable": false,
 }

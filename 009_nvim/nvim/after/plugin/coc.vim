@@ -29,6 +29,7 @@ let g:coc_global_extensions = [
             \'coc-post',
             \'coc-db',
             \'coc-snippets',
+            \'coc-highlight',
             \]
 
 " Restart Coc
