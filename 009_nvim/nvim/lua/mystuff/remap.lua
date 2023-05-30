@@ -24,28 +24,28 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>")
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>")
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>")
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>")
-vim.keymap.set("t", "<C-h>", "<C-\\><C-o>C-h>")
-vim.keymap.set("t", "<C-j>", "<C-\\><C-o>C-j>")
-vim.keymap.set("t", "<C-k>", "<C-\\><C-o>C-k>")
-vim.keymap.set("t", "<C-l>", "<C-\\><C-o><C-l>")
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n>C-h>")
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n>C-j>")
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n>C-k>")
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-l>")
 
 -- Tab navigation
 vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
-vim.keymap.set("t", "<C-w><C-h>", "<C-\\><C-o>:tabprevious<CR>")
+vim.keymap.set("t", "<C-w><C-h>", "<C-\\><C-n> <cmd> silent tabprevious<CR>")
 vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
-vim.keymap.set("t", "<C-w><C-l>", "<C-\\><C-o>:tabnext<CR>")
+vim.keymap.set("t", "<C-w><C-l>", "<C-\\><C-n> <cmd> silent tabnext<CR>")
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
-vim.keymap.set("t", "<C-w>q", "<C-\\><C-n>:tabclose<CR>")
+vim.keymap.set("t", "<C-w>q", "<C-\\><C-n> <cmd> silent tabclose<CR>")
 
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w>to", "<cmd> tabonly<CR>")
-vim.keymap.set("t", "<C-w>to", "<C-\\><C-n>:tabonly<CR>")
+vim.keymap.set("t", "<C-w>to", "<C-\\><C-n> <cmd> silent tabonly<CR>")
 
 -- Open a new tab
 vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>")
-vim.keymap.set("t", "<C-w>N", "<C-\\><C-n>:tabnew<CR>")
+vim.keymap.set("t", "<C-w>N", "<C-\\><C-n> <cmd> silent tabnew<CR>")
 
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>")
@@ -58,22 +58,23 @@ vim.keymap.set("n", "<C-w>7", "<cmd> tabn7<CR>")
 vim.keymap.set("n", "<C-w>8", "<cmd> tabn8<CR>")
 vim.keymap.set("n", "<C-w>9", "<cmd> tabn9<CR>")
 vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>")
-vim.keymap.set("t", "<C-w>1", "<C-\\><C-n>:tabn1<CR>")
-vim.keymap.set("t", "<C-w>2", "<C-\\><C-n>:tabn2<CR>")
-vim.keymap.set("t", "<C-w>3", "<C-\\><C-n>:tabn3<CR>")
-vim.keymap.set("t", "<C-w>4", "<C-\\><C-n>:tabn4<CR>")
-vim.keymap.set("t", "<C-w>5", "<C-\\><C-n>:tabn5<CR>")
-vim.keymap.set("t", "<C-w>6", "<C-\\><C-n>:tabn6<CR>")
-vim.keymap.set("t", "<C-w>7", "<C-\\><C-n>:tabn7<CR>")
-vim.keymap.set("t", "<C-w>8", "<C-\\><C-n>:tabn8<CR>")
-vim.keymap.set("t", "<C-w>9", "<C-\\><C-n>:tabn9<CR>")
-vim.keymap.set("t", "<C-w>0", "<C-\\><C-n>:tablast<CR>")
+vim.keymap.set("t", "<C-w>1", "<C-\\><C-n> <cmd> silent tabn1<CR>")
+vim.keymap.set("t", "<C-w>2", "<C-\\><C-n> <cmd> silent tabn2<CR>")
+vim.keymap.set("t", "<C-w>3", "<C-\\><C-n> <cmd> silent tabn3<CR>")
+vim.keymap.set("t", "<C-w>4", "<C-\\><C-n> <cmd> silent tabn4<CR>")
+vim.keymap.set("t", "<C-w>5", "<C-\\><C-n> <cmd> silent tabn5<CR>")
+vim.keymap.set("t", "<C-w>6", "<C-\\><C-n> <cmd> silent tabn6<CR>")
+vim.keymap.set("t", "<C-w>7", "<C-\\><C-n> <cmd> silent tabn7<CR>")
+vim.keymap.set("t", "<C-w>8", "<C-\\><C-n> <cmd> silent tabn8<CR>")
+vim.keymap.set("t", "<C-w>9", "<C-\\><C-n> <cmd> silent tabn9<CR>")
+vim.keymap.set("t", "<C-w>0", "<C-\\><C-n> <cmd> silent tablast<CR>")
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
 
 -- Exit the current window
 vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n> <cmd> silent q<CR>")
 
 -- Treat Ctrl+C exactly like <Esc> in insert mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -90,16 +91,16 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Open an nvim terminal
-vim.keymap.set("n", "<C-t>s", ":20 split new<CR>:term<CR>")
-vim.keymap.set("n", "<C-t>v", ":100 vsplit new<CR>:term<CR>")
-vim.keymap.set("n", "<C-t>t", ":tabnew<CR>:term<CR>")
-vim.keymap.set("t", "<C-t>t", "<C-\\><C-o>:tabnew<CR>:term<CR>")
+vim.keymap.set("n", "<C-t>s", "<cmd> silent 20 split new<CR><cmd> term<CR>")
+vim.keymap.set("n", "<C-t>v", "<cmd> silent 100 vsplit new<CR><cmd> term<CR>")
+vim.keymap.set("n", "<C-t>t", "<cmd> silent tabnew<CR><cmd> term<CR>")
+vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent tabnew<CR><cmd> term<CR>")
 
 -- Git commands 
 vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
-vim.keymap.set("n", "<leader>gcc", "<cmd> silent G commit<CR>")
-vim.keymap.set("n", "<leader>gce", "<cmd> silent G commit --amend --no-edit<CR>")
-vim.keymap.set("n", "<leader>gca", "<cmd> silent G commit --amend<CR>")
+vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>")
+vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>")
+vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>")
 
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
