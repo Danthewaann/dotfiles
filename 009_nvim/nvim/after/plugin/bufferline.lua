@@ -15,12 +15,15 @@ bufferline.setup({
             bg = '#3b3f4c',
         },
         tab_selected = {
+            fg = '#282c34',
             bg = '#98c379'
         },
         tab_separator = {
+            fg = '#282c34',
             bg = '#3b3f4c',
         },
         tab_separator_selected = {
+            fg = '#282c34',
             bg = '#98c379',
         },
         tab_close = {
@@ -36,6 +39,7 @@ bufferline.setup({
             bg = '#3b3f4c',
         },
         close_button_selected = {
+            fg = '#282c34',
             bg = '#98c379'
         },
         buffer_visible = {
@@ -236,7 +240,7 @@ bufferline.setup({
             bg = '#98c379'
         },
         pick = {
-            fg = '#31353f',
+            fg = '#abb2bf',
             bg = '#3b3f4c',
             bold = true,
             italic = true,
@@ -282,6 +286,10 @@ bufferline.setup({
         tab_size = 0,
         diagnostics = "coc",
         diagnostics_update_in_insert = false,
+        -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
+        diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            return "("..count..")"
+        end,
         offsets = {
             {
                 filetype = "NvimTree",
