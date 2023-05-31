@@ -7,6 +7,7 @@ pr_types=(python ruby go docker docs documentation)
 pr_type=
 pr_title=
 pr_is_draft=0
+labels=()
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -16,6 +17,7 @@ while [[ $# -gt 0 ]]; do
             pr_type=$2
         fi
         args+=("$1" "$2")
+        labels+=("$2")
         shift; shift
         ;;
     -t|--title)
@@ -34,6 +36,27 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Get list of labels that are available in the current repository
+repo_labels=()
+while IFS=$'\n' read -r label; do repo_labels+=("$label"); done < <(gh label list --json name --jq '.[].name' --limit 100)
+
+# Make sure that all of the provided labels are in `repo_labels`
+invalid_labels=()
+for label in "${labels[@]}"; do
+    # shellcheck disable=SC2076
+    if [[ ! " ${repo_labels[*]} " =~ " ${label} " ]]; then
+        invalid_labels+=("$label")
+    fi
+done
+
+# If we have an invalid labels we print an error and exit
+if [[ ${#invalid_labels[@]} -ne 0 ]]; then
+    >&2 printf "\nERROR: the following labels were not found in git repository\n"
+    >&2 printf "invalid labels -> (%s)\n" "${invalid_labels[*]}"
+    exit 1
+fi
+
+# Make sure that we have provided a label that is in `pr_types`
 if [[ -z $pr_type ]]; then
     >&2 printf "\nERROR: you need to provide a valid PR type in a -l|--label flag\n"
     >&2 printf "valid PR types -> (%s)\n" "${pr_types[*]}"
