@@ -5,10 +5,13 @@ require('lualine').setup({
         },
         component_separators = { left = '╲', right = '╱' },
         section_separators = { left = '', right = '' },
+        ignore_focus = { "NvimTree" },
+        globalstatus = true,
     },
     extensions = { 'fugitive', 'nvim-tree' },
     sections = {
         lualine_b = {
+            'branch',
             'diff',
             'diagnostics'
         },
