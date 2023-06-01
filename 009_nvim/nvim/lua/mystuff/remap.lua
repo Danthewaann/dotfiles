@@ -93,8 +93,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- Open an nvim terminal
 vim.keymap.set("n", "<C-t>s", "<cmd> silent 20 split new<CR><cmd> term<CR>")
 vim.keymap.set("n", "<C-t>v", "<cmd> silent 100 vsplit new<CR><cmd> term<CR>")
-vim.keymap.set("n", "<C-t>t", "<cmd> silent tabnew<CR><cmd> term<CR>")
-vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent tabnew<CR><cmd> term<CR>")
+vim.keymap.set("n", "<C-t>t", "<cmd> silent $tabnew<CR><cmd> term<CR>")
+vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<CR>")
 
 -- Git commands 
 vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
