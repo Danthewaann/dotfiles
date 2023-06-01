@@ -290,10 +290,16 @@ bufferline.setup({
             -- bufnr (buffer only) | int        | the number of the active buffer
             -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
             -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-            if(string.find(buf.path, "make unit test=$")) then
+            if(string.match(buf.path, "fugitive")) then
+                return "[Git]"
+            elseif(string.match(buf.path, "make unit test=$")) then
                 return "[Test Suite]" 
-            elseif(string.find(buf.path, "make unit test=.+")) then
+            elseif(string.match(buf.path, "make unit test=.+")) then
                 return string.format("[Test] %s", buf.name)
+            elseif(string.match(buf.path, "NvimTree")) then
+                return "[File Explorer]"
+            elseif(string.match(buf.path, "dbui")) then
+                return "[DB Explorer]"
             end
         end,
         max_name_length = 18,
