@@ -158,7 +158,7 @@ autoload -Uz rbenv
 
 # Global variables used in my installers and dotfiles
 export MY_PYTHON_VERSION=3.11.0
-export MY_POETRY_VERSION=1.5.1
+export MY_POETRY_VERSION=1.5.0
 export MY_NODE_VERSION=19.0.0
 export MY_GO_VERSION=1.19.5
 
