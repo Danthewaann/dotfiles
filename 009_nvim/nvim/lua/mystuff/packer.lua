@@ -20,6 +20,8 @@ return require('packer').startup(function(use)
         run = ':TSUpdate'
     }
 
+    use 'nvim-treesitter/nvim-treesitter-context'
+
     use 'mbbill/undotree'
 
     vim.cmd("let g:coc_config_home = '~/'")

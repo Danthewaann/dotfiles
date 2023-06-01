@@ -200,12 +200,6 @@ nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<CR>
 " Search for the current current word in workspace symbols
 nnoremap <silent><nowait> <leader>S  :call CocSearchForSelectionInWorkspace()<CR>
 
-" Do default action for next item
-nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<CR>
-
-" Do default action for previous item
-nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<CR>
-
 function ToggleDiagnostics() abort
     let diagnostic_info = get(b:, 'coc_diagnostic_info', {})
     if diagnostic_info == {}
