@@ -1,11 +1,8 @@
 require('lualine').setup({
     options = {
-        disabled_filetypes = {
-            statusline = { 'dbui' }
-        },
         component_separators = { left = '╲', right = '╱' },
         section_separators = { left = '', right = '' },
-        ignore_focus = { "NvimTree" },
+        ignore_focus = { "NvimTree", "dbui" },
         globalstatus = true,
     },
     extensions = { 'fugitive', 'nvim-tree' },
