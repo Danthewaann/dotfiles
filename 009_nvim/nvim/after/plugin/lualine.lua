@@ -5,7 +5,7 @@ require('lualine').setup({
         ignore_focus = { "NvimTree", "dbui" },
         globalstatus = true,
     },
-    extensions = { 'fugitive', 'nvim-tree' },
+    extensions = { 'fugitive', 'nvim-tree', 'quickfix' },
     sections = {
         lualine_b = {
             'branch',
