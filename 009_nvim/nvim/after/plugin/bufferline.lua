@@ -302,6 +302,26 @@ bufferline.setup({
                 return "[DB Explorer]"
             end
         end,
+        -- NOTE: this will be called a lot so don't do any heavy processing here
+        custom_filter = function(buf_number, buf_numbers)
+            -- filter out filetypes you don't want to see
+            if(vim.bo[buf_number].filetype ~= "qf") then
+                return true
+            end
+            -- -- filter out by buffer name
+            -- if vim.fn.bufname(buf_number) ~= "<buffer-name-I-dont-want>" then
+            --     return true
+            -- end
+            -- -- filter out based on arbitrary rules
+            -- -- e.g. filter out vim wiki buffer from tabline in your work repo
+            -- if vim.fn.getcwd() == "<work-repo>" and vim.bo[buf_number].filetype ~= "wiki" then
+            --     return true
+            -- end
+            -- -- filter out by it's index number in list (don't show first buffer)
+            -- if buf_numbers[1] ~= buf_number then
+            --     return true
+            -- end
+        end,
         max_name_length = 18,
         max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
         truncate_names = false, -- whether or not tab names should be truncated
