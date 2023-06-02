@@ -9,6 +9,12 @@ require("nvim-tree").setup({
     renderer = {
         full_name = true,
     },
+    tab = {
+        sync = {
+            open = true,
+            close = true,
+        },
+    },
 })
 
 vim.keymap.set("n", "<C-n>", "<cmd> silent NvimTreeToggle<CR>")
