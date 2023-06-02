@@ -300,6 +300,8 @@ bufferline.setup({
                 return "[File Explorer]"
             elseif(string.match(buf.path, "dbui")) then
                 return "[DB Explorer]"
+            elseif(string.match(buf.path, "undotree")) then
+                return "[Undotree]"
             end
         end,
         -- NOTE: this will be called a lot so don't do any heavy processing here
