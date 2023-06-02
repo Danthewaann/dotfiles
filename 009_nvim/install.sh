@@ -9,10 +9,10 @@ source "$SCRIPT_DIR"/../common
 
 # Install neovim
 if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing nvim" \
+    run_command "installing neovim" \
         "brew install neovim"
 else
-    run_command "installing vim" \
+    run_command "installing neovim" \
         "sudo apt-get install -y neovim"
 fi
 
