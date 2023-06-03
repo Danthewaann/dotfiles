@@ -1,11 +1,32 @@
 vim.g.mapleader = " "
 
+-- Move the current selection up or down a line
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Map enter to change the current 
+vim.keymap.set("n", "<cr>", "ciw")
+vim.keymap.set("n", "\"<cr>", "ci\"")
+vim.keymap.set("n", "'<cr>", "ci'")
+vim.keymap.set("n", "(<cr>", "ci(")
+vim.keymap.set("n", "[<cr>", "ci[")
+vim.keymap.set("n", "{<cr>", "ci{")
 
 -- Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 -- which is the default
 vim.keymap.set("n", "Y", "y$")
+
+-- Go to the start and end of the line
+vim.keymap.set("n", "H", "^")
+vim.keymap.set("n", "L", "$")
+vim.keymap.set("v", "H", "_")
+vim.keymap.set("v", "L", "g_")
+
+-- Prevent the cursor from jumping to the start of a selection after yanking it
+vim.keymap.set("v", "y", "ygv<Esc>")
+
+-- Go to alernative buffer
+vim.keymap.set("n", "<BS>", ":b#<CR>", { silent=true })
 
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
