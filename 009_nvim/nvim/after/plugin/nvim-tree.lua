@@ -15,6 +15,11 @@ require("nvim-tree").setup({
             close = true,
         },
     },
+    actions = {
+        open_file = {
+            quit_on_open = true,
+        },
+    },
 })
 
 vim.keymap.set("n", "<C-n>", "<cmd> silent NvimTreeToggle<CR>")
