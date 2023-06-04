@@ -1,265 +1,274 @@
 local bufferline = require('bufferline')
 
+local fg_colour_inactive = '#abb2bf'
+local bg_colour_inactive = '#3b3f4c'
+
+local fg_colour_active = '#282c34'
+local bg_colour_active = '#98c379'
+
+local fg_colour = '#31353f'
+local bg_colour = '#31353f'
+
 bufferline.setup({
     highlights = {
         fill = {
-            fg = '#abb2bf',
-            bg = '#31353f',
+            fg = fg_colour_inactive,
+            bg = bg_colour,
         },
         background = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         tab = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         tab_selected = {
-            fg = '#282c34',
-            bg = '#98c379'
+            fg = fg_colour_active,
+            bg = bg_colour_active
         },
         tab_separator = {
-            fg = '#282c34',
-            bg = '#3b3f4c',
+            fg = fg_colour_active,
+            bg = bg_colour_inactive,
         },
         tab_separator_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
         },
         tab_close = {
-            fg = '#abb2bf',
-            bg = '#31353f',
+            fg = fg_colour_inactive,
+            bg = bg_colour,
         },
         close_button = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         close_button_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         close_button_selected = {
-            fg = '#282c34',
-            bg = '#98c379'
+            fg = fg_colour_active,
+            bg = bg_colour_active
         },
         buffer_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         buffer_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         numbers = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         numbers_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         numbers_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         diagnostic = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         diagnostic_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         diagnostic_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         hint = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         hint_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         hint_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         hint_diagnostic = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         hint_diagnostic_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         hint_diagnostic_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         info = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         info_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         info_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         info_diagnostic = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         info_diagnostic_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         info_diagnostic_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         warning = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         warning_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         warning_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         warning_diagnostic = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         warning_diagnostic_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         warning_diagnostic_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         error = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         error_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         error_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         error_diagnostic = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         error_diagnostic_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         error_diagnostic_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         modified = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         modified_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         modified_selected = {
-            fg = '#282c34',
-            bg = '#98c379'
+            fg = fg_colour_active,
+            bg = bg_colour_active
         },
         duplicate = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
             italic = true
         },
         duplicate_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
             italic = true
         },
         duplicate_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             italic = true,
         },
         separator = {
-            fg = '#31353f',
-            bg = '#3b3f4c',
+            fg = fg_colour,
+            bg = bg_colour_inactive,
         },
         separator_visible = {
-            fg = '#31353f',
-            bg = '#3b3f4c',
+            fg = fg_colour,
+            bg = bg_colour_inactive,
         },
         separator_selected = {
-            fg = '#31353f',
-            bg = '#98c379'
+            fg = fg_colour,
+            bg = bg_colour_active
         },
         indicator_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
         },
         indicator_selected = {
-            fg = '#282c34',
-            bg = '#98c379'
+            fg = fg_colour_active,
+            bg = bg_colour_active
         },
         pick = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
             bold = true,
             italic = true,
         },
         pick_visible = {
-            fg = '#abb2bf',
-            bg = '#3b3f4c',
+            fg = fg_colour_inactive,
+            bg = bg_colour_inactive,
             bold = true,
             italic = true,
         },
         pick_selected = {
-            fg = '#282c34',
-            bg = '#98c379',
+            fg = fg_colour_active,
+            bg = bg_colour_active,
             bold = true,
             italic = true,
         },
         offset_separator = {
-            fg = '#31353f',
-            bg = '#31353f',
+            fg = fg_colour,
+            bg = bg_colour,
         },
     },
     options = {
