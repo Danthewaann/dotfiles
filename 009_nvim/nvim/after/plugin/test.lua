@@ -2,7 +2,7 @@ vim.cmd("let test#strategy = 'neovim'")
 vim.cmd("let test#neovim#term_position = '$tab'")
 vim.cmd("let test#custom_runners = {'python': ['make']}")
 vim.cmd("let test#python#runner = 'make'")
-vim.cmd("let g:test#neovim#start_normal = 0")
+vim.cmd("let g:test#neovim#start_normal = 1")
 
 vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>")
 vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>")
