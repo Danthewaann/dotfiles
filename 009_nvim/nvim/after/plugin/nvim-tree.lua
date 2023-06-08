@@ -9,6 +9,11 @@ require("nvim-tree").setup({
     renderer = {
         full_name = true,
     },
+    tab = {
+        sync = {
+            close = true
+        }
+    },
     actions = {
         open_file = {
             quit_on_open = true,
