@@ -66,6 +66,7 @@ return require('packer').startup(function(use)
     use 'michaeljsmith/vim-indent-object'
     use 'romainl/vim-cool'
     use 'tpope/vim-fugitive'
+    use 'airblade/vim-gitgutter'
     use 'tpope/vim-commentary'
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-abolish'
