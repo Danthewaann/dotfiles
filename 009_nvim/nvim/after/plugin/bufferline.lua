@@ -359,6 +359,5 @@ bufferline.setup({
         },
         show_buffer_icons = false, -- disable filetype icons for buffers
         color_icons = false, -- whether or not to add the filetype icon highlights
-        always_show_bufferline = false,
     }
 })
