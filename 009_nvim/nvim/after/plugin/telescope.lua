@@ -33,10 +33,10 @@ vim.keymap.set('n', '<leader>lr', builtin.resume, {})
 vim.keymap.set('n', '<leader>lp', builtin.pickers, {})
 
 -- Search through all files in the current project
-vim.keymap.set('n', '<C-f>', builtin.find_files, {})
+vim.keymap.set('n', '<C-p>', builtin.find_files, {})
 
 -- Search through all git files in the current project
-vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+vim.keymap.set('n', '<C-f>', builtin.git_files, {})
 
 -- List all open and hidden buffers
 vim.keymap.set('n', '<leader>bb', builtin.buffers, {})
