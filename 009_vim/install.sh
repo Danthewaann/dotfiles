@@ -69,13 +69,8 @@ else
     run_command "installing ripgrep" \
         "sudo apt-get install -y ripgrep"
 
-    if [[ ! -f "$SCRIPT_DIR/watchman.deb" ]]; then
-        run_command "downloading watchman" \
-            "wget -O $SCRIPT_DIR/watchman.deb https://github.com/facebook/watchman/releases/download/v2023.04.10.00/watchman_ubuntu22.04_v2023.04.10.00.deb"
-    fi
-
     run_command "installing watchman" \
-        "sudo dpkg -i $SCRIPT_DIR/watchman.deb"
+        "sudo apt-get install -y watchman"
 fi
 
 # Install vim plugins
