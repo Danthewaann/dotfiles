@@ -66,3 +66,6 @@ vim.keymap.set('v', '<leader>F', function()
     local test = vim.getVisualSelection()
     builtin.grep_string({ search = test })
 end);
+
+-- Do a live grep in the current project
+vim.keymap.set('n', '<leader>lg', builtin.live_grep, {});
