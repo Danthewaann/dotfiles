@@ -24,6 +24,7 @@ require("nvim-tree").setup({
     },
     renderer = {
         full_name = true,
+        root_folder_label = false
     },
     tab = {
         sync = {
