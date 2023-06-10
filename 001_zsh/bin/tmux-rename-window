@@ -8,5 +8,5 @@ path=$(basename "$path")
 if [[ "$path" == "$session" ]]; then
     echo
 else
-    basename "$path":
+    echo "$path":
 fi
