@@ -1,0 +1,12 @@
+#!/bin/bash
+
+path="$1"
+session="$2"
+
+path=$(basename "$path")
+
+if [[ "$path" == "$session" ]]; then
+    echo
+else
+    basename "$path":
+fi
