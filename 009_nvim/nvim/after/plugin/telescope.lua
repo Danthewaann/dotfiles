@@ -33,7 +33,9 @@ vim.keymap.set('n', '<leader>lr', builtin.resume, {})
 vim.keymap.set('n', '<leader>lp', builtin.pickers, {})
 
 -- Search through all files in the current project
-vim.keymap.set('n', '<C-p>', builtin.find_files, {})
+vim.keymap.set('n', '<C-p>', function()
+    builtin.find_files({ hidden = true })
+end)
 
 -- Search through all git files in the current project
 vim.keymap.set('n', '<C-f>', builtin.git_files, {})
