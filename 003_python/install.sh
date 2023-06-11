@@ -54,6 +54,9 @@ run_command "installing ipython" \
 run_command "installing pre-commit" \
     "pip install pre-commit"
 
+run_command "installing pynvim" \
+    "pip install pynvim"
+
 # Make sure executables are available
 run_command "rehashing pyenv" \
     "pyenv rehash"
