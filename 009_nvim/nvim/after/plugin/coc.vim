@@ -180,7 +180,7 @@ nnoremap <silent><nowait> <leader>le  :<C-u>CocList extensions<CR>
 nnoremap <silent><nowait> <leader>lc  :<C-u>CocList commands<CR>
 
 " Resume latest coc list
-nnoremap <silent><nowait> <leader>lr  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <leader>clr  :<C-u>CocListResume<CR>
 
 " Find symbol of current document
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<CR>
