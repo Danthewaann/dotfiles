@@ -17,3 +17,15 @@ Remove all untracked files in a git repo
 ```bash
 git clean -f -d
 ```
+
+Get number of lines changed in unstaged files
+
+```bash
+git diff --shortstat
+```
+
+Get number of lines changed in staged files
+
+```bash
+git diff --shortstat --cached
+```
