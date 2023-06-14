@@ -8,9 +8,7 @@ require('lualine').setup({
     extensions = { 'fugitive', 'nvim-tree', 'quickfix' },
     sections = {
         lualine_b = {
-            'branch',
-            'diff',
-            'diagnostics'
+            'branch'
         },
         lualine_c = {
             {
