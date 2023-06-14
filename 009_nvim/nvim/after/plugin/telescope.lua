@@ -6,8 +6,25 @@ telescope.setup {
         cache_picker = {
             num_pickers = 10,
             limit_entries = 1000
-        }
-    }
+        },
+        vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden',
+        },
+    },
+    pickers = {
+        live_grep = {
+            additional_args = function(opts)
+                return {"--hidden"}
+            end
+        },
+    },
 }
 
 -- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
