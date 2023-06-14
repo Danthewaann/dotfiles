@@ -46,6 +46,9 @@ endf
 
 nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
 
+" From https://elliotekj.com/posts/2016/11/22/setup-ctrlp-to-use-ripgrep-in-vim/
+set grepprg=rg\ --vimgrep\ --color=never
+
 " From https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
 "
 " Setup a way to keep track of breakpoint() calls in Python code
