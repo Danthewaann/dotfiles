@@ -47,4 +47,5 @@
     ],
     "colors.enable": true,
     "highlight.colorNames.enable": false,
+    "snippets.ultisnips.pythonPrompt": false,
 }
