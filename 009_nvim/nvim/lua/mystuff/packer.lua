@@ -81,6 +81,7 @@ return require('packer').startup(function(use)
     use 'pixelneo/vim-python-docstring'
     use 'honza/vim-snippets'
     use 'rhysd/conflict-marker.vim'
+    use 'szw/vim-maximizer'
 
     use {
         "iamcco/markdown-preview.nvim",
