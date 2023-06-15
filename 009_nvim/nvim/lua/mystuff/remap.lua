@@ -45,16 +45,16 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>")
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>")
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>")
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>")
-vim.keymap.set("t", "<C-h>", "<C-\\><C-n>C-h>")
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n>C-j>")
-vim.keymap.set("t", "<C-k>", "<C-\\><C-n>C-k>")
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-h>")
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-j>")
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-k>")
 vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-l>")
 
 -- Tab navigation
 vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
-vim.keymap.set("t", "<C-w><C-h>", "<C-\\><C-n> <cmd> silent tabprevious<CR>")
 vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
-vim.keymap.set("t", "<C-w><C-l>", "<C-\\><C-n> <cmd> silent tabnext<CR>")
+vim.keymap.set("t", "<C-w><C-h>", "<C-\\><C-n>:tabprevious<CR>", { silent = true })
+vim.keymap.set("t", "<C-w><C-l>", "<C-\\><C-n>:tabnext<CR>", { silent = true })
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
