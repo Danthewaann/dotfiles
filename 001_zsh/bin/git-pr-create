@@ -56,13 +56,6 @@ if [[ ${#invalid_labels[@]} -ne 0 ]]; then
     exit 1
 fi
 
-# Make sure that we have provided a label that is in `pr_types`
-if [[ -z $pr_type ]]; then
-    >&2 printf "\nERROR: you need to provide a valid PR type in a -l|--label flag\n"
-    >&2 printf "valid PR types -> (%s)\n" "${pr_types[*]}"
-    exit 1
-fi
-
 if [[ -z $pr_title ]]; then
     pr_title=$(git log -1 --pretty=%B)
     >&2 printf "\nNo PR title provided, defaulting to last commit message \"%s\"\n" "$pr_title"
@@ -74,21 +67,49 @@ fi
 
 export GIT_PR_CREATE_RAN=1
 
+cur_time=$(date +%s)
+pr_file_name=git-pr-create."$cur_time".md
+
+if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
+    cp .github/PULL_REQUEST_TEMPLATE.md "$pr_file_name"
+else
+    touch "$pr_file_name"
+fi
+
+nvim "$pr_file_name"
+
+if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
+    pr_template_md5=$(md5 -q .github/PULL_REQUEST_TEMPLATE.md)
+    file_md5=$(md5 -q "$pr_file_name")
+
+    if [[ "$file_md5" == "$pr_template_md5" ]]; then
+        rm -f "$pr_file_name"
+        exit 1
+    fi
+elif [[ ! -s "$pr_file_name" ]]; then
+    rm -f "$pr_file_name"
+    exit 1
+fi
+
 gh pr create \
     --head "$(git branch --show-current)" \
     --assignee "@me" \
     --title "$pr_title" \
+    --body-file "$pr_file_name" \
     "${args[@]}" || exit $?
 
-url=$(gh pr view --json url --jq .url)
+if [[ -n "$pr_type" ]]; then
+    url=$(gh pr view --json url --jq .url)
 
-if [[ $pr_is_draft -ne 0 ]]; then
-    output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$pr_type" "$pr_title")
-else
-    output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$pr_type" "$pr_title")
+    if [[ $pr_is_draft -ne 0 ]]; then
+        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$pr_type" "$pr_title")
+    else
+        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$pr_type" "$pr_title")
+    fi
+
+    >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
+    echo "$output"
+    echo "$output" | pbcopy
 fi
 
->&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-echo "$output"
-echo "$output" | pbcopy
-
+rm -f "$pr_file_name"
