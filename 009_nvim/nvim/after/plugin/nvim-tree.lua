@@ -20,21 +20,20 @@ require("nvim-tree").setup({
         ignore = false,
     },
     view = {
-        width = 35,
+        width = 50,
+        side = "right"
     },
     renderer = {
+        add_trailing = true,
         full_name = true,
         root_folder_label = false
     },
     tab = {
         sync = {
+            open = true,
             close = true
+
         }
-    },
-    actions = {
-        open_file = {
-            quit_on_open = true,
-        },
     },
 })
 
