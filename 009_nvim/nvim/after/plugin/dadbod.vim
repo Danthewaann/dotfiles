@@ -10,6 +10,9 @@ let g:db_ui_winwidth = 80
 " Don't execute sql when saving an sql buffer
 let g:db_ui_execute_on_save = 0
 
+" Position the drawer on the right side of the window
+let g:db_ui_win_position = 'right'
+
 " Open DB connections window
 nnoremap <silent><leader>db :tabnew<CR>:DBUI<CR>
 
