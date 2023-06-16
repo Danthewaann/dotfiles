@@ -9,10 +9,6 @@ function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
     execute 'e'
 endfunction
 
-" Git push binds
-nmap <silent><leader>gpp :G push<CR>
-nmap <silent><leader>gpf :G push --force<CR>
-
 " Show chunks in current buffer
 nmap <leader>gch :CocList gchunks<CR>
 

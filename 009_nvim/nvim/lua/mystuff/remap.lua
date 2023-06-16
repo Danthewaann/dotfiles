@@ -120,6 +120,9 @@ vim.keymap.set("n", "<C-t>t", "<cmd> silent $tabnew<CR><cmd> term<CR>")
 vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<CR>")
 
 -- Git commands 
+vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>")
+vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>")
+vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
 vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
 vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>")
 vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>")
