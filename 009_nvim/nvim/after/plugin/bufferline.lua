@@ -299,25 +299,18 @@ bufferline.setup({
             -- bufnr (buffer only) | int        | the number of the active buffer
             -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
             -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-            if(string.match(buf.path, "fugitive")) then
-                return "[Git]"
-            elseif(string.match(buf.path, "make unit test=$")) then
+            if(string.match(buf.path, "make unit test=$")) then
                 return "[Test Suite]" 
             elseif(string.match(buf.path, "make unit test=.+")) then
                 return string.format("[Test] %s", buf.name)
-            elseif(string.match(buf.path, "NvimTree")) then
-                return "[File Explorer]"
-            elseif(string.match(buf.path, "dbui")) then
-                return "[DB Explorer]"
-            elseif(string.match(buf.path, "undotree")) then
-                return "[Undotree]"
             end
         end,
         -- NOTE: this will be called a lot so don't do any heavy processing here
         custom_filter = function(buf_number, buf_numbers)
             -- filter out filetypes you don't want to see
-            if(vim.bo[buf_number].filetype ~= "qf") then
-                return true
+            local file_type = vim.bo[buf_number].filetype
+            if(file_type == "fugitive" or file_type == "NvimTree" or file_type == "dbui" or file_type == "qf" or file_type == "undotree") then
+                return false
             end
             -- -- filter out by buffer name
             -- if vim.fn.bufname(buf_number) ~= "<buffer-name-I-dont-want>" then
