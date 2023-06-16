@@ -63,8 +63,6 @@ else
     >&2 printf "\nUsing \"%s\" as PR title\n" "$pr_title"
 fi
 
->&2 echo
-
 export GIT_PR_CREATE_RAN=1
 
 cur_time=$(date +%s)
