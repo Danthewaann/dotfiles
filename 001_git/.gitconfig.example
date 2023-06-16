@@ -221,3 +221,5 @@
     autoSetupRemote = true
 [oh-my-zsh]
     hide-info = 1
+[advice]
+    setUpstreamFailure = false
