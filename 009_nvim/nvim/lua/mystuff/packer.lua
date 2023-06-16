@@ -82,6 +82,7 @@ return require('packer').startup(function(use)
     use 'honza/vim-snippets'
     use 'rhysd/conflict-marker.vim'
     use 'szw/vim-maximizer'
+    use 'djoshea/vim-autoread'
 
     use {
         "iamcco/markdown-preview.nvim",
