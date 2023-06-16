@@ -20,6 +20,10 @@ nnoremap <silent><leader>db :tabnew<CR>:DBUI<CR>
 autocmd FileType dbui unmap <buffer> <C-J>
 autocmd FileType dbui unmap <buffer> <C-K>
 
+" Unmap these as they are annoying
+autocmd FileType dbui unmap <buffer> <C-P>
+autocmd FileType dbui unmap <buffer> <C-N>
+
 " Use tab for opening drawers
 autocmd FileType dbui map <Tab> <Plug>(DBUI_SelectLine)
 
