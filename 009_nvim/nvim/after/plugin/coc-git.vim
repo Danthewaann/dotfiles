@@ -2,30 +2,11 @@
 nmap [c <Plug>(coc-git-prevchunk)zz
 nmap ]c <Plug>(coc-git-nextchunk)zz
 
-function! CocGitRefreshGitStatus(error = v:null, result = v:null) abort
-    let win_id = win_getid()
-    call RefreshGitStatus()
-    call win_gotoid(win_id)
-    execute 'e'
-endfunction
-
-" Show chunks in current buffer
-nmap <leader>gch :CocList gchunks<CR>
-
 " Open current line in browser
 nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
 
-" Show diff of staged changes in current buffer
-nmap <silent><leader>gd :call CocAction('runCommand', 'git.diffCached')<CR>
-
-" Stage chunk at current position
-nmap <silent><leader>gs :echo "Staging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkStage', function('CocGitRefreshGitStatus'))<CR>
-
-" Unstage chunk at current position
-nmap <silent><leader>gu :echo "Unstaging chunk..."<CR>:silent call CocActionAsync('runCommand', 'git.chunkUnstage', function('CocGitRefreshGitStatus'))<CR>
-
 " Undo chunk at current position
-nmap cu :silent call CocActionAsync('runCommand', 'git.chunkUndo', function('CocGitRefreshGitStatus'))<CR>
+nmap cu :silent call CocAction('runCommand', 'git.chunkUndo')<CR>
 
 " Show chunk diff at current position
 nmap cp <Plug>(coc-git-chunkinfo)
