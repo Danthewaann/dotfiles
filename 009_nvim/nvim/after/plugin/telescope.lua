@@ -70,7 +70,7 @@ vim.keymap.set('n', '<leader>hc', builtin.command_history, {})
 vim.keymap.set('n', '<leader>gf', builtin.git_status, {})
 
 -- Show all git commits in current project
-vim.keymap.set('n', '<leader>glt', builtin.git_commits, {})
+vim.keymap.set('n', '<leader>gl', builtin.git_commits, {})
 
 -- Search for pattern in current project files
 vim.keymap.set('n', '<leader>ps', function()
