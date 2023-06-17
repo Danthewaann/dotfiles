@@ -28,4 +28,4 @@ run_command "installing github cli dash extension" \
     "gh extension install dlvhdr/gh-dash --force"
 
 run_command "installing github cli notify extension" \
-    "gh extension install meiji163/gh-notify --force"
+    "gh extension install dcrblack/gh-notify --force"
