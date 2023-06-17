@@ -22,4 +22,7 @@ else
 fi
 
 run_command "configuring github cli" \
-    "gh config set editor vim"
+    "gh config set editor nvim"
+
+run_command "installing github cli dash extension" \
+    "gh extension install dlvhdr/gh-dash --force"
