@@ -3,23 +3,13 @@ cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
 " Inspired from https://vi.stackexchange.com/questions/3951/deleting-in-vim-and-then-pasting-without-new-line
-function! PasteInLine(before = v:true, visual = v:false) abort
+function! PasteInLine() abort
     let line = trim(getreg('*'))
-    if a:visual
-        execute 'normal gv' . '"kdi' . line
-    else
-        let mode = "a"
-        if a:before
-            let mode = "i"
-        endif
-        execute "normal! " . mode . line . "\<Esc>"
-    endif
+    execute 'normal gv"_di' . line
 endfunction
 
 " Paste yanked line without line breaks before/after cursor position
-nnoremap <silent> gP :call PasteInLine()<CR>
-nnoremap <silent> gp :call PasteInLine(v:false)<CR>
-vnoremap <silent> gp :call PasteInLine(v:false, v:true)<CR>
+vnoremap <silent> gp :call PasteInLine()<CR>
 
 " Run a command in a terminal in a new tab
 function RunCmdInTerminal(cmd, pos, ...) abort
@@ -31,10 +21,9 @@ function RunCmdInTerminal(cmd, pos, ...) abort
         let cmd = [a:cmd]
         let name = a:cmd
     endif
-    call termopen(cmd)
+    let job_id = termopen(cmd)
+    execute 'keepalt file [' . job_id . '] ' . name
     au BufDelete <buffer> wincmd p
-    nnoremap <buffer> <Enter> :q<CR>
-    echo "Press <Enter> to exit terminal (<Ctrl-C> first if command is still running)"
 endfunction
 
 " Commands to run make commands in a terminal
@@ -46,27 +35,6 @@ command! -nargs=* VMake :call RunCmdInTerminal('make', "100 vsplit", <f-args>)
 nnoremap <leader>ml :Make lint<CR>
 nnoremap <leader>mt :Make test<CR>
 nnoremap <leader>ms :Make shell<CR>
-
-" Escape the provided input for a regex search
-function! Escape(input) abort
-    return escape(a:input,'/\[\]\.\(\)')
-endfunction
-
-function! RefreshGitStatus() abort
-    for l:winnr in range(1, winnr('$'))
-        if getwinvar(l:winnr, '&filetype') == "fugitive"
-            execute 'Git'
-            return v:true
-        endif
-    endfor
-    return v:false
-endfunction
-
-augroup fugitive_au
-    autocmd!
-    " Make sure the Git window height stays fixed
-    autocmd FileType fugitive setlocal winfixheight
-augroup END
 
 function! GetTicketNumber() abort
     return trim(system('get-ticket-number'))
@@ -97,8 +65,3 @@ nnoremap <silent> <leader>ds :Docstring<CR>
 
 " Disable matchit as I don't use it
 let g:conflict_marker_enable_matchit = 0
-
-let g:tslime_always_current_session = 1
-let g:tslime_always_current_window = 1
-let g:tslime_autoset_pane = 1
-let g:tslime_pre_command = "C-c"
