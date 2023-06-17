@@ -16,16 +16,22 @@ let g:db_ui_win_position = 'right'
 " Open DB connections window
 nnoremap <silent><leader>db :tabnew<CR>:DBUI<CR>
 
-" Unmap these as I use <C-J/K> for navigating windows
-autocmd FileType dbui unmap <buffer> <C-J>
-autocmd FileType dbui unmap <buffer> <C-K>
+augroup dbui_au
+    autocmd!
+    " Unmap these as I use <C-J/K> for navigating windows
+    autocmd FileType dbui unmap <buffer> <C-J>
+    autocmd FileType dbui unmap <buffer> <C-K>
 
-" Unmap these as they are annoying
-autocmd FileType dbui unmap <buffer> <C-P>
-autocmd FileType dbui unmap <buffer> <C-N>
+    " Unmap these as they are annoying
+    autocmd FileType dbui unmap <buffer> <C-P>
+    autocmd FileType dbui unmap <buffer> <C-N>
 
-" Use tab for opening drawers
-autocmd FileType dbui map <Tab> <Plug>(DBUI_SelectLine)
+    " Use tab for opening drawers
+    autocmd FileType dbui map <Tab> <Plug>(DBUI_SelectLine)
+augroup END
 
-" Execute the current sql buffer
-autocmd FileType sql map <leader>e <Plug>(DBUI_ExecuteQuery)
+augroup sql_au
+    autocmd!
+    " Execute the current sql buffer
+    autocmd FileType sql map <leader>e <Plug>(DBUI_ExecuteQuery)
+augroup END
