@@ -123,7 +123,6 @@ vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<C
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>")
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>")
 vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
-vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
 vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>")
 vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>")
 vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>")
@@ -135,4 +134,7 @@ vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Left><Left>]])
 
 -- Show all commits
-vim.keymap.set('n', '<leader>gv', "<cmd> silent GV<CR>")
+vim.keymap.set('n', '<leader>gla', "<cmd> silent GV<CR>")
+
+-- Show commits for the current file
+vim.keymap.set('n', '<leader>glf', "<cmd> silent GV!<CR>")
