@@ -303,6 +303,10 @@ bufferline.setup({
                 return "[Test Suite]" 
             elseif(string.match(buf.path, "make unit test=.+")) then
                 return string.format("[Test] %s", buf.name)
+            elseif(string.match(buf.path, "--follow") or string.match(buf.path, "-L")) then
+                return string.format("[Git log] %s", buf.name)
+            elseif(string.match(buf.path, "--graph")) then
+                return "[Git log]"
             end
         end,
         -- NOTE: this will be called a lot so don't do any heavy processing here

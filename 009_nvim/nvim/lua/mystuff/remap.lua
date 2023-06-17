@@ -134,7 +134,10 @@ vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Left><Left>]])
 
 -- Show all commits
-vim.keymap.set('n', '<leader>gla', "<cmd> silent GV<CR>")
+vim.keymap.set('n', '<leader>gva', ":GV<CR>", { silent = true })
 
 -- Show commits for the current file
-vim.keymap.set('n', '<leader>glf', "<cmd> silent GV!<CR>")
+vim.keymap.set('n', '<leader>gvf', ":GV!<CR>", { silent = true })
+
+-- Show commits for the visual selection
+vim.keymap.set('x', '<leader>gv', ":GV<CR>", { silent = true })
