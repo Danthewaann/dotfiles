@@ -15,3 +15,4 @@ echo "$SCRIPT_DIR/OneDark.conf" "$HOME/.config/kitty/OneDark.conf"
 
 echo "$SCRIPT_DIR/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 
+echo "$SCRIPT_DIR/kitty-startup.session" "$HOME/.config/kitty/kitty-startup.session"
