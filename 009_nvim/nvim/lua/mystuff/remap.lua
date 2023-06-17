@@ -104,6 +104,9 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 -- Paste the clipboard contents in insert mode
 vim.keymap.set("i", "<C-p>", "<C-r>+")
 
+-- Paste the clipboard contents into the command line
+vim.keymap.set("c", "<leader>p", "<C-r>+")
+
 -- Search for current word in window and highlight it
 vim.keymap.set("n", "<leader>f", "/\\V<C-r><c-w><CR>")
 vim.keymap.set("v", "<leader>f", "\"ky/\\V<C-R>=@k<CR><CR>")
