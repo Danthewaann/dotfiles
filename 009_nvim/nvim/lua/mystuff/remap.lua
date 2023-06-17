@@ -93,11 +93,10 @@ vim.keymap.set("t", "<C-w>9", "<C-\\><C-n> <cmd> silent tabn9<CR>")
 vim.keymap.set("t", "<C-w>0", "<C-\\><C-n> <cmd> silent tablast<CR>")
 
 -- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<C-w><C-x>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
 
 -- Exit the current window
 vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
-vim.keymap.set("t", "<C-q>", "<C-\\><C-n> <cmd> silent q<CR>")
 
 -- Treat Ctrl+C exactly like <Esc> in insert mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
