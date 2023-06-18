@@ -71,6 +71,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
+plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
 
 # Use `fd` to enter normal mode in zsh
 ZVM_VI_ESCAPE_BINDKEY=fd
@@ -197,8 +198,11 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
-BASE_PROMPT=$'\n%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)'
+BASE_PROMPT=$'\n%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
 PROMPT="$BASE_PROMPT$ "
+
+# Disable the right-hand side prompt
+RPROMPT=""
 
 VIRTUAL_ENV_DISABLE_PROMPT=0
 ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
@@ -206,9 +210,12 @@ ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
+ZSH_THEME_GIT_PROMPT_PREFIX=""
+ZSH_THEME_GIT_PROMPT_SEPARATOR=" | "
+
 # Shell function that wraps `gitw-add` to allow me to cd and start neovim in
 # the newly created git worktree
-function gitw-add () {
+function gitw-add() {
     if ! output=$("$HOME"/.local/bin/gitw-add "$@" 2>&1 | tee /dev/tty); then
         return 1
     fi
