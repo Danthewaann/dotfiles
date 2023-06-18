@@ -3,7 +3,6 @@
 .svn
 .git
 *.vscode
-.vimspector.json
 node_modules
 .venv
 *.pyc
