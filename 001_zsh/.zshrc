@@ -200,3 +200,12 @@ function gitw-add() {
 
     nvim
 }
+
+function zvm_vi_yank() {
+    # Yank to system clipboard in zsh-vi-mode
+    # From: https://github.com/jeffreytse/zsh-vi-mode/issues/19
+	zvm_yank
+	echo ${CUTBUFFER} | pbcopy
+	zvm_exit_visual_mode
+}
+
