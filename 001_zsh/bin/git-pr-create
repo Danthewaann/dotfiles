@@ -2,6 +2,10 @@
 
 set -e
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
 args=()
 pr_types=(python ruby go docker docs documentation)
 pr_type=
@@ -51,7 +55,9 @@ done
 
 # If we have an invalid labels we print an error and exit
 if [[ ${#invalid_labels[@]} -ne 0 ]]; then
-    >&2 printf "\nERROR: the following labels were not found in git repository\n"
+    >&2 echo
+    error "The following labels were not found in git repository"
+    >&2 echo
     >&2 printf "invalid labels -> (%s)\n" "${invalid_labels[*]}"
     exit 1
 fi

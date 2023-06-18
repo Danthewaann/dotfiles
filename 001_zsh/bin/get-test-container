@@ -2,6 +2,10 @@
 
 set -e
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
 >&2 echo
 
 # Get test name of the test container for the current repo
@@ -14,7 +18,7 @@ fi
 testcontainer=$(docker ps | grep "$reponame" | grep -E "(-|_)test(-|_)run" | awk '{print $NF}' | head -n 1)
 
 if [[ -z $testcontainer ]]; then
-    >&2 echo "ERROR: No test container found for $reponame"
+    error "No test container found for $reponame"
     exit 1
 fi
 

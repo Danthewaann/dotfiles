@@ -2,6 +2,10 @@
 
 set -e
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
 function update_base() {
     base_worktree=$(gitw-get-base)
 
@@ -45,6 +49,6 @@ if [[ $in_worktree == "true" ]]; then
 fi
 
 if [[ $updated_base -ne 1 ]]; then
-    >&2 echo "ERROR: Must be run inside a git worktree or bare repository"
+    error "Must be run inside a git worktree or bare repository"
     exit 1
 fi

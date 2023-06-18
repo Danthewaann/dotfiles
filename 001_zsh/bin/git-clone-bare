@@ -2,6 +2,10 @@
 
 set -e
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
 # From: https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
 #
 # Examples of call:
@@ -18,7 +22,7 @@ basename=${url##*/}
 name=${2:-${basename%.*}}
 
 if [[ -d "$name" ]]; then
-    >&2 echo "ERROR: directory '$name' already exists"
+    error "Directory '$name' already exists!"
     exit 1
 fi
 
@@ -49,7 +53,7 @@ if git branch -r | grep origin/master; then
 elif git branch -r | grep origin/main; then
     base_worktree=main
 else
-    >&2 echo "ERROR: cannot determine base worktree, main or master don't exist"
+    error "Cannot determine base worktree, main or master don't exist!"
     exit 1
 fi
 

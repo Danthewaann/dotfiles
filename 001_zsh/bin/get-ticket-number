@@ -2,13 +2,17 @@
 
 set -e
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
 >&2 echo
 
 # Get the ticketnumber for the current repo branch
 currentbranch=$(git branch --show-current) 
 
 if ! ticketnumber=$(echo "$currentbranch" | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+"); then
-    >&2 echo "ERROR: No ticketnumber found for $currentbranch"
+    error "No ticketnumber found for $currentbranch"
     exit 1
 fi
 

@@ -2,6 +2,10 @@
 
 set -e
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
 function get_base() {
     base_worktree=
 
@@ -10,7 +14,7 @@ function get_base() {
     elif [[ -d master ]]; then
         base_worktree="master"
     else
-        >&2 echo "ERROR: main or master worktree not found"
+        error "main or master worktree not found"
         return 1
     fi
 
@@ -41,6 +45,6 @@ if [[ $in_worktree == "true" ]]; then
 fi
 
 if [[ $got_base -ne 1 ]]; then
-    >&2 echo "ERROR: Must be run inside a git worktree or bare repository"
+    error "Must be run inside a git worktree or bare repository"
     exit 1
 fi
