@@ -76,30 +76,6 @@ plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-synt
 # Use `fd` to enter normal mode in zsh
 ZVM_VI_ESCAPE_BINDKEY=fd
 
-# Disable the cursor style feature
-ZVM_CURSOR_STYLE_ENABLED=false
-
-# The plugin will auto execute this zvm_after_select_vi_mode function
-function zvm_after_select_vi_mode() {
-  case $ZVM_MODE in
-    $ZVM_MODE_NORMAL)
-        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}N%{$reset_color%} $ "
-    ;;
-    $ZVM_MODE_INSERT)
-        PROMPT="$BASE_PROMPT$ "
-    ;;
-    $ZVM_MODE_VISUAL)
-        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}V%{$reset_color%} $ "
-    ;;
-    $ZVM_MODE_VISUAL_LINE)
-        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}V%{$reset_color%} $ "
-    ;;
-    $ZVM_MODE_REPLACE)
-        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}R%{$reset_color%} $ "
-    ;;
-  esac
-}
-
 zvm_after_init() {
     # Override <C-P> and <C-N> to cycle through command history (including suggested commands)
     zvm_bindkey viins '^P' up-line-or-search
