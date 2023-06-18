@@ -2,10 +2,16 @@
 
 set -eo pipefail
 
+export WHITE_BOLD='\033[1m'
 export GREEN_BOLD='\033[1;32m'
 export YELLOW='\033[0;33m'
 export NC='\033[0m'
 export RED='\033[0;31m'
+
+function info () {
+    local message="$1"
+    >&2 echo -e "${WHITE_BOLD}${message}${NC}"
+}
 
 function error () {
     local message="$1"
@@ -15,4 +21,8 @@ function error () {
 function warn () {
     local message="$1"
     >&2 echo -e "${YELLOW}WARN: ${message}${NC}"
+}
+
+function indent() {
+    sed 's/^/    /'
 }

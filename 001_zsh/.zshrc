@@ -205,3 +205,15 @@ ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
 ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+
+# Shell function that wraps `gitw-add` to allow me to cd and start neovim in
+# the newly created git worktree
+function gitw-add () {
+    if ! output=$("$HOME"/.local/bin/gitw-add "$@" 2>&1 | tee /dev/tty); then
+        return 1
+    fi
+
+    cd $(echo "$output" | tail -n 1)
+
+    nvim
+}

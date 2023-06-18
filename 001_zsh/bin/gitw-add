@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eo pipefail
 
 CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -57,8 +57,8 @@ if [[ -z $branch_name ]]; then
     exit 1
 fi
 
->&2 echo "Running git fetch..."
-git fetch
+info "Running git fetch..."
+git fetch 2>&1 | indent
 >&2 echo
 
 # Remove the first path segment if branch name contains forward slashes
@@ -69,42 +69,47 @@ current_dir=$(pwd)
 # Convert all forward slashes to dashes
 converted_name=${trimmed_name//\//-}
 
+info "Creating worktree..."
 # Create a new worktree using the converted name
-git worktree add "$converted_name" "$@"
+git worktree add "$converted_name" "$@" 2>&1 | indent
+>&2 echo
 
 # Enter the new worktree
 cd "$converted_name" || exit
+
+info "Creating branch..."
+>&2 echo
 
 # Attempt to rename worktree branch to use the correct branch name
 if ! output=$(git branch -m "$branch_name" 2>&1); then
     # If the branch name already exists, check it out instead of creating it
     if [[ $output == *"already exists"* ]]; then
-        >&2 printf "\nBranch '%s' exists locally, switching to it\n" "$branch_name"
+        info "Branch '$branch_name' exists locally, switching to it" | indent
         if ! output=$(git checkout "$branch_name" 2>&1); then
-            error "Failed to checkout branch : $output"
+            error "Failed to checkout branch : $output" | indent
             exit 1
         fi
         if ! output=$(git rev-parse --abbrev-ref "$branch_name@{upstream}" 2>&1); then
-            >&2 echo "Branch '$branch_name' has no upstream set, setting to 'origin/$branch_name'"
+            info "Branch '$branch_name' has no upstream set, setting to 'origin/$branch_name'" | indent
             if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
-                warn "Failed to set upstream for branch : $output"
+                warn "Failed to set upstream for branch : $output" | indent
             fi
         fi
     fi
 # Check if the branch exists remotely, if it does set it as upstream and hard reset to it
 elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
-    >&2 printf "\nBranch '%s' exists remotely, setting as upsteam and hard resetting to it\n" "$branch_name"
+    info "Branch '$branch_name' exists remotely, setting as upsteam and hard resetting to it" | indent
     if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
-        error "Failed to set upstream to branch : $output"
+        error "Failed to set upstream to branch : $output" | indent
         exit 1
     fi
     if ! output=$(git reset --hard origin/"$branch_name" 2>&1); then
-        error "Failed to hard reset branch : $output"
+        error "Failed to hard reset branch : $output" | indent
         exit 1
     fi
 
     >&2 echo
-    >&2 echo "Running git pull..."
+    info "Running git pull..."
     git pull
 fi
 
@@ -114,22 +119,24 @@ fi
 if [[ $checkout_only -ne 1 ]]; then
     base_worktree=$(gitw-get-base)
     if [[ $copy_venv -eq 1 ]] && [[ -d "../$base_worktree/.venv" ]]; then
-        >&2 printf "\nCopying ../%s/.venv to %s/.venv\n" "$base_worktree" "$converted_name"
+        info "\nCopying ../$base_worktree/.venv to $converted_name/.venv"
         mkdir -p "$current_dir/$converted_name/.venv"
         # From https://www.zylk.net/en/web-2-0/blog/-/blogs/how-to-copy-files-in-linux-faster-and-safer-than-cp
         cd "$current_dir/$base_worktree/.venv"; tar cf - . | (cd "$current_dir/$converted_name/.venv"; tar xvf -) 2> /dev/null
-    elif [[ -f "poetry.lock" ]]; then
-        >&2 echo "Running poetry install..."
         >&2 echo
-        poetry install
+    elif [[ -f "poetry.lock" ]]; then
+        info "Running poetry install..."
+        >&2 echo
+        script -q /dev/null poetry install | indent
         >&2 echo
     fi
 
     if [[ -f "pyproject.toml" ]] && [[ -f "$HOME/pyrightconfig.json" ]] && ! [[ -f "pyrightconfig.json" ]]; then
-        >&2 echo "Linking pyrightconfig.json file..."
+        info "Linking pyrightconfig.json file..."
         >&2 echo 
         ln -s "$HOME/pyrightconfig.json" "pyrightconfig.json"
     fi
 fi
 
->&2 echo -e "${GREEN_BOLD}Created worktree '$converted_name'${NC}"
+>&2 echo -e "${GREEN_BOLD}Successfully created worktree!${NC}\n"
+echo "${converted_name}"
