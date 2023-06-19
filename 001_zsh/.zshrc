@@ -70,7 +70,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
 plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
 
 # Use `Ctrl-i` to enter normal mode in zsh
