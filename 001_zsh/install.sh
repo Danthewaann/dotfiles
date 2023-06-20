@@ -22,6 +22,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing gsed" \
         "brew install gnu-sed"
+
+    run_command "installing wget" \
+        "brew install wget"
 else
     run_command "setting up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
