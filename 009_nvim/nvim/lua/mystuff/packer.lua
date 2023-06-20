@@ -63,6 +63,7 @@ return require('packer').startup(function(use)
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
     use 'nvim-pack/nvim-spectre'
+    use 'chrishrb/gx.nvim'
 
     use 'vim-test/vim-test'
     use 'michaeljsmith/vim-indent-object'
