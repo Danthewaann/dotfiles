@@ -73,7 +73,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
 
 # Use `Ctrl-i` to enter normal mode in zsh
-ZVM_VI_ESCAPE_BINDKEY=^I
+ZVM_VI_ESCAPE_BINDKEY=^O
 
 zvm_after_init() {
     # Override <C-P> and <C-N> to cycle through command history (including suggested commands)
