@@ -155,7 +155,6 @@
     plus-non-emph-style = syntax
     plus-style = bold green
     syntax-theme = OneHalfDark
-    side-by-side = true
     whitespace-error-style = reverse red
     zero-style = dim syntax
     blame-code-style = syntax
