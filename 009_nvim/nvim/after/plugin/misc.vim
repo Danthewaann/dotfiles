@@ -32,9 +32,9 @@ command! -nargs=* SMake :call RunCmdInTerminal('make', "20 split", <f-args>)
 command! -nargs=* VMake :call RunCmdInTerminal('make', "100 vsplit", <f-args>)
 
 " Useful make commands
-nnoremap <leader>ml :Make lint<CR>
-nnoremap <leader>mt :Make test<CR>
-nnoremap <leader>ms :Make shell<CR>
+nnoremap <silent> <leader>ml :Make lint<CR>
+nnoremap <silent> <leader>mt :Make test<CR>
+nnoremap <silent> <leader>ms :Make shell<CR>
 
 function! GetTicketNumber() abort
     return trim(system('get-ticket-number'))
