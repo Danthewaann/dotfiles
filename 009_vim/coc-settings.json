@@ -14,7 +14,7 @@
     "suggest.insertMode": "insert",
     "diagnostic.level": "hint",
     "diagnostic.autoRefresh": true,
-    "diagnostic.virtualText": true,
+    "diagnostic.virtualText": false,
     "diagnostic.virtualTextAlign": "after",
     "diagnostic.virtualTextCurrentLineOnly": false,
     "diagnostic.virtualTextFormat": "■ %message",
