@@ -31,4 +31,4 @@ run_command "installing github cli notify extension" \
     "gh extension install dcrblack/gh-notify --force"
 
 run_command "installing github cli autocomplete" \
-    "gh completion -s zsh > ~/.zsh_functions/_gh && autoload -Uz compinit && compinit"
+    "gh completion -s zsh > ~/.zsh_functions/_gh"
