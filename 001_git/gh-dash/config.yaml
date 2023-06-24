@@ -7,6 +7,8 @@ prSections:
   filters: is:open mentions:@me -author:@me
 - title: Involved
   filters: is:open involves:@me -author:@me
+- title: Slice
+  filters: is:open slicelife
 issuesSections:
 - title: My Issues
   filters: is:open author:@me
