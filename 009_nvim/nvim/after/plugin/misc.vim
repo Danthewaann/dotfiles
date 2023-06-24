@@ -31,6 +31,50 @@ command! -nargs=* Make :call RunCmdInTerminal('make', "$tab", <f-args>)
 command! -nargs=* SMake :call RunCmdInTerminal('make', "20 split", <f-args>)
 command! -nargs=* VMake :call RunCmdInTerminal('make', "100 vsplit", <f-args>)
 
+function RunCmd(pos, ...) abort
+    execute a:pos . ' new'
+    if !empty(a:000)
+        let cmd = a:000
+        let name = join(a:000)
+    else
+        let cmd = [a:cmd]
+        let name = a:cmd
+    endif
+    let job_id = termopen(cmd)
+    execute 'keepalt file [' . job_id . '] ' . name
+    au BufDelete <buffer> wincmd p
+endfunction
+
+command! -nargs=* Run :call RunCmd("$tab", <f-args>)
+
+function RunLinting(pos) abort
+    if !empty(glob("poetry.lock"))
+        let cmd = ["poetry", "run"]
+    else
+        echohl ErrorMsg
+        echo "Not supported"
+        echohl None
+        return
+    end
+
+    if !empty(glob("scripts/lint.sh"))
+        let file = ["scripts/lint.sh"]
+    else
+        echohl ErrorMsg
+        echo "Not supported"
+        echohl None
+        return
+    end
+
+    execute a:pos . ' new'
+    let cmd = cmd + file
+    let job_id = termopen(cmd)
+    execute 'keepalt file [' . job_id . '] ' . "Linting"
+    au BufDelete <buffer> wincmd p
+endfunction
+
+nnoremap <silent> <leader>rl :call RunLinting("$tab")<CR>
+
 " Useful make commands
 nnoremap <silent> <leader>ml :Make lint<CR>
 nnoremap <silent> <leader>mt :Make test<CR>
