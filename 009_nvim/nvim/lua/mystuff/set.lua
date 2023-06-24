@@ -13,7 +13,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 vim.opt.wrap = false
-vim.opt.equalalways = false
+vim.opt.equalalways = true
 
 vim.opt.swapfile = false
 vim.opt.backup = false
