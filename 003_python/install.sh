@@ -77,7 +77,7 @@ fi
 run_command "configuring poetry" \
     "poetry config virtualenvs.in-project true"
 
-run_command "installing poetry zsh autocomplete" |
+run_command "installing poetry zsh autocomplete" \
     "poetry completions zsh > ~/.zsh_functions/_poetry"
 
 if [[ $OSTYPE == "darwin"* ]]; then
