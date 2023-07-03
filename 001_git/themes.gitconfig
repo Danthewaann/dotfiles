@@ -153,7 +153,8 @@
     plus-emph-style = bold green 22
     plus-empty-line-marker-style = normal "#002800"
     plus-non-emph-style = syntax
-    plus-style = bold green
+    minus-style = syntax "#3f0001"
+    plus-style = syntax "#063f00"
     syntax-theme = OneHalfDark
     whitespace-error-style = reverse red
     zero-style = dim syntax
