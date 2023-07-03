@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -7,7 +7,16 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$CUR_DIR/_git-common"
 
 args=()
-pr_types=(python ruby go docker docs documentation)
+
+# Github label to slack emoji associate array
+declare -A pr_types=(
+    [python]="python"
+    [ruby]="ruby_prog"
+    [go]="go"
+    [docker]="docker"
+    [documentation]="docs"
+)
+
 pr_type=
 pr_title=
 pr_is_draft=0
@@ -17,7 +26,7 @@ while [[ $# -gt 0 ]]; do
     case $1 in
     -l|--label)
         # shellcheck disable=SC2076
-        if [[ " ${pr_types[*]} " =~ " ${2} " ]]; then
+        if [[ " ${!pr_types[*]} " =~ " ${2} " ]]; then
             pr_type=$2
         fi
         args+=("$1" "$2")
@@ -105,10 +114,12 @@ gh pr create \
 if [[ -n "$pr_type" ]]; then
     url=$(gh pr view --json url --jq .url)
 
+    slack_label=${pr_types[$pr_type]}
+
     if [[ $pr_is_draft -ne 0 ]]; then
-        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$pr_type" "$pr_title")
+        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
     else
-        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$pr_type" "$pr_title")
+        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$slack_label" "$pr_title")
     fi
 
     >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
