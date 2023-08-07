@@ -299,10 +299,13 @@ bufferline.setup({
             -- bufnr (buffer only) | int        | the number of the active buffer
             -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
             -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-            if(string.match(buf.path, "make unit test=$")) then
-                return "[Test Suite]" 
-            elseif(string.match(buf.path, "make unit test=.+")) then
-                return string.format("[Test] %s", buf.name)
+            if(string.match(buf.path, "term:.*:make.*")) then
+                local t = {}
+                for i in string.gmatch(buf.path, "([^:]+)") do  
+                    t[#t + 1] = i
+                end 
+                -- Remove the term path and port to only include the make command in the tabline 
+                return unpack(t, 3)
             elseif(string.match(buf.path, "--follow") or string.match(buf.path, "-L")) then
                 return string.format("[Git log] %s", buf.name)
             elseif(string.match(buf.path, "--graph")) then
