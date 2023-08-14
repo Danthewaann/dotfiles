@@ -14,6 +14,9 @@ vim.keymap.set("n", "'<cr>", "ci'")
 vim.keymap.set("n", "(<cr>", "ci(")
 vim.keymap.set("n", "[<cr>", "ci[")
 
+-- Paste over visual selection and yank to empty register
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
 -- Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 -- which is the default
 vim.keymap.set("n", "Y", "y$")
