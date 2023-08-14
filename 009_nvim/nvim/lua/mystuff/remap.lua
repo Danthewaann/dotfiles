@@ -95,6 +95,12 @@ vim.keymap.set("t", "<C-w>8", "<C-\\><C-n> <cmd> silent tabn8<CR>")
 vim.keymap.set("t", "<C-w>9", "<C-\\><C-n> <cmd> silent tabn9<CR>")
 vim.keymap.set("t", "<C-w>0", "<C-\\><C-n> <cmd> silent tablast<CR>")
 
+-- Move tabs left or right
+vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>")
+vim.keymap.set("t", "<C-w>,", "<C-\\><C-n> <cmd> silent -tabmove<CR>")
+vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>")
+vim.keymap.set("t", "<C-w>.", "<C-\\><C-n> <cmd> silent +tabmove<CR>")
+
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
 
