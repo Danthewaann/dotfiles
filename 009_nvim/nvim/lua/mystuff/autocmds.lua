@@ -19,3 +19,12 @@ autocmd("TermOpen", {
     pattern = "",
     command = "setlocal nowrap nonumber norelativenumber signcolumn=no",
 })
+
+-- Disable highlighting for sql files.
+-- treesitter will handle syntax highlighting if the file isn't too large in size
+augroup("sql_dump_highlighting", { clear = true })
+autocmd("BufEnter", {
+    group = "sql_dump_highlighting",
+    pattern = "*.sql",
+    command = "setlocal syntax=off",
+})
