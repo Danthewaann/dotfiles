@@ -184,9 +184,11 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 # Shell function that wraps `gitw-add` to allow me to cd and start neovim in
 # the newly created git worktree
 function gitw-add() {
+    set -o pipefail
     if ! output=$("$HOME"/.local/bin/gitw-add "$@" 2>&1 | tee /dev/tty); then
         return 1
     fi
+    set +o pipefail
 
     cd $(echo "$output" | tail -n 1)
 

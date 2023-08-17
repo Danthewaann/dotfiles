@@ -48,6 +48,8 @@ fi
 
 set -- "${args[@]}"
 
+>&2 echo
+
 branch_name="$1"; shift
 
 if [[ -z $branch_name ]]; then
@@ -55,17 +57,20 @@ if [[ -z $branch_name ]]; then
     exit 1
 fi
 
-info "Running git fetch..."
-git fetch 2>&1 | indent
->&2 echo
-
 # Remove the first path segment if branch name contains forward slashes
 trimmed_name=$(echo "$branch_name" | cut -d'/' -f2-)
 
-current_dir=$(pwd)
-
 # Convert all forward slashes to dashes
 converted_name=${trimmed_name//\//-}
+
+if [[ -d $converted_name ]]; then
+    error "Worktee '$converted_name' already exists"
+    exit 1
+fi
+
+info "Running git fetch..."
+git fetch 2>&1 | indent
+>&2 echo
 
 info "Creating worktree..."
 # Create a new worktree using the converted name
@@ -106,16 +111,17 @@ elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
         exit 1
     fi
 
-    >&2 echo
     info "Running git pull..."
     git pull
+    >&2 echo
 fi
 
->&2 echo
 
 # Optional post checkout steps
 if [[ $checkout_only -ne 1 ]]; then
-    base_worktree=$(gitw-get-base)
+    current_dir=$(pwd)
+    base_worktree=$(gitw-get-base 2> /dev/null)
+
     if [[ $copy_venv -eq 1 ]] && [[ -d "../$base_worktree/.venv" ]]; then
         info "\nCopying ../$base_worktree/.venv to $converted_name/.venv"
         mkdir -p "$current_dir/$converted_name/.venv"
@@ -125,7 +131,7 @@ if [[ $checkout_only -ne 1 ]]; then
     elif [[ -f "poetry.lock" ]]; then
         info "Running poetry install..."
         >&2 echo
-        poetry install
+        script -q /dev/null poetry install
         >&2 echo
     fi
 
