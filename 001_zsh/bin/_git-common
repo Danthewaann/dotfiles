@@ -13,6 +13,11 @@ function info () {
     >&2 echo -e "${WHITE_BOLD}${message}${NC}"
 }
 
+function success () {
+    local message="$1"
+    >&2 echo -e "${GREEN_BOLD}${message}${NC}"
+}
+
 function error () {
     local message="$1"
     >&2 echo -e "${RED}ERROR: ${message}${NC}"

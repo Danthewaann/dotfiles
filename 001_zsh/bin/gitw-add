@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
     case $1 in
     -h|--help)
         usage
-        exit
+        exit 2
         ;;
     --checkout-only)
         checkout_only=1
@@ -50,12 +50,12 @@ set -- "${args[@]}"
 
 >&2 echo
 
-branch_name="$1"; shift
-
-if [[ -z $branch_name ]]; then
+if [[ $# -lt 1 ]]; then
     error "Must provide a branch name"
     exit 1
 fi
+
+branch_name="$1"; shift
 
 # Remove the first path segment if branch name contains forward slashes
 trimmed_name=$(echo "$branch_name" | cut -d'/' -f2-)
@@ -69,12 +69,26 @@ if [[ -d $converted_name ]]; then
 fi
 
 info "Running git fetch..."
-git fetch 2>&1 | indent
+if ! output=$(git fetch 2>&1); then
+    error "$output" 2>&1 | indent
+    exit 1
+else
+    if [[ -n "$output" ]]; then
+        info "$output" 2>&1 | indent
+    fi
+fi
 >&2 echo
 
-info "Creating worktree..."
 # Create a new worktree using the converted name
-git worktree add "$converted_name" "$@" 2>&1 | indent
+info "Creating worktree..."
+if ! output=$(git worktree add "$converted_name" "$@" 2>&1); then
+    error "$output" 2>&1 | indent
+    exit 1
+else
+    if [[ -n "$output" ]]; then
+        info "$output" 2>&1 | indent
+    fi
+fi
 >&2 echo
 
 # Enter the new worktree
@@ -142,5 +156,6 @@ if [[ $checkout_only -ne 1 ]]; then
     fi
 fi
 
->&2 echo -e "${GREEN_BOLD}Successfully created worktree!${NC}\n"
+success "Successfully created worktree!"
+>&2 echo
 echo "${converted_name}"
