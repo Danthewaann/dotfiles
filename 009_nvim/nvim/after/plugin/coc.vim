@@ -10,6 +10,7 @@ let g:coc_global_extensions = [
             \'coc-tsserver',
             \'coc-json',
             \'coc-pyright',
+            \'@yaegassy/coc-ruff',
             \'coc-git',
             \'coc-css',
             \'coc-html',
@@ -53,6 +54,9 @@ endfunction
 
 function! Format(error = v:null, result = v:null, callback = "Save") abort
     if a:error == v:null
+        if &filetype == "python"
+            call CocAction('runCommand', 'ruff.executeAutofix')
+        endif
         call CocActionAsync('format', function(a:callback))
     else
         echohl WarningMsg
