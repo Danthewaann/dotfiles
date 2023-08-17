@@ -91,7 +91,13 @@ function! ReplaceTicketNumberInPRFile() abort
         echo ticket_number
         echohl None
     else
-        execute '%s/TICKET_NUMBER/' . ticket_number . '/g'
+        try
+            execute '%s/TICKET_NUMBER/' . ticket_number . '/g'
+        catch
+            echohl ErrorMsg
+            echo 'TICKET_NUMBER pattern not found in file!'
+            echohl None
+        endtry
     endif
 endfunction
 
