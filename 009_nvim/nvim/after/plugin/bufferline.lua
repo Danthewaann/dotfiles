@@ -272,7 +272,7 @@ bufferline.setup({
         },
     },
     options = {
-        separator_style = "slope",
+        separator_style = {"", ""},
         themable = true,
         mode = "tabs", -- set to "tabs" to only show tabpages instead
         themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
