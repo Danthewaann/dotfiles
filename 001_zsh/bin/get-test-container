@@ -12,12 +12,10 @@ source "$CUR_DIR/_git-common"
 if [[ -f .env ]]; then
     reponame=$(grep -i "compose_project_name" .env | awk -F'=' '{print $2}')
 else
-    reponame=$(git-repo-name)
+    reponame=$(git-repo-name 2> /dev/null)
 fi
 
-testcontainer=$(docker ps | grep "$reponame" | grep -E "(-|_)test(-|_)run" | awk '{print $NF}' | head -n 1)
-
-if [[ -z $testcontainer ]]; then
+if ! testcontainer=$(docker ps | grep "$reponame" | grep -E "(-|_)test(-|_)run" | awk '{print $NF}' | head -n 1 | sed 's/ *$//g'); then
     error "No test container found for $reponame"
     exit 1
 fi

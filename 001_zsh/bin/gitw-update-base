@@ -7,7 +7,7 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$CUR_DIR/_git-common"
 
 function update_base() {
-    base_worktree=$(gitw-get-base)
+    base_worktree=$(gitw-get-base 2> /dev/null)
 
     >&2 echo "Entering '$base_worktree' base worktree"
     cd "$base_worktree" || exit
@@ -37,7 +37,6 @@ if [[ $in_worktree == "true" ]]; then
     while true; do
         cd ..
         if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
-        is_bare_repo=$(git rev-parse --is-bare-repository)
         if [[ $is_bare_repo == "true" ]]; then
             update_base
             updated_base=1

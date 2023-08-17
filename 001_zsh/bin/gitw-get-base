@@ -21,6 +21,8 @@ function get_base() {
     echo "$base_worktree"
 }
 
+>&2 echo
+
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo == "true" ]]; then
     get_base

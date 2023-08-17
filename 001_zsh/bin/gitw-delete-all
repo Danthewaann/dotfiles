@@ -6,10 +6,12 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$CUR_DIR/_git-common"
 
+>&2 echo
+
 # Delete all git worktrees in current bare repository
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo != "true" ]]; then
-    error "Must be run in a bare repository!"
+    error "Must be run in a bare repository"
     exit 1
 fi
 
@@ -21,7 +23,7 @@ if [[ ${#worktrees[@]} -eq 0 ]]; then
 fi
 
 for worktree in "${worktrees[@]}"; do
-    >&2 printf "\nDeleting worktree : %s\n" "$worktree"
+    >&2 echo "Deleting worktree : $worktree"
     if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
         echo "  $result"
         continue

@@ -40,8 +40,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
->&2 echo
-
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo != "true" ]]; then
     error "Must be run in a bare repository!"
@@ -127,7 +125,7 @@ if [[ $checkout_only -ne 1 ]]; then
     elif [[ -f "poetry.lock" ]]; then
         info "Running poetry install..."
         >&2 echo
-        script -q /dev/null poetry install | indent
+        poetry install
         >&2 echo
     fi
 
