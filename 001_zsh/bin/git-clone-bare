@@ -20,6 +20,7 @@ basename=${url##*/}
 name=${2:-${basename%.*}}
 
 if [[ -d "$name" ]]; then
+    >&2 echo
     error "Directory '$name' already exists!"
     exit 1
 fi
@@ -36,16 +37,36 @@ cd "$name" || exit
 # new-awesome-feature
 # hotfix-bug-12
 # ...
-git clone --bare "$url" .bare
+>&2 echo
+info "Cloning bare repository..."
+if ! output=$(git clone --bare "$url" .bare 2>&1); then
+    error "$output" 2>&1 | indent
+    exit 1
+else
+    if [[ -n "$output" ]]; then
+        echo "$output" | indent
+    fi
+fi
+
 echo "gitdir: ./.bare" > .git
 
 # Explicitly sets the remote origin fetch so we can fetch remote branches
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 
 # Gets all branches from origin
-git fetch origin
+>&2 echo
+info "Fetching remote branches..."
+if ! output=$(git fetch origin 2>&1); then
+    error "$output" 2>&1 | indent
+    exit 1
+else
+    if [[ -n "$output" ]]; then
+        echo "$output" | indent
+    fi
+fi
 
->&2 echo "Creating base worktree"
+>&2 echo
+info "Creating base worktree..."
 if git branch -r | grep origin/master; then
     base_worktree=master
 elif git branch -r | grep origin/main; then

@@ -163,6 +163,7 @@ if [[ $checkout_only -ne 1 ]]; then
     fi
 fi
 
+>&2 echo
 success "Successfully created worktree!"
 >&2 echo
 echo "${converted_name}"
