@@ -8,6 +8,7 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+vim.opt.listchars = "eol:¬,tab:▸."
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
