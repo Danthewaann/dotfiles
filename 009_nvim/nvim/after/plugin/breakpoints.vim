@@ -7,6 +7,24 @@ func! s:GetLineContentAndWhitespace(line_num)
     return {'content': cur_line_content, 'whitespace': cur_line_whitespace}
 endf
 
+func! s:GetBreakpointStmt()
+    if &filetype == 'python'
+        return 'breakpoint()'
+    elseif &filetype == 'go'
+        return 'runtime.Breakpoint()'
+    endif
+    return v:null
+endf
+
+func! s:GetWhiteSpaceChar()
+    if &filetype == 'python'
+        return ' '
+    elseif &filetype == 'go'
+        return '	'
+    endif
+    return v:null
+endf
+
 func! s:SetBreakpoint()
     let cur_line_num = line('.')
     let cur_line = s:GetLineContentAndWhitespace(cur_line_num)
@@ -33,15 +51,19 @@ func! s:SetBreakpoint()
             let cur_line['whitespace'] = next_line['whitespace']
         endif
     endif
-    cal append('.', repeat(' ', cur_line['whitespace']) . 'breakpoint()')
+    let breakpoint_stmt = s:GetBreakpointStmt()
+    let whitespace_char = s:GetWhiteSpaceChar()
+    cal append('.', repeat(whitespace_char, cur_line['whitespace']) . breakpoint_stmt)
 endf
-
+	
 func! s:RemoveBreakpoint()
-    exe 'silent! g/^\s*breakpoint()/d'
+    let breakpoint_stmt = s:GetBreakpointStmt()
+    exe 'silent! g/^\s*' . breakpoint_stmt . '/d'
 endf
 
 func! s:ToggleBreakpoint()
-    if getline('.')=~#'^\s*breakpoint()' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
+    let breakpoint_stmt = s:GetBreakpointStmt()
+    if getline('.')=~#'^\s*' . breakpoint_stmt | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
 
 nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
@@ -53,7 +75,12 @@ set grepprg=rg\ --vimgrep\ --color=never
 "
 " Setup a way to keep track of breakpoint() calls in Python code
 function! GetAllBreakpoints()
-    let breakpoints = system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+    if &filetype == 'python'
+        let breakpoints = system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
+    elseif &filetype == 'go'
+        let breakpoints = system(join([&grepprg] + [' runtime.Breakpoint\(\) -g "*.go" ./'], ' '))
+    endif
+
     if empty(breakpoints)
         echohl WarningMsg
         echo "No breakpoint()s found"
@@ -70,11 +97,12 @@ function! DeleteAllBreakpoints()
         echo "Deleting all breakpoint()s"
         sleep 150m
     endif
+    let breakpoint_stmt = shellescape(s:GetBreakpointStmt())
     for item in list
         let file = split(item, ':')[0]
         if index(files, file) < 0
             call add(files, file)
-            call system('sed -i -e /breakpoint\(\)/d ' . file)
+            call system('sed -i -e /' . breakpoint_stmt . '/d ' . file)
         endif
     endfor
 endfunction
