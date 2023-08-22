@@ -88,6 +88,9 @@ return require('packer').startup(function(use)
     use 'szw/vim-maximizer'
     use 'djoshea/vim-autoread'
 
+    vim.cmd("let g:vimspector_enable_mappings = 'HUMAN'")
+    use 'puremourning/vimspector'
+
     use {
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,

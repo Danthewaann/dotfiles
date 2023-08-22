@@ -1,6 +1,6 @@
 {
     "adapters": {
-        "python-remote": {
+        "python - remote test": {
             "variables": {
                 "container": {
                     "shell": ["$HOME/.local/bin/get-test-container"]
@@ -33,11 +33,41 @@
                 },
                 "delay": "1000m" 
             }
+        },
+        "go - remote test": {
+            "variables": {
+                "container": {
+                    "shell": ["$HOME/.local/bin/get-test-container"]
+                },
+                "port": 40000
+            },
+            "port": "${port}",
+            "launch": {
+                "remote": {
+                    "container": "${container}",
+                    "runCommand": [
+                        "dlv", "test", "--listen=:${port}", "--headless=true", "--api-version=2", "%CMD%"
+                    ]
+                },
+                "delay": "5000m"
+            },
+            "attach": {
+                "remote": {
+                    "container": "${container}",
+                    "pidCommand": [
+                        ""
+                    ],
+                    "attachCommand": [
+                        "dlv", "connect", ":${port}"
+                    ]
+                },
+                "delay": "10000m" 
+            }
         }
     },
     "configurations": {
-        "remote-launch": {
-            "adapter": "python-remote",
+        "python - remote test launch": {
+            "adapter": "python - remote test",
             "remote-request": "launch",
             "remote-cmdLine": [
                "-m", "pytest", "*${args}"
@@ -61,17 +91,49 @@
                 }
             }
         },
-        "remote-attach": {
-            "adapter": "python-remote",
+        "python - remote test attach": {
+            "adapter": "python - remote test",
             "remote-request": "attach",
             "configuration": {
                 "request": "attach",
                 "pathMappings": [
                     {
                         "localRoot": "${workspaceRoot}",
-                        "remoteRoot": "/usr/src/app"
+                        "remoteRoot": "/root"
                     }
                 ]
+            }
+        },
+        "go - remote test launch": {
+            "adapter": "go - remote test",
+            "remote-request": "launch",
+            "remote-cmdLine": [
+               "*${args}"
+            ],
+            "configuration": {
+                "request": "attach",
+                "mode": "remote",
+                "remotePath": "/go/src/github.com/slicelife/menu-prototype",
+                "pathMappings": [
+                    {
+                        "localRoot": "${workspaceRoot}",
+                        "remoteRoot": "/root"
+                    }
+                ],
+                "substitutePath": [
+                    {
+                        "from": "${workspaceRoot}",
+                        "to": "/go/src/github.com/slicelife/menu-prototype"
+                    }
+                ],
+                "console": "internalConsole"
+            },
+            "breakpoints": {
+                "exception": {
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
             }
         },
         "python - base conf": {
