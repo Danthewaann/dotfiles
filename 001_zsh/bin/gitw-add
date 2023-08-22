@@ -70,11 +70,11 @@ fi
 
 info "Running git fetch..."
 if ! output=$(git fetch 2>&1); then
-    error "$output" 2>&1 | indent
+    error "$output"
     exit 1
 else
     if [[ -n "$output" ]]; then
-        echo "$output" | indent
+        echo "$output"
     fi
 fi
 >&2 echo
@@ -82,11 +82,11 @@ fi
 # Create a new worktree using the converted name
 info "Creating worktree..."
 if ! output=$(git worktree add "$converted_name" "$@" 2>&1); then
-    error "$output" 2>&1 | indent
+    error "$output"
     exit 1
 else
     if [[ -n "$output" ]]; then
-        echo "$output" | indent
+        echo "$output"
     fi
 fi
 >&2 echo
@@ -100,38 +100,38 @@ info "Creating branch..."
 if ! output=$(git branch -m "$branch_name" 2>&1); then
     # If the branch name already exists, check it out instead of creating it
     if [[ $output == *"already exists"* ]]; then
-        echo "Branch '$branch_name' exists locally, switching to it" | indent
+        echo "Branch '$branch_name' exists locally, switching to it"
         if ! output=$(git checkout "$branch_name" 2>&1); then
-            error "Failed to checkout branch : $output" 2>&1 | indent
+            error "Failed to checkout branch : $output"
             exit 1
         fi
         if ! output=$(git rev-parse --abbrev-ref "$branch_name@{upstream}" 2>&1); then
-            echo "Branch '$branch_name' has no upstream set, setting to 'origin/$branch_name'" | indent
+            echo "Branch '$branch_name' has no upstream set, setting to 'origin/$branch_name'"
             if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
-                warn "Failed to set upstream for branch : $output" 2>&1 | indent
+                warn "Failed to set upstream for branch : $output"
             fi
         fi
     fi
 # Check if the branch exists remotely, if it does set it as upstream and hard reset to it
 elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
-    echo "Branch '$branch_name' exists remotely, setting as upsteam and hard resetting to it" | indent
+    echo "Branch '$branch_name' exists remotely, setting as upsteam and hard resetting to it"
     if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
-        error "Failed to set upstream to branch : $output" 2>&1 | indent
+        error "Failed to set upstream to branch : $output"
         exit 1
     fi
     if ! output=$(git reset --hard origin/"$branch_name" 2>&1); then
-        error "Failed to hard reset branch : $output" 2>&1 | indent
+        error "Failed to hard reset branch : $output"
         exit 1
     fi
 
     >&2 echo
     info "Running git pull..."
     if ! output=$(git pull 2>&1); then
-        error "$output" 2>&1 | indent
+        error "$output"
         exit 1
     else
         if [[ -n "$output" ]]; then
-            echo "$output" | indent
+            echo "$output"
         fi
     fi
 fi
@@ -158,7 +158,6 @@ if [[ $checkout_only -ne 1 ]]; then
     if [[ -f "pyproject.toml" ]] && [[ -f "$HOME/pyrightconfig.json" ]] && ! [[ -f "pyrightconfig.json" ]]; then
         >&2 echo
         info "Linking pyrightconfig.json file..."
-        >&2 echo 
         ln -s "$HOME/pyrightconfig.json" "pyrightconfig.json"
     fi
 fi

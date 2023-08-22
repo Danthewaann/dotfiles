@@ -25,13 +25,13 @@ fi
 got_error=0
 for worktree in "${worktrees[@]}"; do
     >&2 echo
-    >&2 echo "Deleting worktree : $worktree"
+    info "Deleting worktree : $worktree"
     if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
-        error "$result" 2>&1 | indent
+        error "$result"
         got_error=1
         continue
     fi
-    success "Successfully deleted $worktree" 2>&1 | indent
+    success "Successfully deleted $worktree"
 done
 
 if [[ $got_error -ne 0 ]]; then

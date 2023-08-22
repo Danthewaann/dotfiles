@@ -11,7 +11,7 @@ if [[ $in_worktree == "true" ]]; then
     gitw-update-base
     base_worktree=$(gitw-get-base 2> /dev/null)
     >&2 echo
-    >&2 echo "Rebasing with '$base_worktree' base worktree"
+    info "Rebasing with '$base_worktree' base worktree..."
     >&2 git rebase "$base_worktree"
 else
     >&2 echo
