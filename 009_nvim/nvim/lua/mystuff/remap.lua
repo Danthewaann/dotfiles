@@ -7,7 +7,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- Keep the cursor in the same place when joining lines
 vim.keymap.set("n", "J", "mzJ`z")
 
--- Map enter to change the current 
+-- Map enter to change the current text object
 vim.keymap.set("n", "<cr>", "ciw")
 vim.keymap.set("n", "\"<cr>", "ci\"")
 vim.keymap.set("n", "'<cr>", "ci'")
@@ -16,6 +16,9 @@ vim.keymap.set("n", "[<cr>", "ci[")
 
 -- Paste over visual selection and yank to empty register
 vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- Re-select pasted text
+vim.keymap.set("n", "gp", "`[v`]")
 
 -- Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 -- which is the default
