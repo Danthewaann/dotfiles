@@ -15,7 +15,8 @@ pyrightconfig.json
 Session.vim
 git-pr-create.*.md
 
-# Python files with this extension are getting generated for some reason.
-# I think it might be coc-pyright failing to format a file and it just
+# Files with this extension are getting generated for some reason.
+# I think it might be an LSP failing to format a file and it just
 # dumps the file contents to disk in case you need it.
 *.py-e
+*.go-e
