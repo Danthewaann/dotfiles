@@ -2,6 +2,14 @@
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
+" Allow easier navigation in command mode
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-H> <Left>
+cnoremap <C-L> <Right>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+
 " Inspired from https://vi.stackexchange.com/questions/3951/deleting-in-vim-and-then-pasting-without-new-line
 function! PasteInLine() abort
     let line = trim(getreg('*'))
