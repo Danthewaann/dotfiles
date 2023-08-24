@@ -34,6 +34,11 @@ else
         "sudo apt-get install -y xclip"
 fi
 
+if [[ -z $ZSH ]]; then
+    run_command "installing on-my-zsh" \
+        "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
 if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autosuggestions ]]; then
