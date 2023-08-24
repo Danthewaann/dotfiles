@@ -126,14 +126,7 @@ elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
 
     >&2 echo
     info "Running git pull..."
-    if ! output=$(git pull 2>&1); then
-        error "$output"
-        exit 1
-    else
-        if [[ -n "$output" ]]; then
-            echo "$output"
-        fi
-    fi
+    >&2 git pull 
 fi
 
 
