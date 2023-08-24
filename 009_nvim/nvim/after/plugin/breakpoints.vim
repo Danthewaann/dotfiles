@@ -75,6 +75,7 @@ set grepprg=rg\ --vimgrep\ --color=never
 "
 " Setup a way to keep track of breakpoint() calls in Python code
 function! GetAllBreakpoints()
+    let breakpoints = ""
     if &filetype == 'python'
         let breakpoints = system(join([&grepprg] + [' breakpoint\(\) -g "*.py" ./'], ' '))
     elseif &filetype == 'go'
@@ -103,6 +104,11 @@ function! DeleteAllBreakpoints()
         if index(files, file) < 0
             call add(files, file)
             call system('sed -i -e /' . breakpoint_stmt . '/d ' . file)
+            let file_extension = expand(file . ':e')
+            " Remove the `runtime` import in go files
+            if file_extension =~# "go"
+                call system('sed -i -e /"runtime"/d ' . file)
+            endif
         endif
     endfor
 endfunction
