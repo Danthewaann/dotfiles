@@ -21,6 +21,9 @@ else
         "sudo dpkg -i $SCRIPT_DIR/gh_2.31.0_linux_amd64.deb"
 fi
 
+run_command "logging into github" \
+    "gh auth status || gh auth login"
+
 run_command "configuring github cli" \
     "gh config set editor nvim"
 
