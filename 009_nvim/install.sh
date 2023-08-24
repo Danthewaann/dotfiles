@@ -16,3 +16,8 @@ else
         "sudo apt-get install -y neovim"
 fi
 
+if [[ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]]; then
+    run_command "installing packer plugin manager" \
+        "git clone --depth 1 https://github.com/wbthomason/packer.nvim $HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+fi
+

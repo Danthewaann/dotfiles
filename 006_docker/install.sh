@@ -7,6 +7,11 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
 
+if inside_wsl; then
+    warn "skipping docker setup inside WSL"
+    exit 0
+fi
+
 # Install docker engine 
 if [[ $OSTYPE == "darwin"* ]]; then
     # From https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos

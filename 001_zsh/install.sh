@@ -26,12 +26,14 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing wget" \
         "brew install wget"
 else
+    run_command "installing xclip" \
+        "sudo apt-get install -y xclip"
+fi
+
+if ! inside_wsl; then
     run_command "setting up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
         "gsettings set org.gnome.desktop.peripherals.keyboard delay 150"
-
-    run_command "installing xclip" \
-        "sudo apt-get install -y xclip"
 fi
 
 if [[ -z $ZSH ]]; then

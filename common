@@ -14,6 +14,12 @@ info () {
     printf "\r%s [ \033[00;34m..\033[0m ] %s\n" "$cur_date" "$1"
 }
 
+warn () {
+    local cur_date
+    cur_date=$(get_date)
+    printf "\r%s [\033[0;33mWARN\033[0m] %s\n" "$cur_date" "$1"
+}
+
 user () {
     local cur_date
     cur_date=$(get_date)
@@ -131,3 +137,7 @@ link_file () {
     fi
 }
 
+# Check if we are running under WSL (Windows Subsystem for Linux)
+inside_wsl () {
+    [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
+}
