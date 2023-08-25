@@ -9,273 +9,290 @@ local bg_colour_active = '#98c379'
 local fg_colour = '#31353f'
 local bg_colour = '#31353f'
 
-bufferline.setup({
-    highlights = {
-        fill = {
-            fg = fg_colour_inactive,
-            bg = bg_colour,
-        },
-        background = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        tab = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        tab_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active
-        },
-        tab_separator = {
-            fg = fg_colour_active,
-            bg = bg_colour_inactive,
-        },
-        tab_separator_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-        },
-        tab_close = {
-            fg = fg_colour_inactive,
-            bg = bg_colour,
-        },
-        close_button = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        close_button_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        close_button_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active
-        },
-        buffer_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        buffer_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        numbers = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        numbers_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        numbers_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        diagnostic = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        diagnostic_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        diagnostic_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        hint = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        hint_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        hint_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        hint_diagnostic = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        hint_diagnostic_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        hint_diagnostic_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        info = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        info_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        info_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        info_diagnostic = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        info_diagnostic_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        info_diagnostic_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        warning = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        warning_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        warning_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        warning_diagnostic = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        warning_diagnostic_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        warning_diagnostic_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        error = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        error_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        error_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        error_diagnostic = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        error_diagnostic_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        error_diagnostic_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        modified = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        modified_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        modified_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active
-        },
-        duplicate = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-            italic = true
-        },
-        duplicate_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-            italic = true
-        },
-        duplicate_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            italic = true,
-        },
-        separator = {
-            fg = fg_colour,
-            bg = bg_colour_inactive,
-        },
-        separator_visible = {
-            fg = fg_colour,
-            bg = bg_colour_inactive,
-        },
-        separator_selected = {
-            fg = fg_colour,
-            bg = bg_colour_active
-        },
-        indicator_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-        },
-        indicator_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active
-        },
-        pick = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-            bold = true,
-            italic = true,
-        },
-        pick_visible = {
-            fg = fg_colour_inactive,
-            bg = bg_colour_inactive,
-            bold = true,
-            italic = true,
-        },
-        pick_selected = {
-            fg = fg_colour_active,
-            bg = bg_colour_active,
-            bold = true,
-            italic = true,
-        },
-        offset_separator = {
-            fg = fg_colour,
-            bg = bg_colour,
-        },
+local onedark_highlights = {
+    fill = {
+        fg = fg_colour_inactive,
+        bg = bg_colour,
     },
+    background = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    tab = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    tab_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active
+    },
+    tab_separator = {
+        fg = fg_colour_active,
+        bg = bg_colour_inactive,
+    },
+    tab_separator_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+    },
+    tab_close = {
+        fg = fg_colour_inactive,
+        bg = bg_colour,
+    },
+    close_button = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    close_button_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    close_button_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active
+    },
+    buffer_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    buffer_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    numbers = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    numbers_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    numbers_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    diagnostic = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    diagnostic_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    diagnostic_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    hint = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    hint_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    hint_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    hint_diagnostic = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    hint_diagnostic_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    hint_diagnostic_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    info = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    info_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    info_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    info_diagnostic = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    info_diagnostic_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    info_diagnostic_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    warning = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    warning_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    warning_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    warning_diagnostic = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    warning_diagnostic_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    warning_diagnostic_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    error = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    error_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    error_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    error_diagnostic = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    error_diagnostic_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    error_diagnostic_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    modified = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    modified_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    modified_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active
+    },
+    duplicate = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+        italic = true
+    },
+    duplicate_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+        italic = true
+    },
+    duplicate_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        italic = true,
+    },
+    separator = {
+        fg = fg_colour,
+        bg = bg_colour_inactive,
+    },
+    separator_visible = {
+        fg = fg_colour,
+        bg = bg_colour_inactive,
+    },
+    separator_selected = {
+        fg = fg_colour,
+        bg = bg_colour_active
+    },
+    indicator_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+    },
+    indicator_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active
+    },
+    pick = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+        bold = true,
+        italic = true,
+    },
+    pick_visible = {
+        fg = fg_colour_inactive,
+        bg = bg_colour_inactive,
+        bold = true,
+        italic = true,
+    },
+    pick_selected = {
+        fg = fg_colour_active,
+        bg = bg_colour_active,
+        bold = true,
+        italic = true,
+    },
+    offset_separator = {
+        fg = fg_colour,
+        bg = bg_colour,
+    },
+}
+
+local onedark_minimal_highlights = {
+    fill = {
+        fg = fg_colour_inactive,
+        bg = bg_colour,
+    },
+    tab_close = {
+        fg = fg_colour_inactive,
+        bg = bg_colour,
+    },
+    offset_separator = {
+        fg = fg_colour,
+        bg = bg_colour,
+    },
+     
+}
+
+bufferline.setup({
     options = {
+        style_preset = bufferline.style_preset.minimal,
         separator_style = {"", ""},
-        themable = true,
         mode = "tabs", -- set to "tabs" to only show tabpages instead
-        themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
+        themable = false, -- allows highlight groups to be overriden i.e. sets highlights as default
         numbers = "ordinal",
         close_command = "bdelete! %d",       -- can be a string | function, | false see "Mouse actions"
         right_mouse_command = "bdelete! %d", -- can be a string | function | false, see "Mouse actions"
@@ -333,12 +350,20 @@ bufferline.setup({
             --     return true
             -- end
         end,
-        max_name_length = 18,
+        max_name_length = 25,
         max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-        truncate_names = false, -- whether or not tab names should be truncated
+        truncate_names = true, -- whether or not tab names should be truncated
         tab_size = 0,
         diagnostics = "coc",
-        diagnostics_update_in_insert = false,
+        diagnostics_update_in_insert = true,
+        --- count is an integer representing total count of errors
+        --- level is a string "error" | "warning"
+        --- this should return a string
+        --- Don't get too fancy as this function will be executed a lot
+        diagnostics_indicator = function(count, level)
+            local icon = level:match("error") and " " or ""
+            return icon
+        end,
         offsets = {
             {
                 filetype = "NvimTree",
@@ -353,7 +378,8 @@ bufferline.setup({
                 separator = true
             }
         },
-        show_buffer_icons = false, -- disable filetype icons for buffers
-        color_icons = false, -- whether or not to add the filetype icon highlights
+        show_buffer_icons = true, -- disable filetype icons for buffers
+        color_icons = true, -- whether or not to add the filetype icon highlights
+        always_show_bufferline = false,
     }
 })

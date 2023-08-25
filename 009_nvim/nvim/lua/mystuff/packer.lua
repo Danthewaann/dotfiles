@@ -14,6 +14,7 @@ return require('packer').startup(function(use)
     }
 
     use 'navarasu/onedark.nvim'
+    use { "catppuccin/nvim", as = "catppuccin" }
 
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -65,12 +66,15 @@ return require('packer').startup(function(use)
     use 'nvim-pack/nvim-spectre'
     use 'chrishrb/gx.nvim'
     use 'gelguy/wilder.nvim'
+    use 'mfussenegger/nvim-dap'
+    use 'mfussenegger/nvim-dap-python'
+    use 'leoluz/nvim-dap-go'
 
     use 'vim-test/vim-test'
     use 'michaeljsmith/vim-indent-object'
     use 'romainl/vim-cool'
     use 'tpope/vim-fugitive'
-    use 'airblade/vim-gitgutter'
+    -- use 'airblade/vim-gitgutter'
     use 'tpope/vim-commentary'
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-abolish'
