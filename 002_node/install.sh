@@ -19,13 +19,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Install node and npm
-run_command "installing node $MY_NODE_VERSION" \
-    "nvm install $MY_NODE_VERSION"
+run_command "installing node $NODE_VERSION" \
+    "nvm install $NODE_VERSION"
 
-run_command "making node $MY_NODE_VERSION the default" \
-    "nvm alias default $MY_NODE_VERSION"
+run_command "making node $NODE_VERSION the default" \
+    "nvm alias default $NODE_VERSION"
 
-run_command "using node $MY_NODE_VERSION" \
+run_command "using node $NODE_VERSION" \
     "nvm use default"
 
 # Install bash language server

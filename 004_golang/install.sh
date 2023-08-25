@@ -12,14 +12,14 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing golang" \
         "brew install go"
 else
-    if [[ ! -f "$SCRIPT_DIR/go$MY_GO_VERSION.linux-amd64.tar.gz" ]]; then
-        run_command "downloading golang $MY_GO_VERSION to -> $SCRIPT_DIR/go$MY_GO_VERSION.linux-amd64.tar.gz" \
-                    "wget -O $SCRIPT_DIR/go$MY_GO_VERSION.linux-amd64.tar.gz \\
-                    https://go.dev/dl/go$MY_GO_VERSION.linux-amd64.tar.gz"
+    if [[ ! -f "$SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz" ]]; then
+        run_command "downloading golang $GO_VERSION to -> $SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz" \
+                    "wget -O $SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz \\
+                    https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz"
 
-        run_command "unpacking $SCRIPT_DIR/go$MY_GO_VERSION.linux-amd64.tar.gz to -> /usr/local/go" \
+        run_command "unpacking $SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz to -> /usr/local/go" \
                     "sudo rm -rf /usr/local/go && \\
-                    sudo tar -C /usr/local -xzf $SCRIPT_DIR/go$MY_GO_VERSION.linux-amd64.tar.gz"
+                    sudo tar -C /usr/local -xzf $SCRIPT_DIR/go$GO_VERSION.linux-amd64.tar.gz"
     fi
 fi
 

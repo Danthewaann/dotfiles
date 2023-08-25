@@ -132,12 +132,6 @@ autoload -Uz nvm
 autoload -Uz pyenv
 autoload -Uz rbenv
 
-# Global variables used in my installers and dotfiles
-export MY_PYTHON_VERSION=3.11.0
-export MY_POETRY_VERSION=1.5.0
-export MY_NODE_VERSION=19.0.0
-export MY_GO_VERSION=1.19.5
-
 # Add brew to path
 export HOMEBREW_PREFIX="/opt/homebrew";
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar";

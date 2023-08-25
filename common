@@ -141,3 +141,35 @@ link_file () {
 inside_wsl () {
     [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
 }
+
+load_variables() {
+    if [[ ! -f $BASE_DIR/variables ]]; then
+        create=false
+        user "variables file not created, create it from variables.example?"
+        user "[y]es, [n]o?"
+        read -r -n 1 action
+
+        case "$action" in
+            y )
+                create=true
+                ;;
+            n )
+                create=false
+                ;;
+            * )
+                ;;
+        esac
+
+        if [[ "$create" = "true" ]]; then
+            cp "$BASE_DIR/variables.example" "$BASE_DIR/variables"
+        else
+            return 1
+        fi
+    fi
+
+    source "$BASE_DIR/variables"
+    return 0
+}
+
+if ! load_variables; then exit 1; fi
+
