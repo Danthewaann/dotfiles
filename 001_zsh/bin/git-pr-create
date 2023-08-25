@@ -68,6 +68,11 @@ if [[ ${#invalid_labels[@]} -ne 0 ]]; then
     error "The following labels were not found in git repository"
     >&2 echo
     >&2 printf "invalid labels -> (%s)\n" "${invalid_labels[*]}"
+    >&2 echo
+
+    >&2 echo "Here are the top 100 valid labels for this git repository:"
+    >&2 echo
+    gh label list --json name --jq '.[].name' --limit 100
     exit 1
 fi
 
