@@ -52,7 +52,7 @@ require('lualine').setup({
         ignore_focus = { "NvimTree", "dbui", "undotree", "TelescopePrompt"},
         globalstatus = true,
         disabled_filetypes = {
-            winbar = { "qf", "fugitive", "dbui", "NvimTree", "undotree", "gitcommit", "GV", "", }
+            winbar = { "qf", "fugitive", "dbui", "NvimTree", "undotree", "gitcommit", "GV", "packer", "", }
         },
     },
     extensions = { 'fugitive', 'nvim-tree', 'quickfix' },
