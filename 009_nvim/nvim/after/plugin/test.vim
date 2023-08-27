@@ -1,8 +1,15 @@
 let test#strategy = "neovim"
 let test#neovim#term_position = '$tab'
 let test#custom_runners = {'python': ['make'], 'go': ['make']}
-let test#python#runner = 'make'
-let test#go#runner = 'make'
+
+if executable("make") && !empty(glob("Makefile"))
+    let test#python#runner = 'make'
+    let test#go#runner = 'make'
+else
+    let test#python#runner = 'pytest'
+    let test#go#runner = 'gotest'
+endif
+
 let g:test#neovim#start_normal = 1
 
 function! MyGetPosition(path) abort
