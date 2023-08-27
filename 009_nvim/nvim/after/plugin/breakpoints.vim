@@ -51,8 +51,16 @@ func! s:SetBreakpoint()
             let cur_line['whitespace'] = next_line['whitespace']
         endif
     endif
+
     let breakpoint_stmt = s:GetBreakpointStmt()
     let whitespace_char = s:GetWhiteSpaceChar()
+    if breakpoint_stmt == v:null || whitespace_char == v:null
+        echohl WarningMsg
+        echo "File not supported for breakpoints!"
+        echohl None
+        return
+    endif
+
     cal append('.', repeat(whitespace_char, cur_line['whitespace']) . breakpoint_stmt)
 endf
 	
