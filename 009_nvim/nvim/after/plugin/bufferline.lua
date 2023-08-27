@@ -284,7 +284,6 @@ local onedark_minimal_highlights = {
         fg = fg_colour,
         bg = bg_colour,
     },
-     
 }
 
 bufferline.setup({
@@ -316,7 +315,9 @@ bufferline.setup({
             -- bufnr (buffer only) | int        | the number of the active buffer
             -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
             -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-            if(string.match(buf.path, "term:.*:make.*")) then
+            --
+            -- Just output the terminal command if this is a terminal job
+            if(string.match(buf.path, "term:.*:.*")) then
                 local t = {}
                 for i in string.gmatch(buf.path, "([^:]+)") do  
                     t[#t + 1] = i
