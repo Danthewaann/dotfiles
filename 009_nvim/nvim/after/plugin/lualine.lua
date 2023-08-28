@@ -58,23 +58,26 @@ require('lualine').setup({
     extensions = { 'fugitive', 'nvim-tree', 'quickfix' },
     winbar = {
         lualine_a = {},
-        lualine_b = {winbar_filename_config},
-        lualine_c = {winbar_filetype_config},
+        lualine_b = {winbar_filetype_config},
+        lualine_c = {winbar_filename_config},
         lualine_x = {'diagnostics'},
         lualine_y = {'diff'},
         lualine_z = {}
     },
     inactive_winbar = {
         lualine_a = {},
-        lualine_b = {winbar_filename_config},
-        lualine_c = {winbar_filetype_config},
+        lualine_b = {winbar_filetype_config},
+        lualine_c = {winbar_filename_config},
         lualine_x = {'diagnostics'},
         lualine_y = {'diff'},
         lualine_z = {}
     },
     sections = {
         lualine_b = {'branch'},
-        lualine_c = {}
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
     },
     inactive_sections = {
         lualine_c = {}
