@@ -141,7 +141,7 @@ export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
 # Add local scripts, rust, golang, ruby and python stuff to path
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin::/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
 
 # Set theme for bat
 export BAT_THEME="TwoDark"
