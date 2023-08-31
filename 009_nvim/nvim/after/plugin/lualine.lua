@@ -83,3 +83,23 @@ require('lualine').setup({
         lualine_c = {}
     }
 })
+
+-- This is a workaround as coc.nvim seems to increment cmdheight by 1 everytime you leave a CocList
+-- From: https://github.com/neoclide/coc.nvim/issues/4555
+local CocGroup = vim.api.nvim_create_augroup('CocListCmdHeightFix', { clear = true })
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = CocGroup,
+  pattern = 'list',
+  callback = function(args)
+    vim.api.nvim_create_autocmd('BufLeave', {
+      buffer = args.buf,
+      once = true,
+      group = CocGroup,
+      callback = function()
+        vim.defer_fn(function() vim.o.cmdheight = 1 end, 1)
+      end,
+    })
+  end,
+})
+
