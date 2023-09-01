@@ -22,8 +22,16 @@ pr_title=
 pr_is_draft=0
 labels=()
 
+function usage() {
+    gh pr create --help
+}
+
 while [[ $# -gt 0 ]]; do
     case $1 in
+    -h|--help)
+        usage
+        exit 2
+        ;;
     -l|--label)
         # shellcheck disable=SC2076
         if [[ " ${!pr_types[*]} " =~ " ${2} " ]]; then
