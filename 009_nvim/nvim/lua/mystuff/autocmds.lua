@@ -28,3 +28,13 @@ autocmd("BufEnter", {
     pattern = "*.sql",
     command = "setlocal syntax=off",
 })
+
+-- Use tabs instead of spaces in go files.
+augroup("golang_use_tabs", { clear = true })
+autocmd("FileType", {
+  group = "golang_use_tabs",
+  pattern = "go",
+  callback = function(args)
+      vim.o.expandtab = false
+  end,
+})
