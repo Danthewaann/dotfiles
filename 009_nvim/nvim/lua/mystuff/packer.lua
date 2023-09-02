@@ -61,6 +61,10 @@ return require('packer').startup(function(use)
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
 
+    use { "windwp/nvim-autopairs" }
+
+    use {'akinsho/git-conflict.nvim', tag = "*"}
+
     use 'lewis6991/gitsigns.nvim'
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
@@ -84,11 +88,9 @@ return require('packer').startup(function(use)
     use 'tpope/vim-dadbod'
     use 'kristijanhusak/vim-dadbod-ui'
     use 'junegunn/gv.vim'
-    use 'Raimondi/delimitMate'
     use 'christoomey/vim-tmux-navigator'
     use 'pixelneo/vim-python-docstring'
     use 'honza/vim-snippets'
-    use 'rhysd/conflict-marker.vim'
     use 'szw/vim-maximizer'
     use 'djoshea/vim-autoread'
 
