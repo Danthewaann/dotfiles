@@ -25,15 +25,25 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing wget" \
         "brew install wget"
-else
-    run_command "installing xclip" \
-        "sudo apt-get install -y xclip"
 fi
 
 if ! inside_wsl; then
+    run_command "installing xclip" \
+        "sudo apt-get install -y xclip"
+
     run_command "setting up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
         "gsettings set org.gnome.desktop.peripherals.keyboard delay 150"
+else
+    if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then
+        run_command "downloading win32yank" \
+            "wget -O $SCRIPT_DIR/win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip"
+
+        run_command "unpacking $SCRIPT_DIR/win32yank.exe to -> /usr/local/bin" \
+            "unzip -p $SCRIPT_DIR/win32yank.zip win32yank.exe > $SCRIPT_DIR/win32yank.exe" \
+            "chmod +x $SCRIPT_DIR/win32yank.exe" \
+            "sudo mv $SCRIPT_DIR/win32yank.exe /usr/local/bin/"
+    fi
 fi
 
 if [[ -z $ZSH ]]; then
