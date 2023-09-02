@@ -120,6 +120,3 @@ augroup END
 
 " Generate docstring for def or class on current line
 nnoremap <silent> <leader>ds :Docstring<CR>
-
-" Disable matchit as I don't use it
-let g:conflict_marker_enable_matchit = 0
