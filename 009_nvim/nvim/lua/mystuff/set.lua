@@ -1,7 +1,7 @@
 -- Yank and paste to the system clipboard
 vim.opt.clipboard = "unnamedplus"
 
--- Display lines numbers
+-- Display line numbers
 vim.opt.number = true
 
 -- Display relative line numbers for easier vertical jumps

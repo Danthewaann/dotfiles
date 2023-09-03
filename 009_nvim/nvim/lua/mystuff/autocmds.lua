@@ -36,6 +36,8 @@ autocmd("FileType", {
   pattern = "go",
   callback = function(args)
       vim.o.expandtab = false
+      -- Make sure tabs render correctly
+      vim.o.tabstop = 8
   end,
 })
 
