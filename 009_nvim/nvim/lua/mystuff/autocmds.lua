@@ -38,6 +38,7 @@ autocmd("FileType", {
       vim.o.expandtab = false
       -- Make sure tabs render correctly
       vim.o.tabstop = 8
+      vim.o.shiftwidth = 8
   end,
 })
 
