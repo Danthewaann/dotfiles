@@ -8,7 +8,7 @@ local browser_app = ""
 if (file_exists("/proc/sys/fs/binfmt_misc/WSLInterop")) then
     browser_app = "powershell.exe"
     browser_args = { "start explorer.exe" }
-elseif (jit.os == "Darwin") then
+elseif (jit.os == "OSX") then
     browser_app = "open"
     browser_args = { "--background" }
 else
