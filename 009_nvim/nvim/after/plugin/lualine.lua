@@ -25,6 +25,18 @@ local winbar_filename_config = {
     -- 2: Absolute path
     -- 3: Absolute path, with tilde as the home directory
     -- 4: Filename and parent dir, with tilde as the home directory
+    fmt = function(result, context) 
+        -- Just output the terminal command if this is a terminal job
+        if(string.match(result, "term:.*:.*")) then
+            local t = {}
+            for i in string.gmatch(result, "([^:]+)") do  
+                t[#t + 1] = i
+            end 
+            -- Remove the term path and port to only include the make command in the tabline 
+            return unpack(t, 3)
+        end
+        return result
+    end,
 
     shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
     -- for other components. (terrible name, any suggestions?)
@@ -52,7 +64,7 @@ require('lualine').setup({
         ignore_focus = { "NvimTree", "dbui", "undotree", "TelescopePrompt"},
         globalstatus = true,
         disabled_filetypes = {
-            winbar = { "qf", "fugitive", "fugitiveblame", "dbui", "NvimTree", "undotree", "gitcommit", "GV", "packer", "list", "help", "spectre_panel", "" }
+            winbar = { "qf", "fugitive", "fugitiveblame", "dbui", "NvimTree", "undotree", "gitcommit", "GV", "packer", "list", "help", "spectre_panel"}
         },
     },
     extensions = { 'fugitive', 'nvim-tree', 'quickfix' },
