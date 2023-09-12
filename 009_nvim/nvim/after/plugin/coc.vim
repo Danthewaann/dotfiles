@@ -184,10 +184,10 @@ nnoremap <silent><nowait> <leader>le  :<C-u>CocList extensions<CR>
 nnoremap <silent><nowait> <leader>lc  :<C-u>CocList commands<CR>
 
 " Resume latest coc list
-nnoremap <silent><nowait> <leader>clr  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <leader>lr  :<C-u>CocListResume<CR>
 
 " Find symbol of current document
-nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<CR>
+nnoremap <silent><nowait> <leader>lo  :<C-u>CocList outline<CR>
 
 " Show workspace folders
 nnoremap <silent><nowait> <leader>lf  :<C-u>CocList folders<CR>
@@ -199,10 +199,10 @@ nnoremap <silent><nowait> <leader>ll  :<C-u>CocList location<CR>
 nnoremap <silent><nowait> <leader>ly  :<C-u>CocList -A --normal yank<CR>
 
 " Search workspace symbols
-nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<CR>
+nnoremap <silent><nowait> <leader>ls  :<C-u>CocList -I symbols<CR>
 
 " Search for the current current word in workspace symbols
-nnoremap <silent><nowait> <leader>S  :call CocSearchForSelectionInWorkspace()<CR>
+nnoremap <silent><nowait> <leader>lS  :call CocSearchForSelectionInWorkspace()<CR>
 
 function ToggleDiagnostics() abort
     let diagnostic_info = get(b:, 'coc_diagnostic_info', {})
