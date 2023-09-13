@@ -19,6 +19,11 @@ autocmd("TermOpen", {
     pattern = "",
     command = "setlocal nowrap nonumber norelativenumber signcolumn=no",
 })
+autocmd("TermClose", {
+    group = "terminal_settings",
+    pattern = "",
+    command = "call feedkeys(\"\\<C-\\>\\<C-n>\")",
+})
 
 -- Disable highlighting for sql files.
 -- treesitter will handle syntax highlighting if the file isn't too large in size
