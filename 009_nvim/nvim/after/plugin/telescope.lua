@@ -47,10 +47,10 @@ end
 local builtin = require('telescope.builtin')
 
 -- Resume last picker
-vim.keymap.set('n', '<leader>lr', builtin.resume, {})
+vim.keymap.set('n', '<leader>tr', builtin.resume, {})
 
 -- List previous pickers
-vim.keymap.set('n', '<leader>lp', builtin.pickers, {})
+vim.keymap.set('n', '<leader>tp', builtin.pickers, {})
 
 -- Search through all files in the current project
 vim.keymap.set('n', '<C-p>', function()
