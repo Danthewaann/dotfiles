@@ -17,6 +17,9 @@ telescope.setup {
             '--smart-case',
             '--hidden',
         },
+        file_ignore_patterns = {
+            "vendor"
+        }
     },
     pickers = {
         live_grep = {
