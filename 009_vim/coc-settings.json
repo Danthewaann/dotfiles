@@ -10,7 +10,7 @@
     "python.analysis.useLibraryCodeForTypes": true,
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoImportCompletions": true,
-    "suggest.virtualText": true,
+    "suggest.virtualText": false,
     "suggest.insertMode": "insert",
     "diagnostic.level": "hint",
     "diagnostic.autoRefresh": true,
