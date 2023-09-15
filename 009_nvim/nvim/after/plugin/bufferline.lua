@@ -377,6 +377,12 @@ bufferline.setup({
                 text = "DB Explorer",
                 text_align = "left",
                 separator = true
+            },
+            {
+                filetype = "undotree",
+                text = "Undotree",
+                text_align = "left",
+                separator = true
             }
         },
         show_buffer_icons = true, -- disable filetype icons for buffers
