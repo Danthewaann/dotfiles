@@ -198,11 +198,11 @@ nnoremap <silent><nowait> <leader>ll  :<C-u>CocList location<CR>
 " Show yank history
 nnoremap <silent><nowait> <leader>ly  :<C-u>CocList -A --normal yank<CR>
 
-" Search workspace symbols
-nnoremap <silent><nowait> <leader>ls  :<C-u>CocList -I symbols<CR>
-
 " Search for the current current word in workspace symbols
-nnoremap <silent><nowait> <leader>lS  :call CocSearchForSelectionInWorkspace()<CR>
+nnoremap <silent><nowait> <leader>ls  :call CocSearchForSelectionInWorkspace()<CR>
+
+" Search workspace symbols
+nnoremap <silent><nowait> <leader>lS  :<C-u>CocList -I symbols<CR>
 
 function ToggleDiagnostics() abort
     let diagnostic_info = get(b:, 'coc_diagnostic_info', {})
