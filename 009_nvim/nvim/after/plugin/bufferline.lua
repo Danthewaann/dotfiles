@@ -386,6 +386,7 @@ bufferline.setup({
             }
         },
         show_buffer_icons = true, -- disable filetype icons for buffers
+        show_duplicate_prefix = false, -- whether to show duplicate buffer prefix
         color_icons = true, -- whether or not to add the filetype icon highlights
         always_show_bufferline = false,
     }
