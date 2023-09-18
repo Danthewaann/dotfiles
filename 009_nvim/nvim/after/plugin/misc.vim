@@ -120,3 +120,12 @@ augroup END
 
 " Generate docstring for def or class on current line
 nnoremap <silent> <leader>ds :Docstring<CR>
+
+" Check if the provided terminal is running.
+" From: https://stackoverflow.com/a/59585734
+function! TermRunning(buf)
+    return getbufvar(a:buf, '&buftype') !=# 'terminal' ? 0 :
+        \ has('terminal') ? term_getstatus(a:buf) =~# 'running' :
+        \ has('nvim') ? jobwait([getbufvar(a:buf, '&channel')], 0)[0] == -1 :
+        \ 0
+endfunction

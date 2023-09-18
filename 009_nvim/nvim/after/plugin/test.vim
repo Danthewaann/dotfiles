@@ -10,7 +10,7 @@ else
     let test#go#runner = 'gotest'
 endif
 
-let g:test#neovim#start_normal = 1
+let g:test#neovim#start_normal = 0
 
 function! MyGetPosition(path) abort
     let filename_modifier = get(g:, 'test#filename_modifier', ':.')

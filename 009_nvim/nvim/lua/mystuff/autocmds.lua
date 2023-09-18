@@ -54,3 +54,11 @@ autocmd("FileType", {
   pattern = "markdown,gitcommit",
   command = "setlocal spell spelllang=en_us,en_gb",
 })
+
+-- Go into insert mode when entering a terminal if it is running
+augroup("terminal_mode", { clear = true })
+autocmd("WinEnter", {
+  group = "terminal_mode",
+  pattern = "term://*",
+  command = "if TermRunning('%') == 1 | startinsert | endif",
+})
