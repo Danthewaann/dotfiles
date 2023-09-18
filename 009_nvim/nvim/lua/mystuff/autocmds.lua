@@ -50,7 +50,7 @@ autocmd("FileType", {
 -- Turn on spell checking in markdown and gitcommit buffers
 augroup("spell_checking", { clear = true })
 autocmd("FileType", {
-  group = "golang_use_tabs",
+  group = "spell_checking",
   pattern = "markdown,gitcommit",
   command = "setlocal spell spelllang=en_us,en_gb",
 })
