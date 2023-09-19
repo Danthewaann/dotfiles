@@ -62,3 +62,11 @@ autocmd("WinEnter", {
   pattern = "term://*",
   command = "if TermRunning('%') == 1 | startinsert | endif",
 })
+
+-- Start in insert mode in gitcommit files
+augroup("git_commit", { clear = true })
+autocmd("FileType", {
+  group = "git_commit",
+  pattern = "gitcommit",
+  command = "startinsert",
+})
