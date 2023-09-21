@@ -5,8 +5,8 @@ cnoremap <C-N> <Down>
 " Allow easier navigation in command mode
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
-cnoremap <C-H> <Left>
-cnoremap <C-L> <Right>
+cnoremap <C-B> <Left>
+cnoremap <C-F> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
 
