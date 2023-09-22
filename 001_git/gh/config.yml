@@ -9,6 +9,7 @@ pager: delta
 # Aliases allow you to create nicknames for gh commands
 aliases:
     prv: pr view --web
+    pre: pr edit
     rv: repo view --web
 # The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
