@@ -169,7 +169,7 @@ xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
 function! CocSearchForSelectionInWorkspace()
-    execute 'CocList -I --input=' . expand("<cword>") . ' symbols'
+    execute 'CocList -I --auto-preview --input=' . expand("<cword>") . ' symbols'
 endfunction
 
 " Mappings for CocList
@@ -187,7 +187,7 @@ nnoremap <silent><nowait> <leader>lc  :<C-u>CocList commands<CR>
 nnoremap <silent><nowait> <leader>lr  :<C-u>CocListResume<CR>
 
 " Find symbol of current document
-nnoremap <silent><nowait> <leader>lo  :<C-u>CocList outline<CR>
+nnoremap <silent><nowait> <leader>lo  :<C-u>CocList --auto-preview outline<CR>
 
 " Show workspace folders
 nnoremap <silent><nowait> <leader>lf  :<C-u>CocList folders<CR>
@@ -202,7 +202,7 @@ nnoremap <silent><nowait> <leader>ly  :<C-u>CocList -A --normal yank<CR>
 nnoremap <silent><nowait> <leader>ls  :call CocSearchForSelectionInWorkspace()<CR>
 
 " Search workspace symbols
-nnoremap <silent><nowait> <leader>lS  :<C-u>CocList -I symbols<CR>
+nnoremap <silent><nowait> <leader>lS  :<C-u>CocList -I --auto-preview symbols<CR>
 
 function ToggleDiagnostics() abort
     let diagnostic_info = get(b:, 'coc_diagnostic_info', {})
