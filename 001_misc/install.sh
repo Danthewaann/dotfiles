@@ -25,6 +25,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing watchman" \
         "brew install watchman"
+
+    run_command "installing rename" \
+        "brew install rename"
 else
     run_command "installing fzf" \
         "sudo apt-get install -y fzf"
@@ -53,4 +56,7 @@ else
 
     run_command "installing watchman" \
         "sudo apt-get install -y watchman"
+
+    run_command "installing rename" \
+        "sudo apt-get install -y rename"
 fi
