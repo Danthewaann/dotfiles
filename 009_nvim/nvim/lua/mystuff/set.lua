@@ -56,7 +56,7 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 
 -- Set updatetime to a low number for faster updates
-vim.opt.updatetime = 50
+vim.opt.updatetime = 100
 
 -- Don't show mode information (normal, insert etc.) as I've included it in the statusline
 vim.opt.showmode = false
