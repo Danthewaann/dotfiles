@@ -15,7 +15,7 @@ vim.keymap.set("n", "(<cr>", "ci(")
 vim.keymap.set("n", "[<cr>", "ci[")
 
 -- Paste over visual selection and yank to empty register
-vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("x", "<leader>p", [["_dp]])
 
 -- Delete and yank to the empty register
 vim.keymap.set("v", "<leader>d", [["_d]])
