@@ -64,3 +64,14 @@ vim.opt.showmode = false
 -- Instead of failing a command because of unsaved changes, instead raise a
 -- dialogue asking if you wish to save changed files
 vim.opt.confirm = true
+
+-- Don't show what I'm typing on the right hand side of the command line
+vim.opt.showcmd = false
+
+-- Setup folds with treesitter and nvim-ufo
+vim.opt.foldenable = false
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldcolumn = '0' 
+vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldlevelstart = 99
