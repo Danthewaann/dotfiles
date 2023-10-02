@@ -69,7 +69,7 @@ vim.opt.confirm = true
 vim.opt.showcmd = false
 
 -- Setup folds with treesitter and nvim-ufo
-vim.opt.foldenable = false
+vim.opt.foldenable = true
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldcolumn = '0' 
