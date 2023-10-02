@@ -61,7 +61,7 @@ return require('packer').startup(function(use)
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
 
-    use { "windwp/nvim-autopairs" }
+    use { "windwp/nvim-autopairs", commit = "defad64afbf19381fe31488a7582bbac421d6e38" }
 
     use {'akinsho/git-conflict.nvim', tag = "*"}
 
