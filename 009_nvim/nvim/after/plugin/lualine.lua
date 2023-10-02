@@ -29,11 +29,18 @@ local winbar_filename_config = {
         -- Just output the terminal command if this is a terminal job
         if(string.match(result, "term:.*:.*")) then
             local t = {}
-            for i in string.gmatch(result, "([^:]+)") do  
+            for i in string.gmatch(result, "([^:]*)") do  
                 t[#t + 1] = i
             end 
             -- Remove the term path and port to only include the make command in the tabline 
-            return unpack(t, 3)
+            return string.gsub(string.sub(table.concat(t, ":", 4), 2, -5), ":::", "::")
+        elseif(string.match(result, "t//.*:.*")) then
+            local t = {}
+            for i in string.gmatch(result, "([^:]*)") do  
+                t[#t + 1] = i
+            end 
+            -- Remove the term path and port to only include the make command in the tabline 
+            return string.gsub(string.sub(table.concat(t, ":", 3), 1, -5), ":::", "::")
         end
         return result
     end,
