@@ -19,7 +19,9 @@ telescope.setup {
         },
         file_ignore_patterns = {
             "vendor"
-        }
+        },
+        layout_strategy = 'vertical',
+        layout_config = { height = 0.99 },
     },
     pickers = {
         live_grep = {
