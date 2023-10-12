@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+ignore_sessions=("github-dashboard")
+
+sessions=()
+while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(tmux list-sessions)
+
+for session in "${sessions[@]}"; do
+    session=$(echo "$session" | cut -d: -f1 | tr -d '[:blank:]')
+
+    if [[ ! " ${ignore_sessions[*]} " =~ " ${session} " ]]; then
+        tmux kill-session -t "$session"
+    fi
+done
