@@ -1,4 +1,10 @@
 #!/bin/bash
 
-# Expose current dir of where tmux was ran to tmux
-TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
+# Expose current dir of where tmux was ran to tmux and 
+# if no args are provided, create a session that is named after
+# the current directory where tmux was launched from
+if [ "$#" -eq 0 ]; then 
+    TMUX_CURRENT_DIR="${PWD}" command tmux new-session -s "$(basename "${PWD}")"
+else 
+    TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
+fi

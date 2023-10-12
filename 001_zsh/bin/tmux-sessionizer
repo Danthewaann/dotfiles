@@ -3,7 +3,9 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find $HOME/Workspace -mindepth 1 -maxdepth 1 -type d | $HOME/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux $TMUX_FZF_OPTIONS)
+    default_locations=("$HOME/Workspace")
+    while IFS=$'\n' read -r line; do default_locations+=("$line"); done < <(find $HOME/Workspace -mindepth 1 -maxdepth 1 -type d)
+    selected=$(printf "%s\n" "${default_locations[@]}" | $HOME/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux $TMUX_FZF_OPTIONS)
 fi
 
 if [[ -z $selected ]]; then
