@@ -71,6 +71,8 @@ return require('packer').startup(function(use)
     use 'nvim-pack/nvim-spectre'
     use 'chrishrb/gx.nvim'
     use 'gelguy/wilder.nvim'
+    use 'sindrets/diffview.nvim'
+    use 'milanglacier/yarepl.nvim'
 
     use 'vim-test/vim-test'
     use 'michaeljsmith/vim-indent-object'

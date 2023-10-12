@@ -328,6 +328,8 @@ bufferline.setup({
                 return string.format("[Git log] %s", buf.name)
             elseif(string.match(buf.path, "--graph")) then
                 return "[Git log]"
+            elseif(string.match(buf.path, "DiffviewFilePanel")) then
+                return "Diff View"
             end
         end,
         -- NOTE: this will be called a lot so don't do any heavy processing here
