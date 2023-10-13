@@ -118,9 +118,6 @@ augroup replace_ticket_number_in_pr_file
     autocmd BufEnter *.md if expand('$GIT_PR_CREATE_RAN') == 1 | call ReplaceTicketNumberInPRFile() | endif
 augroup END
 
-" Generate docstring for def or class on current line
-nnoremap <silent> <leader>ds :Docstring<CR>
-
 " Check if the provided terminal is running.
 " From: https://stackoverflow.com/a/59585734
 function! TermRunning(buf)

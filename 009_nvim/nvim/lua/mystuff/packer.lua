@@ -88,11 +88,14 @@ return require('packer').startup(function(use)
     use 'kristijanhusak/vim-dadbod-ui'
     use 'junegunn/gv.vim'
     use 'christoomey/vim-tmux-navigator'
-    use 'pixelneo/vim-python-docstring'
     use 'honza/vim-snippets'
     use 'szw/vim-maximizer'
     use 'djoshea/vim-autoread'
     use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
+    use {
+        "danymat/neogen",
+        requires = "nvim-treesitter/nvim-treesitter",
+    }
 
     vim.cmd("let g:vimspector_enable_mappings = 'HUMAN'")
     use 'puremourning/vimspector'
