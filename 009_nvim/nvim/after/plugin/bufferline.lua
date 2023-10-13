@@ -385,6 +385,12 @@ bufferline.setup({
                 text = "Undotree",
                 text_align = "left",
                 separator = true
+            },
+            {
+                filetype = "DiffviewFiles",
+                text = "Diff View",
+                text_align = "left",
+                separator = true
             }
         },
         show_buffer_icons = true, -- disable filetype icons for buffers
