@@ -47,6 +47,10 @@ local function applyFoldsAndThenCloseAllFolds(bufnr, providerName)
         require('ufo').attach(bufnr)
         -- getFolds return Promise if providerName == 'lsp'
         local ranges = await(require('ufo').getFolds(bufnr, providerName))
+        if ranges == nil then
+            return
+        end
+
         local ok = require('ufo').applyFolds(bufnr, ranges)
         if ok then
             require('ufo').closeAllFolds()
