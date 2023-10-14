@@ -20,7 +20,7 @@ require('ufo').setup({
     provider_selector = function(bufnr, filetype, buftype)
         -- if you prefer treesitter provider rather than lsp,
         -- return ftMap[filetype] or {'treesitter', 'indent'}
-        return ftMap[filetype]
+        return {'treesitter', 'indent'}
 
         -- refer to ./doc/example.lua for detail
     end
@@ -37,3 +37,26 @@ vim.keymap.set('n', 'K', function()
         vim.fn.CocActionAsync('definitionHover') -- coc.nvim
     end
 end)
+
+-- Automatically close all folds when opening a file
+-- From: https://github.com/kevinhwang91/nvim-ufo/issues/89#issuecomment-1286250241
+local function applyFoldsAndThenCloseAllFolds(bufnr, providerName)
+    require('async')(function()
+        bufnr = bufnr or vim.api.nvim_get_current_buf()
+        -- make sure buffer is attached
+        require('ufo').attach(bufnr)
+        -- getFolds return Promise if providerName == 'lsp'
+        local ranges = await(require('ufo').getFolds(bufnr, providerName))
+        local ok = require('ufo').applyFolds(bufnr, ranges)
+        if ok then
+            require('ufo').closeAllFolds()
+        end
+    end)
+end
+
+vim.api.nvim_create_autocmd('BufRead', {
+    pattern = '*',
+    callback = function(e)
+        applyFoldsAndThenCloseAllFolds(e.buf, 'treesitter')
+    end
+})
