@@ -96,6 +96,11 @@ return require('packer').startup(function(use)
         "danymat/neogen",
         requires = "nvim-treesitter/nvim-treesitter",
     }
+    use {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+        requires = "nvim-treesitter/nvim-treesitter",
+    }
 
     vim.cmd("let g:vimspector_enable_mappings = 'HUMAN'")
     use 'puremourning/vimspector'

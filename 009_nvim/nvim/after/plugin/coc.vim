@@ -156,18 +156,6 @@ augroup END
 " Symbol renaming
 nmap <leader>rn <Plug>(coc-rename)
 
-" Map function and class text objects
-"
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
 function! CocSearchForSelectionInWorkspace()
     execute 'CocList -I --auto-preview --input=' . expand("<cword>") . ' symbols'
 endfunction
