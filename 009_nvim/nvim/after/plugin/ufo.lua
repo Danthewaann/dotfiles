@@ -1,8 +1,10 @@
 local ftMap = {
-    vim = 'indent',
-    python = 'treesitter',
-    git = 'indent',
-    gitcommit = 'indent',
+    python = true,
+    go = true,
+    lua = true,
+    ruby = true,
+    markdown = true,
+    sh = true,
 }
 
 require('ufo').setup({
@@ -21,9 +23,12 @@ require('ufo').setup({
     },
     provider_selector = function(bufnr, filetype, buftype)
         -- if you prefer treesitter provider rather than lsp
-        return ftMap[filetype] or {'treesitter', 'indent'}
-
         -- refer to ./doc/example.lua for detail
+        if ftMap[filetype] then
+            return {'treesitter', 'indent'} 
+        end
+
+        return ''
     end
 })
 
@@ -68,6 +73,9 @@ end
 vim.api.nvim_create_autocmd('BufRead', {
     pattern = '*',
     callback = function(e)
-        applyFoldsAndThenCloseAllFolds(e.buf, ftMap[vim.bo.filetype] or 'treesitter')
+        local filetype = vim.fn.getbufvar(e.buf, '&filetype')
+        if ftMap[filetype] then
+            applyFoldsAndThenCloseAllFolds(e.buf, 'treesitter')
+        end
     end
 })
