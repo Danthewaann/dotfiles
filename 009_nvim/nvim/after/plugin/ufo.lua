@@ -5,6 +5,7 @@ local ftMap = {
     ruby = true,
     markdown = true,
     sh = true,
+    yaml = true,
 }
 
 require('ufo').setup({
