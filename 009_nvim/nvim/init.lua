@@ -4,6 +4,18 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+local function center_and_unfold(func, opts)
+  local function wrapper()
+    opts = opts or {}
+    func(opts)
+    vim.defer_fn(function()
+      pcall(vim.cmd, ":normal! zzzv")
+    end, 100)
+  end
+
+  return wrapper
+end
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -88,13 +100,16 @@ require('lazy').setup({
 
         map('n', '<leader>hs', gs.stage_hunk, { buffer = bufnr, desc = 'Stage git hunk' })
         map('n', '<leader>hr', gs.reset_hunk, { buffer = bufnr, desc = 'Reset git hunk' })
-        map('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { buffer = bufnr, desc = 'Stage git hunk' })
-        map('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { buffer = bufnr, desc = 'Resert git hunk' })
+        map('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+          { buffer = bufnr, desc = 'Stage git hunk' })
+        map('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+          { buffer = bufnr, desc = 'Resert git hunk' })
         map('n', '<leader>hS', gs.stage_buffer, { buffer = bufnr, desc = 'Stage buffer' })
         map('n', '<leader>hu', gs.undo_stage_hunk, { buffer = bufnr, desc = 'Undo staged hunk' })
         map('n', '<leader>hR', gs.reset_buffer, { buffer = bufnr, desc = 'Reset buffer' })
         map('n', '<leader>hp', gs.preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-        map('n', '<leader>hb', function() gs.blame_line { full = true } end, { buffer = bufnr, desc = 'Git blame current line' })
+        map('n', '<leader>hb', function() gs.blame_line { full = true } end,
+          { buffer = bufnr, desc = 'Git blame current line' })
         map('n', '<leader>hd', gs.diffthis, { buffer = bufnr, desc = 'Show diff of buffer' })
         map('n', '<leader>hD', function() gs.diffthis('~') end, { buffer = bufnr, desc = 'Show diff of buffer' })
         map('n', '<leader>td', gs.toggle_deleted, { buffer = bufnr, desc = 'Toggle deleted lines' })
@@ -250,8 +265,10 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
-      'bash', 'regex', 'query' },
+    ensure_installed = {
+      'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
+      'bash', 'regex', 'query', 'ruby'
+    },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -347,8 +364,8 @@ vim.defer_fn(function()
 end, 0)
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '[d', center_and_unfold(vim.diagnostic.goto_prev), { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', center_and_unfold(vim.diagnostic.goto_next), { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
@@ -366,13 +383,16 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-  nmap('gt', function() require('telescope.builtin').lsp_definitions({ jump_type = "tab" }) end, '[G]oto [D]efinition in tab')
-  nmap('gh', function() require('telescope.builtin').lsp_definitions({ jump_type = "vsplit" }) end, '[G]oto [D]efinition in vertical split')
-  nmap('gs', function() require('telescope.builtin').lsp_definitions({ jump_type = "split" }) end, '[G]oto [D]efinition in split')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-  nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+  nmap('gd', center_and_unfold(require('telescope.builtin').lsp_definitions), '[G]oto [D]efinition')
+  nmap('gt', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "tab" }),
+    '[G]oto [D]efinition in tab')
+  nmap('gh', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "vsplit" }),
+    '[G]oto [D]efinition in vertical split')
+  nmap('gs', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "split" }),
+    '[G]oto [D]efinition in split')
+  nmap('gr', center_and_unfold(require('telescope.builtin').lsp_references), '[G]oto [R]eferences')
+  nmap('gI', center_and_unfold(require('telescope.builtin').lsp_implementations), '[G]oto [I]mplementation')
+  nmap('<leader>D', center_and_unfold(require('telescope.builtin').lsp_type_definitions), 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
@@ -386,7 +406,7 @@ local on_attach = function(_, bufnr)
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+  nmap('gD', center_and_unfold(vim.lsp.buf.declaration), '[G]oto [D]eclaration')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
   nmap('<leader>wl', function()
