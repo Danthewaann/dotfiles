@@ -476,8 +476,9 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws',
     function()
-      require('telescope.builtin').lsp_dynamic_workspace_symbols(
-        merge_tables(vertical_layout, { fname_width = 70 })
+      local word = vim.fn.expand('<cword>')
+      require('telescope.builtin').lsp_workspace_symbols(
+        merge_tables(vertical_layout, { fname_width = 70, query = word })
       )
     end,
     '[W]orkspace [S]ymbols'
