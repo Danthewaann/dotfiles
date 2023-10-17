@@ -86,22 +86,21 @@ require('lazy').setup({
           vim.keymap.set(mode, l, r, opts)
         end
 
-        map('n', '<leader>hs', gs.stage_hunk)
-        map('n', '<leader>hr', gs.reset_hunk)
-        map('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-        map('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-        map('n', '<leader>hS', gs.stage_buffer)
-        map('n', '<leader>hu', gs.undo_stage_hunk)
-        map('n', '<leader>hR', gs.reset_buffer)
+        map('n', '<leader>hs', gs.stage_hunk, { buffer = bufnr, desc = 'Stage git hunk' })
+        map('n', '<leader>hr', gs.reset_hunk, { buffer = bufnr, desc = 'Reset git hunk' })
+        map('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { buffer = bufnr, desc = 'Stage git hunk' })
+        map('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { buffer = bufnr, desc = 'Resert git hunk' })
+        map('n', '<leader>hS', gs.stage_buffer, { buffer = bufnr, desc = 'Stage buffer' })
+        map('n', '<leader>hu', gs.undo_stage_hunk, { buffer = bufnr, desc = 'Undo staged hunk' })
+        map('n', '<leader>hR', gs.reset_buffer, { buffer = bufnr, desc = 'Reset buffer' })
         map('n', '<leader>hp', gs.preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-        map('n', '<leader>hb', function() gs.blame_line { full = true } end)
-        map('n', '<leader>tb', gs.toggle_current_line_blame)
-        map('n', '<leader>hd', gs.diffthis)
-        map('n', '<leader>hD', function() gs.diffthis('~') end)
-        map('n', '<leader>td', gs.toggle_deleted)
+        map('n', '<leader>hb', function() gs.blame_line { full = true } end, { buffer = bufnr, desc = 'Git blame current line' })
+        map('n', '<leader>hd', gs.diffthis, { buffer = bufnr, desc = 'Show diff of buffer' })
+        map('n', '<leader>hD', function() gs.diffthis('~') end, { buffer = bufnr, desc = 'Show diff of buffer' })
+        map('n', '<leader>td', gs.toggle_deleted, { buffer = bufnr, desc = 'Toggle deleted lines' })
 
         -- Text object
-        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { buffer = bufnr, desc = 'Select inner hunk' })
 
         -- don't override the built-in and fugitive keymaps
         map({ 'n', 'v' }, ']c', function()
