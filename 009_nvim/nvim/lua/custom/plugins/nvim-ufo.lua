@@ -3,13 +3,13 @@ return {
     dependencies = 'kevinhwang91/promise-async',
     config = function ()
         local ftMap = {
-            python = true,
-            go = true,
-            lua = true,
-            ruby = true,
-            markdown = true,
-            sh = true,
-            yaml = true,
+            python = 'treesitter',
+            go = 'treesitter',
+            lua = 'treesitter',
+            ruby = 'indent',
+            markdown = 'treesitter',
+            sh = 'treesitter',
+            yaml = 'treesitter',
         }
 
         require('ufo').setup({
@@ -73,7 +73,7 @@ return {
             callback = function(e)
                 local filetype = vim.fn.getbufvar(e.buf, '&filetype')
                 if ftMap[filetype] then
-                    applyFoldsAndThenCloseAllFolds(e.buf, 'treesitter')
+                    applyFoldsAndThenCloseAllFolds(e.buf, ftMap[filetype])
                 end
             end
         })
