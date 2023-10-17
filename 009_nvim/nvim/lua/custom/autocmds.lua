@@ -34,19 +34,6 @@ autocmd("BufEnter", {
     command = "setlocal syntax=off",
 })
 
--- Use tabs instead of spaces in go files.
-augroup("golang_use_tabs", { clear = true })
-autocmd("FileType", {
-  group = "golang_use_tabs",
-  pattern = "go",
-  callback = function(args)
-      vim.o.expandtab = false
-      -- Make sure tabs render correctly
-      vim.o.tabstop = 8
-      vim.o.shiftwidth = 8
-  end,
-})
-
 -- Turn on spell checking in markdown and gitcommit buffers
 augroup("spell_checking", { clear = true })
 autocmd("FileType", {
@@ -69,4 +56,14 @@ autocmd("FileType", {
   group = "git_commit",
   pattern = "gitcommit",
   command = "startinsert",
+})
+
+-- Highlight on yank
+augroup('YankHighlight', { clear = true })
+autocmd('TextYankPost', {
+  group = 'YankHighlight',
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank()
+  end
 })

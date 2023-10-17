@@ -87,7 +87,7 @@ vim.keymap.set('n', '<leader>gl', function() builtin.git_commits(vertical_layout
 vim.keymap.set('n', '<leader>ps', function()
     local ok, search = pcall(vim.fn.input, "Grep > ")
     if ok then
-        builtin.grep_string(mergeTables({ search = test }, vertical_layout))
+        builtin.grep_string(mergeTables({ search = search }, vertical_layout))
     end
 end)
 
