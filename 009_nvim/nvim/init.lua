@@ -231,19 +231,74 @@ require('telescope').setup {
   defaults = {
     mappings = {
       i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        ['<C-q>'] = require('telescope.actions').close,
       },
     },
+    -- Cache the last 10 pickers so I can resume them later
+    cache_picker = {
+      num_pickers = 10,
+      limit_entries = 1000
+    },
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--hidden',
+    },
+    file_ignore_patterns = {
+      "vendor"
+    },
+    layout_strategy = 'horizontal',
+    layout_config = { horizontal = { height = 0.9, width = 0.9, preview_width = 0.55 } },
   },
+  pickers = {
+    live_grep = {
+      additional_args = function(opts)
+        return { "--hidden" }
+      end
+    },
+  },
+}
+
+-- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
+local function get_visual_selection()
+  vim.cmd('noau normal! "vy"')
+  local text = vim.fn.getreg('v')
+  vim.fn.setreg('v', {})
+
+  text = string.gsub(text, "\n", "")
+  if #text > 0 then
+    return text
+  else
+    return ''
+  end
+end
+
+local function merge_tables(first_table, second_table)
+  for k, v in pairs(second_table) do first_table[k] = v end
+  return first_table
+end
+
+local vertical_layout = {
+  layout_strategy = 'vertical',
+  layout_config = { height = 0.9, width = 0.9, preview_height = 0.6 }
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader>?', function() require('telescope.builtin').oldfiles(vertical_layout) end,
+  {
+    desc
+    = '[?] Find recently opened files'
+  })
+vim.keymap.set('n', '<leader><space>', function() require('telescope.builtin').buffers(vertical_layout) end,
+  { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -253,11 +308,36 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<C-p>', function() require('telescope.builtin').find_files({ hidden = true }) end,
+  { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep(vertical_layout) end,
+  { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').diagnostics(vertical_layout) end,
+  { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sr', function() require('telescope.builtin').resume(vertical_layout) end,
+  { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').pickers(vertical_layout) end,
+  { desc = '[S]earch [P]ickers' })
+vim.keymap.set('n', '<leader>gf', function() require('telescope.builtin').git_status(vertical_layout) end,
+  { desc = '[G]it [F]iles' })
+vim.keymap.set('n', '<leader>gl', function() require('telescope.builtin').git_commits(vertical_layout) end,
+  { desc = '[G]it [L]ogs' })
+
+-- Search for pattern in current project files
+vim.keymap.set('n', '<leader>ps', function()
+  local ok, search = pcall(vim.fn.input, "Grep > ")
+  if ok then
+    require('telescope.builtin').grep_string(merge_tables({ search = search }, vertical_layout))
+  end
+end)
+
+-- Search for the current word in project files
+vim.keymap.set('n', '<leader>F', function() require('telescope.builtin').grep_string(vertical_layout) end,
+  { desc = '[F]ind word' });
+vim.keymap.set('v', '<leader>F', function()
+  require('telescope.builtin').grep_string(merge_tables({ search = get_visual_selection() }, vertical_layout))
+end, { desc = '[F]ind word' });
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -282,7 +362,7 @@ vim.defer_fn(function()
         end
 
         -- Disable highlighting for large files
-        local max_filesize = 100 * 1024 -- 100 KB
+        local max_filesize = 200 * 1024 -- 200 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
           return true
@@ -390,11 +470,18 @@ local on_attach = function(_, bufnr)
     '[G]oto [D]efinition in vertical split')
   nmap('gs', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "split" }),
     '[G]oto [D]efinition in split')
-  nmap('gr', center_and_unfold(require('telescope.builtin').lsp_references), '[G]oto [R]eferences')
+  nmap('gr', center_and_unfold(require('telescope.builtin').lsp_references, vertical_layout), '[G]oto [R]eferences')
   nmap('gI', center_and_unfold(require('telescope.builtin').lsp_implementations), '[G]oto [I]mplementation')
   nmap('<leader>D', center_and_unfold(require('telescope.builtin').lsp_type_definitions), 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap('<leader>ws',
+    function()
+      require('telescope.builtin').lsp_dynamic_workspace_symbols(
+        merge_tables(vertical_layout, { fname_width = 70 })
+      )
+    end,
+    '[W]orkspace [S]ymbols'
+  )
 
   -- See `:help K` for why this keymap
   nmap('K', function()
