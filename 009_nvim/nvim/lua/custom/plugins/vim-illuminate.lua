@@ -1,9 +1,9 @@
 return {
     'RRethy/vim-illuminate',
     config = function()
-        vim.cmd [[hi IlluminatedWordText ctermbg=242 guibg=#3b3f4c]]
-        vim.cmd [[hi IlluminatedWordRead ctermbg=242 guibg=#3b3f4c]]
-        vim.cmd [[hi IlluminatedWordWrite ctermbg=242 guibg=#3b3f4c]]
+        -- vim.cmd [[hi IlluminatedWordText ctermbg=242 guibg=#3b3f4c]]
+        -- vim.cmd [[hi IlluminatedWordRead ctermbg=242 guibg=#3b3f4c]]
+        -- vim.cmd [[hi IlluminatedWordWrite ctermbg=242 guibg=#3b3f4c]]
         require('illuminate').configure({
             -- providers: provider used to get references in the buffer, ordered by priority
             providers = {
@@ -21,6 +21,7 @@ return {
             filetypes_denylist = {
                 'dirvish',
                 'fugitive',
+                'NvimTree',
             },
             -- filetypes_allowlist: filetypes to illuminate, this is overriden by filetypes_denylist
             filetypes_allowlist = {},
@@ -39,7 +40,7 @@ return {
             -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
             providers_regex_syntax_allowlist = {},
             -- under_cursor: whether or not to illuminate under the cursor
-            under_cursor = false,
+            under_cursor = true,
             -- large_file_cutoff: number of lines at which to use large_file_config
             -- The `under_cursor` option is disabled when this cutoff is hit
             large_file_cutoff = nil,
