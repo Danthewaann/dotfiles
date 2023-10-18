@@ -14,4 +14,5 @@ return {
     'christoomey/vim-tmux-navigator',
     'szw/vim-maximizer',
     'djoshea/vim-autoread',
+    'junegunn/gv.vim',
 }
