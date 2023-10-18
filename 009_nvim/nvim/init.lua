@@ -479,13 +479,22 @@ local on_attach = function(_, bufnr)
   nmap('gr', function() require('telescope.builtin').lsp_references({ fname_width = 70 }) end, '[G]oto [R]eferences')
   nmap('gI', center_and_unfold(require('telescope.builtin').lsp_implementations), '[G]oto [I]mplementation')
   nmap('<leader>D', center_and_unfold(require('telescope.builtin').lsp_type_definitions), 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+  nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols({ symbol_width = 70 }) end,
+    '[D]ocument [S]ymbols')
   nmap('<leader>ws',
     function()
       local word = vim.fn.expand('<cword>')
       require('telescope.builtin').lsp_workspace_symbols(
-        merge_tables(vertical_layout, { fname_width = 70, query = word })
+        merge_tables(vertical_layout,
+          { prompt_title = 'LSP Workspace Symbols (' .. word .. ')', fname_width = 70, query = word }
+        )
       )
+    end,
+    '[W]orkspace [S]ymbols'
+  )
+  nmap('<leader>wS',
+    function()
+      require('telescope.builtin').lsp_workspace_symbols(merge_tables(vertical_layout, { fname_width = 70 }))
     end,
     '[W]orkspace [S]ymbols'
   )
