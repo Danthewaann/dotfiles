@@ -516,10 +516,11 @@ local on_attach = function(_, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
 
-  -- Create a command `:W` local to the LSP buffer to format the code
+  -- Create a command `:W` local to the LSP buffer to format and save the code
   vim.api.nvim_buf_create_user_command(bufnr, 'W', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
+    pcall(vim.lsp.buf.format)
+    vim.cmd(":write")
+  end, { desc = 'Format and save current buffer with LSP' })
 end
 
 -- document existing key chains
