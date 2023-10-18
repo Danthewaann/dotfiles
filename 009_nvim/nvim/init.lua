@@ -478,20 +478,25 @@ local on_attach = function(_, bufnr)
     '[D]ocument [S]ymbols')
   nmap('<leader>ws',
     function()
-      local word = vim.fn.expand('<cword>')
-      require('telescope.builtin').lsp_workspace_symbols(
-        merge_tables(vertical_layout,
-          { prompt_title = 'LSP Workspace Symbols (' .. word .. ')', fname_width = 70, query = word }
+      require('telescope.builtin').lsp_dynamic_workspace_symbols(
+        merge_tables(
+          vertical_layout, { fname_width = 70, symbol_width = 70 }
         )
       )
     end,
     '[W]orkspace [S]ymbols'
   )
-  nmap('<leader>wS',
+  nmap('<leader>ss',
     function()
-      require('telescope.builtin').lsp_workspace_symbols(merge_tables(vertical_layout, { fname_width = 70 }))
+      local word = vim.fn.expand('<cword>')
+      require('telescope.builtin').lsp_workspace_symbols(
+        merge_tables(
+          vertical_layout,
+          { prompt_title = 'LSP Workspace Symbols (' .. word .. ')', fname_width = 70, symbol_width = 70, query = word }
+        )
+      )
     end,
-    '[W]orkspace [S]ymbols'
+    '[S]ymbol [S]earch'
   )
 
   -- See `:help K` for why this keymap
