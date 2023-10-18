@@ -254,7 +254,7 @@ require('telescope').setup {
     },
     -- TODO: need to default to vertical strategy as gr breaks when I try to pass it vertical_layout
     layout_strategy = 'vertical',
-    layout_config = { vertical = { height = 0.9, width = 0.9, preview_height = 0.6 } }
+    layout_config = { vertical = { height = 0.9, width = 0.9, preview_height = 0.4 } }
   },
   pickers = {
     live_grep = {
