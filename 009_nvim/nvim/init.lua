@@ -4,18 +4,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-local function center_and_unfold(func, opts)
-  local function wrapper()
-    opts = opts or {}
-    func(opts)
-    vim.defer_fn(function()
-      pcall(vim.cmd, ":normal! zzzvzczO")
-    end, 100)
-  end
-
-  return wrapper
-end
-
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -465,16 +453,16 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', center_and_unfold(require('telescope.builtin').lsp_definitions), '[G]oto [D]efinition')
-  nmap('gt', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "tab" }),
+  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+  nmap('gt', function() require('telescope.builtin').lsp_definitions({ jump_type = "tab" }) end,
     '[G]oto [D]efinition in tab')
-  nmap('gh', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "vsplit" }),
+  nmap('gh', function() require('telescope.builtin').lsp_definitions({ jump_type = "vsplit", }) end,
     '[G]oto [D]efinition in vertical split')
-  nmap('gs', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "split" }),
+  nmap('gs', function() require('telescope.builtin').lsp_definitions({ jump_type = "split" }) end,
     '[G]oto [D]efinition in split')
   nmap('gr', function() require('telescope.builtin').lsp_references({ fname_width = 70 }) end, '[G]oto [R]eferences')
-  nmap('gI', center_and_unfold(require('telescope.builtin').lsp_implementations), '[G]oto [I]mplementation')
-  nmap('<leader>D', center_and_unfold(require('telescope.builtin').lsp_type_definitions), 'Type [D]efinition')
+  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+  nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols({ symbol_width = 70 }) end,
     '[D]ocument [S]ymbols')
   nmap('<leader>ws',
@@ -510,7 +498,7 @@ local on_attach = function(_, bufnr)
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
-  nmap('gD', center_and_unfold(vim.lsp.buf.declaration), '[G]oto [D]eclaration')
+  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
   nmap('<leader>wl', function()
