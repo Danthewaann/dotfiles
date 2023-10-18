@@ -23,7 +23,8 @@ return {
             end,
             -- The available REPL palattes that `yarepl` can create REPL based on
             metas = {
-                make = { cmd = {'make', 'repl'}, formatter = yarepl.formatter.bracketed_pasting },
+                -- TODO: need to use make shell here for now until `make repl` is created
+                make = { cmd = {'make', 'shell'}, formatter = yarepl.formatter.bracketed_pasting },
                 ipython = { cmd = {'ipython', '--no-confirm-exit'}, formatter = yarepl.formatter.bracketed_pasting },
                 python = { cmd = 'python', formatter = yarepl.formatter.trim_empty_lines },
                 bash = { cmd = 'bash', formatter = yarepl.formatter.trim_empty_lines },
