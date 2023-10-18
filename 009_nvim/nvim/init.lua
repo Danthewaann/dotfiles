@@ -252,8 +252,9 @@ require('telescope').setup {
     file_ignore_patterns = {
       "vendor"
     },
-    layout_strategy = 'horizontal',
-    layout_config = { horizontal = { height = 0.9, width = 0.9, preview_width = 0.55 } },
+    -- TODO: need to default to vertical strategy as gr breaks when I try to pass it vertical_layout
+    layout_strategy = 'vertical',
+    layout_config = { vertical = { height = 0.9, width = 0.9, preview_height = 0.6 } }
   },
   pickers = {
     live_grep = {
@@ -286,6 +287,11 @@ end
 local vertical_layout = {
   layout_strategy = 'vertical',
   layout_config = { height = 0.9, width = 0.9, preview_height = 0.6 }
+}
+
+local horizontal_layout = {
+  layout_strategy = 'horizontal',
+  layout_config = { horizontal = { height = 0.9, width = 0.9, preview_width = 0.55 } },
 }
 
 -- Enable telescope fzf native, if installed
@@ -470,7 +476,7 @@ local on_attach = function(_, bufnr)
     '[G]oto [D]efinition in vertical split')
   nmap('gs', center_and_unfold(require('telescope.builtin').lsp_definitions, { jump_type = "split" }),
     '[G]oto [D]efinition in split')
-  nmap('gr', center_and_unfold(require('telescope.builtin').lsp_references, vertical_layout), '[G]oto [R]eferences')
+  nmap('gr', function() require('telescope.builtin').lsp_references({ fname_width = 70 }) end, '[G]oto [R]eferences')
   nmap('gI', center_and_unfold(require('telescope.builtin').lsp_implementations), '[G]oto [I]mplementation')
   nmap('<leader>D', center_and_unfold(require('telescope.builtin').lsp_type_definitions), 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
