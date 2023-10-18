@@ -353,7 +353,7 @@ vim.defer_fn(function()
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
       'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
-      'bash', 'regex', 'query', 'ruby', 'json', 'markdown',
+      'bash', 'regex', 'query', 'ruby', 'json', 'markdown', 'gitcommit', 'make', 'dockerfile', 'yaml'
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -362,11 +362,6 @@ vim.defer_fn(function()
     highlight = {
       enable = true,
       disable = function(lang, buf)
-        -- Disable highlighting for yaml files
-        if lang == "yaml" then
-          return true
-        end
-
         -- Disable highlighting for large files
         local max_filesize = 200 * 1024 -- 200 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -518,7 +513,7 @@ local on_attach = function(_, bufnr)
 
   -- Create a command `:W` local to the LSP buffer to format and save the code
   vim.api.nvim_buf_create_user_command(bufnr, 'W', function(_)
-    pcall(vim.lsp.buf.format)
+    vim.lsp.buf.format()
     vim.cmd(":write")
   end, { desc = 'Format and save current buffer with LSP' })
 end
@@ -556,6 +551,7 @@ local servers = {
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   jsonls = {},
+  yamlls = {},
 
   lua_ls = {
     Lua = {
