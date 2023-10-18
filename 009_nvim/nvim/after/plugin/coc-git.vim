@@ -3,7 +3,7 @@
 " nmap ]c <Plug>(coc-git-nextchunk)zz
 
 " Open current line in browser
-nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
+" nmap <leader>go :call CocAction('runCommand', 'git.browserOpen')<CR>
 
 " Undo chunk at current position
 " nmap cu :silent call CocAction('runCommand', 'git.chunkUndo')<CR>

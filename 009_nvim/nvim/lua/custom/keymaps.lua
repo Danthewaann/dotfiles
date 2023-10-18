@@ -41,7 +41,7 @@ vim.keymap.set("v", "L", "g_")
 vim.keymap.set("v", "y", "ygv<Esc>")
 
 -- Go to alernative buffer
-vim.keymap.set("n", "<BS>", ":b#<CR>", { silent=true })
+vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true })
 
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -137,13 +137,14 @@ vim.keymap.set("n", "<C-t>v", "<cmd> silent 100 vsplit new<CR><cmd> term<CR>")
 vim.keymap.set("n", "<C-t>t", "<cmd> silent $tabnew<CR><cmd> term<CR>")
 vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<CR>")
 
--- Git commands 
-vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>")
-vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>")
-vim.keymap.set("n", "<leader>gg",  "<cmd> silent Git<CR>")
-vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>")
-vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>")
-vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>")
+-- Git commands
+vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = '[G]it [P]ush' })
+vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = '[G]it [P]ush [F]orce' })
+vim.keymap.set("n", "<leader>gg", "<cmd> silent Git<CR>", { desc = '[G]it [G]et' })
+vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = '[G]it [C]ommit' })
+vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = '[G]it [C]ommit [A]mend' })
+vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = '[G]it [C]ommit [E]dit' })
+vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = '[G]it [O]pen' })
 
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
