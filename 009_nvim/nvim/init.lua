@@ -269,11 +269,6 @@ local function get_visual_selection()
   end
 end
 
-local function merge_tables(first_table, second_table)
-  for k, v in pairs(second_table) do first_table[k] = v end
-  return first_table
-end
-
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
@@ -442,36 +437,54 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-  nmap('gt', function() require('telescope.builtin').lsp_definitions({ jump_type = "tab" }) end,
-    '[G]oto [D]efinition in tab')
-  nmap('gh', function() require('telescope.builtin').lsp_definitions({ jump_type = "vsplit", }) end,
-    '[G]oto [D]efinition in vertical split')
-  nmap('gs', function() require('telescope.builtin').lsp_definitions({ jump_type = "split" }) end,
-    '[G]oto [D]efinition in split')
-  nmap('gr', function() require('telescope.builtin').lsp_references({ fname_width = 70 }) end, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-  nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-  nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols({ symbol_width = 70 }) end,
-    '[D]ocument [S]ymbols')
-  nmap('<leader>ws',
-    function()
-      require('telescope.builtin').lsp_dynamic_workspace_symbols({ fname_width = 70, symbol_width = 70 })
-    end,
-    '[W]orkspace [S]ymbols'
-  )
-  nmap('<leader>ss',
-    function()
-      local word = vim.fn.expand('<cword>')
-      require('telescope.builtin').lsp_workspace_symbols({
-        prompt_title = 'LSP Workspace Symbols (' .. word .. ')',
-        fname_width = 70,
-        symbol_width = 70,
-        query = word
-      })
-    end,
-    '[S]ymbol [S]earch'
-  )
+  local function unfold()
+    vim.defer_fn(function()
+      pcall(vim.cmd, ":normal! zvzczOzz")
+    end, 100)
+  end
+
+  nmap('gd', function()
+    require('telescope.builtin').lsp_definitions()
+    unfold()
+  end, '[G]oto [D]efinition')
+  nmap('gt', function()
+    require('telescope.builtin').lsp_definitions({ jump_type = "tab" })
+    unfold()
+  end, '[G]oto [D]efinition in tab')
+  nmap('gh', function()
+    require('telescope.builtin').lsp_definitions({ jump_type = "vsplit", })
+    unfold()
+  end, '[G]oto [D]efinition in vertical split')
+  nmap('gs', function()
+    require('telescope.builtin').lsp_definitions({ jump_type = "split" })
+    unfold()
+  end, '[G]oto [D]efinition in split')
+  nmap('gr', function()
+    require('telescope.builtin').lsp_references({ fname_width = 70 })
+  end, '[G]oto [R]eferences')
+  nmap('gI', function()
+    require('telescope.builtin').lsp_implementations()
+    unfold()
+  end, '[G]oto [I]mplementation')
+  nmap('<leader>D', function()
+    require('telescope.builtin').lsp_type_definitions()
+    unfold()
+  end, 'Type [D]efinition')
+  nmap('<leader>ds', function()
+    require('telescope.builtin').lsp_document_symbols({ symbol_width = 70 })
+  end, '[D]ocument [S]ymbols')
+  nmap('<leader>ws', function()
+    require('telescope.builtin').lsp_dynamic_workspace_symbols({ fname_width = 70, symbol_width = 70 })
+  end, '[W]orkspace [S]ymbols')
+  nmap('<leader>ss', function()
+    local word = vim.fn.expand('<cword>')
+    require('telescope.builtin').lsp_workspace_symbols({
+      prompt_title = 'LSP Workspace Symbols (' .. word .. ')',
+      fname_width = 70,
+      symbol_width = 70,
+      query = word
+    })
+  end, '[S]ymbol [S]earch')
 
   -- See `:help K` for why this keymap
   nmap('K', function()

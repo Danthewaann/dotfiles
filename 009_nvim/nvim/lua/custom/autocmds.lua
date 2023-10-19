@@ -76,32 +76,25 @@ autocmd('TextYankPost', {
   end
 })
 
--- Unfold fold at cursor when entering a buffer and leaving the TelescopePrompt
+-- Unfold fold at cursor when leaving the TelescopePrompt
 -- From: 
 -- * https://www.reddit.com/r/neovim/comments/twug6q/how_to_open_auto_open_fold_in_telescope_after_cr/
 -- * https://www.reddit.com/r/neovim/comments/14v9xcw/zv_after_using_telescope/
 -- * https://github.com/nvim-telescope/telescope.nvim/issues/2115
 augroup('unfold_on_jump', { clear = true })
-autocmd({ "BufEnter" }, {
-  pattern = "*",
-  callback = function()
-    vim.defer_fn(function()
-      local line_data = vim.api.nvim_win_get_cursor(0) -- returns {row, col}
-      local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
-      if fold_closed ~= -1 then -- fold exists (not -1)
-        vim.cmd [[normal! zvzczOzz]]
-      end
-    end, 100)
-  end,
+autocmd('BufLeave', {
   group = 'unfold_on_jump',
+  pattern = '*',
+  callback = function(events)
+    local ft = vim.api.nvim_buf_get_option(events.buf, 'filetype')
+    if ft == 'TelescopePrompt' then
+      vim.defer_fn(function()
+        local line_data = vim.api.nvim_win_get_cursor(0) -- returns {row, col}
+        local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
+        if fold_closed ~= -1 then -- fold exists (not -1)
+          vim.cmd [[normal! zvzczOzz]]
+        end
+      end, 100)
+    end
+  end
 })
--- autocmd('BufLeave', {
---   group = 'unfold_on_jump',
---   pattern = '*',
---   callback = function(events)
---     local ft = vim.api.nvim_buf_get_option(events.buf, 'filetype')
---     if ft == 'TelescopePrompt' then
---       vim.api.nvim_feedkeys('zvzczOzz', 'n', false)
---     end
---   end
--- })
