@@ -63,3 +63,7 @@ vim.o.foldcolumn = '0'
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
+
+-- Search down into subfolders
+-- Provides tab-completion for all file-related tasks
+vim.opt.path:append("**")
