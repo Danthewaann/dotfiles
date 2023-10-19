@@ -42,6 +42,14 @@ autocmd("FileType", {
   command = "setlocal spell spelllang=en_us,en_gb",
 })
 
+-- Autowrap text in markdown files
+augroup("auto_wrap", { clear = true })
+autocmd("FileType", {
+  group = "auto_wrap",
+  pattern = "markdown",
+  command = "setlocal tw=120 fo=cqt wm=0",
+})
+
 -- Go into insert mode when entering a terminal if it is running
 augroup("terminal_mode", { clear = true })
 autocmd("WinEnter", {
