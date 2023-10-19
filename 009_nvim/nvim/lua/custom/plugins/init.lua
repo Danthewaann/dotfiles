@@ -7,7 +7,6 @@ return {
     'tpope/vim-dadbod',
     'kristijanhusak/vim-dadbod-ui',
     'mbbill/undotree',
-    'gelguy/wilder.nvim',
     'vim-test/vim-test',
     'michaeljsmith/vim-indent-object',
     'romainl/vim-cool',
