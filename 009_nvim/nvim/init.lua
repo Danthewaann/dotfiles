@@ -240,9 +240,11 @@ require('telescope').setup {
     file_ignore_patterns = {
       "vendor"
     },
-    -- TODO: need to default to vertical strategy as gr breaks when I try to pass it vertical_layout
     layout_strategy = 'vertical',
-    layout_config = { vertical = { height = 0.9, width = 0.9, preview_height = 0.4 } }
+    layout_config = {
+      vertical = { height = 0.8, width = 0.7, preview_height = 0.4 },
+      horizontal = { height = 0.8, width = 0.7, preview_width = 0.55 }
+    }
   },
   pickers = {
     live_grep = {
@@ -272,26 +274,16 @@ local function merge_tables(first_table, second_table)
   return first_table
 end
 
-local vertical_layout = {
-  layout_strategy = 'vertical',
-  layout_config = { height = 0.9, width = 0.9, preview_height = 0.6 }
-}
-
-local horizontal_layout = {
-  layout_strategy = 'horizontal',
-  layout_config = { horizontal = { height = 0.9, width = 0.9, preview_width = 0.55 } },
-}
-
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', function() require('telescope.builtin').oldfiles(vertical_layout) end,
+vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles,
   {
     desc
     = '[?] Find recently opened files'
   })
-vim.keymap.set('n', '<leader><space>', function() require('telescope.builtin').buffers(vertical_layout) end,
+vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers,
   { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -302,35 +294,32 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<C-p>', function() require('telescope.builtin').find_files({ hidden = true }) end,
-  { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep(vertical_layout) end,
-  { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').diagnostics(vertical_layout) end,
-  { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', function() require('telescope.builtin').resume(vertical_layout) end,
-  { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').pickers(vertical_layout) end,
-  { desc = '[S]earch [P]ickers' })
-vim.keymap.set('n', '<leader>gf', function() require('telescope.builtin').git_status(vertical_layout) end,
-  { desc = '[G]it [F]iles' })
-vim.keymap.set('n', '<leader>gl', function() require('telescope.builtin').git_commits(vertical_layout) end,
-  { desc = '[G]it [L]ogs' })
+vim.keymap.set('n', '<C-p>', function()
+  require('telescope.builtin').find_files({ hidden = true })
+end, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sh', function()
+  require('telescope.builtin').help_tags({ layout_strategy = 'horizontal' })
+end, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sp', require('telescope.builtin').pickers, { desc = '[S]earch [P]ickers' })
+vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status, { desc = '[G]it [F]iles' })
+vim.keymap.set('n', '<leader>gl', require('telescope.builtin').git_commits, { desc = '[G]it [L]ogs' })
 
 -- Search for pattern in current project files
 vim.keymap.set('n', '<leader>ps', function()
   local ok, search = pcall(vim.fn.input, "Grep > ")
   if ok then
-    require('telescope.builtin').grep_string(merge_tables({ search = search }, vertical_layout))
+    require('telescope.builtin').grep_string({ search = search })
   end
 end)
 
 -- Search for the current word in project files
-vim.keymap.set('n', '<leader>F', function() require('telescope.builtin').grep_string(vertical_layout) end,
+vim.keymap.set('n', '<leader>F', require('telescope.builtin').grep_string,
   { desc = '[F]ind word' });
 vim.keymap.set('v', '<leader>F', function()
-  require('telescope.builtin').grep_string(merge_tables({ search = get_visual_selection() }, vertical_layout))
+  require('telescope.builtin').grep_string({ search = get_visual_selection() })
 end, { desc = '[F]ind word' });
 
 -- [[ Configure Treesitter ]]
@@ -467,23 +456,19 @@ local on_attach = function(_, bufnr)
     '[D]ocument [S]ymbols')
   nmap('<leader>ws',
     function()
-      require('telescope.builtin').lsp_dynamic_workspace_symbols(
-        merge_tables(
-          vertical_layout, { fname_width = 70, symbol_width = 70 }
-        )
-      )
+      require('telescope.builtin').lsp_dynamic_workspace_symbols({ fname_width = 70, symbol_width = 70 })
     end,
     '[W]orkspace [S]ymbols'
   )
   nmap('<leader>ss',
     function()
       local word = vim.fn.expand('<cword>')
-      require('telescope.builtin').lsp_workspace_symbols(
-        merge_tables(
-          vertical_layout,
-          { prompt_title = 'LSP Workspace Symbols (' .. word .. ')', fname_width = 70, symbol_width = 70, query = word }
-        )
-      )
+      require('telescope.builtin').lsp_workspace_symbols({
+        prompt_title = 'LSP Workspace Symbols (' .. word .. ')',
+        fname_width = 70,
+        symbol_width = 70,
+        query = word
+      })
     end,
     '[S]ymbol [S]earch'
   )
