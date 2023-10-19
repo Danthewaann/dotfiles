@@ -1,7 +1,7 @@
 return {
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
-    config = function ()
+    config = function()
         local ftMap = {
             python = 'treesitter',
             go = 'treesitter',
@@ -14,10 +14,10 @@ return {
 
         require('ufo').setup({
             open_fold_hl_timeout = 150,
-            close_fold_kinds = {'imports', 'comment'},
+            close_fold_kinds = { 'imports', 'comment' },
             preview = {
                 win_config = {
-                    border = {'', '─', '', '', '', '─', '', ''},
+                    border = { '', '─', '', '', '', '─', '', '' },
                     winhighlight = 'Normal:Folded',
                     winblend = 0
                 },
@@ -30,7 +30,7 @@ return {
                 -- if you prefer treesitter provider rather than lsp
                 -- refer to ./doc/example.lua for detail
                 if ftMap[filetype] then
-                    return {'treesitter', 'indent'}
+                    return { 'treesitter', 'indent' }
                 end
 
                 return ''
@@ -41,6 +41,7 @@ return {
         vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
         vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
         vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+        vim.keymap.set('n', '<leader>zv', 'mazMzvzczO`a', { desc = 'Close all folds not under cursor' })
 
         -- Automatically close all folds when opening a file
         -- From: https://github.com/kevinhwang91/nvim-ufo/issues/89#issuecomment-1286250241
