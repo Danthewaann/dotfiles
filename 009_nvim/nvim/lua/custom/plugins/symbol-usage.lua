@@ -85,5 +85,9 @@ return {
                 }
             }
         })
+
+        vim.keymap.set('n', '<leader>sut', ':lua require("symbol-usage").toggle()<CR>',
+            { desc = '[S]ymbol [U]sage [T]oggle', silent = true }
+        )
     end
 }
