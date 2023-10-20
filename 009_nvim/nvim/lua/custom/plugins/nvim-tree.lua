@@ -26,7 +26,18 @@ return {
             },
             view = {
                 width = 50,
-                side = "right"
+                side = "right",
+                float = {
+                    enable = true,
+                    open_win_config = {
+                        relative = "editor",
+                        border = "rounded",
+                        width = 50,
+                        height = vim.api.nvim_win_get_height(0) - 1,
+                        row = 1,
+                        col = vim.api.nvim_win_get_width(0) - 1,
+                    }
+                }
             },
             renderer = {
                 add_trailing = true,
