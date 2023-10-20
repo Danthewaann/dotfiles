@@ -359,7 +359,7 @@ return {
                 end,
                 max_name_length = 25,
                 max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-                truncate_names = true, -- whether or not tab names should be truncated
+                truncate_names = false, -- whether or not tab names should be truncated
                 tab_size = 0,
                 diagnostics = "coc",
                 diagnostics_update_in_insert = true,
