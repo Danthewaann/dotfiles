@@ -4,6 +4,9 @@ vim.o.clipboard = "unnamedplus"
 -- Display line numbers
 vim.wo.number = true
 
+-- Disable wrap
+vim.o.wrap = false
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
