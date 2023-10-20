@@ -5,8 +5,6 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- vim.keymap.set({ 'v', 'x' }, 'p', '"_dp', { noremap = false })
-
 -- Open fold at cursor recursively
 vim.keymap.set('n', 'l', "foldclosed('.') == -1 ? 'l' : 'zO'", { expr = true, silent = true })
 
@@ -21,10 +19,7 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<CR>", "i<CR><ESC>k$")
 
 -- Paste over visual selection and yank to empty register
-vim.keymap.set("x", "<leader>p", [["_dP]])
-
--- Delete and yank to the empty register
-vim.keymap.set("v", "<leader>d", [["_d]])
+vim.keymap.set({ 'v', 'x' }, 'p', '"_dP')
 
 -- Re-select pasted text
 vim.keymap.set("n", "gp", "`[v`]")
