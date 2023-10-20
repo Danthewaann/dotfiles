@@ -46,8 +46,15 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        tag = 'legacy',
+        opts = {
+          sources = {
+            pyright = { ignore = true }
+          }
+        }
+      },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
