@@ -16,8 +16,6 @@ return {
 
             -- custom mappings
             vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
-            vim.keymap.set("n", "<C-n>", "<cmd> silent NvimTreeToggle<CR>")
-            vim.keymap.set("n", "<leader>ff", "<cmd> silent NvimTreeFindFile<CR>")
         end
 
         require("nvim-tree").setup({
@@ -39,9 +37,11 @@ return {
                 sync = {
                     open = true,
                     close = true
-
                 }
             },
         })
+
+        vim.keymap.set("n", "<leader>nt", "<cmd> silent NvimTreeToggle<CR>")
+        vim.keymap.set("n", "<leader>ff", "<cmd> silent NvimTreeFindFile<CR>")
     end
 }
