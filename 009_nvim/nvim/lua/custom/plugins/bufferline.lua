@@ -361,7 +361,7 @@ return {
                 max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
                 truncate_names = false, -- whether or not tab names should be truncated
                 tab_size = 0,
-                diagnostics = "coc",
+                diagnostics = "nvim_lsp",
                 diagnostics_update_in_insert = true,
                 --- count is an integer representing total count of errors
                 --- level is a string "error" | "warning"
