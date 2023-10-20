@@ -5,6 +5,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- vim.keymap.set({ 'v', 'x' }, 'p', '"_dp', { noremap = false })
+
 -- Open fold at cursor recursively
 vim.keymap.set('n', 'l', "foldclosed('.') == -1 ? 'l' : 'zO'", { expr = true, silent = true })
 
@@ -122,10 +124,6 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 -- Paste the clipboard contents in insert mode
 vim.keymap.set("i", "<C-p>", "<C-r>+")
-
--- Search for current word in window and highlight it
-vim.keymap.set("n", "<leader>f", "/\\V<C-r><c-w><CR>")
-vim.keymap.set("v", "<leader>f", "\"ky/\\V<C-R>=@k<CR><CR>")
 
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv")
