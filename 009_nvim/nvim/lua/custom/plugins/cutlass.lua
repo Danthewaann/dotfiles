@@ -6,9 +6,9 @@ return {
             override_del = nil,
             exclude = {},
             registers = {
-                select = "_",
-                delete = "_",
-                change = "_",
+                select = "s",
+                delete = "d",
+                change = "c",
             },
         })
     end
