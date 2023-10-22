@@ -290,7 +290,9 @@ return {
       },
     }
 
+    ---@diagnostic disable-next-line: missing-fields
     bufferline.setup({
+      ---@diagnostic disable-next-line: missing-fields
       options = {
         style_preset = bufferline.style_preset.minimal,
         separator_style = { "", "" },

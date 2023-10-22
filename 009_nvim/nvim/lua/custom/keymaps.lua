@@ -164,3 +164,16 @@ vim.keymap.set("n", "yof", function()
     print(":setlocal foldenable")
   end
 end)
+
+vim.keymap.set("n", "<leader>fn", function()
+  local cur_filename = vim.api.nvim_buf_get_name(0)
+  vim.ui.input(
+    { prompt = "Create File:", default = vim.fn.fnamemodify(cur_filename, ":h") .. "/", completion = "file" },
+    function(filename)
+      if filename then
+        vim.cmd(":e " .. filename)
+      end
+    end
+  )
+end, { desc = "[F]ile [N]ew" })
+vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable" })

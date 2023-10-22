@@ -74,6 +74,7 @@ return {
             "dbout",
             "DiffviewFiles",
             "DiffviewFileHistory",
+            "oil",
           },
         },
       },
