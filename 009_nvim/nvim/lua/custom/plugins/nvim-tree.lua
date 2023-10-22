@@ -54,5 +54,15 @@ return {
 
         vim.keymap.set("n", "<leader>ft", "<cmd> silent NvimTreeToggle<CR>", {desc = '[F]ile [T]ree'})
         vim.keymap.set("n", "<leader>ff", "<cmd> silent NvimTreeFindFile<CR>", {desc = '[F]ile [F]ind'})
+        vim.keymap.set('n', '<leader>fn', function()
+            local cur_filename = vim.api.nvim_buf_get_name(0)
+            vim.ui.input({ prompt = 'Create File:', default = vim.fn.fnamemodify(cur_filename, ':h') .. '/', completion = 'file' },
+            function(filename)
+                if filename then
+                    vim.cmd(":e " .. filename)
+                end
+            end)
+        end, { desc = '[F]ile [N]ew'})
+
     end
 }
