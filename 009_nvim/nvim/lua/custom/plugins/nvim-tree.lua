@@ -52,7 +52,7 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<leader>nt", "<cmd> silent NvimTreeToggle<CR>")
-        vim.keymap.set("n", "<leader>ff", "<cmd> silent NvimTreeFindFile<CR>")
+        vim.keymap.set("n", "<leader>ft", "<cmd> silent NvimTreeToggle<CR>", {desc = '[F]ile [T]ree'})
+        vim.keymap.set("n", "<leader>ff", "<cmd> silent NvimTreeFindFile<CR>", {desc = '[F]ile [F]ind'})
     end
 }
