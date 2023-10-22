@@ -22,7 +22,7 @@ autocmd("TermOpen", {
 autocmd("TermClose", {
   group = "terminal_settings",
   pattern = "",
-  command = "call feedkeys(\"\\<C-\\>\\<C-n>\")",
+  command = 'call feedkeys("\\<C-\\>\\<C-n>")',
 })
 
 -- Disable highlighting for sql files.
@@ -67,34 +67,34 @@ autocmd("FileType", {
 })
 
 -- Highlight on yank
-augroup('YankHighlight', { clear = true })
-autocmd('TextYankPost', {
-  group = 'YankHighlight',
-  pattern = '*',
+augroup("YankHighlight", { clear = true })
+autocmd("TextYankPost", {
+  group = "YankHighlight",
+  pattern = "*",
   callback = function()
     vim.highlight.on_yank({ higroup = "Visual" })
-  end
+  end,
 })
 
 -- Unfold fold at cursor when leaving the TelescopePrompt
--- From: 
+-- From:
 -- * https://www.reddit.com/r/neovim/comments/twug6q/how_to_open_auto_open_fold_in_telescope_after_cr/
 -- * https://www.reddit.com/r/neovim/comments/14v9xcw/zv_after_using_telescope/
 -- * https://github.com/nvim-telescope/telescope.nvim/issues/2115
-augroup('unfold_on_jump', { clear = true })
-autocmd('BufLeave', {
-  group = 'unfold_on_jump',
-  pattern = '*',
+augroup("unfold_on_jump", { clear = true })
+autocmd("BufLeave", {
+  group = "unfold_on_jump",
+  pattern = "*",
   callback = function(events)
-    local ft = vim.api.nvim_buf_get_option(events.buf, 'filetype')
-    if ft == 'TelescopePrompt' then
+    local ft = vim.api.nvim_buf_get_option(events.buf, "filetype")
+    if ft == "TelescopePrompt" then
       vim.defer_fn(function()
         local line_data = vim.api.nvim_win_get_cursor(0) -- returns {row, col}
         local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
         if fold_closed ~= -1 then -- fold exists (not -1)
-          vim.cmd [[normal! zvzczOzz]]
+          vim.cmd([[normal! zvzczOzz]])
         end
       end, 100)
     end
-  end
+  end,
 })

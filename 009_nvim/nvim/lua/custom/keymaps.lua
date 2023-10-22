@@ -1,12 +1,12 @@
 -- Treat <space> as a noop
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Open fold at cursor recursively
-vim.keymap.set('n', 'l', "foldclosed('.') == -1 ? 'l' : 'zO'", { expr = true, silent = true })
+vim.keymap.set("n", "l", "foldclosed('.') == -1 ? 'l' : 'zO'", { expr = true, silent = true })
 
 -- Move the current selection up or down a line
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -19,7 +19,7 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<CR>", "i<CR><ESC>k$")
 
 -- Paste over visual selection and yank to empty register
-vim.keymap.set({ 'v', 'x' }, 'p', '"_dP')
+vim.keymap.set({ "v", "x" }, "p", '"_dP')
 
 -- Re-select pasted text
 vim.keymap.set("n", "gp", "`[v`]")
@@ -37,7 +37,7 @@ vim.keymap.set("v", "L", "g_")
 -- Prevent the cursor from jumping to the start of a selection after yanking it
 vim.keymap.set("v", "y", "ygv<Esc>")
 
--- Go to alernative buffer
+-- Go to alternative buffer
 vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true })
 
 -- Vertical navigation
@@ -131,13 +131,13 @@ vim.keymap.set("n", "<C-t>t", "<cmd> silent $tabnew<CR><cmd> term<CR>")
 vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<CR>")
 
 -- Git commands
-vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = '[G]it [P]ush' })
-vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = '[G]it [P]ush [F]orce' })
-vim.keymap.set("n", "<leader>gg", "<cmd> silent Git<CR>", { desc = '[G]it [G]et' })
-vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = '[G]it [C]ommit' })
-vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = '[G]it [C]ommit [A]mend' })
-vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = '[G]it [C]ommit [E]dit' })
-vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = '[G]it [O]pen' })
+vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
+vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
+vim.keymap.set("n", "<leader>gg", "<cmd> silent Git<CR>", { desc = "[G]it [G]et" })
+vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]omit" })
+vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]omit [A]mend" })
+vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]omit [E]dit" })
+vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = "[G]it [O]pen" })
 
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
@@ -146,21 +146,21 @@ vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Left><Left>]])
 
 -- Show all commits
-vim.keymap.set('n', '<leader>gva', ":GV<CR>", { silent = true })
+vim.keymap.set("n", "<leader>gva", ":GV<CR>", { silent = true })
 
 -- Show commits for the current file
-vim.keymap.set('n', '<leader>gvf', ":GV!<CR>", { silent = true })
+vim.keymap.set("n", "<leader>gvf", ":GV!<CR>", { silent = true })
 
 -- Show commits for the visual selection
-vim.keymap.set('x', '<leader>gv', ":GV<CR>", { silent = true })
+vim.keymap.set("x", "<leader>gv", ":GV<CR>", { silent = true })
 
 -- Add custom vim-unimpaired like mapping to toggle folds in current window
 vim.keymap.set("n", "yof", function()
-    if vim.wo.foldenable == true then
-        vim.wo.foldenable = false
-        print(":setlocal nofoldenable")
-    else
-        vim.wo.foldenable = true
-        print(":setlocal foldenable")
-    end
+  if vim.wo.foldenable == true then
+    vim.wo.foldenable = false
+    print(":setlocal nofoldenable")
+  else
+    vim.wo.foldenable = true
+    print(":setlocal foldenable")
+  end
 end)

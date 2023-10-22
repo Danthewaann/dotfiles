@@ -15,7 +15,7 @@ vim.o.smartcase = true
 vim.o.breakindent = true
 
 -- Set completeo to have a better completion experience
-vim.o.completeo = 'menuone,noselect'
+vim.o.completeo = "menuone,noselect"
 
 -- Show tabs and newline characters when `list` is enabled
 vim.o.listchars = "eol:¬,tab:▸."
@@ -49,7 +49,7 @@ vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
 -- Set completeo to have a better completion experience
-vim.o.completeo = 'menuone,noselect'
+vim.o.completeo = "menuone,noselect"
 
 -- Don't show mode information (normal, insert etc.) as I've included it in the statusline
 vim.o.showmode = false
@@ -62,7 +62,7 @@ vim.o.confirm = true
 vim.o.showcmd = false
 
 -- Setup folds with treesitter and nvim-ufo
-vim.o.foldcolumn = '0'
+vim.o.foldcolumn = "0"
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
@@ -70,3 +70,8 @@ vim.o.foldenable = true
 -- Search down into subfolders
 -- Provides tab-completion for all file-related tasks
 vim.opt.path:append("**")
+
+vim.g.netrw_banner = 0
+vim.g.netrw_browse_split = 4
+vim.g.netrw_altv = 1
+vim.g.netrw_liststyle = 3
