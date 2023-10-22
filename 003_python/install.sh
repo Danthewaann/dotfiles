@@ -46,7 +46,7 @@ run_command "setting global python version to $PYTHON_VERSION" \
 # for some reason. I also added other packages here for general use so
 # my vim setup works when editing standalone files outside of a project.
 run_command "installing python linters and formatters" \
-    "pip install flake8 black isort mypy ruff"
+    "pip install flake8 black isort mypy ruff codespell"
 
 run_command "installing ipython" \
     "pip install ipython"

@@ -32,3 +32,7 @@ run_command "using node $NODE_VERSION" \
 run_command "installing bash-language-server" \
     "npm i -g bash-language-server"
 
+# Install prettierd 
+run_command "installing prettierd" \
+    "npm i -g @fsouza/prettierd"
+
