@@ -317,11 +317,12 @@ vim.keymap.set('n', '<leader>gl', require('telescope.builtin').git_commits, { de
 
 -- Search for pattern in current project files
 vim.keymap.set('n', '<leader>ps', function()
-  local ok, search = pcall(vim.fn.input, "Grep > ")
-  if ok then
-    require('telescope.builtin').grep_string({ search = search })
-  end
-end)
+  vim.ui.input({ prompt = 'Project Search:' }, function(search)
+    if search then
+      require('telescope.builtin').grep_string({ search = search })
+    end
+  end)
+end, { desc = '[P]roject [S]earch'})
 
 -- Search for the current word in project files
 vim.keymap.set('n', '<leader>F', require('telescope.builtin').grep_string,
