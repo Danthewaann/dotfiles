@@ -63,6 +63,6 @@ return {
                 end
             end)
         end, { desc = '[F]ile [N]ew'})
-
+        vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable"})
     end
 }

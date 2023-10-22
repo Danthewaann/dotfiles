@@ -154,9 +154,6 @@ vim.keymap.set('n', '<leader>gvf', ":GV!<CR>", { silent = true })
 -- Show commits for the visual selection
 vim.keymap.set('x', '<leader>gv', ":GV<CR>", { silent = true })
 
--- Make the current file executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-
 -- Add custom vim-unimpaired like mapping to toggle folds in current window
 vim.keymap.set("n", "yof", function()
     if vim.wo.foldenable == true then
