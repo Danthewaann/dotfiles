@@ -234,6 +234,7 @@ vim.keymap.set("n", "<leader><space>", function()
   require("telescope.builtin").buffers(require("telescope.themes").get_dropdown({
     previewer = false,
     sort_mru = true,
+    ignore_current_buffer = true
   }))
 end, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
