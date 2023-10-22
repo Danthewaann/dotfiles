@@ -264,7 +264,7 @@ require("telescope").setup({
   },
   pickers = {
     live_grep = {
-      additional_args = function(opts)
+      additional_args = function(_)
         return { "--hidden" }
       end,
     },
@@ -340,6 +340,7 @@ end, { desc = "[F]ind word" })
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
+  ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
@@ -373,7 +374,7 @@ vim.defer_fn(function()
 
     highlight = {
       enable = true,
-      disable = function(lang, buf)
+      disable = function(_, buf)
         -- Disable highlighting for large files
         local max_filesize = 200 * 1024 -- 200 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -471,6 +472,7 @@ local on_attach = function(_, bufnr)
 
   local function unfold()
     vim.defer_fn(function()
+      ---@diagnostic disable-next-line: param-type-mismatch
       pcall(vim.cmd, ":normal! zvzczOzz")
     end, 100)
   end
@@ -611,6 +613,7 @@ local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup({})
 
+---@diagnostic disable-next-line: missing-fields
 cmp.setup({
   snippet = {
     expand = function(args)
