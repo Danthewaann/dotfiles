@@ -441,22 +441,15 @@ vim.defer_fn(function()
   local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
   -- Repeat movement with ; and ,
-  -- ensure ; goes forward and , goes backward regardless of the last direction
-  vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-  vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
-
-  -- vim way: ; goes to the direction you were moving.
-  -- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-  -- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-  -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-  vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-  vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-  vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-  vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+  vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+  vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
 end, 0)
 
 -- Diagnostic keymaps
+vim.diagnostic.config({
+  virtual_text = { severity = vim.diagnostic.severity.ERROR },
+  signs = { severity = vim.diagnostic.severity.ERROR },
+})
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
@@ -464,11 +457,6 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 -- [[ Configure LSP ]]
 -- This function gets run when an LSP connects to a particular buffer.
-vim.diagnostic.config({
-  virtual_text = { severity = vim.diagnostic.severity.ERROR },
-  signs = { severity = vim.diagnostic.severity.ERROR },
-})
-
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
