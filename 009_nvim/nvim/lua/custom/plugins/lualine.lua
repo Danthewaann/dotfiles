@@ -133,6 +133,7 @@ return {
             "packer",
             "list",
             "help",
+            "man",
             "spectre_panel",
             "dbout",
             "DiffviewFiles",
