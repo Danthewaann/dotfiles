@@ -1,5 +1,5 @@
 let test#strategy = "neovim"
-let test#neovim#term_position = '$tab'
+let test#neovim#term_position = 'vertical'
 let test#custom_runners = {'python': ['make'], 'go': ['make']}
 
 if executable("make") && !empty(glob("Makefile"))

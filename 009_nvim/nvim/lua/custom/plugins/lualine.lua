@@ -3,6 +3,88 @@ return {
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
   config = function()
+    function winbar_formatter(result, _)
+      -- Just output the terminal command if this is a terminal job
+      if string.match(result, "term:.*:.*") then
+        local t = {}
+        local i = 1
+        for str in string.gmatch(result, "([^:]*)") do
+          if i > 3 then
+            t[#t + 1] = str
+          end
+          i = i + 1
+        end
+        return string.gsub(string.sub(table.concat(t, ":"), 2, -2), ":::", "::")
+      elseif string.match(result, "t//.*:.*") then
+        local t = {}
+        local i = 1
+        for str in string.gmatch(result, "([^:]*)") do
+          if i > 5 then
+            t[#t + 1] = str
+          end
+          i = i + 1
+        end
+        -- Remove the term path and port to only include the make command in the tabline
+        return string.gsub(string.sub(table.concat(t, ":", 3), 1, -2), ":::", "::")
+      end
+      return result
+    end
+
+    local function tabline_formatter(result, context)
+      if context.filetype == "fugitive" then
+        return "[Git Status]"
+      end
+      if context.filetype == "aerial" then
+        return "[Aerial]"
+      end
+
+      if string.match(context.file, "--follow") or string.match(context.file, "-L") then
+        return string.format("[Git Log] %s", result)
+      elseif string.match(context.file, "--graph") then
+        return "[Git Log]"
+      elseif context.filetype == "DiffviewFiles" then
+        return "[Diff View]"
+      end
+
+      return result
+    end
+
+    local tabline_buffers_config = {
+      "buffers",
+      show_filename_only = true, -- Shows shortened relative path when set to false.
+      hide_filename_extension = false, -- Hide filename extension when set to true.
+      show_modified_status = true, -- Shows indicator when the buffer is modified.
+
+      mode = 2, -- 0: Shows buffer name
+      -- 1: Shows buffer index
+      -- 2: Shows buffer name + buffer index
+      -- 3: Shows buffer number
+      -- 4: Shows buffer name + buffer number
+      fmt = tabline_formatter,
+
+      max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
+      -- it can also be a function that returns
+      -- the value of `max_length` dynamically.
+      filetype_names = {
+        TelescopePrompt = "Telescope",
+        dashboard = "Dashboard",
+        packer = "Packer",
+        fzf = "FZF",
+        alpha = "Alpha",
+        oil = "File Explorer",
+        dbui = "DB Explorer",
+      }, -- Shows specific buffer name for that filetype ( { `filetype` = `buffer_name`, ... } )
+
+      -- Automatically updates active buffer color to match color of other components (will be overridden if buffers_color is set)
+      use_mode_colors = false,
+
+      symbols = {
+        modified = " [+]", -- Text to show when the buffer is modified
+        alternate_file = "#", -- Text to show to identify the alternate file
+        directory = "", -- Text to show when the buffer is a directory
+      },
+    }
+
     local winbar_filename_config = {
       "filename",
       file_status = true, -- Displays file status (readonly status, modified status)
@@ -12,31 +94,12 @@ return {
       -- 2: Absolute path
       -- 3: Absolute path, with tilde as the home directory
       -- 4: Filename and parent dir, with tilde as the home directory
-      fmt = function(result, context)
-        -- Just output the terminal command if this is a terminal job
-        if string.match(result, "term:.*:.*") then
-          local t = {}
-          for i in string.gmatch(result, "([^:]*)") do
-            t[#t + 1] = i
-          end
-          -- Remove the term path and port to only include the make command in the tabline
-          return string.gsub(string.sub(table.concat(t, ":", 4), 2, -5), ":::", "::")
-        elseif string.match(result, "t//.*:.*") then
-          local t = {}
-          for i in string.gmatch(result, "([^:]*)") do
-            t[#t + 1] = i
-          end
-          -- Remove the term path and port to only include the make command in the tabline
-          return string.gsub(string.sub(table.concat(t, ":", 3), 1, -5), ":::", "::")
-        end
-        return result
-      end,
-
+      fmt = winbar_formatter,
       shorting_target = 40, -- Shortens path to leave 40 spaces in the window
       -- for other components. (terrible name, any suggestions?)
       symbols = {
-        modified = "[+]", -- Text to show when the file is modified.
-        readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+        modified = "", -- Text to show when the file is modified.
+        readonly = "", -- Text to show when the file is non-modifiable or readonly.
         unnamed = "", -- Text to show for unnamed buffers.
         newfile = "", -- Text to show for newly created file before first write
       },
@@ -75,22 +138,23 @@ return {
             "DiffviewFiles",
             "DiffviewFileHistory",
             "oil",
+            "aerial",
           },
         },
       },
-      extensions = { "fugitive", "nvim-tree", "quickfix" },
+      extensions = { "fugitive", "nvim-tree", "quickfix", "aerial" },
       winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filetype_config },
-        lualine_c = { winbar_filename_config },
+        lualine_b = { winbar_filename_config },
+        lualine_c = { "aerial" },
         lualine_x = { "diagnostics" },
         lualine_y = { "diff" },
         lualine_z = {},
       },
       inactive_winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filetype_config },
-        lualine_c = { winbar_filename_config },
+        lualine_b = { winbar_filename_config },
+        lualine_c = {},
         lualine_x = { "diagnostics" },
         lualine_y = { "diff" },
         lualine_z = {},
@@ -98,12 +162,23 @@ return {
       sections = {
         lualine_b = { "branch" },
         lualine_c = {},
-        lualine_x = {},
+        lualine_x = { "searchcount" },
         lualine_y = { "progress" },
         lualine_z = { "location" },
       },
       inactive_sections = {
         lualine_c = {},
+      },
+      tabline = {
+        lualine_a = { tabline_buffers_config },
+        lualine_z = {
+          {
+            "tabs",
+            symbols = {
+              modified = "",
+            },
+          },
+        },
       },
     })
   end,

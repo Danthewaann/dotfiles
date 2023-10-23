@@ -63,44 +63,44 @@ vim.keymap.set("t", "<C-k>", "<cmd> wincmd k<CR>")
 vim.keymap.set("t", "<C-l>", "<cmd> wincmd l<CR>")
 
 -- Tab navigation
-vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
-vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
-vim.keymap.set("t", "<C-w><C-h>", "<cmd> tabprevious<CR>", { silent = true })
-vim.keymap.set("t", "<C-w><C-l>", "<cmd> tabnext<CR>", { silent = true })
+vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent bprevious<CR>")
+vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent bnext<CR>")
+vim.keymap.set("t", "<C-w><C-h>", "<cmd> bprevious<CR>", { silent = true })
+vim.keymap.set("t", "<C-w><C-l>", "<cmd> bnext<CR>", { silent = true })
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
 vim.keymap.set("t", "<C-w>q", "<cmd> silent tabclose<CR>")
 
 -- Close all tabs except current one
-vim.keymap.set("n", "<C-w>to", "<cmd> tabonly<CR>")
-vim.keymap.set("t", "<C-w>to", "<cmd> silent tabonly<CR>")
+vim.keymap.set("n", "<C-w>to", "<cmd> BufOnly<CR>")
+vim.keymap.set("t", "<C-w>to", "<cmd> silent BufOnly<CR>")
 
 -- Open a new tab
 vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>")
 vim.keymap.set("t", "<C-w>N", "<cmd> silent tabnew<CR>")
 
 -- Go to tab by number
-vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>")
-vim.keymap.set("n", "<C-w>2", "<cmd> tabn2<CR>")
-vim.keymap.set("n", "<C-w>3", "<cmd> tabn3<CR>")
-vim.keymap.set("n", "<C-w>4", "<cmd> tabn4<CR>")
-vim.keymap.set("n", "<C-w>5", "<cmd> tabn5<CR>")
-vim.keymap.set("n", "<C-w>6", "<cmd> tabn6<CR>")
-vim.keymap.set("n", "<C-w>7", "<cmd> tabn7<CR>")
-vim.keymap.set("n", "<C-w>8", "<cmd> tabn8<CR>")
-vim.keymap.set("n", "<C-w>9", "<cmd> tabn9<CR>")
-vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>")
-vim.keymap.set("t", "<C-w>1", "<cmd> silent tabn1<CR>")
-vim.keymap.set("t", "<C-w>2", "<cmd> silent tabn2<CR>")
-vim.keymap.set("t", "<C-w>3", "<cmd> silent tabn3<CR>")
-vim.keymap.set("t", "<C-w>4", "<cmd> silent tabn4<CR>")
-vim.keymap.set("t", "<C-w>5", "<cmd> silent tabn5<CR>")
-vim.keymap.set("t", "<C-w>6", "<cmd> silent tabn6<CR>")
-vim.keymap.set("t", "<C-w>7", "<cmd> silent tabn7<CR>")
-vim.keymap.set("t", "<C-w>8", "<cmd> silent tabn8<CR>")
-vim.keymap.set("t", "<C-w>9", "<cmd> silent tabn9<CR>")
-vim.keymap.set("t", "<C-w>0", "<cmd> silent tablast<CR>")
+vim.keymap.set("n", "<C-w>1", "<cmd> LualineBuffersJump! 1<CR>")
+vim.keymap.set("n", "<C-w>2", "<cmd> LualineBuffersJump! 2<CR>")
+vim.keymap.set("n", "<C-w>3", "<cmd> LualineBuffersJump! 3<CR>")
+vim.keymap.set("n", "<C-w>4", "<cmd> LualineBuffersJump! 4<CR>")
+vim.keymap.set("n", "<C-w>5", "<cmd> LualineBuffersJump! 5<CR>")
+vim.keymap.set("n", "<C-w>6", "<cmd> LualineBuffersJump! 6<CR>")
+vim.keymap.set("n", "<C-w>7", "<cmd> LualineBuffersJump! 7<CR>")
+vim.keymap.set("n", "<C-w>8", "<cmd> LualineBuffersJump! 8<CR>")
+vim.keymap.set("n", "<C-w>9", "<cmd> LualineBuffersJump! 9<CR>")
+vim.keymap.set("n", "<C-w>0", "<cmd> LualineBuffersJump! $<CR>")
+vim.keymap.set("t", "<C-w>1", "<cmd> silent LualineBuffersJump! 1<CR>")
+vim.keymap.set("t", "<C-w>2", "<cmd> silent LualineBuffersJump! 2<CR>")
+vim.keymap.set("t", "<C-w>3", "<cmd> silent LualineBuffersJump! 3<CR>")
+vim.keymap.set("t", "<C-w>4", "<cmd> silent LualineBuffersJump! 4<CR>")
+vim.keymap.set("t", "<C-w>5", "<cmd> silent LualineBuffersJump! 5<CR>")
+vim.keymap.set("t", "<C-w>6", "<cmd> silent LualineBuffersJump! 6<CR>")
+vim.keymap.set("t", "<C-w>7", "<cmd> silent LualineBuffersJump! 7<CR>")
+vim.keymap.set("t", "<C-w>8", "<cmd> silent LualineBuffersJump! 8<CR>")
+vim.keymap.set("t", "<C-w>9", "<cmd> silent LualineBuffersJump! 9<CR>")
+vim.keymap.set("t", "<C-w>0", "<cmd> silent LualineBuffersJump! $<CR>")
 
 -- Move tabs left or right
 vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>")
@@ -112,7 +112,7 @@ vim.keymap.set("t", "<C-w>.", "<cmd> silent +tabmove<CR>")
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
 
 -- Exit the current window
-vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
+vim.keymap.set("n", "<C-q>", "<cmd> silent bdelete<CR>")
 
 -- Treat Ctrl+C exactly like <Esc> in insert mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -133,7 +133,7 @@ vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<C
 -- Git commands
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
-vim.keymap.set("n", "<leader>gg", "<cmd> silent Git<CR>", { desc = "[G]it [G]et" })
+vim.keymap.set("n", "<leader>gg", "<cmd> silent vertical Git<CR>", { desc = "[G]it [G]et" })
 vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]omit" })
 vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]omit [A]mend" })
 vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]omit [E]dit" })
