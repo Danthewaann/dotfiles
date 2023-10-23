@@ -228,7 +228,7 @@ vim.keymap.set("n", "<leader><space>", function()
   require("telescope.builtin").buffers(require("telescope.themes").get_dropdown({
     previewer = false,
     sort_mru = true,
-    ignore_current_buffer = true
+    ignore_current_buffer = true,
   }))
 end, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
@@ -407,8 +407,7 @@ local on_attach = function(_, bufnr)
 
   local function unfold()
     vim.defer_fn(function()
-      ---@diagnostic disable-next-line: param-type-mismatch
-      pcall(vim.cmd, ":normal! zvzczOzz")
+      pcall(vim.cmd.normal, "zvzczOzz")
     end, 100)
   end
 
@@ -462,7 +461,7 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.hover()
     end
   end, "Hover Documentation")
-  nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
