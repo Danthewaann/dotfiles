@@ -61,6 +61,9 @@ vim.o.confirm = true
 -- Don't show what I'm typing on the right hand side of the command line
 vim.o.showcmd = false
 
+-- Don't show search count while searching (let lualine manage it)
+vim.opt.shortmess:append("S")
+
 -- Setup folds with treesitter and nvim-ufo
 vim.o.foldcolumn = "0"
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
