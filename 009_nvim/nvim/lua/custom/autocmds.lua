@@ -1,5 +1,6 @@
 local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
+local bufmap = vim.api.nvim_buf_set_keymap
 
 augroup("highlight_cursorline", { clear = true })
 autocmd("InsertEnter", {
@@ -96,5 +97,25 @@ autocmd("BufLeave", {
         end
       end, 100)
     end
+  end,
+})
+
+-- fugitive related keymaps
+augroup("git_status", { clear = true })
+autocmd("FileType", {
+  group = "git_status",
+  pattern = "fugitive",
+  callback = function()
+    bufmap(0, "n", "<Tab>", ":normal =<CR>", { silent = true })
+  end,
+})
+
+-- oil related keymaps
+augroup("oil", { clear = true })
+autocmd("FileType", {
+  group = "oil",
+  pattern = "oil",
+  callback = function()
+    bufmap(0, "n", "<Tab>", "<CR>", { silent = true })
   end,
 })
