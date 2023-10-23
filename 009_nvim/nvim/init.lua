@@ -302,6 +302,7 @@ vim.defer_fn(function()
       "make",
       "dockerfile",
       "yaml",
+      "sql",
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -504,6 +505,7 @@ local servers = {
   html = { filetypes = { "html", "twig", "hbs" } },
   jsonls = {},
   yamlls = {},
+  sqlls = {},
 
   lua_ls = {
     Lua = {
