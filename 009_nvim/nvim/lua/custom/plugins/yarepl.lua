@@ -27,6 +27,7 @@ return {
         make = { cmd = { "make", "shell" }, formatter = yarepl.formatter.bracketed_pasting },
         ipython = { cmd = { "ipython", "--no-confirm-exit" }, formatter = yarepl.formatter.bracketed_pasting },
         python = { cmd = "python", formatter = yarepl.formatter.trim_empty_lines },
+        lua = { cmd = "lua", formatter = yarepl.formatter.trim_empty_lines },
         bash = { cmd = "bash", formatter = yarepl.formatter.trim_empty_lines },
         zsh = { cmd = "zsh", formatter = yarepl.formatter.bracketed_pasting },
       },
@@ -73,11 +74,12 @@ return {
     local ft_to_repl = {
       python = "make",
       sh = "bash",
+      lua = "lua",
       REPL = "",
     }
 
     autocmd("FileType", {
-      pattern = { "python", "sh", "REPL" },
+      pattern = { "python", "lua", "sh", "REPL" },
       desc = "set up REPL keymap",
       callback = function()
         local repl = ft_to_repl[vim.bo.filetype]
