@@ -3,7 +3,7 @@ return {
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
   config = function()
-    local function winbar_formatter(result, _)
+    local function winbar_formatter(result)
       -- Just output the terminal command if this is a terminal job
       if string.match(result, "term:.*:.*") then
         local t = {}
@@ -124,11 +124,13 @@ return {
         disabled_filetypes = {
           winbar = {
             "qf",
+            "git",
             "fugitive",
             "fugitiveblame",
             "dbui",
             "NvimTree",
             "undotree",
+            "diff",
             "gitcommit",
             "GV",
             "packer",

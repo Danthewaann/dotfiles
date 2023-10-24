@@ -297,7 +297,9 @@ return {
         separator_style = "thick",
         mode = "tabs", -- set to "tabs" to only show tabpages instead
         themable = true, -- allows highlight groups to be overridden i.e. sets highlights as default
-        numbers = "none",
+        numbers = function(opts)
+          return "[T" .. opts.ordinal .. "]"
+        end,
         indicator = {
           style = "none",
         },
@@ -314,8 +316,6 @@ return {
           -- bufnr (buffer only) | int        | the number of the active buffer
           -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
           -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-          local number = vim.api.nvim_tabpage_get_number(buf.tabnr)
-          local name = "[T" .. number .. "] "
           -- Just output the terminal command if this is a terminal job
           if string.match(buf.path, "term:.*:.*") then
             local t = {}
@@ -323,46 +323,19 @@ return {
               t[#t + 1] = i
             end
             -- Remove the term path and port to only include the make command in the tabline
-            return name .. unpack(t, 3)
+            return unpack(t, 3)
           elseif string.match(buf.path, "--follow") or string.match(buf.path, "-L") then
-            return name .. "Git Log " .. buf.name
+            return "Git Log " .. buf.name
           elseif string.match(buf.path, "--graph") then
-            return name .. "Git Log"
+            return "Git Log"
           elseif string.match(buf.path, "DiffviewFilePanel") then
-            return name .. "Diff View"
+            return "Diff View"
           end
-          return name .. buf.name
         end,
         max_name_length = 25,
         truncate_names = false, -- whether or not tab names should be truncated
         tab_size = 0,
         diagnostics = false,
-        offsets = {
-          {
-            filetype = "NvimTree",
-            text = "File Explorer",
-            text_align = "left",
-            separator = true,
-          },
-          {
-            filetype = "dbui",
-            text = "DB Explorer",
-            text_align = "left",
-            separator = true,
-          },
-          {
-            filetype = "undotree",
-            text = "Undotree",
-            text_align = "left",
-            separator = true,
-          },
-          {
-            filetype = "DiffviewFiles",
-            text = "Diff View",
-            text_align = "left",
-            separator = true,
-          },
-        },
         -- Disable icons
         get_element_icon = function(element)
           return ""
