@@ -14,7 +14,7 @@ let g:db_ui_execute_on_save = 0
 let g:db_ui_win_position = 'right'
 
 " Open DB connections window
-nnoremap <silent><leader>db :tabnew<CR>:DBUI<CR>
+nnoremap <silent><leader>db :DBUI<CR>
 
 augroup dbui_au
     autocmd!

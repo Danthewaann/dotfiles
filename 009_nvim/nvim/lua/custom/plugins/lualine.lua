@@ -99,10 +99,10 @@ return {
       shorting_target = 40, -- Shortens path to leave 40 spaces in the window
       -- for other components. (terrible name, any suggestions?)
       symbols = {
-        modified = "", -- Text to show when the file is modified.
+        modified = "[+]", -- Text to show when the file is modified.
         readonly = "", -- Text to show when the file is non-modifiable or readonly.
-        unnamed = "", -- Text to show for unnamed buffers.
-        newfile = "", -- Text to show for newly created file before first write
+        unnamed = "[No Name]", -- Text to show for unnamed buffers.
+        newfile = "[New]", -- Text to show for newly created file before first write
       },
     }
 
@@ -171,21 +171,6 @@ return {
       inactive_sections = {
         lualine_c = {},
       },
-      -- tabline = {
-      --   lualine_a = { tabline_buffers_config },
-      --   lualine_b = {},
-      --   lualine_c = {},
-      --   lualine_x = {},
-      --   lualine_y = {
-      --     {
-      --       "tabs",
-      --       symbols = {
-      --         modified = "",
-      --       },
-      --     },
-      --   },
-      --   lualine_z = {},
-      -- },
     })
   end,
 }
