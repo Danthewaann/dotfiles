@@ -109,13 +109,3 @@ autocmd("FileType", {
     bufmap(0, "n", "<Tab>", ":normal =<CR>", { silent = true })
   end,
 })
-
--- oil related keymaps
-augroup("oil", { clear = true })
-autocmd("FileType", {
-  group = "oil",
-  pattern = "oil",
-  callback = function()
-    bufmap(0, "n", "<Tab>", "<CR>", { silent = true })
-  end,
-})
