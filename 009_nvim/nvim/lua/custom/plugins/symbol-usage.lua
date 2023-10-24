@@ -86,7 +86,7 @@ return {
     require("symbol-usage").setup({
       text_format = text_format,
       kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Struct, SymbolKind.Constant },
-      vt_position = "above",
+      vt_position = "end_of_line",
       filetypes = {
         lua = {
           kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Struct },
@@ -98,7 +98,7 @@ return {
       "n",
       "<leader>sut",
       ':lua require("symbol-usage").toggle()<CR>',
-      { desc = "[S]symbol [U]sage [T]oggle", silent = true }
+      { desc = "[S]ymbol [U]sage [T]oggle", silent = true }
     )
   end,
 }
