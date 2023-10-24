@@ -3,7 +3,7 @@ return {
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
   config = function()
-    function winbar_formatter(result, _)
+    local function winbar_formatter(result, _)
       -- Just output the terminal command if this is a terminal job
       if string.match(result, "term:.*:.*") then
         local t = {}
@@ -51,6 +51,7 @@ return {
 
     local tabline_buffers_config = {
       "buffers",
+      icons_enabled = true,
       show_filename_only = true, -- Shows shortened relative path when set to false.
       hide_filename_extension = false, -- Hide filename extension when set to true.
       show_modified_status = true, -- Shows indicator when the buffer is modified.
@@ -146,18 +147,18 @@ return {
       extensions = { "fugitive", "nvim-tree", "quickfix", "aerial" },
       winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filename_config },
-        lualine_c = { "aerial" },
-        lualine_x = { "diagnostics" },
-        lualine_y = { "diff" },
+        lualine_b = { winbar_filetype_config, winbar_filename_config },
+        lualine_c = { { "diff", draw_empty = true }, { "diagnostics", draw_empty = true } },
+        lualine_x = {},
+        lualine_y = {},
         lualine_z = {},
       },
       inactive_winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filename_config },
-        lualine_c = {},
-        lualine_x = { "diagnostics" },
-        lualine_y = { "diff" },
+        lualine_b = { winbar_filetype_config, winbar_filename_config },
+        lualine_c = { { "diff", draw_empty = true }, { "diagnostics", draw_empty = true } },
+        lualine_x = {},
+        lualine_y = {},
         lualine_z = {},
       },
       sections = {
@@ -170,17 +171,21 @@ return {
       inactive_sections = {
         lualine_c = {},
       },
-      tabline = {
-        lualine_a = { tabline_buffers_config },
-        lualine_z = {
-          {
-            "tabs",
-            symbols = {
-              modified = "",
-            },
-          },
-        },
-      },
+      -- tabline = {
+      --   lualine_a = { tabline_buffers_config },
+      --   lualine_b = {},
+      --   lualine_c = {},
+      --   lualine_x = {},
+      --   lualine_y = {
+      --     {
+      --       "tabs",
+      --       symbols = {
+      --         modified = "",
+      --       },
+      --     },
+      --   },
+      --   lualine_z = {},
+      -- },
     })
   end,
 }
