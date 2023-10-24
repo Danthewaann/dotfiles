@@ -384,13 +384,13 @@ end, 0)
 
 -- Diagnostic keymaps
 vim.diagnostic.config({
-  virtual_text = { severity = vim.diagnostic.severity.ERROR },
-  signs = { severity = vim.diagnostic.severity.ERROR },
+  virtual_text = { severity = vim.diagnostic.severity.WARN },
+  signs = { severity = vim.diagnostic.severity.WARN },
 })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, { desc = "Open diagnostics list" })
 
 -- [[ Configure LSP ]]
 -- This function gets run when an LSP connects to a particular buffer.
