@@ -177,3 +177,9 @@ vim.keymap.set("n", "<leader>fn", function()
   )
 end, { desc = "[F]ile [N]ew" })
 vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable" })
+
+-- Insert mode navigation
+vim.keymap.set("i", "<C-a>", "<Home>")
+vim.keymap.set("i", "<C-e>", "<End>")
+vim.keymap.set("i", "<C-b>", "<Left>")
+vim.keymap.set("i", "<C-f>", "<Right>")
