@@ -253,7 +253,9 @@ vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
-vim.keymap.set("n", "<leader>gf", require("telescope.builtin").git_status, { desc = "[G]it [F]iles" })
+vim.keymap.set("n", "<leader>gf", function()
+  require("telescope.builtin").git_status({ layout_strategy = "horizontal" })
+end, { desc = "[G]it [F]iles" })
 vim.keymap.set("n", "<leader>gl", require("telescope.builtin").git_commits, { desc = "[G]it [L]ogs" })
 
 -- Search for pattern in current project files
