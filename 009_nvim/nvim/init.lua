@@ -456,7 +456,7 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.hover()
     end
   end, "Hover Documentation")
-  nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("<leader>x", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
