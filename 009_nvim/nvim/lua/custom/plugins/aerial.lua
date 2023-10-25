@@ -363,5 +363,5 @@ return {
     })
   end,
 
-  vim.keymap.set("n", "<leader>ds", "<cmd>AerialToggle<CR>",  { desc = "[D]ocument [S]symbols" })
+  vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle<CR>",  { desc = "[A]erial Symbols" })
 }

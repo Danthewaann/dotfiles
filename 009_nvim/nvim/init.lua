@@ -440,9 +440,12 @@ local on_attach = function(_, bufnr)
     require("telescope.builtin").lsp_type_definitions()
     unfold()
   end, "Type [D]efinition")
+  nmap("<leader>ds", function()
+    require("telescope.builtin").lsp_document_symbols({ symbol_width = 70 })
+  end, "[D]ocument [S]ymbols")
   nmap("<leader>ws", function()
     require("telescope.builtin").lsp_dynamic_workspace_symbols({ fname_width = 70, symbol_width = 70 })
-  end, "[W]orkspace [S]symbols")
+  end, "[W]orkspace [S]ymbols")
   nmap("<leader>ss", function()
     local word = vim.fn.expand("<cword>")
     require("telescope.builtin").lsp_workspace_symbols({
@@ -451,7 +454,7 @@ local on_attach = function(_, bufnr)
       symbol_width = 70,
       query = word,
     })
-  end, "[S]symbol [S]earch")
+  end, "[S]ymbol [S]earch")
 
   -- See `:help K` for why this keymap
   nmap("K", function()
