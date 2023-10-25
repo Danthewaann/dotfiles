@@ -361,7 +361,7 @@ return {
         update_delay = 300,
       },
     })
-  end,
 
-  vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle<CR>",  { desc = "[A]erial Symbols" })
+    vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle<CR>",  { desc = "[T]oggle [A]erial" })
+  end,
 }
