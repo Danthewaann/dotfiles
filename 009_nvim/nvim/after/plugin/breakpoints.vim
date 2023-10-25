@@ -74,7 +74,7 @@ func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*' . breakpoint_stmt | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
 
-nnoremap <silent> gb :call <SID>ToggleBreakpoint()<CR>
+nnoremap <silent> <leader>bp :call <SID>ToggleBreakpoint()<CR>
 
 " From https://elliotekj.com/posts/2016/11/22/setup-ctrlp-to-use-ripgrep-in-vim/
 set grepprg=rg\ --vimgrep\ --color=never
