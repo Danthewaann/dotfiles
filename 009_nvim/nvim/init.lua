@@ -384,8 +384,8 @@ end, 0)
 
 -- Diagnostic keymaps
 vim.diagnostic.config({
-  virtual_text = { severity = vim.diagnostic.severity.WARN },
-  signs = { severity = vim.diagnostic.severity.WARN },
+  virtual_text = { enable = true },
+  signs = { enable = true },
 })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
