@@ -109,7 +109,7 @@ return {
     local winbar_filetype_config = {
       "filetype",
       colored = true, -- Displays filetype icon in color if set to true
-      icon_only = true, -- Display only an icon for filetype
+      icon_only = false, -- Display only an icon for filetype
       icon = { align = "right" }, -- Display filetype icon on the right hand side
       -- icon =    {'X', align='right'}
       -- Icon string ^ in table is ignored in filetype component
@@ -117,7 +117,7 @@ return {
 
     require("lualine").setup({
       options = {
-        component_separators = "",
+        component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         ignore_focus = { "NvimTree", "dbui", "undotree", "TelescopePrompt" },
         globalstatus = true,
@@ -149,16 +149,16 @@ return {
       extensions = { "fugitive", "nvim-tree", "quickfix", "aerial" },
       winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filetype_config, winbar_filename_config },
-        lualine_c = { { "diff", draw_empty = true }, { "diagnostics", draw_empty = true } },
+        lualine_b = { winbar_filetype_config },
+        lualine_c = { winbar_filename_config, "diff", "diagnostics" },
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
       inactive_winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filetype_config, winbar_filename_config },
-        lualine_c = { { "diff", draw_empty = true }, { "diagnostics", draw_empty = true } },
+        lualine_b = { winbar_filename_config, "diff", "diagnostics" },
+        lualine_c = {},
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
@@ -166,7 +166,7 @@ return {
       sections = {
         lualine_b = { "branch" },
         lualine_c = {},
-        lualine_x = { "searchcount" },
+        lualine_x = { "searchcount", "encoding", "fileformat" },
         lualine_y = { "progress" },
         lualine_z = { "location" },
       },
