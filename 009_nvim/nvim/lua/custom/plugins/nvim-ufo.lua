@@ -10,6 +10,7 @@ return {
       markdown = "treesitter",
       sh = "treesitter",
       yaml = "treesitter",
+      javascript = "treesitter",
     }
 
     require("ufo").setup({
