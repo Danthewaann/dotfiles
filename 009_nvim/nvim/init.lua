@@ -49,11 +49,7 @@ require("lazy").setup({
       {
         "j-hui/fidget.nvim",
         tag = "legacy",
-        opts = {
-          sources = {
-            pyright = { ignore = true },
-          },
-        },
+        opts = {},
       },
 
       -- Additional lua configuration, makes nvim stuff amazing!
