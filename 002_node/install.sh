@@ -28,10 +28,6 @@ run_command "making node $NODE_VERSION the default" \
 run_command "using node $NODE_VERSION" \
     "nvm use default"
 
-# Install bash language server
-run_command "installing bash-language-server" \
-    "npm i -g bash-language-server"
-
 # Install prettierd 
 run_command "installing prettierd" \
     "npm i -g @fsouza/prettierd"

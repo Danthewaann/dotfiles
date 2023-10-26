@@ -510,6 +510,7 @@ local servers = {
   html = { filetypes = { "html", "twig", "hbs" } },
   jsonls = {},
   sqlls = {},
+  bashls = {},
 
   lua_ls = {
     Lua = {
