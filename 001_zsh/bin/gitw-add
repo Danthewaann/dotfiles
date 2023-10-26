@@ -118,7 +118,7 @@ if ! output=$(git branch -m "$branch_name" 2>&1); then
     fi
 # Check if the branch exists remotely, if it does set it as upstream and hard reset to it
 elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
-    echo "Branch '$branch_name' exists remotely, setting as upsteam and hard resetting to it"
+    echo "Branch '$branch_name' exists remotely, setting as upstream and hard resetting to it"
     if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
         error "Failed to set upstream to branch : $output"
         exit 1
@@ -130,7 +130,7 @@ elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
 
     >&2 echo
     info "Running git pull..."
-    >&2 git pull 
+    >&2 git pull
 fi
 
 
@@ -149,7 +149,7 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo
         info "Running poetry install..."
         >&2 echo
-        script -q /dev/null poetry install
+        poetry install > /dev/stderr 2>&1
     fi
 
     if [[ -f "pyproject.toml" ]] && [[ -f "$HOME/pyrightconfig.json" ]] && ! [[ -f "pyrightconfig.json" ]]; then
