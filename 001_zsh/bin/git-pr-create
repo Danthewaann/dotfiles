@@ -126,7 +126,7 @@ else
     touch "$pr_file_name"
 fi
 
-nvim "$pr_file_name"
+$EDITOR "$pr_file_name"
 
 if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
     pr_template_md5=$(md5 -q .github/PULL_REQUEST_TEMPLATE.md)
