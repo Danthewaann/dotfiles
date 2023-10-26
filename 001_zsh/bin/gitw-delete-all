@@ -9,11 +9,17 @@ source "$CUR_DIR/_git-common"
 # Delete all git worktrees in current bare repository
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo != "true" ]]; then
-    >&2 echo
-    error "Must be run in a bare repository"
-    exit 1
+    while IFS=$'\n' read -r dir; do
+        # If this directory is a bare git repository, run this command against that repo
+        if ls "$dir"/.bare > /dev/null 2>&1; then
+            cd "$dir"
+            if ! gitw-delete-all "$@"; then true; fi
+            >&2 echo
+        fi
+    done < <(find "$(pwd)" -mindepth 1 -maxdepth 1 -type d)
 fi
 
+info "Checking for git worktrees in $(pwd)"
 worktrees=()
 while IFS='' read -r line; do worktrees+=("$line"); done < <(git worktree list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1)
 if [[ ${#worktrees[@]} -eq 0 ]]; then
@@ -24,14 +30,13 @@ fi
 
 got_error=0
 for worktree in "${worktrees[@]}"; do
-    >&2 echo
-    info "Deleting worktree : $worktree"
     if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
-        error "$result"
+        error "Failed to delete worktree : $(basename "$worktree")\n$result" 2>&1 | indent
+        >&2 echo
         got_error=1
         continue
     fi
-    success "Successfully deleted $worktree"
+    success "Successfully deleted worktree : $(basename "$worktree")" 2>&1 | indent
 done
 
 if [[ $got_error -ne 0 ]]; then
