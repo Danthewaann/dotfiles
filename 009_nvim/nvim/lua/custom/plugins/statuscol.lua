@@ -5,6 +5,7 @@ return {
     require("statuscol").setup({
       relculright = true,
       bt_ignore = { "terminal" },
+      ft_ignore = { "oil" },
       segments = {
         {
           sign = { name = { "Diagnostic" }, maxwidth = 1, auto = true },
