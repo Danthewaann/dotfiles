@@ -85,8 +85,8 @@ source $ZSH/oh-my-zsh.sh
 
 # From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
 # and https://htr3n.github.io/2018/07/faster-zsh/
-# On slow systems, checking the cached .zcompdump file to see if it must be 
-# regenerated adds a noticable delay to zsh startup.  This little hack restricts 
+# On slow systems, checking the cached .zcompdump file to see if it must be
+# regenerated adds a noticeable delay to zsh startup.  This little hack restricts
 # it to once a day.  It should be pasted into your own completion file.
 #
 # The globbing is a little complicated here:
@@ -94,11 +94,11 @@ source $ZSH/oh-my-zsh.sh
 # - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
 # - '.' matches "regular files"
 # - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
-autoload -Uz compinit 
+autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-	compinit;
+    compinit;
 else
-	compinit -C;
+    compinit -C;
 fi
 
 # User configuration
@@ -198,7 +198,7 @@ function gitw-add() {
 function zvm_vi_yank() {
     # Yank to system clipboard in zsh-vi-mode
     # From: https://github.com/jeffreytse/zsh-vi-mode/issues/19
-	zvm_yank
-	echo ${CUTBUFFER} | pbcopy
-	zvm_exit_visual_mode
+    zvm_yank
+    echo ${CUTBUFFER} | pbcopy
+    zvm_exit_visual_mode
 }
