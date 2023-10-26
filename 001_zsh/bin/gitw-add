@@ -12,10 +12,13 @@ checkout_only=0
 copy_venv=0
 
 function usage() {
-    cat <<-END
-branch_name      name of the branch to create
---checkout-only  only checkout the branch
---copy           copy .venv from base worktree into new worktree
+    cat <<-END > /dev/stderr
+
+Usage:
+    branch_name      name of the branch to create
+
+    --checkout-only  only checkout the branch
+    --copy           copy .venv from base worktree into new worktree
 END
 }
 
@@ -40,6 +43,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+>&2 echo
+
 if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $is_bare_repo != "true" ]]; then
     error "Must be run in a bare repository!"
@@ -48,10 +53,9 @@ fi
 
 set -- "${args[@]}"
 
->&2 echo
-
 if [[ $# -lt 1 ]]; then
-    error "Must provide a branch name"
+    error "Must provide a branch name!"
+    usage
     exit 1
 fi
 
