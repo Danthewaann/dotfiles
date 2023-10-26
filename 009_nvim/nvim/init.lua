@@ -493,6 +493,27 @@ require("which-key").register({
 require("mason").setup()
 require("mason-lspconfig").setup()
 
+-- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
+local function get_python_path(workspace)
+  local util = require("lspconfig/util")
+  local path = util.path
+
+  -- Use activated virtualenv.
+  if vim.env.VIRTUAL_ENV then
+    return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
+  end
+
+  -- Find and use virtualenv via poetry in workspace directory.
+  local match = vim.fn.glob(path.join(workspace, "poetry.lock"))
+  if match ~= "" then
+    local venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
+    return path.join(venv, "bin", "python")
+  end
+
+  -- Fallback to system Python.
+  return exepath("python3") or exepath("python") or "python"
+end
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -502,21 +523,28 @@ require("mason-lspconfig").setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  clangd = {},
-  gopls = {},
-  pyright = {},
-  ruff_lsp = {},
-  rust_analyzer = {},
-  tsserver = {},
-  html = { filetypes = { "html", "twig", "hbs" } },
-  jsonls = {},
-  sqlls = {},
-  bashls = {},
+  clangd = { settings = {} },
+  gopls = { settings = {} },
+  pyright = {
+    settings = {},
+    before_init = function(_, config)
+      config.settings.python.pythonPath = get_python_path(config.root_dir)
+    end,
+  },
+  ruff_lsp = { settings = {} },
+  rust_analyzer = { settings = {} },
+  tsserver = { settings = {} },
+  html = { settings = {}, filetypes = { "html", "twig", "hbs" } },
+  jsonls = { settings = {} },
+  sqlls = { settings = {} },
+  bashls = { settings = {} },
 
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
     },
   },
 }
@@ -537,11 +565,13 @@ mason_lspconfig.setup({
 
 mason_lspconfig.setup_handlers({
   function(server_name)
+    local server = servers[server_name] or {}
     require("lspconfig")[server_name].setup({
       capabilities = capabilities,
       on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
+      settings = server.settings,
+      before_init = server.before_init,
+      filetypes = server.filetypes,
     })
   end,
 })
