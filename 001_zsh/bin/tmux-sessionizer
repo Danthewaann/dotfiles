@@ -4,7 +4,15 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     default_locations=("$HOME/Workspace")
-    while IFS=$'\n' read -r line; do default_locations+=("$line"); done < <(find $HOME/Workspace -mindepth 1 -maxdepth 1 -type d)
+
+    while IFS=$'\n' read -r line; do
+        # If this directory is a bare git repository, get a list of all immediate sub-directories.
+        if ls "$line"/.bare > /dev/null 2>&1; then
+            while IFS=$'\n' read -r line2; do default_locations+=("$line2"); done < <(find "$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*')
+        fi
+
+        default_locations+=("$line")
+    done < <(find $HOME/Workspace -mindepth 1 -maxdepth 1 -type d)
     selected=$(printf "%s\n" "${default_locations[@]}" | $HOME/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux $TMUX_FZF_OPTIONS)
 fi
 
@@ -12,7 +20,16 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+parent=$(dirname "$selected")
+
+# If this parent directory for the selected directory is a bare git repository,
+# pre-pend the parent directory to the selected directory.
+if ls "$parent/.bare" > /dev/null 2>&1; then
+    selected_name=$(basename "$parent")/$(basename "$selected" | tr . _)
+else
+    selected_name=$(basename "$selected" | tr . _)
+fi
+
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
