@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -uoe pipefail
 
 CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -24,6 +24,22 @@ labels=()
 
 function usage() {
     gh pr create --help
+}
+
+function pr_info() {
+    url=$(gh pr view --json url --jq .url)
+
+    slack_label=${pr_types[$pr_type]}
+
+    if [[ $pr_is_draft -ne 0 ]]; then
+        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
+    else
+        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$slack_label" "$pr_title")
+    fi
+
+    >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
+    echo "$output"
+    echo "$output" | pbcopy
 }
 
 while [[ $# -gt 0 ]]; do
@@ -56,6 +72,14 @@ while [[ $# -gt 0 ]]; do
         ;;
     esac
 done
+
+# Check if a PR has already been opened for the current branch
+if pr_title=$(gh pr list | grep "$(git branch --show-current)" | cut -f2); then
+    >&2 echo
+    warn "A PR has already been opened for this branch"
+    pr_info
+    exit 1
+fi
 
 # Get list of labels that are available in the current repository
 repo_labels=()
@@ -125,19 +149,7 @@ gh pr create \
     "${args[@]}" || exit $?
 
 if [[ -n "$pr_type" ]]; then
-    url=$(gh pr view --json url --jq .url)
-
-    slack_label=${pr_types[$pr_type]}
-
-    if [[ $pr_is_draft -ne 0 ]]; then
-        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
-    else
-        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$slack_label" "$pr_title")
-    fi
-
-    >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-    echo "$output"
-    echo "$output" | pbcopy
+    pr_info
 fi
 
 rm -f "$pr_file_name"
