@@ -205,6 +205,8 @@ require("telescope").setup({
   },
 })
 
+local utils = require("custom.utils")
+
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
 
@@ -256,7 +258,7 @@ end, { desc = "[P]roject [S]earch" })
 -- Search for the current word in project files
 vim.keymap.set("n", "<leader>F", require("telescope.builtin").grep_string, { desc = "[F]ind word" })
 vim.keymap.set("v", "<leader>F", function()
-  require("telescope.builtin").grep_string({ search = require("custom.utils").get_visual_selection() })
+  require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
 end, { desc = "[F]ind word" })
 
 -- [[ Configure Treesitter ]]
@@ -389,35 +391,29 @@ local on_attach = function(_, bufnr)
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-  local function unfold()
-    vim.defer_fn(function()
-      pcall(vim.cmd.normal, "zvzczOzz")
-    end, 100)
-  end
-
   nmap("gd", function()
     require("telescope.builtin").lsp_definitions()
-    unfold()
+    utils.unfold()
   end, "[G]oto [D]efinition")
   nmap("gh", function()
     -- Workaround: https://github.com/nvim-telescope/telescope.nvim/issues/2368
     vim.cmd(":vsplit | lua vim.lsp.buf.definition()")
-    unfold()
+    utils.unfold()
   end, "[G]oto Definition In Vertical Split")
   nmap("gs", function()
     vim.cmd(":split | lua vim.lsp.buf.definition()")
-    unfold()
+    utils.unfold()
   end, "[G]oto Definition In [S]plit")
   nmap("gr", function()
     require("telescope.builtin").lsp_references({ include_declaration = false, fname_width = 70 })
   end, "[G]oto [R]eferences")
   nmap("gI", function()
     require("telescope.builtin").lsp_implementations()
-    unfold()
+    utils.unfold()
   end, "[G]oto [I]mplementation")
   nmap("<leader>D", function()
     require("telescope.builtin").lsp_type_definitions()
-    unfold()
+    utils.unfold()
   end, "Type [D]efinition")
   nmap("<leader>ds", function()
     require("telescope.builtin").lsp_document_symbols({ symbol_width = 70 })

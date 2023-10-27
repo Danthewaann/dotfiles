@@ -1,3 +1,5 @@
+local utils = require("custom.utils")
+
 -- Treat <space> as a noop
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
@@ -193,7 +195,7 @@ vim.keymap.set("n", "gf", function()
   else
     -- Get the current sequence of non-blank characters
     vim.cmd(":normal viW")
-    local selection = require("custom.utils").get_visual_selection()
+    local selection = utils.get_visual_selection()
 
     -- Separate the path from the potential line number
     -- e.g. some/path/to/file:42:
@@ -214,5 +216,7 @@ vim.keymap.set("n", "gf", function()
     else
       vim.cmd(":e " .. t[1])
     end
+
+    utils.unfold()
   end
 end, { silent = true })

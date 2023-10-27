@@ -14,4 +14,10 @@ M.get_visual_selection = function()
   end
 end
 
+M.unfold = function()
+  vim.defer_fn(function()
+    pcall(vim.cmd.normal, "zvzczOzz")
+  end, 100)
+end
+
 return M
