@@ -12,20 +12,19 @@ else
         fi
 
         default_locations+=("$line")
-    done < <(find $HOME/Workspace -mindepth 1 -maxdepth 1 -type d)
-    selected=$(printf "%s\n" "${default_locations[@]}" | $HOME/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux $TMUX_FZF_OPTIONS)
+    done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d)
+    # shellcheck disable=SC2086
+    selected=$(printf "%s\n" "${default_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux $TMUX_FZF_OPTIONS)
 fi
 
 if [[ -z $selected ]]; then
     exit 0
 fi
 
-parent=$(dirname "$selected")
-
 # If this parent directory for the selected directory is a bare git repository,
 # pre-pend the parent directory to the selected directory.
-if ls "$parent/.bare" > /dev/null 2>&1; then
-    selected_name=$(basename "$parent")/$(basename "$selected" | tr . _)
+if ls "$selected/../.bare" > /dev/null 2>&1; then
+    selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected" | tr . _)
 else
     selected_name=$(basename "$selected" | tr . _)
 fi
@@ -37,8 +36,8 @@ if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c $selected
+if ! tmux has-session -t="$selected_name" 2> /dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
 fi
 
-tmux switch-client -t $selected_name
+tmux switch-client -t "$selected_name"
