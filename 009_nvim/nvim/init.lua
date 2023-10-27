@@ -205,20 +205,6 @@ require("telescope").setup({
   },
 })
 
--- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
-local function get_visual_selection()
-  vim.cmd('noau normal! "vy"')
-  local text = vim.fn.getreg("v")
-  vim.fn.setreg("v", {})
-
-  text = string.gsub(text, "\n", "")
-  if #text > 0 then
-    return text
-  else
-    return ""
-  end
-end
-
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
 
@@ -270,7 +256,7 @@ end, { desc = "[P]roject [S]earch" })
 -- Search for the current word in project files
 vim.keymap.set("n", "<leader>F", require("telescope.builtin").grep_string, { desc = "[F]ind word" })
 vim.keymap.set("v", "<leader>F", function()
-  require("telescope.builtin").grep_string({ search = get_visual_selection() })
+  require("telescope.builtin").grep_string({ search = require("custom.utils").get_visual_selection() })
 end, { desc = "[F]ind word" })
 
 -- [[ Configure Treesitter ]]
