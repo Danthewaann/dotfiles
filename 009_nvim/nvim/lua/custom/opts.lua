@@ -41,6 +41,9 @@ vim.o.termguicolors = true
 -- Make sure 8 lines are above/below the cursor
 vim.o.scrolloff = 8
 
+-- Allow for maximum scroll back in the neovim terminal emulator
+vim.o.scrollback = 100000
+
 -- Enable the signcolumn for things like displaying git changes and markers
 vim.o.signcolumn = "yes"
 
