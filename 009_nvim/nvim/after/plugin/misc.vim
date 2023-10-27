@@ -76,12 +76,13 @@ function RunLinting(pos) abort
 
     execute a:pos . ' new'
     let cmd = cmd + file
-    let job_id = termopen(cmd)
-    execute 'keepalt file [' . job_id . '] ' . "Linting"
+    echom cmd
+    call termopen(join(cmd))
+    execute 'keepalt'
     au BufDelete <buffer> wincmd p
 endfunction
 
-nnoremap <silent> <leader>rl :call RunLinting("$tab")<CR>
+nnoremap <silent> <leader>rl :call RunLinting("vertical")<CR>
 
 " Useful make commands
 nnoremap <silent> <leader>ml :Make lint<CR>
