@@ -210,7 +210,7 @@ vim.keymap.set("n", "gf", function()
 
     -- If a line number was found, open the file and jump to that line number
     -- otherwise just open the file
-    if #t > 1 then
+    if #t > 2 and "number" == type(t[3]) then
       vim.cmd(":e " .. t[1])
       vim.cmd(":" .. t[3])
     else
