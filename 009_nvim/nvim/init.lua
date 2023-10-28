@@ -86,7 +86,12 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       require("onedark").setup({
-        style = "dark",
+        style = "darker",
+        toggle_style_key = "<leader>ct",
+        toggle_style_list = { "darker", "dark", "cool", "deep", "warm", "warmer" },
+        highlights = {
+          ["@variable"] = { fg = "#e55561" },
+        },
       })
 
       require("onedark").load()
