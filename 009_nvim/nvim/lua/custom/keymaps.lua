@@ -19,7 +19,7 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<CR>", "i<CR><ESC>k$")
 
 -- Paste over visual selection and yank to empty register
-vim.keymap.set({ "v", "x" }, "p", '"_dP')
+vim.keymap.set({ "v", "x" }, "p", '"_di<C-r>"<ESC>')
 
 -- Re-select pasted text
 vim.keymap.set("n", "gp", "`[v`]")
