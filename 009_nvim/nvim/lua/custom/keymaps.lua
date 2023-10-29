@@ -73,8 +73,8 @@ vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
 vim.keymap.set("t", "<C-w>q", "<cmd> silent tabclose<CR>")
 
 -- Close all tabs except current one
-vim.keymap.set("n", "<C-w>to", "<cmd> BufOnly<CR>")
-vim.keymap.set("t", "<C-w>to", "<cmd> silent BufOnly<CR>")
+vim.keymap.set("n", "<C-w>to", "<cmd> tabonly<CR>")
+vim.keymap.set("t", "<C-w>to", "<cmd> silent tabonly<CR>")
 
 -- Open a new tab
 vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>")
