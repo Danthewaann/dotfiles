@@ -1,5 +1,3 @@
-local utils = require("custom.utils")
-
 -- Treat <space> as a noop
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
@@ -185,38 +183,3 @@ vim.keymap.set("i", "<C-a>", "<Home>")
 vim.keymap.set("i", "<C-e>", "<End>")
 vim.keymap.set("i", "<C-b>", "<Left>")
 vim.keymap.set("i", "<C-f>", "<Right>")
-
--- For a running terminal emulator that contains file paths that I would like to
--- jump to in another buffer within the same window
-vim.keymap.set("n", "gf", function()
-  local buf_type = vim.api.nvim_buf_get_option(0, "buftype")
-  if buf_type ~= "terminal" then
-    vim.cmd(":normal gf")
-  else
-    -- Get the current sequence of non-blank characters
-    vim.cmd(":normal viW")
-    local selection = utils.get_visual_selection()
-
-    -- Separate the path from the potential line number
-    -- e.g. some/path/to/file:42:
-    --      ^ path            ^ line number
-    local t = {}
-    for str in string.gmatch(selection, "([^:]*)") do
-      t[#t + 1] = str
-    end
-
-    -- Jump back to the previous buffer
-    vim.cmd(":wincmd p")
-
-    -- If a line number was found, open the file and jump to that line number
-    -- otherwise just open the file
-    if #t > 2 and "number" == type(t[3]) then
-      vim.cmd(":e " .. t[1])
-      vim.cmd(":" .. t[3])
-    else
-      vim.cmd(":e " .. t[1])
-    end
-
-    utils.unfold()
-  end
-end, { silent = true })

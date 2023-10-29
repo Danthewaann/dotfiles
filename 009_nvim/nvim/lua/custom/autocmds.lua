@@ -2,6 +2,8 @@ local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 local bufmap = vim.api.nvim_buf_set_keymap
 
+local utils = require("custom.utils")
+
 augroup("highlight_cursorline", { clear = true })
 autocmd("InsertEnter", {
   group = "highlight_cursorline",
@@ -19,6 +21,41 @@ autocmd("TermOpen", {
   group = "terminal_settings",
   pattern = "",
   command = "setlocal nowrap nonumber norelativenumber signcolumn=no",
+})
+-- For a running terminal emulator that contains file paths that I would like to
+-- jump to in another buffer within the same window
+autocmd("TermOpen", {
+  group = "terminal_settings",
+  pattern = "",
+  callback = function()
+    vim.keymap.set("n", "gf", function()
+      -- Get the current sequence of non-blank characters
+      vim.cmd(":normal viW")
+      local selection = utils.get_visual_selection()
+
+      -- Separate the path from the potential line number
+      -- e.g. some/path/to/file:42:
+      --      ^ path            ^ line number
+      local t = {}
+      for str in string.gmatch(selection, "([^:]*)") do
+        t[#t + 1] = str
+      end
+
+      -- Jump back to the previous buffer
+      vim.cmd(":wincmd p")
+
+      -- If a line number was found, open the file and jump to that line number
+      -- otherwise just open the file
+      if #t > 2 and "number" == type(t[3]) then
+        vim.cmd(":e " .. t[1])
+        vim.cmd(":" .. t[3])
+      else
+        vim.cmd(":e " .. t[1])
+      end
+
+      utils.unfold()
+    end, { buffer = 0, silent = true })
+  end,
 })
 autocmd("TermClose", {
   group = "terminal_settings",
