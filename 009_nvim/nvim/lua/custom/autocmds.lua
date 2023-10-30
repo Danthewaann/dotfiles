@@ -146,3 +146,15 @@ autocmd("FileType", {
     bufmap(0, "n", "<Tab>", ":normal =<CR>", { silent = true })
   end,
 })
+
+-- firenvim setup
+augroup("firenvim", { clear = true })
+autocmd("BufEnter", {
+  group = "firenvim",
+  pattern = "*firenvim*.txt",
+  callback = function()
+    require("lualine").hide({})
+    vim.cmd.set("filetype=markdown wrap signcolumn=no nonumber statuscolumn= laststatus=0")
+  end,
+})
+
