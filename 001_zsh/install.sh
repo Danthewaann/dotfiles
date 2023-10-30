@@ -14,6 +14,10 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "setting up key-repeat" \
         "defaults write -g KeyRepeat -int 1"
 
+    # Need this to enable key-repeat for firenvim
+    run_command "disabling press and hold" \
+        "defaults write -g ApplePressAndHoldEnabled -bool false"
+
     run_command "installing watch" \
         "brew install watch"
 
