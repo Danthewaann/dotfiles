@@ -188,8 +188,6 @@ function gitw-add() {
     if [[ $failed -eq 1 ]]; then
         return 1
     fi
-
-    cd $(echo "$output" | tail -n 1)
 }
 
 function zvm_vi_yank() {
