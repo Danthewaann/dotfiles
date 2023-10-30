@@ -23,9 +23,19 @@ function error () {
     >&2 echo -e "${RED}ERROR: ${message}${NC}"
 }
 
+function error_no_level () {
+    local message="$1"
+    >&2 echo -e "${RED}${message}${NC}"
+}
+
 function warn () {
     local message="$1"
     >&2 echo -e "${YELLOW}WARN: ${message}${NC}"
+}
+
+function warn_no_level () {
+    local message="$1"
+    >&2 echo -e "${YELLOW}${message}${NC}"
 }
 
 function indent() {
