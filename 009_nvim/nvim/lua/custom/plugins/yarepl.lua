@@ -71,12 +71,18 @@ return {
     local bufmap = vim.api.nvim_buf_set_keymap
     local autocmd = vim.api.nvim_create_autocmd
 
+    local utils = require("custom.utils")
+
     local ft_to_repl = {
-      python = "make",
+      python = "python",
       sh = "bash",
       lua = "lua",
       REPL = "",
     }
+
+    if utils.makefile_exists() == 1 then
+      ft_to_repl["python"] = "make"
+    end
 
     autocmd("FileType", {
       pattern = { "python", "lua", "sh", "REPL" },
