@@ -66,4 +66,22 @@ M.file_exists = function(filename)
   return vim.fn.filereadable(filename)
 end
 
+-- Print contents of `tbl`, with indentation.
+-- `indent` sets the initial level of indentation.
+-- From: https://gist.github.com/hashmal/874792
+M.tprint = function(tbl, indent)
+  if not indent then
+    indent = 0
+  end
+  for k, v in pairs(tbl) do
+    local formatting = string.rep("  ", indent) .. k .. ": "
+    if type(v) == "table" then
+      print(formatting)
+      M.tprint(v, indent + 1)
+    else
+      print(formatting .. tostring(v))
+    end
+  end
+end
+
 return M
