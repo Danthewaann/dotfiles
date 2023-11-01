@@ -5,6 +5,7 @@ return {
     -- you are satisfied with the default configuration, just calling
     -- `require('yarepl').setup {}` is sufficient.
     local yarepl = require("yarepl")
+    local utils = require("custom.utils")
 
     yarepl.setup({
       -- see `:h buflisted`, whether the REPL buffer should be buflisted.
@@ -26,7 +27,7 @@ return {
         -- TODO: need to use make shell here for now until `make repl` is created
         make = { cmd = { "make", "shell" }, formatter = yarepl.formatter.bracketed_pasting },
         ipython = { cmd = { "ipython", "--no-confirm-exit" }, formatter = yarepl.formatter.bracketed_pasting },
-        python = { cmd = "python", formatter = yarepl.formatter.trim_empty_lines },
+        python = { cmd = utils.get_python_path(), formatter = yarepl.formatter.trim_empty_lines },
         lua = { cmd = "lua", formatter = yarepl.formatter.trim_empty_lines },
         bash = { cmd = "bash", formatter = yarepl.formatter.trim_empty_lines },
         zsh = { cmd = "zsh", formatter = yarepl.formatter.bracketed_pasting },
@@ -71,8 +72,6 @@ return {
     local bufmap = vim.api.nvim_buf_set_keymap
     local autocmd = vim.api.nvim_create_autocmd
 
-    local utils = require("custom.utils")
-
     local ft_to_repl = {
       python = "python",
       sh = "bash",
@@ -80,7 +79,7 @@ return {
       REPL = "",
     }
 
-    if utils.makefile_exists() == 1 then
+    if utils.file_exists("Makefile") == 1 then
       ft_to_repl["python"] = "make"
     end
 

@@ -41,8 +41,8 @@ M.get_python_path = function(workspace)
   return exepath("python3") or exepath("python") or "python"
 end
 
-M.makefile_exists = function()
-  return vim.fn.filereadable("Makefile")
+M.file_exists = function(filename)
+  return vim.fn.filereadable(filename)
 end
 
 return M
