@@ -434,7 +434,7 @@ local on_attach = function(_, bufnr)
       symbol_width = 70,
       query = word,
     })
-  end, "[S]ymbol [S]earch")
+  end, "[S]earch [S]ymbols")
 
   -- See `:help K` for why this keymap
   nmap("K", function()
