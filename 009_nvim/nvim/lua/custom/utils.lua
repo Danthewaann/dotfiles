@@ -34,7 +34,6 @@ end
 
 M.get_ipython_path = function(workspace)
   local exe = M.get_poetry_venv_executable_path("ipython", workspace)
-  print(exe)
 
   if exe ~= nil then
     return exe
