@@ -78,7 +78,7 @@ require("lazy").setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { "folke/which-key.nvim", opts = {} },
+  { "folke/which-key.nvim",  opts = {} },
 
   {
     -- Theme inspired by Atom
@@ -498,6 +498,14 @@ local servers = {
   lua_ls = {
     settings = {
       Lua = {
+        format = {
+          enable = true,
+          defaultConfig = {
+            indent_style = "space",
+            indent_size = "2",
+            quote_style = "double"
+          }
+        },
         workspace = { checkThirdParty = false },
         telemetry = { enable = false },
       },
