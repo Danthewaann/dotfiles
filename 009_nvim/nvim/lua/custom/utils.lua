@@ -22,23 +22,45 @@ end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_python_path = function(workspace)
+  local exe = M.get_poetry_venv_executable_path("python", workspace)
+
+  if exe ~= nil then
+    return exe
+  end
+
+  -- Fallback to system Python.
+  return "python"
+end
+
+M.get_ipython_path = function(workspace)
+  local exe = M.get_poetry_venv_executable_path("ipython", workspace)
+  print(exe)
+
+  if exe ~= nil then
+    return exe
+  end
+
+  -- Fallback to system IPython.
+  return "ipython"
+end
+
+M.get_poetry_venv_executable_path = function(exe, workspace)
   local util = require("lspconfig/util")
   local path = util.path
 
   -- Use activated virtualenv.
   if vim.env.VIRTUAL_ENV then
-    return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
+    return path.join(vim.env.VIRTUAL_ENV, "bin", exe)
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
   local match = vim.fn.glob(path.join(workspace, "poetry.lock"))
   if match ~= "" then
     local venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
-    return path.join(venv, "bin", "python")
+    return path.join(venv, "bin", exe)
   end
 
-  -- Fallback to system Python.
-  return exepath("python3") or exepath("python") or "python"
+  return nil
 end
 
 M.file_exists = function(filename)

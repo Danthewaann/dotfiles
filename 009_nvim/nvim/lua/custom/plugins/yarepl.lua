@@ -26,7 +26,7 @@ return {
       metas = {
         -- TODO: need to use make shell here for now until `make repl` is created
         make = { cmd = { "make", "shell" }, formatter = yarepl.formatter.bracketed_pasting },
-        ipython = { cmd = { "ipython", "--no-confirm-exit" }, formatter = yarepl.formatter.bracketed_pasting },
+        ipython = { cmd = { utils.get_ipython_path(), "--no-confirm-exit" }, formatter = yarepl.formatter.bracketed_pasting },
         python = { cmd = utils.get_python_path(), formatter = yarepl.formatter.trim_empty_lines },
         lua = { cmd = "lua", formatter = yarepl.formatter.trim_empty_lines },
         bash = { cmd = "bash", formatter = yarepl.formatter.trim_empty_lines },
@@ -73,7 +73,7 @@ return {
     local autocmd = vim.api.nvim_create_autocmd
 
     local ft_to_repl = {
-      python = "python",
+      python = utils.file_exists("Makefile") == 1 and "make" or "ipython",
       sh = "bash",
       lua = "lua",
       REPL = "",
