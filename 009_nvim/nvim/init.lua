@@ -482,12 +482,45 @@ local servers = {
   clangd = { settings = {} },
   gopls = { settings = {} },
   pyright = {
-    settings = {},
+    settings = {
+      python = {
+        analysis = {
+          exclude = {
+            "**/node_modules",
+            "**/__pycache__",
+            "migrations/**",
+            ".venv/**"
+          },
+          ignore = {
+            "**/node_modules",
+            "**/__pycache__",
+            "migrations/**",
+            ".venv/**"
+          },
+          typeCheckingMode = "basic",
+          diagnosticSeverityOverrides = {
+            reportMissingImports = true,
+            reportMissingTypeStubs = false,
+            reportUnusedImport = false,
+          },
+          useLibraryCodeForTypes = true
+        },
+      }
+    },
     before_init = function(_, config)
       config.settings.python.pythonPath = utils.get_python_path(config.root_dir)
     end,
   },
-  ruff_lsp = { settings = {} },
+  ruff_lsp = {
+    init_options = {
+      settings = {
+        args = {
+          -- Let pyright handle unused variables, imports
+          "--ignore", "F841,F401"
+        }
+      }
+    }
+  },
   rust_analyzer = { settings = {} },
   tsserver = { settings = {} },
   html = { settings = {}, filetypes = { "html", "twig", "hbs" } },
@@ -533,6 +566,7 @@ mason_lspconfig.setup_handlers({
     require("lspconfig")[server_name].setup({
       capabilities = capabilities,
       on_attach = on_attach,
+      init_options = server.init_options,
       settings = server.settings,
       before_init = server.before_init,
       filetypes = server.filetypes,
