@@ -183,3 +183,12 @@ vim.keymap.set("i", "<C-a>", "<Home>")
 vim.keymap.set("i", "<C-e>", "<End>")
 vim.keymap.set("i", "<C-b>", "<Left>")
 vim.keymap.set("i", "<C-f>", "<Right>")
+
+-- Properly indent on empty line in insert mode
+vim.keymap.set("n", "i", function()
+  if #vim.fn.getline(".") == 0 then
+    return [["_cc]]
+  else
+    return "i"
+  end
+end, { expr = true })
