@@ -87,7 +87,7 @@ augroup("auto_wrap", { clear = true })
 autocmd("FileType", {
   group = "auto_wrap",
   pattern = "markdown",
-  command = "setlocal tw=120 fo=cqt wm=0",
+  command = "setlocal tw=90 fo=cqt wm=0",
 })
 
 -- Go into insert mode when entering a terminal if it is running
@@ -129,9 +129,9 @@ autocmd("BufLeave", {
     local ft = vim.api.nvim_buf_get_option(events.buf, "filetype")
     if ft == "TelescopePrompt" then
       vim.defer_fn(function()
-        local line_data = vim.api.nvim_win_get_cursor(0) -- returns {row, col}
+        local line_data = vim.api.nvim_win_get_cursor(0)    -- returns {row, col}
         local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
-        if fold_closed ~= -1 then -- fold exists (not -1)
+        if fold_closed ~= -1 then                           -- fold exists (not -1)
           vim.cmd([[normal! zvzczOzz]])
         end
       end, 100)
@@ -159,4 +159,3 @@ autocmd("BufEnter", {
     vim.cmd.set("filetype=markdown wrap signcolumn=no nonumber statuscolumn= laststatus=0")
   end,
 })
-
