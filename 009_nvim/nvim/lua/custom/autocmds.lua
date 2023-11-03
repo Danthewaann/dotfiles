@@ -44,11 +44,13 @@ autocmd("TermOpen", {
       -- Jump back to the previous buffer
       vim.cmd(":wincmd p")
 
-      -- If a line number was found, open the file and jump to that line number
+      -- If a line number was found, open the file and jump to that line number.
+      -- If a name was found, just to that name in the file,
       -- otherwise just open the file
-      if #t > 2 and "number" == type(t[3]) then
-        vim.cmd(":e " .. t[1])
-        vim.cmd(":" .. t[3])
+      if t[3] ~= "" then
+        vim.cmd(":e +" .. t[3] .. " " .. t[1])
+      elseif t[4] ~= "" then
+        vim.cmd(":e +/" .. t[4] .. " " .. t[1])
       else
         vim.cmd(":e " .. t[1])
       end
