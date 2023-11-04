@@ -77,7 +77,5 @@ vim.o.foldenable = true
 -- Provides tab-completion for all file-related tasks
 vim.opt.path:append("**")
 
-vim.g.netrw_banner = 0
-vim.g.netrw_browse_split = 4
-vim.g.netrw_altv = 1
-vim.g.netrw_liststyle = 3
+-- Don't persist terminal buffers in the session file
+vim.opt.sessionoptions:remove("terminal")
