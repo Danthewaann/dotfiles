@@ -52,11 +52,11 @@ return {
     local tabline_buffers_config = {
       "buffers",
       icons_enabled = true,
-      show_filename_only = true, -- Shows shortened relative path when set to false.
+      show_filename_only = true,       -- Shows shortened relative path when set to false.
       hide_filename_extension = false, -- Hide filename extension when set to true.
-      show_modified_status = true, -- Shows indicator when the buffer is modified.
+      show_modified_status = true,     -- Shows indicator when the buffer is modified.
 
-      mode = 2, -- 0: Shows buffer name
+      mode = 2,                        -- 0: Shows buffer name
       -- 1: Shows buffer index
       -- 2: Shows buffer name + buffer index
       -- 3: Shows buffer number
@@ -88,9 +88,9 @@ return {
 
     local winbar_filename_config = {
       "filename",
-      file_status = true, -- Displays file status (readonly status, modified status)
+      file_status = true,    -- Displays file status (readonly status, modified status)
       newfile_status = true, -- Display new file status (new file means no write after created)
-      path = 1, -- 0: Just the filename
+      path = 1,              -- 0: Just the filename
       -- 1: Relative path
       -- 2: Absolute path
       -- 3: Absolute path, with tilde as the home directory
@@ -99,17 +99,17 @@ return {
       shorting_target = 40, -- Shortens path to leave 40 spaces in the window
       -- for other components. (terrible name, any suggestions?)
       symbols = {
-        modified = "[+]", -- Text to show when the file is modified.
-        readonly = "", -- Text to show when the file is non-modifiable or readonly.
+        modified = "[+]",      -- Text to show when the file is modified.
+        readonly = "",         -- Text to show when the file is non-modifiable or readonly.
         unnamed = "[No Name]", -- Text to show for unnamed buffers.
-        newfile = "[New]", -- Text to show for newly created file before first write
+        newfile = "[New]",     -- Text to show for newly created file before first write
       },
     }
 
     local winbar_filetype_config = {
       "filetype",
-      colored = true, -- Displays filetype icon in color if set to true
-      icon_only = false, -- Display only an icon for filetype
+      colored = true,             -- Displays filetype icon in color if set to true
+      icon_only = false,          -- Display only an icon for filetype
       icon = { align = "right" }, -- Display filetype icon on the right hand side
       -- icon =    {'X', align='right'}
       -- Icon string ^ in table is ignored in filetype component
@@ -143,6 +143,7 @@ return {
             "DiffviewFileHistory",
             "oil",
             "aerial",
+            "Trouble",
           },
         },
       },

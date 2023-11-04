@@ -174,7 +174,10 @@ require("telescope").setup({
   defaults = {
     mappings = {
       i = {
-        ["<C-q>"] = require("telescope.actions").close,
+        ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
+      },
+      n = {
+        ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
       },
     },
     -- Cache the last 10 pickers so I can resume them later
@@ -443,7 +446,7 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.hover()
     end
   end, "Hover Documentation")
-  nmap("<leader>x", vim.lsp.buf.signature_help, "Signature Documentation")
+  nmap("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
