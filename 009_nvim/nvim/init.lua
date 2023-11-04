@@ -430,8 +430,8 @@ local on_attach = function(_, bufnr)
     local word = vim.fn.expand("<cword>")
     require("telescope.builtin").lsp_workspace_symbols({
       prompt_title = "LSP Workspace Symbols (" .. word .. ")",
-      fname_width = 70,
-      symbol_width = 70,
+      fname_width = 60,
+      symbol_width = 40,
       query = word,
     })
   end, "[S]earch [S]ymbols")
