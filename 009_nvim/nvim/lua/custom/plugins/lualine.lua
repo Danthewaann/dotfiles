@@ -165,8 +165,28 @@ return {
         lualine_z = {},
       },
       sections = {
+        lualine_a = {
+          {
+            "mode",
+            fmt = function(mode)
+              return vim.b["visual_multi"] and mode .. " - MULTI" or mode
+            end
+          },
+        },
         lualine_b = { "branch" },
-        lualine_c = {},
+        lualine_c = {
+          {
+            -- From: https://github.com/nvim-lualine/lualine.nvim/issues/951
+            function()
+              if vim.b["visual_multi"] then
+                local ret = vim.api.nvim_exec2("call b:VM_Selection.Funcs.infoline()", { output = true })
+                return string.match(ret.output, "M.*")
+              else
+                return ""
+              end
+            end
+          }
+        },
         lualine_x = { "searchcount", "encoding", "fileformat" },
         lualine_y = { "progress" },
         lualine_z = { "location" },
