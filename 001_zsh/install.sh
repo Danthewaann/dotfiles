@@ -29,6 +29,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing wget" \
         "brew install wget"
+
+    run_command "installing tree" \
+        "brew install tree"
 fi
 
 if ! inside_wsl; then
