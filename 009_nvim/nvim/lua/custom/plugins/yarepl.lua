@@ -111,14 +111,6 @@ return {
           callback = run_cmd_with_count("REPLSendLine"),
           desc = "Send current line to REPL",
         })
-        -- `<leader>sap` will send the current paragraph to the
-        -- buffer-attached REPL, or REPL 1 if there is no REPL attached.
-        -- `2<Leader>sap` will send the paragraph to REPL 2. Note that `ap` is
-        -- just an example and can be replaced with any text object or motion.
-        bufmap(0, "n", "<leader>s", "", {
-          callback = run_cmd_with_count("REPLSendMotion"),
-          desc = "Send motion to REPL",
-        })
         bufmap(0, "n", "<leader>rq", "", {
           callback = run_cmd_with_count("REPLClose"),
           desc = "Quit REPL",
