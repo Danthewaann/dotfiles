@@ -6,7 +6,6 @@ return {
   end,
   config = function()
     vim.cmd([[
-      let g:VM_maps["Add Cursor Down"] = 'gD'
       let g:VM_Mono_hl   = 'DiffText'
       let g:VM_Extend_hl = 'Visual'
       let g:VM_Cursor_hl = 'Visual'
