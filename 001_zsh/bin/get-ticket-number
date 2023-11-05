@@ -10,7 +10,7 @@ source "$CUR_DIR/_git-common"
 currentbranch=$(git branch --show-current) 
 
 if ! ticketnumber=$(echo "$currentbranch" | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+"); then
-    error "No ticketnumber found for $currentbranch"
+    >&2 echo "No ticketnumber found for $currentbranch"
     exit 1
 fi
 

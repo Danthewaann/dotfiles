@@ -95,7 +95,11 @@ augroup("terminal_mode", { clear = true })
 autocmd("WinEnter", {
   group = "terminal_mode",
   pattern = "term://*",
-  command = "if TermRunning('%') == 1 | startinsert | endif",
+  callback = function()
+    if utils.term_is_running(vim.fn.expand("%")) then
+      vim.cmd("startinsert")
+    end
+  end
 })
 
 -- Start in insert mode in gitcommit files
@@ -157,5 +161,30 @@ autocmd("BufEnter", {
   callback = function()
     require("lualine").hide({})
     vim.cmd.set("filetype=markdown wrap signcolumn=no nonumber statuscolumn= laststatus=0")
+  end,
+})
+
+-- gv.vim setup
+augroup("gv", { clear = true })
+autocmd("FileType", {
+  group = "gv",
+  pattern = "GV",
+  callback = function()
+    vim.keymap.set("n", "J", "<C-n>")
+    vim.keymap.set("n", "K", "<C-p>")
+    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile nomodeline")
+  end,
+})
+
+-- Automatically replace the ticket number in a PR markdown file created with
+-- the `git-pr-create` script
+augroup("replace_ticket_number_in_pr_file", { clear = true })
+autocmd("BufEnter", {
+  group = "replace_ticket_number_in_pr_file",
+  pattern = "*.md",
+  callback = function()
+    if vim.fn.expand("$GIT_PR_CREATE_RAN") == 1 then
+      utils.replace_ticket_number()
+    end
   end,
 })

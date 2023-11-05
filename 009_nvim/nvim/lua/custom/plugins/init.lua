@@ -1,13 +1,9 @@
 return {
   "tpope/vim-obsession",
   "tpope/vim-unimpaired",
-  "tpope/vim-abolish",
   "tpope/vim-surround",
   "tpope/vim-repeat",
   "tpope/vim-dadbod",
-  "kristijanhusak/vim-dadbod-ui",
-  "mbbill/undotree",
-  "vim-test/vim-test",
   "michaeljsmith/vim-indent-object",
   "romainl/vim-cool",
   "christoomey/vim-tmux-navigator",

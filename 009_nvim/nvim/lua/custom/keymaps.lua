@@ -1,3 +1,5 @@
+local utils = require("custom.utils")
+
 -- Treat <space> as a noop
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
@@ -181,6 +183,18 @@ vim.keymap.set("i", "<C-e>", "<End>")
 vim.keymap.set("i", "<C-b>", "<Left>")
 vim.keymap.set("i", "<C-f>", "<Right>")
 
+-- Use <C-P> and <C-N> to cycle through history in vim command mode
+vim.keymap.set("c", "<C-p>", "<Up>")
+vim.keymap.set("c", "<C-n>", "<Down>")
+
+-- Allow easier navigation in command mode
+vim.keymap.set("c", "<C-a>", "<Home>")
+vim.keymap.set("c", "<C-e>", "<End>")
+vim.keymap.set("c", "<C-b>", "<Left>")
+vim.keymap.set("c", "<C-f>", "<Right>")
+vim.keymap.set("c", "<M-b>", "<S-Left>")
+vim.keymap.set("c", "<M-f>", "<S-Right>")
+
 -- Properly indent on empty line in insert mode
 vim.keymap.set("n", "i", function()
   if #vim.fn.getline(".") == 0 then
@@ -189,3 +203,22 @@ vim.keymap.set("n", "i", function()
     return "i"
   end
 end, { expr = true })
+
+-- Custom make and lint commands
+vim.keymap.set("n", "<leader>rl", utils.run_linting, { desc = "[R]un [L]inting" })
+vim.keymap.set("n", "<leader>ml", function()
+  utils.run_cmd_in_term("vertical", "make lint")
+end, { desc = "Run [M]ake [L]int" })
+vim.keymap.set("n", "<leader>mt", function()
+  utils.run_cmd_in_term("vertical", "make test")
+end, { desc = "Run [M]ake [T]est" })
+vim.keymap.set("n", "<leader>ms", function()
+  utils.run_cmd_in_term("vertical", "make shell")
+end, { desc = "Run [M]ake [S]hell" })
+
+-- Delete all buffers except the current one
+-- From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
+vim.keymap.set("n", "<leader>bo", function()
+  vim.cmd("%bd|e#|bd#")
+  print("Deleted all buffers")
+end, { desc = "[B]uffer [O]nly" })

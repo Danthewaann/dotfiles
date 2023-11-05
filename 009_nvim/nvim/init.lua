@@ -168,6 +168,9 @@ require("custom.keymaps")
 -- [[ Setting auto commands ]]
 require("custom.autocmds")
 
+-- [[ Custom breakpoints code ]]
+require("custom.breakpoints")
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
