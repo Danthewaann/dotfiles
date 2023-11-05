@@ -13,11 +13,11 @@ return {
       -- whether the REPL buffer should be a scratch buffer.
       scratch = true,
       -- the filetype of the REPL buffer created by `yarepl`
-      ft = "REPL",
+      ft = "",
       -- How yarepl open the REPL window, can be a string or a lua function.
       -- See below example for how to configure this option
       wincmd = function(bufnr, name)
-        local width = math.floor(vim.o.columns * 0.4)
+        local width = math.floor(vim.o.columns * 0.5)
         local cmd = "vertical" .. width .. "split"
         vim.cmd(cmd)
         vim.api.nvim_set_current_buf(bufnr)
