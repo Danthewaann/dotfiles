@@ -116,9 +116,6 @@ vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
 -- Treat Ctrl+C exactly like <Esc> in insert mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
--- Paste the clipboard contents in insert mode
-vim.keymap.set("i", "<C-p>", "<C-r>+")
-
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
