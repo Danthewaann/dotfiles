@@ -26,8 +26,14 @@ return {
       metas = {
         -- TODO: need to use make shell here for now until `make repl` is created
         make = { cmd = { "make", "shell" }, formatter = yarepl.formatter.bracketed_pasting },
-        ipython = { cmd = { utils.get_ipython_path(), "--no-confirm-exit" }, formatter = yarepl.formatter.bracketed_pasting },
-        python = { cmd = utils.get_python_path(), formatter = yarepl.formatter.trim_empty_lines },
+        ipython = {
+          cmd = { utils.get_poetry_venv_executable_path("ipython"), "--no-confirm-exit" },
+          formatter = yarepl.formatter.bracketed_pasting
+        },
+        python = {
+          cmd = utils.get_poetry_venv_executable_path("python"),
+          formatter = yarepl.formatter.trim_empty_lines
+        },
         lua = { cmd = "lua", formatter = yarepl.formatter.trim_empty_lines },
         bash = { cmd = "bash", formatter = yarepl.formatter.trim_empty_lines },
         zsh = { cmd = "zsh", formatter = yarepl.formatter.bracketed_pasting },
@@ -73,13 +79,13 @@ return {
     local autocmd = vim.api.nvim_create_autocmd
 
     local ft_to_repl = {
-      python = utils.file_exists("Makefile") == 1 and "make" or "ipython",
+      python = utils.file_exists("Makefile") and "make" or "ipython",
       sh = "bash",
       lua = "lua",
       REPL = "",
     }
 
-    if utils.file_exists("Makefile") == 1 then
+    if utils.file_exists("Makefile") then
       ft_to_repl["python"] = "make"
     end
 

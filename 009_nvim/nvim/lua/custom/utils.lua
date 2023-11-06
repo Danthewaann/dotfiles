@@ -21,28 +21,6 @@ M.unfold = function()
 end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
-M.get_python_path = function(workspace)
-  local exe = M.get_poetry_venv_executable_path("python", workspace)
-
-  if exe ~= nil then
-    return exe
-  end
-
-  -- Fallback to system Python.
-  return "python"
-end
-
-M.get_ipython_path = function(workspace)
-  local exe = M.get_poetry_venv_executable_path("ipython", workspace)
-
-  if exe ~= nil then
-    return exe
-  end
-
-  -- Fallback to system IPython.
-  return "ipython"
-end
-
 M.get_poetry_venv_executable_path = function(exe, workspace)
   local util = require("lspconfig/util")
   local path = util.path
@@ -59,17 +37,18 @@ M.get_poetry_venv_executable_path = function(exe, workspace)
     return path.join(venv, "bin", exe)
   end
 
-  return nil
+  -- Fallback to the provided exe
+  return exe
 end
 
 M.file_exists = function(filename)
-  return vim.fn.filereadable(filename)
+  return vim.loop.fs_stat(filename)
 end
 
 -- Print contents of `tbl`, with indentation.
 -- `indent` sets the initial level of indentation.
 -- From: https://gist.github.com/hashmal/874792
-M.tprint = function(tbl, indent)
+M.table_print = function(tbl, indent)
   if not indent then
     indent = 0
   end
@@ -77,7 +56,7 @@ M.tprint = function(tbl, indent)
     local formatting = string.rep("  ", indent) .. k .. ": "
     if type(v) == "table" then
       print(formatting)
-      M.tprint(v, indent + 1)
+      M.table_print(v, indent + 1)
     else
       print(formatting .. tostring(v))
     end
@@ -99,14 +78,14 @@ M.run_linting = function()
   local cmd = {}
   local file = ""
 
-  if vim.fn.filereadable("poetry.lock") == 1 then
+  if M.file_exists("poetry.lock") then
     cmd = { "poetry", "run" }
   else
     vim.api.nvim_echo({ { "Not supported", "ErrorMsg" } }, true, {})
     return
   end
 
-  if vim.fn.filereadable("scripts/lint.sh") == 1 then
+  if M.file_exists("scripts/lint.sh") then
     file = "scripts/lint.sh"
   else
     vim.api.nvim_echo({ { "Not supported", "ErrorMsg" } }, true, {})

@@ -6,9 +6,5 @@ return {
       start_in_insert = true,
       relative = "editor",
     },
-    override = function(config)
-      print(config)
-      return config
-    end,
   },
 }
