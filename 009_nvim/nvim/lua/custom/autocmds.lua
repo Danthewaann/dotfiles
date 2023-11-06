@@ -28,9 +28,12 @@ autocmd("TermOpen", {
   group = "terminal_settings",
   pattern = "",
   callback = function()
-    vim.keymap.set("n", "gf", function()
+    vim.keymap.set({ "n", "x" }, "gf", function()
       -- Get the current sequence of non-blank characters
-      vim.cmd(":normal viW")
+      if vim.fn.mode() == "n" then
+        vim.cmd(":normal viW")
+      end
+
       local selection = utils.get_visual_selection()
 
       -- Separate the path from the potential line number
