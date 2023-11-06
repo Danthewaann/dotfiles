@@ -153,6 +153,7 @@ autocmd("FileType", {
   pattern = "fugitive",
   callback = function()
     bufmap(0, "n", "<Tab>", ":normal =<CR>", { silent = true })
+    vim.cmd("setlocal nowrap nonumber norelativenumber")
   end,
 })
 
