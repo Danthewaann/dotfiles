@@ -10,10 +10,7 @@ return {
     local mypy_linter = require("lint").linters.mypy
 
     -- Use mypy in virtual environment if found
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    mypy_linter.cmd = function()
-      return utils.get_poetry_venv_executable_path("mypy")
-    end
+    mypy_linter.cmd = utils.get_poetry_venv_executable_path("mypy")
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
       callback = function()

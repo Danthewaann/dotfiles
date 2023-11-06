@@ -1,3 +1,5 @@
+local lsp_utils = require("lspconfig/util")
+
 M = {}
 
 -- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
@@ -22,19 +24,25 @@ end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_poetry_venv_executable_path = function(exe, workspace)
-  local util = require("lspconfig/util")
-  local path = util.path
+  -- Check if the executable exists in the .venv/bin directory
+  -- (as this is much quicker than running the poetry command)
+  local venv_exe = lsp_utils.path.join(workspace, ".venv", "bin", exe)
+  if M.file_exists(venv_exe) then
+    return venv_exe
+  end
 
   -- Use activated virtualenv.
   if vim.env.VIRTUAL_ENV then
-    return path.join(vim.env.VIRTUAL_ENV, "bin", exe)
+    return lsp_utils.path.join(vim.env.VIRTUAL_ENV, "bin", exe)
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
-  local match = vim.fn.glob(path.join(workspace, "poetry.lock"))
-  if match ~= "" then
+  if M.file_exists(lsp_utils.path.join(workspace, "poetry.lock")) then
     local venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
-    return path.join(venv, "bin", exe)
+    venv_exe = lsp_utils.path.join(venv, "bin", exe)
+    if M.file_exists(venv_exe) then
+      return venv_exe
+    end
   end
 
   -- Fallback to the provided exe
