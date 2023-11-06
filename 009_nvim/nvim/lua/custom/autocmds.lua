@@ -110,7 +110,10 @@ augroup("git_commit", { clear = true })
 autocmd("FileType", {
   group = "git_commit",
   pattern = "gitcommit",
-  command = "startinsert",
+  callback = function()
+    vim.cmd("startinsert")
+    vim.cmd("setlocal nowrap nonumber norelativenumber")
+  end
 })
 
 -- Highlight on yank
