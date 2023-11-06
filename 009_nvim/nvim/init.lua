@@ -380,7 +380,8 @@ end, 0)
 
 -- Diagnostic keymaps
 vim.diagnostic.config({
-  virtual_text = { enable = true },
+  -- Disable virtual_text since it's redundant due to lsp_lines.
+  virtual_text = false,
   signs = { enable = true },
 })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
