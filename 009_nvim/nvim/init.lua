@@ -383,9 +383,14 @@ vim.diagnostic.config({
   -- Disable virtual_text since it's redundant due to lsp_lines.
   virtual_text = false,
   signs = { enable = true },
+  virtual_lines = { only_current_line = true, highlight_whole_line = false },
 })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({ float = false }) end,
+  { desc = "Go to previous diagnostic message" }
+)
+vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next({ float = false }) end,
+  { desc = "Go to next diagnostic message" }
+)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, { desc = "Open diagnostics list" })
 
