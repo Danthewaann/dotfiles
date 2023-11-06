@@ -29,8 +29,8 @@ fi
 
 got_error=0
 for worktree in "${worktrees[@]}"; do
-    # Check if a PR has already been opened for the current branch
-    if gh pr list | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
+    # Check if I have opened a PR for the current branch
+    if gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
         warn_no_level "A PR is open for this worktree : $(basename "$worktree"), skipping" 2>&1 | indent
         continue
     fi
