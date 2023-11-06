@@ -383,7 +383,7 @@ vim.diagnostic.config({
   -- Disable virtual_text since it's redundant due to lsp_lines.
   virtual_text = false,
   signs = { enable = true },
-  virtual_lines = { only_current_line = true, highlight_whole_line = false },
+  virtual_lines = { only_current_line = false, highlight_whole_line = true },
 })
 vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({ float = false }) end,
   { desc = "Go to previous diagnostic message" }
