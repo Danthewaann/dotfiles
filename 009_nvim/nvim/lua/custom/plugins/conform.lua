@@ -1,7 +1,17 @@
 return {
   "stevearc/conform.nvim",
   config = function()
+    local utils = require("custom.utils")
+
     require("conform").setup({
+      formatters = {
+        ruff_fix = {
+          command = utils.get_poetry_venv_executable_path("ruff")
+        },
+        black = {
+          command = utils.get_poetry_venv_executable_path("black")
+        },
+      },
       formatters_by_ft = {
         -- Conform will run multiple formatters sequentially
         python = { "ruff_fix", "black" },
