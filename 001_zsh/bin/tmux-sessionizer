@@ -22,7 +22,7 @@ if [[ -z $selected ]]; then
 fi
 
 # If this parent directory for the selected directory is a bare git repository,
-# pre-pend the parent directory to the selected directory.
+# prepend the parent directory to the selected directory.
 if ls "$selected/../.bare" > /dev/null 2>&1; then
     selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected" | tr . _)
 else
@@ -32,7 +32,7 @@ fi
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
+    tmux new-session -s "$selected_name" -c "$selected"
     exit 0
 fi
 
