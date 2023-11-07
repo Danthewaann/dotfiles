@@ -34,3 +34,5 @@ run_command "installing prettierd" \
 run_command "installing sql-formatter" \
     "npm i -g sql-formatter"
 
+run_command "installing commitlint" \
+    "npm install -g @commitlint/{config-conventional,cli}"
