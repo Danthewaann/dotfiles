@@ -190,7 +190,7 @@ autocmd("BufEnter", {
   group = "replace_ticket_number_in_pr_file",
   pattern = "*.md",
   callback = function()
-    if vim.fn.expand("$GIT_PR_CREATE_RAN") == 1 then
+    if vim.fn.expand("$GIT_PR_CREATE_RAN") == "1" then
       utils.replace_ticket_number()
     end
   end,
