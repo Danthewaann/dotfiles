@@ -137,4 +137,27 @@ M.term_is_running = function(buffer)
   return false
 end
 
+-- filetypes to ignore for plugins
+M.ignore_filetypes = {
+  "qf",
+  "git",
+  "fugitive",
+  "fugitiveblame",
+  "dbui",
+  "undotree",
+  "diff",
+  "gitcommit",
+  "GV",
+  "list",
+  "help",
+  "man",
+  "spectre_panel",
+  "dbout",
+  "DiffviewFiles",
+  "DiffviewFileHistory",
+  "oil",
+  "aerial",
+  "Trouble",
+}
+
 return M

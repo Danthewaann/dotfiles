@@ -3,6 +3,8 @@ return {
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
   config = function()
+    local utils = require("custom.utils")
+
     local function winbar_formatter(result)
       -- Just output the terminal command if this is a terminal job
       if string.match(result, "term:.*:.*") then
@@ -122,29 +124,7 @@ return {
         ignore_focus = { "NvimTree", "dbui", "undotree", "TelescopePrompt" },
         globalstatus = true,
         disabled_filetypes = {
-          winbar = {
-            "qf",
-            "git",
-            "fugitive",
-            "fugitiveblame",
-            "dbui",
-            "NvimTree",
-            "undotree",
-            "diff",
-            "gitcommit",
-            "GV",
-            "packer",
-            "list",
-            "help",
-            "man",
-            "spectre_panel",
-            "dbout",
-            "DiffviewFiles",
-            "DiffviewFileHistory",
-            "oil",
-            "aerial",
-            "Trouble",
-          },
+          winbar = utils.ignore_filetypes,
         },
       },
       extensions = { "fugitive", "nvim-tree", "quickfix", "aerial" },
@@ -214,7 +194,7 @@ return {
 
             show_modified_status = true, -- Shows a symbol next to the tab name if the file has been modified.
             symbols = {
-              modified = "",          -- Text to show when the file is modified.
+              modified = "",             -- Text to show when the file is modified.
             },
 
             -- Only show the tabline if there is more than one tab
