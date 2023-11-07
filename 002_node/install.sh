@@ -8,7 +8,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/../common
 
 # This is needed to prevent nvm from updating our .zshrc file
-export PROFILE=/dev/null 
+export PROFILE=/dev/null
 
 run_command "downloading nvm" \
     "curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
@@ -28,7 +28,9 @@ run_command "making node $NODE_VERSION the default" \
 run_command "using node $NODE_VERSION" \
     "nvm use default"
 
-# Install prettierd 
 run_command "installing prettierd" \
     "npm i -g @fsouza/prettierd"
+
+run_command "installing sql-formatter" \
+    "npm i -g sql-formatter"
 
