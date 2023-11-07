@@ -114,6 +114,7 @@ require("lazy").setup({
     main = "ibl",
     opts = {
       scope = { enabled = false },
+      exclude = { filetypes = { "undotree" } }
     },
   },
 
