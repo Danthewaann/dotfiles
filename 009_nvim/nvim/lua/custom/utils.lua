@@ -206,6 +206,7 @@ M.ignore_filetypes = {
   "oil",
   "aerial",
   "Trouble",
+  "sqls_output"
 }
 
 return M

@@ -529,7 +529,13 @@ local servers = {
   tsserver = { settings = {} },
   html = { settings = {}, filetypes = { "html", "twig", "hbs" } },
   jsonls = { settings = {} },
-  sqlls = { settings = {} },
+  sqls = {
+    settings = {},
+    on_attach = function(client, bufnr)
+      require("sqls").on_attach(client, bufnr)
+    end,
+    filetypes = { "sql" }
+  },
   bashls = { settings = {} },
 
   lua_ls = {
@@ -566,15 +572,37 @@ mason_lspconfig.setup({
 
 mason_lspconfig.setup_handlers({
   function(server_name)
+    local old_deprecate = vim.deprecate
+
+    -- Need to temporarily swap out `vim.deprecate`
+    -- to prevent an annoying deprecation warning for sqls
+    -- From: https://github.com/neovim/nvim-lspconfig/pull/2544
+    if server_name == "sqls" then
+      vim.deprecate = function() end
+    end
+
     local server = servers[server_name] or {}
+    local local_on_attach = on_attach
+
+    if server.on_attach then
+      local_on_attach = function(client, bufnr)
+        server.on_attach(client, bufnr)
+        on_attach(client, bufnr)
+      end
+    end
+
     require("lspconfig")[server_name].setup({
       capabilities = capabilities,
-      on_attach = on_attach,
+      on_attach = local_on_attach,
       init_options = server.init_options,
       settings = server.settings,
       before_init = server.before_init,
       filetypes = server.filetypes,
     })
+
+    if server_name == "sqls" then
+      vim.deprecate = old_deprecate
+    end
   end,
 })
 
