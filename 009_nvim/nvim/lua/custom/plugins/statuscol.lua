@@ -5,7 +5,15 @@ return {
     require("statuscol").setup({
       relculright = true,
       bt_ignore = { "terminal" },
-      ft_ignore = { "oil", "Trouble", "fugitive", "gitcommit" },
+      ft_ignore = {
+        "oil",
+        "Trouble",
+        "fugitive",
+        "gitcommit",
+        "undotree",
+        "diff",
+        "help",
+      },
       segments = {
         {
           sign = { name = { "Diagnostic" }, maxwidth = 1, auto = true },
