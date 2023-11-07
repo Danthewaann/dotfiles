@@ -368,6 +368,12 @@ vim.defer_fn(function()
       },
     },
   })
+
+  if utils.apply_folds(vim.api.nvim_get_current_buf()) then
+    -- Refresh the buffer after applying folds to get treesitter to
+    -- refresh highlights
+    vim.cmd(":e")
+  end
 end, 0)
 
 -- Diagnostic keymaps

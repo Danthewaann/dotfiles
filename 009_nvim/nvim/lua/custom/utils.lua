@@ -137,6 +137,54 @@ M.term_is_running = function(buffer)
   return false
 end
 
+-- Map of filetypes to foldmethod
+M.filetype_folds = {
+  python = "treesitter",
+  go = "treesitter",
+  lua = "treesitter",
+  ruby = "indent",
+  markdown = "treesitter",
+  sh = "treesitter",
+  yaml = "treesitter",
+  javascript = "treesitter",
+  make = "treesitter"
+}
+
+M.apply_folds = function(buf)
+  local filetype = vim.fn.getbufvar(buf, "&filetype")
+  if M.filetype_folds[filetype] then
+    M.apply_folds_and_then_close_all_folds(buf, M.filetype_folds[filetype])
+    return true
+  end
+  return false
+end
+
+-- Automatically close all folds when opening a file
+-- From: https://github.com/kevinhwang91/nvim-ufo/issues/89#issuecomment-1286250241
+-- And: https://github.com/kevinhwang91/nvim-ufo/issues/83#issuecomment-1259233578
+M.apply_folds_and_then_close_all_folds = function(bufnr, providerName)
+  require("async")(function()
+    bufnr = bufnr or vim.api.nvim_get_current_buf()
+    -- make sure buffer is attached
+    require("ufo").attach(bufnr)
+    -- getFolds return Promise if providerName == 'lsp'
+    local ok, ranges = pcall(await, require("ufo").getFolds(bufnr, providerName))
+    if ok and ranges then
+      ok = require("ufo").applyFolds(bufnr, ranges)
+      if ok then
+        require("ufo").closeAllFolds()
+      end
+    else
+      -- fallback to indent folding
+      ranges = await(require("ufo").getFolds(bufnr, "indent"))
+      ok = require("ufo").applyFolds(bufnr, ranges)
+      if ok then
+        require("ufo").closeAllFolds()
+      end
+    end
+  end)
+end
+
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
   "qf",
