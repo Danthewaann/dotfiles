@@ -139,6 +139,7 @@ require("lazy").setup({
           return vim.fn.executable("make") == 1
         end,
       },
+      "piersolenski/telescope-import.nvim"
     },
   },
 
@@ -219,8 +220,9 @@ require("telescope").setup({
 
 local utils = require("custom.utils")
 
--- Enable telescope fzf native, if installed
+-- Enable telescope extensions, if installed
 pcall(require("telescope").load_extension, "fzf")
+pcall(require("telescope").load_extension, "import")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -257,6 +259,7 @@ vim.keymap.set("n", "<leader>gf", function()
   require("telescope.builtin").git_status({ layout_strategy = "horizontal" })
 end, { desc = "[G]it [F]iles" })
 vim.keymap.set("n", "<leader>gl", require("telescope.builtin").git_commits, { desc = "[G]it [L]ogs" })
+vim.keymap.set("n", "<leader>ii", require("telescope").extensions.import.import, { desc = "[I]nsert [I]mport" })
 
 -- Search for pattern in current project files
 vim.keymap.set("n", "<leader>ps", function()
