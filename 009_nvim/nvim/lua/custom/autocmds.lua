@@ -178,8 +178,6 @@ autocmd("FileType", {
   group = "gv",
   pattern = "GV",
   callback = function()
-    vim.keymap.set("n", "J", "<C-n>")
-    vim.keymap.set("n", "K", "<C-p>")
     vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile nomodeline")
   end,
 })
