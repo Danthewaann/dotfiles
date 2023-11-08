@@ -96,6 +96,7 @@ require("lazy").setup({
 
       require("onedark").load()
 
+      vim.cmd("highlight QuickFixLine gui=None guifg=None guibg=#282c34")
       vim.cmd("highlight TelescopePromptBorder guifg=#31353f")
       vim.cmd("highlight TelescopeResultsBorder guifg=#31353f")
       vim.cmd("highlight TelescopePreviewBorder guifg=#31353f")
