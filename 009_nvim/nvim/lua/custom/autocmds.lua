@@ -166,6 +166,7 @@ autocmd("BufEnter", {
   group = "firenvim",
   pattern = "*firenvim*.txt",
   callback = function()
+    ---@diagnostic disable-next-line: missing-fields
     require("lualine").hide({})
     vim.cmd.set("filetype=markdown wrap signcolumn=no nonumber statuscolumn= laststatus=0")
   end,
@@ -193,5 +194,14 @@ autocmd("BufEnter", {
     if vim.fn.expand("$GIT_PR_CREATE_RAN") == "1" then
       utils.replace_ticket_number()
     end
+  end,
+})
+
+-- Automatically update the quickfix list when LSP diagnostics change
+augroup("diagnostics", { clear = true })
+autocmd("DiagnosticChanged", {
+  group = "diagnostics",
+  callback = function()
+    vim.diagnostic.setqflist({ open = false })
   end,
 })
