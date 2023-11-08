@@ -32,25 +32,6 @@ return {
       return result
     end
 
-    local function tabline_formatter(result, context)
-      if context.filetype == "fugitive" then
-        return "[Git Status]"
-      end
-      if context.filetype == "aerial" then
-        return "[Aerial]"
-      end
-
-      if string.match(context.file, "--follow") or string.match(context.file, "-L") then
-        return string.format("[Git Log] %s", result)
-      elseif string.match(context.file, "--graph") then
-        return "[Git Log]"
-      elseif context.filetype == "DiffviewFiles" then
-        return "[Diff View]"
-      end
-
-      return result
-    end
-
     local tabs_config = {
       "tabs",
       tab_max_length = 40,            -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
@@ -94,43 +75,6 @@ return {
 
         return name .. (mod == 1 and " +" or "")
       end
-    }
-
-    local tabline_buffers_config = {
-      "buffers",
-      icons_enabled = true,
-      show_filename_only = true,       -- Shows shortened relative path when set to false.
-      hide_filename_extension = false, -- Hide filename extension when set to true.
-      show_modified_status = true,     -- Shows indicator when the buffer is modified.
-
-      mode = 2,                        -- 0: Shows buffer name
-      -- 1: Shows buffer index
-      -- 2: Shows buffer name + buffer index
-      -- 3: Shows buffer number
-      -- 4: Shows buffer name + buffer number
-      fmt = tabline_formatter,
-
-      max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
-      -- it can also be a function that returns
-      -- the value of `max_length` dynamically.
-      filetype_names = {
-        TelescopePrompt = "Telescope",
-        dashboard = "Dashboard",
-        packer = "Packer",
-        fzf = "FZF",
-        alpha = "Alpha",
-        oil = "File Explorer",
-        dbui = "DB Explorer",
-      }, -- Shows specific buffer name for that filetype ( { `filetype` = `buffer_name`, ... } )
-
-      -- Automatically updates active buffer color to match color of other components (will be overridden if buffers_color is set)
-      use_mode_colors = false,
-
-      symbols = {
-        modified = " [+]", -- Text to show when the buffer is modified
-        alternate_file = "#", -- Text to show to identify the alternate file
-        directory = "", -- Text to show when the buffer is a directory
-      },
     }
 
     local winbar_filename_config = {
