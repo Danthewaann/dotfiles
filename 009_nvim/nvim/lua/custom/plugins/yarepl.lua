@@ -13,7 +13,7 @@ return {
       -- whether the REPL buffer should be a scratch buffer.
       scratch = true,
       -- the filetype of the REPL buffer created by `yarepl`
-      ft = "",
+      ft = "REPL",
       -- How yarepl open the REPL window, can be a string or a lua function.
       -- See below example for how to configure this option
       wincmd = function(bufnr, name)
