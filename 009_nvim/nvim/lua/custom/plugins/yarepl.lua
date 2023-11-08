@@ -24,8 +24,7 @@ return {
       end,
       -- The available REPL palattes that `yarepl` can create REPL based on
       metas = {
-        -- TODO: need to use make shell here for now until `make repl` is created
-        make = { cmd = { "make", "shell" }, formatter = yarepl.formatter.bracketed_pasting },
+        make = { cmd = { "make", "shell", "cmd=ipython --no-confirm-exit" }, formatter = yarepl.formatter.bracketed_pasting },
         ipython = {
           cmd = { utils.get_poetry_venv_executable_path("ipython"), "--no-confirm-exit" },
           formatter = yarepl.formatter.bracketed_pasting
