@@ -134,6 +134,22 @@ vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]i
 vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]omit [A]mend" })
 vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]omit [E]dit" })
 vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = "[G]it [O]pen" })
+vim.keymap.set("n", "<leader>ghr", function()
+  vim.fn.system("gh rv")
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({ { "Not in a GitHub repo!", "ErrorMsg" } }, true, {})
+    return
+  end
+  print("Opening PR for current branch")
+end, { desc = "[G]it [H]ub [R]epo view" })
+vim.keymap.set("n", "<leader>ghv", function()
+  vim.fn.system("gh prv")
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({ { "Pull request not found!", "ErrorMsg" } }, true, {})
+    return
+  end
+  print("Opening PR for current branch")
+end, { desc = "[G]it [H]ub [V]iew pull request" })
 
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
