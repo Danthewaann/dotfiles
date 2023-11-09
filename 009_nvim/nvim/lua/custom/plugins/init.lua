@@ -4,6 +4,7 @@ return {
   "tpope/vim-surround",
   "tpope/vim-repeat",
   "tpope/vim-dadbod",
+  "tpope/vim-rsi",
   "michaeljsmith/vim-indent-object",
   "romainl/vim-cool",
   "christoomey/vim-tmux-navigator",

@@ -190,24 +190,6 @@ vim.keymap.set("n", "<leader>fn", function()
 end, { desc = "[F]ile [N]ew" })
 vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable" })
 
--- Insert mode navigation
-vim.keymap.set("i", "<C-a>", "<Home>")
-vim.keymap.set("i", "<C-e>", "<End>")
-vim.keymap.set("i", "<C-b>", "<Left>")
-vim.keymap.set("i", "<C-f>", "<Right>")
-
--- Use <C-P> and <C-N> to cycle through history in vim command mode
-vim.keymap.set("c", "<C-p>", "<Up>")
-vim.keymap.set("c", "<C-n>", "<Down>")
-
--- Allow easier navigation in command mode
-vim.keymap.set("c", "<C-a>", "<Home>")
-vim.keymap.set("c", "<C-e>", "<End>")
-vim.keymap.set("c", "<C-b>", "<Left>")
-vim.keymap.set("c", "<C-f>", "<Right>")
-vim.keymap.set("c", "<M-b>", "<S-Left>")
-vim.keymap.set("c", "<M-f>", "<S-Right>")
-
 -- Properly indent on empty line in insert mode
 vim.keymap.set("n", "i", function()
   if #vim.fn.getline(".") == 0 then
