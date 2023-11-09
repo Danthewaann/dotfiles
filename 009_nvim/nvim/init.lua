@@ -71,6 +71,11 @@ require("lazy").setup({
 
       -- Adds LSP completion capabilities
       "hrsh7th/cmp-nvim-lsp",
+      "petertriho/cmp-git",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "davidsierradz/cmp-conventionalcommits",
 
       -- Adds a number of user-friendly snippets
       "rafamadriz/friendly-snippets",
@@ -615,8 +620,36 @@ mason_lspconfig.setup_handlers({
 -- See `:help cmp`
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+require("cmp_git").setup()
 require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup({})
+
+-- Set configuration for specific filetype.
+cmp.setup.filetype("gitcommit", {
+  sources = cmp.config.sources({
+    { name = "git" },
+  }, {
+    { name = "buffer" },
+  }, {
+    { name = "conventionalcommits" },
+  })
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ "/", "?" }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = "buffer" }
+  }
+})
+
+-- Use path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  })
+})
 
 ---@diagnostic disable-next-line: missing-fields
 cmp.setup({
@@ -657,5 +690,7 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp" },
     { name = "luasnip" },
+    { name = "buffer" },
+    { name = "path" },
   },
 })
