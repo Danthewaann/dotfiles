@@ -132,6 +132,11 @@ autoload -Uz nvm
 autoload -Uz pyenv
 autoload -Uz rbenv
 
+# Use <Alt-b> and <Alt-f> to jump a word at a time
+# Use `cat` to see what keycodes are sent
+bindkey "^[b" backward-word
+bindkey "^[f" forward-word
+
 # Add brew to path
 export HOMEBREW_PREFIX="/opt/homebrew";
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
