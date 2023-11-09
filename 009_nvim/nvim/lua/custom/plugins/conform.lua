@@ -6,7 +6,17 @@ return {
     require("conform").setup({
       formatters = {
         ruff_fix = {
-          command = utils.get_poetry_venv_executable_path("ruff")
+          command = utils.get_poetry_venv_executable_path("ruff"),
+          args = {
+            "--fix",
+            "-e",
+            "-n",
+            "--ignore",
+            "ERA001", -- Don't remove commented out code
+            "--stdin-filename",
+            "$FILENAME",
+            "-",
+          }
         },
         black = {
           command = utils.get_poetry_venv_executable_path("black")
