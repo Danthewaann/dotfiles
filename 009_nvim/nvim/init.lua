@@ -644,10 +644,28 @@ cmp.setup.cmdline({ "/", "?" }, {
 })
 
 -- Use path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
+---@diagnostic disable-next-line: missing-fields
+cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
+  -- From: https://github.com/hrsh7th/nvim-cmp/wiki/Advanced-techniques#disabling-cmdline-completion-for-certain-commands-such-as-increname
+  enabled = function()
+    -- Set of commands where cmp will be disabled
+    local disabled = {
+      W = true,
+      w = true,
+      q = true,
+      qa = true,
+    }
+    -- Get first word of cmdline
+    local cmd = vim.fn.getcmdline():match("%S+")
+    -- Return true if cmd isn't disabled
+    -- else call/return cmp.close(), which returns false
+    return not disabled[cmd] or cmp.close()
+  end,
   sources = cmp.config.sources({
-    { name = 'path' }
+    { name = "path" }
+  }, {
+    { name = "cmdline" }
   })
 })
 
