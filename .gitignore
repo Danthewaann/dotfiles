@@ -1,6 +1,7 @@
 .DS_Store
 *.zip
 001_git/.gitconfig
+001_git/gh-dash/config.yml
 debug.log
 *.tar.gz
 *.gnome_installed_one_dark_theme*
