@@ -11,8 +11,13 @@ echo "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
 
 echo "$SCRIPT_DIR/themes.gitconfig" "$HOME/themes.gitconfig"
 
-mkdir -p "$HOME/.config"
-echo "$SCRIPT_DIR/gh-dash" "$HOME/.config/gh-dash"
+mkdir -p "$HOME/.config/gh-dash"
+
+if [[ ! -f "$SCRIPT_DIR/gh-dash/config.yml" ]]; then
+    cp "$SCRIPT_DIR/gh-dash/config.template.yml" "$SCRIPT_DIR/gh-dash/config.yml" 
+fi
+
+echo "$SCRIPT_DIR/gh-dash/config.yml" "$HOME/.config/gh-dash/config.yml"
 
 mkdir -p "$HOME/.config/gh"
 echo "$SCRIPT_DIR/gh/config.yml" "$HOME/.config/gh/config.yml"
