@@ -30,8 +30,8 @@ vim.keymap.set("n", "Y", "y$")
 -- Go to the start and end of the line
 vim.keymap.set("n", "H", "0")
 vim.keymap.set("n", "L", "$")
-vim.keymap.set("v", "H", "_")
-vim.keymap.set("v", "L", "g_")
+vim.keymap.set({ "v", "x" }, "H", "_")
+vim.keymap.set({ "v", "x" }, "L", "g_")
 
 -- Prevent the cursor from jumping to the start of a selection after yanking it
 vim.keymap.set("v", "y", "ygv<Esc>")
