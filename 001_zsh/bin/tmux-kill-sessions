@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-ignore_sessions=("github-dashboard")
+# Whitelist of sessions to not kill
+ignore_sessions=("github-dashboard" "dotfiles" "notes" "journal")
 
 sessions=()
 while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(tmux list-sessions)
