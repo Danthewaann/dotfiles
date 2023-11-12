@@ -20,7 +20,7 @@ return {
     -- Additional lua configuration, makes nvim stuff amazing!
     "folke/neodev.nvim",
   },
-  init = function()
+  config = function()
     local utils = require("custom.utils")
 
     -- [[ Configure LSP ]]

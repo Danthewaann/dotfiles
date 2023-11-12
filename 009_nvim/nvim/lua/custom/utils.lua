@@ -1,5 +1,3 @@
-local lsp_utils = require("lspconfig/util")
-
 M = {}
 
 -- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
@@ -24,6 +22,8 @@ end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_poetry_venv_executable_path = function(exe, workspace)
+  local lsp_utils = require("lspconfig/util")
+
   -- Check if the executable exists in the .venv/bin directory
   -- (as this is much quicker than running the poetry command)
   local venv_exe = lsp_utils.path.join(workspace, ".venv", "bin", exe)
