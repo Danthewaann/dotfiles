@@ -3,9 +3,9 @@ vim.cmd[[
     "
     " Partially from https://gist.github.com/berinhard/523420
     func! s:GetLineContentAndWhitespace(line_num)
-        let cur_line_content = getline(a:line_num)
-        let cur_line_whitespace = strlen(matchstr(cur_line_content, '^\s*'))
-        return {'content': cur_line_content, 'whitespace': cur_line_whitespace}
+    let cur_line_content = getline(a:line_num)
+    let cur_line_whitespace = strlen(matchstr(cur_line_content, '^\s*'))
+    return {'content': cur_line_content, 'whitespace': cur_line_whitespace}
     endf
 
     func! s:GetBreakpointStmt()

@@ -20,14 +20,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require("lazy").setup({
   -- For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  { import = "custom.plugins" },
+  { import = "plugins" },
 }, {
   -- Don't notify changes as it gets annoying
   change_detection = {
@@ -35,14 +30,5 @@ require("lazy").setup({
   },
 })
 
--- [[ Setting options ]]
-require("custom.opts")
-
--- [[ Setting keymaps ]]
-require("custom.keymaps")
-
--- [[ Setting auto commands ]]
-require("custom.autocmds")
-
--- [[ Custom breakpoints code ]]
-require("custom.breakpoints")
+-- [[ Require custom setup ]]
+require("custom")
