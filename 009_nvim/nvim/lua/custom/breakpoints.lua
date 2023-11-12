@@ -68,11 +68,22 @@ end
 vim.keymap.set("n", "<leader>bp", set_breakpoint, { desc = "Add [B]reak[p]oint" })
 vim.keymap.set("n", "<leader>bd", function()
   if get_all_breakpoints() then
-    vim.cmd(":ldo delete")
+    local num = vim.fn.getloclist(0)
+    if #num > 0 then
+      print("Deleting all breakpoints...")
+      vim.cmd(":silent ldo delete")
+    else
+      vim.api.nvim_echo({ { "No breakpoints found!", "WarningMsg" } }, true, {})
+    end
   end
 end, { desc = "[B]reakpoints [D]elete" })
 vim.keymap.set("n", "<leader>bs", function()
   if get_all_breakpoints() then
-    vim.cmd(":lopen")
+    local num = vim.fn.getloclist(0)
+    if #num > 0 then
+      vim.cmd(":lopen")
+    else
+      vim.api.nvim_echo({ { "No breakpoints found!", "WarningMsg" } }, true, {})
+    end
   end
 end, { desc = "[B]reakpoints [S]how" })
