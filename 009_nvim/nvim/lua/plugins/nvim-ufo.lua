@@ -34,7 +34,10 @@ return {
     vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
     vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
     vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
-    vim.keymap.set("n", "<leader>zv", "mazMzvzczO`a", { desc = "Close all folds not under cursor" })
+    vim.keymap.set("n", "<leader>zv", function()
+      require("ufo").closeAllFolds()
+      vim.cmd.normal("zAzz")
+    end, { desc = "Close all folds not under cursor" })
 
     vim.api.nvim_create_autocmd("BufRead", {
       pattern = "*",
