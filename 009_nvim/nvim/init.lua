@@ -551,6 +551,24 @@ local servers = {
   lua_ls = {
     settings = {
       Lua = {
+        -- From: https://github.com/neovim/neovim/issues/21686#issuecomment-1522446128
+        runtime = {
+          -- Tell the language server which version of Lua you're using
+          -- (most likely LuaJIT in the case of Neovim)
+          version = 'LuaJIT',
+        },
+        diagnostics = {
+          -- Get the language server to recognize the `vim` global
+          globals = {
+            'vim',
+            'require'
+          },
+        },
+        workspace = {
+          -- Make the server aware of Neovim runtime files
+          checkThirdParty = false,
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
         format = {
           enable = true,
           defaultConfig = {
@@ -559,7 +577,6 @@ local servers = {
             quote_style = "double"
           }
         },
-        workspace = { checkThirdParty = false },
         telemetry = { enable = false },
       },
     },
