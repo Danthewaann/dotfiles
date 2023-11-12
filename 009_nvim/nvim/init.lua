@@ -92,16 +92,6 @@ require("custom.autocmds")
 -- [[ Custom breakpoints code ]]
 require("custom.breakpoints")
 
--- Diagnostic keymaps
-vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({ float = false }) end,
-  { desc = "Go to previous diagnostic message" }
-)
-vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next({ float = false }) end,
-  { desc = "Go to next diagnostic message" }
-)
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, { desc = "Open diagnostics list" })
-
 -- document existing key chains
 require("which-key").register({
   ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
