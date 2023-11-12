@@ -15,7 +15,12 @@ vim.o.smartcase = true
 vim.o.breakindent = true
 
 -- Set completeo to have a better completion experience
-vim.o.completeo = "menuone,noselect"
+pcall(function ()
+  vim.o.completeo = "menuone,noselect"
+end)
+pcall(function ()
+  vim.o.completeopt = "menuone,noselect"
+end)
 
 -- Show tabs and newline characters when `list` is enabled
 vim.o.listchars = "eol:¬,tab:▸."
@@ -50,9 +55,6 @@ vim.o.signcolumn = "yes"
 -- Set updatetime to a low number for faster updates
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
-
--- Set completeo to have a better completion experience
-vim.o.completeo = "menuone,noselect"
 
 -- Don't show mode information (normal, insert etc.) as I've included it in the statusline
 vim.o.showmode = false

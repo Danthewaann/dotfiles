@@ -16,3 +16,6 @@ else
         "sudo apt-get install -y neovim"
 fi
 
+
+run_command "installing bob.nvim version manager" \
+    "cargo install --git https://github.com/MordechaiHadad/bob.git"
