@@ -653,6 +653,7 @@ cmp.setup.cmdline(":", {
     local disabled = {
       W = true,
       w = true,
+      wa = true,
       q = true,
       qa = true,
     }
