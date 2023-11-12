@@ -529,8 +529,8 @@ local servers = {
     init_options = {
       settings = {
         args = {
-          -- Let pyright handle unused variables, imports
-          "--ignore", "F841,F401"
+          -- Let pyright handle undefined symbols, unused variables, imports
+          "--ignore", "F821,F841,F401"
         }
       }
     }
