@@ -81,3 +81,6 @@ vim.opt.path:append("**")
 
 -- Don't persist terminal buffers in the session file
 vim.opt.sessionoptions:remove("terminal")
+
+-- Use ripgrep for the :grep command
+vim.o.grepprg = "rg --vimgrep --color=never"
