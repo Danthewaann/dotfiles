@@ -14,6 +14,10 @@ vim.keymap.set("n", "l", "foldclosed('.') == -1 ? 'l' : 'zO'", { expr = true, si
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+-- Re-select visual selection when indenting it
+vim.keymap.set("v", ">", ">gv", { noremap = true })
+vim.keymap.set("v", "<", "<gv", { noremap = true })
+
 -- Keep the cursor in the same place when joining lines
 vim.keymap.set("n", "J", "mzJ`z")
 
