@@ -38,9 +38,6 @@ require("lazy").setup({
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
 
-  -- Useful plugin to show you pending keybinds.
-  { "folke/which-key.nvim",  opts = {} },
-
   -- "gc" to comment visual regions/lines
   { "numToStr/Comment.nvim", opts = {} },
 
@@ -64,14 +61,3 @@ require("custom.autocmds")
 
 -- [[ Custom breakpoints code ]]
 require("custom.breakpoints")
-
--- document existing key chains
-require("which-key").register({
-  ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-  ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-  ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-  ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
-  ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-  ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-  ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-})
