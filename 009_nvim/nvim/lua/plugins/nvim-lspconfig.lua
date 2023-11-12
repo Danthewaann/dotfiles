@@ -177,6 +177,7 @@ return {
         filetypes = { "sql" }
       },
       bashls = { settings = {} },
+      solargraph = { settings = {} },
 
       lua_ls = {
         settings = {
