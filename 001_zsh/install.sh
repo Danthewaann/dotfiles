@@ -32,6 +32,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing tree" \
         "brew install tree"
+
+    run_command "installing asciinema" \
+        "brew install asciinema"
 fi
 
 if ! inside_wsl; then

@@ -9,3 +9,6 @@ source "$SCRIPT_DIR"/../common
 
 run_command "installing rust" \
     "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+
+run_command "installing agg - asciinema gif generator" \
+    "cargo install --git https://github.com/asciinema/agg"
