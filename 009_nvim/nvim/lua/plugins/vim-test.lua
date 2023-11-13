@@ -39,8 +39,8 @@ return {
       if language == "go" then
         -- Need to reverse the build args for `delve test`
         -- e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to
-        -- `.pkg/concurrency -- -run 'TestCheckWebsites$'`
-        args = build_args[2] .. " -- " .. build_args[1]
+        -- `.pkg/concurrency -- -test.run 'TestCheckWebsites$'`
+        args = build_args[2] .. " -- " .. "-test.run " .. vim.fn.split(build_args[1])[2]
       else
         args = vim.fn.join(build_args)
       end
