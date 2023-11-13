@@ -209,6 +209,7 @@ M.ignore_filetypes = {
   "sqls_output",
   "Octo",
   "octo_panel",
+  "VimspectorPrompt",
 }
 
 return M
