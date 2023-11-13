@@ -37,7 +37,7 @@
         "go - remote test": {
             "variables": {
                 "container": {
-                    "shell": ["$HOME/.local/bin/get-test-container"]
+                    "shell": ["$HOME/.local/bin/get-test-container", "--start"]
                 },
                 "port": 40000
             },
@@ -49,7 +49,7 @@
                         "dlv", "test", "--listen=:${port}", "--headless=true", "--api-version=2", "%CMD%"
                     ]
                 },
-                "delay": "5000m"
+                "delay": "10000m"
             },
             "attach": {
                 "remote": {
@@ -76,8 +76,8 @@
                 "request": "attach",
                 "pathMappings": [
                     {
-                        "localRoot": "${workspaceRoot}",
-                        "remoteRoot": "/root"
+                        "localRoot": "${cwd}",
+                        "remoteRoot": "/usr/src/app"
                     }
                 ],
                 "console": "internalConsole",
@@ -116,13 +116,13 @@
                 "remotePath": "/go/src/github.com/slicelife/menu-prototype",
                 "pathMappings": [
                     {
-                        "localRoot": "${workspaceRoot}",
-                        "remoteRoot": "/root"
+                        "localRoot": "${cwd}",
+                        "remoteRoot": "/go/src/github.com/slicelife/menu-prototype"
                     }
                 ],
                 "substitutePath": [
                     {
-                        "from": "${workspaceRoot}",
+                        "from": "${cwd}",
                         "to": "/go/src/github.com/slicelife/menu-prototype"
                     }
                 ],
@@ -141,9 +141,6 @@
             "variables": {
                 "venv": {
                     "shell": ["poetry", "env", "info", "-p"]
-                },
-                "CWD": {
-                    "shell": "pwd"
                 }
             },
             "configuration": {
@@ -154,7 +151,7 @@
                 "console": "internalConsole",
                 "python": "${venv}/bin/python",
                 "args": ["*${args}"],
-                "cwd": "${CWD}"
+                "cwd": "${cwd}"
             },
             "breakpoints": {
                 "exception": {
@@ -178,18 +175,13 @@
         },
         "go - base conf": {
             "adapter": "delve",
-            "variables": {
-                "CWD": {
-                    "shell": "pwd"
-                }
-            },
             "configuration": {
                 "request": "launch",
                 "stopOnEntry": false,
                 "console": "internalConsole",
                 "program": "${fileDirname}",
                 "mode": "debug",
-                "cwd": "${CWD}"
+                "cwd": "${cwd}"
             },
             "breakpoints": {
                 "exception": {
@@ -211,23 +203,18 @@
         },
         "javascript - base conf": {
             "adapter": "vscode-node",
-            "variables": {
-                "CWD": {
-                    "shell": "pwd"
-                }
-            },
             "configuration": {
                 "type": "node",
                 "request": "launch",
                 "protocol": "auto",
                 "stopOnEntry": false,
-                "program": "${CWD}/node_modules/.bin/jest",
+                "program": "${cwd}/node_modules/.bin/jest",
                 "args": [],
                 "console": "internalConsole",
-                "cwd": "${CWD}",
+                "cwd": "${cwd}",
                 "smartStep": true,
                 "skipFiles": [
-                    "${CWD}/node_modules/**/*.js",
+                    "${cwd}/node_modules/**/*.js",
                     "<node_internals>/**/*.js"
                 ]
             },
@@ -245,7 +232,7 @@
             "configuration": {
                 "args": [
                     "--config",
-                    "${CWD}/jest.config.ts",
+                    "${cwd}/jest.config.ts",
                     "*${args}"
                 ]
             }
@@ -255,7 +242,7 @@
             "configuration": {
                 "args": [
                     "--config",
-                    "${CWD}/jest.config.ts",
+                    "${cwd}/jest.config.ts",
                     "${fileBasenameNoExtension}"
                 ]
             }
