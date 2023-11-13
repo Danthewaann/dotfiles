@@ -48,6 +48,12 @@ return {
       local debug_config = { configuration = "", args = args }
 
       if runner_type == "make" then
+        print("Starting test docker container...")
+        local container = vim.fn.trim(vim.fn.system("get-test-container --start"))
+        if vim.v.shell_error ~= 0 then
+          vim.api.nvim_echo({ { "Failed to start test container!\n" .. container, "ErrorMsg" } }, true, {})
+          return
+        end
         debug_config.configuration = language .. " - remote test launch"
       else
         debug_config.configuration = language .. " - debug test"
