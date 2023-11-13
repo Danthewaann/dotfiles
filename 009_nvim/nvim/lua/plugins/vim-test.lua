@@ -1,72 +1,67 @@
 return {
   "vim-test/vim-test",
   config = function()
-    vim.cmd [[
-      let test#strategy = "neovim"
-      let test#neovim#term_position = 'vertical'
-      let test#custom_runners = {'python': ['make'], 'go': ['make']}
+    vim.g["test#strategy"] = "neovim"
+    vim.g["test#neovim#term_position"] = "vertical"
+    vim.g["test#neovim#start_normal"] = 0
+    vim.g["test#custom_runners"] = { python = { "make" }, go = { "make" } }
 
-      if executable("make") && !empty(glob("Makefile"))
-      let test#python#runner = 'make'
-      let test#go#runner = 'make'
+    if vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0 then
+      vim.g["test#python#runner"] = "make"
+      vim.g["test#go#runner"] = "make"
+    else
+      vim.g["test#python#runner"] = "pytest"
+      vim.g["test#go#runner"] = "gotest"
+    end
+
+    local function get_cursor_position(path)
+      local filename_modifier = vim.g["test#filename_modifier"] or ":."
+      local position = {
+        file = vim.fn.fnamemodify(path, filename_modifier),
+        line = path == vim.fn.expand("%") and vim.fn.line(".") or 1,
+        col = path == vim.fn.expand("%") and vim.fn.col(".") or 1,
+      }
+      return position
+    end
+
+    local function debug_nearest_test()
+      local position = get_cursor_position(vim.fn.expand("%"))
+      local runner = vim.fn.call("test#determine_runner", { position.file })
+      if runner == 0 then
+        vim.api.nvim_echo({ { "Not a test file", "WarningMsg" } }, true, {})
+        return
+      end
+
+      local language, runner_type = unpack(vim.fn.split(runner, "#"))
+      local build_args = vim.fn.call("test#" .. runner .. "#build_position", { "nearest", position })
+      local args = {}
+
+      if language == "go" then
+        -- Need to reverse the build args for `delve test`
+        -- e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to
+        -- `.pkg/concurrency -- -run 'TestCheckWebsites$'`
+        args = build_args[2] .. " -- " .. build_args[1]
       else
-      let test#python#runner = 'pytest'
-      let test#go#runner = 'gotest'
-      endif
+        args = vim.fn.join(build_args)
+      end
 
-      let g:test#neovim#start_normal = 0
+      local debug_config = { configuration = "", args = args }
 
-      function! MyGetPosition(path) abort
-          let filename_modifier = get(g:, 'test#filename_modifier', ':.')
-          let position = {}
-          let position['file'] = fnamemodify(a:path, filename_modifier)
-          let position['line'] = a:path == expand('%') ? line('.') : 1
-          let position['col']  = a:path == expand('%') ? col('.') : 1
-          return position
-      endfunction
+      if runner_type == "make" then
+        debug_config.configuration = language .. " - remote test launch"
+      else
+        debug_config.configuration = language .. " - debug test"
+      end
 
-      function! MyDebugNearest() abort
-          let position = MyGetPosition(expand("%"))
-          let runner = test#determine_runner(position['file'])
-          if empty(runner)
-              echohl WarningMsg
-              echo "Not a test file"
-              echohl None
-              return
-          endif
-          let lang = split(runner, '#')[0]
-          let build_args = test#{runner}#build_position("nearest", position)
-          if lang == 'go'
-              " Need to reverse the build args for `delve test`
-              " e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to
-              " `.pkg/concurrency -- -run 'TestCheckWebsites$'`
-              let args = build_args[1] . ' -- ' . build_args[0]
-          else
-              let args = join(build_args)
-          endif
+      vim.fn.call("vimspector#LaunchWithSettings", { debug_config })
+    end
 
-          let runner_type = get(g:, 'test#python#runner', 'pytest')
-          if lang == 'python' && runner_type == 'make'
-              call vimspector#LaunchWithSettings({'configuration': 'python - remote test launch', 'args': args})
-              return
-          endif
-
-          let runner_type = get(g:, 'test#go#runner', 'gotest')
-          if lang == 'go' && runner_type == 'make'
-              call vimspector#LaunchWithSettings({'configuration': 'go - remote test launch', 'args': args})
-              return
-          endif
-
-          call vimspector#LaunchWithSettings({'configuration': lang . ' - debug test', 'args': args})
-      endfunction
-
-      nnoremap <silent> <leader>dn :call MyDebugNearest()<CR>
-      nnoremap <silent> <leader>tn :TestNearest<CR>
-      nnoremap <silent> <leader>tf :TestFile<CR>
-      nnoremap <silent> <leader>ts :TestSuite<CR>
-      nnoremap <silent> <leader>tc :TestClass<CR>
-      nnoremap <silent> <leader>tl :TestLast<CR>
-      nnoremap <silent> <leader>tv :TestVisit<CR>zz
-    ]]
+    vim.keymap.set("n", "<leader>dn", debug_nearest_test, { desc = "[D]ebug [N]earest test" })
+    vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>", { desc = "[T]est [N]earest" })
+    vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>", { desc = "[T]est [F]ile" })
+    vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "[T]est [S]uite" })
+    vim.keymap.set("n", "<leader>tc", "<cmd>TestClass<CR>", { desc = "[T]est [C]lass" })
+    vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "[T]est [L]ast" })
+    vim.keymap.set("n", "<leader>tv", "<cmd>TestVisit<CR>zz", { desc = "[T]est [V]isit" })
   end
 }
