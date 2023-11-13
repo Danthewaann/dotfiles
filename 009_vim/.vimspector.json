@@ -49,7 +49,7 @@
                         "dlv", "test", "--listen=:${port}", "--headless=true", "--api-version=2", "%CMD%"
                     ]
                 },
-                "delay": "10000m"
+                "delay": "3000m"
             },
             "attach": {
                 "remote": {
