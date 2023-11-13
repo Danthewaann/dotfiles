@@ -59,6 +59,9 @@ return {
         debug_config.configuration = language .. " - debug test"
       end
 
+      -- Set the last test position
+      vim.g["test#last_position"] = position
+
       vim.fn.call("vimspector#LaunchWithSettings", { debug_config })
     end
 
