@@ -210,6 +210,7 @@ M.ignore_filetypes = {
   "Octo",
   "octo_panel",
   "VimspectorPrompt",
+  "vimspector-disassembly",
 }
 
 return M
