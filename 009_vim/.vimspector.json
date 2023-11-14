@@ -1,251 +1,248 @@
 {
-    "adapters": {
-        "python - remote test": {
-            "variables": {
-                "container": {
-                    "shell": ["$HOME/.local/bin/get-test-container", "--start"]
-                },
-                "port": 5678
-            },
-            "port": "${port}",
-            "launch": {
-                "remote": {
-                    "container": "${container}",
-                    "runCommand": [
-                        "python", "-Xfrozen_modules=off", "-m", "debugpy",
-                        "--listen", "0.0.0.0:${port}",
-                        "--wait-for-client",
-                        "%CMD%"
-                    ]
-                },
-                "delay": "1000m"
-            },
-            "attach": {
-                "remote": {
-                    "container": "${container}",
-                    "pidCommand": [
-                        "pgrep", "pytest"
-                    ],
-                    "attachCommand": [
-                        "python", "-m", "debugpy", "--listen", "0.0.0.0:${port}",
-                        "--pid", "%PID%"
-                    ]
-                },
-                "delay": "1000m" 
-            }
+  "adapters": {
+    "python - remote test": {
+      "variables": {
+        "container": {
+          "shell": ["$HOME/.local/bin/get-test-container", "--start"]
         },
-        "go - remote test": {
-            "variables": {
-                "container": {
-                    "shell": ["$HOME/.local/bin/get-test-container", "--start"]
-                },
-                "port": 40000
-            },
-            "port": "${port}",
-            "launch": {
-                "remote": {
-                    "container": "${container}",
-                    "runCommand": [
-                        "dlv", "test", "--listen=:${port}", "--headless=true", "--api-version=2", "%CMD%"
-                    ]
-                },
-                "delay": "3000m"
-            },
-            "attach": {
-                "remote": {
-                    "container": "${container}",
-                    "pidCommand": [
-                        ""
-                    ],
-                    "attachCommand": [
-                        "dlv", "connect", ":${port}"
-                    ]
-                },
-                "delay": "10000m" 
-            }
-        }
+        "port": 5678
+      },
+      "port": "${port}",
+      "launch": {
+        "remote": {
+          "container": "${container}",
+          "runCommand": [
+            "python",
+            "-Xfrozen_modules=off",
+            "-m",
+            "debugpy",
+            "--listen",
+            "0.0.0.0:${port}",
+            "--wait-for-client",
+            "%CMD%"
+          ]
+        },
+        "delay": "1000m"
+      },
+      "attach": {
+        "remote": {
+          "container": "${container}",
+          "pidCommand": ["pgrep", "pytest"],
+          "attachCommand": [
+            "python",
+            "-m",
+            "debugpy",
+            "--listen",
+            "0.0.0.0:${port}",
+            "--pid",
+            "%PID%"
+          ]
+        },
+        "delay": "1000m"
+      }
     },
-    "configurations": {
-        "python - remote test launch": {
-            "adapter": "python - remote test",
-            "remote-request": "launch",
-            "remote-cmdLine": [
-               "-m", "pytest", "*${args}"
-            ],
-            "configuration": {
-                "request": "attach",
-                "pathMappings": [
-                    {
-                        "localRoot": "${cwd}",
-                        "remoteRoot": "/usr/src/app"
-                    }
-                ],
-                "console": "internalConsole",
-                "justMyCode": true
-            },
-            "breakpoints": {
-                "exception": {
-                    "raised": "N",
-                    "uncaught": "Y",
-                    "userUnhandled": "Y"
-                }
-            }
+    "go - remote test": {
+      "variables": {
+        "container": {
+          "shell": ["$HOME/.local/bin/get-test-container", "--start"]
         },
-        "python - remote test attach": {
-            "adapter": "python - remote test",
-            "remote-request": "attach",
-            "configuration": {
-                "request": "attach",
-                "pathMappings": [
-                    {
-                        "localRoot": "${workspaceRoot}",
-                        "remoteRoot": "/root"
-                    }
-                ]
-            }
+        "port": 40000
+      },
+      "port": "${port}",
+      "launch": {
+        "remote": {
+          "container": "${container}",
+          "runCommand": [
+            "dlv",
+            "test",
+            "--listen=:${port}",
+            "--headless=true",
+            "--api-version=2",
+            "%CMD%"
+          ]
         },
-        "go - remote test launch": {
-            "adapter": "go - remote test",
-            "remote-request": "launch",
-            "remote-cmdLine": [
-               "*${args}"
-            ],
-            "configuration": {
-                "request": "attach",
-                "mode": "remote",
-                "remotePath": "/go/src/github.com/slicelife/menu-prototype",
-                "pathMappings": [
-                    {
-                        "localRoot": "${cwd}",
-                        "remoteRoot": "/go/src/github.com/slicelife/menu-prototype"
-                    }
-                ],
-                "substitutePath": [
-                    {
-                        "from": "${cwd}",
-                        "to": "/go/src/github.com/slicelife/menu-prototype"
-                    }
-                ],
-                "console": "internalConsole"
-            },
-            "breakpoints": {
-                "exception": {
-                    "raised": "N",
-                    "uncaught": "Y",
-                    "userUnhandled": "Y"
-                }
-            }
+        "delay": "3000m"
+      },
+      "attach": {
+        "remote": {
+          "container": "${container}",
+          "pidCommand": [""],
+          "attachCommand": ["dlv", "connect", ":${port}"]
         },
-        "python - base conf": {
-            "adapter": "debugpy",
-            "variables": {
-                "venv": {
-                    "shell": ["poetry", "env", "info", "-p"]
-                }
-            },
-            "configuration": {
-                "type": "python",
-                "request": "launch",
-                "protocol": "auto",
-                "stopOnEntry": false,
-                "console": "internalConsole",
-                "python": "${venv}/bin/python",
-                "args": ["*${args}"],
-                "cwd": "${cwd}"
-            },
-            "breakpoints": {
-                "exception": {
-                    "raised": "N",
-                    "uncaught": "Y",
-                    "userUnhandled": "Y"
-                }
-            }
-        },
-        "python - debug test": {
-            "extends": "python - base conf",
-            "configuration": {
-                "program": "${venv}/bin/pytest"
-            }
-        },
-        "python - debug current file": {
-            "extends": "python - base conf",
-            "configuration": {
-                "program": "${file}"
-            }
-        },
-        "go - base conf": {
-            "adapter": "delve",
-            "configuration": {
-                "request": "launch",
-                "stopOnEntry": false,
-                "console": "internalConsole",
-                "program": "${fileDirname}",
-                "mode": "debug",
-                "cwd": "${cwd}"
-            },
-            "breakpoints": {
-                "exception": {
-                    "raised": "N",
-                    "uncaught": "N",
-                    "userUnhandled": "Y"
-                }
-            }
-        },
-        "go - debug test": {
-            "extends": "go - base conf",
-            "configuration": {
-                "mode": "test",
-                "args": ["*${args}"]
-            }
-        },
-        "go - debug current file": {
-            "extends": "go - base conf"
-        },
-        "javascript - base conf": {
-            "adapter": "vscode-node",
-            "configuration": {
-                "type": "node",
-                "request": "launch",
-                "protocol": "auto",
-                "stopOnEntry": false,
-                "program": "${cwd}/node_modules/.bin/jest",
-                "args": [],
-                "console": "internalConsole",
-                "cwd": "${cwd}",
-                "smartStep": true,
-                "skipFiles": [
-                    "${cwd}/node_modules/**/*.js",
-                    "<node_internals>/**/*.js"
-                ]
-            },
-            "breakpoints": {
-                "exception": {
-                    "all": "N",
-                    "raised": "N",
-                    "uncaught": "Y",
-                    "userUnhandled": "Y"
-                }
-            }
-        },
-        "javascript - debug test": {
-            "extends": "javascript - base conf",
-            "configuration": {
-                "args": [
-                    "--config",
-                    "${cwd}/jest.config.ts",
-                    "*${args}"
-                ]
-            }
-        },
-        "javascript - debug current test file": {
-            "extends": "javascript - base conf",
-            "configuration": {
-                "args": [
-                    "--config",
-                    "${cwd}/jest.config.ts",
-                    "${fileBasenameNoExtension}"
-                ]
-            }
-        }
+        "delay": "10000m"
+      }
     }
+  },
+  "configurations": {
+    "python - remote test launch": {
+      "adapter": "python - remote test",
+      "remote-request": "launch",
+      "remote-cmdLine": ["-m", "pytest", "*${args}"],
+      "configuration": {
+        "request": "attach",
+        "pathMappings": [
+          {
+            "localRoot": "${cwd}",
+            "remoteRoot": "/usr/src/app"
+          }
+        ],
+        "console": "internalConsole",
+        "justMyCode": true
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y",
+          "userUnhandled": "Y"
+        }
+      }
+    },
+    "python - remote test attach": {
+      "adapter": "python - remote test",
+      "remote-request": "attach",
+      "configuration": {
+        "request": "attach",
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceRoot}",
+            "remoteRoot": "/root"
+          }
+        ]
+      }
+    },
+    "go - remote test launch": {
+      "adapter": "go - remote test",
+      "remote-request": "launch",
+      "remote-cmdLine": ["*${args}"],
+      "configuration": {
+        "request": "attach",
+        "mode": "remote",
+        "remotePath": "/go/src/github.com/slicelife/menu-prototype",
+        "pathMappings": [
+          {
+            "localRoot": "${cwd}",
+            "remoteRoot": "/go/src/github.com/slicelife/menu-prototype"
+          }
+        ],
+        "substitutePath": [
+          {
+            "from": "${cwd}",
+            "to": "/go/src/github.com/slicelife/menu-prototype"
+          }
+        ],
+        "console": "internalConsole"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y",
+          "userUnhandled": "Y"
+        }
+      }
+    },
+    "python - base conf": {
+      "adapter": "debugpy",
+      "variables": {
+        "venv": {
+          "shell": ["poetry", "env", "info", "-p"]
+        }
+      },
+      "configuration": {
+        "type": "python",
+        "request": "launch",
+        "protocol": "auto",
+        "stopOnEntry": false,
+        "console": "internalConsole",
+        "python": "${venv}/bin/python",
+        "args": ["*${args}"],
+        "cwd": "${cwd}"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y",
+          "userUnhandled": "Y"
+        }
+      }
+    },
+    "python - debug test": {
+      "extends": "python - base conf",
+      "configuration": {
+        "program": "${venv}/bin/pytest"
+      }
+    },
+    "python - debug current file": {
+      "extends": "python - base conf",
+      "configuration": {
+        "program": "${file}"
+      }
+    },
+    "go - base conf": {
+      "adapter": "delve",
+      "configuration": {
+        "request": "launch",
+        "stopOnEntry": false,
+        "console": "internalConsole",
+        "program": "${fileDirname}",
+        "mode": "debug",
+        "cwd": "${cwd}"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "N",
+          "userUnhandled": "Y"
+        }
+      }
+    },
+    "go - debug test": {
+      "extends": "go - base conf",
+      "configuration": {
+        "mode": "test",
+        "args": ["*${args}"]
+      }
+    },
+    "go - debug current file": {
+      "extends": "go - base conf"
+    },
+    "javascript - base conf": {
+      "adapter": "vscode-node",
+      "configuration": {
+        "type": "node",
+        "request": "launch",
+        "protocol": "auto",
+        "stopOnEntry": false,
+        "program": "${cwd}/node_modules/.bin/jest",
+        "args": [],
+        "console": "internalConsole",
+        "cwd": "${cwd}",
+        "smartStep": true,
+        "skipFiles": ["${cwd}/node_modules/**/*.js", "<node_internals>/**/*.js"]
+      },
+      "breakpoints": {
+        "exception": {
+          "all": "N",
+          "raised": "N",
+          "uncaught": "Y",
+          "userUnhandled": "Y"
+        }
+      }
+    },
+    "javascript - debug test": {
+      "extends": "javascript - base conf",
+      "configuration": {
+        "args": ["--config", "${cwd}/jest.config.ts", "*${args}"]
+      }
+    },
+    "javascript - debug current test file": {
+      "extends": "javascript - base conf",
+      "configuration": {
+        "args": [
+          "--config",
+          "${cwd}/jest.config.ts",
+          "${fileBasenameNoExtension}"
+        ]
+      }
+    }
+  }
 }
