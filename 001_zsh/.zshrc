@@ -180,21 +180,6 @@ ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
-# Shell function that wraps `gitw-add` to allow me to cd and in the newly created git worktree
-function gitw-add() {
-    local failed=0
-
-    set -o pipefail
-    if ! output=$("$HOME"/.local/bin/gitw-add "$@" 2> /dev/tty); then
-        failed=1
-    fi
-    set +o pipefail
-
-    if [[ $failed -eq 1 ]]; then
-        return 1
-    fi
-}
-
 function zvm_vi_yank() {
     # Yank to system clipboard in zsh-vi-mode
     # From: https://github.com/jeffreytse/zsh-vi-mode/issues/19
