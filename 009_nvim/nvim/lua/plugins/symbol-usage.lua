@@ -19,8 +19,7 @@ return {
         table.insert(fragments, symbol.implementation .. " impls")
       end
 
-      local combined = table.concat(fragments, ", ")
-      return "-> " .. combined
+      return "-> " .. table.concat(fragments, ", ")
     end
 
     local SymbolKind = vim.lsp.protocol.SymbolKind
