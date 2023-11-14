@@ -220,6 +220,7 @@
     conflictstyle = diff3
 [diff]
     colorMoved = default
+    tool = nvimdiff
 [push]
     autoSetupRemote = true
 [oh-my-zsh]
