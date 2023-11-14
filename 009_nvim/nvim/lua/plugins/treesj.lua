@@ -6,8 +6,8 @@ return {
       use_default_keymaps = false
     })
 
-    vim.keymap.set("n", "gT", "<cmd>TSJToggle<CR>", { desc = "TS[J] [T]oggle" })
-    vim.keymap.set("n", "gS", "<cmd>TSJSplit<CR>", { desc = "TS[J] [S]plit" })
-    vim.keymap.set("n", "gJ", "<cmd>TSJJoin<CR>", { desc = "TS[J] [J]oin" })
+    vim.keymap.set("n", "<leader>jt", "<cmd>TSJToggle<CR>", { desc = "TS[J] [T]oggle line split or join" })
+    vim.keymap.set("n", "<leader>js", "<cmd>TSJSplit<CR>", { desc = "TS[J] [S]plit line" })
+    vim.keymap.set("n", "<leader>jj", "<cmd>TSJJoin<CR>", { desc = "TS[J] [J]oin line" })
   end,
 }
