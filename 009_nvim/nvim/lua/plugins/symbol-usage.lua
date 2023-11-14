@@ -1,64 +1,26 @@
 return {
   "Wansmer/symbol-usage.nvim",
-  event = "BufReadPre", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
+  event = "LspAttach", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
   config = function()
-    local function h(name)
-      return vim.api.nvim_get_hl(0, { name = name })
-    end
-
-    -- hl-groups can have any name
-    vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg = h("CursorLine").bg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageContent", { bg = h("CursorLine").bg, fg = h("Comment").fg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = h("Function").fg, bg = h("CursorLine").bg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = h("Type").fg, bg = h("CursorLine").bg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, bg = h("CursorLine").bg, italic = true })
-
     local function text_format(symbol)
-      local res = {}
-
-      local round_start = { "", "SymbolUsageRounding" }
-      local round_end = { "", "SymbolUsageRounding" }
+      local fragments = {}
 
       if symbol.references then
         local usage = symbol.references <= 1 and "usage" or "usages"
         local num = symbol.references == 0 and "no" or symbol.references
-        table.insert(res, round_start)
-        table.insert(res, { "󰌹 ", "SymbolUsageRef" })
-        table.insert(res, { ("%s %s"):format(num, usage), "SymbolUsageContent" })
-        table.insert(res, round_end)
+        table.insert(fragments, ("%s %s"):format(num, usage))
       end
 
       if symbol.definition then
-        if #res > 0 then
-          table.insert(res, { " ", "NonText" })
-        end
-        table.insert(res, round_start)
-        table.insert(res, { "󰳽 ", "SymbolUsageDef" })
-        table.insert(res, { symbol.definition .. " defs", "SymbolUsageContent" })
-        table.insert(res, round_end)
+        table.insert(fragments, symbol.definition .. " defs")
       end
 
       if symbol.implementation then
-        if #res > 0 then
-          table.insert(res, { " ", "NonText" })
-        end
-        table.insert(res, round_start)
-        table.insert(res, { "󰡱 ", "SymbolUsageImpl" })
-        table.insert(res, { symbol.implementation .. " impls", "SymbolUsageContent" })
-        table.insert(res, round_end)
+        table.insert(fragments, symbol.implementation .. " impls")
       end
 
-      return res
-    end
-
-    local function table_contains(tbl, x)
-      local found = false
-      for _, v in pairs(tbl) do
-        if v == x then
-          found = true
-        end
-      end
-      return found
+      local combined = table.concat(fragments, ", ")
+      return "-> " .. combined
     end
 
     local SymbolKind = vim.lsp.protocol.SymbolKind
@@ -78,7 +40,7 @@ return {
 
     local symbols = {}
     for _, v in pairs(SymbolKind) do
-      if not table_contains(ignoreSymbols, v) then
+      if vim.tbl_get(ignoreSymbols, v) == nil then
         symbols[#symbols + 1] = v
       end
     end
