@@ -24,8 +24,8 @@ vim.keymap.set("n", "J", "mzJ`z")
 -- Map enter to break the current line
 vim.keymap.set("n", "<CR>", "i<CR><ESC>k$")
 
--- Re-select pasted text
-vim.keymap.set("n", "gp", "`[v`]")
+-- Re-select last pasted text
+vim.keymap.set("n", "gp", "`[v`]", { desc = "Re-select last pasted text" })
 
 -- Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 -- which is the default
@@ -138,10 +138,10 @@ vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<C
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
 vim.keymap.set("n", "<leader>gg", "<cmd> silent vertical Git<CR>", { desc = "[G]it [G]et" })
-vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]omit" })
-vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]omit [A]mend" })
-vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]omit [E]dit" })
-vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = "[G]it [O]pen" })
+vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]ommit [C]reate" })
+vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]ommit [A]mend" })
+vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]ommit [E]dit" })
+vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = "[G]it [O]pen in browser" })
 vim.keymap.set("n", "<leader>ghr", function()
   vim.fn.system("gh rv")
   if vim.v.shell_error ~= 0 then
@@ -160,19 +160,32 @@ vim.keymap.set("n", "<leader>ghv", function()
 end, { desc = "[G]it [H]ub [V]iew pull request" })
 
 -- Replace current word in current file
-vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = "[R]e[p]lace current word in file" }
+)
 
 -- Replace visual selection in current file
-vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Left><Left>]])
+vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Left><Left>]],
+  { desc = "[R]e[p]lace selection in file" }
+)
 
 -- Show all commits
-vim.keymap.set("n", "<leader>gva", ":GV<CR>:set winbar=<CR>", { silent = true })
+vim.keymap.set("n", "<leader>gca", ":GV<CR>:set winbar=<CR>", {
+  silent = true,
+  desc = "[G]it [C]ommits [A]ll"
+})
 
 -- Show commits for the current file
-vim.keymap.set("n", "<leader>gvf", ":GV!<CR>:set winbar=<CR>", { silent = true })
+vim.keymap.set("n", "<leader>gcf", ":GV!<CR>:set winbar=<CR>", {
+  silent = true,
+  desc = "[G]it [C]ommits [F]ile"
+})
 
 -- Show commits for the visual selection
-vim.keymap.set("x", "<leader>gv", ":GV<CR>:set winbar=<CR>", { silent = true })
+vim.keymap.set("x", "<leader>gc", ":GV<CR>:set winbar=<CR>", {
+  silent = true,
+  desc = "[G]it [C]ommits for selection"
+})
 
 -- Add custom vim-unimpaired like mapping to toggle folds in current window
 vim.keymap.set("n", "yof", function()
