@@ -18,13 +18,7 @@ return {
       -- supports the same keys passed to .configure except for filetypes_denylist and filetypes_allowlist
       filetype_overrides = {},
       -- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
-      filetypes_denylist = {
-        "dirvish",
-        "fugitive",
-        "NvimTree",
-        "markdown",
-        "",
-      },
+      filetypes_denylist = require("custom.utils").ignore_filetypes,
       -- filetypes_allowlist: filetypes to illuminate, this is overridden by filetypes_denylist
       filetypes_allowlist = {},
       -- modes_denylist: modes to not illuminate, this overrides modes_allowlist
