@@ -84,3 +84,6 @@ vim.opt.sessionoptions:remove("terminal")
 
 -- Use ripgrep for the :grep command
 vim.o.grepprg = "rg --vimgrep --color=never"
+
+-- Disable swap files as they can be annoying
+vim.o.swapfile = false
