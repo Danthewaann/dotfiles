@@ -159,8 +159,8 @@ return {
         init_options = {
           settings = {
             args = {
-              -- Let pyright handle undefined symbols, unused variables, imports
-              "--ignore", "F821,F841,F401"
+              -- Let pyright handle undefined symbols, unused variables, imports, commented out code
+              "--ignore", "F821,F841,F401,ERA001"
             }
           }
         }
