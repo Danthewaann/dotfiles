@@ -12,7 +12,7 @@ return {
             "-e",
             "-n",
             "--ignore",
-            "ERA001", -- Don't remove commented out code
+            "ERA001,F841", -- Don't remove commented out code, unused variables
             "--stdin-filename",
             "$FILENAME",
             "-",
