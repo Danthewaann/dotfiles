@@ -169,17 +169,6 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Le
   { desc = "[R]e[p]lace selection in file" }
 )
 
-vim.keymap.set("n", "<leader>fn", function()
-  local cur_filename = vim.api.nvim_buf_get_name(0)
-  vim.ui.input(
-    { prompt = "Create File:", default = vim.fn.fnamemodify(cur_filename, ":h") .. "/", completion = "file" },
-    function(filename)
-      if filename then
-        vim.cmd(":e " .. filename)
-      end
-    end
-  )
-end, { desc = "[F]ile [N]ew" })
 vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable" })
 
 -- Properly indent on empty line in insert mode
