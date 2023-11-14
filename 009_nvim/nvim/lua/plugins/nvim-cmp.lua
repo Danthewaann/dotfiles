@@ -27,11 +27,11 @@ return {
     -- Set configuration for specific filetype.
     cmp.setup.filetype("gitcommit", {
       sources = cmp.config.sources({
+        { name = "conventionalcommits" },
+      }, {
         { name = "git" },
       }, {
         { name = "buffer" },
-      }, {
-        { name = "conventionalcommits" },
       })
     })
 
