@@ -16,7 +16,7 @@ return {
 
     -- From: https://github.com/conventional-changelog/commitlint/issues/613#issuecomment-1061807137
     local npm_root = vim.fn.trim(vim.fn.system("npm root -g"))
-    commit_linter.args = { "-x", npm_root .. "/@commitlint/config-conventional" }
+    commit_linter.args = { "-g", os.getenv("HOME") .. "/.commitlintrc.yaml", "-x", npm_root .. "/@commitlint/config-conventional" }
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
       callback = function()
