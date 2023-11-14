@@ -169,17 +169,6 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Le
   { desc = "[R]e[p]lace selection in file" }
 )
 
--- Add custom vim-unimpaired like mapping to toggle folds in current window
-vim.keymap.set("n", "yof", function()
-  if vim.wo.foldenable == true then
-    vim.wo.foldenable = false
-    print(":setlocal nofoldenable")
-  else
-    vim.wo.foldenable = true
-    print(":setlocal foldenable")
-  end
-end)
-
 vim.keymap.set("n", "<leader>fn", function()
   local cur_filename = vim.api.nvim_buf_get_name(0)
   vim.ui.input(
