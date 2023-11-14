@@ -24,27 +24,6 @@ return {
     end
 
     local SymbolKind = vim.lsp.protocol.SymbolKind
-    local ignoreSymbols = {
-      SymbolKind.Property,
-      SymbolKind.Field,
-      SymbolKind.Constructor,
-      SymbolKind.Variable,
-      SymbolKind.String,
-      SymbolKind.Number,
-      SymbolKind.Boolean,
-      SymbolKind.Array,
-      SymbolKind.Object,
-      SymbolKind.Key,
-      SymbolKind.Null,
-    }
-
-    local symbols = {}
-    for _, v in pairs(SymbolKind) do
-      if vim.tbl_get(ignoreSymbols, v) == nil then
-        symbols[#symbols + 1] = v
-      end
-    end
-
     require("symbol-usage").setup({
       text_format = text_format,
       kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Struct, SymbolKind.Constant },
