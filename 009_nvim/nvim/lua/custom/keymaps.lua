@@ -169,24 +169,6 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Le
   { desc = "[R]e[p]lace selection in file" }
 )
 
--- Show all commits
-vim.keymap.set("n", "<leader>gca", ":GV<CR>:set winbar=<CR>", {
-  silent = true,
-  desc = "[G]it [C]ommits [A]ll"
-})
-
--- Show commits for the current file
-vim.keymap.set("n", "<leader>gcf", ":GV!<CR>:set winbar=<CR>", {
-  silent = true,
-  desc = "[G]it [C]ommits [F]ile"
-})
-
--- Show commits for the visual selection
-vim.keymap.set("x", "<leader>gc", ":GV<CR>:set winbar=<CR>", {
-  silent = true,
-  desc = "[G]it [C]ommits for selection"
-})
-
 -- Add custom vim-unimpaired like mapping to toggle folds in current window
 vim.keymap.set("n", "yof", function()
   if vim.wo.foldenable == true then

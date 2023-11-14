@@ -101,7 +101,7 @@ return {
     vim.keymap.set("n", "<leader>gf", function()
       require("telescope.builtin").git_status({ layout_strategy = "horizontal" })
     end, { desc = "[G]it [F]iles" })
-    vim.keymap.set("n", "<leader>gl", require("telescope.builtin").git_commits, { desc = "[G]it [L]ogs" })
+    vim.keymap.set("n", "<leader>gtl", require("telescope.builtin").git_commits, { desc = "[G]it [T]elescope [L]ogs" })
     vim.keymap.set("n", "<leader>ii", require("telescope").extensions.import.import, { desc = "[I]nsert [I]mport" })
 
     -- Search for pattern in current project files
