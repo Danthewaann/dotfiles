@@ -29,8 +29,8 @@ return {
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next({ float = false }) end,
       { desc = "Go to next diagnostic message" }
     )
-    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-    vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, { desc = "Open diagnostics list" })
+    vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating [D]iagnostic [M]essage" })
+    vim.keymap.set("n", "<leader>dl", vim.diagnostic.setqflist, { desc = "Open [D]iagnostics [L]ist" })
 
     -- [[ Configure LSP ]]
     -- This function gets run when an LSP connects to a particular buffer.
@@ -43,10 +43,10 @@ return {
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
 
-      nmap("<leader>lr", function()
+      nmap("<leader>rl", function()
         print("Restarting LSP client...")
         vim.cmd(":LspRestart")
-      end, "[R]estart")
+      end, "[R]estart [L]sp")
       nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 

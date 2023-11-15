@@ -203,3 +203,15 @@ autocmd("DiagnosticChanged", {
     vim.diagnostic.setqflist({ open = false })
   end,
 })
+
+-- quickfix list setup
+augroup("quickfix", { clear = true })
+autocmd("FileType", {
+  group = "quickfix",
+  pattern = "qf",
+  callback = function(e)
+    -- Cycle through different quickfix lists
+    vim.keymap.set("n", "<C-o>", "<cmd>colder<CR>", { buffer = e.buf })
+    vim.keymap.set("n", "<C-i>", "<cmd>cnewer<CR>", { buffer = e.buf })
+  end,
+})
