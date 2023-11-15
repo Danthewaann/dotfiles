@@ -1,6 +1,5 @@
 return {
   "tpope/vim-obsession",
-  "tpope/vim-unimpaired",
   "tpope/vim-surround",
   "tpope/vim-repeat",
   "tpope/vim-fugitive",
