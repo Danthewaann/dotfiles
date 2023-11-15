@@ -79,8 +79,12 @@ vim.o.foldenable = true
 -- Provides tab-completion for all file-related tasks
 vim.opt.path:append("**")
 
--- Don't persist terminal buffers in the session file
-vim.opt.sessionoptions:remove("terminal")
+-- Setup what gets saved in the session file
+vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+
+-- Don't save current directory when running :mkview
+-- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1694253333
+vim.opt.viewoptions:remove("curdir")
 
 -- Use ripgrep for the :grep command
 vim.o.grepprg = "rg --vimgrep --color=never"

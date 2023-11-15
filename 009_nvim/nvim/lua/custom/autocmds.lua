@@ -215,3 +215,11 @@ autocmd("FileType", {
     vim.keymap.set("n", "<C-i>", "<cmd>cnewer<CR>", { buffer = e.buf })
   end,
 })
+
+-- Remember folds
+-- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1436059023
+augroup("remember_folds", { clear = true })
+autocmd("VimLeavePre", {
+  group = "remember_folds",
+  command = "mkview"
+})
