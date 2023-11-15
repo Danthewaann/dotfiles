@@ -191,10 +191,3 @@ end, { desc = "Run [M]ake [T]est" })
 vim.keymap.set("n", "<leader>ms", function()
   utils.run_cmd_in_term("vertical", "make shell")
 end, { desc = "Run [M]ake [S]hell" })
-
--- Delete all buffers except the current one
--- From https://stackoverflow.com/questions/4545275/vim-close-all-buffers-but-this-one
-vim.keymap.set("n", "<leader>bo", function()
-  vim.cmd("%bd|e#|bd#")
-  print("Deleted all buffers")
-end, { desc = "[B]uffer [O]nly" })
