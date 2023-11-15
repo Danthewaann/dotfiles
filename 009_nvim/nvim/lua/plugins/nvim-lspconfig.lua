@@ -10,8 +10,19 @@ return {
     {
       "j-hui/fidget.nvim",
       opts = {
-        sources = {
-          pyright = { ignore = true },
+        progress = {
+          display = {
+            format_message = function(msg)
+              if msg.lsp_name == "pyright" and string.find(msg.title, "Finding references") then
+                return nil -- Ignore pyright "Finding references" progress messages
+              end
+              if msg.message then
+                return msg.message
+              else
+                return msg.done and "Completed" or "In progress..."
+              end
+            end
+          }
         },
       },
     },
