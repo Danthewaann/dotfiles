@@ -126,7 +126,6 @@ export EDITOR='nvim'
 # Autoload functions
 fpath=($fpath $HOME/.zsh_functions)
 autoload -Uz vim
-autoload -Uz nvim
 autoload -Uz tmux
 autoload -Uz nvm
 autoload -Uz pyenv
