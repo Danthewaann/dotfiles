@@ -137,7 +137,15 @@ vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<C
 -- Git commands
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
-vim.keymap.set("n", "<leader>gg", "<cmd> silent vertical Git<CR>", { desc = "[G]it [G]et" })
+vim.keymap.set("n", "<leader>gg", function()
+  -- Open the git window in a horizontal split if the
+  -- number of columns is low, otherwise open it in a vertical split
+  if vim.o.columns < 150 then
+    vim.cmd("silent Git")
+  else
+    vim.cmd("silent vertical Git")
+  end
+end, { desc = "[G]it [G]et" })
 vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]ommit [C]reate" })
 vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]ommit [A]mend" })
 vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]ommit [E]dit" })
