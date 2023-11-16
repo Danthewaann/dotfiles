@@ -162,7 +162,7 @@ return {
           }
         },
         before_init = function(_, config)
-          config.settings.python.pythonPath = utils.get_poetry_venv_executable_path("python", config.root_dir)
+          config.settings.python.pythonPath = utils.get_poetry_venv_executable_path("python", false, config.root_dir)
         end,
       },
       ruff_lsp = {

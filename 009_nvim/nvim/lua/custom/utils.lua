@@ -1,5 +1,7 @@
 M = {}
 
+local python_venv = nil
+
 -- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
 M.get_visual_selection = function()
   vim.cmd('noau normal! "vy"')
@@ -21,7 +23,10 @@ M.unfold = function()
 end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
-M.get_poetry_venv_executable_path = function(exe, workspace)
+M.get_poetry_venv_executable_path = function(exe, check_poetry, workspace)
+  check_poetry = check_poetry or false
+  workspace = workspace or nil
+
   local lsp_utils = require("lspconfig/util")
 
   -- Check if the executable exists in the .venv/bin directory
@@ -37,9 +42,11 @@ M.get_poetry_venv_executable_path = function(exe, workspace)
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
-  if M.file_exists(lsp_utils.path.join(workspace, "poetry.lock")) then
-    local venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
-    venv_exe = lsp_utils.path.join(venv, "bin", exe)
+  if check_poetry and M.file_exists(lsp_utils.path.join(workspace, "poetry.lock")) then
+    if python_venv == nil then
+      python_venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
+    end
+    venv_exe = lsp_utils.path.join(python_venv, "bin", exe)
     if M.file_exists(venv_exe) then
       return venv_exe
     end
