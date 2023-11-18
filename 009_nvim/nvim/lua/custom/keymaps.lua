@@ -180,6 +180,11 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Le
 
 vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable" })
 
+-- Use <C-P> and <C-N> to cycle through history in vim command mode
+-- This is needed to allow command line completion to work properly
+vim.keymap.set("c", "<C-p>", "<Up>")
+vim.keymap.set("c", "<C-n>", "<Down>")
+
 -- Properly indent on empty line in insert mode
 vim.keymap.set("n", "i", function()
   if #vim.fn.getline(".") == 0 then
@@ -209,3 +214,4 @@ vim.keymap.set("n", "<leader>cr", function()
       end
     end)
 end, { desc = "[C]ommand [R]un" })
+
