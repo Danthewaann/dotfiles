@@ -195,15 +195,6 @@ autocmd("BufEnter", {
   end,
 })
 
--- Automatically update the quickfix list when LSP diagnostics change
-augroup("diagnostics", { clear = true })
-autocmd("DiagnosticChanged", {
-  group = "diagnostics",
-  callback = function()
-    vim.diagnostic.setqflist({ open = false })
-  end,
-})
-
 -- quickfix list setup
 augroup("quickfix", { clear = true })
 autocmd("FileType", {
