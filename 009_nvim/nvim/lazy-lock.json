@@ -52,7 +52,6 @@
   "promise-async": { "branch": "main", "commit": "e94f35161b8c5d4a4ca3b6ff93dd073eb9214c0e" },
   "qf_helper.nvim": { "branch": "master", "commit": "582838f2601c6a7517b010d8acafba6a1eb4c14a" },
   "rest.nvim": { "branch": "main", "commit": "8b62563cfb19ffe939a260504944c5975796a682" },
-  "sqls.nvim": { "branch": "main", "commit": "4b1274b5b44c48ce784aac23747192f5d9d26207" },
   "statuscol.nvim": { "branch": "main", "commit": "98d02fc90ebd7c4674ec935074d1d09443d49318" },
   "substitute.nvim": { "branch": "main", "commit": "17ffaeb5a1dc2dbef39cf0865d8a4b6000836714" },
   "symbol-usage.nvim": { "branch": "main", "commit": "f3d248f635132b4244e7158db0481f49e20bc1fe" },

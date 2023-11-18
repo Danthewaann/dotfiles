@@ -217,7 +217,6 @@ M.ignore_filetypes = {
   "oil",
   "aerial",
   "Trouble",
-  "sqls_output",
   "Octo",
   "octo_panel",
   "VimspectorPrompt",
