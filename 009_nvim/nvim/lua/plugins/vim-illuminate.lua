@@ -6,11 +6,7 @@ return {
     -- vim.cmd [[hi IlluminatedWordWrite ctermbg=242 guibg=#3b3f4c]]
     require("illuminate").configure({
       -- providers: provider used to get references in the buffer, ordered by priority
-      providers = {
-        "lsp",
-        "treesitter",
-        "regex",
-      },
+      providers = { "lsp" },
       -- delay: delay in milliseconds
       delay = 100,
       -- filetype_overrides: filetype specific overrides.
@@ -18,7 +14,7 @@ return {
       -- supports the same keys passed to .configure except for filetypes_denylist and filetypes_allowlist
       filetype_overrides = {},
       -- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
-      filetypes_denylist = require("custom.utils").ignore_filetypes,
+      filetypes_denylist = {},
       -- filetypes_allowlist: filetypes to illuminate, this is overridden by filetypes_denylist
       filetypes_allowlist = {},
       -- modes_denylist: modes to not illuminate, this overrides modes_allowlist
