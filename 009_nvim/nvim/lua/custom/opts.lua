@@ -67,7 +67,8 @@ vim.o.confirm = true
 vim.o.showcmd = false
 
 -- Don't show search count while searching (let lualine manage it)
-vim.opt.shortmess:append("S")
+-- Also don't show ins-completion-menu messages
+vim.opt.shortmess:append("Sc")
 
 -- Setup folds with treesitter and nvim-ufo
 vim.o.foldcolumn = "0"
@@ -89,5 +90,23 @@ vim.opt.viewoptions:remove("curdir")
 -- Use ripgrep for the :grep command
 vim.o.grepprg = "rg --vimgrep --color=never"
 
+-- Filename:line:column:message
+vim.o.grepformat = "%f:%l:%c:%m"
+
 -- Disable swap files as they can be annoying
 vim.o.swapfile = false
+
+-- Recognize numbered lists when formatting text with `gq`
+-- Also don't auto insert comments
+vim.cmd("autocmd BufEnter * set formatoptions=jqlnt")
+vim.cmd("autocmd BufEnter * setlocal formatoptions=jqlnt")
+
+-- Go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+vim.opt.whichwrap:append("<>[]hl")
+
+-- Make the jumplist not confusing sometimes
+vim.o.jumpoptions = "stack"
+
+-- Command-line completion mode
+vim.o.wildmode = "longest:full,full"
