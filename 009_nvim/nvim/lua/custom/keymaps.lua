@@ -189,14 +189,20 @@ vim.keymap.set("n", "i", function()
   end
 end, { expr = true })
 
--- Custom make and lint commands
-vim.keymap.set("n", "<leader>rl", utils.run_linting, { desc = "[R]un [L]inting" })
-vim.keymap.set("n", "<leader>ml", function()
-  utils.run_cmd_in_term("vertical", "make lint")
-end, { desc = "Run [M]ake [L]int" })
-vim.keymap.set("n", "<leader>mt", function()
-  utils.run_cmd_in_term("vertical", "make test")
-end, { desc = "Run [M]ake [T]est" })
-vim.keymap.set("n", "<leader>ms", function()
-  utils.run_cmd_in_term("vertical", "make shell")
-end, { desc = "Run [M]ake [S]hell" })
+-- Select custom command to run from a visual prompt
+vim.keymap.set("n", "<leader>cr", function()
+  vim.ui.select(
+    { "lint", "make lint", "make test", "make shell" },
+    { prompt = "Select command to run" },
+    function(choice)
+      if choice == "lint" then
+        utils.run_linting()
+      elseif choice == "make lint" then
+        utils.run_cmd_in_term("vertical", "make lint")
+      elseif choice == "make test" then
+        utils.run_cmd_in_term("vertical", "make test")
+      elseif choice == "make shell" then
+        utils.run_cmd_in_term("vertical", "make shell")
+      end
+    end)
+end, { desc = "[C]ommand [R]un" })
