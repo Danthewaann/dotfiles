@@ -44,6 +44,12 @@ autocmd("TermOpen", {
         t[#t + 1] = str
       end
 
+      -- Check if the file exists
+      if not utils.file_exists(t[1]) then
+        vim.api.nvim_echo({ { "File not found!", "ErrorMsg" } }, true, {})
+        return
+      end
+
       -- Jump back to the previous buffer
       vim.cmd(":wincmd p")
 
