@@ -1,6 +1,7 @@
 return {
   "kevinhwang91/nvim-ufo",
   dependencies = "kevinhwang91/promise-async",
+  commit = "67b456063966135a05b3a0e1c914b11bc3f03462",
   config = function()
     local utils = require("custom.utils")
 
