@@ -141,16 +141,10 @@ augroup("unfold_on_jump", { clear = true })
 autocmd("BufLeave", {
   group = "unfold_on_jump",
   pattern = "*",
-  callback = function(events)
-    local ft = vim.api.nvim_buf_get_option(events.buf, "filetype")
+  callback = function()
+    local ft = vim.api.nvim_get_option_value("filetype", {})
     if ft == "TelescopePrompt" then
-      vim.defer_fn(function()
-        local line_data = vim.api.nvim_win_get_cursor(0)    -- returns {row, col}
-        local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
-        if fold_closed ~= -1 then                           -- fold exists (not -1)
-          vim.cmd([[normal! zvzczOzz]])
-        end
-      end, 100)
+      utils.unfold()
     end
   end,
 })
