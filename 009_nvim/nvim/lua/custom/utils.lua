@@ -178,24 +178,23 @@ M.apply_folds_and_then_close_all_folds = function(bufnr, providerName)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     -- make sure buffer is attached
     require("ufo").attach(bufnr)
-    -- getFolds return Promise if providerName == 'lsp'
-    local ok, ranges = pcall(await, require("ufo").getFolds(bufnr, providerName))
-    if ok and ranges then
-      ok = require("ufo").applyFolds(bufnr, ranges)
-      if ok then
-        require("ufo").closeAllFolds()
-        -- Load the saved view to apply saved folds
-        pcall(vim.cmd, "silent! loadview")
+
+    local apply_and_close = function(provider)
+      local ok, ranges = pcall(await, require("ufo").getFolds(bufnr, provider))
+      if ok and ranges then
+        ok = require("ufo").applyFolds(bufnr, ranges)
+        if ok then
+          require("ufo").closeAllFolds()
+          -- Load the saved view to apply saved folds
+          pcall(vim.cmd, "silent! loadview")
+        end
       end
-    else
+      return ok
+    end
+
+    if not apply_and_close(providerName) then
       -- fallback to indent folding
-      ranges = await(require("ufo").getFolds(bufnr, "indent"))
-      ok = require("ufo").applyFolds(bufnr, ranges)
-      if ok then
-        require("ufo").closeAllFolds()
-        -- Load the saved view to apply saved folds
-        pcall(vim.cmd, "silent! loadview")
-      end
+      apply_and_close("indent")
     end
   end)
 end
