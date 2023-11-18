@@ -226,9 +226,22 @@ autocmd("VimLeavePre", {
 
 -- Auto insert mode when entering terminal
 -- From: https://github.com/akinsho/toggleterm.nvim/issues/455
-local augroup_term_insert = vim.api.nvim_create_augroup("Term-Insert", { clear = true })
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "WinEnter", "TermOpen", "TermEnter" }, {
-  group = augroup_term_insert,
-  pattern = 'term://*',
-  command = 'startinsert'
+augroup("Term-Insert", { clear = true })
+autocmd({ "BufEnter", "BufWinEnter", "WinEnter", "TermOpen", "TermEnter" }, {
+  group = "Term-Insert",
+  pattern = "term://*",
+  command = "startinsert"
+})
+
+-- Save and load views on buffer enter and exit
+augroup("load_and_save_views", { clear = true })
+autocmd({ "BufWinEnter" }, {
+  group = "load_and_save_views",
+  pattern = "*.*",
+  command = "silent! loadview"
+})
+autocmd({ "BufWinLeave" }, {
+  group = "load_and_save_views",
+  pattern = "*.*",
+  command = "mkview"
 })

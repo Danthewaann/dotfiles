@@ -9,12 +9,6 @@ return {
     require("auto-session").setup({
       auto_save_enabled = true,
       auto_session_root_dir = sessions,
-      post_save_cmds = { function()
-        vim.cmd("mkview")
-      end },
-      post_restore_cmds = { function()
-        vim.cmd("loadview")
-      end },
     })
   end
 }
