@@ -190,7 +190,7 @@ M.apply_folds_and_then_close_all_folds = function(bufnr, providerName)
       if ok then
         require("ufo").closeAllFolds()
         -- Load the saved view to apply saved folds
-        vim.cmd("silent! loadview")
+        pcall(vim.cmd.silent, "loadview")
       end
     end
   end)
