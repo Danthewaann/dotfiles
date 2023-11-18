@@ -3,15 +3,15 @@ return {
   config = function()
     vim.keymap.set("n", "<leader>gla", ":GV<CR>:set winbar=<CR>", {
       silent = true,
-      desc = "[G]it [C]ommits [A]ll"
+      desc = "[G]it [L]og [A]ll"
     })
     vim.keymap.set("n", "<leader>glf", ":GV!<CR>:set winbar=<CR>", {
       silent = true,
-      desc = "[G]it [C]ommits [F]ile"
+      desc = "[G]it [L]og [F]ile"
     })
     vim.keymap.set("x", "<leader>gl", ":GV<CR>:set winbar=<CR>", {
       silent = true,
-      desc = "[G]it [C]ommits for selection"
+      desc = "[G]it [L]og for selection"
     })
   end
 }
