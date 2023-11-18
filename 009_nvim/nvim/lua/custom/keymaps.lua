@@ -196,13 +196,16 @@ vim.keymap.set("n", "<leader>cr", function()
     { prompt = "Select command to run" },
     function(choice)
       if choice == "lint" then
-        utils.run_linting()
+        local cmd = utils.get_project_linting_cmd()
+        if cmd ~= nil then
+          require("toggleterm").exec_command("cmd='" .. table.concat(cmd, " ") .. "'")
+        end
       elseif choice == "make lint" then
-        utils.run_cmd_in_term("vertical", "make lint")
+        require("toggleterm").exec_command("cmd='make lint'")
       elseif choice == "make test" then
-        utils.run_cmd_in_term("vertical", "make test")
+        require("toggleterm").exec_command("cmd='make test'")
       elseif choice == "make shell" then
-        utils.run_cmd_in_term("vertical", "make shell")
+        require("toggleterm").exec_command("cmd='make shell'")
       end
     end)
 end, { desc = "[C]ommand [R]un" })

@@ -89,7 +89,7 @@ M.run_cmd_in_term = function(position, cmd)
   vim.cmd("keepalt")
 end
 
-M.run_linting = function()
+M.get_project_linting_cmd = function()
   local cmd = {}
   local file = ""
 
@@ -97,18 +97,18 @@ M.run_linting = function()
     cmd = { "poetry", "run" }
   else
     vim.api.nvim_echo({ { "Not supported", "ErrorMsg" } }, true, {})
-    return
+    return nil
   end
 
   if M.file_exists("scripts/lint.sh") then
     file = "scripts/lint.sh"
   else
     vim.api.nvim_echo({ { "Not supported", "ErrorMsg" } }, true, {})
-    return
+    return nil
   end
 
   cmd[#cmd + 1] = file
-  M.run_cmd_in_term("vertical", table.concat(cmd, " "))
+  return cmd
 end
 
 M.get_ticket_number = function()
