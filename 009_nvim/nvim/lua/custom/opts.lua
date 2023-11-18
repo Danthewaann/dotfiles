@@ -15,10 +15,10 @@ vim.o.smartcase = true
 vim.o.breakindent = true
 
 -- Set completeo to have a better completion experience
-pcall(function ()
+pcall(function()
   vim.o.completeo = "menuone,noselect"
 end)
-pcall(function ()
+pcall(function()
   vim.o.completeopt = "menuone,noselect"
 end)
 
@@ -80,7 +80,7 @@ vim.o.foldenable = true
 vim.opt.path:append("**")
 
 -- Setup what gets saved in the session file
-vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 -- Don't save current directory when running :mkview
 -- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1694253333
