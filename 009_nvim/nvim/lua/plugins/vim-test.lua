@@ -1,7 +1,7 @@
 return {
   "vim-test/vim-test",
   config = function()
-    vim.g["test#strategy"] = "neovim"
+    vim.g["test#strategy"] = "toggleterm"
     vim.g["test#neovim#term_position"] = "vertical"
     vim.g["test#neovim#start_normal"] = 0
     vim.g["test#custom_runners"] = { python = { "make" }, go = { "make" } }
