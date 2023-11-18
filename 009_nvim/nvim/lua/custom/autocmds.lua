@@ -216,15 +216,6 @@ autocmd("FileType", {
   end,
 })
 
--- Auto insert mode when entering terminal
--- From: https://github.com/akinsho/toggleterm.nvim/issues/455
-augroup("Term-Insert", { clear = true })
-autocmd({ "BufEnter", "BufWinEnter", "WinEnter", "TermOpen", "TermEnter" }, {
-  group = "Term-Insert",
-  pattern = "term://*",
-  command = "startinsert"
-})
-
 -- Save and load views on buffer enter and exit
 -- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1436059023
 augroup("load_and_save_views", { clear = true })
