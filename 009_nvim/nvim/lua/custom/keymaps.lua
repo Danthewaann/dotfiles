@@ -139,8 +139,9 @@ vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush"
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
 vim.keymap.set("n", "<leader>gg", function()
   -- Open the git window in a horizontal split if the
-  -- number of columns is low, otherwise open it in a vertical split
-  if vim.o.columns < 150 then
+  -- width of the current window is low, otherwise open it in a vertical split
+  local width = vim.api.nvim_win_get_width(0)
+  if width < 150 then
     vim.cmd("silent Git")
   else
     vim.cmd("silent vertical Git")
