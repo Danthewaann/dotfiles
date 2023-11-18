@@ -5,6 +5,8 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/nvim-cmp",
+    -- Extra signature help
+    "ray-x/lsp_signature.nvim",
 
     -- Useful status updates for LSP
     {
@@ -243,6 +245,19 @@ return {
           filetypes = server.filetypes,
         })
       end,
+    })
+
+    require("lsp_signature").setup({
+      bind = true, -- This is mandatory, otherwise border config won't get registered.
+      handler_opts = {
+        border = "none"
+      },
+      padding = "  ",
+      fix_pos = true,
+      hint_enable = false,
+      hint_prefix = "",
+      floating_window = true,
+      doc_lines = 0,
     })
   end
 }
