@@ -216,14 +216,6 @@ autocmd("FileType", {
   end,
 })
 
--- Remember folds
--- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1436059023
-augroup("remember_folds", { clear = true })
-autocmd("VimLeavePre", {
-  group = "remember_folds",
-  command = "mkview"
-})
-
 -- Auto insert mode when entering terminal
 -- From: https://github.com/akinsho/toggleterm.nvim/issues/455
 augroup("Term-Insert", { clear = true })
@@ -234,13 +226,14 @@ autocmd({ "BufEnter", "BufWinEnter", "WinEnter", "TermOpen", "TermEnter" }, {
 })
 
 -- Save and load views on buffer enter and exit
+-- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1436059023
 augroup("load_and_save_views", { clear = true })
-autocmd({ "BufWinEnter" }, {
+autocmd("BufWinEnter", {
   group = "load_and_save_views",
   pattern = "*.*",
   command = "silent! loadview"
 })
-autocmd({ "BufWinLeave" }, {
+autocmd("BufWinLeave", {
   group = "load_and_save_views",
   pattern = "*.*",
   command = "mkview"
