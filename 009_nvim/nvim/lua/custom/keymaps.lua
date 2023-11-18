@@ -121,8 +121,8 @@ vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
 -- Exit the current window
 vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
 
--- Treat Ctrl+C exactly like <Esc> in insert mode
-vim.keymap.set("i", "<C-c>", "<Esc>")
+-- Treat Ctrl+C exactly like <Esc>
+vim.keymap.set({ "n", "i" }, "<C-c>", "<Esc>")
 
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv")
