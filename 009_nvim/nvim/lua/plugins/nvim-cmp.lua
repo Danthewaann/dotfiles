@@ -13,6 +13,7 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
     "davidsierradz/cmp-conventionalcommits",
+    "kristijanhusak/vim-dadbod-completion",
 
     -- Adds a number of user-friendly snippets
     "rafamadriz/friendly-snippets",
@@ -32,6 +33,11 @@ return {
         { name = "git" },
       }, {
         { name = "buffer" },
+      })
+    })
+    cmp.setup.filetype("sql", {
+      sources = cmp.config.sources({
+        { name = "vim-dadbod-completion" }
       })
     })
 
