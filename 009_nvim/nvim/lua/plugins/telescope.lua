@@ -21,14 +21,6 @@ return {
   config = function ()
     require("telescope").setup({
       defaults = {
-        mappings = {
-          i = {
-            ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
-          },
-          n = {
-            ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
-          },
-        },
         -- Cache the last 10 pickers so I can resume them later
         cache_picker = {
           num_pickers = 10,
