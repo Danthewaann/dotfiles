@@ -135,13 +135,7 @@ return {
         },
       },
       extensions = {
-        import = {
-          layout_config = {
-            prompt_position = "top",
-            height = 0.6,
-            width = 0.4,
-          },
-        },
+        import = require("telescope.themes").get_dropdown(),
         file_browser = {
           theme = "dropdown",
           layout_config = {
