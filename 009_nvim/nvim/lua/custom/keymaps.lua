@@ -27,10 +27,6 @@ vim.keymap.set("n", "<CR>", "i<CR><ESC>k$")
 -- Re-select last pasted text
 vim.keymap.set("n", "gp", "`[v`]", { desc = "Re-select last pasted text" })
 
--- Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
--- which is the default
-vim.keymap.set("n", "Y", "y$")
-
 -- Go to the start and end of the line
 vim.keymap.set("n", "H", "0")
 vim.keymap.set("n", "L", "$")
@@ -214,4 +210,3 @@ vim.keymap.set("n", "<leader>cr", function()
       end
     end)
 end, { desc = "[C]ommand [R]un" })
-
