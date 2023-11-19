@@ -139,7 +139,8 @@ return {
         file_browser = {
           theme = "dropdown",
           layout_config = {
-            height = 0.6
+            height = 0.6,
+            width = 0.5
           },
           hijack_netrw = true,
           respect_gitignore = false,
