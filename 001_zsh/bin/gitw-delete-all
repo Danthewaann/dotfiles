@@ -14,7 +14,6 @@ if [[ $is_bare_repo != "true" ]]; then
         if ls "$dir"/.bare > /dev/null 2>&1; then
             cd "$dir"
             if ! gitw-delete-all "$@"; then true; fi
-            >&2 echo
         fi
     done < <(find "$(pwd)" -mindepth 1 -maxdepth 1 -type d)
 fi
@@ -24,23 +23,28 @@ worktrees=()
 while IFS='' read -r line; do worktrees+=("$line"); done < <(git worktree list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1)
 if [[ ${#worktrees[@]} -eq 0 ]]; then
     error_no_level "No worktrees to delete" 2>&1 | indent
+    >&2 echo
     exit 1
 fi
 
 got_error=0
 for worktree in "${worktrees[@]}"; do
+    echo -en "${BLUE_BOLD}$(basename "$worktree")${NC} : " | indent
     # Check if I have opened a PR for the current branch
     if gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
-        warn_no_level "A PR is open for this worktree : $(basename "$worktree"), skipping" 2>&1 | indent
+        warn_no_level "A PR is open for this worktree, skipping"
+        >&2 echo
         continue
     fi
     if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
-        error_no_level "Failed to delete worktree : $(basename "$worktree")\n$result" 2>&1 | indent
+        error_no_level "Failed to delete"
+        error_no_level "$result" 2>&1 | indent | indent
         >&2 echo
         got_error=1
         continue
     fi
-    success "Successfully deleted worktree : $(basename "$worktree")" 2>&1 | indent
+    success "Successfully deleted"
+    >&2 echo
 done
 
 if [[ $got_error -ne 0 ]]; then
