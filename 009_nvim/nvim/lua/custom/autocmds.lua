@@ -212,11 +212,11 @@ autocmd("FileType", {
 augroup("load_and_save_views", { clear = true })
 autocmd("BufWinEnter", {
   group = "load_and_save_views",
-  pattern = "*.*",
+  pattern = "*",
   command = "silent! loadview"
 })
 autocmd("BufWinLeave", {
   group = "load_and_save_views",
-  pattern = "*.*",
-  command = "mkview"
+  pattern = "*",
+  command = "silent! mkview"
 })
