@@ -48,7 +48,7 @@ return {
           "__pycache__",
           "^.coverage",
         },
-        layout_strategy = "vertical",
+        layout_strategy = "horizontal",
         layout_config = {
           vertical = { height = 0.8, width = 0.7, preview_height = 0.4 },
           horizontal = { height = 0.8, width = 0.7, preview_width = 0.55 },
@@ -91,10 +91,12 @@ return {
             height = 0.4,
           },
         },
-        pickers = {
-          theme = "dropdown",
-          previewer = false,
-        },
+        -- TODO: this doesn't work as when you select a picker
+        -- the telescope picker layout doesn't update correctly
+        -- pickers = {
+        --   theme = "dropdown",
+        --   previewer = false,
+        -- },
         man_pages = {
           theme = "dropdown",
           previewer = false,
