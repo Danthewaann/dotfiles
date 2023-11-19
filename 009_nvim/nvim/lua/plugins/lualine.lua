@@ -106,33 +106,26 @@ return {
       -- Icon string ^ in table is ignored in filetype component
     }
 
-    require("lualine").setup({
+    local no_winbar = true
+    local base_config = {
       options = {
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
-        ignore_focus = { "NvimTree", "dbui", "undotree", "TelescopePrompt" },
+        ignore_focus = {
+          "NvimTree",
+          "dbui",
+          "DiffviewFiles",
+          "DiffviewFileHistory",
+          "fugitiveblame",
+          "undotree",
+          "TelescopePrompt",
+        },
         globalstatus = true,
         disabled_filetypes = {
           winbar = utils.ignore_filetypes,
         },
       },
-      extensions = { "quickfix", "aerial" },
-      winbar = {
-        lualine_a = {},
-        lualine_b = { winbar_filetype_config },
-        lualine_c = { winbar_filename_config, "diff", "diagnostics" },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      },
-      inactive_winbar = {
-        lualine_a = {},
-        lualine_b = { winbar_filename_config, "diff", "diagnostics" },
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      },
+      extensions = { "toggleterm", "man", "quickfix", "aerial" },
       sections = {
         lualine_a = {
           {
@@ -166,6 +159,35 @@ return {
       inactive_sections = {
         lualine_c = {},
       },
-    })
+    }
+
+    local merged_config = base_config
+    if no_winbar then
+      merged_config.options.globalstatus = false
+      merged_config.options.disabled_filetypes = {}
+      merged_config.extensions[#merged_config.extensions + 1] = "fugitive"
+      merged_config.sections.lualine_b = { winbar_filename_config }
+      merged_config.sections.lualine_c[#merged_config.sections.lualine_c + 1] = "diff"
+      merged_config.inactive_sections.lualine_c = { winbar_filename_config }
+    else
+      merged_config.winbar = {
+        lualine_a = {},
+        lualine_b = { winbar_filetype_config },
+        lualine_c = { winbar_filename_config, "diff", "diagnostics" },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      }
+      merged_config.inactive_winbar = {
+        lualine_a = {},
+        lualine_b = { winbar_filename_config, "diff", "diagnostics" },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      }
+    end
+
+    require("lualine").setup(merged_config)
   end,
 }
