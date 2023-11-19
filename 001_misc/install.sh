@@ -11,6 +11,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing fzf" \
         "brew install fzf"
 
+    run_command "installing fd" \
+        "brew install fd"
+
     run_command "installing shellcheck" \
         "brew install shellcheck"
 
@@ -31,6 +34,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     run_command "installing fzf" \
         "sudo apt-get install -y fzf"
+
+    run_command "installing fd" \
+        "sudo apt-get install -y fd"
 
     run_command "installing shellcheck" \
         "sudo apt-get install -y shellcheck"
