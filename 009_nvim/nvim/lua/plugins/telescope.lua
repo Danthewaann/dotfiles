@@ -15,6 +15,7 @@ return {
         return vim.fn.executable("make") == 1
       end,
     },
+    "nvim-telescope/telescope-file-browser.nvim",
     "piersolenski/telescope-import.nvim"
   },
   config = function ()
@@ -59,6 +60,16 @@ return {
           end,
         },
       },
+      extensions = {
+        file_browser = {
+          layout_strategy = "horizontal",
+          hijack_netrw = true,
+          hidden = true,
+          grouped = true,
+          previewer = true,
+          initial_mode = "normal",
+        },
+      }
     })
 
     local utils = require("custom.utils")
@@ -66,6 +77,7 @@ return {
     -- Enable telescope extensions, if installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "import")
+    pcall(require("telescope").load_extension, "file_browser")
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -103,6 +115,14 @@ return {
     end, { desc = "[G]it [F]iles" })
     vim.keymap.set("n", "<leader>gtl", require("telescope.builtin").git_commits, { desc = "[G]it [T]elescope [L]ogs" })
     vim.keymap.set("n", "<leader>ii", require("telescope").extensions.import.import, { desc = "[I]nsert [I]mport" })
+    vim.keymap.set("n", "<leader>fb", function()
+      require("telescope").extensions.file_browser.file_browser()
+    end)
+    vim.keymap.set("n", "<leader>ff", function()
+      require("telescope").extensions.file_browser.file_browser({
+        path = "%:p:h",
+      })
+    end)
 
     -- Search for pattern in current project files
     vim.keymap.set("n", "<leader>ps", function()
