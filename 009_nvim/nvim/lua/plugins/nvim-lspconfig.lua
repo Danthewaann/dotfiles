@@ -64,7 +64,7 @@ return {
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
       nmap("gd", function()
-        require("telescope.builtin").lsp_definitions({ fname_width = 70 })
+        require("telescope.builtin").lsp_definitions()
         utils.unfold()
       end, "[G]oto [D]efinition")
       nmap("gh", function()
@@ -76,29 +76,21 @@ return {
         vim.cmd(":split | lua vim.lsp.buf.definition()")
         utils.unfold()
       end, "[G]oto Definition In [S]plit")
-      nmap("gr", function()
-        require("telescope.builtin").lsp_references({ include_declaration = false, fname_width = 70 })
-      end, "[G]oto [R]eferences")
+      nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
       nmap("gI", function()
-        require("telescope.builtin").lsp_implementations({ fname_width = 70 })
+        require("telescope.builtin").lsp_implementations()
         utils.unfold()
       end, "[G]oto [I]mplementation")
       nmap("<leader>D", function()
-        require("telescope.builtin").lsp_type_definitions({ fname_width = 70 })
+        require("telescope.builtin").lsp_type_definitions()
         utils.unfold()
       end, "Type [D]efinition")
-      nmap("<leader>ds", function()
-        require("telescope.builtin").lsp_document_symbols({ symbol_width = 70 })
-      end, "[D]ocument [S]ymbols")
-      nmap("<leader>ws", function()
-        require("telescope.builtin").lsp_dynamic_workspace_symbols({ fname_width = 70, symbol_width = 70 })
-      end, "[W]orkspace [S]ymbols")
+      nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+      nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
       nmap("<leader>ss", function()
         local word = vim.fn.expand("<cword>")
         require("telescope.builtin").lsp_workspace_symbols({
           prompt_title = "LSP Workspace Symbols (" .. word .. ")",
-          fname_width = 60,
-          symbol_width = 40,
           query = word,
         })
       end, "[S]earch [S]ymbols")

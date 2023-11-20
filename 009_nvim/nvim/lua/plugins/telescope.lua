@@ -20,10 +20,15 @@ return {
   },
   config = function()
     local actions = require("telescope.actions")
+    local default_layout_config = {
+      height = 0.6,
+      width = 0.6
+    }
+
     require("telescope").setup({
       defaults = {
         -- Cache the last 10 pickers so I can resume them later
-        wrap_results = true,
+        wrap_results = false,
         cache_picker = {
           num_pickers = 10,
           limit_entries = 1000,
@@ -55,22 +60,63 @@ return {
         },
       },
       pickers = {
+        lsp_definitions = {
+          theme = "dropdown",
+          previewer = true,
+          show_line = false,
+          fname_width = 70,
+          layout_config = default_layout_config,
+        },
+        lsp_references = {
+          theme = "ivy",
+          previewer = true,
+          include_declaration = false,
+          show_line = false,
+          layout_config = default_layout_config,
+        },
+        lsp_implementations = {
+          theme = "dropdown",
+          previewer = true,
+          show_line = false,
+          layout_config = default_layout_config,
+        },
+        lsp_type_definitions = {
+          theme = "dropdown",
+          previewer = true,
+          layout_config = default_layout_config,
+        },
+        lsp_workspace_symbols = {
+          theme = "dropdown",
+          previewer = true,
+          fname_width = 0.5,
+          symbol_width = 0.4,
+          layout_config = default_layout_config,
+        },
+        lsp_dynamic_workspace_symbols = {
+          theme = "dropdown",
+          previewer = true,
+          fname_width = 0.5,
+          symbol_width = 0.4,
+          layout_config = default_layout_config,
+        },
+        lsp_document_symbols = {
+          theme = "dropdown",
+          previewer = false,
+          symbol_width = 0.9,
+          layout_config = default_layout_config,
+        },
         oldfiles = {
           theme = "dropdown",
           previewer = false,
-          layout_config = {
-            height = 0.6
-          },
+          layout_config = default_layout_config,
         },
         find_files = {
           theme = "dropdown",
           previewer = false,
-          layout_config = {
-            height = 0.6
-          },
+          layout_config = default_layout_config,
         },
         help_tags = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           layout_config = {
             height = 0.5,
@@ -78,17 +124,19 @@ return {
           },
         },
         git_commits = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           layout_config = {
             height = 0.4,
+            width = 0.5
           },
         },
         git_status = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           layout_config = {
             height = 0.4,
+            width = 0.5
           },
         },
         search_history = {
@@ -104,39 +152,30 @@ return {
         --   previewer = false,
         -- },
         man_pages = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = false,
-          layout_config = {
-            height = 0.5,
-            width = 0.5,
-          },
+          layout_config = default_layout_config,
         },
         diagnostics = {
           theme = "dropdown",
           previewer = true,
-          layout_config = {
-            height = 0.5,
-            width = 0.5,
-          },
+          layout_config = default_layout_config,
         },
         grep_string = {
-          theme = "dropdown",
+          theme = "ivy",
           preview = true,
-          layout_config = {
-            height = 0.5,
-            width = 0.5,
-          },
+          use_regex = true,
+          layout_config = default_layout_config,
           additional_args = function(_)
             return { "--hidden" }
           end,
         },
         live_grep = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
-          layout_config = {
-            height = 0.5,
-            width = 0.5,
-          },
+          use_regex = true,
+          disable_coordinates = true,
+          layout_config = default_layout_config,
           additional_args = function(_)
             return { "--hidden" }
           end,
@@ -146,15 +185,13 @@ return {
         import = require("telescope.themes").get_dropdown(),
         file_browser = {
           theme = "dropdown",
-          layout_config = {
-            height = 0.6,
-            width = 0.5
-          },
+          layout_config = default_layout_config,
           hijack_netrw = true,
           respect_gitignore = false,
           hidden = true,
           grouped = true,
           previewer = false,
+          initial_mode = "normal",
           mappings = {
             ["n"] = {
               ["e"] = false,
