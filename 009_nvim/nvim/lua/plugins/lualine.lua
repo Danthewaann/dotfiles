@@ -91,7 +91,7 @@ return {
       -- for other components. (terrible name, any suggestions?)
       symbols = {
         modified = "[+]",      -- Text to show when the file is modified.
-        readonly = "[-]",     -- Text to show when the file is non-modifiable or readonly.
+        readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
         unnamed = "[No Name]", -- Text to show for unnamed buffers.
         newfile = "[New]",     -- Text to show for newly created file before first write
       },
@@ -104,6 +104,20 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
       -- icon =    {'X', align='right'}
       -- Icon string ^ in table is ignored in filetype component
+    }
+
+    local git_extension = {
+      sections = {
+        lualine_a = { function()
+          return "Git Status"
+        end }
+      },
+      inactive_sections = {
+        lualine_c = { function()
+          return "Git Status"
+        end }
+      },
+      filetypes = { "fugitive" }
     }
 
     local no_winbar = true
@@ -125,7 +139,7 @@ return {
           winbar = utils.ignore_filetypes,
         },
       },
-      extensions = { "toggleterm", "man", "quickfix", "aerial" },
+      extensions = { "toggleterm", "man", "quickfix", "aerial", git_extension },
       sections = {
         lualine_a = {
           {
@@ -165,7 +179,6 @@ return {
     if no_winbar then
       merged_config.options.globalstatus = false
       merged_config.options.disabled_filetypes = {}
-      merged_config.extensions[#merged_config.extensions + 1] = "fugitive"
       merged_config.sections.lualine_b = { winbar_filename_config }
       merged_config.sections.lualine_c[#merged_config.sections.lualine_c + 1] = "diff"
       merged_config.inactive_sections.lualine_c = { winbar_filename_config }
