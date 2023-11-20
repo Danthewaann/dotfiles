@@ -68,20 +68,15 @@ vim.keymap.set("t", "<C-l>", "<cmd> wincmd l<CR>")
 -- Tab navigation
 vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
 vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
-vim.keymap.set("t", "<C-w><C-h>", "<cmd> tabprevious<CR>", { silent = true })
-vim.keymap.set("t", "<C-w><C-l>", "<cmd> tabnext<CR>", { silent = true })
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
-vim.keymap.set("t", "<C-w>q", "<cmd> silent tabclose<CR>")
 
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w>to", "<cmd> tabonly<CR>")
-vim.keymap.set("t", "<C-w>to", "<cmd> silent tabonly<CR>")
 
 -- Open a new tab
 vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>")
-vim.keymap.set("t", "<C-w>N", "<cmd> silent tabnew<CR>")
 
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>")
@@ -94,22 +89,10 @@ vim.keymap.set("n", "<C-w>7", "<cmd> tabn7<CR>")
 vim.keymap.set("n", "<C-w>8", "<cmd> tabn8<CR>")
 vim.keymap.set("n", "<C-w>9", "<cmd> tabn9<CR>")
 vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>")
-vim.keymap.set("t", "<C-w>1", "<cmd> silent tabn1<CR>")
-vim.keymap.set("t", "<C-w>2", "<cmd> silent tabn2<CR>")
-vim.keymap.set("t", "<C-w>3", "<cmd> silent tabn3<CR>")
-vim.keymap.set("t", "<C-w>4", "<cmd> silent tabn4<CR>")
-vim.keymap.set("t", "<C-w>5", "<cmd> silent tabn5<CR>")
-vim.keymap.set("t", "<C-w>6", "<cmd> silent tabn6<CR>")
-vim.keymap.set("t", "<C-w>7", "<cmd> silent tabn7<CR>")
-vim.keymap.set("t", "<C-w>8", "<cmd> silent tabn8<CR>")
-vim.keymap.set("t", "<C-w>9", "<cmd> silent tabn9<CR>")
-vim.keymap.set("t", "<C-w>0", "<cmd> silent tablast<CR>")
 
 -- Move tabs left or right
 vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>")
-vim.keymap.set("t", "<C-w>,", "<cmd> silent -tabmove<CR>")
 vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>")
-vim.keymap.set("t", "<C-w>.", "<cmd> silent +tabmove<CR>")
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
@@ -128,7 +111,6 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<C-t>s", "<cmd> silent 20 split new<CR><cmd> term<CR>")
 vim.keymap.set("n", "<C-t>v", "<cmd> silent 100 vsplit new<CR><cmd> term<CR>")
 vim.keymap.set("n", "<C-t>t", "<cmd> silent $tabnew<CR><cmd> term<CR>")
-vim.keymap.set("t", "<C-t>t", "<C-\\><C-o> <cmd> silent $tabnew <CR><cmd> term<CR>")
 
 -- Git commands
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
