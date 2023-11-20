@@ -91,6 +91,12 @@ return {
             height = 0.4,
           },
         },
+        search_history = {
+          theme = "dropdown",
+        },
+        command_history = {
+          theme = "dropdown",
+        },
         -- TODO: this doesn't work as when you select a picker
         -- the telescope picker layout doesn't update correctly
         -- pickers = {
