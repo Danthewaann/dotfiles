@@ -4,18 +4,6 @@ local bufmap = vim.api.nvim_buf_set_keymap
 
 local utils = require("custom.utils")
 
-augroup("highlight_cursorline", { clear = true })
-autocmd("InsertEnter", {
-  group = "highlight_cursorline",
-  pattern = "",
-  command = "set cursorline",
-})
-autocmd("InsertLeave", {
-  group = "highlight_cursorline",
-  pattern = "",
-  command = "set nocursorline",
-})
-
 augroup("terminal_settings", { clear = true })
 autocmd("TermOpen", {
   group = "terminal_settings",
