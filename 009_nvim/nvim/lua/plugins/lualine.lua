@@ -91,7 +91,7 @@ return {
       -- for other components. (terrible name, any suggestions?)
       symbols = {
         modified = "[+]",      -- Text to show when the file is modified.
-        readonly = "[RO]",     -- Text to show when the file is non-modifiable or readonly.
+        readonly = "[-]",     -- Text to show when the file is non-modifiable or readonly.
         unnamed = "[No Name]", -- Text to show for unnamed buffers.
         newfile = "[New]",     -- Text to show for newly created file before first write
       },
