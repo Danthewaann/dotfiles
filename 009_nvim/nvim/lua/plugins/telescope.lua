@@ -157,8 +157,9 @@ return {
           layout_config = default_layout_config,
         },
         diagnostics = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
+          wrap_results = true,
           layout_config = default_layout_config,
         },
         grep_string = {
@@ -252,7 +253,9 @@ return {
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>sm", require("telescope.builtin").man_pages, { desc = "[S]earch [M]an Pages" })
     vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-    vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+    vim.keymap.set("n", "<leader>sd", function()
+      require("telescope.builtin").diagnostics({ line_width = 0.9, bufnr = 0 })
+    end, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
     vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
     vim.keymap.set("n", "<leader>gf", require("telescope.builtin").git_status, { desc = "[G]it [F]iles" })
