@@ -278,8 +278,8 @@ return {
     end, { desc = "[P]roject [S]earch" })
 
     -- Search for the current word in project files
-    vim.keymap.set("n", "<leader>F", require("telescope.builtin").grep_string, { desc = "[F]ind word" })
-    vim.keymap.set("v", "<leader>F", function()
+    vim.keymap.set("n", "<leader>f", require("telescope.builtin").grep_string, { desc = "[F]ind word" })
+    vim.keymap.set("v", "<leader>f", function()
       require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
     end, { desc = "[F]ind word" })
   end
