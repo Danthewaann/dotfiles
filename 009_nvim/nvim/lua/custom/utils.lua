@@ -18,6 +18,12 @@ end
 
 M.unfold = function()
   vim.defer_fn(function()
+    vim.cmd([[normal! zvzczOzz]])
+  end, 100)
+end
+
+M.unfold_check = function()
+  vim.defer_fn(function()
     local line_data = vim.api.nvim_win_get_cursor(0)    -- returns {row, col}
     local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
     if fold_closed ~= -1 then                           -- fold exists (not -1)
