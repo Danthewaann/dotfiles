@@ -20,7 +20,7 @@ return {
     vim.g.db_ui_win_position = "right"
 
     -- Open DB connections window
-    vim.keymap.set("n", "<leader>db", "<cmd>DBUI<CR>")
+    vim.keymap.set("n", "<leader>db", ":tabnew<CR>:DBUI<CR>", { silent = true })
 
     augroup("dadbod-ui", { clear = true })
     autocmd("FileType", {
