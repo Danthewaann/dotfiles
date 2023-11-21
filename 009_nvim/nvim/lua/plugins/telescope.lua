@@ -20,10 +20,13 @@ return {
   },
   config = function()
     local actions = require("telescope.actions")
-    local default_layout_config = {
+    local dropdown_layout_config = {
       height = 0.6,
       width = 0.6
     }
+    local grep_args = function(_)
+      return { "--hidden" }
+    end
 
     require("telescope").setup({
       defaults = {
@@ -60,138 +63,52 @@ return {
         },
       },
       pickers = {
-        lsp_definitions = {
-          theme = "dropdown",
-          previewer = true,
-          show_line = false,
-          fname_width = 70,
-          layout_config = default_layout_config,
-        },
-        lsp_references = {
-          theme = "ivy",
-          previewer = true,
-          include_declaration = false,
-          show_line = false,
-          layout_config = default_layout_config,
-        },
-        lsp_implementations = {
-          theme = "ivy",
-          previewer = true,
-          show_line = false,
-          layout_config = default_layout_config,
-        },
-        lsp_type_definitions = {
-          theme = "ivy",
-          previewer = true,
-          layout_config = default_layout_config,
-        },
-        lsp_workspace_symbols = {
-          theme = "ivy",
-          previewer = true,
-          fname_width = 0.5,
-          symbol_width = 0.4,
-          layout_config = default_layout_config,
-        },
+        lsp_definitions = { theme = "ivy", show_line = false },
+        lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
+        lsp_implementations = { theme = "ivy", show_line = false },
+        lsp_type_definitions = { theme = "ivy" },
+        lsp_workspace_symbols = { theme = "ivy", fname_width = 0.5, symbol_width = 0.4 },
         lsp_dynamic_workspace_symbols = {
           theme = "ivy",
-          previewer = true,
           fname_width = 0.5,
           symbol_width = 0.4,
-          layout_config = default_layout_config,
           mappings = {
             ["i"] = {
               ["<C-r>"] = actions.to_fuzzy_refine
             }
           }
         },
-        lsp_document_symbols = {
-          theme = "ivy",
-          previewer = false,
-          symbol_width = 0.9,
-          layout_config = default_layout_config,
-        },
-        oldfiles = {
-          theme = "dropdown",
-          previewer = false,
-          layout_config = default_layout_config,
-        },
+        lsp_document_symbols = { theme = "ivy", previewer = false, symbol_width = 0.9 },
+        current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
+        buffers = { theme = "dropdown", previewer = false, sort_mru = true, ignore_current_buffer = true, layout_config = { width = 0.5 } },
+        oldfiles = { theme = "dropdown", previewer = false, layout_config = dropdown_layout_config },
         find_files = {
           theme = "dropdown",
           previewer = false,
-          layout_config = default_layout_config,
+          hidden = true,
+          layout_config = dropdown_layout_config,
         },
-        help_tags = {
-          theme = "ivy",
-          previewer = true,
-          layout_config = {
-            height = 0.5,
-            width = 0.5,
-          },
-        },
-        git_commits = {
-          theme = "ivy",
-          previewer = true,
-          layout_config = {
-            height = 0.4,
-            width = 0.5
-          },
-        },
-        git_status = {
-          theme = "ivy",
-          previewer = true,
-          layout_config = {
-            height = 0.4,
-            width = 0.5
-          },
-        },
-        search_history = {
-          theme = "dropdown",
-        },
-        command_history = {
-          theme = "dropdown",
-        },
+        help_tags = { theme = "ivy" },
+        git_commits = { theme = "ivy" },
+        git_status = { theme = "ivy" },
+        search_history = { theme = "dropdown" },
+        command_history = { theme = "dropdown" },
         -- TODO: this doesn't work as when you select a picker
         -- the telescope picker layout doesn't update correctly
         -- pickers = {
         --   theme = "dropdown",
         --   previewer = false,
         -- },
-        man_pages = {
-          theme = "ivy",
-          previewer = false,
-          layout_config = default_layout_config,
-        },
-        diagnostics = {
-          theme = "ivy",
-          previewer = true,
-          wrap_results = true,
-          layout_config = default_layout_config,
-        },
-        grep_string = {
-          theme = "ivy",
-          preview = true,
-          use_regex = true,
-          layout_config = default_layout_config,
-          additional_args = function(_)
-            return { "--hidden" }
-          end,
-        },
-        live_grep = {
-          theme = "ivy",
-          previewer = true,
-          use_regex = true,
-          disable_coordinates = true,
-          layout_config = default_layout_config,
-          additional_args = function(_)
-            return { "--hidden" }
-          end,
-        },
+        man_pages = { theme = "ivy", previewer = false },
+        diagnostics = { theme = "ivy", wrap_results = true },
+        grep_string = { theme = "ivy", use_regex = true, additional_args = grep_args },
+        live_grep = { theme = "ivy", use_regex = true, additional_args = grep_args },
       },
       extensions = {
         import = require("telescope.themes").get_dropdown(),
         file_browser = {
           theme = "dropdown",
-          layout_config = default_layout_config,
+          layout_config = dropdown_layout_config,
           hijack_netrw = true,
           respect_gitignore = false,
           hidden = true,
@@ -239,27 +156,16 @@ return {
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
-    vim.keymap.set("n", "<leader><space>", function()
-      require("telescope.builtin").buffers(require("telescope.themes").get_dropdown({
-        previewer = false,
-        sort_mru = true,
-        ignore_current_buffer = true,
-      }))
-    end, { desc = "[ ] Find existing buffers" })
-    vim.keymap.set("n", "<leader>/", function()
-      -- You can pass additional configuration to telescope to change theme, layout, etc.
-      require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-        previewer = false,
-      }))
-    end, { desc = "[/] Fuzzily search in current buffer" })
-    vim.keymap.set("n", "<C-p>", function()
-      require("telescope.builtin").find_files({ hidden = true, no_ignore = false })
-    end, { desc = "Search Files" })
+    vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+    vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
+      { desc = "[/] Fuzzily search in current buffer" }
+    )
+    vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>sm", require("telescope.builtin").man_pages, { desc = "[S]earch [M]an Pages" })
     vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
     vim.keymap.set("n", "<leader>sd", function()
-      require("telescope.builtin").diagnostics({ line_width = 0.9, bufnr = 0 })
+      require("telescope.builtin").diagnostics({ bufnr = 0 })
     end, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
     vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
