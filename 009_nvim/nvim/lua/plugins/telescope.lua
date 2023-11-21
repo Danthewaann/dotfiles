@@ -98,6 +98,11 @@ return {
           fname_width = 0.5,
           symbol_width = 0.4,
           layout_config = default_layout_config,
+          mappings = {
+            ["i"] = {
+              ["<C-r>"] = actions.to_fuzzy_refine
+            }
+          }
         },
         lsp_document_symbols = {
           theme = "dropdown",
