@@ -101,7 +101,7 @@ vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
 vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
 
 -- Treat Ctrl+C exactly like <Esc>
-vim.keymap.set({ "n", "i" }, "<C-c>", "<Esc>")
+vim.keymap.set({ "n", "i", "x" }, "<C-c>", "<Esc>")
 
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv")
