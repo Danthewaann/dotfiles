@@ -39,15 +39,5 @@ return {
         vim.keymap.set("n", "<Tab>", "<Plug>(DBUI_SelectLine)", { buffer = 0 })
       end,
     })
-
-    augroup("sql", { clear = true })
-    autocmd("FileType", {
-      group = "sql",
-      pattern = "sql",
-      callback = function()
-        -- Execute the current sql buffer
-        vim.keymap.set("n", "<leader>e", "<Plug>(DBUI_ExecuteQuery", { buffer = 0 })
-      end,
-    })
   end
 }
