@@ -67,11 +67,12 @@ return {
         lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
         lsp_type_definitions = { theme = "ivy" },
-        lsp_workspace_symbols = { theme = "ivy", fname_width = 0.5, symbol_width = 0.4 },
+        lsp_workspace_symbols = { theme = "ivy", path_display = { "smart" }, fname_width = 0.4, symbol_width = 0.5 },
         lsp_dynamic_workspace_symbols = {
           theme = "ivy",
-          fname_width = 0.5,
-          symbol_width = 0.4,
+          path_display = { "smart" },
+          fname_width = 0.4,
+          symbol_width = 0.5,
           mappings = {
             ["i"] = {
               ["<C-r>"] = actions.to_fuzzy_refine
