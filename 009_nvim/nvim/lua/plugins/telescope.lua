@@ -75,25 +75,25 @@ return {
           layout_config = default_layout_config,
         },
         lsp_implementations = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           show_line = false,
           layout_config = default_layout_config,
         },
         lsp_type_definitions = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           layout_config = default_layout_config,
         },
         lsp_workspace_symbols = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           fname_width = 0.5,
           symbol_width = 0.4,
           layout_config = default_layout_config,
         },
         lsp_dynamic_workspace_symbols = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = true,
           fname_width = 0.5,
           symbol_width = 0.4,
@@ -105,7 +105,7 @@ return {
           }
         },
         lsp_document_symbols = {
-          theme = "dropdown",
+          theme = "ivy",
           previewer = false,
           symbol_width = 0.9,
           layout_config = default_layout_config,
