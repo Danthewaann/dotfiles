@@ -172,7 +172,12 @@ return {
         lualine_z = { "location" },
       },
       tabline = {
-        lualine_z = { tabs_config },
+        lualine_a = { tabs_config },
+        lualine_z = {
+          function()
+            return "Tabs"
+          end
+        },
       },
       inactive_sections = {
         lualine_c = {},
