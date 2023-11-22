@@ -2,12 +2,12 @@ return {
   "Wansmer/symbol-usage.nvim",
   event = "LspAttach", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
   config = function()
-    local function h(name) return vim.api.nvim_get_hl(0, { name = name }) end
+    local utils = require("custom.utils")
 
-    vim.api.nvim_set_hl(0, "SymbolUsageContent", { fg = h("Comment").fg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = h("Function").fg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = h("Type").fg, italic = true })
-    vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageContent", { fg = utils.get_highlight("Comment").fg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = utils.get_highlight("Function").fg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = utils.get_highlight("Type").fg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = utils.get_highlight("@keyword").fg, italic = true })
 
     local function text_format(symbol)
       local fragments = {}

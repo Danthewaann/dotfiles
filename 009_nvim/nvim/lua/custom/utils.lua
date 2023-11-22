@@ -16,6 +16,10 @@ M.get_visual_selection = function()
   end
 end
 
+M.get_highlight = function(name)
+  return vim.api.nvim_get_hl(0, { name = name })
+end
+
 M.unfold = function()
   vim.defer_fn(function()
     pcall(vim.cmd, "normal! zvzczOzz")
