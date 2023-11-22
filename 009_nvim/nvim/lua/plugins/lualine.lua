@@ -35,11 +35,11 @@ return {
     local tabs_config = {
       "tabs",
       tab_max_length = 40,            -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
-      max_length = vim.o.columns / 3, -- Maximum width of tabs component.
+      max_length = vim.o.columns / 2, -- Maximum width of tabs component.
       -- Note:
       -- It can also be a function that returns
       -- the value of `max_length` dynamically.
-      mode = 0, -- 0: Shows tab_nr
+      mode = 2, -- 0: Shows tab_nr
       -- 1: Shows tab_name
       -- 2: Shows tab_nr + tab_name
 
@@ -47,6 +47,10 @@ return {
       -- 1: shows the relative path and shorten $HOME to ~
       -- 2: shows the full path
       -- 3: shows the full path and shorten $HOME to ~
+      tabs_color = {
+        active = "lualine_a_normal",
+        inactive = "lualine_c_inactive",
+      },
 
       -- Automatically updates active tab color to match color of other components (will be overidden if buffers_color is set)
       use_mode_colors = false,
@@ -168,7 +172,7 @@ return {
         lualine_z = { "location" },
       },
       tabline = {
-        lualine_a = { tabs_config },
+        lualine_z = { tabs_config },
       },
       inactive_sections = {
         lualine_c = {},
