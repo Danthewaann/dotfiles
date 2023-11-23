@@ -9,7 +9,7 @@ return {
       ft_ignore = utils.ignore_filetypes,
       segments = {
         {
-          sign = { name = { "Diagnostic" }, maxwidth = 1, auto = true },
+          sign = { name = { "Diagnostic" } },
           click = "v:lua.ScSa",
         },
         {
