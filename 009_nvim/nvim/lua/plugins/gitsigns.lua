@@ -31,7 +31,7 @@ return {
       map("n", "<leader>hD", function()
         gs.diffthis("~")
       end, { buffer = bufnr, desc = "Show diff of buffer" })
-      map("n", "<leader>td", gs.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted lines" })
+      map("n", "<leader>ht", gs.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted lines" })
 
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr, desc = "Select inner hunk" })
