@@ -34,16 +34,30 @@ return {
   },
   config = function()
     local utils = require("custom.utils")
+    local show_virtual_text = true
+
+    -- Setup initial diagnostic config
+    vim.diagnostic.config({
+      virtual_text = show_virtual_text,
+      float = { source = "always" },
+    })
+
+    -- Toggle virtual text on and off
+    vim.keymap.set("n", "<leader>dt", function()
+      show_virtual_text = not show_virtual_text
+      if show_virtual_text then
+        print("Toggling on virtual text")
+      else
+        print("Toggling off virtual text")
+      end
+      vim.diagnostic.config({ virtual_text = show_virtual_text })
+    end, { desc = "[D]iagnostic [T]oggle virtual text" })
 
     -- Diagnostic keymaps
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({ float = false }) end,
-      { desc = "Go to previous diagnostic message" }
-    )
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next({ float = false }) end,
-      { desc = "Go to next diagnostic message" }
-    )
-    vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating [D]iagnostic [M]essage" })
-    vim.keymap.set("n", "<leader>dl", vim.diagnostic.setqflist, { desc = "Open [D]iagnostics [L]ist" })
+    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating [D]iagnostic [M]essage" })
+    vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, { desc = "Open [D]iagnostics [L]ist" })
 
     -- [[ Configure LSP ]]
     -- This function gets run when an LSP connects to a particular buffer.
