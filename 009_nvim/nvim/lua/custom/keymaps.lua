@@ -163,15 +163,6 @@ vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make 
 vim.keymap.set("c", "<C-p>", "<Up>")
 vim.keymap.set("c", "<C-n>", "<Down>")
 
--- Properly indent on empty line in insert mode
-vim.keymap.set("n", "i", function()
-  if #vim.fn.getline(".") == 0 then
-    return [["_cc]]
-  else
-    return "i"
-  end
-end, { expr = true })
-
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>cr", function()
   vim.ui.select(
