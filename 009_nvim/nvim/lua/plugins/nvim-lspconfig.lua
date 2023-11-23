@@ -173,7 +173,14 @@ return {
       tsserver = { settings = {} },
       html = { settings = {}, filetypes = { "html", "twig", "hbs" } },
       jsonls = { settings = {} },
-      bashls = { settings = {} },
+      bashls = {
+        settings = {
+          bashIde = {
+            -- Ignore https://www.shellcheck.net/wiki/SC2034
+            shellcheckArguments = { "--exclude=SC2034" }
+          }
+        }
+      },
       solargraph = { settings = {} },
 
       lua_ls = {
