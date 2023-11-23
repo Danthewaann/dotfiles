@@ -183,6 +183,15 @@ autocmd("BufEnter", {
   end,
 })
 
+-- Refresh the quickfix list with new diagnostics
+augroup("diagnostics", { clear = true })
+autocmd("DiagnosticChanged", {
+  group = "diagnostics",
+  callback = function()
+    vim.diagnostic.setqflist({ open = false })
+  end,
+})
+
 -- quickfix list setup
 augroup("quickfix", { clear = true })
 autocmd("FileType", {
