@@ -15,7 +15,6 @@ return {
         return vim.fn.executable("make") == 1
       end,
     },
-    "nvim-telescope/telescope-file-browser.nvim",
     "piersolenski/telescope-import.nvim"
   },
   config = function()
@@ -106,45 +105,7 @@ return {
         live_grep = { theme = "ivy", use_regex = true, additional_args = grep_args },
       },
       extensions = {
-        import = require("telescope.themes").get_dropdown(),
-        file_browser = {
-          theme = "dropdown",
-          layout_config = dropdown_layout_config,
-          hijack_netrw = true,
-          respect_gitignore = false,
-          hidden = true,
-          grouped = true,
-          previewer = false,
-          initial_mode = "normal",
-          mappings = {
-            ["n"] = {
-              ["e"] = false,
-              ["<C-U>"] = function(prompt_bufnr)
-                for i = 1, 10 do
-                  actions.move_selection_previous(prompt_bufnr)
-                end
-              end,
-              ["<C-D>"] = function(prompt_bufnr)
-                for i = 1, 10 do
-                  actions.move_selection_next(prompt_bufnr)
-                end
-              end,
-            },
-            ["i"] = {
-              ["<C-e>"] = false,
-              ["<C-u>"] = function(prompt_bufnr)
-                for i = 1, 10 do
-                  actions.move_selection_previous(prompt_bufnr)
-                end
-              end,
-              ["<C-d>"] = function(prompt_bufnr)
-                for i = 1, 10 do
-                  actions.move_selection_next(prompt_bufnr)
-                end
-              end,
-            }
-          }
-        },
+        import = require("telescope.themes").get_dropdown()
       }
     })
 
@@ -153,7 +114,6 @@ return {
     -- Enable telescope extensions, if installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "import")
-    pcall(require("telescope").load_extension, "file_browser")
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -173,12 +133,6 @@ return {
     vim.keymap.set("n", "<leader>gf", require("telescope.builtin").git_status, { desc = "[G]it [F]iles" })
     vim.keymap.set("n", "<leader>gtl", require("telescope.builtin").git_commits, { desc = "[G]it [T]elescope [L]ogs" })
     vim.keymap.set("n", "<leader>ii", require("telescope").extensions.import.import, { desc = "[I]nsert [I]mport" })
-    vim.keymap.set("n", "<leader>fb", require("telescope").extensions.file_browser.file_browser)
-    vim.keymap.set("n", "<leader>ff", function()
-      require("telescope").extensions.file_browser.file_browser({
-        path = "%:p:h",
-      })
-    end)
 
     -- Search for pattern in current project files
     vim.keymap.set("n", "<leader>ps", function()
@@ -190,9 +144,9 @@ return {
     end, { desc = "[P]roject [S]earch" })
 
     -- Search for the current word in project files
-    vim.keymap.set("n", "<leader>f", require("telescope.builtin").grep_string, { desc = "[F]ind word" })
-    vim.keymap.set("v", "<leader>f", function()
+    vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind [W]ord" })
+    vim.keymap.set("v", "<leader>fw", function()
       require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
-    end, { desc = "[F]ind word" })
+    end, { desc = "[F]ind [W]ord" })
   end
 }
