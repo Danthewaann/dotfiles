@@ -14,7 +14,7 @@ else
         default_locations+=("$line")
     done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d)
     # shellcheck disable=SC2086
-    selected=$(printf "%s\n" "${default_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux $TMUX_FZF_OPTIONS)
+    selected=$(printf "%s\n" "${default_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
 fi
 
 if [[ -z $selected ]]; then
