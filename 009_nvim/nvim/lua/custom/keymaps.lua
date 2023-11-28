@@ -128,7 +128,7 @@ end, { desc = "[G]it [G]et" })
 vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]ommit [C]reate" })
 vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]ommit [A]mend" })
 vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]ommit [E]dit" })
-vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { silent = true, desc = "[G]it [O]pen in browser" })
+vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse!<CR>", { silent = true, desc = "[G]it [O]pen copy url" })
 vim.keymap.set("n", "<leader>ghr", function()
   vim.fn.system("gh rv")
   if vim.v.shell_error ~= 0 then
