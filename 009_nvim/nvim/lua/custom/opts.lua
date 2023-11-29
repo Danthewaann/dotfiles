@@ -83,9 +83,10 @@ vim.opt.path:append("**")
 -- Setup what gets saved in the session file
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
--- Don't save current directory when running :mkview
+-- Don't save current directory and cursor position when running :mkview
 -- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1694253333
 vim.opt.viewoptions:remove("curdir")
+vim.opt.viewoptions:remove("cursor")
 
 -- Use ripgrep for the :grep command
 vim.o.grepprg = "rg --vimgrep --color=never"
