@@ -3,6 +3,7 @@ return {
   version = "*",
   config = function()
     require("toggleterm").setup({
+      open_mapping = [[<leader>tt]],
       shade_terminals = false,
       direction = "vertical",
       size = function(term)
