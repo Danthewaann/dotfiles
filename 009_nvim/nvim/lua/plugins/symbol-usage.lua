@@ -41,11 +41,33 @@ return {
     local SymbolKind = vim.lsp.protocol.SymbolKind
     require("symbol-usage").setup({
       text_format = text_format,
-      kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Struct, SymbolKind.Constant },
+      kinds = {
+        SymbolKind.Function,
+        SymbolKind.Method,
+        SymbolKind.Class,
+        SymbolKind.Struct,
+        SymbolKind.Constant,
+      },
       vt_position = "end_of_line",
       filetypes = {
         lua = {
-          kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Struct },
+          kinds = {
+            SymbolKind.Function,
+            SymbolKind.Method,
+            SymbolKind.Class,
+            SymbolKind.Struct,
+          },
+        },
+        go = {
+          kinds = {
+            SymbolKind.Function,
+            SymbolKind.Method,
+            SymbolKind.Class,
+            SymbolKind.Struct,
+            SymbolKind.Constant,
+            SymbolKind.Variable,
+            SymbolKind.Field,
+          },
         },
       },
     })
