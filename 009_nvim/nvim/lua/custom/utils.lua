@@ -140,6 +140,8 @@ M.replace_ticket_number = function()
   if not ok then
     vim.api.nvim_echo({ { "TICKET_NUMBER pattern not found in file!", "ErrorMsg" } }, true, {})
   end
+  -- Save changes to the file
+  vim.cmd.write()
 end
 
 -- Check if the provided terminal is running.
