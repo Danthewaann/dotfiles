@@ -19,8 +19,8 @@ return {
     -- Position the drawer on the right side of the window
     vim.g.db_ui_win_position = "right"
 
-    -- Use neovim's notfication system
-    vim.g.db_ui_use_nvim_notify = 1
+    -- Don't use neovim's notfication system
+    vim.g.db_ui_use_nvim_notify = 0
 
     -- Open DB connections window
     vim.keymap.set("n", "<leader>db", ":tabnew<CR>:DBUI<CR>", { silent = true })
