@@ -11,7 +11,7 @@ return {
     vim.g.db_ui_use_nerd_fonts = 1
 
     -- Use a drawer with a bigger width
-    vim.g.db_ui_winwidth = 80
+    vim.g.db_ui_winwidth = 60
 
     -- Don't execute sql when saving an sql buffer
     vim.g.db_ui_execute_on_save = 0
