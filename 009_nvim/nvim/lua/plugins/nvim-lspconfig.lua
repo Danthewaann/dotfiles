@@ -237,6 +237,7 @@ return {
           },
         },
       },
+      vimls = { settings = {} }
     }
 
     -- Setup neovim lua configuration
