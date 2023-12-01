@@ -118,6 +118,9 @@ return {
         -- Refresh the buffer after applying folds to get treesitter to
         -- refresh highlights
         vim.cmd(":e")
+        vim.defer_fn(function()
+          vim.cmd("silent! loadview")
+        end, 0)
       end
     end, 0)
   end
