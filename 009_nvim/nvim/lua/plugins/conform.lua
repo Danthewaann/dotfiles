@@ -31,6 +31,8 @@ return {
         markdown = { { "prettierd", "prettier" } },
         yaml = { { "prettierd", "prettier" } },
         sql = { "sql_formatter" },
+        mysql = { "sql_formatter" },
+        plsql = { "sql_formatter" },
         -- Use the "*" filetype to run formatters on all filetypes.
         ["*"] = { "codespell" },
         -- Use the "_" filetype to run formatters on filetypes that don't
