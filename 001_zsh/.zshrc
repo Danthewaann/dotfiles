@@ -70,16 +70,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
-
-# Use `Ctrl-i` to enter normal mode in zsh
-ZVM_VI_ESCAPE_BINDKEY=^O
-
-zvm_after_init() {
-    # Override <C-P> and <C-N> to cycle through command history (including suggested commands)
-    zvm_bindkey viins '^P' up-line-or-search
-    zvm_bindkey viins '^N' down-line-or-search
-}
+plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv fast-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -136,6 +127,10 @@ autoload -Uz rbenv
 bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 
+# Cycle through command history (including suggested commands)
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
+
 # Add brew to path
 export HOMEBREW_PREFIX="/opt/homebrew";
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
@@ -178,11 +173,3 @@ ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
 ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
-
-function zvm_vi_yank() {
-    # Yank to system clipboard in zsh-vi-mode
-    # From: https://github.com/jeffreytse/zsh-vi-mode/issues/19
-    zvm_yank
-    echo ${CUTBUFFER} | pbcopy
-    zvm_exit_visual_mode
-}
