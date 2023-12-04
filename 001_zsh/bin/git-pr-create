@@ -28,13 +28,16 @@ function usage() {
 
 function pr_info() {
     url=$(gh pr view --json url --jq .url)
+    slack_label=""
 
-    slack_label=${pr_types[$pr_type]}
+    if [[ -n $pr_type ]]; then
+        slack_label=" :${pr_types[$pr_type]}:"
+    fi
 
     if [[ $pr_is_draft -ne 0 ]]; then
-        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
+        output=$(printf "%s\n:point_up:%s [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
     else
-        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$slack_label" "$pr_title")
+        output=$(printf "%s\n:point_up:%s %s\n" "$url" "$slack_label" "$pr_title")
     fi
 
     >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
