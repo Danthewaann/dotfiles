@@ -176,6 +176,14 @@ M.filetype_folds = {
 M.apply_folds = function(buf)
   local filetype = vim.fn.getbufvar(buf, "&filetype")
   if M.filetype_folds[filetype] then
+    -- Don't fold git-pr files
+    local filename = vim.api.nvim_buf_get_name(buf)
+    ---@diagnostic disable-next-line: cast-local-type
+    filename = vim.fn.fnamemodify(filename, ":t")
+    if filename and string.match(filename, ".*git%-pr.*") then
+      return false
+    end
+
     M.apply_folds_and_then_close_all_folds(buf, M.filetype_folds[filetype])
     return true
   end
