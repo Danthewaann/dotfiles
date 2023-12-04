@@ -71,7 +71,10 @@ vim.keymap.set("n", "<leader>bd", function()
     local num = vim.fn.getloclist(0)
     if #num > 0 then
       print("Deleting all breakpoints...")
+      vim.cmd(":silent lfdo g/\"runtime\"/d")
       vim.cmd(":silent ldo delete")
+      -- Refresh the breakpoints location list
+      get_all_breakpoints()
     else
       vim.api.nvim_echo({ { "No breakpoints found!", "WarningMsg" } }, true, {})
     end
