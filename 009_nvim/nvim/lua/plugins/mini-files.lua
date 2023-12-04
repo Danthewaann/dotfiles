@@ -19,8 +19,5 @@ return {
     end
 
     vim.keymap.set("n", "<leader>fb", minifiles_toggle, { desc = "[F]ile [B]rowser" })
-    vim.keymap.set("n", "<leader>ff", function()
-      minifiles_toggle(vim.api.nvim_buf_get_name(0))
-    end, { desc = "[F]ile [F]ind" })
   end
 }
