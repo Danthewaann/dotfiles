@@ -86,7 +86,6 @@ return {
             goto_next_start = {
               ["]m"] = "@function.outer",
               ["]]"] = "@class.outer",
-              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
             },
             goto_next_end = {
               ["]M"] = "@function.outer",
@@ -95,7 +94,6 @@ return {
             goto_previous_start = {
               ["[m"] = "@function.outer",
               ["[["] = "@class.outer",
-              ["[s"] = { query = "@scope", query_group = "locals", desc = "Previous scope" },
             },
             goto_previous_end = {
               ["[M"] = "@function.outer",
