@@ -50,6 +50,10 @@ local function set_breakpoint()
 
   output = output .. breakpoint_stmt
   vim.fn.append(vim.fn.line("."), output)
+  if file_type == "go" then
+    -- Automatically import go `runtime` package via a code action
+    vim.lsp.buf.code_action({apply = true})
+  end
 end
 
 local function get_all_breakpoints()
