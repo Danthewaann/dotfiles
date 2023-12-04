@@ -8,38 +8,8 @@ source "$CUR_DIR/_git-common"
 
 args=()
 
-# Github label to slack emoji associate array
-declare -A pr_types=(
-    [python]="python"
-    [ruby]="ruby_prog"
-    [go]="go"
-    [docker]="docker"
-    [documentation]="docs"
-)
-
-pr_type=
-pr_title=
-pr_is_draft=0
-labels=()
-
 function usage() {
     gh pr edit --help
-}
-
-function pr_info() {
-    url=$(gh pr view --json body --jq .body)
-
-    slack_label=${pr_types[$pr_type]}
-
-    if [[ $pr_is_draft -ne 0 ]]; then
-        output=$(printf "%s\n:point_up: :%s: [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
-    else
-        output=$(printf "%s\n:point_up: :%s: %s\n" "$url" "$slack_label" "$pr_title")
-    fi
-
-    >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-    echo "$output"
-    echo "$output" | pbcopy
 }
 
 while [[ $# -gt 0 ]]; do
@@ -56,22 +26,37 @@ while [[ $# -gt 0 ]]; do
 done
 
 cur_time=$(date +%s)
-pr_file_name=git-pr-edit."$cur_time".md
+old_pr_file_name=git-pr-edit."$cur_time".old.md
+new_pr_file_name=git-pr-edit."$cur_time".new.md
 
-gh pr view --json body --jq .body > "$pr_file_name"
-old_file_md5=$(md5sum "$pr_file_name")
+content=$(gh pr view --json title --json body)
+title=$(echo "$content" | jq -r .title)
+body=$(echo "$content" | jq -r .body)
+echo -e "$title\n" > "$old_pr_file_name"
+echo "$body" >> "$old_pr_file_name"
+echo -e "$title\n" > "$new_pr_file_name"
+echo "$body" >> "$new_pr_file_name"
 
-$EDITOR "$pr_file_name"
+old_file_md5=$(md5 -q "$old_pr_file_name")
 
-new_file_md5=$(md5sum "$pr_file_name")
+$EDITOR "$new_pr_file_name"
+
+new_file_md5=$(md5 -q "$new_pr_file_name")
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
-    rm -f "$pr_file_name"
+    >&2 echo "No updates submitted!"
+    rm -f "$old_pr_file_name"
+    rm -f "$new_pr_file_name"
     exit 1
 fi
 
+new_title=$(head -n 1 < "$new_pr_file_name")
+new_content=$(sed -e "1,2d" < "$new_pr_file_name")
+
 gh pr edit \
-    --body-file - \
+    --title "$new_title" \
+    --body "$new_content" \
     "${args[@]}" || exit $?
 
-# rm -f "$pr_file_name"
+rm -f "$old_pr_file_name"
+rm -f "$new_pr_file_name"
