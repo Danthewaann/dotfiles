@@ -91,7 +91,8 @@ return {
 
             function! s:OnJumpToFrame() abort
                 lua require("custom.utils").unfold()
-                if s:code_resized == v:false
+                let file_extension = expand('%:e')
+                if s:code_resized == v:false && file_extension =~# "go"
                     resize+10
                     let s:code_resized = v:true
                 endif
