@@ -4,7 +4,6 @@ return {
         -- Must define this before loading vimspector
         vim.g.vimspector_enable_mappings = "HUMAN"
         vim.g.vimspector_install_gadgets = { "debugpy", "vscode-node-debug2", "delve" }
-        vim.g.vimspector_bottombar_height = 25
         vim.g.vimspector_sign_priority = {
             vimspectorBP = 999,
             vimspectorBPCond = 2,
@@ -15,6 +14,10 @@ return {
             vimspectorCurrentThread = 1000,
             vimspectorCurrentFrame = 1000,
         }
+        vim.g.vimspector_enable_winbar = 0
+        vim.g.vimspector_code_minwidth = 120
+        vim.g.vimspector_sidebar_width = 70
+        vim.g.vimspector_bottombar_height = 5
     end,
     config = function()
         vim.api.nvim_create_user_command("VimspectorConfig", function(_)
@@ -35,16 +38,7 @@ return {
                 let wins = g:vimspector_session_windows
 
                 call win_gotoid( g:vimspector_session_windows.code )
-
                 let file_extension = expand('%:e')
-                " Set filetype to python for now to get syntax highlighting
-                " when doing remote debugging via a docker container
-                if file_extension =~# "py"
-                    setlocal filetype=python
-                elseif file_extension =~# "go"
-                    setlocal filetype=go
-                endif
-
                 nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
 
                 " Enable keyboard-hover for vars and watches
@@ -56,6 +50,7 @@ return {
                 elseif file_extension =~# "go"
                     setlocal filetype=go
                 endif
+                setlocal statuscolumn=
 
                 call win_gotoid( g:vimspector_session_windows.watches )
                 nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
@@ -65,6 +60,7 @@ return {
                 elseif file_extension =~# "go"
                     setlocal syntax=go
                 endif
+                setlocal statuscolumn=
 
                 call win_gotoid( g:vimspector_session_windows.stack_trace )
                 nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
@@ -74,6 +70,7 @@ return {
                 elseif file_extension =~# "go"
                     setlocal filetype=go
                 endif
+                setlocal statuscolumn=
 
                 let console_win = g:vimspector_session_windows.output
                 call win_gotoid( console_win )
@@ -88,12 +85,27 @@ return {
                 elseif file_extension =~# "go"
                     setlocal syntax=go
                 endif
-                resize-10
+            endfunction
+
+            let s:code_resized = v:false
+
+            function! s:OnJumpToFrame() abort
+                lua require("custom.utils").unfold()
+                if s:code_resized == v:false
+                    resize+10
+                    let s:code_resized = v:true
+                endif
+            endfunction
+
+            function! s:OnDebugEnd() abort
+                let s:code_resized = v:false
             endfunction
 
             augroup MyVimspectorCustomisation
                 autocmd!
                 autocmd User VimspectorUICreated call s:CustomiseUI()
+                autocmd User VimspectorJumpedToFrame call s:OnJumpToFrame()
+                autocmd User VimspectorDebugEnded ++nested call s:OnDebugEnd()
             augroup END
 
             " Allow for command history in VimspectorPrompt
