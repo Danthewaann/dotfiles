@@ -38,14 +38,10 @@ return {
             for _, buf in ipairs(buflist) do
                 local ok, chan_id = pcall(vim.api.nvim_buf_get_var, buf, "terminal_job_id")
                 if ok then
-                    local buf_win_id = vim.fn.bufwinid(buf)
-                    ok, _  = pcall(vim.fn.chanclose, chan_id)
-                    if ok then
-                        -- Clear the contents of the terminal buffer
-                        vim.fn.win_gotoid(buf_win_id)
-                        vim.cmd("set modifiable")
-                        vim.cmd("normal! ggVGd")
-                    end
+                    vim.fn.jobstop(chan_id)
+                    -- I don't know why I need this sleep here. Having this sleep here seems to allow the
+                    -- terminal to properly cleanup before vimspector re-uses it.
+                    vim.cmd.sleep("100m")
                 end
             end
 
