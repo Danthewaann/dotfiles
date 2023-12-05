@@ -16,6 +16,7 @@ return {
           sign = { text = { ".*" } },
           click = "v:lua.ScSa",
         },
+        { sign = { name = { "vimspector" } }, click = "v:lua.ScSa" },
         {
           text = { builtin.lnumfunc, " " },
           condition = { true, builtin.not_empty },
