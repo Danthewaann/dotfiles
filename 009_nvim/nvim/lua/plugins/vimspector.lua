@@ -30,7 +30,27 @@ return {
         vim.keymap.set("n", "<leader>vb", "<Plug>VimspectorBreakpoints", { desc = "[V]imspector [B]reakpoints" })
         vim.keymap.set("n", "<leader>vd", "<Plug>VimspectorDisassemble", { desc = "[V]imspector [D]isassemble" })
         vim.keymap.set("n", "<leader>vc", "<Plug>VimspectorContinue", { desc = "[V]imspector [C]ontinue" })
-        vim.keymap.set("n", "<leader>vr", "<Plug>VimspectorRestart", { desc = "[V]imspector [R]estart" })
+        vim.keymap.set("n", "<leader>vr", function()
+            -- The delve debugger for go doesn't exit after you finish debugging.
+            -- Here we manually navigate to the terminal buffer and invoke a SIGINTERRUPT
+            -- before restarting the debugger so we can reuse the buffer.
+            local buflist = vim.fn.tabpagebuflist()
+            for _, buf in ipairs(buflist) do
+                local ok, chan_id = pcall(vim.api.nvim_buf_get_var, buf, "terminal_job_id")
+                if ok then
+                    local buf_win_id = vim.fn.bufwinid(buf)
+                    ok, _  = pcall(vim.fn.chanclose, chan_id)
+                    if ok then
+                        -- Clear the contents of the terminal buffer
+                        vim.fn.win_gotoid(buf_win_id)
+                        vim.cmd("set modifiable")
+                        vim.cmd("normal! ggVGd")
+                    end
+                end
+            end
+
+            vim.fn["vimspector#Restart"]()
+        end, { desc = "[V]imspector [R]estart" })
         vim.keymap.set("n", "<leader>vq", "<cmd>VimspectorReset<CR>", { desc = "[V]imspector [Q]uit" })
 
         vim.cmd [[
@@ -91,10 +111,13 @@ return {
 
             function! s:OnJumpToFrame() abort
                 lua require("custom.utils").unfold()
-                let file_extension = expand('%:e')
-                if s:code_resized == v:false && file_extension =~# "go"
-                    resize+10
+                if s:code_resized == v:false
                     let s:code_resized = v:true
+                    wincmd j
+                    wincmd J
+                    resize+5
+                    wincmd p
+                    resize+10
                 endif
             endfunction
 
