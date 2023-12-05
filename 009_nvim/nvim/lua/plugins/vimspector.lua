@@ -25,6 +25,9 @@ return {
         end, { desc = "Edit Vimspector config" })
 
         vim.keymap.set({ "n", "x" }, "<leader>vi", "<Plug>VimspectorBalloonEval", { desc = "[V]imspector [I]nspect" })
+        vim.keymap.set("n", "<leader><F5>", "<Plug>VimspectorLaunch", { desc = "Vimspector Launch" })
+        vim.keymap.set("n", "<leader><F8>", "<Plug>VimspectorRunToCursor", { desc = "Vimspector Run To Cursor" })
+        vim.keymap.set("n", "<leader><F9>", "<Plug>VimspectorToggleConditionalBreakpoint", { desc = "Vimspector Toggle Conditional Breakpoint" })
         vim.keymap.set("n", "<leader><F11>", "<Plug>VimspectorUpFrame", { desc = "Vimspector Up Frame" })
         vim.keymap.set("n", "<leader><F12>", "<Plug>VimspectorDownFrame", { desc = "Vimspector Down Frame" })
         vim.keymap.set("n", "<leader>vb", "<Plug>VimspectorBreakpoints", { desc = "[V]imspector [B]reakpoints" })

@@ -43,7 +43,7 @@ return {
     })
 
     -- Toggle virtual text on and off
-    vim.keymap.set("n", "<leader>dt", function()
+    vim.keymap.set("n", "<leader>tt", function()
       show_virtual_text = not show_virtual_text
       if show_virtual_text then
         print("Toggling on virtual text")
@@ -51,7 +51,7 @@ return {
         print("Toggling off virtual text")
       end
       vim.diagnostic.config({ virtual_text = show_virtual_text })
-    end, { desc = "[D]iagnostic [T]oggle virtual text" })
+    end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })

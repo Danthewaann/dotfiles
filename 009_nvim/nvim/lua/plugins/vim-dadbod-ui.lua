@@ -23,7 +23,7 @@ return {
     vim.g.db_ui_use_nvim_notify = 0
 
     -- Open DB connections window
-    vim.keymap.set("n", "<leader>db", ":tabnew<CR>:DBUI<CR>", { silent = true })
+    vim.keymap.set("n", "<leader>db", ":tabnew<CR>:DBUI<CR>", { silent = true, desc = "Open [DB] UI" })
 
     augroup("dadbod-ui", { clear = true })
     autocmd("FileType", {

@@ -480,7 +480,7 @@ return {
     })
 
     vim.keymap.set("n", "<leader>dv", "<cmd>DiffviewOpen<CR>", {
-      desc = "Open the diffview",
+      desc = "[D]iff [V]iew",
     })
   end,
 }

@@ -5,7 +5,6 @@ return {
   config = function()
     require("onedark").setup({
       style = "darker",
-      toggle_style_key = "<leader>ct",
       toggle_style_list = { "darker", "dark", "cool", "deep", "warm", "warmer" },
       highlights = {
         ["@variable"] = { fg = "#e55561" },

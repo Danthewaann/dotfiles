@@ -7,7 +7,7 @@ return {
       result_split_horizontal = true,
     })
 
-    vim.keymap.set("n", "<leader>pp", "<Plug>RestNvim", { silent = true })
-    vim.keymap.set("n", "<leader>pl", "<Plug>RestNvimPreview", { silent = true })
+    vim.keymap.set("n", "<leader>ch", "<Plug>RestNvim", { silent = true, desc = "[C]ommand run [H]ttp file" })
+    vim.keymap.set("n", "<leader>cc", "<Plug>RestNvimPreview", { silent = true, desc = "[C]ommand get [C]url" })
   end,
 }

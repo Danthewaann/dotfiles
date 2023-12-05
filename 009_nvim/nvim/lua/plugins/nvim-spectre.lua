@@ -1,17 +1,18 @@
 return {
   "nvim-pack/nvim-spectre",
+  --- 
   config = function()
     local spectre = require("spectre")
 
-    vim.keymap.set("n", "<leader>gs", spectre.open, { desc = "Open Spectre" })
-    vim.keymap.set("n", "<leader>sw", function()
+    vim.keymap.set("n", "<leader>gsa", spectre.open, { desc = "[G]lobal [S]earch [A]ll" })
+    vim.keymap.set("n", "<leader>gsw", function()
       spectre.open_visual({ select_word = true })
-    end, { desc = "Search current word" })
+    end, { desc = "[G]lobal [S]earch [W]ord" })
     vim.keymap.set(
       "v",
-      "<leader>sw",
+      "<leader>gsw",
       '<esc><cmd>lua require("spectre").open_visual()<CR>',
-      { desc = "Search current word" }
+      { desc = "[G]lobal [S]earch [W]ord" }
     )
   end,
 }
