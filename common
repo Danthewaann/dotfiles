@@ -36,7 +36,6 @@ fail () {
     local cur_date
     cur_date=$(get_date)
     printf "\r\033[2K%s [\033[0;31mFAIL\033[0m] %s\n" "$cur_date" "$1"
-    exit 1
 }
 
 log_to_file () {
@@ -59,6 +58,9 @@ run_command () {
         if ! eval "$1" 2>&1 | while IFS= read -r line; do info "$line"; done; then
             info ""
             fail "failed!"
+            if [[ "$IGNORE_ERRORS" == "false" ]]; then
+                exit 1
+            fi
         fi
         shift
     done
