@@ -43,7 +43,7 @@ if ! inside_wsl; then
 
     run_command "setting up key-repeat" \
         "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
-        "gsettings set org.gnome.desktop.peripherals.keyboard delay 150"
+        "gsettings set org.gnome.desktop.peripherals.keyboard delay 200"
 else
     if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then
         run_command "downloading win32yank" \
