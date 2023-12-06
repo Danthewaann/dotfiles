@@ -65,10 +65,6 @@ vim.keymap.set("t", "<C-j>", "<cmd> wincmd j<CR>")
 vim.keymap.set("t", "<C-k>", "<cmd> wincmd k<CR>")
 vim.keymap.set("t", "<C-l>", "<cmd> wincmd l<CR>")
 
--- Tab navigation
-vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
-vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
-
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
 
