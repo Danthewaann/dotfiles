@@ -66,29 +66,29 @@ vim.keymap.set("t", "<C-k>", "<cmd> wincmd k<CR>")
 vim.keymap.set("t", "<C-l>", "<cmd> wincmd l<CR>")
 
 -- Close tab
-vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>")
+vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
 -- Close all tabs except current one
-vim.keymap.set("n", "<C-w>to", "<cmd> tabonly<CR>")
+vim.keymap.set("n", "<C-w>t", "<cmd> tabonly<CR>", { desc = "Close all other tabs" })
 
 -- Open a new tab
-vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>")
+vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>", { desc = "Create a new tab" })
 
 -- Go to tab by number
-vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>")
-vim.keymap.set("n", "<C-w>2", "<cmd> tabn2<CR>")
-vim.keymap.set("n", "<C-w>3", "<cmd> tabn3<CR>")
-vim.keymap.set("n", "<C-w>4", "<cmd> tabn4<CR>")
-vim.keymap.set("n", "<C-w>5", "<cmd> tabn5<CR>")
-vim.keymap.set("n", "<C-w>6", "<cmd> tabn6<CR>")
-vim.keymap.set("n", "<C-w>7", "<cmd> tabn7<CR>")
-vim.keymap.set("n", "<C-w>8", "<cmd> tabn8<CR>")
-vim.keymap.set("n", "<C-w>9", "<cmd> tabn9<CR>")
-vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>")
+vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
+vim.keymap.set("n", "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
+vim.keymap.set("n", "<C-w>3", "<cmd> tabn3<CR>", { desc = "Go to tab 3" })
+vim.keymap.set("n", "<C-w>4", "<cmd> tabn4<CR>", { desc = "Go to tab 4" })
+vim.keymap.set("n", "<C-w>5", "<cmd> tabn5<CR>", { desc = "Go to tab 5" })
+vim.keymap.set("n", "<C-w>6", "<cmd> tabn6<CR>", { desc = "Go to tab 6" })
+vim.keymap.set("n", "<C-w>7", "<cmd> tabn7<CR>", { desc = "Go to tab 7" })
+vim.keymap.set("n", "<C-w>8", "<cmd> tabn8<CR>", { desc = "Go to tab 8" })
+vim.keymap.set("n", "<C-w>9", "<cmd> tabn9<CR>", { desc = "Go to tab 9" })
+vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the last tab" })
 
 -- Move tabs left or right
-vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>")
-vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>")
+vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
+vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
