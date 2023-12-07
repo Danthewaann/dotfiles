@@ -46,6 +46,6 @@ return {
       local bufnr = vim.api.nvim_get_current_buf()
       require("conform").format({ bufnr = bufnr, timeout_ms = 3000, lsp_fallback = true })
       vim.cmd(":write")
-    end, { desc = "Format and save current buffer" })
+    end, { range = true, desc = "Format and save current buffer" })
   end,
 }
