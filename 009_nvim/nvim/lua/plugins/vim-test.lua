@@ -4,15 +4,38 @@ return {
     vim.g["test#strategy"] = "toggleterm"
     vim.g["test#neovim#term_position"] = "vertical"
     vim.g["test#neovim#start_normal"] = 0
-    vim.g["test#custom_runners"] = { python = { "make" }, go = { "make" } }
 
-    if vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0 then
-      vim.g["test#python#runner"] = "make"
-      vim.g["test#go#runner"] = "make"
-    else
-      vim.g["test#python#runner"] = "pytest"
-      vim.g["test#go#runner"] = "gotest"
+    local test_runners = {
+      python = {
+        custom = "make",
+        fallback = "pytest",
+      },
+      go = {
+        custom = "make",
+        fallback = "gotest",
+      },
+      ruby = {
+        custom = "make",
+        fallback = "rspec",
+      },
+    }
+    local custom_runners = {}
+    local enabled_runners = {}
+    local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
+
+    for runner, data in pairs(test_runners) do
+      custom_runners[runner] = { data.custom }
+      if has_makefile then
+        vim.g["test#" .. runner .. "#runner"] = data.custom
+        table.insert(enabled_runners, runner .. "#" .. data.custom)
+      else
+        vim.g["test#" .. runner .. "#runner"] = data.fallback
+        table.insert(enabled_runners, runner .. "#" .. data.fallback)
+      end
     end
+
+    vim.g["test#custom_runners"] = custom_runners
+    vim.g["test#enabled_runners"] = enabled_runners
 
     local function get_cursor_position(path)
       local filename_modifier = vim.g["test#filename_modifier"] or ":."
@@ -65,7 +88,7 @@ return {
       vim.fn.call("vimspector#LaunchWithSettings", { debug_config })
     end
 
-    vim.keymap.set("n", "<leader>dn", debug_nearest_test, { desc = "[D]ebug [N]earest test" })
+    vim.keymap.set("n", "<leader>td", debug_nearest_test, { desc = "[T]est [D]ebug nearest" })
     vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>", { desc = "[T]est [N]earest" })
     vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>", { desc = "[T]est [F]ile" })
     vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "[T]est [S]uite" })
