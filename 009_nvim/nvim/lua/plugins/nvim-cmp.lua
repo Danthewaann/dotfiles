@@ -21,7 +21,9 @@ return {
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    require("cmp_git").setup()
+    require("cmp_git").setup({
+      filetypes = { "gitcommit", "octo", "markdown" }
+    })
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup({})
 
@@ -88,6 +90,7 @@ return {
         { name = "luasnip" },
         { name = "buffer" },
         { name = "path" },
+        { name = "git" },
       },
     })
 
