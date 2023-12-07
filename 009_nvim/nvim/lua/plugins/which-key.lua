@@ -11,7 +11,7 @@ return {
     require("which-key").register({
       ["<leader>b"] = { name = "[B]uffer, [B]reakpoints", _ = "which_key_ignore" },
       ["<leader>c"] = { name = "[C]ode, [C]ommand, [C]lose", _ = "which_key_ignore" },
-      ["<leader>d"] = { name = "[D]ocument, [D]ebug, [D]iff, [DB]", _ = "which_key_ignore" },
+      ["<leader>d"] = { name = "[D]ocument, [D]iff, [DB]", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ile, [F]ind", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it, [G]enerate", _ = "which_key_ignore" },
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
