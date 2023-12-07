@@ -1,8 +1,6 @@
 " Returns true if the given file belongs to your test runner
 function! test#ruby#make#test_file(file)
-    echom a:file
     if fnamemodify(a:file, ':t') =~# g:test#ruby#rspec#file_pattern
-        echom "hi"
         if exists('g:test#ruby#runner')
             return g:test#ruby#runner ==# 'make'
         else
