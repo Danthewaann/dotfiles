@@ -6,6 +6,7 @@ return {
       open_mapping = [[<c-t>]],
       shade_terminals = false,
       direction = "vertical",
+      auto_scroll = false,
       size = function(term)
         if term.direction == "horizontal" then
           return 20
