@@ -106,8 +106,6 @@ return {
       colored = true,             -- Displays filetype icon in color if set to true
       icon_only = false,          -- Display only an icon for filetype
       icon = { align = "right" }, -- Display filetype icon on the right hand side
-      -- icon =    {'X', align='right'}
-      -- Icon string ^ in table is ignored in filetype component
     }
 
     local git_extension = {
@@ -188,7 +186,7 @@ return {
     if no_winbar then
       merged_config.options.globalstatus = false
       merged_config.options.disabled_filetypes = {}
-      merged_config.sections.lualine_b = { winbar_filename_config }
+      merged_config.sections.lualine_b = { winbar_filename_config, winbar_filetype_config }
       merged_config.sections.lualine_c[#merged_config.sections.lualine_c + 1] = "diff"
       merged_config.inactive_sections.lualine_c = { winbar_filename_config }
     else
