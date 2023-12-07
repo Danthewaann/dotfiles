@@ -164,4 +164,8 @@ fi
 
 >&2 echo
 success "Successfully created worktree!"
-echo "${converted_name}"
+
+>&2 echo
+info "Switching to worktree..."
+sleep 2
+tmux-sessionizer "$(pwd)"
