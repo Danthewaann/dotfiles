@@ -56,7 +56,6 @@ while [[ $# -gt 0 ]]; do
         if [[ " ${!pr_types[*]} " =~ " ${2} " ]]; then
             pr_type=$2
         fi
-        args+=("$1" "$2")
         labels+=("$2")
         shift; shift
         ;;
@@ -121,38 +120,71 @@ fi
 export GIT_PR_CREATE_RAN=1
 
 cur_time=$(date +%s)
-pr_file_name=git-pr-create."$cur_time".md
+old_pr_file_name=git-pr-create."$cur_time".old.md
+new_pr_file_name=git-pr-create."$cur_time".new.md
+
+echo -e "--- TITLE\n$pr_title\n--- END\n" > "$old_pr_file_name"
+echo -e "--- TITLE\n$pr_title\n--- END\n" > "$new_pr_file_name"
+echo -e "--- EXISTING LABELS" >> "$old_pr_file_name"
+echo -e "--- EXISTING LABELS" >> "$new_pr_file_name"
+for label in "${repo_labels[@]}"; do
+    echo "$label" >> "$old_pr_file_name"
+    echo "$label" >> "$new_pr_file_name"
+done
+echo -e "--- END\n" >> "$old_pr_file_name"
+echo -e "--- END\n" >> "$new_pr_file_name"
+
+echo -e "--- LABELS" >> "$old_pr_file_name"
+echo -e "--- LABELS" >> "$new_pr_file_name"
+for label in "${labels[@]}"; do
+    echo "$label" >> "$old_pr_file_name"
+    echo "$label" >> "$new_pr_file_name"
+done
+echo -e "--- END\n" >> "$old_pr_file_name"
+echo -e "--- END\n" >> "$new_pr_file_name"
 
 if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
-    cp .github/PULL_REQUEST_TEMPLATE.md "$pr_file_name"
-else
-    touch "$pr_file_name"
+    echo -e "--- BODY\n" >> "$old_pr_file_name"
+    echo -e "--- BODY\n" >> "$new_pr_file_name"
+    cat .github/PULL_REQUEST_TEMPLATE.md >> "$old_pr_file_name"
+    cat .github/PULL_REQUEST_TEMPLATE.md >> "$new_pr_file_name"
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
 fi
 
-$EDITOR "$pr_file_name"
+old_file_md5=$(md5 -q "$old_pr_file_name")
 
-if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
-    pr_template_md5=$(md5 -q .github/PULL_REQUEST_TEMPLATE.md)
-    file_md5=$(md5 -q "$pr_file_name")
+$EDITOR "$new_pr_file_name"
 
-    if [[ "$file_md5" == "$pr_template_md5" ]]; then
-        rm -f "$pr_file_name"
-        exit 1
-    fi
-elif [[ ! -s "$pr_file_name" ]]; then
-    rm -f "$pr_file_name"
+new_file_md5=$(md5 -q "$new_pr_file_name")
+
+if [[ "$old_file_md5" == "$new_file_md5" ]]; then
+    >&2 echo -e "\nNo PR created!"
+    rm -f "$old_pr_file_name"
+    rm -f "$new_pr_file_name"
     exit 1
 fi
+
+# Use sed address ranges to extract each section
+# From: https://www.baeldung.com/linux/print-lines-between-two-patterns
+title=$(gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
+
+labels=()
+while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <(gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+
+body=$(gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
 gh pr create \
     --head "$(git branch --show-current)" \
     --assignee "@me" \
-    --title "$pr_title" \
-    --body-file "$pr_file_name" \
+    --title "$title" \
+    --body "$body" \
+    "${labels[@]}" \
     "${args[@]}" || exit $?
 
 if [[ -n "$pr_type" ]]; then
     pr_info
 fi
 
-rm -f "$pr_file_name"
+rm -f "$old_pr_file_name"
+rm -f "$new_pr_file_name"
