@@ -277,6 +277,8 @@ return {
       },
       padding = "  ",
       fix_pos = true,
+      max_width = vim.o.columns,
+      toggle_key = "<C-i>",
       hint_enable = false,
       hint_prefix = "",
       floating_window = true,
