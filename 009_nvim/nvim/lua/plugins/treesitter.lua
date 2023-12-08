@@ -17,6 +17,8 @@ return {
           "c",
           "cpp",
           "go",
+          "gomod",
+          "gosum",
           "lua",
           "python",
           "rust",
