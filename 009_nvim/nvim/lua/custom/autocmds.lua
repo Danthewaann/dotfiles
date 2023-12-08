@@ -178,7 +178,7 @@ autocmd("BufEnter", {
   pattern = "*.md",
   callback = function()
     if vim.fn.expand("$GIT_PR_CREATE_RAN") == "1" then
-      utils.replace_ticket_number()
+      vim.defer_fn(utils.replace_ticket_number, 10)
     end
   end,
 })
