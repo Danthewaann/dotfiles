@@ -27,11 +27,24 @@ function usage() {
 }
 
 function pr_info() {
-    url=$(gh pr view --json url --jq .url)
     slack_label=""
+    content=$(gh pr view --json url --json labels)
+    url=$(echo "$content" | jq -r .url)
 
+    pr_labels=()
+    while IFS=$'\n' read -r label; do pr_labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
+
+    # If a PR type was manually provided use that one
     if [[ -n $pr_type ]]; then
         slack_label=" :${pr_types[$pr_type]}:"
+    else
+        # Otherwise get the PR type label from the PR labels
+        for label in "${pr_labels[@]}"; do
+            if [[ " ${!pr_types[*]} " =~ " ${label} " ]]; then
+                slack_label=" :${pr_types[$label]}:"
+                break
+            fi
+        done
     fi
 
     if [[ $pr_is_draft -ne 0 ]]; then
