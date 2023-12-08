@@ -10,6 +10,7 @@ pager: delta
 aliases:
     prv: pr view --web
     pre: pr edit
+    prc: pr view --comments
     rv: repo view --web
 # The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
