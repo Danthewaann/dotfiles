@@ -192,18 +192,6 @@ autocmd("DiagnosticChanged", {
   end,
 })
 
--- quickfix list setup
-augroup("quickfix", { clear = true })
-autocmd("FileType", {
-  group = "quickfix",
-  pattern = "qf",
-  callback = function(e)
-    -- Cycle through different quickfix lists
-    vim.keymap.set("n", "<C-o>", "<cmd>colder<CR>", { buffer = e.buf })
-    vim.keymap.set("n", "<C-i>", "<cmd>cnewer<CR>", { buffer = e.buf })
-  end,
-})
-
 -- Save and load views on buffer enter and exit
 -- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1436059023
 augroup("load_and_save_views", { clear = true })
