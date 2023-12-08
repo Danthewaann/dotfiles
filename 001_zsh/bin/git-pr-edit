@@ -25,17 +25,46 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+repo_labels=()
+while IFS=$'\n' read -r label; do repo_labels+=("$label"); done < <(gh label list --json name --jq '.[].name' --limit 100)
+
 cur_time=$(date +%s)
 old_pr_file_name=git-pr-edit."$cur_time".old.md
 new_pr_file_name=git-pr-edit."$cur_time".new.md
 
-content=$(gh pr view --json title --json body)
+content=$(gh pr view --json title --json body --json labels)
 title=$(echo "$content" | jq -r .title)
 body=$(echo "$content" | jq -r .body)
-echo -e "$title\n" > "$old_pr_file_name"
+
+labels=()
+while IFS=$'\n' read -r label; do labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
+
+echo -e "--- TITLE\n$title\n--- END\n" > "$old_pr_file_name"
+echo -e "--- TITLE\n$title\n--- END\n" > "$new_pr_file_name"
+echo -e "--- EXISTING LABELS" >> "$old_pr_file_name"
+echo -e "--- EXISTING LABELS" >> "$new_pr_file_name"
+for label in "${repo_labels[@]}"; do
+    echo "$label" >> "$old_pr_file_name"
+    echo "$label" >> "$new_pr_file_name"
+done
+echo -e "--- END\n" >> "$old_pr_file_name"
+echo -e "--- END\n" >> "$new_pr_file_name"
+
+echo -e "--- LABELS" >> "$old_pr_file_name"
+echo -e "--- LABELS" >> "$new_pr_file_name"
+for label in "${labels[@]}"; do
+    echo "$label" >> "$old_pr_file_name"
+    echo "$label" >> "$new_pr_file_name"
+done
+echo -e "--- END\n" >> "$old_pr_file_name"
+echo -e "--- END\n" >> "$new_pr_file_name"
+
+echo -e "--- BODY\n" >> "$old_pr_file_name"
+echo -e "--- BODY\n" >> "$new_pr_file_name"
 echo "$body" >> "$old_pr_file_name"
-echo -e "$title\n" > "$new_pr_file_name"
 echo "$body" >> "$new_pr_file_name"
+echo -e "--- END\n" >> "$old_pr_file_name"
+echo -e "--- END\n" >> "$new_pr_file_name"
 
 old_file_md5=$(md5 -q "$old_pr_file_name")
 
@@ -44,18 +73,32 @@ $EDITOR "$new_pr_file_name"
 new_file_md5=$(md5 -q "$new_pr_file_name")
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
-    >&2 echo "No updates submitted!"
+    >&2 echo -e "\nNo PR created!"
     rm -f "$old_pr_file_name"
     rm -f "$new_pr_file_name"
     exit 1
 fi
 
-new_title=$(head -n 1 < "$new_pr_file_name")
-new_content=$(sed -e "1,2d" < "$new_pr_file_name")
+# Use sed address ranges to extract each section
+# From: https://www.baeldung.com/linux/print-lines-between-two-patterns
+new_title=$(gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
+
+new_labels=()
+while IFS=$'\n' read -r label; do new_labels+=("--add-label" "$label"); done < <(gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+
+# Delete labels that are not in the original labels for the PR
+for label in "${labels[@]}"; do
+    if [[ ! " ${new_labels[*]} " =~ " ${label} " ]]; then
+        new_labels+=("--remove-label" "$label")
+    fi
+done
+
+new_body=$(gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
 gh pr edit \
     --title "$new_title" \
-    --body "$new_content" \
+    --body "$new_body" \
+    "${new_labels[@]}" \
     "${args[@]}" || exit $?
 
 rm -f "$old_pr_file_name"
