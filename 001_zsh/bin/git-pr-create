@@ -195,9 +195,7 @@ gh pr create \
     "${labels[@]}" \
     "${args[@]}" || exit $?
 
-if [[ -n "$pr_type" ]]; then
-    pr_info
-fi
+pr_info
 
 rm -f "$old_pr_file_name"
 rm -f "$new_pr_file_name"
