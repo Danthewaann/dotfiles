@@ -131,16 +131,40 @@ bindkey "^[f" forward-word
 bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 
-# Add brew to path
-export HOMEBREW_PREFIX="/opt/homebrew";
-export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-export HOMEBREW_REPOSITORY="/opt/homebrew";
-export PATH="$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
-export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
-export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+# Linux only setup
+if [[ $OSTYPE == "darwin"* ]]; then
+    # Add brew to path
+    export HOMEBREW_PREFIX="/opt/homebrew";
+    export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+    export HOMEBREW_REPOSITORY="/opt/homebrew";
+    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+    export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+    export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+else
+    # Setup node version manager
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Add local scripts, rust, golang, ruby and python stuff to path
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
+    # Use the default nvm alias
+    if [[ -e ~/.nvm/alias/default ]]; then
+        PATH="$PATH:$HOME/.nvm/versions/node/$(< ~/.nvm/alias/default)/bin"
+    fi
+
+    # Setup Ruby version manager
+    eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
+
+    # Setup Python version manager
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$("$PYENV_ROOT"/bin/pyenv init -)"
+
+    alias md5="md5sum"
+    alias pbcopy="xclip"
+fi
+
+# Add local scripts, rust, bob, golang, ruby and python stuff to path
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
 
 # Set theme for bat
 export BAT_THEME="TwoDark"
