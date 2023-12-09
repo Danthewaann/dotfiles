@@ -6,7 +6,6 @@ return {
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
   "michaeljsmith/vim-indent-object",
-  "romainl/vim-cool",
   "djoshea/vim-autoread",
   -- "gc" to comment visual regions/lines
   { "numToStr/Comment.nvim", opts = {} },
