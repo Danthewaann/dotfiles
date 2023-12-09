@@ -2,7 +2,6 @@ return {
   "tpope/vim-repeat",
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
-  "tpope/vim-dadbod",
   "tpope/vim-rsi",
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
