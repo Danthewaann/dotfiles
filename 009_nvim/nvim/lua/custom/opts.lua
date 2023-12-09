@@ -15,12 +15,11 @@ vim.o.smartcase = true
 vim.o.breakindent = true
 
 -- Set completeo to have a better completion experience
-pcall(function()
-  vim.o.completeo = "menuone,noselect"
-end)
-pcall(function()
+if vim.fn.has("nvim-0.10") == 1 then
   vim.o.completeopt = "menuone,noselect"
-end)
+else
+  vim.o.completeo = "menuone,noselect"
+end
 
 -- Show tabs and newline characters when `list` is enabled
 vim.o.listchars = "eol:¬,tab:▸."
