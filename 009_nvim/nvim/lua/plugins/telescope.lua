@@ -62,6 +62,7 @@ return {
         },
       },
       pickers = {
+        builtin = { theme = "dropdown", previewer = false },
         lsp_definitions = { theme = "ivy", show_line = false },
         lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
@@ -121,7 +122,14 @@ return {
     vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
       { desc = "[/] Fuzzily search in current buffer" }
     )
+    vim.keymap.set("n", "<leader>s/", function()
+      require("telescope.builtin").live_grep {
+        grep_open_files = true,
+        prompt_title = "Live Grep in Open Files",
+      }
+    end, { desc = "[S]earch [/] in Open Files" })
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
+    vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>sm", require("telescope.builtin").man_pages, { desc = "[S]earch [M]an Pages" })
     vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
