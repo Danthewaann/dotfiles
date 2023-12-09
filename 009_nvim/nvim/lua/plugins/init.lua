@@ -7,7 +7,6 @@ return {
   "tpope/vim-sleuth",
   "michaeljsmith/vim-indent-object",
   "romainl/vim-cool",
-  "szw/vim-maximizer",
   "djoshea/vim-autoread",
   -- "gc" to comment visual regions/lines
   { "numToStr/Comment.nvim", opts = {} },
