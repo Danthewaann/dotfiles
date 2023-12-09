@@ -52,18 +52,10 @@ vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
 
 -- Window navigation
-vim.keymap.set("n", "<C-h>", ":<C-U>TmuxNavigateLeft<CR>", { silent = true })
-vim.keymap.set("n", "<C-j>", ":<C-U>TmuxNavigateDown<CR>", { silent = true })
-vim.keymap.set("n", "<C-k>", ":<C-U>TmuxNavigateUp<CR>", { silent = true })
-vim.keymap.set("n", "<C-l>", ":<C-U>TmuxNavigateRight<CR>", { silent = true })
-vim.keymap.set("i", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", { silent = true })
-vim.keymap.set("i", "<C-j>", "<cmd>TmuxNavigateDown<CR>", { silent = true })
-vim.keymap.set("i", "<C-k>", "<cmd>TmuxNavigateUp<CR>", { silent = true })
-vim.keymap.set("i", "<C-l>", "<cmd>TmuxNavigateRight<CR>", { silent = true })
-vim.keymap.set("t", "<C-h>", "<cmd> wincmd h<CR>")
-vim.keymap.set("t", "<C-j>", "<cmd> wincmd j<CR>")
-vim.keymap.set("t", "<C-k>", "<cmd> wincmd k<CR>")
-vim.keymap.set("t", "<C-l>", "<cmd> wincmd l<CR>")
+vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { silent = true })
+vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { silent = true })
+vim.keymap.set({ "n", "i", "t" }, "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>", { silent = true })
+vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { silent = true })
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
