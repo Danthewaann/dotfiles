@@ -3,8 +3,8 @@ return {
   config = function()
     require("which-key").setup({
       layout = {
-        spacing = 3,
-        width = { min = 5, max = 80 },
+        spacing = 1,
+        width = { min = 5, max = vim.o.columns },
         height = { min = 5, max = 20 },
       },
     })
@@ -19,7 +19,7 @@ return {
       ["<leader>gl"] = { name = "[G]it [L]og", _ = "which_key_ignore" },
       ["<leader>gp"] = { name = "[G]it [P]ush", _ = "which_key_ignore" },
       ["<leader>gs"] = { name = "[G]lobal [S]earch", _ = "which_key_ignore" },
-      ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
+      ["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
       ["<leader>i"] = { name = "[I]nsert", _ = "which_key_ignore" },
       ["<leader>j"] = { name = "TS[J]", _ = "which_key_ignore" },
       ["<leader>p"] = { name = "[P]roject", _ = "which_key_ignore" },
@@ -30,5 +30,10 @@ return {
       ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
       ["<leader>x"] = { name = "Diagnostic lists", _ = "which_key_ignore" },
     })
+
+    require("which-key").register({
+      ["<leader>"] = { name = "VISUAL <leader>" },
+      ["<leader>h"] = { "Git [H]unk" },
+    }, { mode = "v" })
   end
 }

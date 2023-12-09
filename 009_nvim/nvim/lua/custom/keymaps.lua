@@ -8,54 +8,59 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Open fold at cursor recursively
-vim.keymap.set("n", "l", "foldclosed('.') == -1 ? 'l' : 'zO'", { expr = true, silent = true })
+vim.keymap.set(
+  "n",
+  "l",
+  "foldclosed('.') == -1 ? 'l' : 'zO'",
+  { expr = true, silent = true, desc = "Right or open fold", }
+)
 
 -- Move the current selection up or down a line
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection up a line" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection down a line" })
 
 -- Re-select visual selection when indenting it
-vim.keymap.set("v", ">", ">gv", { noremap = true })
-vim.keymap.set("v", "<", "<gv", { noremap = true })
+vim.keymap.set("v", ">", ">gv", { desc = "Increase indent" })
+vim.keymap.set("v", "<", "<gv", { desc = "Decrease indent" })
 
 -- Keep the cursor in the same place when joining lines
-vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 
 -- Map enter to break the current line
-vim.keymap.set("n", "<CR>", "i<CR><ESC>k$")
+vim.keymap.set("n", "<CR>", "i<CR><ESC>k$", { desc = "Add linebreak" })
 
 -- Re-select last pasted text
 vim.keymap.set("n", "gp", "`[v`]", { desc = "Re-select last pasted text" })
 
 -- Go to the start and end of the line
-vim.keymap.set("n", "H", "0")
-vim.keymap.set("n", "L", "$")
-vim.keymap.set({ "v", "x", "o" }, "H", "_")
-vim.keymap.set({ "v", "x", "o" }, "L", "g_")
+vim.keymap.set("n", "H", "0", { desc = "Jump to start of line" })
+vim.keymap.set("n", "L", "$", { desc = "Jump to end of line" })
+vim.keymap.set({ "v", "x", "o" }, "H", "_", { desc = "Jump to first non-blank character in line" })
+vim.keymap.set({ "v", "x", "o" }, "L", "g_", { desc = "Jump to list non-blank character in line" })
 
 -- Prevent the cursor from jumping to the start of a selection after yanking it
 vim.keymap.set("v", "y", "ygv<Esc>")
 
 -- Go to alternative buffer
-vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true })
+vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true, desc = "Go to alternative buffer" })
 
 -- Vertical navigation
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "gg", "ggzz")
-vim.keymap.set("n", "G", "Gzz")
-vim.keymap.set("n", "{", "{zz")
-vim.keymap.set("n", "}", "}zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Go half page down" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Go half page up" })
+vim.keymap.set("n", "gg", "ggzz", { desc = "First line" })
+vim.keymap.set("n", "G", "Gzz", { desc = "Last line" })
+vim.keymap.set("n", "{", "{zz", { desc = "Next paragraph" })
+vim.keymap.set("n", "}", "}zz", { desc = "Previous paragraph" })
 
 -- Jump list navigation
-vim.keymap.set("n", "<C-i>", "<C-i>zz")
-vim.keymap.set("n", "<C-o>", "<C-o>zz")
+vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
+vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Window navigation
-vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { silent = true })
-vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { silent = true })
-vim.keymap.set({ "n", "i", "t" }, "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>", { silent = true })
-vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { silent = true })
+vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "i", "t" }, "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
@@ -89,17 +94,17 @@ vim.keymap.set({ "n", "t" }, "<C-w>+", "<cmd> wincmd 10+<CR>", { desc = "Increas
 vim.keymap.set({ "n", "t" }, "<C-w>-", "<cmd> wincmd 10-<CR>", { desc = "Decrease window height" })
 
 -- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<C-q>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 
 -- Exit the current window
-vim.keymap.set("n", "<C-q>", "<cmd> silent q<CR>")
+vim.keymap.set("n", "<C-q>", "<cmd> q<CR>", { desc = "Close window" })
 
 -- Treat Ctrl+C exactly like <Esc>
-vim.keymap.set({ "n", "i", "x", "o" }, "<C-c>", "<Esc>")
+vim.keymap.set({ "n", "i", "x", "o" }, "<C-c>", "<Esc>", { desc = "Escape" })
 
 -- Center screen when moving through search results
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
 -- Git commands
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
@@ -149,8 +154,8 @@ vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make 
 
 -- Use <C-P> and <C-N> to cycle through history in vim command mode
 -- This is needed to allow command line completion to work properly
-vim.keymap.set("c", "<C-p>", "<Up>")
-vim.keymap.set("c", "<C-n>", "<Down>")
+vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
+vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>cr", function()
