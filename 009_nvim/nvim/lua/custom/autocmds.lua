@@ -1,6 +1,5 @@
 local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
-local bufmap = vim.api.nvim_buf_set_keymap
 
 local utils = require("custom.utils")
 
@@ -64,11 +63,23 @@ autocmd("TermClose", {
 
 -- Disable highlighting for sql files.
 -- treesitter will handle syntax highlighting if the file isn't too large in size
-augroup("sql_dump_highlighting", { clear = true })
+augroup("sql", { clear = true })
 autocmd("BufEnter", {
-  group = "sql_dump_highlighting",
+  group = "sql",
   pattern = "*.sql",
   command = "setlocal syntax=off",
+})
+autocmd("FileType", {
+  group = "sql",
+  pattern = "sql",
+  callback = function()
+    vim.keymap.set(
+      "n",
+      "<leader>e",
+      ":normal vip<CR><Plug>(DBUI_ExecuteQuery)",
+      { buffer = true, desc = "[E]xecute SQL query under cursor" }
+    )
+  end
 })
 
 -- Turn on spell checking in markdown and gitcommit buffers
@@ -143,7 +154,7 @@ autocmd("FileType", {
   group = "git_status",
   pattern = "fugitive",
   callback = function()
-    bufmap(0, "n", "<Tab>", ":normal =<CR>", { silent = true })
+    vim.keymap.set("n", "<Tab>", ":normal =<CR>", { buffer = true, silent = true })
     vim.cmd("setlocal nowrap nonumber norelativenumber")
   end,
 })
