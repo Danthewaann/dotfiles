@@ -81,6 +81,18 @@ autocmd("FileType", {
     )
   end
 })
+autocmd("FileType", {
+  group = "sql",
+  pattern = "dbout",
+  callback = function()
+    vim.keymap.set(
+      "n",
+      "<CR>",
+      "<Plug>(DBUI_JumpToForeignKey)",
+      { buffer = true, desc = "Jump to foreign key" }
+    )
+  end
+})
 
 -- Turn on spell checking in markdown and gitcommit buffers
 augroup("spell_checking", { clear = true })
