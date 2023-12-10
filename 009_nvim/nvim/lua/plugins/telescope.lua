@@ -60,6 +60,11 @@ return {
           vertical = { height = 0.8, width = 0.7, preview_height = 0.4 },
           horizontal = { height = 0.8, width = 0.7, preview_width = 0.55 },
         },
+        mappings = {
+          ["i"] = {
+            ["<C-r>"] = actions.to_fuzzy_refine
+          }
+        }
       },
       pickers = {
         builtin = { theme = "dropdown", previewer = false },
@@ -72,12 +77,7 @@ return {
           theme = "ivy",
           path_display = { "smart" },
           fname_width = 0.4,
-          symbol_width = 0.5,
-          mappings = {
-            ["i"] = {
-              ["<C-r>"] = actions.to_fuzzy_refine
-            }
-          }
+          symbol_width = 0.5
         },
         lsp_document_symbols = { theme = "ivy", previewer = false, symbol_width = 0.9 },
         current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
