@@ -122,17 +122,6 @@ return {
       end, "Hover Documentation")
       nmap("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
 
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-        vim.lsp.handlers.hover, {
-          border = "rounded",
-        }
-      )
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-        vim.lsp.handlers.signature_help, {
-          border = "rounded",
-        }
-      )
-
       -- Lesser used LSP functionality
       nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
       nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
@@ -257,6 +246,22 @@ return {
 
     -- Setup neovim lua configuration
     require("neodev").setup()
+
+    -- Styling for floating windows
+    local border = "rounded"
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, {
+        border = border,
+      }
+    )
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help, {
+        border = border,
+      }
+    )
+    vim.diagnostic.config({
+      float = { border = border }
+    })
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
