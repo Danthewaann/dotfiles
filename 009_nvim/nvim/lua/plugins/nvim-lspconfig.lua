@@ -15,8 +15,8 @@ return {
         progress = {
           display = {
             format_message = function(msg)
-              if msg.lsp_name == "pyright" and string.find(msg.title, "Finding references") then
-                return nil -- Ignore pyright "Finding references" progress messages
+              if string.find(msg.title, "Finding references") then
+                return nil -- Ignore "Finding references" progress messages
               end
               if msg.message then
                 return msg.message
