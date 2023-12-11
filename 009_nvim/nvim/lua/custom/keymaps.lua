@@ -62,6 +62,10 @@ vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { de
 vim.keymap.set({ "n", "i", "t" }, "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 
+-- Tab navigation
+vim.keymap.set("n", "<C-w><C-h>", "<cmd> silent tabprevious<CR>")
+vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>")
+
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
