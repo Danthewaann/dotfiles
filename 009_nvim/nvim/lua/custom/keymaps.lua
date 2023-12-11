@@ -92,10 +92,10 @@ vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab le
 vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
 
 -- Resize the current window
-vim.keymap.set({ "n", "t" }, "<C-w>>", "<cmd> wincmd 20><CR>", { desc = "Increase window width" })
-vim.keymap.set({ "n", "t" }, "<C-w><", "<cmd> wincmd 20<<CR>", { desc = "Decrease window width" })
-vim.keymap.set({ "n", "t" }, "<C-w>+", "<cmd> wincmd 10+<CR>", { desc = "Increase window height" })
-vim.keymap.set({ "n", "t" }, "<C-w>-", "<cmd> wincmd 10-<CR>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C-w>>", "<cmd> wincmd 20><CR>", { desc = "Increase window width" })
+vim.keymap.set("n", "<C-w><", "<cmd> wincmd 20<<CR>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<C-w>-", "<cmd> wincmd 10-<CR>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C-w>+", "<cmd> wincmd 10+<CR>", { desc = "Increase window height" })
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
