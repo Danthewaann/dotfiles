@@ -72,6 +72,8 @@ return {
         lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
         lsp_type_definitions = { theme = "ivy" },
+        lsp_incoming_calls = { theme = "ivy", path_display = { "smart" }, fname_width = 0.5, symbol_width = 0.5 },
+        lsp_outgoing_calls = { theme = "ivy", path_display = { "smart" }, fname_width = 0.5, symbol_width = 0.5 },
         lsp_workspace_symbols = { theme = "ivy", path_display = { "smart" }, fname_width = 0.4, symbol_width = 0.5 },
         lsp_dynamic_workspace_symbols = {
           theme = "ivy",

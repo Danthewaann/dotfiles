@@ -91,6 +91,8 @@ return {
         utils.unfold()
       end, "[G]oto Definition In [S]plit")
       nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+      nmap("go", require("telescope.builtin").lsp_incoming_calls, "[G]oto inc[O]ming Calls")
+      nmap("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
       nmap("gI", function()
         require("telescope.builtin").lsp_implementations()
         utils.unfold()
