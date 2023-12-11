@@ -19,8 +19,5 @@ return {
     vim.cmd("highlight TelescopeResultsBorder guifg=#31353f")
     vim.cmd("highlight TelescopePreviewBorder guifg=#31353f")
     vim.cmd("highlight FloatBorder guifg=#31353f guibg=NONE")
-    vim.cmd("highlight NvimTreeNormal guibg=#282c34 guifg=#9da5b3")
-    vim.cmd("highlight NvimTreeNormalFloat guibg=#282c34 guifg=#9da5b3")
-    vim.cmd("highlight NvimTreeEndOfBuffer guibg=#282c34 guifg=#282c34")
   end,
 }
