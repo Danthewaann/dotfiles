@@ -15,6 +15,7 @@ declare -A pr_types=(
     [go]="go"
     [docker]="docker"
     [documentation]="docs"
+    [terraform]="terraform"
 )
 
 pr_type=
