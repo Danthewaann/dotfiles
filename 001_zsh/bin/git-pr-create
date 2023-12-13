@@ -124,13 +124,6 @@ if [[ ${#invalid_labels[@]} -ne 0 ]]; then
     exit 1
 fi
 
-if [[ -z $pr_title ]]; then
-    pr_title=$(git log -1 --pretty=%B)
-    >&2 printf "\nNo PR title provided, defaulting to last commit message \"%s\"\n" "$pr_title"
-else
-    >&2 printf "\nUsing \"%s\" as PR title\n" "$pr_title"
-fi
-
 export GIT_PR_CREATE_RAN=1
 
 cur_time=$(date +%s)
