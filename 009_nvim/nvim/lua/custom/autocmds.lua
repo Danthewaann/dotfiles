@@ -155,7 +155,7 @@ autocmd("BufLeave", {
   callback = function()
     local ft = vim.api.nvim_get_option_value("filetype", {})
     if ft == "TelescopePrompt" then
-      utils.unfold()
+      utils.unfold_check()
     end
   end,
 })
