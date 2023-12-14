@@ -2,7 +2,14 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
-    "williamboman/mason.nvim",
+    {
+      "williamboman/mason.nvim",
+      opts = {
+        ui = {
+          border = "rounded"
+        },
+      }
+    },
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/nvim-cmp",
     -- Extra signature help

@@ -7,6 +7,7 @@ return {
         width = { min = 5, max = vim.o.columns },
         height = { min = 5, max = 20 },
       },
+      window = { border = "rounded" }
     })
     require("which-key").register({
       ["<leader>b"] = { name = "[B]uffer, [B]reakpoints", _ = "which_key_ignore" },
