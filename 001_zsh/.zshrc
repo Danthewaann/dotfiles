@@ -178,6 +178,17 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# Some convenience functions
+function b64encode () {
+    python -c "import base64; print(base64.b64encode('$1'.encode()).decode())"
+}
+function b64decode () {
+    python -c "import base64; print(base64.b64decode('$1').decode())"
+}
+function uuid4 () {
+    python -c "import uuid; print(str(uuid.uuid4()))"
+}
+
 # Custom prompt based on the amuse theme
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
 # Must use Powerline font, for \uE0A0 to render.
