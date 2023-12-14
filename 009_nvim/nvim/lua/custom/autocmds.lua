@@ -71,7 +71,7 @@ autocmd("BufEnter", {
 })
 autocmd("FileType", {
   group = "sql",
-  pattern = "sql",
+  pattern = { "sql", "mysql", "plsql" },
   callback = function()
     vim.keymap.set(
       "n",
