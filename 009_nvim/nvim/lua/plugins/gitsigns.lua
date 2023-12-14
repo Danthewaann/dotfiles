@@ -39,19 +39,21 @@ return {
       -- don't override the built-in and fugitive keymaps
       map({ "n", "v" }, "]c", function()
         if vim.wo.diff then
-          return "]c"
+          return "]czz"
         end
         vim.schedule(function()
           gs.next_hunk()
+          vim.cmd.normal("zz")
         end)
         return "<Ignore>"
       end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
       map({ "n", "v" }, "[c", function()
         if vim.wo.diff then
-          return "[c"
+          return "[czz"
         end
         vim.schedule(function()
           gs.prev_hunk()
+          vim.cmd.normal("zz")
         end)
         return "<Ignore>"
       end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })

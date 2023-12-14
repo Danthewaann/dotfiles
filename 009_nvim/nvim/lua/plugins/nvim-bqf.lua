@@ -49,5 +49,23 @@ return {
         }
       }
     })
+    vim.keymap.set("n", "]q", function()
+      local ok, _ = pcall(vim.cmd, "cnext")
+      if not ok then
+        ok, _ = pcall(vim.cmd, "cfirst")
+        if ok then
+          vim.cmd.normal("zz")
+        end
+      end
+    end)
+    vim.keymap.set("n", "[q", function()
+      local ok, msg = pcall(vim.cmd, "cprevious")
+      if not ok then
+        ok, _ = pcall(vim.cmd, "clast")
+        if ok then
+          vim.cmd.normal("zz")
+        end
+      end
+    end)
   end
 }
