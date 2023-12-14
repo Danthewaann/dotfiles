@@ -14,8 +14,20 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing kitty" \
         "brew install --cask kitty"
 else
-    run_command "installing tmux" \
-        "sudo apt-get install -y tmux"
+    if [[ ! -f "$SCRIPT_DIR/tmux-3.3a.tar.gz" ]]; then
+        run_command "downloading tmux" \
+            "wget -O $SCRIPT_DIR/tmux-3.3a.tar.gz \\
+            https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz"
+    fi
+
+    run_command "unpacking tmux" \
+        "tar -C $SCRIPT_DIR -zxf $SCRIPT_DIR/tmux-3.3a.tar.gz"
+
+
+    cd "$SCRIPT_DIR/tmux-3.3a"
+    run_command "compiling and installing tmux to /usr/local/bin" \
+        "./configure && make && sudo make install"
+    cd -
 
     run_command "installing kitty" \
         "sudo apt-get install -y kitty"
