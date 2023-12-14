@@ -15,9 +15,6 @@ return {
             vimspectorCurrentFrame = 1000,
         }
         vim.g.vimspector_enable_winbar = 0
-        vim.g.vimspector_code_minwidth = 120
-        vim.g.vimspector_sidebar_width = 70
-        vim.g.vimspector_bottombar_height = 5
     end,
     config = function()
         vim.api.nvim_create_user_command("VimspectorConfig", function(_)
@@ -65,31 +62,26 @@ return {
                 nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
                 nmap <silent><buffer> <Tab> <Enter>
                 if file_extension =~# "py"
-                    setlocal filetype=python
+                    lua vim.treesitter.start(0, "python")
                 elseif file_extension =~# "go"
-                    setlocal filetype=go
+                    lua vim.treesitter.start(0, "go")
                 endif
-                setlocal statuscolumn=
+                wincmd K
+                resize-5
 
                 call win_gotoid( g:vimspector_session_windows.watches )
                 nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
                 nmap <silent><buffer> <Tab> <Enter>
                 if file_extension =~# "py"
-                    setlocal syntax=python
+                    lua vim.treesitter.start(0, "python")
                 elseif file_extension =~# "go"
-                    setlocal syntax=go
+                    lua vim.treesitter.start(0, "go")
                 endif
-                setlocal statuscolumn=
 
                 call win_gotoid( g:vimspector_session_windows.stack_trace )
                 nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
                 nmap <silent><buffer> <Tab> <Enter>
-                if file_extension =~# "py"
-                    setlocal filetype=python
-                elseif file_extension =~# "go"
-                    setlocal filetype=go
-                endif
-                setlocal statuscolumn=
+                lua vim.treesitter.stop()
 
                 let console_win = g:vimspector_session_windows.output
                 call win_gotoid( console_win )
@@ -100,9 +92,9 @@ return {
                 setlocal scrolloff=0
                 setlocal modifiable
                 if file_extension =~# "py"
-                    setlocal syntax=python
+                    lua vim.treesitter.start(0, "python")
                 elseif file_extension =~# "go"
-                    setlocal syntax=go
+                    lua vim.treesitter.start(0, "go")
                 endif
             endfunction
 
@@ -112,11 +104,7 @@ return {
                 lua require("custom.utils").unfold()
                 if s:code_resized == v:false
                     let s:code_resized = v:true
-                    wincmd j
-                    wincmd J
-                    resize+5
-                    wincmd p
-                    resize+10
+                    resize+15
                 endif
             endfunction
 
