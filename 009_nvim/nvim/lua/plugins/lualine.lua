@@ -54,6 +54,7 @@ return {
 
       -- Automatically updates active tab color to match color of other components (will be overidden if buffers_color is set)
       use_mode_colors = false,
+      component_separators = { left = "", right = "" },
 
       show_modified_status = true, -- Shows a symbol next to the tab name if the file has been modified.
       symbols = {
