@@ -19,7 +19,7 @@ return {
     vim.cmd("highlight TelescopeResultsBorder guifg=#31353f")
     vim.cmd("highlight TelescopePreviewBorder guifg=#31353f")
     vim.cmd("highlight FloatBorder guifg=#31353f guibg=NONE")
-    vim.cmd("highlight NormalFloat guibg=NONE")
+    vim.cmd("highlight NormalFloat guifg=#282c34 guibg=NONE")
     vim.cmd("highlight TreesitterContext guibg=#282c34")
     vim.cmd("highlight Conceal guibg=NONE")
     vim.cmd("highlight! link DiagnosticFloatingError DiagnosticError")
