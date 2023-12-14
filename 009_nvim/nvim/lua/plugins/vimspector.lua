@@ -24,12 +24,19 @@ return {
         vim.keymap.set({ "n", "x" }, "<leader>vi", "<Plug>VimspectorBalloonEval", { desc = "[V]imspector [I]nspect" })
         vim.keymap.set("n", "<leader><F5>", "<Plug>VimspectorLaunch", { desc = "Vimspector Launch" })
         vim.keymap.set("n", "<leader><F8>", "<Plug>VimspectorRunToCursor", { desc = "Vimspector Run To Cursor" })
-        vim.keymap.set("n", "<leader><F9>", "<Plug>VimspectorToggleConditionalBreakpoint", { desc = "Vimspector Toggle Conditional Breakpoint" })
+        vim.keymap.set(
+            "n",
+            "<leader><F9>",
+            "<Plug>VimspectorToggleConditionalBreakpoint",
+            { desc = "Vimspector Toggle Conditional Breakpoint" }
+        )
         vim.keymap.set("n", "<leader><F11>", "<Plug>VimspectorUpFrame", { desc = "Vimspector Up Frame" })
         vim.keymap.set("n", "<leader><F12>", "<Plug>VimspectorDownFrame", { desc = "Vimspector Down Frame" })
         vim.keymap.set("n", "<leader>vb", "<Plug>VimspectorBreakpoints", { desc = "[V]imspector [B]reakpoints" })
         vim.keymap.set("n", "<leader>vd", "<Plug>VimspectorDisassemble", { desc = "[V]imspector [D]isassemble" })
         vim.keymap.set("n", "<leader>vc", "<Plug>VimspectorContinue", { desc = "[V]imspector [C]ontinue" })
+        vim.keymap.set("n", "<leader>vs", "<cmd>VimspectorMkSession<CR>", { desc = "[V]imspector [S]ave Session" })
+        vim.keymap.set("n", "<leader>vl", "<cmd>VimspectorLoadSession<CR>", { desc = "[V]imspector [L]oad Session" })
         vim.keymap.set("n", "<leader>vr", function()
             -- The delve debugger for go doesn't exit after you finish debugging.
             -- Here we manually navigate to the terminal buffer and invoke a SIGINTERRUPT
