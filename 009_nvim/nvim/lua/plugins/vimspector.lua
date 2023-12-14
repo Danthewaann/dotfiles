@@ -21,7 +21,17 @@ return {
             vim.cmd(":e ~/.vimspector.json")
         end, { desc = "Edit Vimspector config" })
 
-        vim.keymap.set({ "n", "x" }, "<leader>vi", "<Plug>VimspectorBalloonEval", { desc = "[V]imspector [I]nspect" })
+        vim.keymap.set({ "n", "x" }, "<leader>vi", function()
+            local file_extension = vim.fn.expand("%:e")
+            vim.fn["vimspector#ShowEvalBalloon"](0)
+            vim.defer_fn(function()
+                if string.match(file_extension, "py") then
+                    vim.treesitter.start(0, "python")
+                elseif string.match(file_extension, "go") then
+                    vim.treesitter.start(0, "go")
+                end
+            end, 10)
+        end, { desc = "[V]imspector [I]nspect" })
         vim.keymap.set("n", "<leader><F5>", "<Plug>VimspectorLaunch", { desc = "Vimspector Launch" })
         vim.keymap.set("n", "<leader><F8>", "<Plug>VimspectorRunToCursor", { desc = "Vimspector Run To Cursor" })
         vim.keymap.set(
@@ -98,11 +108,7 @@ return {
                 inoremap <silent><buffer> <F12> <C-O>:call vimspector#StepOut()<CR>
                 setlocal scrolloff=0
                 setlocal modifiable
-                if file_extension =~# "py"
-                    lua vim.treesitter.start(0, "python")
-                elseif file_extension =~# "go"
-                    lua vim.treesitter.start(0, "go")
-                endif
+                lua vim.treesitter.stop()
             endfunction
 
             let s:code_resized = v:false
