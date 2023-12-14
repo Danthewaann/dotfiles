@@ -49,16 +49,17 @@ return {
 
     local function debug_nearest_test()
       local position = get_cursor_position(vim.fn.expand("%"))
-      local runner = vim.fn.call("test#determine_runner", { position.file })
-      if runner == 0 then
+      local runner = vim.fn["test#determine_runner"](position.file)
+      if runner == 0 or runner == nil then
         vim.api.nvim_echo({ { "Not a test file", "WarningMsg" } }, true, {})
         return
       end
 
       local language, runner_type = unpack(vim.fn.split(runner, "#"))
-      local build_args = vim.fn.call("test#" .. runner .. "#build_position", { "nearest", position })
-      local args = {}
+      local build_args = vim.fn["test#" .. runner .. "#build_position"]("nearest", position)
+      assert(build_args)
 
+      local args
       if language == "go" then
         -- Need to reverse the build args for `delve test`
         -- e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to
@@ -85,7 +86,7 @@ return {
       -- Set the last test position
       vim.g["test#last_position"] = position
 
-      vim.fn.call("vimspector#LaunchWithSettings", { debug_config })
+      vim.fn["vimspector#LaunchWithSettings"](debug_config)
     end
 
     vim.keymap.set("n", "<leader>td", debug_nearest_test, { desc = "[T]est [D]ebug nearest" })
