@@ -15,7 +15,8 @@ return {
         progress = {
           display = {
             format_message = function(msg)
-              if string.find(msg.title, "Finding references") then
+              local title = msg.title or ""
+              if string.find(title, "Finding references") then
                 return nil -- Ignore "Finding references" progress messages
               end
               if msg.message then
