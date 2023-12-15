@@ -1,7 +1,23 @@
 return {
   "vim-test/vim-test",
   config = function()
-    vim.g["test#strategy"] = "toggleterm"
+    -- Custom toggleterm strategy to display test command output
+    -- in either a horizontal or vertical window depending on the
+    -- width of the current window
+    local function custom_toggleterm_strategy(cmd)
+      local width = vim.api.nvim_win_get_width(0)
+      if width < 150 then
+        require("toggleterm").exec("clear", nil, nil, nil, "horizontal")
+        require("toggleterm").exec(cmd, nil, nil, nil, "horizontal")
+      else
+        require("toggleterm").exec("clear", nil, nil, nil, "vertical")
+        require("toggleterm").exec(cmd, nil, nil, nil, "vertical")
+      end
+    end
+
+    vim.g["test#custom_strategies"] = { custom_toggleterm = custom_toggleterm_strategy }
+    vim.g["test#strategy"] = "custom_toggleterm"
+
     vim.g["test#neovim#term_position"] = "vertical"
     vim.g["test#neovim#start_normal"] = 0
 
