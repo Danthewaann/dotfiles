@@ -108,27 +108,19 @@ return {
                 setlocal scrolloff=0
                 setlocal modifiable
                 lua vim.treesitter.stop()
-            endfunction
 
-            let s:code_resized = v:false
+                call win_gotoid( g:vimspector_session_windows.code )
+                resize+15
+            endfunction
 
             function! s:OnJumpToFrame() abort
                 lua require("custom.utils").unfold()
-                if s:code_resized == v:false
-                    let s:code_resized = v:true
-                    resize+15
-                endif
-            endfunction
-
-            function! s:OnDebugEnd() abort
-                let s:code_resized = v:false
             endfunction
 
             augroup MyVimspectorCustomisation
                 autocmd!
                 autocmd User VimspectorUICreated call s:CustomiseUI()
                 autocmd User VimspectorJumpedToFrame call s:OnJumpToFrame()
-                autocmd User VimspectorDebugEnded ++nested call s:OnDebugEnd()
             augroup END
 
             " Allow for command history in VimspectorPrompt
