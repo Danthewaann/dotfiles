@@ -8,7 +8,7 @@ node_modules
 .venv
 *.pyc
 pyrightconfig.json
-.vimspector*
+.vimspector.sesson*
 
 # Temporary files
 *.swp
