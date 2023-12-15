@@ -129,6 +129,12 @@ autocmd("FileType", {
   pattern = "gitcommit",
   callback = function()
     vim.cmd("setlocal nowrap nonumber norelativenumber textwidth=0")
+    -- Start in insert mode if the current line is empty
+    -- (when writing a new commit message)
+    local line = vim.fn.getline(vim.fn.line("."))
+    if line == nil or line == "" then
+      vim.cmd("startinsert")
+    end
   end
 })
 
