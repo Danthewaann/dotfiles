@@ -73,6 +73,9 @@ return {
             function! s:CustomiseUI()
                 let wins = g:vimspector_session_windows
 
+                let s:session_name = vimspector#GetSessionName()
+                exe "LualineRenameTab [" . s:session_name . "]"
+
                 call win_gotoid( g:vimspector_session_windows.code )
                 let file_extension = expand('%:e')
 
