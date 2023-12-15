@@ -33,7 +33,7 @@ return {
 
                 -- Need to use vimscript to set binds for some reason as using `vim.keymap.set` doesn't work
                 vim.cmd("nmap <silent><buffer> <Tab> <Enter>")
-            end, 10)
+            end, 100)
         end, { desc = "[V]imspector [I]nspect" })
         vim.keymap.set("n", "<leader><F5>", "<Plug>VimspectorLaunch", { desc = "Vimspector Launch" })
         vim.keymap.set("n", "<leader><F8>", "<Plug>VimspectorRunToCursor", { desc = "Vimspector Run To Cursor" })
