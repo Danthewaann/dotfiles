@@ -6,9 +6,9 @@ return {
         vim.g.vimspector_install_gadgets = { "debugpy", "vscode-node-debug2", "delve" }
         vim.g.vimspector_sign_priority = {
             vimspectorBP = 999,
-            vimspectorBPCond = 2,
-            vimspectorBPLog = 2,
-            vimspectorBPDisabled = 1,
+            vimspectorBPCond = 999,
+            vimspectorBPLog = 999,
+            vimspectorBPDisabled = 999,
             vimspectorPC = 999,
             vimspectorPCBP = 1001,
             vimspectorCurrentThread = 1000,
@@ -119,6 +119,16 @@ return {
             function! s:OnJumpToFrame() abort
                 lua require("custom.utils").unfold()
             endfunction
+
+            sign define vimspectorBP            text=● texthl=Special
+            sign define vimspectorBPCond        text=◆ texthl=Special
+            sign define vimspectorBPLog         text=◆ texthl=Special
+            sign define vimspectorBPDisabled    text=● texthl=LineNr
+            sign define vimspectorPC            text=▶ texthl=Special linehl=CursorLine
+            sign define vimspectorPCBP          text=●▶  texthl=Special linehl=CursorLine
+            sign define vimspectorNonActivePC   linehl=DiffAdd
+            sign define vimspectorCurrentThread text=▶   texthl=Special linehl=CursorLine
+            sign define vimspectorCurrentFrame  text=▶   texthl=Special    linehl=CursorLine
 
             augroup MyVimspectorCustomisation
                 autocmd!
