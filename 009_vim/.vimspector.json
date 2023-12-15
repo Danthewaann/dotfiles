@@ -69,7 +69,7 @@
           "pidCommand": [""],
           "attachCommand": ["dlv", "connect", ":${port}"]
         },
-        "delay": "10000m"
+        "delay": "3000m"
       }
     }
   },
