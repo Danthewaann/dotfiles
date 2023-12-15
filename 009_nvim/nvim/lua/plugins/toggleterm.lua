@@ -5,7 +5,7 @@ return {
     require("toggleterm").setup({
       open_mapping = [[<c-t>]],
       shade_terminals = false,
-      direction = "float",
+      direction = "horizontal",
       auto_scroll = false,
       size = function(term)
         if term.direction == "horizontal" then
@@ -17,10 +17,15 @@ return {
       highlights = { FloatBorder = { link = "FloatBorder" } },
       float_opts = {
         border = "rounded",
+        relative = "editor",
+        anchor = "NE",
+        col = vim.o.columns - 20,
         width = function()
-          return math.floor(vim.o.columns * 0.6)
+          return math.floor(vim.o.columns * 0.5)
         end,
-        height = 40,
+        height = function ()
+          return vim.api.nvim_win_get_height(0) - 5
+        end,
       }
     })
   end
