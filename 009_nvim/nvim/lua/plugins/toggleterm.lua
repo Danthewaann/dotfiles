@@ -15,7 +15,13 @@ return {
         end
       end,
       highlights = { FloatBorder = { link = "FloatBorder" } },
-      float_opts = { border = "rounded" }
+      float_opts = {
+        border = "rounded",
+        width = function()
+          return math.floor(vim.o.columns * 0.6)
+        end,
+        height = 40,
+      }
     })
   end
 }
