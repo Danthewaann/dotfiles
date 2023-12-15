@@ -128,8 +128,7 @@ autocmd("FileType", {
   group = "git_commit",
   pattern = "gitcommit",
   callback = function()
-    vim.cmd("startinsert")
-    vim.cmd("setlocal nowrap nonumber norelativenumber")
+    vim.cmd("setlocal nowrap nonumber norelativenumber textwidth=0")
   end
 })
 
