@@ -29,7 +29,7 @@ else
     got_error=0
     for worktree in "${worktrees[@]}"; do
         # Check if I have opened a PR for the current branch
-        if gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
+        if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
             echo -en "${BLUE_BOLD}$(basename "$worktree")${NC} : " | indent
             warn_no_level "A PR is open for this worktree, skipping"
             >&2 echo
