@@ -195,6 +195,56 @@
         }
       }
     },
+    "go - remote attach port 40000": {
+      "variables": {
+        "port": "40000",
+        "host": "localhost"
+      },
+      "adapter": "multi-session",
+      "configuration": {
+        "request": "attach",
+        "mode": "remote",
+        "remotePath": "/go/src/github.com/slicelife/menu-prototype",
+        "pathMappings": [
+          {
+            "localRoot": "${cwd}",
+            "remoteRoot": "/go/src/github.com/slicelife/menu-prototype"
+          }
+        ],
+        "substitutePath": [
+          {
+            "from": "${cwd}",
+            "to": "/go/src/github.com/slicelife/menu-prototype"
+          }
+        ],
+        "console": "internalConsole"
+      }
+    },
+    "go - remote attach port 40001": {
+      "variables": {
+        "port": "40001",
+        "host": "localhost"
+      },
+      "adapter": "multi-session",
+      "configuration": {
+        "request": "attach",
+        "mode": "remote",
+        "remotePath": "/go/src/github.com/slicelife/menu-prototype",
+        "pathMappings": [
+          {
+            "localRoot": "${cwd}",
+            "remoteRoot": "/go/src/github.com/slicelife/menu-prototype"
+          }
+        ],
+        "substitutePath": [
+          {
+            "from": "${cwd}",
+            "to": "/go/src/github.com/slicelife/menu-prototype"
+          }
+        ],
+        "console": "internalConsole"
+      }
+    },
     "go - debug test": {
       "extends": "go - base conf",
       "configuration": {
