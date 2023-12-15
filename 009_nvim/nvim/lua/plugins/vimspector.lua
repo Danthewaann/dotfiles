@@ -30,6 +30,9 @@ return {
                 elseif string.match(file_extension, "go") then
                     vim.treesitter.start(0, "go")
                 end
+
+                -- Need to use vimscript to set binds for some reason as using `vim.keymap.set` doesn't work
+                vim.cmd("nmap <silent><buffer> <Tab> <Enter>")
             end, 10)
         end, { desc = "[V]imspector [I]nspect" })
         vim.keymap.set("n", "<leader><F5>", "<Plug>VimspectorLaunch", { desc = "Vimspector Launch" })
@@ -72,11 +75,9 @@ return {
 
                 call win_gotoid( g:vimspector_session_windows.code )
                 let file_extension = expand('%:e')
-                nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
 
                 " Enable keyboard-hover for vars and watches
                 call win_gotoid( g:vimspector_session_windows.variables )
-                nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
                 nmap <silent><buffer> <Tab> <Enter>
                 if file_extension =~# "py"
                     lua vim.treesitter.start(0, "python")
@@ -87,7 +88,6 @@ return {
                 resize-5
 
                 call win_gotoid( g:vimspector_session_windows.watches )
-                nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
                 nmap <silent><buffer> <Tab> <Enter>
                 if file_extension =~# "py"
                     lua vim.treesitter.start(0, "python")
@@ -96,7 +96,6 @@ return {
                 endif
 
                 call win_gotoid( g:vimspector_session_windows.stack_trace )
-                nmap <silent><buffer> <localleader>o <Plug>VimspectorBalloonEval
                 nmap <silent><buffer> <Tab> <Enter>
                 lua vim.treesitter.stop()
 
