@@ -276,6 +276,8 @@ return {
     vim.diagnostic.config({
       float = { border = border }
     })
+    require("lspconfig.ui.windows").default_options.border = border
+
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
