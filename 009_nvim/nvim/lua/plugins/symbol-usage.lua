@@ -74,9 +74,9 @@ return {
 
     vim.keymap.set(
       "n",
-      "<leader>sut",
-      ':lua require("symbol-usage").toggle()<CR>',
-      { desc = "[S]ymbol [U]sage [T]oggle", silent = true }
+      "<leader>tu",
+      ':lua require("symbol-usage").toggle_globally()<CR>',
+      { desc = "[T]oggle Symbol [U]sage", silent = true }
     )
   end,
 }
