@@ -2,6 +2,7 @@ return {
   "Danthewaann/vim-dadbod-ui",
   dependencies = { "tpope/vim-dadbod" },
   config = function()
+    local utils = require("custom.utils")
     local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
     local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
@@ -16,6 +17,12 @@ return {
 
     -- Don't execute sql when saving an sql buffer
     vim.g.db_ui_execute_on_save = 0
+
+    -- Save queries and db connections to ~/Workspace/database_queries if it exists
+    local workspace = os.getenv("HOME") .. "/Workspace"
+    if utils.file_exists(workspace) then
+      vim.g.db_ui_save_location = workspace .. "/database_queries"
+    end
 
     -- Position the drawer on the right side of the window
     vim.g.db_ui_win_position = "right"
