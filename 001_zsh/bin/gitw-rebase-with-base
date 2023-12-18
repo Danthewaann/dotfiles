@@ -9,10 +9,17 @@ source "$CUR_DIR/_git-common"
 if ! in_worktree=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $in_worktree == "true" ]]; then
     gitw-update-base
-    base_worktree=$(gitw-get-base 2> /dev/null)
+    base_worktree=$(basename "$(gitw-get-base 2> /dev/null)")
     >&2 echo
     info "Rebasing with '$base_worktree' base worktree..."
-    >&2 git rebase "$base_worktree"
+    if ! output=$(git rebase "$base_worktree" 2>&1); then
+        error "$output"
+        exit 1
+    else
+        if [[ -n "$output" ]]; then
+            >&2 echo "$output"
+        fi
+    fi
 else
     >&2 echo
     error "Must be run inside a git worktree"

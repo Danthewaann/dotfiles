@@ -18,7 +18,7 @@ function get_base() {
         return 1
     fi
 
-    echo "$base_worktree"
+    echo "$PWD/$base_worktree"
 }
 
 >&2 echo

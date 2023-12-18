@@ -9,12 +9,19 @@ source "$CUR_DIR/_git-common"
 function update_base() {
     base_worktree=$(gitw-get-base 2> /dev/null)
 
-    info "Entering '$base_worktree' base worktree..."
+    info "Entering '$(basename "$base_worktree")' base worktree..."
     cd "$base_worktree" || exit
 
     >&2 echo
     info "Updating with remote..."
-    >&2 git pull 
+    if ! output=$(git pull 2>&1); then
+        error "$output"
+        exit 1
+    else
+        if [[ -n "$output" ]]; then
+            >&2 echo "$output"
+        fi
+    fi
 
     if [[ -f "poetry.lock" ]]; then
         >&2 echo
