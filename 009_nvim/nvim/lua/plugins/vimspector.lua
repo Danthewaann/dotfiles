@@ -87,8 +87,6 @@ return {
                 elseif file_extension =~# "go"
                     lua vim.treesitter.start(0, "go")
                 endif
-                wincmd K
-                resize-5
 
                 call win_gotoid( g:vimspector_session_windows.watches )
                 nmap <silent><buffer> <Tab> <Enter>
@@ -111,9 +109,6 @@ return {
                 setlocal scrolloff=0
                 setlocal modifiable
                 lua vim.treesitter.stop()
-
-                call win_gotoid( g:vimspector_session_windows.code )
-                resize+15
             endfunction
 
             function! s:OnJumpToFrame() abort
