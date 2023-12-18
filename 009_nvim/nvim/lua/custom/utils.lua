@@ -168,7 +168,8 @@ M.filetype_folds = {
   sh = "treesitter",
   yaml = "treesitter",
   javascript = "treesitter",
-  make = "treesitter"
+  make = "treesitter",
+  json = "treesitter",
 }
 
 M.apply_folds = function(buf)
