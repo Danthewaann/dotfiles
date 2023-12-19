@@ -3,7 +3,12 @@ return {
   config = function()
     -- Custom toggleterm strategy to display test command output in a floating window
     local function custom_toggleterm_strategy(cmd)
-      require("toggleterm").exec(cmd, nil, nil, nil, "float")
+      local width = vim.api.nvim_win_get_width(0)
+      if width < 150 then
+        require("toggleterm").exec(cmd, nil, nil, nil, "float")
+      else
+        require("toggleterm").exec(cmd, nil, nil, nil, "vertical")
+      end
     end
 
     vim.g["test#custom_strategies"] = { custom_toggleterm = custom_toggleterm_strategy }
