@@ -79,6 +79,12 @@ autocmd("FileType", {
       ":normal vip<CR><Plug>(DBUI_ExecuteQuery)",
       { buffer = true, desc = "[E]xecute SQL query under cursor" }
     )
+    vim.keymap.set(
+      { "v", "x" },
+      "<leader>e",
+      "<Plug>(DBUI_ExecuteQuery)",
+      { buffer = true, desc = "[E]xecute SQL query under cursor" }
+    )
   end
 })
 autocmd("FileType", {
