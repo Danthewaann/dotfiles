@@ -1,3 +1,6 @@
+-- [[ Setting colourscheme ]]
+require("custom.colourscheme")
+
 -- [[ Setting options ]]
 require("custom.opts")
 
