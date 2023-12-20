@@ -68,6 +68,7 @@ return {
       },
       pickers = {
         builtin = { theme = "dropdown", previewer = false },
+        marks = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
         lsp_definitions = { theme = "ivy", show_line = false },
         lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
