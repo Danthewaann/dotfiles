@@ -39,12 +39,5 @@ return {
       require("ufo").closeAllFolds()
       vim.cmd.normal("zAzz")
     end, { desc = "[C]lose all [F]olds not under cursor" })
-
-    vim.api.nvim_create_autocmd("BufRead", {
-      pattern = "*",
-      callback = function(e)
-        utils.apply_folds(e.buf)
-      end,
-    })
   end,
 }
