@@ -58,6 +58,11 @@ branch_name="$1"; shift
 # Remove the first path segment if branch name contains forward slashes
 trimmed_name=$(echo "$branch_name" | cut -d'/' -f1-)
 
+# If this name starts with `origin/` remove that section
+if [[ "$trimmed_name" == origin/* ]]; then
+    trimmed_name=$(echo "$trimmed_name" | cut -d'/' -f2-)
+fi
+
 # Convert all forward slashes to dashes
 converted_name=${trimmed_name//\//-}
 
