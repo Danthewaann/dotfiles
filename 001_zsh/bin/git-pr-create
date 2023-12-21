@@ -29,8 +29,9 @@ function usage() {
 
 function pr_info() {
     slack_label=""
-    content=$(gh pr view --json url --json labels)
+    content=$(gh pr view --json url --json labels --json title)
     url=$(echo "$content" | jq -r .url)
+    pr_title=$(echo "$content" | jq -r .title)
 
     pr_labels=()
     while IFS=$'\n' read -r label; do pr_labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
