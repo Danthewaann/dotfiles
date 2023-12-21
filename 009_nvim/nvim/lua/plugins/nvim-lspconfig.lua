@@ -160,7 +160,7 @@ return {
     --  define the property 'filetypes' to the map in question.
     local servers = {
       clangd = { settings = {} },
-      gopls = { settings = {} },
+      gopls = { settings = { gopls = { gofumpt = true } } },
       pyright = {
         settings = {
           python = {
