@@ -14,7 +14,7 @@ return {
     vim.keymap.set("n", "<leader>v/", "<Plug>(VM-Start-Regex-Search)", { desc = "[V]isual multi start regex search" })
     vim.keymap.set("n", "<leader>vn", "<Plug>(VM-Find-Under)", { desc = "[V]isual multi find under cursor" })
     vim.keymap.set("n", "<leader>va", "<Plug>(VM-Select-All)", { desc = "[V]isual multi select all under cursor" })
-    vim.keymap.set("n", "<leader>vj", "<Plug>(VM-Add-Cursor-Down)", { desc = "[V]isual multi add cursor down" })
-    vim.keymap.set("n", "<leader>vk", "<Plug>(VM-Add-Cursor-Up)", { desc = "[V]isual multi add cursor up" })
+    vim.keymap.set("n", "<C-w><C-j>", "<Plug>(VM-Add-Cursor-Down)", { desc = "[V]isual multi add cursor down" })
+    vim.keymap.set("n", "<C-w><C-k>", "<Plug>(VM-Add-Cursor-Up)", { desc = "[V]isual multi add cursor up" })
   end
 }
