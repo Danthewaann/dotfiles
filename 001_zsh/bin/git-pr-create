@@ -125,6 +125,11 @@ if [[ ${#invalid_labels[@]} -ne 0 ]]; then
     exit 1
 fi
 
+# If a title isn't provided, use the last commit message
+if [[ -z $pr_title ]]; then
+    pr_title=$(git log -1 --pretty=%B)
+fi
+
 export GIT_PR_CREATE_RAN=1
 
 cur_time=$(date +%s)
