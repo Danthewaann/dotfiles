@@ -14,7 +14,7 @@ return {
       ["<leader>c"] = { name = "[C]ode, [C]ommand, [C]lose", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ocument, [D]iff, [DB]", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ile, [F]ind", _ = "which_key_ignore" },
-      ["<leader>g"] = { name = "[G]it, [G]enerate", _ = "which_key_ignore" },
+      ["<leader>g"] = { name = "[G]it, [G]enerate, [G]lobal", _ = "which_key_ignore" },
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
       ["<leader>gh"] = { name = "[G]it [H]ub", _ = "which_key_ignore" },
       ["<leader>gl"] = { name = "[G]it [L]og", _ = "which_key_ignore" },
@@ -34,7 +34,11 @@ return {
 
     require("which-key").register({
       ["<leader>"] = { name = "VISUAL <leader>" },
+      ["<leader>f"] = { name = "[F]ind" },
+      ["<leader>g"] = { name = "[G]it, [G]lobal" },
+      ["<leader>gs"] = { name = "[G]lobal [S]earch" },
       ["<leader>h"] = { "Git [H]unk" },
+      ["<leader>r"] = { name = "[R]eplace" },
     }, { mode = "v" })
   end
 }
