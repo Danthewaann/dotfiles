@@ -21,7 +21,7 @@ return {
             vim.cmd(":e ~/.vimspector.json")
         end, { desc = "Edit Vimspector config" })
 
-        vim.keymap.set({ "n", "x" }, "<leader>vi", function()
+        vim.keymap.set("n", "<leader>vi", function()
             local file_extension = vim.fn.expand("%:e")
             vim.fn["vimspector#ShowEvalBalloon"](0)
             vim.defer_fn(function()
