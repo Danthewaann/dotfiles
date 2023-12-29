@@ -51,8 +51,17 @@ return {
       }
     })
 
+    local window_config = {
+      border = "rounded",
+      winhighlight = "NormalFloat:CmpNormal"
+    }
+
     ---@diagnostic disable-next-line: missing-fields
     cmp.setup({
+      window = {
+        completion = window_config,
+        documentation = window_config
+      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
