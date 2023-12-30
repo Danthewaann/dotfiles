@@ -1,5 +1,6 @@
 return {
   "vim-test/vim-test",
+  event = "VeryLazy",
   config = function()
     -- Custom toggleterm strategy to display test command output in a floating window
     local function custom_toggleterm_strategy(cmd)
@@ -21,14 +22,17 @@ return {
       python = {
         custom = "make",
         fallback = "pytest",
+        pattern = "test_*.py"
       },
       go = {
         custom = "make",
         fallback = "gotest",
+        pattern = "*_test.go"
       },
       ruby = {
         custom = "make",
         fallback = "rspec",
+        pattern = "*_spec.rb"
       },
     }
     local custom_runners = {}
@@ -44,6 +48,26 @@ return {
         vim.g["test#" .. runner .. "#runner"] = data.fallback
         table.insert(enabled_runners, runner .. "#" .. data.fallback)
       end
+
+      -- From https://github.com/vim-test/vim-test/issues/147#issuecomment-667483332
+      -- Try to infer the test suite, so that :TestSuite works without opening a test file
+      if vim.fn.exists("g:test#last_position") == 1 then
+        goto continue
+      end
+
+      local path = vim.fn.trim(
+        vim.fn.system(
+          "find ./ -iname " ..
+          vim.fn.shellescape(data.pattern) ..
+          " -print -quit 2> /dev/null"
+        )
+      )
+      if path and path ~= "" then
+        -- Set the last test position
+        vim.g["test#last_position"] = { file = path, col = 1, line = 1 }
+      end
+
+      ::continue::
     end
 
     vim.g["test#custom_runners"] = custom_runners
