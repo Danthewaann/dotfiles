@@ -71,7 +71,6 @@ return {
       vim.cmd.normal("zz")
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show floating diagnostic message" })
-    vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, { desc = "Open diagnostics list" })
 
     -- [[ Configure LSP ]]
     -- This function gets run when an LSP connects to a particular buffer.

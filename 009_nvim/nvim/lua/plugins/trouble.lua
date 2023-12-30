@@ -2,7 +2,7 @@ return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
-    vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = "Trouble toggle" })
+    vim.keymap.set("n", "<leader>q", function() require("trouble").toggle() end, { desc = "Trouble toggle" })
     vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
       { desc = "Trouble toggle workspace diagnostics" })
     vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end,
