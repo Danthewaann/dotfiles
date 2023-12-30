@@ -1,5 +1,6 @@
 return {
   "Danthewaann/vim-dadbod-ui",
+  event = "VeryLazy",
   dependencies = { "tpope/vim-dadbod" },
   config = function()
     local utils = require("custom.utils")
