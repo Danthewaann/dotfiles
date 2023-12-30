@@ -1,5 +1,6 @@
 return {
   "stevanmilic/nvim-lspimport",
+  event = "VeryLazy",
   config = function()
     vim.keymap.set(
       "n",
