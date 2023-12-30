@@ -152,7 +152,7 @@
         "request": "launch",
         "protocol": "auto",
         "stopOnEntry": false,
-        "console": "internalConsole",
+        "console": "integratedTerminal",
         "python": "${venv}/bin/python",
         "args": ["*${args}"],
         "cwd": "${cwd}"
