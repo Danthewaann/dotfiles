@@ -1,5 +1,6 @@
 return {
   "RRethy/vim-illuminate",
+  event = "VeryLazy",
   config = function()
     -- vim.cmd [[hi IlluminatedWordText ctermbg=242 guibg=#3b3f4c]]
     -- vim.cmd [[hi IlluminatedWordRead ctermbg=242 guibg=#3b3f4c]]

@@ -1,5 +1,6 @@
 return {
   "junegunn/gv.vim",
+  event = "VeryLazy",
   config = function()
     vim.keymap.set("n", "<leader>gla", ":GV<CR>:set winbar=<CR>", {
       silent = true,

@@ -1,5 +1,6 @@
 return {
     "puremourning/vimspector",
+    event = "VeryLazy",
     init = function()
         -- Must define this before loading vimspector
         vim.g.vimspector_enable_mappings = "HUMAN"

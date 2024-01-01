@@ -1,6 +1,5 @@
 return {
   "milanglacier/yarepl.nvim",
-  event = "VeryLazy",
   config = function()
     -- below is the default configuration, there's no need to copy paste them if
     -- you are satisfied with the default configuration, just calling

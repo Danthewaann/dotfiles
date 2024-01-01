@@ -1,5 +1,6 @@
 return {
   "chrishrb/gx.nvim",
+  event = "VeryLazy",
   config = function()
     local function file_exists(name)
       local f = io.open(name, "r")

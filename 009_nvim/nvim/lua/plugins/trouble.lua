@@ -1,5 +1,6 @@
 return {
   "folke/trouble.nvim",
+  event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     vim.keymap.set("n", "<leader>q", function() require("trouble").toggle() end, { desc = "Trouble toggle" })
