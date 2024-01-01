@@ -24,6 +24,7 @@ return {
       ["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
       ["<leader>i"] = { name = "[I]nsert", _ = "which_key_ignore" },
       ["<leader>j"] = { name = "TS[J]", _ = "which_key_ignore" },
+      ["<leader>m"] = { name = "[M]arkdown", _ = "which_key_ignore" },
       ["<leader>p"] = { name = "[P]roject", _ = "which_key_ignore" },
       ["<leader>r"] = { name = "[R]ename, [R]eplace, [R]esolve, [R]estart, [R]EPLs", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
