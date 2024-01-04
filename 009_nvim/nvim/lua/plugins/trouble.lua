@@ -1,8 +1,9 @@
 return {
   "folke/trouble.nvim",
-  event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
+    vim.keymap.set("n", "]q", function() require("trouble").next({skip_groups = true, jump = true}) end, { desc = "Trouble toggle" })
+    vim.keymap.set("n", "[q", function() require("trouble").previous({skip_groups = true, jump = true}) end, { desc = "Trouble toggle" })
     vim.keymap.set("n", "<leader>q", function() require("trouble").toggle() end, { desc = "Trouble toggle" })
     vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
       { desc = "Trouble toggle workspace diagnostics" })
