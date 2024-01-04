@@ -14,9 +14,9 @@ else
                 while IFS=$'\n' read -r line2; do
                     default_locations+=("$line/$line2")
                 done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec basename {} +;)
+            else
+                default_locations+=("$line")
             fi
-
-            default_locations+=("$line")
         done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -exec basename {} +;)
 
         # From: https://www.baeldung.com/linux/sort-bash-arrays
