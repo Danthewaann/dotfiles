@@ -49,10 +49,10 @@ vim.o.incsearch = true
 vim.o.termguicolors = true
 
 -- Make sure 8 lines are above/below the cursor
-vim.o.scrolloff = 8
+vim.o.scrolloff = 16
 
 -- Make sure 8 columns are left/right of the cursor
-vim.o.sidescrolloff = 8
+vim.o.sidescrolloff = 16
 
 -- Allow for maximum scroll back in the neovim terminal emulator
 vim.o.scrollback = 100000
