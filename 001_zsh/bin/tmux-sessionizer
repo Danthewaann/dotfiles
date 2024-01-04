@@ -2,6 +2,13 @@
 
 if [[ $# -eq 1 ]]; then
     selected=$1
+    # If this parent directory for the selected directory is a bare git repository,
+    # prepend the parent directory to the selected directory.
+    if ls "$selected/../.bare" > /dev/null 2>&1; then
+        selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected" | tr . _)
+    else
+        selected_name=$(basename "$selected" | tr . _)
+    fi
 else
     if [[ -f "$HOME/.projects" ]]; then
         while IFS=$'\n' read -r line; do default_locations+=("$line"); done < "$HOME/.projects"
@@ -48,20 +55,14 @@ else
 
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${selected_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
+    selected_name=$(echo "$selected" | tr . _)
+    if [[ -n $selected ]]; then
+        selected="$HOME/Workspace/$selected"
+    fi
 fi
 
 if [[ -z $selected ]]; then
     exit 0
-fi
-
-selected="$HOME/Workspace/$selected"
-
-# If this parent directory for the selected directory is a bare git repository,
-# prepend the parent directory to the selected directory.
-if ls "$selected/../.bare" > /dev/null 2>&1; then
-    selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected" | tr . _)
-else
-    selected_name=$(basename "$selected" | tr . _)
 fi
 
 tmux_running=$(pgrep tmux)
