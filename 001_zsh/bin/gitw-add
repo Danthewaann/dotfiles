@@ -196,6 +196,7 @@ fi
 
 >&2 echo
 success "Successfully created worktree!"
+clear-projects
 
 >&2 echo
 info "Switching to worktree..."

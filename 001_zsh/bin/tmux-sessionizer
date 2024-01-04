@@ -3,23 +3,35 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    default_locations=("$HOME/Workspace")
+    if [[ -f "$HOME/.projects" ]]; then
+        while IFS=$'\n' read -r line; do default_locations+=("$line"); done < "$HOME/.projects"
+    else
+        default_locations=("Workspace")
 
-    while IFS=$'\n' read -r line; do
-        # If this directory is a bare git repository, get a list of all immediate sub-directories.
-        if ls "$line"/.bare > /dev/null 2>&1; then
-            while IFS=$'\n' read -r line2; do default_locations+=("$line2"); done < <(find "$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*')
-        fi
+        while IFS=$'\n' read -r line; do
+            # If this directory is a bare git repository, get a list of all immediate sub-directories.
+            if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
+                while IFS=$'\n' read -r line2; do
+                    default_locations+=("$line/$line2")
+                done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec basename {} +;)
+            fi
 
-        default_locations+=("$line")
-    done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d)
-    # shellcheck disable=SC2086
+            default_locations+=("$line")
+        done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -exec basename {} +;)
+
+        # From: https://www.baeldung.com/linux/sort-bash-arrays
+        readarray -td '' default_locations < <(printf '%s\0' "${default_locations[@]}" | sort -z)
+        # shellcheck disable=SC2086
+        printf "%s\n" "${default_locations[@]}" > "$HOME/.projects"
+    fi
     selected=$(printf "%s\n" "${default_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
 fi
 
 if [[ -z $selected ]]; then
     exit 0
 fi
+
+selected="$HOME/Workspace/$selected"
 
 # If this parent directory for the selected directory is a bare git repository,
 # prepend the parent directory to the selected directory.
