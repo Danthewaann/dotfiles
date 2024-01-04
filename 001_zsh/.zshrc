@@ -188,9 +188,6 @@ function b64decode () {
 function uuid4 () {
     python -c "import uuid; print(str(uuid.uuid4()))"
 }
-function clear-projects () {
-    rm -f "$HOME/.projects"
-}
 
 # Custom prompt based on the amuse theme
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
