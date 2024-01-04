@@ -24,7 +24,30 @@ else
         # shellcheck disable=SC2086
         printf "%s\n" "${default_locations[@]}" > "$HOME/.projects"
     fi
-    selected=$(printf "%s\n" "${default_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
+
+    current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
+
+    # Load all active sessions and sort them in most recently used order
+    while IFS=$'\n' read -r session; do
+        sessions+=("$session")
+    done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -v " $current_session" | sort --numeric-sort --reverse | cut -d' ' -f2-)
+
+    selected_locations=()
+    for session in "${sessions[@]}"; do
+        selected_locations+=("$session")
+    done
+    for location in "${default_locations[@]}"; do
+        # If a location appears in the active sessions, we skip it
+        # shellcheck disable=SC2076
+        if [[ " ${sessions[*]} " =~ " $location " ]]; then
+            continue
+        fi
+
+        selected_locations+=("$location")
+    done
+
+    # shellcheck disable=SC2086
+    selected=$(printf "%s\n" "${selected_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
 fi
 
 if [[ -z $selected ]]; then
