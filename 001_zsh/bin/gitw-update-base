@@ -14,8 +14,8 @@ function update_base() {
 
     >&2 echo
     info "Updating with remote..."
-    if ! output=$(git pull 2>&1); then
-        error "$output"
+    if ! output=$(git -c color.ui=always pull 2>&1); then
+        >&2 echo "$output"
         exit 1
     else
         if [[ -n "$output" ]]; then

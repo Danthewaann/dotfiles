@@ -82,8 +82,8 @@ if [[ -d $converted_name ]]; then
 fi
 
 info "Running git fetch..."
-if ! output=$(git fetch 2>&1); then
-    error "$output"
+if ! output=$(git -c color.ui=always fetch 2>&1); then
+    >&2 echo "$output"
     exit 1
 else
     if [[ -n "$output" ]]; then
@@ -155,8 +155,8 @@ elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
 
     >&2 echo
     info "Running git pull..."
-    if ! output=$(git pull 2>&1); then
-        error "$output"
+    if ! output=$(git -c color.ui=always pull 2>&1); then
+        >&2 echo "$output"
         exit 1
     else
         if [[ -n "$output" ]]; then
