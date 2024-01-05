@@ -25,7 +25,7 @@ return {
     }
 
     -- This is a table of error codes I ignore as I let pyright handle them instead
-    local error_codes = { "assignment", "name-defined" }
+    local error_codes = { "assignment", "name-defined", "call-arg" }
     for _, code in ipairs(error_codes) do
       table.insert(mypy_linter.args, "--disable-error-code")
       table.insert(mypy_linter.args, code)
