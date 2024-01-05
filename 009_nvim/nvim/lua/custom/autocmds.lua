@@ -50,8 +50,6 @@ autocmd("TermOpen", {
       else
         vim.cmd(":e " .. t[1])
       end
-
-      utils.unfold()
     end, { buffer = 0, silent = true })
   end,
 })
@@ -151,23 +149,6 @@ autocmd("TextYankPost", {
   pattern = "*",
   callback = function()
     vim.highlight.on_yank({ higroup = "Visual" })
-  end,
-})
-
--- Unfold fold at cursor when leaving the TelescopePrompt
--- From:
--- * https://www.reddit.com/r/neovim/comments/twug6q/how_to_open_auto_open_fold_in_telescope_after_cr/
--- * https://www.reddit.com/r/neovim/comments/14v9xcw/zv_after_using_telescope/
--- * https://github.com/nvim-telescope/telescope.nvim/issues/2115
-augroup("unfold_on_jump", { clear = true })
-autocmd("BufLeave", {
-  group = "unfold_on_jump",
-  pattern = "*",
-  callback = function()
-    local ft = vim.api.nvim_get_option_value("filetype", {})
-    if ft == "TelescopePrompt" then
-      utils.unfold_check()
-    end
   end,
 })
 

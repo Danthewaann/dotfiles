@@ -20,22 +20,6 @@ M.get_highlight = function(name)
   return vim.api.nvim_get_hl(0, { name = name })
 end
 
-M.unfold = function()
-  vim.defer_fn(function()
-    pcall(vim.cmd, "normal! zvzCzOzz")
-  end, 100)
-end
-
-M.unfold_check = function()
-  vim.defer_fn(function()
-    local line_data = vim.api.nvim_win_get_cursor(0)    -- returns {row, col}
-    local fold_closed = vim.fn.foldclosed(line_data[1]) -- -1 if no fold at line
-    if fold_closed ~= -1 then                           -- fold exists (not -1)
-      pcall(vim.cmd, "normal! zvzCzOzz")
-    end
-  end, 100)
-end
-
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_poetry_venv_executable_path = function(exe, check_poetry, workspace)
   check_poetry = check_poetry or false

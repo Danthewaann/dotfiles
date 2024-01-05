@@ -112,10 +112,6 @@ return {
                 lua vim.treesitter.stop()
             endfunction
 
-            function! s:OnJumpToFrame() abort
-                lua require("custom.utils").unfold()
-            endfunction
-
             sign define vimspectorBP            text=● texthl=Special
             sign define vimspectorBPCond        text=◆ texthl=Special
             sign define vimspectorBPLog         text=◆ texthl=Special
@@ -129,7 +125,6 @@ return {
             augroup MyVimspectorCustomisation
                 autocmd!
                 autocmd User VimspectorUICreated call s:CustomiseUI()
-                autocmd User VimspectorJumpedToFrame call s:OnJumpToFrame()
             augroup END
 
             " Allow for command history in VimspectorPrompt

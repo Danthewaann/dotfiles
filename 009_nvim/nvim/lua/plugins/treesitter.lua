@@ -6,8 +6,6 @@ return {
   },
   build = ":TSUpdate",
   config = function()
-    local utils = require("custom.utils")
-
     ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
       -- Add languages to be installed here that you want installed for treesitter
@@ -118,14 +116,5 @@ return {
         },
       },
     })
-
-    if utils.apply_folds(vim.api.nvim_get_current_buf()) then
-      -- Refresh the buffer after applying folds to get treesitter to
-      -- refresh highlights
-      vim.cmd(":e")
-      vim.defer_fn(function()
-        vim.cmd("silent! loadview")
-      end, 0)
-    end
   end
 }
