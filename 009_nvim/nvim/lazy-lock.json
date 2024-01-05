@@ -72,6 +72,5 @@
   "vim-test": { "branch": "master", "commit": "21e1ce0d3a2dd5bedcd6d35fe9abd9f80fddc6d2" },
   "vim-visual-multi": { "branch": "master", "commit": "aec289a9fdabaa0ee6087d044d75b32e12084344" },
   "vimspector": { "branch": "master", "commit": "4b07a565efd199777f5a327f6039b8dfdcff35d3" },
-  "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
-  "yarepl.nvim": { "branch": "main", "commit": "c0ec78ef10ba01ab841b3e870421c33b1bbd6292" }
+  "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" }
 }
