@@ -1,15 +1,12 @@
 return {
   "kevinhwang91/nvim-ufo",
   dependencies = "kevinhwang91/promise-async",
-  commit = "67b456063966135a05b3a0e1c914b11bc3f03462",
   config = function()
     -- Map of filetypes to foldmethod
     local filetype_folds = { go = "lsp" }
 
     require("ufo").setup({
-      enable_get_fold_virt_text = false,
       open_fold_hl_timeout = 150,
-      close_fold_kinds = { "imports", "comment" },
       preview = {
         win_config = {
           border = { "", "─", "", "", "", "─", "", "" },
