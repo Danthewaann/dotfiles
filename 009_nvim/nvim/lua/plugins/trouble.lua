@@ -13,7 +13,7 @@ return {
     end, { desc = "Trouble toggle" })
     vim.keymap.set("n", "<leader>q", function()
       require("trouble").toggle()
-    end, { desc = "Trouble toggle" })
+    end, { desc = "Toggle workspace diagnostics" })
     vim.keymap.set("n", "<leader>xw", function()
       require("trouble").toggle("workspace_diagnostics")
     end, { desc = "Trouble toggle workspace diagnostics" })
