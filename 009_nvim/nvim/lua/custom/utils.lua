@@ -143,18 +143,7 @@ M.term_is_running = function(buffer)
 end
 
 -- Map of filetypes to foldmethod
-M.filetype_folds = {
-  python = "treesitter",
-  go = "treesitter",
-  lua = "treesitter",
-  ruby = "indent",
-  markdown = "treesitter",
-  sh = "treesitter",
-  yaml = "treesitter",
-  javascript = "treesitter",
-  make = "treesitter",
-  json = "treesitter",
-}
+M.filetype_folds = { go = "lsp" }
 
 M.apply_folds = function(buf)
   local filetype = vim.fn.getbufvar(buf, "&filetype")

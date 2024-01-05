@@ -21,14 +21,8 @@ return {
         },
       },
       provider_selector = function(bufnr, filetype, buftype)
-        -- if you prefer treesitter provider rather than lsp
-        -- refer to ./doc/example.lua for detail
-        if utils.filetype_folds[filetype] then
-          return { "treesitter", "indent" }
-        end
-
-        return ""
-      end,
+        return utils.filetype_folds[filetype] or { "treesitter", "indent" }
+      end
     })
 
     vim.keymap.set("n", "zR", require("ufo").openAllFolds)
