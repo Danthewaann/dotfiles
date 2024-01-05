@@ -147,6 +147,7 @@ autocmd("FileType", {
   pattern = "fugitive",
   callback = function()
     vim.keymap.set("n", "<Tab>", ":normal =<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "gl", "<cmd>G l<CR>", { desc = "Show git log", buffer = true })
     vim.cmd("setlocal nowrap nonumber norelativenumber")
   end,
 })
