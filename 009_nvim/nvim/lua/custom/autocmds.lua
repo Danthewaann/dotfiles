@@ -114,18 +114,6 @@ autocmd("FileType", {
   command = "setlocal tw=90 fo=cqt wm=0",
 })
 
--- Go into insert mode when entering a terminal if it is running
-augroup("terminal_mode", { clear = true })
-autocmd("WinEnter", {
-  group = "terminal_mode",
-  pattern = "term://*",
-  callback = function()
-    if utils.term_is_running(vim.fn.expand("%")) then
-      vim.cmd("startinsert")
-    end
-  end
-})
-
 -- Start in insert mode in gitcommit files
 augroup("git_commit", { clear = true })
 autocmd("FileType", {

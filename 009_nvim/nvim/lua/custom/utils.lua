@@ -97,22 +97,6 @@ M.replace_ticket_number = function()
   end
 end
 
--- Check if the provided terminal is running.
--- From: https://stackoverflow.com/a/59585734
-M.term_is_running = function(buffer)
-  local buf_type = vim.fn.getbufvar(buffer, "&buftype")
-  if buf_type ~= "terminal" then
-    return false
-  end
-
-  local job_status = vim.fn.jobwait({ vim.fn.getbufvar(buffer, "&channel") }, 0)
-  if job_status[1] == -1 then
-    return true
-  end
-
-  return false
-end
-
 -- Map of filetypes to foldmethod
 M.filetype_folds = { go = "lsp" }
 
