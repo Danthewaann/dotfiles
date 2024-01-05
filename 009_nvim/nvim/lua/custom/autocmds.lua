@@ -7,7 +7,7 @@ augroup("terminal_settings", { clear = true })
 autocmd("TermOpen", {
   group = "terminal_settings",
   pattern = "",
-  command = "setlocal nowrap nonumber norelativenumber signcolumn=no",
+  command = "setlocal signcolumn=no",
 })
 -- For a running terminal emulator that contains file paths that I would like to
 -- jump to in another buffer within the same window
@@ -52,11 +52,6 @@ autocmd("TermOpen", {
       end
     end, { buffer = 0, silent = true })
   end,
-})
-autocmd("TermClose", {
-  group = "terminal_settings",
-  pattern = "",
-  command = 'call feedkeys("\\<C-\\>\\<C-n>")',
 })
 
 -- Disable highlighting for sql files.
