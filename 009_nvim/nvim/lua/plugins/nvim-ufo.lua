@@ -3,7 +3,8 @@ return {
   dependencies = "kevinhwang91/promise-async",
   commit = "67b456063966135a05b3a0e1c914b11bc3f03462",
   config = function()
-    local utils = require("custom.utils")
+    -- Map of filetypes to foldmethod
+    local filetype_folds = { go = "lsp" }
 
     require("ufo").setup({
       enable_get_fold_virt_text = false,
@@ -21,7 +22,7 @@ return {
         },
       },
       provider_selector = function(bufnr, filetype, buftype)
-        return utils.filetype_folds[filetype] or { "treesitter", "indent" }
+        return filetype_folds[filetype] or { "treesitter", "indent" }
       end
     })
 

@@ -16,10 +16,6 @@ M.get_visual_selection = function()
   end
 end
 
-M.get_highlight = function(name)
-  return vim.api.nvim_get_hl(0, { name = name })
-end
-
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_poetry_venv_executable_path = function(exe, check_poetry, workspace)
   check_poetry = check_poetry or false
@@ -96,9 +92,6 @@ M.replace_ticket_number = function()
     vim.api.nvim_echo({ { "TICKET_NUMBER pattern not found in file!", "ErrorMsg" } }, true, {})
   end
 end
-
--- Map of filetypes to foldmethod
-M.filetype_folds = { go = "lsp" }
 
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
