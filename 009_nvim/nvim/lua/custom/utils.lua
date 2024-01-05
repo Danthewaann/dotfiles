@@ -58,35 +58,6 @@ M.file_exists = function(filename)
   return vim.loop.fs_stat(filename)
 end
 
--- Print contents of `tbl`, with indentation.
--- `indent` sets the initial level of indentation.
--- From: https://gist.github.com/hashmal/874792
-M.table_print = function(tbl, indent)
-  if not indent then
-    indent = 0
-  end
-  for k, v in pairs(tbl) do
-    local formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
-      print(formatting)
-      M.table_print(v, indent + 1)
-    else
-      print(formatting .. tostring(v))
-    end
-  end
-end
-
-M.merge_tables = function(table_1, table_2)
-  for k, v in pairs(table_2) do table_1[k] = v end
-  return table_1
-end
-
-M.run_cmd_in_term = function(position, cmd)
-  vim.cmd(":" .. position .. " new")
-  vim.fn.termopen(cmd)
-  vim.cmd("keepalt")
-end
-
 M.get_project_linting_cmd = function()
   local cmd = {}
   local file = ""
@@ -144,50 +115,6 @@ end
 
 -- Map of filetypes to foldmethod
 M.filetype_folds = { go = "lsp" }
-
-M.apply_folds = function(buf)
-  local filetype = vim.fn.getbufvar(buf, "&filetype")
-  if M.filetype_folds[filetype] then
-    -- Don't fold git-pr files
-    local filename = vim.api.nvim_buf_get_name(buf)
-    ---@diagnostic disable-next-line: cast-local-type
-    filename = vim.fn.fnamemodify(filename, ":t")
-    if filename and string.match(filename, ".*git%-pr.*") then
-      return false
-    end
-
-    M.apply_folds_and_then_close_all_folds(buf, M.filetype_folds[filetype])
-    return true
-  end
-  return false
-end
-
--- Automatically close all folds when opening a file
--- From: https://github.com/kevinhwang91/nvim-ufo/issues/89#issuecomment-1286250241
--- And: https://github.com/kevinhwang91/nvim-ufo/issues/83#issuecomment-1259233578
-M.apply_folds_and_then_close_all_folds = function(bufnr, providerName)
-  require("async")(function()
-    bufnr = bufnr or vim.api.nvim_get_current_buf()
-    -- make sure buffer is attached
-    require("ufo").attach(bufnr)
-
-    local apply_and_close = function(provider)
-      local ok, ranges = pcall(await, require("ufo").getFolds(bufnr, provider))
-      if ok and ranges then
-        ok = require("ufo").applyFolds(bufnr, ranges)
-        if ok then
-          require("ufo").closeAllFolds()
-        end
-      end
-      return ok
-    end
-
-    if not apply_and_close(providerName) then
-      -- fallback to indent folding
-      apply_and_close("indent")
-    end
-  end)
-end
 
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
