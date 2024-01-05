@@ -1,11 +1,13 @@
 return {
-  "tpope/vim-repeat",
+  -- Git management
   "tpope/vim-fugitive",
+  -- To support getting GitHub links
   "tpope/vim-rhubarb",
+  -- Add readline binds in insert mode
   "tpope/vim-rsi",
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
-  "michaeljsmith/vim-indent-object",
+  -- Auto read buffers that have changes outside neovim
   "djoshea/vim-autoread",
   -- "gc" to comment visual regions/lines
   { "numToStr/Comment.nvim", opts = {} },
