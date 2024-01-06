@@ -23,6 +23,17 @@ pr_title=
 pr_is_draft=0
 labels=()
 
+
+if [[ $OSTYPE == "darwin"* ]]; then
+    MD5="md5"
+    PBCOPY="pbcopy"
+    SED="gsed"
+else
+    MD5="md5sum"
+    PBCOPY="xclip"
+    SED="sed"
+fi
+
 function usage() {
     gh pr create --help
 }
@@ -57,7 +68,7 @@ function pr_info() {
 
     >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
     echo "$output"
-    echo "$output" | pbcopy
+    echo "$output" | $PBCOPY
 }
 
 while [[ $# -gt 0 ]]; do
@@ -156,20 +167,20 @@ done
 echo -e "--- END\n" >> "$old_pr_file_name"
 echo -e "--- END\n" >> "$new_pr_file_name"
 
+echo -e "--- BODY\n" >> "$old_pr_file_name"
+echo -e "--- BODY\n" >> "$new_pr_file_name"
 if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
-    echo -e "--- BODY\n" >> "$old_pr_file_name"
-    echo -e "--- BODY\n" >> "$new_pr_file_name"
     cat .github/PULL_REQUEST_TEMPLATE.md >> "$old_pr_file_name"
     cat .github/PULL_REQUEST_TEMPLATE.md >> "$new_pr_file_name"
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
 fi
+echo -e "--- END\n" >> "$old_pr_file_name"
+echo -e "--- END\n" >> "$new_pr_file_name"
 
-old_file_md5=$(md5 -q "$old_pr_file_name")
+old_file_md5=$($MD5 "$old_pr_file_name" | cut -d' ' -f1)
 
 $EDITOR "$new_pr_file_name"
 
-new_file_md5=$(md5 -q "$new_pr_file_name")
+new_file_md5=$($MD5 "$new_pr_file_name" | cut -d' ' -f1)
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
     >&2 echo -e "\nNo PR created!"
@@ -180,12 +191,12 @@ fi
 
 # Use sed address ranges to extract each section
 # From: https://www.baeldung.com/linux/print-lines-between-two-patterns
-title=$(gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
+title=$($SED -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
 
 labels=()
-while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <(gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <($SED -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
 
-body=$(gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
+body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
 gh pr create \
     --head "$(git branch --show-current)" \

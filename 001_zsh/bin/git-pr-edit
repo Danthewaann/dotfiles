@@ -8,6 +8,14 @@ source "$CUR_DIR/_git-common"
 
 args=()
 
+if [[ $OSTYPE == "darwin"* ]]; then
+    MD5="md5"
+    SED="gsed"
+else
+    MD5="md5sum"
+    SED="sed"
+fi
+
 function usage() {
     gh pr edit --help
 }
@@ -66,11 +74,11 @@ echo "$body" >> "$new_pr_file_name"
 echo -e "--- END\n" >> "$old_pr_file_name"
 echo -e "--- END\n" >> "$new_pr_file_name"
 
-old_file_md5=$(md5 -q "$old_pr_file_name")
+old_file_md5=$($MD5 "$old_pr_file_name" | cut -d' ' -f1)
 
 $EDITOR "$new_pr_file_name"
 
-new_file_md5=$(md5 -q "$new_pr_file_name")
+new_file_md5=$($MD5 "$new_pr_file_name" | cut -d' ' -f1)
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
     >&2 echo -e "\nNo PR created!"
@@ -81,10 +89,10 @@ fi
 
 # Use sed address ranges to extract each section
 # From: https://www.baeldung.com/linux/print-lines-between-two-patterns
-new_title=$(gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
+new_title=$($SED -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
 
 new_labels=()
-while IFS=$'\n' read -r label; do new_labels+=("--add-label" "$label"); done < <(gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+while IFS=$'\n' read -r label; do new_labels+=("--add-label" "$label"); done < <($SED -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
 
 # Delete labels that are not in the original labels for the PR
 for label in "${labels[@]}"; do
@@ -93,7 +101,7 @@ for label in "${labels[@]}"; do
     fi
 done
 
-new_body=$(gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
+new_body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
 gh pr edit \
     --title "$new_title" \
