@@ -20,11 +20,11 @@ else
             if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
                 while IFS=$'\n' read -r line2; do
                     default_locations+=("$line/$line2")
-                done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec basename {} +;)
+                done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
             else
                 default_locations+=("$line")
             fi
-        done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -exec basename {} +;)
+        done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 
         # From: https://www.baeldung.com/linux/sort-bash-arrays
         readarray -td '' default_locations < <(printf '%s\0' "${default_locations[@]}" | sort -z)
