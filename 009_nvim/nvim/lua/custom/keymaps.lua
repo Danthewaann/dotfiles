@@ -16,8 +16,8 @@ vim.keymap.set(
 )
 
 -- Move the current selection up or down a line
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection up a line" })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection down a line" })
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection up a line", silent = true })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection down a line", silent = true })
 
 -- Re-select visual selection when indenting it
 vim.keymap.set("v", ">", ">gv", { desc = "Increase indent" })
