@@ -35,6 +35,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing asciinema" \
         "brew install asciinema"
+
+    run_command "installing findutils" \
+        "brew install findutils"
 fi
 
 if ! inside_wsl; then
