@@ -23,13 +23,10 @@ pr_title=
 pr_is_draft=0
 labels=()
 
-
 if [[ $OSTYPE == "darwin"* ]]; then
-    MD5="md5"
     PBCOPY="pbcopy"
     SED="gsed"
 else
-    MD5="md5sum"
     PBCOPY="xclip"
     SED="sed"
 fi
@@ -176,11 +173,19 @@ fi
 echo -e "--- END\n" >> "$old_pr_file_name"
 echo -e "--- END\n" >> "$new_pr_file_name"
 
-old_file_md5=$($MD5 "$old_pr_file_name" | cut -d' ' -f1)
+if [[ $OSTYPE == "darwin"* ]]; then
+    old_file_md5=$(md5 -q "$old_pr_file_name")
+else
+    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
+fi
 
 $EDITOR "$new_pr_file_name"
 
-new_file_md5=$($MD5 "$new_pr_file_name" | cut -d' ' -f1)
+if [[ $OSTYPE == "darwin"* ]]; then
+    new_file_md5=$(md5 -q "$new_pr_file_name")
+else
+    new_file_md5=$(md5sum "$new_pr_file_name" | cut -d' ' -f1)
+fi
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
     >&2 echo -e "\nNo PR created!"
