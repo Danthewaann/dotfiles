@@ -163,15 +163,31 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>cr", function()
+  local commands = {}
+  local cmd = utils.get_project_linting_cmd()
+  if cmd ~= nil then
+    table.insert(commands, 1, "lint")
+  end
+
+  local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
+  if has_makefile then
+    table.insert(commands, "make lint")
+    table.insert(commands, "make test")
+    table.insert(commands, "make shell")
+  end
+
+  if #commands == 0 then
+    vim.api.nvim_echo({ { "No commands supported", "ErrorMsg" } }, true, {})
+    return
+  end
+
   vim.ui.select(
-    { "lint", "make lint", "make test", "make shell" },
+    commands,
     { prompt = "Select command to run" },
     function(choice)
       if choice == "lint" then
-        local cmd = utils.get_project_linting_cmd()
-        if cmd ~= nil then
-          require("toggleterm").exec_command("cmd='" .. table.concat(cmd, " ") .. "'")
-        end
+        ---@diagnostic disable-next-line: param-type-mismatch
+        require("toggleterm").exec_command("cmd='" .. table.concat(cmd, " ") .. "'")
       elseif choice == "make lint" then
         require("toggleterm").exec_command("cmd='make lint'")
       elseif choice == "make test" then
@@ -179,5 +195,6 @@ vim.keymap.set("n", "<leader>cr", function()
       elseif choice == "make shell" then
         require("toggleterm").exec_command("cmd='make shell'")
       end
-    end)
+    end
+  )
 end, { desc = "[C]ommand [R]un" })

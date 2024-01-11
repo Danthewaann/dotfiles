@@ -61,14 +61,12 @@ M.get_project_linting_cmd = function()
   if M.file_exists("poetry.lock") then
     cmd = { "poetry", "run" }
   else
-    vim.api.nvim_echo({ { "Not supported", "ErrorMsg" } }, true, {})
     return nil
   end
 
   if M.file_exists("scripts/lint.sh") then
     file = "scripts/lint.sh"
   else
-    vim.api.nvim_echo({ { "Not supported", "ErrorMsg" } }, true, {})
     return nil
   end
 
