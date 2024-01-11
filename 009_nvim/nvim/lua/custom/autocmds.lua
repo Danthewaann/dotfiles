@@ -7,7 +7,7 @@ augroup("terminal_settings", { clear = true })
 autocmd("TermOpen", {
   group = "terminal_settings",
   pattern = "",
-  command = "setlocal signcolumn=no",
+  command = "setlocal signcolumn=no nonumber",
 })
 -- For a running terminal emulator that contains file paths that I would like to
 -- jump to in another buffer within the same window
