@@ -89,7 +89,7 @@ while [[ $# -gt 0 ]]; do
     -d|--draft)
         pr_is_draft=1
         args+=("$1")
-        shift 
+        shift
         ;;
     *)
         args+=("$1")
@@ -106,80 +106,102 @@ if pr_title=$(gh pr list | grep "$(git branch --show-current)" | cut -f2); then
     exit 1
 fi
 
-# Get list of labels that are available in the current repository
-repo_labels=()
-while IFS=$'\n' read -r label; do repo_labels+=("$label"); done < <(gh label list --json name --jq '.[].name' --limit 100)
+# If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
+existing_old_pr_files=()
+while IFS=$'\n' read -r file; do existing_old_pr_files+=("$file"); done < <(find ./git-pr-create*old* | sort --reverse)
 
-# Make sure that all of the provided labels are in `repo_labels`
-invalid_labels=()
-for label in "${labels[@]}"; do
-    # shellcheck disable=SC2076
-    if [[ ! " ${repo_labels[*]} " =~ " ${label} " ]]; then
-        invalid_labels+=("$label")
+existing_new_pr_files=()
+while IFS=$'\n' read -r file; do existing_new_pr_files+=("$file"); done < <(find ./git-pr-create*new* | sort --reverse)
+
+if [[ "${#existing_new_pr_files[@]}" -gt 0 ]]; then
+    old_pr_file_name="${existing_old_pr_files[0]}"
+    new_pr_file_name="${existing_new_pr_files[0]}"
+    info "Using existing PR file: $new_pr_file_name"
+    sleep 1
+
+    if [[ $OSTYPE == "darwin"* ]]; then
+        old_file_md5=$(md5 -q "$old_pr_file_name")
+    else
+        old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
     fi
-done
 
-# If we have an invalid labels we print an error and exit
-if [[ ${#invalid_labels[@]} -ne 0 ]]; then
-    >&2 echo
-    error "The following labels were not found in git repository"
-    >&2 echo
-    >&2 printf "invalid labels -> (%s)\n" "${invalid_labels[*]}"
-    >&2 echo
-
-    >&2 echo "Here are the top 100 valid labels for this git repository:"
-    >&2 echo
-    gh label list --json name --jq '.[].name' --limit 100
-    exit 1
-fi
-
-# If a title isn't provided, use the last commit message
-if [[ -z $pr_title ]]; then
-    pr_title=$(git log -1 --pretty=%B)
-fi
-
-export GIT_PR_CREATE_RAN=1
-
-cur_time=$(date +%s)
-old_pr_file_name=git-pr-create."$cur_time".old.md
-new_pr_file_name=git-pr-create."$cur_time".new.md
-
-echo -e "--- TITLE\n$pr_title\n--- END\n" > "$old_pr_file_name"
-echo -e "--- TITLE\n$pr_title\n--- END\n" > "$new_pr_file_name"
-echo -e "--- EXISTING LABELS" >> "$old_pr_file_name"
-echo -e "--- EXISTING LABELS" >> "$new_pr_file_name"
-for label in "${repo_labels[@]}"; do
-    echo "$label" >> "$old_pr_file_name"
-    echo "$label" >> "$new_pr_file_name"
-done
-echo -e "--- END\n" >> "$old_pr_file_name"
-echo -e "--- END\n" >> "$new_pr_file_name"
-
-echo -e "--- LABELS" >> "$old_pr_file_name"
-echo -e "--- LABELS" >> "$new_pr_file_name"
-for label in "${labels[@]}"; do
-    echo "$label" >> "$old_pr_file_name"
-    echo "$label" >> "$new_pr_file_name"
-done
-echo -e "--- END\n" >> "$old_pr_file_name"
-echo -e "--- END\n" >> "$new_pr_file_name"
-
-echo -e "--- BODY\n" >> "$old_pr_file_name"
-echo -e "--- BODY\n" >> "$new_pr_file_name"
-if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
-    cat .github/PULL_REQUEST_TEMPLATE.md >> "$old_pr_file_name"
-    cat .github/PULL_REQUEST_TEMPLATE.md >> "$new_pr_file_name"
-fi
-echo -e "--- END\n" >> "$old_pr_file_name"
-echo -e "--- END\n" >> "$new_pr_file_name"
-
-if [[ $OSTYPE == "darwin"* ]]; then
-    old_file_md5=$(md5 -q "$old_pr_file_name")
+    $EDITOR "$new_pr_file_name"
 else
-    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
-fi
+    # Get list of labels that are available in the current repository
+    repo_labels=()
+    while IFS=$'\n' read -r label; do repo_labels+=("$label"); done < <(gh label list --json name --jq '.[].name' --limit 100)
 
-$EDITOR "$new_pr_file_name"
+    # Make sure that all of the provided labels are in `repo_labels`
+    invalid_labels=()
+    for label in "${labels[@]}"; do
+        # shellcheck disable=SC2076
+        if [[ ! " ${repo_labels[*]} " =~ " ${label} " ]]; then
+            invalid_labels+=("$label")
+        fi
+    done
+
+    # If we have an invalid labels we print an error and exit
+    if [[ ${#invalid_labels[@]} -ne 0 ]]; then
+        >&2 echo
+        error "The following labels were not found in git repository"
+        >&2 echo
+        >&2 printf "invalid labels -> (%s)\n" "${invalid_labels[*]}"
+        >&2 echo
+
+        >&2 echo "Here are the top 100 valid labels for this git repository:"
+        >&2 echo
+        gh label list --json name --jq '.[].name' --limit 100
+        exit 1
+    fi
+
+    # If a title isn't provided, use the last commit message
+    if [[ -z $pr_title ]]; then
+        pr_title=$(git log -1 --pretty=%B)
+    fi
+
+    export GIT_PR_CREATE_RAN=1
+
+    cur_time=$(date +%s)
+    old_pr_file_name=git-pr-create."$cur_time".old.md
+    new_pr_file_name=git-pr-create."$cur_time".new.md
+
+    echo -e "--- TITLE\n$pr_title\n--- END\n" > "$old_pr_file_name"
+    echo -e "--- TITLE\n$pr_title\n--- END\n" > "$new_pr_file_name"
+    echo -e "--- EXISTING LABELS" >> "$old_pr_file_name"
+    echo -e "--- EXISTING LABELS" >> "$new_pr_file_name"
+    for label in "${repo_labels[@]}"; do
+        echo "$label" >> "$old_pr_file_name"
+        echo "$label" >> "$new_pr_file_name"
+    done
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
+    echo -e "--- LABELS" >> "$old_pr_file_name"
+    echo -e "--- LABELS" >> "$new_pr_file_name"
+    for label in "${labels[@]}"; do
+        echo "$label" >> "$old_pr_file_name"
+        echo "$label" >> "$new_pr_file_name"
+    done
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
+    echo -e "--- BODY\n" >> "$old_pr_file_name"
+    echo -e "--- BODY\n" >> "$new_pr_file_name"
+    if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
+        cat .github/PULL_REQUEST_TEMPLATE.md >> "$old_pr_file_name"
+        cat .github/PULL_REQUEST_TEMPLATE.md >> "$new_pr_file_name"
+    fi
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
+    if [[ $OSTYPE == "darwin"* ]]; then
+        old_file_md5=$(md5 -q "$old_pr_file_name")
+    else
+        old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
+    fi
+
+    $EDITOR "$new_pr_file_name"
+fi
 
 if [[ $OSTYPE == "darwin"* ]]; then
     new_file_md5=$(md5 -q "$new_pr_file_name")
@@ -203,13 +225,18 @@ while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <($SED -n
 
 body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
-gh pr create \
+if ! output=$(gh pr create \
     --head "$(git branch --show-current)" \
     --assignee "@me" \
     --title "$title" \
     --body "$body" \
     "${labels[@]}" \
-    "${args[@]}" || exit $?
+    "${args[@]}" 2>&1); then
+    >&2 echo
+    error "$output\n"
+    warn "PR file written to $new_pr_file_name"
+    exit 1
+fi
 
 pr_info
 
