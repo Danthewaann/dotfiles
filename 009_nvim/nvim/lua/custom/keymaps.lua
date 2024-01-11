@@ -36,7 +36,7 @@ vim.keymap.set("n", "gp", "`[v`]", { desc = "Re-select last pasted text" })
 vim.keymap.set("n", "H", "0", { desc = "Jump to start of line" })
 vim.keymap.set("n", "L", "$", { desc = "Jump to end of line" })
 vim.keymap.set({ "v", "x", "o" }, "H", "_", { desc = "Jump to first non-blank character in line" })
-vim.keymap.set({ "v", "x", "o" }, "L", "g_", { desc = "Jump to list non-blank character in line" })
+vim.keymap.set({ "v", "x", "o" }, "L", "g_", { desc = "Jump to last non-blank character in line" })
 
 -- Prevent the cursor from jumping to the start of a selection after yanking it
 vim.keymap.set("v", "y", "ygv<Esc>")
