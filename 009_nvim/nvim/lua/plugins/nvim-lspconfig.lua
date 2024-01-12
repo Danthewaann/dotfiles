@@ -16,26 +16,7 @@ return {
     "ray-x/lsp_signature.nvim",
 
     -- Useful status updates for LSP
-    {
-      "j-hui/fidget.nvim",
-      opts = {
-        progress = {
-          display = {
-            format_message = function(msg)
-              local title = msg.title or ""
-              if string.find(title, "Finding references") then
-                return nil -- Ignore "Finding references" progress messages
-              end
-              if msg.message then
-                return msg.message
-              else
-                return msg.done and "Completed" or "In progress..."
-              end
-            end
-          }
-        },
-      },
-    },
+    { "j-hui/fidget.nvim", opts = {} },
 
     -- Additional lua configuration, makes nvim stuff amazing!
     "folke/neodev.nvim",
