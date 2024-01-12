@@ -109,7 +109,7 @@ else
 fi
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
-    >&2 echo -e "\nNo PR created!"
+    >&2 echo -e "\nPR not updated!"
     rm -f "$old_pr_file_name"
     rm -f "$new_pr_file_name"
     exit 1
