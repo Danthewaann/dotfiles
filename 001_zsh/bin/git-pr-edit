@@ -33,10 +33,10 @@ done
 
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
 existing_old_pr_files=()
-while IFS=$'\n' read -r file; do existing_old_pr_files+=("$file"); done < <(find ./git-pr-edit*old* | sort --reverse)
+while IFS=$'\n' read -r file; do existing_old_pr_files+=("$file"); done < <(find ./git-pr-edit*old* 2> /dev/null | sort --reverse)
 
 existing_new_pr_files=()
-while IFS=$'\n' read -r file; do existing_new_pr_files+=("$file"); done < <(find ./git-pr-edit*new* | sort --reverse)
+while IFS=$'\n' read -r file; do existing_new_pr_files+=("$file"); done < <(find ./git-pr-edit*new* 2> /dev/null | sort --reverse)
 
 if [[ "${#existing_new_pr_files[@]}" -gt 0 ]]; then
     old_pr_file_name="${existing_old_pr_files[0]}"
