@@ -101,12 +101,14 @@ autocmd("FileType", {
   command = "setlocal spell spelllang=en_us,en_gb",
 })
 
--- Autowrap text in markdown files
-augroup("auto_wrap", { clear = true })
+-- Markdown filetype setup
+augroup("markdown", { clear = true })
 autocmd("FileType", {
-  group = "auto_wrap",
+  group = "markdown",
   pattern = "markdown",
-  command = "setlocal tw=90 fo=cqt wm=0",
+  -- Conceal links and special syntax unless cursor hovering over line
+  -- Also autowrap text in markdown files
+  command = "setlocal conceallevel=2 textwidth=90 formatoptions=cqt wrapmargin=0"
 })
 
 -- Start in insert mode in gitcommit files
