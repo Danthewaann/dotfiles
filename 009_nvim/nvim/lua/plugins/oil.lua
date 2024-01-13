@@ -28,10 +28,7 @@ return {
       -- Set to `false` to remove a keymap
       -- See :help oil-actions for a list of all available actions
       keymaps = {
-        ["<C-v>"] = "actions.select_vsplit",
         ["<C-s>"] = false,
-        ["<C-x>"] = "actions.select_split",
-        ["<C-h>"] = false,
         ["<Tab>"] = "actions.preview",
         ["<C-p>"] = false,
         ["<C-c>"] = "actions.close",
