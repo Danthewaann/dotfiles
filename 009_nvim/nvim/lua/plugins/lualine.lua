@@ -173,9 +173,12 @@ return {
       tabline = {
         lualine_a = { tabs_config },
         lualine_z = {
-          function()
-            return "Tabs"
-          end
+          {
+            function()
+              return "Tabs"
+            end,
+            color = { fg = "#1f2329", bg = "#8ebd6b", gui = "bold" }
+          }
         },
       },
       inactive_sections = {
