@@ -197,3 +197,24 @@ autocmd("VimLeavePre", {
   pattern = "*",
   command = "silent! mkview"
 })
+
+-- Refresh the quickfix list with new diagnostics
+augroup("diagnostics", { clear = true })
+autocmd("DiagnosticChanged", {
+  group = "diagnostics",
+  callback = function()
+    vim.diagnostic.setqflist({ open = false })
+  end,
+})
+
+-- quickfix list setup
+augroup("quickfix", { clear = true })
+autocmd("FileType", {
+  group = "quickfix",
+  pattern = "qf",
+  callback = function(e)
+    -- Cycle through different quickfix lists
+    vim.keymap.set("n", "<C-o>", "<cmd>colder<CR>", { buffer = e.buf })
+    vim.keymap.set("n", "<C-i>", "<cmd>cnewer<CR>", { buffer = e.buf })
+  end,
+})
