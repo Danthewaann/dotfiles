@@ -202,8 +202,8 @@ return {
             end
           }
         },
-        lualine_x = { "searchcount", "encoding", "fileformat" },
-        lualine_y = { "progress" },
+        lualine_x = { "searchcount", "encoding", "fileformat", "progress" },
+        lualine_y = {},
         lualine_z = { "location" },
       },
       tabline = {
