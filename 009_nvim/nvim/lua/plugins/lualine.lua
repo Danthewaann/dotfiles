@@ -4,6 +4,41 @@ return {
   -- See `:help lualine.txt`
   config = function()
     local utils = require("custom.utils")
+    -- Custom onedark theme
+    -- From https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/onedark.lua
+    local colors = {
+      blue   = "#61afef",
+      green  = "#98c379",
+      purple = "#c678dd",
+      cyan   = "#56b6c2",
+      red1   = "#e06c75",
+      red2   = "#be5046",
+      yellow = "#e5c07b",
+      fg     = "#abb2bf",
+      bg     = "#1f2329",
+      bg2    = "#282c34",
+      gray1  = "#828997",
+      gray2  = "#2c323c",
+      gray3  = "#3e4452",
+    }
+
+    local custom_theme = {
+      normal = {
+        a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+        b = { fg = colors.fg, bg = colors.bg2 },
+        c = { fg = colors.fg, bg = colors.bg2 },
+      },
+      command = { a = { fg = colors.bg, bg = colors.yellow, gui = "bold" } },
+      insert = { a = { fg = colors.bg, bg = colors.blue, gui = "bold" } },
+      visual = { a = { fg = colors.bg, bg = colors.purple, gui = "bold" } },
+      terminal = { a = { fg = colors.bg, bg = colors.cyan, gui = "bold" } },
+      replace = { a = { fg = colors.bg, bg = colors.red1, gui = "bold" } },
+      inactive = {
+        a = { fg = colors.gray1, bg = colors.bg2, gui = "bold" },
+        b = { fg = colors.gray1, bg = colors.bg2 },
+        c = { fg = colors.gray1, bg = colors.bg2 },
+      },
+    }
 
     local function winbar_formatter(result)
       -- Just output the terminal command if this is a terminal job
@@ -126,6 +161,7 @@ return {
     local no_winbar = true
     local base_config = {
       options = {
+        theme = custom_theme,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         ignore_focus = {
