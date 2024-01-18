@@ -6,6 +6,7 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$CUR_DIR/_git-common"
 
+prog=$(basename "$0")
 args=()
 
 if [[ $OSTYPE == "darwin"* ]]; then
@@ -138,7 +139,7 @@ if ! output=$(gh pr edit \
     "${args[@]}" 2>&1); then
     >&2 echo
     error "$output\n"
-    warn "PR file written to $new_pr_file_name"
+    warn "PR file written to $new_pr_file_name, re-run '$prog' to use" 
     exit 1
 fi
 
