@@ -37,7 +37,7 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<leader>ft", "<cmd> Oil .<CR>", { desc = "[F]ile [T]ree" })
-    vim.keymap.set("n", "<leader>ff", "<cmd> Oil <CR>", { desc = "[F]ile [F]ind" })
+    vim.keymap.set("n", "-", "<cmd> Oil <CR>", { desc = "Open file tree in current dir" })
+    vim.keymap.set("n", "_", "<cmd> Oil .<CR>", { desc = "Open file tree in project root" })
   end,
 }
