@@ -6,7 +6,7 @@ return {
     local function custom_toggleterm_strategy(cmd)
       local width = vim.api.nvim_win_get_width(0)
       if width < 150 then
-        require("toggleterm").exec(cmd, nil, nil, nil, "float")
+        require("toggleterm").exec(cmd, nil, nil, nil, "horizontal")
       else
         require("toggleterm").exec(cmd, nil, nil, nil, "vertical")
       end
