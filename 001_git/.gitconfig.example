@@ -223,6 +223,8 @@
     tool = nvimdiff
 [push]
     autoSetupRemote = true
+[pull]
+    rebase = true
 [oh-my-zsh]
     hide-info = 1
 [advice]
