@@ -198,3 +198,7 @@ vim.keymap.set("n", "<leader>cr", function()
     end
   )
 end, { desc = "[C]ommand [R]un" })
+
+vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {
+  desc = "Fix last spelling mistake whilst persisting the cursor position",
+})
