@@ -35,6 +35,16 @@ return {
         ["<C-r>"] = "actions.refresh",
         ["<C-l>"] = false,
       },
+      view_options = {
+        -- Show files and directories that start with "."
+        show_hidden = true,
+        sort = {
+          -- sort order can be "asc" or "desc"
+          -- see :help oil-columns to see which columns are sortable
+          { "type", "asc" },
+          { "name", "asc" },
+        },
+      }
     })
 
     vim.keymap.set("n", "-", "<cmd> Oil <CR>", { desc = "Open file tree in current dir" })
