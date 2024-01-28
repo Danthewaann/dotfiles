@@ -71,16 +71,10 @@ return {
         lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
         lsp_type_definitions = { theme = "ivy" },
-        lsp_incoming_calls = { theme = "ivy", path_display = { "smart" }, fname_width = 0.5, symbol_width = 0.5 },
-        lsp_outgoing_calls = { theme = "ivy", path_display = { "smart" }, fname_width = 0.5, symbol_width = 0.5 },
-        lsp_workspace_symbols = { theme = "ivy", path_display = { "smart" }, fname_width = 0.4, symbol_width = 0.5 },
-        lsp_dynamic_workspace_symbols = {
-          theme = "ivy",
-          path_display = { "smart" },
-          fname_width = 0.4,
-          symbol_width = 0.5
-        },
-        lsp_document_symbols = { theme = "ivy", previewer = false, symbol_width = 0.9 },
+        lsp_incoming_calls = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.5, symbol_width = 0.5 },
+        lsp_outgoing_calls = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.5, symbol_width = 0.5 },
+        lsp_workspace_symbols = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.4, symbol_width = 0.4, symbol_type_width = 0.2 },
+        lsp_dynamic_workspace_symbols = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.4, symbol_width = 0.5 },
         lsp_document_symbols = { theme = "ivy", previewer = true, symbol_width = 0.9 },
         current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
         buffers = { theme = "dropdown", previewer = false, sort_mru = true, ignore_current_buffer = true, layout_config = { width = 0.5 } },
@@ -107,9 +101,6 @@ return {
         grep_string = { theme = "ivy", use_regex = true, additional_args = grep_args },
         live_grep = { theme = "ivy", use_regex = true, additional_args = grep_args },
       },
-      extensions = {
-        import = require("telescope.themes").get_dropdown()
-      }
     })
 
     local utils = require("custom.utils")
