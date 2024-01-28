@@ -81,6 +81,7 @@ return {
           symbol_width = 0.5
         },
         lsp_document_symbols = { theme = "ivy", previewer = false, symbol_width = 0.9 },
+        lsp_document_symbols = { theme = "ivy", previewer = true, symbol_width = 0.9 },
         current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
         buffers = { theme = "dropdown", previewer = false, sort_mru = true, ignore_current_buffer = true, layout_config = { width = 0.5 } },
         oldfiles = { theme = "dropdown", previewer = false, layout_config = dropdown_layout_config },
