@@ -13,6 +13,7 @@
   "cutlass.nvim": { "branch": "main", "commit": "1ac7e4b53d79410be52a9e464d44c60556282b3e" },
   "diffview.nvim": { "branch": "main", "commit": "3dc498c9777fe79156f3d32dddd483b8b3dbd95f" },
   "dressing.nvim": { "branch": "master", "commit": "42d767b04c50a6966c9633e3968bc65c0c2f2bfc" },
+  "easytables.nvim": { "branch": "master", "commit": "1ae417431e783de9707f24ce15e377983c530121" },
   "fidget.nvim": { "branch": "main", "commit": "3a93300c076109d86c7ce35ec67a8034ae6ba9db" },
   "firenvim": { "branch": "master", "commit": "f2dd6d3bcf3309a7dd30c79b3b3c03ab55cea6e2" },
   "friendly-snippets": { "branch": "main", "commit": "69a2c1675b66e002799f5eef803b87a12f593049" },
