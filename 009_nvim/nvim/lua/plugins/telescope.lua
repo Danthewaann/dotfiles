@@ -68,7 +68,7 @@ return {
       pickers = {
         marks = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
         lsp_definitions = { theme = "ivy", show_line = false },
-        lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
+        lsp_references = { theme = "ivy", include_declaration = true, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
         lsp_type_definitions = { theme = "ivy" },
         lsp_incoming_calls = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.5, symbol_width = 0.5 },
