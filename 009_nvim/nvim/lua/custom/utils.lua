@@ -85,10 +85,13 @@ M.replace_ticket_number = function()
     return
   end
 
-  local ok, _ = pcall(vim.cmd, ":%s/TICKET_NUMBER/" .. ticket_number .. "/g")
+  local ok, _ = pcall(vim.cmd, ":s/TICKET_NUMBER/" .. ticket_number .. "/g")
   if not ok then
     vim.api.nvim_echo({ { "TICKET_NUMBER pattern not found in file!", "ErrorMsg" } }, true, {})
+    return
   end
+
+  vim.cmd("normal! <C-o>")
 end
 
 -- filetypes to ignore for plugins
