@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-if [[ -z $PS1 ]]; then
+if [[ $- == *i* ]]; then
     export WHITE_BOLD=''
     export GREEN_BOLD=''
     export BLUE_BOLD=''
