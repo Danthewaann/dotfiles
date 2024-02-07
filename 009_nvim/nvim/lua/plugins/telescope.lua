@@ -131,15 +131,6 @@ return {
     vim.keymap.set("n", "<leader>gf", require("telescope.builtin").git_status, { desc = "[G]it [F]iles" })
     vim.keymap.set("n", "<leader>gls", require("telescope.builtin").git_commits, { desc = "[G]it [L]og [S]earch" })
 
-    -- Search for pattern in current project files
-    vim.keymap.set("n", "<leader>ps", function()
-      vim.ui.input({ prompt = "Project Search:" }, function(search)
-        if search then
-          require("telescope.builtin").grep_string({ search = search })
-        end
-      end)
-    end, { desc = "[P]roject [S]earch" })
-
     -- Search for the current word in project files
     vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind [W]ord" })
     vim.keymap.set("v", "<leader>fw", function()
