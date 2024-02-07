@@ -18,6 +18,7 @@ return {
   },
   config = function()
     local actions = require("telescope.actions")
+    local trouble = require("trouble.providers.telescope")
     local dropdown_layout_config = {
       height = 0.6,
       width = 0.6
@@ -62,6 +63,7 @@ return {
         mappings = {
           ["i"] = {
             ["<C-r>"] = actions.to_fuzzy_refine,
+            ["<C-t>"] = trouble.open_with_trouble
           }
         }
       },
