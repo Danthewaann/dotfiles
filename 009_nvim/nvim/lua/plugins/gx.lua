@@ -35,5 +35,8 @@ return {
         search_engine = "google", -- you can select between google, bing and duckduckgo
       },
     })
+
+    vim.g.netrw_nogx = 1 -- disable netrw gx
+    vim.keymap.set({ "n", "x" }, "gx", require("gx").open)
   end,
 }
