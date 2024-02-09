@@ -12,8 +12,6 @@ return {
     },
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/nvim-cmp",
-    -- Extra signature help
-    "ray-x/lsp_signature.nvim",
 
     -- Useful status updates for LSP
     { "j-hui/fidget.nvim", opts = {} },
@@ -225,21 +223,8 @@ return {
 
     -- Styling for floating windows
     local border = "rounded"
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = border,
-      }
-    )
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, {
-        border = border,
-      }
-    )
-    vim.diagnostic.config({
-      float = { border = border }
-    })
+    vim.diagnostic.config({ float = { border = border } })
     require("lspconfig.ui.windows").default_options.border = border
-
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -269,20 +254,6 @@ return {
           filetypes = server.filetypes,
         })
       end,
-    })
-
-    require("lsp_signature").setup({
-      bind = true, -- This is mandatory, otherwise border config won't get registered.
-      handler_opts = {
-        border = "rounded"
-      },
-      padding = "  ",
-      fix_pos = true,
-      max_width = vim.o.columns,
-      hint_enable = false,
-      hint_prefix = "",
-      floating_window = true,
-      doc_lines = 0,
     })
   end
 }
