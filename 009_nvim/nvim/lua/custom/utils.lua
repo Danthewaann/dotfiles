@@ -120,6 +120,7 @@ M.ignore_filetypes = {
   "VimspectorPrompt",
   "vimspector-disassembly",
   "toggleterm",
+  "starter",
 }
 
 return M
