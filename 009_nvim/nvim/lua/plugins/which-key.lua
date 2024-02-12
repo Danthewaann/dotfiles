@@ -11,10 +11,10 @@ return {
       window = { border = "rounded" }
     })
     require("which-key").register({
-      ["<leader>b"] = { name = "[B]uffer, [B]reakpoints", _ = "which_key_ignore" },
-      ["<leader>c"] = { name = "[C]ode, [C]ommand, [C]lose, [C]hoose", _ = "which_key_ignore" },
-      ["<leader>d"] = { name = "[D]ocument, [D]iff, [DB]", _ = "which_key_ignore" },
-      ["<leader>f"] = { name = "[F]ile, [F]ind", _ = "which_key_ignore" },
+      ["<leader>b"] = { name = "[B]reakpoints", _ = "which_key_ignore" },
+      ["<leader>c"] = { name = "[C]ode, [C]ommand", _ = "which_key_ignore" },
+      ["<leader>d"] = { name = "[D]ocment, [D]iff, [DB]", _ = "which_key_ignore" },
+      ["<leader>f"] = { name = "[F]ile", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it, [G]enerate, [G]lobal", _ = "which_key_ignore" },
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
       ["<leader>gh"] = { name = "[G]it [H]ub", _ = "which_key_ignore" },
@@ -26,7 +26,7 @@ return {
       ["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
       ["<leader>m"] = { name = "[M]arkdown", _ = "which_key_ignore" },
       ["<leader>p"] = { name = "[P]roject", _ = "which_key_ignore" },
-      ["<leader>r"] = { name = "[R]ename, [R]eplace, [R]estart, [R]EPLs", _ = "which_key_ignore" },
+      ["<leader>r"] = { name = "[R]ename, [R]eplace, [R]estart", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]est, [T]oggle", _ = "which_key_ignore" },
       ["<leader>v"] = { name = "[V]imspector, [V]isual", _ = "which_key_ignore" },
@@ -36,7 +36,7 @@ return {
 
     require("which-key").register({
       ["<leader>"] = { name = "VISUAL <leader>" },
-      ["<leader>f"] = { name = "[F]ind" },
+      ["<leader>s"] = { name = "[S]earch" },
       ["<leader>g"] = { name = "[G]it, [G]lobal" },
       ["<leader>gs"] = { name = "[G]lobal [S]earch" },
       ["<leader>h"] = { "Git [H]unk" },
