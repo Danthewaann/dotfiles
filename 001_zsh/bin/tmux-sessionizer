@@ -54,7 +54,7 @@ else
     done
 
     # shellcheck disable=SC2086
-    selected=$(printf "%s\n" "${selected_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' --exact --no-sort $TMUX_FZF_OPTIONS)
+    selected=$(printf "%s\n" "${selected_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' --no-sort $TMUX_FZF_OPTIONS)
     selected_name=$(echo "$selected" | tr . _)
     if [[ -n $selected ]]; then
         selected="$HOME/Workspace/$selected"
