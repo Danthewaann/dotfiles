@@ -78,8 +78,8 @@ return {
         lsp_workspace_symbols = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.4, symbol_width = 0.4, symbol_type_width = 0.2 },
         lsp_dynamic_workspace_symbols = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.4, symbol_width = 0.5 },
         lsp_document_symbols = { theme = "ivy", previewer = true, symbol_width = 0.9 },
-        current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
-        buffers = { theme = "dropdown", previewer = false, sort_mru = true, ignore_current_buffer = true, layout_config = { width = 0.5 } },
+        current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = dropdown_layout_config },
+        buffers = { theme = "dropdown", previewer = false, sort_mru = true, ignore_current_buffer = true, layout_config = dropdown_layout_config },
         oldfiles = { theme = "dropdown", previewer = false, layout_config = dropdown_layout_config },
         find_files = {
           theme = "dropdown",
