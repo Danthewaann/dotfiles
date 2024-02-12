@@ -84,7 +84,13 @@ return {
         find_files = {
           theme = "dropdown",
           previewer = false,
+          no_ignore = true,
           hidden = true,
+          layout_config = dropdown_layout_config,
+        },
+        git_files = {
+          theme = "dropdown",
+          previewer = false,
           layout_config = dropdown_layout_config,
         },
         help_tags = { theme = "ivy" },
@@ -123,6 +129,7 @@ return {
       }
     end, { desc = "[S]earch [/] in Open Files" })
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
+    vim.keymap.set("n", "<C-f>", require("telescope.builtin").git_files, { desc = "Search Git Files" })
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
