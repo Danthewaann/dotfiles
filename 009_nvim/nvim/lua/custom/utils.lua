@@ -94,6 +94,27 @@ M.replace_ticket_number = function()
   vim.cmd("normal! ``")
 end
 
+M.trim = function(s)
+  return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
+end
+
+M.run_job = function(command, args, success_message)
+  args = args or {}
+  success_message = success_message or "Success!"
+  local job = require("plenary.job")
+  local j = job:new({ command = command, args = args })
+  j:add_on_exit_callback(function()
+    local output = j:stderr_result()
+    if j.code ~= 0 then
+      output = M.trim(table.concat(output, "\n"))
+      require("noice").notify(output, vim.log.levels.ERROR)
+    else
+      require("noice").notify(success_message, vim.log.levels.INFO)
+    end
+  end)
+  j:start()
+end
+
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
   "qf",

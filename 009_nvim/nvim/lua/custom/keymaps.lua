@@ -110,9 +110,7 @@ vim.keymap.set({ "n", "i", "x", "o" }, "<C-c>", "<Esc>", { desc = "Escape" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
--- Git commands
-vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
-vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
+-- Git status
 vim.keymap.set("n", "<leader>gg", function()
   -- Open the git window in a horizontal split if the
   -- width of the current window is low, otherwise open it in a vertical split
@@ -123,29 +121,42 @@ vim.keymap.set("n", "<leader>gg", function()
     vim.cmd("silent vertical Git")
   end
 end, { desc = "[G]it [G]et" })
-vim.keymap.set("n", "<leader>gcc", "<cmd> silent Git commit<CR>", { desc = "[G]it [C]ommit [C]reate" })
-vim.keymap.set("n", "<leader>gca", "<cmd> silent Git commit --amend<CR>", { desc = "[G]it [C]ommit [A]mend" })
-vim.keymap.set("n", "<leader>gce", "<cmd> Git commit --amend --no-edit<CR>", { desc = "[G]it [C]ommit [E]dit" })
-vim.keymap.set("n", "<leader>gub", "<cmd> !gitw-update-base<CR>", { desc = "[G]it [U]pdate [B]ase" })
-vim.keymap.set("n", "<leader>guc", "<cmd> Git pull<CR>", { desc = "[G]it [U]pdate [C]urrent" })
-vim.keymap.set("n", "<leader>grb", "<cmd> !gitw-rebase-with-base<CR>", { desc = "[G]it [R]ebase with [B]ase" })
-vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse!<CR>", { silent = true, desc = "[G]it [O]pen copy url" })
+
+-- Git push commands
+vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
+vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
+
+-- Git worktree commands
+vim.keymap.set("n", "<leader>gub", function()
+  require("noice").notify("Updating base worktree...", vim.log.levels.INFO)
+  utils.run_job("gitw-update-base")
+end, { desc = "[G]it [U]pdate [B]ase" })
+
+vim.keymap.set("n", "<leader>guc", function()
+  require("noice").notify("Updating current worktree...", vim.log.levels.INFO)
+  utils.run_job("git", { "pull" })
+end, { desc = "[G]it [U]pdate [C]urrent" })
+
+vim.keymap.set("n", "<leader>grb", function()
+  require("noice").notify("Rebasing with base worktree...", vim.log.levels.INFO)
+  utils.run_job("gitw-rebase-with-base")
+end, { desc = "[G]it [R]ebase with [B]ase" })
+
+-- GitHub commands
 vim.keymap.set("n", "<leader>ghr", function()
-  print("Opening GitHub repository...")
-  vim.fn.system("gh rv")
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({ { "Not in a GitHub repo!", "ErrorMsg" } }, true, {})
-    return
-  end
+  require("noice").notify("Opening GitHub repository...", vim.log.levels.INFO)
+  utils.run_job("gh", { "rv" })
 end, { desc = "[G]it [H]ub [R]epo view" })
+
 vim.keymap.set("n", "<leader>ghv", function()
-  print("Opening PR for current branch...")
-  vim.fn.system("gh prv")
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({ { "Pull request not found!", "ErrorMsg" } }, true, {})
-    return
-  end
+  require("noice").notify("Opening PR for current branch...", vim.log.levels.INFO)
+  utils.run_job("gh", { "prv" })
 end, { desc = "[G]it [H]ub [V]iew pull request" })
+
+vim.keymap.set({ "n", "v" }, "<leader>go", function()
+  vim.cmd("silent GBrowse!")
+  require("noice").notify("Copied GitHub link to clipboard!", vim.log.levels.INFO)
+end, { silent = true, desc = "[G]it [O]pen copy url" })
 
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
