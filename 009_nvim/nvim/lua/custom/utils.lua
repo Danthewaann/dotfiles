@@ -81,13 +81,13 @@ end
 M.replace_ticket_number = function()
   local ticket_number = M.get_ticket_number()
   if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({ { ticket_number, "ErrorMsg" } }, true, {})
+    M.print_err(ticket_number)
     return
   end
 
   local ok, _ = pcall(vim.cmd, "%s/TICKET_NUMBER/" .. ticket_number .. "/g")
   if not ok then
-    vim.api.nvim_echo({ { "TICKET_NUMBER pattern not found in file!", "ErrorMsg" } }, true, {})
+    M.print_err("TICKET_NUMBER pattern not found in file!")
     return
   end
 
@@ -107,12 +107,20 @@ M.run_job = function(command, args, success_message)
     local output = j:stderr_result()
     if j.code ~= 0 then
       output = M.trim(table.concat(output, "\n"))
-      require("noice").notify(output, vim.log.levels.ERROR)
+      M.print_err(output)
     else
-      require("noice").notify(success_message, vim.log.levels.INFO)
+      M.print(success_message)
     end
   end)
   j:start()
+end
+
+M.print = function(err)
+  require("noice").notify(err, vim.log.levels.INFO)
+end
+
+M.print_err = function(err)
+  require("noice").notify(err, vim.log.levels.ERROR)
 end
 
 -- filetypes to ignore for plugins

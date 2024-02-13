@@ -1,3 +1,5 @@
+local utils = require("custom.utils")
+
 -- Custom stuff for adding breakpoint() statements
 --
 -- Partially from https://gist.github.com/berinhard/523420
@@ -39,7 +41,7 @@ local function set_breakpoint()
     breakpoint_stmt = "breakpoint()"
     whitespace_char = " "
   else
-    vim.api.nvim_echo({ { "File not supported for breakpoints!", "WarningMsg" } }, true, {})
+    utils.print_err("File not supported for breakpoints!")
     return
   end
 
@@ -54,7 +56,7 @@ local function set_breakpoint()
     -- Move the cursor down and to the start of the line for the newly inserted breakpoint
     vim.cmd.normal("j_")
     -- Automatically import go `runtime` package via a code action
-    vim.lsp.buf.code_action({apply = true})
+    vim.lsp.buf.code_action({ apply = true })
   end
 end
 
@@ -65,7 +67,7 @@ local function get_all_breakpoints()
   elseif file_type == "python" then
     vim.cmd(":silent lgrep breakpoint\\(\\) -g \"*.py\" ./")
   else
-    vim.api.nvim_echo({ { "File not supported for breakpoints!", "WarningMsg" } }, true, {})
+    utils.print_err("File not supported for breakpoints!")
     return false
   end
   return true
@@ -76,13 +78,13 @@ vim.keymap.set("n", "<leader>bd", function()
   if get_all_breakpoints() then
     local num = vim.fn.getloclist(0)
     if #num > 0 then
-      print("Deleting all breakpoints...")
+      utils.print("Deleting all breakpoints...")
       vim.cmd(":silent lfdo g/\"runtime\"/d")
       vim.cmd(":silent ldo delete")
       -- Refresh the breakpoints location list
       get_all_breakpoints()
     else
-      vim.api.nvim_echo({ { "No breakpoints found!", "WarningMsg" } }, true, {})
+      utils.print_err("No breakpoints found!")
     end
   end
 end, { desc = "[B]reakpoints [D]elete" })
@@ -92,7 +94,7 @@ vim.keymap.set("n", "<leader>bs", function()
     if #num > 0 then
       vim.cmd(":lopen")
     else
-      vim.api.nvim_echo({ { "No breakpoints found!", "WarningMsg" } }, true, {})
+      utils.print_err("No breakpoints found!")
     end
   end
 end, { desc = "[B]reakpoints [S]how" })

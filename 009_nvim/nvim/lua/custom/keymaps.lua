@@ -128,34 +128,34 @@ vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it
 
 -- Git worktree commands
 vim.keymap.set("n", "<leader>gub", function()
-  require("noice").notify("Updating base worktree...", vim.log.levels.INFO)
+  utils.print("Updating base worktree...")
   utils.run_job("gitw-update-base")
 end, { desc = "[G]it [U]pdate [B]ase" })
 
 vim.keymap.set("n", "<leader>guc", function()
-  require("noice").notify("Updating current worktree...", vim.log.levels.INFO)
+  utils.print("Updating current worktree...")
   utils.run_job("git", { "pull" })
 end, { desc = "[G]it [U]pdate [C]urrent" })
 
 vim.keymap.set("n", "<leader>grb", function()
-  require("noice").notify("Rebasing with base worktree...", vim.log.levels.INFO)
+  utils.print("Rebasing with base worktree...")
   utils.run_job("gitw-rebase-with-base")
 end, { desc = "[G]it [R]ebase with [B]ase" })
 
 -- GitHub commands
 vim.keymap.set("n", "<leader>ghr", function()
-  require("noice").notify("Opening GitHub repository...", vim.log.levels.INFO)
+  utils.print("Opening GitHub repository...")
   utils.run_job("gh", { "rv" })
 end, { desc = "[G]it [H]ub [R]epo view" })
 
 vim.keymap.set("n", "<leader>ghv", function()
-  require("noice").notify("Opening PR for current branch...", vim.log.levels.INFO)
+  utils.print("Opening PR for current branch...")
   utils.run_job("gh", { "prv" })
 end, { desc = "[G]it [H]ub [V]iew pull request" })
 
 vim.keymap.set({ "n", "v" }, "<leader>go", function()
   vim.cmd("silent GBrowse!")
-  require("noice").notify("Copied GitHub link to clipboard!", vim.log.levels.INFO)
+  utils.print("Copied GitHub link to clipboard!")
 end, { silent = true, desc = "[G]it [O]pen copy url" })
 
 -- Replace current word in current file
@@ -191,7 +191,7 @@ vim.keymap.set("n", "<leader>cr", function()
   end
 
   if #commands == 0 then
-    vim.api.nvim_echo({ { "No commands supported", "ErrorMsg" } }, true, {})
+    utils.print("No commands supported")
     return
   end
 

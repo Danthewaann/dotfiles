@@ -2,6 +2,8 @@ return {
   "vim-test/vim-test",
   event = "VeryLazy",
   config = function()
+    local utils = require("custom.utils")
+
     -- Custom toggleterm strategy to display test command output in a floating window
     local function custom_toggleterm_strategy(cmd)
       local width = vim.api.nvim_win_get_width(0)
@@ -87,7 +89,7 @@ return {
       local position = get_cursor_position(vim.fn.expand("%"))
       local runner = vim.fn["test#determine_runner"](position.file)
       if runner == 0 or runner == nil then
-        vim.api.nvim_echo({ { "Not a test file", "WarningMsg" } }, true, {})
+        utils.print_err("Not a test file")
         return
       end
 
@@ -108,10 +110,10 @@ return {
       local debug_config = { configuration = "", args = args }
 
       if runner_type == "make" then
-        print("Starting test docker container...")
+        utils.print("Starting test docker container...")
         local container = vim.fn.trim(vim.fn.system("get-test-container --start"))
         if vim.v.shell_error ~= 0 then
-          vim.api.nvim_echo({ { "Failed to start test container!\n" .. container, "ErrorMsg" } }, true, {})
+          utils.print_err("Failed to start test container!\n" .. container)
           return
         end
         debug_config.configuration = language .. " - remote test launch"

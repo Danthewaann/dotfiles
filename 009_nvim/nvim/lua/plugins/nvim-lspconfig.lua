@@ -33,9 +33,9 @@ return {
     vim.keymap.set("n", "<leader>tt", function()
       show_virtual_text = not show_virtual_text
       if show_virtual_text then
-        print("Toggling on virtual text")
+        utils.print("Toggling on virtual text")
       else
-        print("Toggling off virtual text")
+        utils.print("Toggling off virtual text")
       end
       vim.diagnostic.config({ virtual_text = show_virtual_text })
     end, { desc = "[T]oggle virtual [T]ext" })
@@ -58,7 +58,7 @@ return {
       end
 
       nmap("<leader>rl", function()
-        print("Restarting LSP client...")
+        utils.print("Restarting LSP client...")
         vim.cmd(":LspRestart")
       end, "[R]estart [L]sp")
       nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
@@ -101,7 +101,7 @@ return {
       nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
       nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
       nmap("<leader>wl", function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        utils.print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end, "[W]orkspace [L]ist Folders")
     end
 
