@@ -9,6 +9,7 @@ return {
     require("noice").setup({
       routes = {
         -- Show messages using mini
+        -- Kinds from: https://github.com/folke/noice.nvim/wiki/A-Guide-to-Messages
         {
           view = "mini",
           filter = {
@@ -16,8 +17,6 @@ return {
             kind = "",
           },
         },
-        -- Show vim-fugitve messages using mini
-        -- Kinds from: https://github.com/folke/noice.nvim/wiki/A-Guide-to-Messages
         {
           view = "mini",
           filter = {
@@ -30,6 +29,27 @@ return {
           filter = {
             event = "msg_show",
             kind = "echomsg",
+          },
+        },
+        {
+          view = "mini",
+          filter = {
+            event = "msg_show",
+            kind = "echoerr",
+          },
+        },
+        {
+          view = "mini",
+          filter = {
+            event = "msg_show",
+            kind = "emsg",
+          },
+        },
+        {
+          view = "mini",
+          filter = {
+            event = "msg_show",
+            kind = "wmsg",
           },
         },
       },
