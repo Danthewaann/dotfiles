@@ -25,6 +25,13 @@ return {
             kind = "echo",
           },
         },
+        {
+          view = "mini",
+          filter = {
+            event = "msg_show",
+            kind = "echomsg",
+          },
+        },
       },
       lsp = {
         progress = {
