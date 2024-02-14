@@ -191,7 +191,7 @@ vim.keymap.set("n", "<leader>cr", function()
   end
 
   if #commands == 0 then
-    utils.print("No commands supported")
+    utils.print_err("No commands supported")
     return
   end
 
