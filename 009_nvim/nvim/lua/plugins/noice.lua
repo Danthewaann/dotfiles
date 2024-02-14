@@ -8,11 +8,21 @@ return {
   config = function()
     require("noice").setup({
       routes = {
-        -- Show builtin messages using mini
+        -- Show messages using mini
         {
           view = "mini",
           filter = {
             event = "msg_show",
+            kind = "",
+          },
+        },
+        -- Show vim-fugitve messages using mini
+        -- Kinds from: https://github.com/folke/noice.nvim/wiki/A-Guide-to-Messages
+        {
+          view = "mini",
+          filter = {
+            event = "msg_show",
+            kind = "echo",
           },
         },
       },
