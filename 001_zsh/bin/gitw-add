@@ -77,8 +77,11 @@ if [[ $is_bare_repo != "true" ]]; then
 fi
 
 if [[ -d $converted_name ]]; then
-    error "Worktee '$converted_name' already exists"
-    exit 1
+    info "Switching to worktree..."
+    cd "$converted_name" || exit
+    sleep 1
+    tmux-sessionizer "$(pwd)"
+    exit $?
 fi
 
 info "Running git fetch..."
