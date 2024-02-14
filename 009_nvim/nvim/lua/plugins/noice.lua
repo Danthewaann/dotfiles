@@ -8,13 +8,11 @@ return {
   config = function()
     require("noice").setup({
       routes = {
-        -- Show :write messages using mini
+        -- Show builtin messages using mini
         {
           view = "mini",
           filter = {
             event = "msg_show",
-            kind = "",
-            find = "written",
           },
         },
       },
