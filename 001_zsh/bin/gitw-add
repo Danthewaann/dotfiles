@@ -79,7 +79,7 @@ fi
 if [[ -d $converted_name ]]; then
     info "Switching to worktree..."
     cd "$converted_name" || exit
-    sleep 1
+    sleep 0.3
     tmux-sessionizer "$(pwd)"
     exit $?
 fi
