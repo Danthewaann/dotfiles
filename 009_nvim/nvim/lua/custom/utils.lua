@@ -115,8 +115,8 @@ M.run_job = function(command, args, success_message)
   j:start()
 end
 
-M.print = function(err)
-  require("noice").notify(err, vim.log.levels.INFO)
+M.print = function(msg)
+  require("noice").notify(msg, vim.log.levels.INFO)
 end
 
 M.print_err = function(err)
