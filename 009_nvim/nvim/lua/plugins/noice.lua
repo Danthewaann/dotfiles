@@ -50,7 +50,10 @@ return {
       },
       popupmenu = {
         backend = "cmp"
-      }
+      },
+      smart_move = {
+        enabled = false,
+      },
     })
 
     vim.keymap.set("n", "<leader>n", "<cmd> Noice<CR>", { desc = "Open [N]oice messages" })
