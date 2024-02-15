@@ -145,12 +145,12 @@ end, { desc = "[G]it [R]ebase with [B]ase" })
 -- GitHub commands
 vim.keymap.set("n", "<leader>ghr", function()
   utils.print("Opening GitHub repository...")
-  utils.run_job("gh", { "rv" })
+  utils.run_job("gh", { "rv" }, false)
 end, { desc = "[G]it [H]ub [R]epo view" })
 
 vim.keymap.set("n", "<leader>ghv", function()
   utils.print("Opening PR for current branch...")
-  utils.run_job("gh", { "prv" })
+  utils.run_job("gh", { "prv" }, false)
 end, { desc = "[G]it [H]ub [V]iew pull request" })
 
 vim.keymap.set({ "n", "v" }, "<leader>go", function()

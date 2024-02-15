@@ -100,15 +100,17 @@ end
 
 M.run_job = function(command, args, success_message)
   args = args or {}
-  success_message = success_message or "Success!"
+  if success_message == nil then
+    success_message = "Success!"
+  end
   local job = require("plenary.job")
   local j = job:new({ command = command, args = args })
   j:add_on_exit_callback(function()
     local output = j:stderr_result()
     if j.code ~= 0 then
-      output = M.trim(table.concat(output, "\n"))
-      M.print_err(output)
-    else
+      local output_str = M.trim(table.concat(output, "\n"))
+      M.print_err(output_str)
+    elseif success_message ~= false then
       M.print(success_message)
     end
   end)
