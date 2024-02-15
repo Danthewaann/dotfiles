@@ -1,5 +1,5 @@
 prSections:
-  - title: My Pull Requests
+  - title: My PRs
     filters: is:open assignee:@me
     layout:
       author:
@@ -19,8 +19,8 @@ issuesSections:
     filters: is:open involves:@me -author:@me
 defaults:
   preview:
-    open: true
-    width: 60
+    open: false
+    width: 125
   prsLimit: 100
   issuesLimit: 100
   view: prs
@@ -29,9 +29,9 @@ defaults:
       updatedAt:
         width: 7
       repo:
-        width: 30
+        width: 40
       author:
-        width: 20
+        width: 30
       assignees:
         width: 20
       base:
@@ -55,9 +55,13 @@ keybindings:
   prs:
     - key: C
       command: >
-        cd {{.RepoPath}} && 
         clear &&
+        cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}}
+    - key: d
+      command: >
+        clear &&
+        gh pr diff {{.PrNumber}} -R {{.RepoName}}
   issues: []
 pager:
   diff: delta
