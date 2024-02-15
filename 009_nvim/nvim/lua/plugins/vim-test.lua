@@ -15,10 +15,9 @@ return {
     end
 
     vim.g["test#custom_strategies"] = { custom_toggleterm = custom_toggleterm_strategy }
-    vim.g["test#strategy"] = "custom_toggleterm"
-
-    vim.g["test#neovim#term_position"] = "vertical"
-    vim.g["test#neovim#start_normal"] = 0
+    vim.g["test#strategy"] = "tslime"
+    vim.g["test#echo_command"] = 0
+    vim.g["test#preserve_screen"] = 1
 
     local test_runners = {
       python = {
