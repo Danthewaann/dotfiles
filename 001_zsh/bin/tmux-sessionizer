@@ -5,7 +5,8 @@ if [[ $# -eq 1 ]]; then
     # If this parent directory for the selected directory is a bare git repository,
     # prepend the parent directory to the selected directory.
     if ls "$selected/../.bare" > /dev/null 2>&1; then
-        selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected" | tr . _)
+        selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected")
+        selected_name=$(tr . _ <<< "$selected_name")
     else
         selected_name=$(basename "$selected" | tr . _)
     fi
