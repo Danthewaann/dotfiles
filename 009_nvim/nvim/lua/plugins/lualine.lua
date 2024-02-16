@@ -144,20 +144,6 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
-    local git_extension = {
-      sections = {
-        lualine_a = { function()
-          return "Git Status"
-        end }
-      },
-      inactive_sections = {
-        lualine_c = { function()
-          return "Git Status"
-        end }
-      },
-      filetypes = { "fugitive" }
-    }
-
     local no_winbar = true
     local base_config = {
       options = {
@@ -169,7 +155,6 @@ return {
           "dbui",
           "DiffviewFiles",
           "DiffviewFileHistory",
-          "fugitiveblame",
           "undotree",
           "TelescopePrompt",
         },
@@ -178,7 +163,7 @@ return {
           winbar = utils.ignore_filetypes,
         },
       },
-      extensions = { "toggleterm", "man", "quickfix", "aerial", git_extension },
+      extensions = { "toggleterm", "man", "quickfix", "aerial" },
       sections = {
         lualine_a = {
           {

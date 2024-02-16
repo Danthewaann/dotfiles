@@ -44,7 +44,7 @@ return {
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr, desc = "Select inner hunk" })
 
-      -- don't override the built-in and fugitive keymaps
+      -- don't override the built-in keymaps
       map({ "n", "v" }, "]c", function()
         if vim.wo.diff then
           return "]czz"

@@ -137,18 +137,6 @@ autocmd("TextYankPost", {
   end,
 })
 
--- fugitive related keymaps
-augroup("git_status", { clear = true })
-autocmd("FileType", {
-  group = "git_status",
-  pattern = "fugitive",
-  callback = function()
-    vim.keymap.set("n", "<Tab>", ":normal =<CR>", { buffer = true, silent = true })
-    vim.keymap.set("n", "gl", "<cmd>G l<CR>", { desc = "Show git log", buffer = true })
-    vim.cmd("setlocal nowrap nonumber norelativenumber")
-  end,
-})
-
 -- firenvim setup
 augroup("firenvim", { clear = true })
 autocmd("BufEnter", {
@@ -158,16 +146,6 @@ autocmd("BufEnter", {
     ---@diagnostic disable-next-line: missing-fields
     require("lualine").hide({})
     vim.cmd.set("filetype=markdown wrap signcolumn=no nonumber statuscolumn= laststatus=0")
-  end,
-})
-
--- gv.vim setup
-augroup("gv", { clear = true })
-autocmd("FileType", {
-  group = "gv",
-  pattern = "GV",
-  callback = function()
-    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile nomodeline")
   end,
 })
 
