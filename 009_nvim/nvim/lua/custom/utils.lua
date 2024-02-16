@@ -146,8 +146,6 @@ M.ignore_filetypes = {
   "DiffviewFileHistory",
   "oil",
   "Trouble",
-  "Octo",
-  "octo_panel",
   "VimspectorPrompt",
   "vimspector-disassembly",
   "starter",

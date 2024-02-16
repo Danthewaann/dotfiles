@@ -22,7 +22,7 @@ return {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     require("cmp_git").setup({
-      filetypes = { "gitcommit", "octo", "markdown" }
+      filetypes = { "gitcommit", "markdown" }
     })
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup({})
