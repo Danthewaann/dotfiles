@@ -189,7 +189,7 @@ return {
           winbar = utils.ignore_filetypes,
         },
       },
-      extensions = { "toggleterm", "man", "quickfix", "aerial", git_extension, git_popup_extension },
+      extensions = { "man", "quickfix", "aerial", git_extension, git_popup_extension },
       sections = {
         lualine_a = {
           {

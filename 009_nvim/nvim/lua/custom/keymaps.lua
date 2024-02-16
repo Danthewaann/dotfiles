@@ -201,13 +201,13 @@ vim.keymap.set("n", "<leader>cr", function()
     function(choice)
       if choice == "lint" then
         ---@diagnostic disable-next-line: param-type-mismatch
-        require("toggleterm").exec_command("cmd='" .. table.concat(cmd, " ") .. "'")
+        utils.run_command_in_term(table.concat(cmd, " "))
       elseif choice == "make lint" then
-        require("toggleterm").exec_command("cmd='make lint'")
+        utils.run_command_in_term("make lint")
       elseif choice == "make test" then
-        require("toggleterm").exec_command("cmd='make test'")
+        utils.run_command_in_term("make test")
       elseif choice == "make shell" then
-        require("toggleterm").exec_command("cmd='make shell'")
+        utils.run_command_in_term("make test")
       end
     end
   )

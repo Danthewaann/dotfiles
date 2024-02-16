@@ -98,6 +98,10 @@ M.trim = function(s)
   return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
 end
 
+M.run_command_in_term = function(args)
+  vim.cmd(":Tmux " .. args)
+end
+
 M.run_job = function(command, args, success_message)
   args = args or {}
   if success_message == nil then
@@ -147,7 +151,6 @@ M.ignore_filetypes = {
   "octo_panel",
   "VimspectorPrompt",
   "vimspector-disassembly",
-  "toggleterm",
   "starter",
 }
 
