@@ -6,53 +6,33 @@ return {
     "rcarriga/nvim-notify",
   },
   config = function()
-    require("noice").setup({
-      routes = {
+    local message_kinds = {
+      "",
+      "echo",
+      "echomsg",
+      "echoerr",
+      "emsg",
+      "wmsg",
+    }
+    local routes = {
+      {
         -- Show messages using mini
         -- Kinds from: https://github.com/folke/noice.nvim/wiki/A-Guide-to-Messages
-        {
-          view = "mini",
-          filter = {
-            event = "msg_show",
-            kind = "",
-          },
-        },
-        {
-          view = "split",
-          filter = {
-            event = "msg_show",
-            kind = "echo",
-          },
-        },
-        {
-          view = "split",
-          filter = {
-            event = "msg_show",
-            kind = "echomsg",
-          },
-        },
-        {
-          view = "split",
-          filter = {
-            event = "msg_show",
-            kind = "echoerr",
-          },
-        },
-        {
-          view = "split",
-          filter = {
-            event = "msg_show",
-            kind = "emsg",
-          },
-        },
-        {
-          view = "split",
-          filter = {
-            event = "msg_show",
-            kind = "wmsg",
+        view = "mini",
+        filter = {
+          any = {
+            { event = "notify" },
+            { error = true },
+            { warning = true },
+            { event = "msg_show", kind = message_kinds },
+            { event = "lsp",      kind = "message" },
           },
         },
       },
+    }
+
+    require("noice").setup({
+      routes = routes,
       lsp = {
         progress = {
           enabled = false
