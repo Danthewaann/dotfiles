@@ -145,7 +145,6 @@ M.ignore_filetypes = {
   "DiffviewFiles",
   "DiffviewFileHistory",
   "oil",
-  "aerial",
   "Trouble",
   "Octo",
   "octo_panel",
