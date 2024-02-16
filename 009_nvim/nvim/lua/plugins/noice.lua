@@ -84,15 +84,5 @@ return {
     })
 
     vim.keymap.set("n", "<leader>n", "<cmd> Noice<CR>", { desc = "Open [N]oice messages" })
-    vim.keymap.set({ "n", "i", "s" }, "<C-d>", function()
-      if not require("noice.lsp").scroll(4) then
-        return "<C-d>"
-      end
-    end, { silent = true, expr = true })
-    vim.keymap.set({ "n", "i", "s" }, "<C-u>", function()
-      if not require("noice.lsp").scroll(-4) then
-        return "<C-u>"
-      end
-    end, { silent = true, expr = true })
   end
 }
