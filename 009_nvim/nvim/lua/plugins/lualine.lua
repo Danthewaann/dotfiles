@@ -144,6 +144,33 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
+    local git_extension = {
+      sections = {
+        lualine_a = { function()
+          return "Git Status"
+        end }
+      },
+      inactive_sections = {
+        lualine_c = { function()
+          return "Git Status"
+        end }
+      },
+      filetypes = { "NeogitStatus" }
+    }
+    local git_popup_extension = {
+      sections = {
+        lualine_a = { function()
+          return "Git Popup"
+        end }
+      },
+      inactive_sections = {
+        lualine_c = { function()
+          return "Git Popup"
+        end }
+      },
+      filetypes = { "NeogitPopup" }
+    }
+
     local no_winbar = true
     local base_config = {
       options = {
@@ -163,7 +190,7 @@ return {
           winbar = utils.ignore_filetypes,
         },
       },
-      extensions = { "toggleterm", "man", "quickfix", "aerial" },
+      extensions = { "toggleterm", "man", "quickfix", "aerial", git_extension, git_popup_extension },
       sections = {
         lualine_a = {
           {
