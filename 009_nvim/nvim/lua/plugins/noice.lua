@@ -18,35 +18,35 @@ return {
           },
         },
         {
-          view = "mini",
+          view = "split",
           filter = {
             event = "msg_show",
             kind = "echo",
           },
         },
         {
-          view = "mini",
+          view = "split",
           filter = {
             event = "msg_show",
             kind = "echomsg",
           },
         },
         {
-          view = "mini",
+          view = "split",
           filter = {
             event = "msg_show",
             kind = "echoerr",
           },
         },
         {
-          view = "mini",
+          view = "split",
           filter = {
             event = "msg_show",
             kind = "emsg",
           },
         },
         {
-          view = "mini",
+          view = "split",
           filter = {
             event = "msg_show",
             kind = "wmsg",
