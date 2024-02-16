@@ -61,10 +61,10 @@ keybindings:
     - key: d
       command: >
         clear &&
-        gh pr diff {{.PrNumber}} -R {{.RepoName}}
+        gh pr diff {{.PrNumber}} -R {{.RepoName}} --patch --color always | less
   issues: []
 pager:
-  diff: delta
+  diff: less
 theme:
   ui:
     table:
