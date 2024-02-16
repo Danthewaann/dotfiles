@@ -134,7 +134,6 @@ M.ignore_filetypes = {
   "qf",
   "git",
   "dbui",
-  "undotree",
   "diff",
   "gitcommit",
   "list",

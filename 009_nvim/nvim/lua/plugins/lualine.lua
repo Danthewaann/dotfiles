@@ -181,7 +181,6 @@ return {
           "dbui",
           "DiffviewFiles",
           "DiffviewFileHistory",
-          "undotree",
           "TelescopePrompt",
         },
         globalstatus = true,
