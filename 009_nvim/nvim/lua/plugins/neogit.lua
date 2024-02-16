@@ -3,6 +3,10 @@ return {
   event = "VeryLazy",
   config = function()
     require("neogit").setup({
+      -- Hides the hints at the top of the status buffer
+      disable_hint = true,
+      -- Disables changing the buffer highlights based on where the cursor is.
+      disable_context_highlighting = true,
       kind = "vsplit",
       commit_editor = {
         kind = "split",
@@ -21,7 +25,6 @@ return {
         },
       }
     })
-
 
     -- Git status
     vim.keymap.set("n", "<leader>gg", function()
@@ -46,7 +49,6 @@ return {
       vim.cmd([[ execute "normal! \<ESC>" ]])
       local start_pos = vim.api.nvim_buf_get_mark(0, "<")[1]
       local end_pos = vim.api.nvim_buf_get_mark(0, ">")[1]
-      vim.print(start_pos, end_pos)
       require("neogit").action(
         "log",
         "log_current",
@@ -62,5 +64,9 @@ return {
         require("neogit").close()
       end,
     })
+
+    vim.cmd("highlight! link NeogitHunkHeaderHighlight NeogitSectionHeader")
+    vim.cmd("highlight! link NeogitHunkHeader NeogitSectionHeader")
+    vim.cmd("highlight! link NeogitCommitViewHeader NeogitSectionHeader")
   end
 }
