@@ -61,7 +61,7 @@ keybindings:
     - key: d
       command: >
         clear &&
-        gh pr diff {{.PrNumber}} -R {{.RepoName}} --patch --color always | less
+        gh pr diff {{.PrNumber}} -R {{.RepoName}} --color always | less
   issues: []
 pager:
   diff: less
