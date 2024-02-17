@@ -59,7 +59,7 @@
   "text-case.nvim": { "branch": "main", "commit": "5d85b7495c3cf8e842e4d2528edc68e6fe7c92c8" },
   "treesj": { "branch": "main", "commit": "60e27280030f9cd8dfb6ceb335922c6ff76682cc" },
   "trouble.nvim": { "branch": "main", "commit": "f1168feada93c0154ede4d1fe9183bf69bac54ea" },
-  "tslime.vim": { "branch": "main", "commit": "37b341c08727cfa45c3cec3916c4adf380eb7647" },
+  "tslime.vim": { "branch": "main", "commit": "8466213d64abbb594ef961a33b0f88a7febd8b83" },
   "unimpaired.nvim": { "branch": "main", "commit": "9490f0b05370c3009a22ee04ef4818e52e8b1af4" },
   "vim-autoread": { "branch": "master", "commit": "24061f84652d768bfb85d222c88580b3af138dab" },
   "vim-dadbod": { "branch": "master", "commit": "936e78f44113eac54948474e222293dd70eaef9e" },
