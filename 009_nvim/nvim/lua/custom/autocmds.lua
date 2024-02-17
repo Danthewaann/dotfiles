@@ -137,18 +137,6 @@ autocmd("TextYankPost", {
   end,
 })
 
--- firenvim setup
-augroup("firenvim", { clear = true })
-autocmd("BufEnter", {
-  group = "firenvim",
-  pattern = "*firenvim*.txt",
-  callback = function()
-    ---@diagnostic disable-next-line: missing-fields
-    require("lualine").hide({})
-    vim.cmd.set("filetype=markdown wrap signcolumn=no nonumber statuscolumn= laststatus=0")
-  end,
-})
-
 -- Automatically replace the ticket number in a PR markdown file created with
 -- the `git-pr-create` script
 augroup("replace_ticket_number_in_pr_file", { clear = true })
