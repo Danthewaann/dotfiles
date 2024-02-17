@@ -29,7 +29,7 @@ return {
       ["<leader>r"] = { name = "[R]ename, [R]eplace, [R]estart", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]est, [T]oggle", _ = "which_key_ignore" },
-      ["<leader>v"] = { name = "[V]imspector, [V]isual", _ = "which_key_ignore" },
+      ["<leader>v"] = { name = "[V]imspector", _ = "which_key_ignore" },
       ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
       ["<leader>x"] = { name = "Diagnostic lists", _ = "which_key_ignore" },
     })

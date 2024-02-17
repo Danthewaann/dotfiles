@@ -199,19 +199,7 @@ return {
           },
         },
         lualine_b = {},
-        lualine_c = {
-          {
-            -- From: https://github.com/nvim-lualine/lualine.nvim/issues/951
-            function()
-              if vim.b["visual_multi"] then
-                local ret = vim.api.nvim_exec2("call b:VM_Selection.Funcs.infoline()", { output = true })
-                return string.match(ret.output, "M.*")
-              else
-                return ""
-              end
-            end
-          }
-        },
+        lualine_c = {},
         lualine_x = {
           {
             require("noice").api.statusline.mode.get,
