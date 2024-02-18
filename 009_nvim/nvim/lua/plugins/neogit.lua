@@ -13,7 +13,7 @@ return {
       },
       commit_view = {
         kind = "split",
-        verify_commit = os.execute("which gpg") == 0, -- Can be set to true or false, otherwise we try to find the binary
+        verify_commit = os.execute("which gpg > /dev/null") == 0, -- Can be set to true or false, otherwise we try to find the binary
       },
       log_view = {
         kind = "vsplit",
