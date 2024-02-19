@@ -153,11 +153,6 @@ vim.keymap.set("n", "<leader>ghv", function()
   utils.run_job("gh", { "prv" }, false)
 end, { desc = "[G]it [H]ub [V]iew pull request" })
 
-vim.keymap.set({ "n", "v" }, "<leader>go", function()
-  vim.cmd("silent GBrowse!")
-  utils.print("Copied GitHub link to clipboard!")
-end, { silent = true, desc = "[G]it [O]pen copy url" })
-
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { desc = "[R]e[p]lace current word in file" }
