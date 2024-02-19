@@ -1,12 +1,6 @@
 -- Yank and paste to the system clipboard
 vim.o.clipboard = "unnamedplus"
 
--- Only show the tabline if there is more than one tab
--- NOTE: this is already the default behaviour, but for some
--- reason I need to explicitly set this as sometimes on startup
--- I can see the old tabline before it gets redrawn by lualine.
-vim.o.showtabline = 1
-
 -- Display line numbers
 vim.wo.number = true
 
