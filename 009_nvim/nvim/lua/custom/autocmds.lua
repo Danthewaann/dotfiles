@@ -93,11 +93,11 @@ autocmd("FileType", {
   end
 })
 
--- Turn on spell checking in markdown and gitcommit buffers
+-- Turn on spell checking in markdown and git commit buffers
 augroup("spell_checking", { clear = true })
 autocmd("FileType", {
   group = "spell_checking",
-  pattern = "markdown,gitcommit",
+  pattern = "markdown,NeogitCommitMessage",
   command = "setlocal spell spelllang=en_us,en_gb",
 })
 
@@ -109,22 +109,6 @@ autocmd("FileType", {
   -- Conceal links and special syntax unless cursor hovering over line
   -- Also autowrap text in markdown files
   command = "setlocal conceallevel=2 textwidth=90 formatoptions=cqt wrapmargin=0"
-})
-
--- Start in insert mode in gitcommit files
-augroup("git_commit", { clear = true })
-autocmd("FileType", {
-  group = "git_commit",
-  pattern = "gitcommit",
-  callback = function()
-    vim.cmd("setlocal nowrap nonumber norelativenumber textwidth=0")
-    -- Start in insert mode if the current line is empty
-    -- (when writing a new commit message)
-    local line = vim.fn.getline(vim.fn.line("."))
-    if line == nil or line == "" then
-      vim.cmd("startinsert")
-    end
-  end
 })
 
 -- Highlight on yank

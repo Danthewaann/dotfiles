@@ -8,11 +8,9 @@ return {
 
     -- Adds LSP completion capabilities
     "hrsh7th/cmp-nvim-lsp",
-    "petertriho/cmp-git",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    "davidsierradz/cmp-conventionalcommits",
     "kristijanhusak/vim-dadbod-completion",
 
     -- Adds a number of user-friendly snippets
@@ -21,22 +19,10 @@ return {
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    require("cmp_git").setup({
-      filetypes = { "gitcommit", "markdown" }
-    })
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup({})
 
     -- Set configuration for specific filetype.
-    cmp.setup.filetype("gitcommit", {
-      sources = cmp.config.sources({
-        { name = "conventionalcommits" },
-      }, {
-        { name = "git" },
-      }, {
-        { name = "buffer" },
-      })
-    })
     cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
       sources = cmp.config.sources({
         { name = "vim-dadbod-completion" }

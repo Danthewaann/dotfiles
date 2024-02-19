@@ -135,7 +135,6 @@ M.ignore_filetypes = {
   "git",
   "dbui",
   "diff",
-  "gitcommit",
   "list",
   "help",
   "man",
