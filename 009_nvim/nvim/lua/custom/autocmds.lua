@@ -133,17 +133,3 @@ autocmd("BufEnter", {
     end
   end,
 })
-
--- Save and load views on buffer enter and exit
--- From: https://github.com/kevinhwang91/nvim-ufo/issues/115#issuecomment-1436059023
-augroup("load_and_save_views", { clear = true })
-autocmd("VimEnter", {
-  group = "load_and_save_views",
-  pattern = "*",
-  command = "silent! loadview"
-})
-autocmd("VimLeavePre", {
-  group = "load_and_save_views",
-  pattern = "*",
-  command = "silent! mkview"
-})
