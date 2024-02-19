@@ -117,7 +117,9 @@ return {
     pcall(require("telescope").load_extension, "fzf")
 
     -- See `:help telescope.builtin`
-    vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
+    vim.keymap.set("n", "<leader>?", function()
+      require("telescope.builtin").oldfiles({ only_cwd = true })
+    end, { desc = "[?] Find recently opened files" })
     vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
     vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
       { desc = "[/] Fuzzily search in current buffer" }
@@ -131,7 +133,8 @@ return {
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
     vim.keymap.set("n", "<C-f>", require("telescope.builtin").git_files, { desc = "Search Git Files" })
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
-    vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history, { desc = "[S]earch [C]ommand History" })
+    vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history,
+      { desc = "[S]earch [C]ommand History" })
     vim.keymap.set("n", "<leader>st", require("telescope.builtin").search_history, { desc = "[S]earch His[T]ory" })
     vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
