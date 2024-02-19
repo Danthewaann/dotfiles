@@ -10,6 +10,12 @@
 
 ```vim
 %! jq '.array[] + {"new_key": 0}
+
+
+### Filter an array of objects
+
+```bash
+jq '[.items[] | select(.name == "Bob")] | length]'
 ```
 
 ## Links
