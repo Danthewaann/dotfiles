@@ -6,12 +6,22 @@ return {
       padding = false,
       auto_close = true,
     })
+
     vim.keymap.set("n", "]q", function()
-      require("trouble").next({ skip_groups = true, jump = true })
-    end, { desc = "Jump to next trouble item" })
+      if require("trouble").is_open() == true then
+        require("trouble").next({ skip_groups = true, jump = true })
+      else
+        vim.cmd.cnext()
+      end
+    end, { desc = "Jump to next trouble/qf item" })
     vim.keymap.set("n", "[q", function()
-      require("trouble").previous({ skip_groups = true, jump = true })
-    end, { desc = "Jump to previous trouble item" })
+      if require("trouble").is_open() == true then
+        require("trouble").previous({ skip_groups = true, jump = true })
+      else
+        vim.cmd.cprevious()
+      end
+    end, { desc = "Jump to previous trouble/qf item" })
+
     vim.keymap.set("n", "<leader>q", function()
       require("trouble").toggle()
     end, { desc = "Trouble toggle" })
