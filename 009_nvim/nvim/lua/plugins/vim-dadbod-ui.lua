@@ -28,8 +28,8 @@ return {
     -- Position the drawer on the right side of the window
     vim.g.db_ui_win_position = "right"
 
-    -- Don't use neovim's notfication system
-    vim.g.db_ui_use_nvim_notify = 0
+    -- Use neovim's notfication system
+    vim.g.db_ui_use_nvim_notify = 1
 
     -- Open DB connections window
     vim.keymap.set("n", "<leader>db", ":tabnew<CR>:DBUI<CR>:LualineRenameTab [Database UI]<CR>", { silent = true, desc = "Open [DB] UI" })
