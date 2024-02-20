@@ -9,7 +9,8 @@
 ### Add `new_key` to all objects in `array`
 
 ```vim
-%! jq '.array[] + {"new_key": 0}
+%! jq '.array[] + {"new_key": 0}'
+%! jq '.array[].subArray |= map (. + {new_key: 0})'
 
 
 ### Filter an array of objects
