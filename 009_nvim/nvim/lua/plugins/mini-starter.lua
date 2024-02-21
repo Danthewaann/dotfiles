@@ -16,6 +16,7 @@ return {
     starter.setup({
       header = header,
       items = {
+        starter.sections.sessions(5, true),
         starter.sections.recent_files(10, true),
         { action = "Telescope find_files",     name = "Files",     section = "Actions" },
         { action = require("mini.files").open, name = "Browser",   section = "Actions" },

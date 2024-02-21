@@ -14,6 +14,7 @@ return {
       ["<leader>b"] = { name = "[B]reakpoints", _ = "which_key_ignore" },
       ["<leader>c"] = { name = "[C]ode, [C]ommand", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ocment, [D]iff, [DB]", _ = "which_key_ignore" },
+      ["<leader>e"] = { name = "S[e]ssion", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ile", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it, [G]enerate, [G]lobal", _ = "which_key_ignore" },
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
