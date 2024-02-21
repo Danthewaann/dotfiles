@@ -155,20 +155,7 @@ return {
           return "Git Status"
         end }
       },
-      filetypes = { "NeogitStatus" }
-    }
-    local git_popup_extension = {
-      sections = {
-        lualine_a = { function()
-          return "Git Popup"
-        end }
-      },
-      inactive_sections = {
-        lualine_c = { function()
-          return "Git Popup"
-        end }
-      },
-      filetypes = { "NeogitPopup" }
+      filetypes = { "fugitive" }
     }
 
     local no_winbar = true
@@ -181,6 +168,7 @@ return {
           "dbui",
           "DiffviewFiles",
           "DiffviewFileHistory",
+          "fugitiveblame",
           "TelescopePrompt",
         },
         globalstatus = true,
@@ -188,7 +176,7 @@ return {
           winbar = utils.ignore_filetypes,
         },
       },
-      extensions = { "man", "quickfix", git_extension, git_popup_extension },
+      extensions = { "man", "quickfix", git_extension },
       sections = {
         lualine_a = {
           {

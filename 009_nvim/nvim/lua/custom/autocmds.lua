@@ -53,7 +53,7 @@ autocmd("FileType", {
 augroup("spell_checking", { clear = true })
 autocmd("FileType", {
   group = "spell_checking",
-  pattern = "markdown,NeogitCommitMessage",
+  pattern = "markdown,gitcommit",
   command = "setlocal spell spelllang=en_us,en_gb",
 })
 
@@ -91,5 +91,43 @@ autocmd("BufEnter", {
     if vim.fn.expand("$GIT_PR_CREATE_RAN") == "1" then
       vim.defer_fn(utils.replace_ticket_number, 10)
     end
+  end,
+})
+
+-- fugitive related keymaps
+augroup("git_status", { clear = true })
+autocmd("FileType", {
+  group = "git_status",
+  pattern = "fugitive",
+  callback = function()
+    vim.keymap.set("n", "<Tab>", ":normal =<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "gl", "<cmd>G l<CR>", { desc = "Show git log", buffer = true })
+    vim.cmd("setlocal nowrap nonumber norelativenumber")
+  end,
+})
+
+-- Start in insert mode in gitcommit files
+augroup("git_commit", { clear = true })
+autocmd("FileType", {
+  group = "git_commit",
+  pattern = "gitcommit",
+  callback = function()
+    vim.cmd("setlocal nowrap nonumber norelativenumber textwidth=0")
+    -- Start in insert mode if the current line is empty
+    -- (when writing a new commit message)
+    local line = vim.fn.getline(vim.fn.line("."))
+    if line == nil or line == "" then
+      vim.cmd("startinsert")
+    end
+  end
+})
+
+-- gv.vim setup
+augroup("gv", { clear = true })
+autocmd("FileType", {
+  group = "gv",
+  pattern = "GV",
+  callback = function()
+    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile nomodeline")
   end,
 })

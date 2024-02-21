@@ -133,8 +133,12 @@ end
 M.ignore_filetypes = {
   "qf",
   "git",
+  "fugitive",
+  "fugitiveblame",
   "dbui",
   "diff",
+  "gitcommit",
+  "GV",
   "list",
   "help",
   "man",
