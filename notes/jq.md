@@ -11,12 +11,18 @@
 ```vim
 %! jq '.array[] + {"new_key": 0}'
 %! jq '.array[].subArray |= map (. + {new_key: 0})'
-
+```
 
 ### Filter an array of objects
 
 ```bash
 jq '[.items[] | select(.name == "Bob")] | length]'
+```
+
+### Get specific keys from array of objects
+
+```bash
+jq '.items[] | .id, .name'
 ```
 
 ## Links
