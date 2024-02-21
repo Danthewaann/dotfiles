@@ -64,7 +64,11 @@ autocmd("FileType", {
   pattern = "markdown",
   -- Conceal links and special syntax unless cursor hovering over line
   -- Also autowrap text in markdown files
-  command = "setlocal conceallevel=2 textwidth=90 formatoptions=cqt wrapmargin=0"
+  callback = function()
+    vim.cmd("setlocal conceallevel=2 textwidth=90 formatoptions=cqt wrapmargin=0")
+    -- Don't completely replace backticks
+    vim.cmd('syntax match Entity "`" conceal cchar=`')
+  end
 })
 
 -- Highlight on yank
