@@ -3,6 +3,13 @@ local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
 local utils = require("custom.utils")
 
+augroup("terminal_settings", { clear = true })
+autocmd("TermOpen", {
+  group = "terminal_settings",
+  pattern = "",
+  command = "setlocal nonumber",
+})
+
 -- Disable highlighting for sql files.
 -- treesitter will handle syntax highlighting if the file isn't too large in size
 augroup("sql", { clear = true })
