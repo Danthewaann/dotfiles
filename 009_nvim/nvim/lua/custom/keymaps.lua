@@ -123,8 +123,32 @@ vim.keymap.set("n", "<leader>gg", function()
 end, { desc = "[G]it [G]et" })
 
 -- Git push commands
-vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
-vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
+vim.keymap.set("n", "<leader>gpp", function()
+  utils.print("Pushing to origin")
+  utils.run_job("git", { "push" }, "Pushed to origin", function()
+    vim.defer_fn(function()
+      for i = 1, vim.fn.winnr("$") do
+        if vim.fn.getwinvar(i, "&filetype") == "fugitive" then
+          vim.cmd(":Git")
+          break
+        end
+      end
+    end, 100)
+  end)
+end, { desc = "[G]it [P]ush" })
+vim.keymap.set("n", "<leader>gpf", function()
+  utils.print("Force pushing to origin")
+  utils.run_job("git", { "push", "--force" }, "Force pushed to origin", function()
+    vim.defer_fn(function()
+      for i = 1, vim.fn.winnr("$") do
+        if vim.fn.getwinvar(i, "&filetype") == "fugitive" then
+          vim.cmd(":Git")
+          break
+        end
+      end
+    end, 100)
+  end)
+end, { desc = "[G]it [P]ush [F]orce" })
 
 -- Git worktree commands
 vim.keymap.set("n", "<leader>gub", function()

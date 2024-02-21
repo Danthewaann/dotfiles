@@ -102,7 +102,7 @@ M.run_command_in_term = function(args)
   vim.cmd(":Tmux " .. args)
 end
 
-M.run_job = function(command, args, success_message)
+M.run_job = function(command, args, success_message, callback)
   args = args or {}
   if success_message == nil then
     success_message = "Success!"
@@ -118,6 +118,9 @@ M.run_job = function(command, args, success_message)
       M.print(success_message)
     end
   end)
+  if callback ~= nil then
+    j:add_on_exit_callback(callback)
+  end
   j:start()
 end
 
