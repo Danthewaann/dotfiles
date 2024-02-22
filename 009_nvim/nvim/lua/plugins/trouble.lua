@@ -11,14 +11,30 @@ return {
       if require("trouble").is_open() == true then
         require("trouble").next({ skip_groups = true, jump = true })
       else
-        vim.cmd.cnext()
+        local ok, _ = pcall(vim.cmd, "cnext")
+        if not ok then
+          ok, _ = pcall(vim.cmd, "cfirst")
+          if ok then
+            vim.cmd.normal("zz")
+          end
+        else
+          vim.cmd.normal("zz")
+        end
       end
     end, { desc = "Jump to next trouble/qf item" })
     vim.keymap.set("n", "[q", function()
       if require("trouble").is_open() == true then
         require("trouble").previous({ skip_groups = true, jump = true })
       else
-        vim.cmd.cprevious()
+        local ok, _ = pcall(vim.cmd, "cprevious")
+        if not ok then
+          ok, _ = pcall(vim.cmd, "clast")
+          if ok then
+            vim.cmd.normal("zz")
+          end
+        else
+          vim.cmd.normal("zz")
+        end
       end
     end, { desc = "Jump to previous trouble/qf item" })
 
