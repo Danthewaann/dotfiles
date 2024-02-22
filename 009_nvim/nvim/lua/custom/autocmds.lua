@@ -112,7 +112,8 @@ autocmd("BufLeave", {
   callback = function()
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
     if filetype == "fugitive" then
-      vim.cmd(":Noice enable | redraw")
+      vim.cmd(":Noice enable")
+      vim.cmd(":redraw")
     end
   end,
 })
