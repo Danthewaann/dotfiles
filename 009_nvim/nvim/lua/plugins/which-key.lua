@@ -17,7 +17,6 @@ return {
       ["<leader>e"] = { name = "S[e]ssion", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ile", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it, [G]enerate, [G]lobal", _ = "which_key_ignore" },
-      ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
       ["<leader>gh"] = { name = "[G]it [H]ub", _ = "which_key_ignore" },
       ["<leader>gl"] = { name = "[G]it [L]og", _ = "which_key_ignore" },
       ["<leader>gp"] = { name = "[G]it [P]ush", _ = "which_key_ignore" },
