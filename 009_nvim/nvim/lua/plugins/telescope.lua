@@ -27,6 +27,24 @@ return {
       return { "--hidden" }
     end
 
+    -- From: https://github.com/nvim-telescope/telescope.nvim/issues/2014#issuecomment-1873229658
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "TelescopeResults",
+      callback = function(ctx)
+        vim.api.nvim_buf_call(ctx.buf, function()
+          vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+          vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+        end)
+      end,
+    })
+
+    local function filename_first(_, path)
+      local tail = vim.fs.basename(path)
+      local parent = vim.fs.dirname(path)
+      if parent == "." then return tail end
+      return string.format("%s\t\t%s", tail, parent)
+    end
+
     require("telescope").setup({
       defaults = {
         -- Cache the last 10 pickers so I can resume them later
@@ -63,7 +81,8 @@ return {
         mappings = {
           ["i"] = {
             ["<C-r>"] = actions.to_fuzzy_refine,
-            ["<C-t>"] = trouble.open_with_trouble
+            ["<C-e>"] = trouble.open_with_trouble,
+            ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
           }
         }
       },
@@ -73,25 +92,73 @@ return {
         lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
         lsp_implementations = { theme = "ivy", show_line = false },
         lsp_type_definitions = { theme = "ivy" },
-        lsp_incoming_calls = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.5, symbol_width = 0.5 },
-        lsp_outgoing_calls = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.5, symbol_width = 0.5 },
-        lsp_workspace_symbols = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.4, symbol_width = 0.4, symbol_type_width = 0.2 },
-        lsp_dynamic_workspace_symbols = { theme = "ivy", path_display = { "truncate" }, fname_width = 0.4, symbol_width = 0.5 },
-        lsp_document_symbols = { theme = "ivy", previewer = true, symbol_width = 0.9 },
-        current_buffer_fuzzy_find = { theme = "dropdown", previewer = false, layout_config = dropdown_layout_config },
-        buffers = { theme = "dropdown", previewer = false, sort_mru = true, ignore_current_buffer = true, layout_config = dropdown_layout_config },
-        oldfiles = { theme = "dropdown", previewer = false, layout_config = dropdown_layout_config },
+        lsp_incoming_calls = {
+          theme = "ivy",
+          previewer = false,
+          path_display = { "truncate" },
+          fname_width = 0.6,
+          symbol_width = 0.4,
+        },
+        lsp_outgoing_calls = {
+          theme = "ivy",
+          previewer = false,
+          path_display = { "truncate" },
+          fname_width = 0.6,
+          symbol_width = 0.4,
+        },
+        lsp_workspace_symbols = {
+          theme = "ivy",
+          previewer = false,
+          path_display = { "truncate" },
+          fname_width = 0.6,
+          symbol_width = 0.3,
+          symbol_type_width = 0.1,
+        },
+        lsp_dynamic_workspace_symbols = {
+          theme = "ivy",
+          previewer = false,
+          path_display = { "truncate" },
+          fname_width = 0.6,
+          symbol_width = 0.3,
+          symbol_type_width = 0.1,
+        },
+        lsp_document_symbols = {
+          theme = "ivy",
+          previewer = false,
+          symbol_width = 0.9,
+        },
+        current_buffer_fuzzy_find = {
+          theme = "dropdown",
+          previewer = false,
+          layout_config = dropdown_layout_config,
+        },
+        buffers = {
+          theme = "dropdown",
+          previewer = false,
+          sort_mru = true,
+          ignore_current_buffer = true,
+          layout_config = dropdown_layout_config,
+          path_display = filename_first,
+        },
+        oldfiles = {
+          theme = "dropdown",
+          previewer = false,
+          layout_config = dropdown_layout_config,
+          path_display = filename_first,
+        },
         find_files = {
           theme = "dropdown",
           previewer = false,
           no_ignore = true,
           hidden = true,
           layout_config = dropdown_layout_config,
+          path_display = filename_first,
         },
         git_files = {
           theme = "dropdown",
           previewer = false,
           layout_config = dropdown_layout_config,
+          path_display = filename_first,
         },
         help_tags = { theme = "ivy" },
         git_commits = { theme = "ivy" },
@@ -105,9 +172,19 @@ return {
         --   previewer = false,
         -- },
         man_pages = { theme = "ivy", previewer = false },
-        diagnostics = { theme = "ivy", wrap_results = true },
-        grep_string = { theme = "ivy", use_regex = true, additional_args = grep_args },
-        live_grep = { theme = "ivy", use_regex = true, additional_args = grep_args },
+        diagnostics = { theme = "ivy", previewer = false },
+        grep_string = {
+          theme = "ivy",
+          previewer = false,
+          use_regex = true,
+          additional_args = grep_args,
+        },
+        live_grep = {
+          theme = "ivy",
+          previewer = false,
+          use_regex = true,
+          additional_args = grep_args,
+        },
       },
     })
 
