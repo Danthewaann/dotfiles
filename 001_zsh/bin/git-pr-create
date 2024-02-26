@@ -101,8 +101,17 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+cur_branch=$(git branch --show-current)
+
+# Check that this branch exists remotely
+if ! git branch -r | grep "$cur_branch" > /dev/null 2>&1; then
+    >&2 echo
+    error "Branch doesn't exist on remote origin!"
+    exit 1
+fi
+
 # Check if a PR has already been opened for the current branch
-if pr_title=$(gh pr list | grep "$(git branch --show-current)" | cut -f2); then
+if pr_title=$(gh pr list | grep "$cur_branch" | cut -f2); then
     >&2 echo
     warn "A PR has already been opened for this branch"
     pr_info

@@ -34,6 +34,15 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+cur_branch=$(git branch --show-current)
+
+# Check that this branch exists remotely
+if ! git branch -r | grep "$cur_branch" > /dev/null 2>&1; then
+    >&2 echo
+    error "Branch doesn't exist on remote origin!"
+    exit 1
+fi
+
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
 existing_old_pr_files=()
 while IFS=$'\n' read -r file; do existing_old_pr_files+=("$file"); done < <(find ./git-pr-edit*old* 2> /dev/null | sort --reverse)
