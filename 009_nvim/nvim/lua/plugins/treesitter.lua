@@ -38,6 +38,8 @@ return {
         "sql",
         "toml",
         "terraform",
+        "objc",
+        "swift",
       },
 
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
