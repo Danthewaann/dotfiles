@@ -160,9 +160,13 @@ return {
           layout_config = dropdown_layout_config,
           path_display = filename_first,
         },
+        git_status = {
+          theme = "dropdown",
+          previewer = false,
+          layout_config = dropdown_layout_config,
+        },
         help_tags = { theme = "ivy" },
         git_commits = { theme = "ivy" },
-        git_status = { theme = "ivy" },
         search_history = { theme = "dropdown", layout_config = dropdown_layout_config },
         command_history = { theme = "dropdown", layout_config = dropdown_layout_config },
         -- TODO: this doesn't work as when you select a picker
