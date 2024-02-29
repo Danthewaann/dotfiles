@@ -4,9 +4,6 @@ vim.o.clipboard = "unnamedplus"
 -- Display line numbers
 vim.wo.number = true
 
--- Show which line your cursor is on
-vim.o.cursorline = true
-
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
 
