@@ -5,11 +5,18 @@ return {
     -- See `:help gitsigns.txt`
     preview_config = {
       -- Options passed to nvim_open_win
-      border = 'rounded',
-      style = 'minimal',
-      relative = 'cursor',
+      border = "rounded",
+      style = "minimal",
+      relative = "cursor",
       row = 0,
       col = 1
+    },
+    signs = {
+      add = { text = "+" },
+      change = { text = "~" },
+      delete = { text = "_" },
+      topdelete = { text = "‾" },
+      changedelete = { text = "~" },
     },
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
