@@ -100,21 +100,9 @@ autocmd("FileType", {
   group = "git_status",
   pattern = "fugitive",
   callback = function()
-    vim.cmd(":Noice disable")
     vim.keymap.set("n", "<Tab>", ":normal =<CR>", { buffer = true, silent = true })
     vim.keymap.set("n", "gl", "<cmd>G l<CR>", { desc = "Show git log", buffer = true })
     vim.cmd("setlocal nowrap nonumber norelativenumber")
-  end,
-})
-autocmd("BufLeave", {
-  group = "git_status",
-  pattern = "*",
-  callback = function()
-    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
-    if filetype == "fugitive" then
-      vim.cmd(":Noice enable")
-      vim.cmd(":redraw")
-    end
   end,
 })
 

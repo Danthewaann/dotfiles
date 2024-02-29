@@ -190,11 +190,6 @@ return {
         lualine_b = {},
         lualine_c = {},
         lualine_x = {
-          {
-            require("noice").api.statusline.mode.get,
-            cond = require("noice").api.statusline.mode.has,
-            color = { fg = colors.cyan },
-          },
           "searchcount", "encoding", "fileformat", "progress",
         },
         lualine_y = {},

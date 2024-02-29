@@ -125,11 +125,11 @@ M.run_job = function(command, args, success_message, callback)
 end
 
 M.print = function(msg)
-  require("noice").notify(msg, vim.log.levels.INFO)
+  vim.notify(msg, vim.log.levels.INFO)
 end
 
 M.print_err = function(err)
-  require("noice").notify(err, vim.log.levels.ERROR)
+  vim.notify(err, vim.log.levels.ERROR)
 end
 
 -- filetypes to ignore for plugins
