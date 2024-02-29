@@ -5,7 +5,7 @@ vim.o.clipboard = "unnamedplus"
 vim.wo.number = true
 
 -- Preview substitutions live, as you type!
-vim.o.inccommand = 'split'
+vim.o.inccommand = "split"
 
 -- Disable wrap
 vim.o.wrap = false
@@ -24,8 +24,8 @@ else
   vim.o.completeo = "menuone,noselect"
 end
 
--- Show tabs and newline characters when `list` is enabled
-vim.o.listchars = "eol:¬,tab:▸."
+-- Show special characters when `list` is enabled
+vim.opt.listchars = { tab = "▸.", trail = "·", nbsp = "␣", eol = "¬" }
 
 -- Open splits naturally to the below and to the right
 vim.o.splitbelow = true
