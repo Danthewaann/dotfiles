@@ -19,9 +19,9 @@ vim.o.breakindent = true
 
 -- Set completeo to have a better completion experience
 if vim.fn.has("nvim-0.10") == 1 then
-  vim.o.completeopt = "menuone,noselect"
+  vim.o.completeopt = "menu,menuone,noinsert"
 else
-  vim.o.completeo = "menuone,noselect"
+  vim.o.completeo = "menu,menuone,noinsert"
 end
 
 -- Show special characters when `list` is enabled
