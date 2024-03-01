@@ -1,5 +1,3 @@
-[include]
-    path = ~/themes.gitconfig
 [user]
     name = AUTHORNAME
     email = AUTHOREMAIL
