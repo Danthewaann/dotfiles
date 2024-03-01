@@ -113,9 +113,13 @@ M.run_job = function(command, args, success_message, callback)
     local output = j:stderr_result()
     if j.code ~= 0 then
       local output_str = M.trim(table.concat(output, "\n"))
-      M.print_err(output_str)
+      vim.schedule(function()
+        M.print_err(output_str)
+      end)
     elseif success_message ~= false then
-      M.print(success_message)
+      vim.schedule(function()
+        M.print(success_message)
+      end)
     end
   end)
   if callback ~= nil then
