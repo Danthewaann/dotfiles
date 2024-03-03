@@ -36,3 +36,6 @@ run_command "installing sql-formatter" \
 
 run_command "installing commitlint" \
     "npm install -g @commitlint/{config-conventional,cli}"
+
+run_command "installing tree-sitter CLI" \
+    "npm install -g tree-sitter-cli"
