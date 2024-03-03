@@ -11,4 +11,5 @@ Session.vim
 
 001_zsh/functions/_poetry
 001_zsh/functions/_gh
+006_docker/config.json
 variables

@@ -1,8 +1,6 @@
 {
 	"auths": {},
 	"detachKeys": "ctrl-z,z",
-	"credsStore": "desktop",
-	"currentContext": "desktop-linux",
 	"plugins": {
 		"-x-cli-hints": {
 			"enabled": "true"
