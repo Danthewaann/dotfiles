@@ -38,7 +38,7 @@ else
     if ! grep -i "docker" /etc/apt/sources.list.d/docker.list > /dev/null 2>&1; then
         run_command "adding /etc/apt/keyrings/docker.gpg to -> /etc/apt/sources.list.d/docker.list" \
             "echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \\
-            $(lsb_release -cs) stable | /etc/apt/sources.list.d/docker.list"
+            $(lsb_release -cs) stable > /etc/apt/sources.list.d/docker.list"
     fi
 
     # Install the docker engine
