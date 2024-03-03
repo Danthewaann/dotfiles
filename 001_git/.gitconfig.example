@@ -4,6 +4,9 @@
 [credential]
     helper = GIT_CREDENTIAL_HELPER
 [alias]
+    s = status
+    sb = status -s -b
+    #############
     a = add --all
     #############
     d = diff
