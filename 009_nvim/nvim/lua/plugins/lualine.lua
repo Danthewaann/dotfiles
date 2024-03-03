@@ -162,7 +162,7 @@ return {
     local base_config = {
       options = {
         theme = custom_theme,
-        component_separators = { left = "", right = "" },
+        component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         ignore_focus = {
           "dbui",
