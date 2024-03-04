@@ -179,19 +179,10 @@ return {
       },
       extensions = { "man", "quickfix", git_extension },
       sections = {
-        lualine_a = {
-          {
-            "mode",
-            fmt = function(mode)
-              return vim.b["visual_multi"] and mode .. " - MULTI" or mode
-            end
-          },
-        },
+        lualine_a = { "mode" },
         lualine_b = {},
         lualine_c = {},
-        lualine_x = {
-          "searchcount", "encoding", "fileformat", "progress",
-        },
+        lualine_x = { "searchcount", "progress" },
         lualine_y = {},
         lualine_z = { "location" },
       },
