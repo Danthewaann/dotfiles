@@ -1,6 +1,9 @@
 -- Yank and paste to the system clipboard
 vim.o.clipboard = "unnamedplus"
 
+-- Show where the cursor is
+vim.o.cursorline = true
+
 -- Display line numbers
 vim.wo.number = true
 
