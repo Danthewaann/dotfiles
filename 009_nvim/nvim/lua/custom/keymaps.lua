@@ -59,6 +59,23 @@ vim.keymap.set("n", "}", "}zz", { desc = "Previous paragraph" })
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
+-- Quickfix list
+vim.keymap.set("n", "<leader>tq", function()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win["quickfix"] == 1 then
+      qf_exists = true
+    end
+  end
+  if qf_exists == true then
+    vim.cmd "cclose"
+    return
+  end
+  if not vim.tbl_isempty(vim.fn.getqflist()) then
+    vim.cmd "copen"
+  end
+end, { desc = "[T]oggle [Q]uickfix" })
+
 -- Window navigation
 vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
