@@ -88,6 +88,14 @@ return {
           query = word,
         })
       end, "[S]earch Current Workspace [S]ymbol")
+      nmap("<leader>sf", function()
+        local word = vim.fn.expand("<cword>")
+        require("telescope.builtin").lsp_workspace_symbols({
+          prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
+          query = word,
+          symbols = {"function", "method"}
+        })
+      end, "[S]earch Current Workspace [F]unction symbols")
 
       -- See `:help K` for why this keymap
       nmap("K", function()
