@@ -93,7 +93,7 @@ return {
         require("telescope.builtin").lsp_workspace_symbols({
           prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
           query = word,
-          symbols = {"function", "method"}
+          symbols = { "function", "method" }
         })
       end, "[S]earch Current Workspace [F]unction symbols")
 
