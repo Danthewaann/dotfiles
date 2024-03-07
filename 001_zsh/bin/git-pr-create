@@ -131,11 +131,7 @@ if [[ "${#existing_new_pr_files[@]}" -gt 0 ]]; then
     info "Using existing PR file: $new_pr_file_name"
     sleep 1
 
-    if [[ $OSTYPE == "darwin"* ]]; then
-        old_file_md5=$(md5 -q "$old_pr_file_name")
-    else
-        old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
-    fi
+    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
 
     $EDITOR "$new_pr_file_name"
 else
@@ -206,20 +202,12 @@ else
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
-    if [[ $OSTYPE == "darwin"* ]]; then
-        old_file_md5=$(md5 -q "$old_pr_file_name")
-    else
-        old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
-    fi
+    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
 
     $EDITOR "$new_pr_file_name"
 fi
 
-if [[ $OSTYPE == "darwin"* ]]; then
-    new_file_md5=$(md5 -q "$new_pr_file_name")
-else
-    new_file_md5=$(md5sum "$new_pr_file_name" | cut -d' ' -f1)
-fi
+new_file_md5=$(md5sum "$new_pr_file_name" | cut -d' ' -f1)
 
 if [[ "$old_file_md5" == "$new_file_md5" ]]; then
     >&2 echo -e "\nNo PR created!"

@@ -146,7 +146,6 @@ else
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$("$PYENV_ROOT"/bin/pyenv init -)"
 
-    alias md5="md5sum"
     alias pbcopy="xclip"
 fi
 

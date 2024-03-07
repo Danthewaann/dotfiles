@@ -38,6 +38,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing findutils" \
         "brew install findutils"
+
+    run_command "installing md5sum" \
+        "brew install md5sha1sum"
 fi
 
 if ! inside_wsl; then
