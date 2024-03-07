@@ -142,37 +142,9 @@ vim.keymap.set("n", "<leader>gg", function()
   end
 end, { desc = "[G]it [G]et" })
 
--- Git push commands
+-- Git commands
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
-
--- Git worktree commands
-vim.keymap.set("n", "<leader>gub", function()
-  utils.print("Updating base worktree...")
-  utils.run_job("gitw-update-base")
-end, { desc = "[G]it [U]pdate [B]ase" })
-
-vim.keymap.set("n", "<leader>guc", function()
-  utils.print("Updating current worktree...")
-  utils.run_job("git", { "pull" })
-end, { desc = "[G]it [U]pdate [C]urrent" })
-
-vim.keymap.set("n", "<leader>grb", function()
-  utils.print("Rebasing with base worktree...")
-  utils.run_job("gitw-rebase-with-base")
-end, { desc = "[G]it [R]ebase with [B]ase" })
-
--- GitHub commands
-vim.keymap.set("n", "<leader>ghr", function()
-  utils.print("Opening GitHub repository...")
-  utils.run_job("gh", { "rv" }, false)
-end, { desc = "[G]it [H]ub [R]epo view" })
-
-vim.keymap.set("n", "<leader>ghv", function()
-  utils.print("Opening PR for current branch...")
-  utils.run_job("gh", { "prv" }, false)
-end, { desc = "[G]it [H]ub [V]iew pull request" })
-
 vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>", { silent = true, desc = "[G]it [Y]ank URL" })
 
 -- Replace current word in current file
@@ -193,18 +165,25 @@ vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
 vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
 -- Select custom command to run from a visual prompt
-vim.keymap.set("n", "<leader>cr", function()
-  local commands = { "Save Session" }
+vim.keymap.set("n", "<leader>p", function()
+  local commands = {
+    "Open GitHub repository",
+    "Open pull request",
+    "Git pull",
+    "Git pull base worktree",
+    "Git rebase with base worktree",
+    "Save session",
+  }
   local cmd = utils.get_project_linting_cmd()
   if cmd ~= nil then
-    table.insert(commands, 1, "lint")
+    table.insert(commands, "Lint")
   end
 
   local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
   if has_makefile then
-    table.insert(commands, "make lint")
-    table.insert(commands, "make test")
-    table.insert(commands, "make shell")
+    table.insert(commands, "Make lint")
+    table.insert(commands, "Make test")
+    table.insert(commands, "Make shell")
   end
 
   if #commands == 0 then
@@ -214,23 +193,33 @@ vim.keymap.set("n", "<leader>cr", function()
 
   vim.ui.select(
     commands,
-    { prompt = "Select command to run" },
+    { prompt = "Command prompt" },
     function(choice)
-      if choice == "Save Session" then
+      if choice == "Open GitHub repository" then
+        utils.run_job("gh", { "rv" }, false)
+      elseif choice == "Open pull request" then
+        utils.run_job("gh", { "prv" }, false)
+      elseif choice == "Git pull" then
+        vim.cmd("Git pull")
+      elseif choice == "Git pull base worktree" then
+        utils.run_job("gitw-update-base", {}, false)
+      elseif choice == "Git rebase with base worktree" then
+        utils.run_job("gitw-rebase-with-base", {}, false)
+      elseif choice == "Save session" then
         MiniSessions.write("Session.vim")
-      elseif choice == "lint" then
+      elseif choice == "Lint" then
         ---@diagnostic disable-next-line: param-type-mismatch
         utils.run_command_in_term(table.concat(cmd, " "))
-      elseif choice == "make lint" then
+      elseif choice == "Make lint" then
         utils.run_command_in_term("make lint")
-      elseif choice == "make test" then
+      elseif choice == "Make test" then
         utils.run_command_in_term("make test")
-      elseif choice == "make shell" then
+      elseif choice == "Make shell" then
         utils.run_command_in_term("make test")
       end
     end
   )
-end, { desc = "[C]ommand [R]un" })
+end, { desc = "Command [P]rompt" })
 
 vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
