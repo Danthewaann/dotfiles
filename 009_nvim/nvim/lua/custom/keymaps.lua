@@ -194,7 +194,7 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>cr", function()
-  local commands = {}
+  local commands = { "Save Session" }
   local cmd = utils.get_project_linting_cmd()
   if cmd ~= nil then
     table.insert(commands, 1, "lint")
@@ -216,7 +216,9 @@ vim.keymap.set("n", "<leader>cr", function()
     commands,
     { prompt = "Select command to run" },
     function(choice)
-      if choice == "lint" then
+      if choice == "Save Session" then
+        MiniSessions.write("Session.vim")
+      elseif choice == "lint" then
         ---@diagnostic disable-next-line: param-type-mismatch
         utils.run_command_in_term(table.concat(cmd, " "))
       elseif choice == "make lint" then
