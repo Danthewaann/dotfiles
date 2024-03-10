@@ -157,8 +157,6 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=@k<CR>/<C-r>=@k<CR>/gI<Left><Le
   { desc = "[R]e[p]lace selection in file" }
 )
 
-vim.keymap.set("n", "<leader>fx", "<cmd>!chmod +x %<CR>", { desc = "[F]ile Make [E]xecutable" })
-
 -- Use <C-P> and <C-N> to cycle through history in vim command mode
 -- This is needed to allow command line completion to work properly
 vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
@@ -167,11 +165,12 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
   local commands = {
-    "Open GitHub repository",
-    "Open pull request",
     "Git pull",
     "Git pull base worktree",
     "Git rebase with base worktree",
+    "Mark current file as executable",
+    "Open GitHub repository",
+    "Open pull request",
     "Save session",
   }
   local cmd = utils.get_project_linting_cmd()
@@ -199,6 +198,12 @@ vim.keymap.set("n", "<leader>p", function()
         utils.run_job("gh", { "rv" }, false)
       elseif choice == "Open pull request" then
         utils.run_job("gh", { "prv" }, false)
+      elseif choice == "Mark current file as executable" then
+        utils.run_job(
+          "chmod",
+          { "+x", vim.fn.expand("%") },
+          "Marked " .. vim.fn.expand("%") .. " as executable"
+        )
       elseif choice == "Git pull" then
         vim.cmd("Git pull")
       elseif choice == "Git pull base worktree" then
