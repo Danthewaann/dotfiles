@@ -6,7 +6,7 @@ return {
     require("oil").setup({
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
       -- Set to false if you still want to use netrw.
-      default_file_explorer = false,
+      default_file_explorer = true,
       -- Skip the confirmation popup for simple operations
       skip_confirm_for_simple_edits = true,
       -- Window-local options to use for oil buffers

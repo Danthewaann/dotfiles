@@ -18,10 +18,10 @@ return {
       items = {
         starter.sections.sessions(5, true),
         starter.sections.recent_files(10, true),
-        { action = "Telescope find_files",     name = "Files",     section = "Actions" },
-        { action = require("mini.files").open, name = "Browser",   section = "Actions" },
-        { action = "Telescope live_grep",      name = "Live grep", section = "Actions" },
-        { action = "Telescope oldfiles",       name = "Old files", section = "Actions" },
+        { action = "Telescope find_files", name = "Files",     section = "Actions" },
+        { action = require("oil").open,    name = "Browser",   section = "Actions" },
+        { action = "Telescope live_grep",  name = "Live grep", section = "Actions" },
+        { action = "Telescope oldfiles",   name = "Old files", section = "Actions" },
         starter.sections.builtin_actions(),
       },
       content_hooks = {
@@ -29,10 +29,10 @@ return {
         starter.gen_hook.aligning("center", "center"),
         starter.gen_hook.padding(3, 2),
       },
-      query_updaters = 'BFLOabcdefghijklmnopqrstuvwxyz0123456789_-.',
+      query_updaters = "BFLOabcdefghijklmnopqrstuvwxyz0123456789_-.",
       silent = true,
     })
 
-    vim.keymap.set("n", "<leader>ms", "<cmd> lua MiniStarter.open()<CR>", {desc = "[M]ini [S]tarter"})
+    vim.keymap.set("n", "<leader>ms", "<cmd> lua MiniStarter.open()<CR>", { desc = "[M]ini [S]tarter" })
   end
 }
