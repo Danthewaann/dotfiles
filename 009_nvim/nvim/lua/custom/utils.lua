@@ -74,26 +74,6 @@ M.get_project_linting_cmd = function()
   return cmd
 end
 
-M.get_ticket_number = function()
-  return vim.fn.trim(vim.fn.system("get-ticket-number"))
-end
-
-M.replace_ticket_number = function()
-  local ticket_number = M.get_ticket_number()
-  if vim.v.shell_error ~= 0 then
-    M.print_err(ticket_number)
-    return
-  end
-
-  local ok, _ = pcall(vim.cmd, "%s/TICKET_NUMBER/" .. ticket_number .. "/g")
-  if not ok then
-    M.print_err("TICKET_NUMBER pattern not found in file!")
-    return
-  end
-
-  vim.cmd("normal! ``")
-end
-
 M.trim = function(s)
   return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
 end

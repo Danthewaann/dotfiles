@@ -167,8 +167,6 @@ else
         pr_title=$(git log -1 --pretty=%B)
     fi
 
-    export GIT_PR_CREATE_RAN=1
-
     cur_time=$(date +%s)
     old_pr_file_name=git-pr-create."$cur_time".old.md
     new_pr_file_name=git-pr-create."$cur_time".new.md
@@ -201,6 +199,15 @@ else
     fi
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
+
+    if ! ticket_number=$(get-ticket-number 2>&1); then
+        >&2 echo
+        warn "$ticket_number"
+        sleep 1
+    else
+        $SED -i "s/TICKET_NUMBER/$ticket_number/g" "$old_pr_file_name"
+        $SED -i "s/TICKET_NUMBER/$ticket_number/g" "$new_pr_file_name"
+    fi
 
     old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
 
