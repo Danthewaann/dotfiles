@@ -14,7 +14,7 @@ fi
 
 if [[ ! -f "$SCRIPT_DIR/Hack.zip" ]]; then
     run_command "downloading nerd hack fonts" \
-        "wget -O $SCRIPT_DIR/Hack.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip"
+        "wget -O $SCRIPT_DIR/Hack.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip"
 fi
 
 # Install Hack Nerd font family
@@ -24,4 +24,6 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     run_command "unpacking fonts to -> /usr/local/share/fonts/" \
         "sudo unzip -o $SCRIPT_DIR/Hack.zip -x \"*.md\" -d /usr/local/share/fonts/"
+    run_command "refreshing font cache" \
+        "fc-cache -r -v"
 fi
