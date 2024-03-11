@@ -24,6 +24,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     run_command "unpacking fonts to -> /usr/local/share/fonts/" \
         "sudo unzip -o $SCRIPT_DIR/Hack.zip -x \"*.md\" -d /usr/local/share/fonts/"
-    run_command "refreshing font cache" \
-        "fc-cache -r -v"
 fi
+
+run_command "refreshing font cache" \
+    "fc-cache -r -v"
