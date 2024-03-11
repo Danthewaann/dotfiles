@@ -165,6 +165,7 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
   local commands = {
+    "Delete all other buffers",
     "Git pull",
     "Git pull base worktree",
     "Git rebase with base worktree",
@@ -212,6 +213,8 @@ vim.keymap.set("n", "<leader>p", function()
         utils.run_job("gitw-rebase-with-base", {}, false)
       elseif choice == "Save session" then
         MiniSessions.write("Session.vim")
+      elseif choice == "Delete all other buffers" then
+        vim.cmd("%bd|e#|bd#")
       elseif choice == "Lint" then
         ---@diagnostic disable-next-line: param-type-mismatch
         utils.run_command_in_term(table.concat(cmd, " "))
