@@ -165,65 +165,68 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
   local commands = {
-    "Delete all other buffers",
-    "Git pull",
-    "Git pull base worktree",
-    "Git rebase with base worktree",
-    "Mark current file as executable",
-    "Open GitHub repository",
-    "Open pull request",
-    "Save session",
+    ["da (delete all other buffers)"] = function()
+      vim.cmd("%bd|e#|bd#")
+    end,
+    ["fx (make file as executable)"] = function()
+      utils.run_job(
+        "chmod",
+        { "+x", vim.fn.expand("%") },
+        "Marked " .. vim.fn.expand("%") .. " as executable"
+      )
+    end,
+    ["gp (git pull)"] = function()
+      vim.cmd("Git pull")
+    end,
+    ["gub (git update base worktree)"] = function()
+      vim.cmd("!gitw-update-base")
+    end,
+    ["grb (git rebase with base worktree)"] = function()
+      vim.cmd("!gitw-rebase-with-base")
+    end,
+    ["rv (repository view)"] = function()
+      utils.run_job("gh", { "rv" }, false)
+    end,
+    ["prv (pull request view)"] = function()
+      utils.run_job("gh", { "prv" }, false)
+    end,
+    ["ss (save session)"] = function()
+      MiniSessions.write("Session.vim")
+    end,
   }
+
   local cmd = utils.get_project_linting_cmd()
   if cmd ~= nil then
-    table.insert(commands, "Lint")
+    commands["l (lint)"] = function()
+      utils.run_command_in_term(table.concat(cmd, " "))
+    end
   end
 
   local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
+  print(has_makefile)
   if has_makefile then
-    table.insert(commands, "Make lint")
-    table.insert(commands, "Make test")
-    table.insert(commands, "Make shell")
+    commands["ml (make lint)"] = function()
+      utils.run_command_in_term("make lint")
+    end
+    commands["mt (make test)"] = function()
+      utils.run_command_in_term("make test")
+    end
+    commands["ms (make shell)"] = function()
+      utils.run_command_in_term("make shell")
+    end
   end
 
-  if #commands == 0 then
-    utils.print_err("No commands supported")
-    return
-  end
+  local keys = vim.tbl_keys(commands)
+  table.sort(keys)
 
   vim.ui.select(
-    commands,
+    keys,
     { prompt = "Command prompt" },
     function(choice)
-      if choice == "Open GitHub repository" then
-        utils.run_job("gh", { "rv" }, false)
-      elseif choice == "Open pull request" then
-        utils.run_job("gh", { "prv" }, false)
-      elseif choice == "Mark current file as executable" then
-        utils.run_job(
-          "chmod",
-          { "+x", vim.fn.expand("%") },
-          "Marked " .. vim.fn.expand("%") .. " as executable"
-        )
-      elseif choice == "Git pull" then
-        vim.cmd("Git pull")
-      elseif choice == "Git pull base worktree" then
-        utils.run_job("gitw-update-base", {}, false)
-      elseif choice == "Git rebase with base worktree" then
-        utils.run_job("gitw-rebase-with-base", {}, false)
-      elseif choice == "Save session" then
-        MiniSessions.write("Session.vim")
-      elseif choice == "Delete all other buffers" then
-        vim.cmd("%bd|e#|bd#")
-      elseif choice == "Lint" then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        utils.run_command_in_term(table.concat(cmd, " "))
-      elseif choice == "Make lint" then
-        utils.run_command_in_term("make lint")
-      elseif choice == "Make test" then
-        utils.run_command_in_term("make test")
-      elseif choice == "Make shell" then
-        utils.run_command_in_term("make test")
+      for key, value in pairs(commands) do
+        if choice == key then
+          value()
+        end
       end
     end
   )
