@@ -15,3 +15,6 @@ run_command "installing agg - asciinema gif generator" \
 
 run_command "installing sleek - sql formatter" \
     "cargo install sleek"
+
+run_command "installing presenterm - markdown slides in the terminal" \
+    "cargo install presenterm"
