@@ -31,9 +31,6 @@ run_command "using node $NODE_VERSION" \
 run_command "installing prettierd" \
     "npm i -g @fsouza/prettierd"
 
-run_command "installing sql-formatter" \
-    "npm i -g sql-formatter"
-
 run_command "installing commitlint" \
     "npm install -g @commitlint/{config-conventional,cli}"
 

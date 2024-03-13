@@ -6,6 +6,9 @@ return {
 
     require("conform").setup({
       formatters = {
+        sleek = {
+          command = "sleek",
+        },
         ruff_fix = {
           command = utils.get_poetry_venv_executable_path("ruff"),
           args = {
@@ -31,9 +34,9 @@ return {
         json = { { "prettierd", "prettier" } },
         markdown = { { "prettierd", "prettier" } },
         yaml = { { "prettierd", "prettier" } },
-        sql = { "sql_formatter" },
-        mysql = { "sql_formatter" },
-        plsql = { "sql_formatter" },
+        sql = { "sleek" },
+        mysql = { "sleek" },
+        plsql = { "sleek" },
         -- Use the "*" filetype to run formatters on all filetypes.
         ["*"] = { "codespell" },
         -- Use the "_" filetype to run formatters on filetypes that don't

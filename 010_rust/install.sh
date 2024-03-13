@@ -12,3 +12,6 @@ run_command "installing rust" \
 
 run_command "installing agg - asciinema gif generator" \
     "cargo install --git https://github.com/asciinema/agg"
+
+run_command "installing sleek - sql formatter" \
+    "cargo install sleek"
