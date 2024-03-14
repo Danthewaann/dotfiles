@@ -193,6 +193,21 @@ vim.keymap.set("n", "<leader>p", function()
     ["ss (save session)"] = function()
       MiniSessions.write("Session.vim")
     end,
+    ["ti (open ticket)"] = function()
+      local ticket_number = vim.fn.trim(vim.fn.system("get-ticket-number"))
+      if vim.v.shell_error ~= 0 then
+        M.print_err(ticket_number)
+        return
+      end
+
+      local base_url = vim.fn.expand("$BASE_TICKETS_URL")
+      if base_url == "$BASE_TICKETS_URL" then
+        M.print_err("BASE_TICKETS_URL environment variable is not set!")
+        return
+      end
+
+      vim.cmd(":Browse " .. base_url .. "" .. ticket_number)
+    end,
   }
 
   local cmd = utils.get_project_linting_cmd()
