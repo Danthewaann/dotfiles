@@ -168,6 +168,9 @@ vim.keymap.set("n", "<leader>p", function()
     ["da (delete all other buffers)"] = function()
       vim.cmd("%bd|e#|bd#")
     end,
+    ["db (dashboard)"] = function()
+      MiniStarter.open()
+    end,
     ["fx (make file as executable)"] = function()
       utils.run_job(
         "chmod",

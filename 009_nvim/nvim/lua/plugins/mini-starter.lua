@@ -32,7 +32,5 @@ return {
       query_updaters = "BFLOabcdefghijklmnopqrstuvwxyz0123456789_-.",
       silent = true,
     })
-
-    vim.keymap.set("n", "<leader>ms", "<cmd> lua MiniStarter.open()<CR>", { desc = "[M]ini [S]tarter" })
   end
 }
