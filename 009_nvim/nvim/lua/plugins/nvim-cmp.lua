@@ -104,6 +104,11 @@ return {
         completion = window_config,
         documentation = window_config
       },
+      sorting = {
+        comparators = {
+          cmp.config.compare.order,
+        }
+      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
