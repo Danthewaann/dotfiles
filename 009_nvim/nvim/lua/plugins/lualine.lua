@@ -169,7 +169,6 @@ return {
           "DiffviewFiles",
           "DiffviewFileHistory",
           "fugitiveblame",
-          "TelescopePrompt",
           "git",
         },
         globalstatus = true,
@@ -205,7 +204,7 @@ return {
     local merged_config = base_config
     if no_winbar then
       merged_config.options.globalstatus = false
-      merged_config.options.disabled_filetypes = { "starter" }
+      merged_config.options.disabled_filetypes = { "starter", "TelescopePrompt" }
       merged_config.sections.lualine_b = { winbar_filename_config, winbar_filetype_config }
       merged_config.sections.lualine_c[#merged_config.sections.lualine_c + 1] = "diff"
       merged_config.inactive_sections.lualine_c = { winbar_filename_config }
