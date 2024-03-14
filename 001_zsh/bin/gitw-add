@@ -186,15 +186,6 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo
         poetry install > /dev/stderr 2>&1
     fi
-
-    if [[ -f "pyproject.toml" ]] && [[ -f "$HOME/pyrightconfig.json" ]] && ! [[ -f "pyrightconfig.json" ]]; then
-        >&2 echo
-        # I used to symlink this file, but I think new versions of pyright now following the symbolic link
-        # back to the source, which causes pyright to think the source code directory that it should scan for code
-        # where `pyrightconfig.json` is originally defined.
-        info "Copying pyrightconfig.json file..."
-        cp -f "$HOME/pyrightconfig.json" "pyrightconfig.json"
-    fi
 fi
 
 >&2 echo
