@@ -130,7 +130,19 @@ return {
     --  define the property 'filetypes' to the map in question.
     local servers = {
       clangd = { settings = {} },
-      gopls = { settings = { gopls = { gofumpt = true } } },
+      gopls = {
+        settings = {
+          gopls = {
+            experimentalPostfixCompletions = true,
+            analyses = {
+              unusedparams = true,
+              shadow = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+          },
+        }
+      },
       pyright = {
         settings = {
           python = {
