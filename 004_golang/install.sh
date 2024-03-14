@@ -27,3 +27,10 @@ fi
 run_command "checking that go is installed" \
     "go version"
 
+if [[ $OSTYPE == "darwin"* ]]; then
+    run_command "installing golangci-lint" \
+        "brew install golangci-lint"
+else
+    run_command "installing golangci-lint" \
+        "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.56.2"
+fi
