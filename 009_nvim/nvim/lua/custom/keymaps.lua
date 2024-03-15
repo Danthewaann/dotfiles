@@ -163,7 +163,7 @@ vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
 vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
 -- Select custom command to run from a visual prompt
-vim.keymap.set("n", "<leader>p", function()
+vim.keymap.set("n", "<C-t>", function()
   local commands = {
     ["da (delete all other buffers)"] = function()
       vim.cmd("%bd|e#|bd#")
@@ -221,7 +221,6 @@ vim.keymap.set("n", "<leader>p", function()
   end
 
   local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
-  print(has_makefile)
   if has_makefile then
     commands["ml (make lint)"] = function()
       utils.run_command_in_term("make lint")
@@ -248,7 +247,7 @@ vim.keymap.set("n", "<leader>p", function()
       end
     end
   )
-end, { desc = "Command [P]rompt" })
+end, { desc = "Command Promp[t]" })
 
 vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
