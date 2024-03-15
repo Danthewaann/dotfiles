@@ -58,6 +58,11 @@ keybindings:
         clear &&
         cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}}
+    - key: E
+      command: >
+        clear &&
+        cd {{.RepoPath}} && 
+        nvim . -c "Octo pr edit {{.PrNumber}}" 
     - key: d
       command: >
         clear &&
