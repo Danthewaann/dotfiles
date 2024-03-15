@@ -243,6 +243,7 @@ vim.keymap.set("n", "<C-t>", function()
       for key, value in pairs(commands) do
         if choice == key then
           value()
+          return
         end
       end
     end
