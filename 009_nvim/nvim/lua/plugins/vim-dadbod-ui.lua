@@ -40,13 +40,12 @@ return {
       pattern = "dbui",
       callback = function()
         -- Unmap these as I use <C-J/K> for navigating windows
-        -- vim.keymap.del("n", "<C-j>", { buffer = 0 })
-        -- vim.keymap.del()
-        -- vim.keymap.del("n", "<C-k>", { buffer = 0 })
-        --
-        -- -- Unmap these as they are annoying
-        -- vim.keymap.del("n", "<C-p>", { buffer = 0 })
-        -- vim.keymap.del("n", "<C-n>", { buffer = 0 })
+        vim.cmd("unmap <buffer> <C-j>")
+        vim.cmd("unmap <buffer> <C-k>")
+
+        -- Unmap these as they are annoying
+        vim.cmd("unmap <buffer> <C-p>")
+        vim.cmd("unmap <buffer> <C-n>")
 
         vim.keymap.set("n", "<Tab>", "<Plug>(DBUI_SelectLine)", { buffer = 0 })
       end,

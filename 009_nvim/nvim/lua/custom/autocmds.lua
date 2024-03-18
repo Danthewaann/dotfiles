@@ -114,5 +114,15 @@ autocmd("FileType", {
   pattern = "GV",
   callback = function()
     vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile nomodeline")
+    -- Comment.nvim bind that isn't needed
+    vim.cmd("silent! unmap <buffer> gbc")
+
+    -- Don't want to use these to navigate commits
+    vim.cmd("silent! unmap <buffer> <C-n>")
+    vim.cmd("silent! unmap <buffer> <C-p>")
+
+    -- Use these to navigate comments
+    vim.cmd("nmap <buffer> J ]]o")
+    vim.cmd("nmap <buffer> K [[o")
   end,
 })
