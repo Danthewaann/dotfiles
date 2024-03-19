@@ -140,6 +140,8 @@ if [[ $OSTYPE == "darwin"* ]]; then
     export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/findutils/libexec/gnubin${PATH+:$PATH}";
     export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
     export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+
+    alias sed="gsed"
 else
     # Setup Python version manager
     export PYENV_ROOT="$HOME/.pyenv"
