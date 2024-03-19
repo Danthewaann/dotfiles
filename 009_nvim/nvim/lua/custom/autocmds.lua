@@ -66,6 +66,7 @@ autocmd("FileType", {
     vim.cmd("setlocal conceallevel=2 textwidth=90 formatoptions=cqt wrapmargin=0")
     -- Don't completely replace backticks
     vim.cmd('syntax match Entity "`" conceal cchar=`')
+    vim.cmd('syntax match Entity "\\"" conceal cchar="')
   end
 })
 
