@@ -19,3 +19,9 @@ done
 
 echo "$SCRIPT_DIR/functions" "$HOME/.zsh_functions"
 
+if [[ ! -f "$SCRIPT_DIR/.tmux-save-sessions" ]]; then
+    cp "$SCRIPT_DIR/.tmux-save-sessions.example" "$SCRIPT_DIR/.tmux-save-sessions"
+fi
+
+echo "$SCRIPT_DIR/.tmux-save-sessions" "$HOME/.tmux-save-sessions"
+

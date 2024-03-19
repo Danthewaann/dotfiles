@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # Whitelist of sessions to not kill
-ignore_sessions=("github" "dotfiles" "notes")
+ignore_sessions=()
+while IFS=$'\n' read -r session; do ignore_sessions+=("$session"); done < "$HOME/.tmux-save-sessions"
 
 sessions=()
 while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(tmux list-sessions)
