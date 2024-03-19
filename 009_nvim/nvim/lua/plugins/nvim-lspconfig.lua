@@ -159,7 +159,7 @@ return {
                 "migrations/**",
                 ".venv/**"
               },
-              typeCheckingMode = "off",
+              typeCheckingMode = "basic",
               diagnosticSeverityOverrides = {
                 reportMissingImports = true,
                 reportMissingTypeStubs = false,
