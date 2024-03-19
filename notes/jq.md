@@ -3,6 +3,12 @@
 ### Sort array contents by object key
 
 ```vim
+%! jq '.relationships.categories | sort_by(.id)'
+```
+
+### Sort array contents in place by object key
+
+```vim
 %! jq '.relationships.categories|=sort_by(.id)'
 ```
 
