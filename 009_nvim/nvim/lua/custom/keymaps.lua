@@ -163,7 +163,7 @@ vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
 vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
 -- Select custom command to run from a visual prompt
-vim.keymap.set("n", "<C-t>", function()
+vim.keymap.set("n", "<leader>p", function()
   local commands = {
     ["da (delete all other buffers)"] = function()
       vim.cmd("%bd|e#|bd#")
@@ -254,7 +254,7 @@ vim.keymap.set("n", "<C-t>", function()
       end
     end
   )
-end, { desc = "Command Promp[t]" })
+end, { desc = "Command [P]rompt" })
 
 vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
