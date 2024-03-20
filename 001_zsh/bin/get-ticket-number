@@ -6,8 +6,8 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$CUR_DIR/_git-common"
 
-# Get the ticketnumber for the current repo branch
-currentbranch=$(git branch --show-current) 
+# Get the ticketnumber for the provided or current repo branch
+currentbranch="${1:-$(git branch --show-current)}"
 
 if ! ticketnumber=$(echo "$currentbranch" | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+"); then
     >&2 echo "No ticketnumber found for $currentbranch"

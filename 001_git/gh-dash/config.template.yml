@@ -63,6 +63,10 @@ keybindings:
         clear &&
         cd {{.RepoPath}} && 
         nvim . -c "Octo pr edit {{.PrNumber}}" 
+    - key: T 
+      command: >
+        clear &&
+        open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}})
     - key: d
       command: >
         clear &&
