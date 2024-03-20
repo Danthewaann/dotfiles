@@ -6,7 +6,7 @@ prSections:
         hidden: true
   - title: Needs My Review
     filters: is:open review-requested:@me
-  - title: Mentions 
+  - title: Mentions
     filters: is:open mentions:@me -author:@me
   - title: Involved
     filters: is:open involves:@me -author:@me
@@ -62,8 +62,8 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        nvim . -c "Octo pr edit {{.PrNumber}}" 
-    - key: T 
+        gitw-add {{.HeadRefName}} "Review Pull Request" "nvim . -c 'Octo pr edit {{.PrNumber}}'"
+    - key: T
       command: >
         clear &&
         open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}})
