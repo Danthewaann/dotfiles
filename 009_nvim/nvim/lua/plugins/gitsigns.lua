@@ -11,13 +11,6 @@ return {
       row = 0,
       col = 1
     },
-    signs = {
-      add = { text = "+" },
-      change = { text = "~" },
-      delete = { text = "_" },
-      topdelete = { text = "‾" },
-      changedelete = { text = "~" },
-    },
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
 
