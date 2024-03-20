@@ -1,6 +1,6 @@
 prSections:
   - title: My PRs
-    filters: is:open assignee:@me
+    filters: is:open author:@me
     layout:
       author:
         hidden: true
