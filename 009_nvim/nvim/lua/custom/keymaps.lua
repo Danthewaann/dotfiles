@@ -191,7 +191,13 @@ vim.keymap.set("n", "<C-t>", function()
       utils.run_job("gh", { "rv" }, false)
     end,
     ["prv (pull request view)"] = function()
-      utils.run_job("gh", { "prv" }, false)
+      local pr_number = vim.fn.trim(vim.fn.system("gh pr view --json number | jq '.number'"))
+      if vim.v.shell_error ~= 0 then
+        M.print_err(pr_number)
+        return
+      end
+
+      vim.cmd(":Octo pr edit " .. pr_number)
     end,
     ["ss (save session)"] = function()
       MiniSessions.write("Session.vim")
