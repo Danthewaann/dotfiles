@@ -191,7 +191,13 @@ vim.keymap.set("n", "<leader>p", function()
       utils.run_job("gh", { "rv" }, false)
     end,
     ["prv (pull request view)"] = function()
-      local pr_number = vim.fn.trim(vim.fn.system("gh pr view --json number | jq '.number'"))
+      local pr_number_json = vim.fn.trim(vim.fn.system("gh pr view --json number"))
+      if vim.v.shell_error ~= 0 then
+        M.print_err(pr_number_json)
+        return
+      end
+
+      local pr_number = vim.fn.trim(vim.fn.system("echo '" .. pr_number_json .. "' | jq '.number'"))
       if vim.v.shell_error ~= 0 then
         M.print_err(pr_number)
         return
