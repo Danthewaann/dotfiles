@@ -97,7 +97,7 @@ fi
 
 # Create a new worktree using the converted name
 info "Creating worktree..."
-if ! output=$(git worktree add "$converted_name" "$@" 2>&1); then
+if ! output=$(git worktree add "$converted_name" 2>&1); then
     error "$output"
     exit 1
 else
