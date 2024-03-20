@@ -25,3 +25,8 @@ fi
 
 echo "$SCRIPT_DIR/.tmux-save-sessions" "$HOME/.tmux-save-sessions"
 
+if [[ ! -f "$SCRIPT_DIR/.zprofile" ]]; then
+    cp "$SCRIPT_DIR/.zprofile.example" "$SCRIPT_DIR/.zprofile"
+fi
+
+echo "$SCRIPT_DIR/.zprofile" "$HOME/.zprofile"

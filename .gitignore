@@ -9,6 +9,7 @@ debug.log
 Session.vim
 *.deb
 .tmux-save-sessions
+.zprofile
 
 001_zsh/functions/_poetry
 001_zsh/functions/_gh
