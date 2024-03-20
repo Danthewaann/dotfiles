@@ -80,7 +80,7 @@ if [[ -d $converted_name ]]; then
     info "Switching to worktree..."
     cd "$converted_name" || exit
     sleep 0.3
-    tmux-sessionizer "$(pwd)"
+    tmux-sessionizer "$(pwd)" "$@"
     exit $?
 fi
 
@@ -195,4 +195,4 @@ clear-projects
 >&2 echo
 info "Switching to worktree..."
 sleep 2
-tmux-sessionizer "$(pwd)"
+tmux-sessionizer "$(pwd)" "$@"

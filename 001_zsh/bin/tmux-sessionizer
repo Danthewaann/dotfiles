@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [[ $# -eq 1 ]]; then
-    selected=$1
+if [[ $# -gt 0 ]]; then
+    selected=$1; shift
     # If this parent directory for the selected directory is a bare git repository,
     # prepend the parent directory to the selected directory.
     if ls "$selected/../.bare" > /dev/null 2>&1; then
@@ -75,6 +75,10 @@ fi
 
 if ! tmux has-session -t="$selected_name" 2> /dev/null; then
     tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+if [[ $# -gt 0 ]]; then
+    tmux send-keys -t "$selected_name.0" "$*" ENTER
 fi
 
 tmux switch-client -t "$selected_name"
