@@ -67,6 +67,11 @@ keybindings:
       command: >
         clear &&
         open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}})
+    - key: U
+      command: >
+        clear &&
+        cd {{.RepoPath}} && 
+        gitw-add {{.HeadRefName}} "Rebase with base" "gitw-rebase-with-base && git push --force; sleep 1"
     - key: d
       command: >
         clear &&
