@@ -43,7 +43,7 @@ return {
     local SymbolKind = vim.lsp.protocol.SymbolKind
     require("symbol-usage").setup({
       disable = {
-        lsp = {"pyright"}
+        lsp = {}
       },
       text_format = text_format,
       kinds = {
