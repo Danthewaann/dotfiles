@@ -157,9 +157,7 @@ return {
           path_display = filename_first,
         },
         git_status = {
-          theme = "dropdown",
-          previewer = false,
-          layout_config = dropdown_layout_config,
+          previewer = true,
         },
         help_tags = { theme = "ivy" },
         git_commits = { theme = "ivy" },
