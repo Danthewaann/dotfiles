@@ -20,10 +20,12 @@ else
             # If this directory is a bare git repository, get a list of all immediate sub-directories.
             if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
                 while IFS=$'\n' read -r line2; do
-                    default_locations+=("$line/$line2")
+                    session=$(tr . _ <<< "$line/$line2")
+                    default_locations+=("$session")
                 done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
             else
-                default_locations+=("$line")
+                session=$(tr . _ <<< "$line")
+                default_locations+=("$session")
             fi
         done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 
@@ -34,28 +36,25 @@ else
     fi
 
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
+    sessions=()
 
     # Load all active sessions and sort them in most recently used order
     while IFS=$'\n' read -r session; do
         sessions+=("$session")
     done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -v " $current_session" | sort --numeric-sort --reverse | cut -d' ' -f2-)
 
-    selected_locations=()
-    for session in "${sessions[@]}"; do
-        selected_locations+=("$session")
-    done
-    for location in "${default_locations[@]}"; do
+    for session in "${default_locations[@]}"; do
         # If a location appears in the active sessions, we skip it
         # shellcheck disable=SC2076
-        if [[ " ${sessions[*]} " =~ " $location " ]]; then
+        if [[ " ${sessions[*]} " =~ " $session " ]]; then
             continue
         fi
 
-        selected_locations+=("$location")
+        sessions+=("$session")
     done
 
     # shellcheck disable=SC2086
-    selected=$(printf "%s\n" "${selected_locations[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
+    selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
     selected_name=$(echo "$selected" | tr . _)
     if [[ -n $selected ]]; then
         selected="$HOME/Workspace/$selected"
