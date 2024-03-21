@@ -5,34 +5,34 @@ if [[ $# -gt 0 ]]; then
     # If this parent directory for the selected directory is a bare git repository,
     # prepend the parent directory to the selected directory.
     if ls "$selected/../.bare" > /dev/null 2>&1; then
-        selected_name=$(basename "$(dirname "$selected")")/$(basename "$selected")
-        selected_name=$(tr . _ <<< "$selected_name")
+        selected_session=$(basename "$(dirname "$selected")")/$(basename "$selected")
+        selected_session=$(tr . _ <<< "$selected_session")
     else
-        selected_name=$(basename "$selected" | tr . _)
+        selected_session=$(basename "$selected" | tr . _)
     fi
 else
     if [[ -f "$HOME/.projects" ]]; then
-        while IFS=$'\n' read -r line; do default_locations+=("$line"); done < "$HOME/.projects"
+        while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < "$HOME/.projects"
     else
-        default_locations=("Workspace")
+        default_sessions=("Workspace")
 
         while IFS=$'\n' read -r line; do
             # If this directory is a bare git repository, get a list of all immediate sub-directories.
             if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
                 while IFS=$'\n' read -r line2; do
                     session=$(tr . _ <<< "$line/$line2")
-                    default_locations+=("$session")
+                    default_sessions+=("$session")
                 done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
             else
                 session=$(tr . _ <<< "$line")
-                default_locations+=("$session")
+                default_sessions+=("$session")
             fi
         done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 
         # From: https://www.baeldung.com/linux/sort-bash-arrays
-        readarray -td '' default_locations < <(printf '%s\0' "${default_locations[@]}" | sort -z)
+        readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
         # shellcheck disable=SC2086
-        printf "%s\n" "${default_locations[@]}" > "$HOME/.projects"
+        printf "%s\n" "${default_sessions[@]}" > "$HOME/.projects"
     fi
 
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
@@ -43,7 +43,7 @@ else
         sessions+=("$session")
     done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -v " $current_session" | sort --numeric-sort --reverse | cut -d' ' -f2-)
 
-    for session in "${default_locations[@]}"; do
+    for session in "${default_sessions[@]}"; do
         # If a location appears in the active sessions, we skip it
         # shellcheck disable=SC2076
         if [[ " ${sessions[*]} " =~ " $session " ]]; then
@@ -55,7 +55,7 @@ else
 
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
-    selected_name=$(echo "$selected" | tr . _)
+    selected_session=$(echo "$selected" | tr . _)
     if [[ -n $selected ]]; then
         selected="$HOME/Workspace/$selected"
     fi
@@ -68,17 +68,17 @@ fi
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$selected_name" -c "$selected"
+    tmux new-session -s "$selected_session" -c "$selected"
     exit 0
 fi
 
-if ! tmux has-session -t="$selected_name" 2> /dev/null; then
-    tmux new-session -ds "$selected_name" -c "$selected"
+if ! tmux has-session -t="$selected_session" 2> /dev/null; then
+    tmux new-session -ds "$selected_session" -c "$selected"
 fi
 
 if [[ $# -gt 0 ]]; then
     window_name="$1"; shift
-    tmux new-window -c "#{pane_current_path}" -n "$window_name" -t "$selected_name": "$*"
+    tmux new-window -c "#{pane_current_path}" -n "$window_name" -t "$selected_session": "$*"
 fi
 
-tmux switch-client -t "$selected_name"
+tmux switch-client -t "$selected_session"
