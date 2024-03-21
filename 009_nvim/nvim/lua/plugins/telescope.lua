@@ -74,10 +74,6 @@ return {
           "^.coverage/",
         },
         layout_strategy = "horizontal",
-        layout_config = {
-          vertical = { height = 0.8, width = 0.7, preview_height = 0.4 },
-          horizontal = { height = 0.8, width = 0.7, preview_width = 0.55 },
-        },
         mappings = {
           ["i"] = {
             ["<C-r>"] = actions.to_fuzzy_refine,
