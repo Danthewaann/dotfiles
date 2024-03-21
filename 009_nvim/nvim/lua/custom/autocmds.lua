@@ -127,3 +127,15 @@ autocmd("FileType", {
     vim.cmd("nmap <buffer> K [[o")
   end,
 })
+
+-- Disable LSP semantic tokens
+augroup("lsp_semantic_tokens", { clear = true })
+autocmd("LspAttach", {
+  group = "lsp_semantic_tokens",
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "python" then
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+  end,
+})

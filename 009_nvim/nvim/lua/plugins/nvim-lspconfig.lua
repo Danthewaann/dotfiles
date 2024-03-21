@@ -143,9 +143,9 @@ return {
           },
         }
       },
-      pyright = {
+      basedpyright = {
         settings = {
-          python = {
+          basedpyright = {
             analysis = {
               exclude = {
                 "**/node_modules",
@@ -167,7 +167,8 @@ return {
               },
               useLibraryCodeForTypes = true
             },
-          }
+          },
+          python = {}
         },
         before_init = function(_, config)
           config.settings.python.pythonPath = utils.get_poetry_venv_executable_path("python", false, config.root_dir)
