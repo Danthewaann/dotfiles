@@ -55,7 +55,8 @@ else
 
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
-    selected_session=$(echo "$selected" | tr . _)
+    selected_session=$selected
+    selected=$(tr _ . <<< "$selected")
     if [[ -n $selected ]]; then
         selected="$HOME/Workspace/$selected"
     fi
