@@ -14,18 +14,35 @@ while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name inst
 
 echo ""
 
-info "running installers : output logged to $LOG_FILE" | tee -a "$LOG_FILE"
+info "running installers : log file -> $LOG_FILE" | tee -a "$LOG_FILE"
 for installer in "${installers[@]}"; do
     info ""
-    info "running installer $installer" | tee -a "$LOG_FILE"
     info "==========================================="
-    info ""
+
+    skip_installer=0
+    for skip in "${SKIP_INSTALLERS[@]}"; do
+        if echo "$installer" | grep "_$skip/" > /dev/null; then
+            skip_installer=1
+            break
+        fi
+    done
+
+    if [[ $skip_installer -eq 1 ]]; then
+        warn "skipping installer $installer" | tee -a "$LOG_FILE"
+        info "==========================================="
+        continue
+    else
+        info "running installer $installer" | tee -a "$LOG_FILE"
+        info ""
+    fi
+
     if ! sh -c "$installer" | tee -a "$LOG_FILE" 2>&1; then
         fail "failed to run installer $installer" | tee -a "$LOG_FILE"
     else
         success "finished installer $installer" | tee -a "$LOG_FILE"
-        info "==========================================="
     fi
+
+    info "==========================================="
 done
 
 echo ""
