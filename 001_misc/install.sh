@@ -88,6 +88,9 @@ else
     run_command "installing bat" \
         "sudo dpkg -i $SCRIPT_DIR/bat.deb"
 
+    run_command "installing openssh-server" \
+        "sudo apt-get install -y openssh-server"
+
     run_command "installing jq" \
         "sudo apt-get install -y jq"
 
