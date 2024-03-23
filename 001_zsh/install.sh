@@ -44,6 +44,18 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing htop" \
         "brew install htop"
+else
+    run_command "installing ripgrep" \
+        "sudo apt-get install -y ripgrep"
+
+    run_command "installing fd-find" \
+        "sudo apt-get install -y fdfind"
+
+    run_command "linking fdfind to fd" \
+        "ln -s $(which fdfind) $HOME/.local/bin/fd"
+
+    run_command "installing tree" \
+        "sudo apt-get install -y tree"
 fi
 
 if ! inside_wsl; then
