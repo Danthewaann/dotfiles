@@ -9,44 +9,38 @@ BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 export LOG_FILE="$BASE_DIR/debug.log"
 
 info () {
-    local cur_date
-    cur_date=$(get_date)
-    printf "\r%s [ \033[00;34m..\033[0m ] %s\n" "$cur_date" "$1"
+    printf "\r[ \033[00;34m..\033[0m ] %s\n" "$1"
+    log_to_file " .. " "$1"
 }
 
 warn () {
-    local cur_date
-    cur_date=$(get_date)
-    printf "\r%s [\033[0;33mWARN\033[0m] %s\n" "$cur_date" "$1"
+    printf "\r[\033[0;33mWARN\033[0m] %s\n" "$1"
+    log_to_file "WARN" "$1"
 }
 
 user () {
-    local cur_date
-    cur_date=$(get_date)
-    printf "\r%s [ \033[0;33m??\033[0m ] %s\n" "$cur_date" "$1"
+    printf "\r[ \033[0;33m??\033[0m ] %s\n" "$1"
+    log_to_file " ?? " "$1"
 }
 
 success () {
-    local cur_date
-    cur_date=$(get_date)
-    printf "\r\033[2K%s [ \033[00;32mOK\033[0m ] %s\n" "$cur_date" "$1"
+    printf "\r\033[2K[ \033[00;32mOK\033[0m ] %s\n" "$1"
+    log_to_file " OK " "$1"
 }
 
 fail () {
-    local cur_date
-    cur_date=$(get_date)
-    printf "\r\033[2K%s [\033[0;31mFAIL\033[0m] %s\n" "$cur_date" "$1"
+    printf "\r\033[2K[\033[0;31mFAIL\033[0m] %s\n" "$1"
+    log_to_file "FAIL" "$1"
 }
 
 log_to_file () {
     local cur_date
     cur_date=$(get_date)
-    printf "%s [ %s ] %s\n" "$cur_date" "$1" "$2" >> "$LOG_FILE"
-
+    printf "%s [%s] %s\n" "$cur_date" "$1" "$2" >> "$LOG_FILE"
 }
 
 get_date () {
-    date +"%Y-%m-%dT%H:%M:%S%z"
+    date +"%Y-%m-%dT%H:%M:%S"
 }
 
 run_command () {

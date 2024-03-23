@@ -32,7 +32,7 @@ setup_gitconfig () {
 }
 
 install_symlinks () {
-    info "running symlinks : output logged to $LOG_FILE" | tee -a "$LOG_FILE"
+    info "running symlinks : output logged to $LOG_FILE"
 
     overwrite_all=false backup_all=false skip_all=false
 
@@ -41,11 +41,11 @@ install_symlinks () {
 
     for symlink_file in "${symlink_files[@]}"; do
         info ""
-        info "running symlink file $symlink_file" | tee -a "$LOG_FILE"
+        info "running symlink file $symlink_file"
         info "==========================================="
         info ""
         if ! symlinks=$(sh -c "$symlink_file" 2>&1); then
-            fail "failed to run symlink file $symlink_file" | tee -a "$LOG_FILE"
+            fail "failed to run symlink file $symlink_file"
         else
             for link in "${symlinks[@]}"; do
                 lines=()
@@ -56,7 +56,7 @@ install_symlinks () {
                 done
             done
             info ""
-            success "finished symlink file $symlink_file" | tee -a "$LOG_FILE"
+            success "finished symlink file $symlink_file"
             info "==========================================="
         fi
     done
