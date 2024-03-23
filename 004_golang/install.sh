@@ -23,10 +23,6 @@ else
     fi
 fi
 
-# Make sure go is installed
-run_command "checking that go is installed" \
-    "go version"
-
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing golangci-lint" \
         "brew install golangci-lint"

@@ -20,14 +20,16 @@ else
             https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz"
     fi
 
+    run_command "installing libevent tmux dependency" \
+        "sudo apt-get install -y libevent-dev"
+
     run_command "unpacking tmux" \
         "tar -C $SCRIPT_DIR -zxf $SCRIPT_DIR/tmux-3.3a.tar.gz"
-
 
     cd "$SCRIPT_DIR/tmux-3.3a"
     run_command "compiling and installing tmux to /usr/local/bin" \
         "./configure && make && sudo make install"
-    cd -
+    cd - > /dev/null
 
     run_command "installing kitty" \
         "sudo apt-get install -y kitty"

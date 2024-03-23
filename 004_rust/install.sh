@@ -11,10 +11,10 @@ run_command "installing rust" \
     "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
 
 run_command "installing agg - asciinema gif generator" \
-    "cargo install --git https://github.com/asciinema/agg"
+    "$HOME/.cargo/bin/cargo install --git https://github.com/asciinema/agg"
 
 run_command "installing sleek - sql formatter" \
-    "cargo install sleek"
+    "$HOME/.cargo/bin/cargo install sleek"
 
 run_command "installing presenterm - markdown slides in the terminal" \
-    "cargo install presenterm"
+    "$HOME/.cargo/bin/cargo install presenterm"
