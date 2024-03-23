@@ -56,4 +56,7 @@ else
     # Add the current user to the docker group
     run_command "adding the current user to the docker group" \
                 "sudo usermod -aG docker $USER"
+
+    run_command "allow docker.sock to be executable" \
+                "sudo chmod 666 /var/run/docker.sock"
 fi
