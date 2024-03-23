@@ -203,8 +203,6 @@ return {
           }
         }
       },
-      solargraph = { settings = {} },
-
       lua_ls = {
         settings = {
           Lua = {
@@ -240,6 +238,11 @@ return {
       },
       vimls = { settings = {} }
     }
+
+    -- Only install solargraph LSP if ruby is installed
+    if utils.file_exists(os.getenv("HOME") .. "/.rbenv") then
+      servers["solargraph"] = { settings = {} }
+    end
 
     -- Setup neovim lua configuration
     require("neodev").setup()
