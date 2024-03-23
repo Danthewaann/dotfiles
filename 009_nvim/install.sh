@@ -7,15 +7,9 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
 
-# Install neovim
-if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing neovim" \
-        "brew install neovim"
-else
-    run_command "installing neovim" \
-        "sudo apt-get install -y neovim"
-fi
+run_command "installing neovim bob version manager" \
+    "$HOME/.cargo/bin/cargo install --git https://github.com/MordechaiHadad/bob.git"
 
+run_command "installing neovim" \
+    "$HOME/.cargo/bin/bob install 0.9.5 && bob use 0.9.5"
 
-run_command "installing bob.nvim version manager" \
-    "cargo install --git https://github.com/MordechaiHadad/bob.git"
