@@ -11,8 +11,10 @@ if [[ $# -gt 0 ]]; then
         selected_session=$(basename "$selected" | tr . _)
     fi
 else
+    current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
+
     if [[ -f "$HOME/.projects" ]]; then
-        while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < "$HOME/.projects"
+        while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.projects")
     else
         default_sessions=("Workspace")
 
@@ -21,11 +23,17 @@ else
             if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
                 while IFS=$'\n' read -r line2; do
                     session=$(tr . _ <<< "$line/$line2")
-                    default_sessions+=("$session")
+
+                    if [[ "$session" != "$current_session" ]]; then
+                        default_sessions+=("$session")
+                    fi
                 done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
             else
                 session=$(tr . _ <<< "$line")
-                default_sessions+=("$session")
+
+                if [[ "$session" != "$current_session" ]]; then
+                    default_sessions+=("$session")
+                fi
             fi
         done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 
@@ -35,7 +43,6 @@ else
         printf "%s\n" "${default_sessions[@]}" > "$HOME/.projects"
     fi
 
-    current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
     sessions=()
 
     # Load all active sessions and sort them in most recently used order
