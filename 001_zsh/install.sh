@@ -7,57 +7,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
 
-if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "setting up initial key-repeat" \
-        "defaults write -g InitialKeyRepeat -int 10"
-
-    run_command "setting up key-repeat" \
-        "defaults write -g KeyRepeat -int 1"
-
-    # Need this to enable key-repeat for firenvim
-    run_command "disabling press and hold" \
-        "defaults write -g ApplePressAndHoldEnabled -bool false"
-
-    run_command "installing watch" \
-        "brew install watch"
-
-    run_command "installing jq" \
-        "brew install jq"
-
-    run_command "installing gsed" \
-        "brew install gnu-sed"
-
-    run_command "installing wget" \
-        "brew install wget"
-
-    run_command "installing tree" \
-        "brew install tree"
-
-    run_command "installing asciinema" \
-        "brew install asciinema"
-
-    run_command "installing findutils" \
-        "brew install findutils"
-
-    run_command "installing md5sum" \
-        "brew install md5sha1sum"
-
-    run_command "installing htop" \
-        "brew install htop"
-else
-    run_command "installing ripgrep" \
-        "sudo apt-get install -y ripgrep"
-
-    run_command "installing fd-find" \
-        "sudo apt-get install -y fdfind"
-
-    run_command "linking fdfind to fd" \
-        "ln -s $(which fdfind) $HOME/.local/bin/fd"
-
-    run_command "installing tree" \
-        "sudo apt-get install -y tree"
-fi
-
 if ! inside_wsl; then
     run_command "installing xclip" \
         "sudo apt-get install -y xclip"
