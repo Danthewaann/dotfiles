@@ -162,7 +162,9 @@ if [[ -e ~/.nvm/alias/default ]]; then
 fi
 
 # Setup Ruby version manager
-eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
+if [[ -d "$HOME"/.rbenv ]]; then
+    eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
+fi
 
 # Add local scripts, rust, bob, golang, ruby and python stuff to path
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
