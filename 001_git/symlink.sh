@@ -9,8 +9,6 @@ source "$SCRIPT_DIR"/../common
 
 echo "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
 
-echo "$SCRIPT_DIR/themes.gitconfig" "$HOME/themes.gitconfig"
-
 mkdir -p "$HOME/.config/gh-dash"
 
 if [[ ! -f "$SCRIPT_DIR/gh-dash/config.yml" ]]; then
