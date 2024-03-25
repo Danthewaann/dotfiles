@@ -65,7 +65,7 @@ return {
         },
         file_ignore_patterns = {
           "vendor/",
-          ".git",
+          ".git/",
           "node_modules/",
           ".venv/",
           ".mypy_cache/",
