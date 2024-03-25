@@ -16,7 +16,7 @@ else
     if [[ -f "$HOME/.projects" ]]; then
         while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.projects")
     else
-        default_sessions=("Workspace")
+        while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.tmux-default-sessions")
 
         while IFS=$'\n' read -r line; do
             # If this directory is a bare git repository, get a list of all immediate sub-directories.
