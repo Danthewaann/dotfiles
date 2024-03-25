@@ -64,7 +64,9 @@ else
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
     selected_session=$selected
     selected=$(tr _ . <<< "$selected")
-    if [[ -n $selected ]]; then
+
+    # If this is a relative path, prepend it with ~/Workspace/
+    if [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
         selected="$HOME/Workspace/$selected"
     fi
 fi
