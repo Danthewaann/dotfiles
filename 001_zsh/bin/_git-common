@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-if [[ -t 0 ]]; then
+if [[ -t 1 ]]; then
     export WHITE_BOLD='\033[1m'
     export GREEN_BOLD='\033[1;32m'
     export BLUE_BOLD='\033[1;34m'
