@@ -98,6 +98,7 @@ return {
         disabled = disabled or (vim.fn.reg_recording() ~= "")
         disabled = disabled or (vim.fn.reg_executing() ~= "")
         disabled = disabled or context.in_treesitter_capture("comment")
+        disabled = disabled or context.in_treesitter_capture("markup.raw")
         return not disabled
       end,
       window = {
