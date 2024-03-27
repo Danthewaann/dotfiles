@@ -20,35 +20,11 @@ if [[ $# -gt 0 ]]; then
 else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
 
-    if [[ -f "$HOME/.projects" ]]; then
-        while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.projects")
-    else
-        while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.tmux-default-sessions")
-
-        while IFS=$'\n' read -r line; do
-            # If this directory is a bare git repository, get a list of all immediate sub-directories.
-            if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
-                while IFS=$'\n' read -r line2; do
-                    session=$(tr . _ <<< "$line/$line2")
-
-                    if [[ "$session" != "$current_session" ]]; then
-                        default_sessions+=("$session")
-                    fi
-                done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
-            else
-                session=$(tr . _ <<< "$line")
-
-                if [[ "$session" != "$current_session" ]]; then
-                    default_sessions+=("$session")
-                fi
-            fi
-        done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
-
-        # From: https://www.baeldung.com/linux/sort-bash-arrays
-        readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
-        # shellcheck disable=SC2086
-        printf "%s\n" "${default_sessions[@]}" > "$HOME/.projects"
+    if [[ ! -f "$HOME/.projects" ]]; then
+        update-projects
     fi
+
+    while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.projects")
 
     sessions=()
 

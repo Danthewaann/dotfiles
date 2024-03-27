@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
+sessions=()
+
+while IFS=$'\n' read -r line; do sessions+=("$line"); done < "$HOME/.tmux-default-sessions"
+
+while IFS=$'\n' read -r line; do
+    # If this directory is a bare git repository, get a list of all immediate sub-directories.
+    if ls "$HOME/Workspace/$line"/.bare > /dev/null 2>&1; then
+	while IFS=$'\n' read -r line2; do
+	    session=$(tr . _ <<< "$line/$line2")
+
+	    sessions+=("$session")
+	done < <(find "$HOME/Workspace/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
+    else
+	session=$(tr . _ <<< "$line")
+
+	sessions+=("$session")
+    fi
+done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
+
+# From: https://www.baeldung.com/linux/sort-bash-arrays
+readarray -td '' sessions < <(printf '%s\0' "${sessions[@]}" | sort -z)
+# shellcheck disable=SC2086
+printf "%s\n" "${sessions[@]}" > "$HOME/.projects"
