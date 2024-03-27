@@ -62,7 +62,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Review Pull Request" "nvim . -c 'Git pull | Octo pr edit {{.PrNumber}}'"
+        gitw-add {{.HeadRefName}} "Review Pull Request" "git pull > /dev/null 2>&1 &; nvim . -c 'Octo pr edit {{.PrNumber}}'"
     - key: T
       command: >
         clear &&
