@@ -17,15 +17,9 @@ return {
       header = header,
       items = {
         starter.sections.sessions(5, true),
-        starter.sections.recent_files(10, true),
-        { action = "Telescope find_files", name = "Files",     section = "Actions" },
-        { action = require("oil").open,    name = "Browser",   section = "Actions" },
-        { action = "Telescope live_grep",  name = "Live grep", section = "Actions" },
-        { action = "Telescope oldfiles",   name = "Old files", section = "Actions" },
-        starter.sections.builtin_actions(),
+        starter.sections.recent_files(20, true)
       },
       content_hooks = {
-        starter.gen_hook.adding_bullet(),
         starter.gen_hook.aligning("center", "center"),
         starter.gen_hook.padding(3, 2),
       },
