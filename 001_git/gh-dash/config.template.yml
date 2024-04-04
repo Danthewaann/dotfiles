@@ -62,7 +62,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Review Pull Request" "git pull > /dev/null 2>&1 &; nvim . -c 'Octo pr edit {{.PrNumber}}'; tmux switch-client -l"
+        gitw-add {{.HeadRefName}} "Review Pull Request" "git pull > /dev/null && nvim . -c 'Octo pr edit {{.PrNumber}}' && tmux switch-client -l || sleep 1"
     - key: T
       command: >
         clear &&
@@ -71,7 +71,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Rebase with base" "gitw-rebase-with-base && git push --force; sleep 1; tmux switch-client -l"
+        gitw-add {{.HeadRefName}} "Rebase with base" "gitw-rebase-with-base && git push --force && tmux switch-client -l || sleep 1"
     - key: d
       command: >
         clear &&
