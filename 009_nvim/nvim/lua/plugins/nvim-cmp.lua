@@ -8,8 +8,10 @@ return {
 
     -- Adds LSP completion capabilities
     "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-buffer",
     "kristijanhusak/vim-dadbod-completion",
 
     -- Adds a number of user-friendly snippets
@@ -64,11 +66,6 @@ return {
       }
     })
 
-    local window_config = {
-      border = "rounded",
-      winhighlight = "NormalFloat:CmpNormal"
-    }
-
     ---@diagnostic disable-next-line: missing-fields
     cmp.setup({
       formatting = {
@@ -88,7 +85,11 @@ return {
         end
       },
       view = {
-        entries = { name = "custom", selection_order = "near_cursor" }
+        entries = {
+          name = "custom",
+          selection_order = "near_cursor",
+          follow_cursor = true,
+        }
       },
       enabled = function()
         -- Disable completion in comments
@@ -103,11 +104,20 @@ return {
         return not disabled
       end,
       window = {
-        completion = window_config,
-        documentation = window_config
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered()
       },
       sorting = {
+        priority_weight = 2,
         comparators = {
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
           cmp.config.compare.order,
         }
       },
@@ -120,9 +130,12 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        ["<C-e>"] = cmp.mapping.abort(),
-        ["<C-space>"] = cmp.mapping.complete({}),
+        ["<CR>"] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,
+        }),
+        ["<C-q>"] = cmp.mapping.abort(),
+        ["<C-space>"] = cmp.mapping.complete(),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() and luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
@@ -139,9 +152,28 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "path" },
+        { name = "luasnip",  group_index = 1 },
+        { name = 'nvim_lsp_signature_help', group_index = 1 },
+        { name = "nvim_lsp", group_index = 2 },
+        {
+          name = "path",
+          group_index = 3,
+          keyword_length = 4,
+        },
+        {
+          name = "buffer",
+          group_index = 4,
+          keyword_length = 3,
+          option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end
+          }
+        },
       },
     })
 
