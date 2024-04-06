@@ -43,6 +43,7 @@ return {
         -- have other formatters configured.
         ["_"] = { "trim_whitespace" },
       },
+      notify_on_error = false
     })
 
     -- Create a command `:W` to format and save the current buffer
