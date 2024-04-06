@@ -5,8 +5,8 @@ return {
     require("icon-picker").setup({
       disable_legacy_commands = true,
     })
-    vim.keymap.set("i", "<C-p>", "<cmd>IconPickerInsert<cr>",
-      { desc = "Pick an icon to insert", noremap = true, silent = true }
+    vim.keymap.set("i", "<C-p>", "<cmd>IconPickerInsert emoji<cr>",
+      { desc = "Pick an emoji to insert", noremap = true, silent = true }
     )
   end,
 }
