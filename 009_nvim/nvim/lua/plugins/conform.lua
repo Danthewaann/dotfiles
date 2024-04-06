@@ -47,9 +47,16 @@ return {
     })
 
     -- Create a command `:W` to format and save the current buffer
-    vim.api.nvim_create_user_command("W", function(_)
-      local bufnr = vim.api.nvim_get_current_buf()
-      require("conform").format({ bufnr = bufnr, timeout_ms = 3000, lsp_fallback = true })
+    vim.api.nvim_create_user_command("W", function(args)
+      local range = nil
+      if args.count ~= -1 then
+        local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+        range = {
+          start = { args.line1, 0 },
+          ["end"] = { args.line2, end_line:len() },
+        }
+      end
+      require("conform").format({ lsp_fallback = true, range = range })
       vim.cmd(":write")
     end, { range = true, desc = "Format and save current buffer" })
   end,
