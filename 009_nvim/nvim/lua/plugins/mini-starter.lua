@@ -24,6 +24,7 @@ return {
         starter.gen_hook.padding(3, 2),
       },
       query_updaters = "BFLOabcdefghijklmnopqrstuvwxyz0123456789_-.",
+      footer = "",
       silent = true,
     })
   end
