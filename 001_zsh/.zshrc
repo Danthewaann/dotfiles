@@ -200,7 +200,7 @@ ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}\uE0A0 "
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
-BASE_PROMPT=$'%{$fg_bold[green]%}%~%{$fg[magenta]%}:%n@%M%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
+BASE_PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
 PROMPT="$BASE_PROMPT$ "
 
 # Disable the right-hand side prompt
