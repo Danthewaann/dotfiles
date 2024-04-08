@@ -91,18 +91,6 @@ return {
           follow_cursor = true,
         }
       },
-      enabled = function()
-        -- Disable completion in comments
-        -- From: https://github.com/hrsh7th/nvim-cmp/pull/676#issuecomment-1724981778
-        local context = require("cmp.config.context")
-        local disabled = false
-        disabled = disabled or (vim.api.nvim_buf_get_option(0, "buftype") == "prompt")
-        disabled = disabled or (vim.fn.reg_recording() ~= "")
-        disabled = disabled or (vim.fn.reg_executing() ~= "")
-        disabled = disabled or context.in_treesitter_capture("comment")
-        disabled = disabled or context.in_treesitter_capture("markup.raw")
-        return not disabled
-      end,
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered()
