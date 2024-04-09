@@ -70,7 +70,7 @@ return {
           "^.venv/",
           "^.mypy_cache/",
           "^.cache/",
-          "^__pycache__",
+          "__pycache__",
           "^.coverage/",
         },
         layout_strategy = "horizontal",
