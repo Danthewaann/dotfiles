@@ -134,7 +134,7 @@ return {
             experimentalPostfixCompletions = true,
             analyses = {
               unusedparams = true,
-              shadow = true,
+              shadow = false,
             },
             staticcheck = true,
             gofumpt = true,
