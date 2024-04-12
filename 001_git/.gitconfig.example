@@ -10,8 +10,9 @@
     a = add --all
     #############
     d = diff
+    ds = !git --no-pager diff --shortstat
     db = !git diff $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
-    dbs = !git diff --shortstat $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
+    dbs = !git --no-pager diff --shortstat $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
     dt = difftool
     dtb = !git difftool $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
     #############
