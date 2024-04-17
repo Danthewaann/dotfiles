@@ -139,9 +139,9 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
-        { name = "luasnip",  group_index = 1 },
         { name = 'nvim_lsp_signature_help', group_index = 1 },
         { name = "nvim_lsp", group_index = 2 },
+        { name = "luasnip",  group_index = 3 },
         {
           name = "path",
           group_index = 3,
