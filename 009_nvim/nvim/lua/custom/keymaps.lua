@@ -10,14 +10,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true, desc = "No-op"
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Up" })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Down" })
 
--- Open fold at cursor recursively
-vim.keymap.set(
-  "n",
-  "l",
-  "foldclosed('.') == -1 ? 'l' : 'zO'",
-  { expr = true, silent = true, desc = "Right or open fold", }
-)
-
 -- Move the current selection up or down a line
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection up a line", silent = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection down a line", silent = true })
