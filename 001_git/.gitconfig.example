@@ -16,7 +16,22 @@
     dt = difftool
     dtb = !git difftool $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
     #############
+    # see `git help log` for detailed help.
+    #   %h: abbreviated commit hash
+    #   %d: ref names, like the --decorate option of git-log(1)
+    #   %cn: commiter name
+    #   %ce: committer email
+    #   %cr: committer date, relative
+    #   %ci: committer date, ISO 8601-like format
+    #   %an: author name
+    #   %ae: author email
+    #   %ar: author date, relative
+    #   %ai: author date, ISO 8601-like format
+    #   %s: subject
     l = log --oneline --graph --decorate
+    ll  = log --graph --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s\"
+    lll = log --graph --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s\"
+    lb = log --all --graph --decorate --oneline --simplify-by-decoration
     #############
     w = worktree
 [filter "lfs"]
