@@ -1,6 +1,5 @@
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -25,24 +24,6 @@ return {
     }
     local grep_args = function(_)
       return { "--hidden" }
-    end
-
-    -- From: https://github.com/nvim-telescope/telescope.nvim/issues/2014#issuecomment-1873229658
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "TelescopeResults",
-      callback = function(ctx)
-        vim.api.nvim_buf_call(ctx.buf, function()
-          vim.fn.matchadd("TelescopeParent", "\t\t.*$")
-          vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
-        end)
-      end,
-    })
-
-    local function filename_first(_, path)
-      local tail = vim.fs.basename(path)
-      local parent = vim.fs.dirname(path)
-      if parent == "." then return tail end
-      return string.format("%s\t\t%s", tail, parent)
     end
 
     require("telescope").setup({
@@ -84,43 +65,59 @@ return {
       },
       pickers = {
         marks = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
-        lsp_definitions = { theme = "ivy", show_line = false },
-        lsp_references = { theme = "ivy", include_declaration = false, show_line = false },
-        lsp_implementations = { theme = "ivy", show_line = false },
-        lsp_type_definitions = { theme = "ivy" },
+        lsp_definitions = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+          show_line = false,
+        },
+        lsp_references = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+          include_declaration = false,
+          show_line = false,
+        },
+        lsp_implementations = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+          show_line = true,
+        },
+        lsp_type_definitions = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+        },
         lsp_incoming_calls = {
           theme = "ivy",
-          previewer = false,
-          path_display = { "truncate" },
+          previewer = true,
+          path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.4,
         },
         lsp_outgoing_calls = {
           theme = "ivy",
-          previewer = false,
-          path_display = { "truncate" },
+          previewer = true,
+          path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.4,
         },
         lsp_workspace_symbols = {
           theme = "ivy",
-          previewer = false,
-          path_display = { "truncate" },
+          previewer = true,
+          path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.3,
           symbol_type_width = 0.1,
         },
         lsp_dynamic_workspace_symbols = {
           theme = "ivy",
-          previewer = false,
-          path_display = { "truncate" },
+          previewer = true,
+          path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.3,
           symbol_type_width = 0.1,
         },
         lsp_document_symbols = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           symbol_width = 0.9,
         },
         current_buffer_fuzzy_find = {
@@ -134,13 +131,13 @@ return {
           sort_mru = true,
           ignore_current_buffer = true,
           layout_config = dropdown_layout_config,
-          path_display = filename_first,
+          path_display = { "filename_first" },
         },
         oldfiles = {
           theme = "dropdown",
           previewer = false,
           layout_config = dropdown_layout_config,
-          path_display = filename_first,
+          path_display = { "filename_first" },
         },
         find_files = {
           theme = "dropdown",
@@ -148,16 +145,17 @@ return {
           no_ignore = true,
           hidden = true,
           layout_config = dropdown_layout_config,
-          path_display = filename_first,
+          path_display = { "filename_first" },
         },
         git_files = {
           theme = "dropdown",
           previewer = false,
           layout_config = dropdown_layout_config,
-          path_display = filename_first,
+          path_display = { "filename_first" },
         },
         git_status = {
           previewer = true,
+          path_display = { "filename_first" },
         },
         help_tags = { theme = "ivy" },
         git_commits = { theme = "ivy" },
@@ -170,16 +168,22 @@ return {
         --   previewer = false,
         -- },
         man_pages = { theme = "ivy", previewer = false },
-        diagnostics = { theme = "ivy", previewer = false },
+        diagnostics = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+          previewer = true,
+        },
         grep_string = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
+          path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
         },
         live_grep = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
+          path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
         },
