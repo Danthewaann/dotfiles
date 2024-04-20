@@ -218,7 +218,7 @@ return {
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history,
       { desc = "[S]earch [C]ommand History" })
-    vim.keymap.set("n", "<leader>st", require("telescope.builtin").search_history, { desc = "[S]earch His[T]ory" })
+    vim.keymap.set("n", "<leader>si", require("telescope.builtin").search_history, { desc = "[S]earch H[i]story" })
     vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>sm", require("telescope.builtin").man_pages, { desc = "[S]earch [M]an Pages" })
