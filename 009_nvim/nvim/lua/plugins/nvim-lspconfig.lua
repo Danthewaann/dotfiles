@@ -43,7 +43,6 @@ return {
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-    vim.keymap.set("n", "<leader>o", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
     vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show floating diagnostic message" })
 
     -- [[ Configure LSP ]]
