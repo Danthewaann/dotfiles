@@ -171,6 +171,9 @@ return {
         diagnostics = {
           theme = "ivy",
           path_display = { "filename_first" },
+          line_width = "full",
+          disable_coordinates = false,
+          sort_by = "severity",
           previewer = true,
         },
         grep_string = {
