@@ -154,6 +154,7 @@ return {
           path_display = { "filename_first" },
         },
         git_status = {
+          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
         },
