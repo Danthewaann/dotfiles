@@ -47,7 +47,7 @@ return {
 
     -- [[ Configure LSP ]]
     -- This function gets run when an LSP connects to a particular buffer.
-    local on_attach = function(_, bufnr)
+    local on_attach = function(client, bufnr)
       local nmap = function(keys, func, desc)
         if desc then
           desc = "LSP: " .. desc
@@ -110,6 +110,19 @@ return {
       nmap("<leader>wl", function()
         utils.print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end, "[W]orkspace [L]ist Folders")
+
+      -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
+      if client.server_capabilities.documentHighlightProvider then
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+          buffer = bufnr,
+          callback = vim.lsp.buf.document_highlight,
+        })
+
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+          buffer = bufnr,
+          callback = vim.lsp.buf.clear_references,
+        })
+      end
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
