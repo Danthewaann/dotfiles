@@ -206,20 +206,19 @@ return {
       merged_config.options.globalstatus = false
       merged_config.options.disabled_filetypes = { "starter", "TelescopePrompt" }
       merged_config.sections.lualine_b = { winbar_filename_config, winbar_filetype_config }
-      merged_config.sections.lualine_c[#merged_config.sections.lualine_c + 1] = "diff"
       merged_config.inactive_sections.lualine_c = { winbar_filename_config }
     else
       merged_config.winbar = {
         lualine_a = {},
         lualine_b = { winbar_filetype_config },
-        lualine_c = { winbar_filename_config, "diff", "diagnostics" },
+        lualine_c = { winbar_filename_config, "diagnostics" },
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       }
       merged_config.inactive_winbar = {
         lualine_a = {},
-        lualine_b = { winbar_filename_config, "diff", "diagnostics" },
+        lualine_b = { winbar_filename_config, "diagnostics" },
         lualine_c = {},
         lualine_x = {},
         lualine_y = {},
