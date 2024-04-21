@@ -16,7 +16,6 @@ return {
     }
   },
   config = function()
-    local actions = require("telescope.actions")
     local trouble = require("trouble.providers.telescope")
     local dropdown_layout_config = {
       height = 0.6,
@@ -57,7 +56,7 @@ return {
         layout_strategy = "horizontal",
         mappings = {
           ["i"] = {
-            ["<C-r>"] = actions.to_fuzzy_refine,
+            ["<C-space>"] = "to_fuzzy_refine",
             ["<C-e>"] = trouble.open_with_trouble,
             ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
           }
