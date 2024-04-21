@@ -124,25 +124,21 @@ return {
         }),
         ["<C-q>"] = cmp.mapping.abort(),
         ["<C-space>"] = cmp.mapping.complete(),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() and luasnip.expand_or_locally_jumpable() then
+        ["<C-l>"] = cmp.mapping(function()
+          if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
-          else
-            fallback()
           end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() and luasnip.locally_jumpable(-1) then
+        ["<C-h>"] = cmp.mapping(function()
+          if luasnip.locally_jumpable(-1) then
             luasnip.jump(-1)
-          else
-            fallback()
           end
         end, { "i", "s" }),
       }),
       sources = {
-        { name = 'nvim_lsp_signature_help', group_index = 1 },
-        { name = "nvim_lsp", group_index = 2 },
-        { name = "luasnip",  group_index = 3 },
+        { name = "nvim_lsp_signature_help", group_index = 1 },
+        { name = "nvim_lsp",                group_index = 2 },
+        { name = "luasnip",                 group_index = 3 },
         {
           name = "path",
           group_index = 3,
