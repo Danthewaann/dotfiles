@@ -181,7 +181,7 @@ return {
         lualine_a = { "mode" },
         lualine_b = {},
         lualine_c = {},
-        lualine_x = { "searchcount", "progress" },
+        lualine_x = {},
         lualine_y = {},
         lualine_z = { "location" },
       },
@@ -205,8 +205,9 @@ return {
     if no_winbar then
       merged_config.options.globalstatus = false
       merged_config.options.disabled_filetypes = { "starter", "TelescopePrompt" }
-      merged_config.sections.lualine_b = { winbar_filename_config, winbar_filetype_config }
+      merged_config.sections.lualine_b = { winbar_filename_config }
       merged_config.inactive_sections.lualine_c = { winbar_filename_config }
+      merged_config.sections.lualine_x = { "searchcount", winbar_filetype_config, "progress" }
     else
       merged_config.winbar = {
         lualine_a = {},
