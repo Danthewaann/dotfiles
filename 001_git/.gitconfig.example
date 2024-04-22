@@ -40,7 +40,7 @@
     process = git-lfs filter-process
     required = true
 [core]
-    pager = less
+    pager = bat
     excludesfile = ~/.gitignore
 [merge]
     conflictstyle = diff3

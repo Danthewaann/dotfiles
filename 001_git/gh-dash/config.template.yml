@@ -75,10 +75,10 @@ keybindings:
     - key: d
       command: >
         clear &&
-        gh pr diff {{.PrNumber}} -R {{.RepoName}} --color always | less
+        gh pr diff {{.PrNumber}} -R {{.RepoName}} --color always | bat
   issues: []
 pager:
-  diff: less
+  diff: bat
 theme:
   ui:
     table:
