@@ -177,7 +177,7 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.g
 export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#c678dd,hl:#5c6370,fg:#abb2bf,header:#5c6370,info:#c678dd,pointer:#c678dd,marker:#c678dd,fg+:#abb2bf,preview-bg:#282c34,prompt:#c678dd,hl+:#c678dd'
 
 # Some aliases
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
 
