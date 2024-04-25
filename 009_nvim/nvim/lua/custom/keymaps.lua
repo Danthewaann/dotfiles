@@ -195,6 +195,7 @@ vim.keymap.set("n", "<leader>m", function()
         return
       end
 
+      vim.cmd(":tabnew")
       vim.cmd(":Octo pr edit " .. pr_number)
     end,
     ["ss (save session)"] = function()
