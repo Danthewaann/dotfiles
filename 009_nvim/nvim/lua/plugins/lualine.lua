@@ -27,12 +27,28 @@ return {
         a = { fg = colors.green, bg = colors.bg2 },
         b = { fg = colors.fg, bg = colors.bg2 },
         c = { fg = colors.fg, bg = colors.bg2 },
+        z = { fg = colors.fg, bg = colors.bg2 },
       },
-      command = { a = { fg = colors.yellow, bg = colors.bg2 } },
-      insert = { a = { fg = colors.blue, bg = colors.bg2 } },
-      visual = { a = { fg = colors.purple, bg = colors.bg2 } },
-      terminal = { a = { fg = colors.cyan, bg = colors.bg2 } },
-      replace = { a = { fg = colors.red1, bg = colors.bg2 } },
+      command = {
+        a = { fg = colors.yellow, bg = colors.bg2 },
+        z = { fg = colors.fg, bg = colors.bg2 },
+      },
+      insert = {
+        a = { fg = colors.blue, bg = colors.bg2 },
+        z = { fg = colors.fg, bg = colors.bg2 },
+      },
+      visual = {
+        a = { fg = colors.purple, bg = colors.bg2 },
+        z = { fg = colors.fg, bg = colors.bg2 },
+      },
+      terminal = {
+        a = { fg = colors.cyan, bg = colors.bg2 },
+        z = { fg = colors.fg, bg = colors.bg2 },
+      },
+      replace = {
+        a = { fg = colors.red1, bg = colors.bg2 },
+        z = { fg = colors.fg, bg = colors.bg2 },
+      },
       inactive = {
         a = { fg = colors.gray1, bg = colors.bg2 },
         b = { fg = colors.gray1, bg = colors.bg2 },
