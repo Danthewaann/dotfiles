@@ -136,17 +136,17 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
+        { name = "luasnip",                 group_index = 1 },
+        { name = "nvim_lsp",                group_index = 1 },
         { name = "nvim_lsp_signature_help", group_index = 1 },
-        { name = "nvim_lsp",                group_index = 2 },
-        { name = "luasnip",                 group_index = 3 },
         {
           name = "path",
-          group_index = 3,
+          group_index = 2,
           keyword_length = 4,
         },
         {
           name = "buffer",
-          group_index = 4,
+          group_index = 3,
           keyword_length = 3,
           option = {
             get_bufnrs = function()
