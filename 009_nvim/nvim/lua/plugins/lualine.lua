@@ -24,17 +24,17 @@ return {
 
     local custom_theme = {
       normal = {
-        a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+        a = { fg = colors.green, bg = colors.bg2 },
         b = { fg = colors.fg, bg = colors.bg2 },
         c = { fg = colors.fg, bg = colors.bg2 },
       },
-      command = { a = { fg = colors.bg, bg = colors.yellow, gui = "bold" } },
-      insert = { a = { fg = colors.bg, bg = colors.blue, gui = "bold" } },
-      visual = { a = { fg = colors.bg, bg = colors.purple, gui = "bold" } },
-      terminal = { a = { fg = colors.bg, bg = colors.cyan, gui = "bold" } },
-      replace = { a = { fg = colors.bg, bg = colors.red1, gui = "bold" } },
+      command = { a = { fg = colors.yellow, bg = colors.bg2 } },
+      insert = { a = { fg = colors.blue, bg = colors.bg2 } },
+      visual = { a = { fg = colors.purple, bg = colors.bg2 } },
+      terminal = { a = { fg = colors.cyan, bg = colors.bg2 } },
+      replace = { a = { fg = colors.red1, bg = colors.bg2 } },
       inactive = {
-        a = { fg = colors.gray1, bg = colors.bg2, gui = "bold" },
+        a = { fg = colors.gray1, bg = colors.bg2 },
         b = { fg = colors.gray1, bg = colors.bg2 },
         c = { fg = colors.gray1, bg = colors.bg2 },
       },
@@ -163,7 +163,7 @@ return {
       options = {
         theme = custom_theme,
         component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
         ignore_focus = {
           "dbui",
           "DiffviewFiles",
@@ -187,14 +187,6 @@ return {
       },
       tabline = {
         lualine_a = { tabs_config },
-        lualine_z = {
-          {
-            function()
-              return "Tabs"
-            end,
-            color = { fg = "#1f2329", bg = "#8ebd6b", gui = "bold" }
-          }
-        },
       },
       inactive_sections = {
         lualine_c = {},
