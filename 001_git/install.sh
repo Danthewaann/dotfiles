@@ -11,6 +11,12 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing github cli" \
         "brew install gh"
 else
+    run_command "installing git" \
+        "sudo apt-get install software-properties-common && \\
+            sudo apt-add-repository -y ppa:git-core/ppa && \\
+            sudo apt-get -y update && \\
+            sudo apt-get -y install git"
+
     if [[ ! -f "$SCRIPT_DIR/gh_2.31.0_linux_amd64.deb" ]]; then
         run_command "downloading github cli" \
             "wget -O $SCRIPT_DIR/gh_2.31.0_linux_amd64.deb \\
