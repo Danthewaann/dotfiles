@@ -57,25 +57,25 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}}
+        gitw-add {{.HeadRefName}} || sleep 2
     - key: E
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Review Pull Request" "git pull > /dev/null && nvim . -c 'Octo pr edit {{.PrNumber}}' && tmux switch-client -l || sleep 1"
+        gitw-add {{.HeadRefName}} "Review Pull Request" "git pull > /dev/null && nvim . -c 'Octo pr edit {{.PrNumber}}' && tmux switch-client -l || sleep 2"
     - key: T
       command: >
         clear &&
-        open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}})
+        open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}}) || sleep 2
     - key: U
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Rebase with base" "gitw-rebase-with-base && git push --force && tmux switch-client -l || sleep 1"
+        gitw-add {{.HeadRefName}} "Rebase with base" "gitw-rebase-with-base && git push --force && tmux switch-client -l || sleep 2"
     - key: d
       command: >
         clear &&
-        gh pr diff {{.PrNumber}} -R {{.RepoName}} --color always | bat
+        gh pr diff {{.PrNumber}} -R {{.RepoName}} --color always | bat || sleep 2
   issues: []
 pager:
   diff: bat
