@@ -52,11 +52,22 @@ local function set_breakpoint()
 
   output = output .. breakpoint_stmt
   vim.fn.append(vim.fn.line("."), output)
+  -- Move the cursor down and to the start of the line for the newly inserted breakpoint
+  vim.cmd("norm! j_")
+  local cursor_line = vim.fn.line(".")
   if file_type == "go" then
-    -- Move the cursor down and to the start of the line for the newly inserted breakpoint
-    vim.cmd("norm! j_")
-    -- Automatically import go `runtime` package via a code action
-    vim.lsp.buf.code_action({ apply = true })
+    -- Check if the `runtime` package has been imported or not
+    -- Need to move the cursor to the start of the current buffer to do the search
+    -- After the search is done, we jump back to the line where we added the breakpoint
+    vim.fn.cursor(1, 0)
+    -- Check if "runtime" is found. If it is found we don't run the code action to import it
+    if vim.fn.search("\"runtime\"", "n") == 0 then
+      vim.fn.cursor(cursor_line, 0)
+      -- Automatically import go `runtime` package via a code action
+      vim.lsp.buf.code_action({ apply = true })
+    else
+      vim.fn.cursor(cursor_line, 0)
+    end
   end
 end
 
