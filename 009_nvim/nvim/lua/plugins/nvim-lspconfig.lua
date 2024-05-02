@@ -149,6 +149,15 @@ return {
             },
             staticcheck = true,
             gofumpt = true,
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = false,
+              constantValues = false,
+              functionTypeParameters = false,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            }
           },
         }
       },
