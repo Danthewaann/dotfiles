@@ -62,7 +62,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Review Pull Request" "git pull > /dev/null && nvim . -c 'Octo pr edit {{.PrNumber}}' && tmux switch-client -l || sleep 2"
+        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'Octo pr edit {{.PrNumber}}'"
     - key: T
       command: >
         clear &&
@@ -71,11 +71,12 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "Rebase with base" "gitw-rebase-with-base && git push --force && tmux switch-client -l || sleep 2"
+        gitw-add {{.HeadRefName}} "gitw-rebase-with-base && git push --force"
     - key: d
       command: >
         clear &&
-        gh pr diff {{.PrNumber}} -R {{.RepoName}} --color always | bat || sleep 2
+        cd {{.RepoPath}} && 
+        gitw-add {{.HeadRefName}} "git db"
   issues: []
 pager:
   diff: bat
