@@ -7,7 +7,7 @@ return {
       auto_close = true,
     })
 
-    vim.keymap.set("n", "]q", function()
+    vim.keymap.set("n", "<C-j>", function()
       if require("trouble").is_open() == true then
         require("trouble").next({ skip_groups = true, jump = true })
       else
@@ -22,7 +22,7 @@ return {
         end
       end
     end, { desc = "Jump to next trouble/qf item" })
-    vim.keymap.set("n", "[q", function()
+    vim.keymap.set("n", "<C-k>", function()
       if require("trouble").is_open() == true then
         require("trouble").previous({ skip_groups = true, jump = true })
       else
