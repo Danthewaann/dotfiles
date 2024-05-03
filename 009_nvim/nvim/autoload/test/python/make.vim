@@ -17,10 +17,10 @@ endfunction
 " Returns processed args (if you need to do any processing)
 function! test#python#make#build_args(args, color)
     let build_args = test#python#pytest#build_args(a:args, a:color)
-    return ["test=" . join(build_args)]
+    return ["unit", "test=" . join(build_args)]
 endfunction
 
 " Returns the executable of your test runner
 function! test#python#make#executable()
-    return "make unit"
+    return "make"
 endfunction

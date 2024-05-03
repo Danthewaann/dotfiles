@@ -20,16 +20,20 @@ function! test#go#make#build_args(args)
     if len(build_args) == 2
         let test = substitute(build_args[0], "-run ", "", "")
         let path = build_args[1]
-        let args = ["test=" . test . " path=" . path ]
+        let args = ["unit", "test=" . test . " path=" . path ]
     else
-        let test = ""
+        let args = []
         let path = build_args[0]
-        let args = ["path=" . path]
+        if path == "./..."
+            let args = ["test"]
+        else
+            let args = ["unit", "path=" . path]
+        endif
     endif
     return args
 endfunction
 
 " Returns the executable of your test runner
 function! test#go#make#executable()
-    return "make unit"
+    return "make"
 endfunction
