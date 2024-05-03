@@ -27,7 +27,8 @@ return {
     vim.diagnostic.config({
       virtual_text = show_virtual_text,
       signs = false,
-      float = { source = "always" },
+      float = { source = true },
+      severity_sort = true
     })
 
     -- Toggle virtual text on and off
