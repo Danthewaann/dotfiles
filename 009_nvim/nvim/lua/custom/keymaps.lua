@@ -81,6 +81,9 @@ vim.keymap.set("n", "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to ne
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
+-- Make this a no-op as I use <C-c> to cancel the which key popup
+vim.keymap.set("n", "<C-w><C-c>", "<Nop>")
+
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w>t", "<cmd> tabonly<CR>", { desc = "Close all other tabs" })
 
