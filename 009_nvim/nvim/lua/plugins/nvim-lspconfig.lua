@@ -26,6 +26,7 @@ return {
     -- Setup initial diagnostic config
     vim.diagnostic.config({
       virtual_text = show_virtual_text,
+      signs = false,
       float = { source = "always" },
     })
 
