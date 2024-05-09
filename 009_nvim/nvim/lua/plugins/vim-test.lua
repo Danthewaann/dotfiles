@@ -104,7 +104,16 @@ return {
           utils.print_err("Failed to start test container!\n" .. container)
           return
         end
+
+        local remote_path = vim.fn.trim(vim.fn.system("get-remote-path"))
+        if vim.v.shell_error ~= 0 then
+          utils.print_err("Failed to get remote path!\n" .. remote_path)
+          return
+        end
+
+        print(remote_path)
         debug_config.configuration = language .. " - remote test launch"
+        debug_config.remotePath = remote_path
       else
         debug_config.configuration = language .. " - debug test"
       end
