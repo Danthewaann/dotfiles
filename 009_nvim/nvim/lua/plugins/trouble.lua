@@ -4,7 +4,7 @@ return {
   config = function()
     require("trouble").setup({
       padding = false,
-      auto_close = true,
+      auto_close = false,
     })
 
     vim.keymap.set("n", "<C-w><C-j>", function()
