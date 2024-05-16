@@ -63,7 +63,13 @@ autocmd("FileType", {
   -- Conceal links and special syntax unless cursor hovering over line
   -- Also autowrap text in markdown files
   callback = function()
-    vim.cmd("setlocal conceallevel=2 textwidth=100 formatoptions=cqt wrapmargin=0")
+    -- Use a smaller textwidth for my notes project
+    local textwidth = 100
+    if vim.fn.fnamemodify(vim.loop.cwd(), ":t") == "notes" then
+      textwidth = 80
+    end
+
+    vim.cmd("setlocal conceallevel=2 textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
     -- Don't completely replace backticks
     vim.cmd('syntax match Entity "`" conceal cchar=`')
     vim.cmd('syntax match Entity "\\"" conceal cchar="')
