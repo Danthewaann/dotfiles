@@ -66,7 +66,7 @@ autocmd("FileType", {
     -- Use a smaller textwidth for my notes project
     local textwidth = 100
     if vim.fn.fnamemodify(vim.loop.cwd(), ":t") == "notes" then
-      textwidth = 80
+      textwidth = 60
     end
 
     vim.cmd("setlocal conceallevel=2 textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
