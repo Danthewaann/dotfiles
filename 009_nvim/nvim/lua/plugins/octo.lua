@@ -11,6 +11,8 @@ return {
     local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
     local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
+    vim.treesitter.language.register('markdown', 'octo')
+
     require("octo").setup({
       suppress_missing_scope = {
         projects_v2 = true,
