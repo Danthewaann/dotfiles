@@ -76,8 +76,6 @@ return {
             ["if"] = "@function.inner",
             ["ac"] = "@class.outer",
             ["ic"] = "@class.inner",
-            ["ib"] = "@block.inner",
-            ["ab"] = "@block.outer",
             ["il"] = "@assignment.lhs",
             ["ir"] = "@assignment.rhs",
             ["im"] = "@assignment.outer",
