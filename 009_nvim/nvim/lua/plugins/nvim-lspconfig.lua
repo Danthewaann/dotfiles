@@ -257,7 +257,8 @@ return {
           },
         },
       },
-      vimls = { settings = {} }
+      vimls = { settings = {} },
+      marksman = { settings = {} }
     }
 
     -- Only install solargraph LSP if ruby is installed
