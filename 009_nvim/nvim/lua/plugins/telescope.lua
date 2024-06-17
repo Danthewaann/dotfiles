@@ -174,7 +174,7 @@ return {
           line_width = "full",
           disable_coordinates = false,
           sort_by = "severity",
-          previewer = true,
+          previewer = false,
         },
         grep_string = {
           theme = "ivy",
