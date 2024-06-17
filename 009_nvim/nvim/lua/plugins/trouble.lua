@@ -24,7 +24,7 @@ return {
     end, { desc = "Jump to next trouble/qf item" })
     vim.keymap.set("n", "<C-w><C-k>", function()
       if require("trouble").is_open() == true then
-        require("trouble").previous({ skip_groups = true, jump = true })
+        require("trouble").prev({ skip_groups = true, jump = true })
       else
         local ok, _ = pcall(vim.cmd, "cprevious")
         if not ok then
@@ -39,7 +39,7 @@ return {
     end, { desc = "Jump to previous trouble/qf item" })
 
     vim.keymap.set("n", "<leader>q", function()
-      require("trouble").toggle()
+      require("trouble").toggle("diagnostics")
     end, { desc = "Trouble toggle" })
     vim.keymap.set("n", "<leader>xw", function()
       require("trouble").toggle("workspace_diagnostics")
