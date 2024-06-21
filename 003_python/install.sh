@@ -60,6 +60,9 @@ run_command "installing pynvim" \
 run_command "installing twine" \
     "pip install twine"
 
+run_command "installing pyallel" \
+    "pip install pyallel"
+
 # Make sure executables are available
 run_command "rehashing pyenv" \
     "pyenv rehash"
