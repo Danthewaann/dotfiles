@@ -3,7 +3,9 @@ return {
   commit = "defad64afbf19381fe31488a7582bbac421d6e38",
   event = "InsertEnter",
   config = function()
-    require("nvim-autopairs").setup({})
+    require("nvim-autopairs").setup({
+      disable_filetype = { "markdown" }
+    })
     local cmp = require("cmp")
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local ts_utils = require("nvim-treesitter.ts_utils")
