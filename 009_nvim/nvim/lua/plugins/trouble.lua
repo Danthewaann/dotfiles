@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields, param-type-mismatch, missing-parameter
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -5,6 +6,28 @@ return {
     require("trouble").setup({
       padding = false,
       auto_close = false,
+      warn_no_results = false,
+      keys = {
+        ["<c-x>"] = "jump_split",
+        gb = { -- toggle the active view filter
+          action = function(view)
+            view:filter({ buf = 0 }, { toggle = true })
+          end,
+          desc = "Toggle Current Buffer Filter",
+        },
+        s = { -- toggle the severity
+          action = function(view)
+            local f = view:get_filter("severity")
+            local severity = ((f and f.filter.severity or 0) + 1) % 5
+            view:filter({ severity = severity }, {
+              id = "severity",
+              template = "{hl:Title}Filter:{hl} {severity}",
+              del = severity == 0,
+            })
+          end,
+          desc = "Toggle Severity Filter",
+        },
+      }
     })
 
     vim.keymap.set("n", "<C-w><C-j>", function()
@@ -38,20 +61,35 @@ return {
       end
     end, { desc = "Jump to previous trouble/qf item" })
 
-    vim.keymap.set("n", "<leader>q", function()
-      require("trouble").toggle("diagnostics")
-    end, { desc = "Trouble toggle" })
-    vim.keymap.set("n", "<leader>xw", function()
-      require("trouble").toggle("workspace_diagnostics")
-    end, { desc = "Trouble toggle workspace diagnostics" })
-    vim.keymap.set("n", "<leader>xd", function()
-      require("trouble").toggle("document_diagnostics")
-    end, { desc = "Trouble toggle document diagnostics" })
-    vim.keymap.set("n", "<leader>xq", function()
-      require("trouble").toggle("quickfix")
-    end, { desc = "Trouble toggle quickfix" })
-    vim.keymap.set("n", "<leader>xl", function()
-      require("trouble").toggle("loclist")
-    end, { desc = "Trouble toggle locationlist" })
+    vim.keymap.set(
+      "n",
+      "<leader>xx",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      { desc = "Diagnostics (Trouble)" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>cs",
+      "<cmd>Trouble symbols toggle focus=false win.position=left<cr>",
+      { desc = "Symbols (Trouble)" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>cl",
+      "<cmd>Trouble lsp toggle focus=false<cr>",
+      { desc = "LSP Definitions / references / ... (Trouble)" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>xL",
+      "<cmd>Trouble loclist toggle<cr>",
+      { desc = "Location List (Trouble)" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>xQ",
+      "<cmd>Trouble qflist toggle<cr>",
+      { desc = "Quickfix List (Trouble)" }
+    )
   end
 }
