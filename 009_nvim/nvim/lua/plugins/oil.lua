@@ -29,6 +29,7 @@ return {
       -- See :help oil-actions for a list of all available actions
       keymaps = {
         ["<C-s>"] = false,
+        ["<C-h>"] = false,
         ["<Tab>"] = "actions.preview",
         ["<C-p>"] = false,
         ["<C-c>"] = "actions.close",
