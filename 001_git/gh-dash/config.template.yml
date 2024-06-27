@@ -80,6 +80,7 @@ keybindings:
   issues: []
 pager:
   diff: bat
+confirmQuit: true
 theme:
   ui:
     table:
