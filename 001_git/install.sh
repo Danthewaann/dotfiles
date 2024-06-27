@@ -34,7 +34,7 @@ run_command "configuring github cli" \
     "gh config set editor nvim"
 
 run_command "installing github cli dash extension" \
-    "gh extension install dlvhdr/gh-dash --force"
+    "gh extension install dlvhdr/gh-dash --force --pin v4.0.0"
 
 run_command "installing github cli notify extension" \
     "gh extension install dcrblack/gh-notify --force"
