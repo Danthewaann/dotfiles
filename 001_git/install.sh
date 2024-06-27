@@ -17,14 +17,14 @@ else
             sudo apt-get -y update && \\
             sudo apt-get -y install git"
 
-    if [[ ! -f "$SCRIPT_DIR/gh_2.31.0_linux_amd64.deb" ]]; then
+    if [[ ! -f "$SCRIPT_DIR/gh_2.51.0_linux_amd64.deb" ]]; then
         run_command "downloading github cli" \
-            "wget -O $SCRIPT_DIR/gh_2.31.0_linux_amd64.deb \\
-            https://github.com/cli/cli/releases/download/v2.31.0/gh_2.31.0_linux_amd64.deb"
+            "wget -O $SCRIPT_DIR/gh_2.51.0_linux_amd64.deb \\
+            https://github.com/cli/cli/releases/download/v2.51.0/gh_2.51.0_linux_amd64.deb"
     fi
 
     run_command "installing github cli" \
-        "sudo dpkg -i $SCRIPT_DIR/gh_2.31.0_linux_amd64.deb"
+        "sudo dpkg -i $SCRIPT_DIR/gh_2.51.0_linux_amd64.deb"
 fi
 
 run_command "logging into github" \
