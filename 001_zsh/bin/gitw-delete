@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -e
+
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
+worktree="$1"
+shift
+
+WHITE_BOLD='\033[1m'
+GREEN_BOLD='\033[1;32m'
+BLUE_BOLD='\033[1;34m'
+RED_BOLD='\033[1;31m'
+YELLOW_BOLD='\033[1;33m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+RED='\033[0;31m'
+
+got_error=0
+# Check if I have opened a PR for the current branch
+if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
+    echo -e "${YELLOW_BOLD}A PR is open for this worktree, skipping${NC}"
+    exit 0
+fi
+if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
+    echo -e "${RED_BOLD}Failed to delete${NC}"
+    error_no_level "$result" 2>&1
+    exit 1
+fi
+echo -e "${GREEN_BOLD}Successfully deleted${NC}"

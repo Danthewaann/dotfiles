@@ -28,26 +28,15 @@ else
     fi
 
     got_error=0
+    command="pyallel --colour yes"
     for worktree in "${worktrees[@]}"; do
-        # Check if I have opened a PR for the current branch
-        if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
-            echo -en "${YELLOW_BOLD}A PR is open for this worktree, skipping${NC} : "
-            echo -e "${BLUE_BOLD}$(basename "$worktree")${NC}"
-            >&2 echo
-            continue
+        command="$command \"gitw-delete $worktree\""
+        if [[ "$#" -gt 0 ]]; then
+            command="$command $*"
         fi
-        if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
-            echo -en "${RED_BOLD}Failed to delete${NC} : "
-            echo -e "${BLUE_BOLD}$(basename "$worktree")${NC}"
-            error_no_level "$result" 2>&1
-            >&2 echo
-            got_error=1
-            continue
-        fi
-        echo -en "${GREEN_BOLD}Successfully deleted${NC} : "
-        echo -e "${BLUE_BOLD}$(basename "$worktree")${NC}"
-        >&2 echo
     done
+    if ! eval "$command"; then true; fi
+    >&2 echo
 
     update-projects &
 
