@@ -10,5 +10,7 @@ return {
     require("render-markdown").setup({
       file_types = { "markdown", "octo" },
     })
+
+    vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdownToggle<cr>", { desc = "[T]oggle [M]arkdown view" })
   end,
 }
