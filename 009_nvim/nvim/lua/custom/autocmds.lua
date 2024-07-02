@@ -60,14 +60,10 @@ augroup("markdown", { clear = true })
 autocmd("FileType", {
   group = "markdown",
   pattern = "markdown",
-  -- Conceal links and special syntax unless cursor hovering over line
-  -- Also autowrap text in markdown files
+  -- Autowrap text in markdown files
   callback = function()
     local textwidth = 100
-    vim.cmd("setlocal conceallevel=2 textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
-    -- Don't completely replace backticks
-    vim.cmd('syntax match Entity "`" conceal cchar=`')
-    vim.cmd('syntax match Entity "\\"" conceal cchar="')
+    vim.cmd("setlocal textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
   end
 })
 
