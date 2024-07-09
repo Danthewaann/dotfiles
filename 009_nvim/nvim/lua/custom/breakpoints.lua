@@ -1,5 +1,38 @@
 local utils = require("custom.utils")
 
+local ft_map = {
+  go = {
+    breakpoint_stmt = "runtime.Breakpoint()",
+    whitespace_char = "	",
+    get_all_cmd = ":silent grep runtime.Breakpoint\\(\\) -g \"*.go\" ./ ",
+    post_set_hook = function()
+      local cursor_line = vim.fn.line(".")
+      -- Check if the `runtime` package has been imported or not
+      -- Need to move the cursor to the start of the current buffer to do the search
+      -- After the search is done, we jump back to the line where we added the breakpoint
+      vim.fn.cursor(1, 0)
+      -- Check if "runtime" is found. If it is found we don't run the code action to import it
+      if vim.fn.search("\"runtime\"", "n") == 0 then
+        vim.fn.cursor(cursor_line, 0)
+        -- Automatically import go `runtime` package via a code action
+        vim.lsp.buf.code_action({ apply = true })
+      else
+        vim.fn.cursor(cursor_line, 0)
+      end
+    end
+  },
+  python = {
+    breakpoint_stmt = "breakpoint()",
+    whitespace_char = " ",
+    get_all_cmd = ":silent grep breakpoint\\(\\) -g \"*.py\" ./",
+  },
+  ruby = {
+    breakpoint_stmt = "binding.pry",
+    whitespace_char = " ",
+    get_all_cmd = ":silent grep binding.pry -g \"*.rb\" ./",
+  }
+}
+
 -- Custom stuff for adding breakpoint() statements
 --
 -- Partially from https://gist.github.com/berinhard/523420
@@ -32,18 +65,15 @@ local function set_breakpoint()
   end
 
   local file_type = vim.fn.getbufvar(vim.api.nvim_get_current_buf(), "&filetype")
-  local breakpoint_stmt = nil
-  local whitespace_char = nil
-  if file_type == "go" then
-    breakpoint_stmt = "runtime.Breakpoint()"
-    whitespace_char = "	"
-  elseif file_type == "python" then
-    breakpoint_stmt = "breakpoint()"
-    whitespace_char = " "
-  else
+  local breakpoint_data = ft_map[file_type]
+  if breakpoint_data == nil then
     utils.print_err("File not supported for breakpoints!")
     return
   end
+
+  local breakpoint_stmt = breakpoint_data.breakpoint_stmt
+  local whitespace_char = breakpoint_data.whitespace_char
+  local post_set_hook = breakpoint_data.post_set_hook
 
   local output = ""
   for _ = 1, cur_line.whitespace do
@@ -54,44 +84,32 @@ local function set_breakpoint()
   vim.fn.append(vim.fn.line("."), output)
   -- Move the cursor down and to the start of the line for the newly inserted breakpoint
   vim.cmd("norm! j_")
-  local cursor_line = vim.fn.line(".")
-  if file_type == "go" then
-    -- Check if the `runtime` package has been imported or not
-    -- Need to move the cursor to the start of the current buffer to do the search
-    -- After the search is done, we jump back to the line where we added the breakpoint
-    vim.fn.cursor(1, 0)
-    -- Check if "runtime" is found. If it is found we don't run the code action to import it
-    if vim.fn.search("\"runtime\"", "n") == 0 then
-      vim.fn.cursor(cursor_line, 0)
-      -- Automatically import go `runtime` package via a code action
-      vim.lsp.buf.code_action({ apply = true })
-    else
-      vim.fn.cursor(cursor_line, 0)
-    end
+
+  if post_set_hook ~= nil then
+    post_set_hook()
   end
 end
 
 local function get_all_breakpoints()
   local file_type = vim.fn.getbufvar(vim.api.nvim_get_current_buf(), "&filetype")
-  if file_type == "go" then
-    vim.cmd(":silent lgrep runtime.Breakpoint\\(\\) -g \"*.go\" ./ ")
-  elseif file_type == "python" then
-    vim.cmd(":silent lgrep breakpoint\\(\\) -g \"*.py\" ./")
-  else
+  local breakpoint_data = ft_map[file_type]
+  if breakpoint_data == nil then
     utils.print_err("File not supported for breakpoints!")
     return false
   end
+
+  vim.cmd(breakpoint_data.get_all_cmd)
   return true
 end
 
 vim.keymap.set("n", "<leader>bp", set_breakpoint, { desc = "Add [B]reak[p]oint" })
 vim.keymap.set("n", "<leader>bd", function()
   if get_all_breakpoints() then
-    local num = vim.fn.getloclist(0)
+    local num = vim.fn.getqflist()
     if #num > 0 then
       utils.print("Deleting all breakpoints...")
-      vim.cmd(":silent lfdo g/\"runtime\"/d")
-      vim.cmd(":silent ldo delete")
+      vim.cmd(":silent cfdo g/\"runtime\"/d")
+      vim.cmd(":silent cdo delete")
       -- Refresh the breakpoints location list
       get_all_breakpoints()
     else
@@ -101,9 +119,9 @@ vim.keymap.set("n", "<leader>bd", function()
 end, { desc = "[B]reakpoints [D]elete" })
 vim.keymap.set("n", "<leader>bs", function()
   if get_all_breakpoints() then
-    local num = vim.fn.getloclist(0)
+    local num = vim.fn.getqflist()
     if #num > 0 then
-      vim.cmd(":lopen")
+      vim.cmd(":copen")
     else
       utils.print_err("No breakpoints found!")
     end
