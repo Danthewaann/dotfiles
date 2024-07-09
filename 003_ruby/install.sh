@@ -11,6 +11,8 @@ source "$SCRIPT_DIR"/../common
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing dependencies" \
         "brew install openssl@1.1 readline libyaml gmp"
+
+    run_command "installing rubyfmt formatter" "brew install rubyfmt"
 else
     run_command "installing dependencies" \
         "sudo apt-get install -y autoconf bison patch build-essential rustc libssl-dev libyaml-dev \\
