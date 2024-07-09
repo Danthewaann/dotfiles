@@ -15,7 +15,10 @@ local ft_map = {
       if vim.fn.search("\"runtime\"", "n") == 0 then
         vim.fn.cursor(cursor_line, 0)
         -- Automatically import go `runtime` package via a code action
-        vim.lsp.buf.code_action({ apply = true })
+        vim.lsp.buf.code_action({
+          apply = true,
+          filter = function(x) return x.kind == "source.organizeImports" end
+        })
       else
         vim.fn.cursor(cursor_line, 0)
       end
