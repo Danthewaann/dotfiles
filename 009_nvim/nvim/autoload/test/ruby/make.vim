@@ -17,7 +17,11 @@ endfunction
 " Returns processed args (if you need to do any processing)
 function! test#ruby#make#build_args(args, color)
     let build_args = test#ruby#rspec#build_args(a:args, a:color)
-    return ["test", "TEST_PATTERN=" . join(build_args)]
+    if len(build_args) > 0
+        return ["test", "TEST_PATTERN=" . join(build_args)]
+    else
+        return ["test"]
+    endif
 endfunction
 
 " Returns the executable of your test runner
