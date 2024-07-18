@@ -28,10 +28,11 @@ else
 
     sessions=()
 
-    # Load all active sessions and sort them in most recently used order
-    while IFS=$'\n' read -r session; do
-        sessions+=("$session")
-    done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -v " $current_session" | sort --numeric-sort --reverse | cut -d' ' -f2-)
+    if [[ ! -f "$HOME/.tmux-active-sessions" ]]; then
+        update-tmux-active-sessions
+    fi
+
+    while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.tmux-active-sessions")
 
     for session in "${default_sessions[@]}"; do
         # If a location appears in the active sessions, we skip it
@@ -42,6 +43,9 @@ else
 
         sessions+=("$session")
     done
+
+    # printf "%s\n" "$current_session" > "$HOME/.tmux-projects"
+    # printf "%s\n" "${sessions[@]}" > "$HOME/.tmux-projects"
 
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
@@ -75,3 +79,4 @@ if [[ $# -gt 0 ]]; then
 fi
 
 tmux switch-client -t "$selected_session"
+update-tmux-active-sessions &

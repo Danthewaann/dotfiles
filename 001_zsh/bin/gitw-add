@@ -196,3 +196,4 @@ update-tmux-projects &
 info "Switching to worktree..."
 sleep 2
 tmux-sessionizer "$(pwd)" "$@"
+update-tmux-active-sessions &

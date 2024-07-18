@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
+sessions=()
+
+# Load all active sessions and sort them in most recently used order
+while IFS=$'\n' read -r session; do
+    sessions+=("$session")
+done < <(tmux list-sessions -F '#{session_last_attached} #S' | sort --numeric-sort --reverse | cut -d' ' -f2-)
+
+printf "%s\n" "${sessions[@]}" > "$HOME/.tmux-active-sessions"
