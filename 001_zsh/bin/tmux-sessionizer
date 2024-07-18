@@ -20,11 +20,11 @@ if [[ $# -gt 0 ]]; then
 else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
 
-    if [[ ! -f "$HOME/.projects" ]]; then
-        update-projects
+    if [[ ! -f "$HOME/.tmux-projects" ]]; then
+        update-tmux-projects
     fi
 
-    while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.projects")
+    while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -v "$current_session" < "$HOME/.tmux-projects")
 
     sessions=()
 

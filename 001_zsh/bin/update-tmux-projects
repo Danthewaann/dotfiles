@@ -28,4 +28,4 @@ done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 # From: https://www.baeldung.com/linux/sort-bash-arrays
 readarray -td '' sessions < <(printf '%s\0' "${sessions[@]}" | sort -z)
 # shellcheck disable=SC2086
-printf "%s\n" "${sessions[@]}" > "$HOME/.projects"
+printf "%s\n" "${sessions[@]}" > "$HOME/.tmux-projects"

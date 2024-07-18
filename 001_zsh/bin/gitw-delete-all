@@ -38,7 +38,7 @@ else
     if ! eval "$command"; then true; fi
     >&2 echo
 
-    update-projects &
+    update-tmux-projects &
 
     if [[ $got_error -ne 0 ]]; then
         exit 1
