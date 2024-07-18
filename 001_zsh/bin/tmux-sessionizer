@@ -44,9 +44,6 @@ else
         sessions+=("$session")
     done
 
-    # printf "%s\n" "$current_session" > "$HOME/.tmux-projects"
-    # printf "%s\n" "${sessions[@]}" > "$HOME/.tmux-projects"
-
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
     selected_session=$selected
@@ -66,6 +63,7 @@ tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s "$selected_session" -c "$selected"
+    update-tmux-active-sessions &
     exit 0
 fi
 

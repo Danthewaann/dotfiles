@@ -8,9 +8,9 @@ source "$CUR_DIR/_git-common"
 
 sessions=()
 
-# Load all active sessions and sort them in most recently used order
+# Load 10 active sessions and sort them in most recently used order
 while IFS=$'\n' read -r session; do
     sessions+=("$session")
-done < <(tmux list-sessions -F '#{session_last_attached} #S' | sort --numeric-sort --reverse | cut -d' ' -f2-)
+done < <(tmux list-sessions -F '#{session_last_attached} #S' | sort --numeric-sort --reverse | head -n 10 | cut -d' ' -f2-)
 
 printf "%s\n" "${sessions[@]}" > "$HOME/.tmux-active-sessions"
