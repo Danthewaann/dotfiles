@@ -13,4 +13,21 @@ while IFS=$'\n' read -r session; do
     sessions+=("$session")
 done < <(tmux list-sessions -F '#{session_last_attached} #S' | sort --numeric-sort --reverse | head -n 10 | cut -d' ' -f2-)
 
+# Update the active sessions file with new sessions if it exists
+if [[ -f "$HOME/.tmux-active-sessions" ]]; then
+    persisted_sessions=()
+
+    while IFS=$'\n' read -r line; do persisted_sessions+=("$line"); done < "$HOME/.tmux-active-sessions"
+
+    for session in "${persisted_sessions[@]}"; do
+        # If a location appears in the active sessions, we skip it
+        # shellcheck disable=SC2076
+        if [[ " ${sessions[*]} " =~ " $session " ]]; then
+            continue
+        fi
+
+        sessions+=("$session")
+    done
+fi
+
 printf "%s\n" "${sessions[@]}" > "$HOME/.tmux-active-sessions"
