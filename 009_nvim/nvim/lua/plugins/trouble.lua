@@ -5,6 +5,7 @@ return {
   config = function()
     require("trouble").setup({
       padding = false,
+      auto_refresh = false,
       auto_close = false,
       warn_no_results = false,
       keys = {
