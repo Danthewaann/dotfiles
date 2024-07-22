@@ -31,6 +31,13 @@ jq '[.items[] | select(.name == "Bob")] | length]'
 jq '.items[] | .id, .name'
 ```
 
+### Create a new JSON structure from existing data
+
+```bash
+jq '.items[] | [{.id, .name, .age}]'
+
+```
+
 ## Links
 
 - https://github.com/reegnz/dotfiles/blob/master/jq/README.md
