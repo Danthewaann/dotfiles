@@ -20,7 +20,8 @@ function! test#go#make#build_args(args)
     if len(build_args) == 2
         let test = substitute(build_args[0], "-run ", "", "")
         let path = build_args[1]
-        let args = ["unit", "test=" . test . " path=" . path ]
+        " Need to add another `$` to the `test` arg to escape the trailing `$`.
+        let args = ["unit", "test=" . test . "$" . " path=" . path ]
     else
         let args = []
         let path = build_args[0]
