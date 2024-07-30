@@ -30,11 +30,10 @@ return {
         -- Conform will run multiple formatters sequentially
         python = { "ruff_fix", "black" },
         ruby = { "rubyfmt" },
-        -- Use a sub-list to run only the first available formatter
-        javascript = { { "prettierd", "prettier" } },
-        json = { { "prettierd", "prettier" } },
-        markdown = { { "prettierd", "prettier" } },
-        yaml = { { "prettierd", "prettier" } },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
+        yaml = { "prettierd", "prettier", stop_after_first = true },
         sql = { "sleek" },
         mysql = { "sleek" },
         plsql = { "sleek" },
