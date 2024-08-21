@@ -11,6 +11,6 @@ return {
       file_types = { "markdown", "octo" },
     })
 
-    vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdownToggle<cr>", { desc = "[T]oggle [M]arkdown view" })
+    vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>", { desc = "[T]oggle [M]arkdown view" })
   end,
 }
