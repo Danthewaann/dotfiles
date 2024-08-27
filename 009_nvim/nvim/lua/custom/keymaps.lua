@@ -166,7 +166,7 @@ vim.keymap.set("n", "<leader>m", function()
     ["db (dashboard)"] = function()
       MiniStarter.open()
     end,
-    ["fx (make file as executable)"] = function()
+    ["fx (make file executable)"] = function()
       utils.run_job(
         "chmod",
         { "+x", vim.fn.expand("%") },
@@ -181,6 +181,9 @@ vim.keymap.set("n", "<leader>m", function()
     end,
     ["grb (git rebase with base worktree)"] = function()
       vim.cmd("!gitw-rebase-with-base")
+    end,
+    ["dvb (diff view base)"] = function()
+      vim.cmd(":DiffviewOpen origin/master...HEAD")
     end,
     ["rv (repository view)"] = function()
       utils.run_job("gh", { "rv" }, false)
