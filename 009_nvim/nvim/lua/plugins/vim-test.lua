@@ -111,7 +111,6 @@ return {
           return
         end
 
-        print(remote_path)
         debug_config.configuration = language .. " - remote test launch"
         debug_config.remotePath = remote_path
       else
