@@ -179,7 +179,7 @@ return {
                 "migrations/**",
                 ".venv/**"
               },
-              diagnosticMode = "workspace", -- can be "workspace" or "openFilesOnly"
+              diagnosticMode = "openFilesOnly", -- can be "workspace" or "openFilesOnly"
               typeCheckingMode = "basic",
               diagnosticSeverityOverrides = {
                 reportMissingImports = true,
