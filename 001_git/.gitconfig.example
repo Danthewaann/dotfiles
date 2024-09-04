@@ -11,10 +11,9 @@
     #############
     d = diff
     ds = !git --no-pager diff --shortstat
-    db = !git diff $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
-    dbs = !git --no-pager diff --shortstat $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
-    dt = difftool
-    dtb = !git difftool $(git branch -r | grep -Ei 'origin/(main|master)')..HEAD
+    db = "!f() { git diff $(git branch -r | grep -Ei \"${1:-origin/(main|master)}\")..HEAD; }; f"
+    dbs = "!f() { git --no-pager diff --shortstat $(git branch -r | grep -Ei \"${1:-origin/(main|master)}\")..HEAD; }; f"
+    dt = "!f() { git difftool $(git branch -r | grep -Ei \"${1:-origin/(main|master)}\")..HEAD; }; f"
     #############
     # see `git help log` for detailed help.
     #   %h: abbreviated commit hash
