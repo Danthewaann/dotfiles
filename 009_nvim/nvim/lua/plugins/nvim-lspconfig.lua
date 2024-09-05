@@ -213,7 +213,7 @@ return {
         }
       },
       rust_analyzer = { settings = {} },
-      tsserver = { settings = {} },
+      tsserver = { alias = "ts_ls", settings = {} },
       html = { settings = {}, filetypes = { "html", "twig", "hbs" } },
       jsonls = { settings = {} },
       bashls = {
@@ -304,7 +304,8 @@ return {
     mason_lspconfig.setup_handlers({
       function(server_name)
         local server = servers[server_name] or {}
-        require("lspconfig")[server_name].setup({
+        local name = server.alias or server_name
+        require("lspconfig")[name].setup({
           capabilities = capabilities,
           on_attach = on_attach,
           init_options = server.init_options,
