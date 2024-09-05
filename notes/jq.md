@@ -38,6 +38,14 @@ jq '.items[] | [{.id, .name, .age}]'
 
 ```
 
+### Search for info level JSON logs
+
+The `tail -n +3` command ignores the first 2 lines in stdin
+
+```bash
+pbpaste | tail -n +3 | jq '. | select(.level == "info")'
+```
+
 ## Links
 
 - https://github.com/reegnz/dotfiles/blob/master/jq/README.md
