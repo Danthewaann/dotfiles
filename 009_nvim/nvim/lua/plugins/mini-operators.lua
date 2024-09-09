@@ -10,7 +10,7 @@ return {
         prefix = "ge"
       },
       multiply = {
-        prefix = "m"
+        prefix = "gm"
       },
       replace = {
         prefix = "s"
