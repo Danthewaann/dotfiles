@@ -130,10 +130,17 @@ vim.keymap.set("n", "<leader>gg", function()
   -- Open the git window in a horizontal split if the
   -- width of the current window is low, otherwise open it in a vertical split
   local width = vim.api.nvim_win_get_width(0)
+  local status, err
   if width < 150 then
-    vim.cmd("silent Git")
+    ---@diagnostic disable-next-line: param-type-mismatch
+    status, err = pcall(vim.cmd, "silent Git")
   else
-    vim.cmd("silent vertical Git")
+    ---@diagnostic disable-next-line: param-type-mismatch
+    status, err = pcall(vim.cmd, "silent vertical Git")
+  end
+
+  if not status then
+    utils.print(err)
   end
 end, { desc = "[G]it [G]et" })
 
