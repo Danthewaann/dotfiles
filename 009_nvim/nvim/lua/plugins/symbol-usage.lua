@@ -1,6 +1,7 @@
 return {
   "Wansmer/symbol-usage.nvim",
   event = "LspAttach", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
+  commit = "533846260d3d053aebbf224617cc5294c219a8b1",
   config = function()
     local get_highlight = function(name)
       return vim.api.nvim_get_hl(0, { name = name })
