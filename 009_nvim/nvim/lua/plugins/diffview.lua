@@ -54,5 +54,17 @@ return {
     vim.keymap.set("n", "<leader>dv", "<cmd>DiffviewOpen<CR>", {
       desc = "[D]iff [V]iew",
     })
+    vim.keymap.set("n", "<leader>gla", ":DiffviewFileHistory<CR>", {
+      silent = true,
+      desc = "[G]it [L]og [A]ll"
+    })
+    vim.keymap.set("n", "<leader>glf", ":DiffviewFileHistory %<CR>", {
+      silent = true,
+      desc = "[G]it [L]og [F]ile"
+    })
+    vim.keymap.set("x", "<leader>gl", ":DiffviewFileHistory<CR>", {
+      silent = true,
+      desc = "[G]it [L]og for selection"
+    })
   end,
 }
