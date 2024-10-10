@@ -180,6 +180,7 @@ export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#
 alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
+alias trim="sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | tr -d '\n'"
 
 # Some convenience functions
 function b64encode () {
