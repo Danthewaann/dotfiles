@@ -7,6 +7,7 @@ return {
       padding = false,
       auto_refresh = false,
       auto_close = false,
+      restore = false,
       warn_no_results = false,
       keys = {
         ["<c-x>"] = "jump_split",
