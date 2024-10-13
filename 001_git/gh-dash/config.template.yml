@@ -76,7 +76,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "git db"
+        gitw-add {{.HeadRefName}} "git db origin/{{.BaseRefName}}"
   issues: []
 pager:
   diff: delta
