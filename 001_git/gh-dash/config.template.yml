@@ -79,7 +79,7 @@ keybindings:
         gitw-add {{.HeadRefName}} "git db"
   issues: []
 pager:
-  diff: bat
+  diff: delta
 confirmQuit: true
 theme:
   ui:

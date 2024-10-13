@@ -39,8 +39,30 @@
     process = git-lfs filter-process
     required = true
 [core]
-    pager = bat
+    pager = delta
     excludesfile = ~/.gitignore
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true # use n and N to move between diff sections
+
+    ; From: https://github.com/dandavison/delta/issues/481#issuecomment-752948987
+    syntax-theme = OneHalfDark
+    line-numbers = true
+    hunk-header-style = file line-number syntax
+    file-style = magenta omit
+    file-modified-label = modified:
+    hunk-header-decoration-style = bold black omit
+    zero-style                    = dim syntax
+    minus-style                   = bold red
+    minus-non-emph-style          = dim red
+    minus-emph-style              = bold red 52
+    minus-empty-line-marker-style = normal "#3f0001"
+    plus-style                    = bold green
+    plus-non-emph-style           = dim green
+    plus-emph-style               = bold green 22
+    plus-empty-line-marker-style  = normal "#002800"
+    whitespace-error-style        = reverse red
 [merge]
     conflictstyle = diff3
 [diff]

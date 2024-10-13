@@ -54,6 +54,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing shellcheck" \
         "brew install shellcheck"
 
+    run_command "installing git-delta" \
+        "brew install git-delta"
+
     run_command "installing bat" \
         "brew install bat"
 
@@ -79,6 +82,14 @@ else
 
     run_command "installing shellcheck" \
         "sudo apt-get install -y shellcheck"
+
+    if [[ ! -f "$SCRIPT_DIR/git-delta.deb" ]]; then
+        run_command "downloading git-delta" \
+            "wget -O $SCRIPT_DIR/git-delta.deb https://github.com/dandavison/delta/releases/download/0.18.2/git-delta_0.18.2_amd64.deb"
+    fi
+
+    run_command "installing git-delta" \
+        "sudo dpkg -i $SCRIPT_DIR/git-delta.deb"
 
     if [[ ! -f "$SCRIPT_DIR/bat.deb" ]]; then
         run_command "downloading bat" \
