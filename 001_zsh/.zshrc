@@ -128,8 +128,8 @@ bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 
 # Cycle through command history (including suggested commands)
-bindkey "^P" up-line-or-search
-bindkey "^N" down-line-or-search
+bindkey "^P" up-line-or-beginning-search
+bindkey "^N" down-line-or-beginning-search
 
 # Linux only setup
 if [[ $OSTYPE == "darwin"* ]]; then
