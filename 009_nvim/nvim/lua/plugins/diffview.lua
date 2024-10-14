@@ -5,6 +5,14 @@ return {
   config = function()
     local actions = require("diffview.config").actions
     require("diffview").setup({
+      file_panel = {
+        listing_style = "list",
+        win_config = {
+          position = "bottom",
+          height = 16,
+          win_opts = {},
+        },
+      },
       keymaps = {
         file_panel = {
           {
