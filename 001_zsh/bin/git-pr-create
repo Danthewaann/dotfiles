@@ -24,6 +24,7 @@ declare -A pr_types=(
 pr_type=
 pr_title=
 pr_is_draft=0
+base_branch=
 labels=()
 
 if [[ $OSTYPE == "darwin"* ]]; then
@@ -93,6 +94,10 @@ while [[ $# -gt 0 ]]; do
         pr_is_draft=1
         shift
         ;;
+    -B|--base)
+        base_branch="$2"
+        shift; shift
+        ;;
     *)
         args+=("$1")
         shift
@@ -115,6 +120,10 @@ if pr_title=$(gh pr list | grep "$cur_branch" | cut -f2); then
     warn "A PR has already been opened for this branch"
     pr_info
     exit 1
+fi
+
+if [[ -z $base_branch ]]; then
+    base_branch="$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)"
 fi
 
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
@@ -204,6 +213,13 @@ else
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
+    echo -e "--- BASE BRANCH" >> "$old_pr_file_name"
+    echo -e "--- BASE BRANCH" >> "$new_pr_file_name"
+    echo "$base_branch" >> "$old_pr_file_name"
+    echo "$base_branch" >> "$new_pr_file_name"
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
     echo -e "--- BODY\n" >> "$old_pr_file_name"
     echo -e "--- BODY\n" >> "$new_pr_file_name"
     if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
@@ -249,6 +265,8 @@ if [[ "$state" == "draft" ]]; then
     args+=("--draft")
 fi
 
+base_branch=$($SED -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }' < "$new_pr_file_name")
+
 body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
 if ! output=$(gh pr create \
@@ -256,6 +274,7 @@ if ! output=$(gh pr create \
     --assignee "@me" \
     --title "$title" \
     --body "$body" \
+    --base "$base_branch" \
     "${labels[@]}" \
     "${args[@]}" 2>&1); then
     >&2 echo
