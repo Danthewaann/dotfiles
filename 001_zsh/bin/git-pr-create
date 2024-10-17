@@ -91,7 +91,6 @@ while [[ $# -gt 0 ]]; do
         ;;
     -d|--draft)
         pr_is_draft=1
-        args+=("$1")
         shift
         ;;
     *)
@@ -191,6 +190,20 @@ else
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
+    echo -e "State can be \`ready\` or \`draft\`\n" >> "$old_pr_file_name"
+    echo -e "State can be \`ready\` or \`draft\`\n" >> "$new_pr_file_name"
+    echo -e "--- STATE" >> "$old_pr_file_name"
+    echo -e "--- STATE" >> "$new_pr_file_name"
+    if [[ $pr_is_draft -ne 0 ]]; then
+        echo "draft" >> "$old_pr_file_name"
+        echo "draft" >> "$new_pr_file_name"
+    else
+        echo "ready" >> "$old_pr_file_name"
+        echo "ready" >> "$new_pr_file_name"
+    fi
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
     echo -e "--- BODY\n" >> "$old_pr_file_name"
     echo -e "--- BODY\n" >> "$new_pr_file_name"
     if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
@@ -229,6 +242,12 @@ title=$($SED -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$ne
 
 labels=()
 while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <($SED -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+
+state=$($SED -n '/--- STATE/, /--- END/{ /--- STATE/! { /--- END/! p } }' < "$new_pr_file_name")
+
+if [[ "$state" == "draft" ]]; then
+    args+=("--draft")
+fi
 
 body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
