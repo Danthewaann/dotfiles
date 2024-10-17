@@ -7,18 +7,7 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$CUR_DIR/_git-common"
 
 function get_base() {
-    base_worktree=
-
-    if [[ -d main ]]; then
-        base_worktree="main"
-    elif [[ -d master ]]; then
-        base_worktree="master"
-    else
-        error "main or master worktree not found"
-        return 1
-    fi
-
-    echo "$PWD/$base_worktree"
+    echo "$PWD/$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)"
 }
 
 >&2 echo
