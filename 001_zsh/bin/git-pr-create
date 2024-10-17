@@ -190,16 +190,16 @@ else
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
-    echo -e "State can be \`ready\` or \`draft\`\n" >> "$old_pr_file_name"
-    echo -e "State can be \`ready\` or \`draft\`\n" >> "$new_pr_file_name"
+    echo -e "State can be \`open\` or \`draft\`\n" >> "$old_pr_file_name"
+    echo -e "State can be \`open\` or \`draft\`\n" >> "$new_pr_file_name"
     echo -e "--- STATE" >> "$old_pr_file_name"
     echo -e "--- STATE" >> "$new_pr_file_name"
     if [[ $pr_is_draft -ne 0 ]]; then
         echo "draft" >> "$old_pr_file_name"
         echo "draft" >> "$new_pr_file_name"
     else
-        echo "ready" >> "$old_pr_file_name"
-        echo "ready" >> "$new_pr_file_name"
+        echo "open" >> "$old_pr_file_name"
+        echo "open" >> "$new_pr_file_name"
     fi
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"

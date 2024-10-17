@@ -67,9 +67,10 @@ else
     old_pr_file_name=git-pr-edit."$cur_time".old.md
     new_pr_file_name=git-pr-edit."$cur_time".new.md
 
-    content=$(gh pr view --json title --json body --json labels)
+    content=$(gh pr view --json title --json body --json labels --json state)
     title=$(echo "$content" | jq -r .title)
     body=$(echo "$content" | jq -r .body)
+    state=$(echo "$content" | jq -r .state | tr '[:upper:]' '[:lower:]')
 
     labels=()
     while IFS=$'\n' read -r label; do labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
@@ -91,6 +92,15 @@ else
         echo "$label" >> "$old_pr_file_name"
         echo "$label" >> "$new_pr_file_name"
     done
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
+    echo -e "State can be \`open\`, \`draft\`, \`merged\` or \`closed\`\n" >> "$old_pr_file_name"
+    echo -e "State can be \`open\`, \`draft\`, \`merged\` or \`closed\`\n" >> "$new_pr_file_name"
+    echo -e "--- STATE" >> "$old_pr_file_name"
+    echo -e "--- STATE" >> "$new_pr_file_name"
+    echo "$state" >> "$old_pr_file_name"
+    echo "$state" >> "$new_pr_file_name"
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
@@ -129,6 +139,8 @@ for label in "${labels[@]}"; do
     fi
 done
 
+new_state=$($SED -n '/--- STATE/, /--- END/{ /--- STATE/! { /--- END/! p } }' < "$new_pr_file_name")
+
 new_body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
 
 if ! output=$(gh pr edit \
@@ -140,6 +152,22 @@ if ! output=$(gh pr edit \
     error "$output\n"
     warn "PR file written to $new_pr_file_name, re-run '$prog' to use" 
     exit 1
+fi
+
+if [[ "$new_state" != "$state" ]]; then
+    if [[ "$new_state" == "open" ]]; then
+        if ! output=$(gh pr ready); then
+            >&2 echo
+            error "$output\n"
+            exit 1
+        fi
+    else
+        if ! output=$(gh pr ready --undo); then
+            >&2 echo
+            error "$output\n"
+            exit 1
+        fi
+    fi
 fi
 
 rm -f "$old_pr_file_name"
