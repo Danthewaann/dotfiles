@@ -199,16 +199,16 @@ else
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
-    echo -e "State can be \`open\` or \`draft\`\n" >> "$old_pr_file_name"
-    echo -e "State can be \`open\` or \`draft\`\n" >> "$new_pr_file_name"
-    echo -e "--- STATE" >> "$old_pr_file_name"
-    echo -e "--- STATE" >> "$new_pr_file_name"
+    echo -e "IS DRAFT can be \`yes\` or \`no\`\n" >> "$old_pr_file_name"
+    echo -e "IS DRAFT can be \`yes\` or \`no\`\n" >> "$new_pr_file_name"
+    echo -e "--- IS DRAFT" >> "$old_pr_file_name"
+    echo -e "--- IS DRAFT" >> "$new_pr_file_name"
     if [[ $pr_is_draft -ne 0 ]]; then
-        echo "draft" >> "$old_pr_file_name"
-        echo "draft" >> "$new_pr_file_name"
+        echo "yes" >> "$old_pr_file_name"
+        echo "yes" >> "$new_pr_file_name"
     else
-        echo "open" >> "$old_pr_file_name"
-        echo "open" >> "$new_pr_file_name"
+        echo "no" >> "$old_pr_file_name"
+        echo "no" >> "$new_pr_file_name"
     fi
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
@@ -259,9 +259,9 @@ title=$($SED -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$ne
 labels=()
 while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <($SED -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
 
-state=$($SED -n '/--- STATE/, /--- END/{ /--- STATE/! { /--- END/! p } }' < "$new_pr_file_name")
+isDraft=$($SED -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! p } }' < "$new_pr_file_name")
 
-if [[ "$state" == "draft" ]]; then
+if [[ "$isDraft" == "yes" ]]; then
     args+=("--draft")
 fi
 
