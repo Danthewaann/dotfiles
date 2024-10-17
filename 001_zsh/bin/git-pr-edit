@@ -67,12 +67,13 @@ else
     old_pr_file_name=git-pr-edit."$cur_time".old.md
     new_pr_file_name=git-pr-edit."$cur_time".new.md
 
-    content=$(gh pr view --json title --json body --json labels --json isDraft --json state --json number)
+    content=$(gh pr view --json title --json body --json labels --json isDraft --json state --json number --json baseRefName)
     pr_number=$(echo "$content" | jq -r .number)
     title=$(echo "$content" | jq -r .title)
-    body=$(echo "$content" | jq -r .body)
+    body=$(echo "$content" | jq -r .body | trim)
     isDraft=$(echo "$content" | jq -r .isDraft)
     state=$(echo "$content" | jq -r .state | tr '[:upper:]' '[:lower:]')
+    base_branch=$(echo "$content" | jq -r .baseRefName)
 
     labels=()
     while IFS=$'\n' read -r label; do labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
@@ -120,8 +121,15 @@ else
     echo -e "--- END\n" >> "$old_pr_file_name"
     echo -e "--- END\n" >> "$new_pr_file_name"
 
-    echo -e "--- BODY\n" >> "$old_pr_file_name"
-    echo -e "--- BODY\n" >> "$new_pr_file_name"
+    echo -e "--- BASE BRANCH" >> "$old_pr_file_name"
+    echo -e "--- BASE BRANCH" >> "$new_pr_file_name"
+    echo "$base_branch" >> "$old_pr_file_name"
+    echo "$base_branch" >> "$new_pr_file_name"
+    echo -e "--- END\n" >> "$old_pr_file_name"
+    echo -e "--- END\n" >> "$new_pr_file_name"
+
+    echo -e "--- BODY" >> "$old_pr_file_name"
+    echo -e "--- BODY" >> "$new_pr_file_name"
     echo "$body" >> "$old_pr_file_name"
     echo "$body" >> "$new_pr_file_name"
     echo -e "--- END\n" >> "$old_pr_file_name"
@@ -159,15 +167,17 @@ new_is_draft=$($SED -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! 
 
 new_state=$($SED -n '/--- STATE/, /--- END/{ /--- STATE/! { /--- END/! p } }' < "$new_pr_file_name")
 
-new_body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
+new_base_branch=$($SED -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }' < "$new_pr_file_name")
 
-if ! output=$(gh pr edit \
+new_body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name" | trim)
+
+if ! gh pr edit \
     --title "$new_title" \
     --body "$new_body" \
+    --base "$new_base_branch" \
     "${new_labels[@]}" \
-    "${args[@]}" 2>&1); then
+    "${args[@]}"; then
     >&2 echo
-    error "$output\n"
     warn "PR file written to $new_pr_file_name, re-run '$prog' to use" 
     exit 1
 fi
