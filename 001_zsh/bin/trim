@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+input=$(cat)
+
+run() {
+cat <<EOF 
+print("""${input}""".strip())
+EOF
+}
+
+run | python -
