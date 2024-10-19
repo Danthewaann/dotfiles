@@ -69,8 +69,8 @@ return {
       nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
       nmap("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
       nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-      nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-      nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+      nmap("<leader>sd", require("telescope.builtin").lsp_document_symbols, "[S]earch [D]ocument Symbols")
+      nmap("<leader>sw", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
       nmap("<leader>ss", function()
         local word = vim.fn.expand("<cword>")
         require("telescope.builtin").lsp_workspace_symbols({
