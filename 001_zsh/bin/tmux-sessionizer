@@ -26,7 +26,7 @@ else
 
     base_dir=$(basename "$TMUX_CURRENT_DIR")
 
-    while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -E -v "$current_session|dotfiles|notes|github|$base_dir" < "$HOME/.tmux-projects")
+    while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -E -v "$current_session$|dotfiles|notes|github|$base_dir" < "$HOME/.tmux-projects")
 
     sessions=()
 
@@ -34,7 +34,7 @@ else
         update-tmux-active-sessions
     fi
 
-    while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(grep -E -v "$current_session|dotfiles|notes|github|$base_dir" < "$HOME/.tmux-active-sessions")
+    while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(grep -E -v "$current_session$|dotfiles|notes|github|$base_dir" < "$HOME/.tmux-active-sessions")
 
     for session in "${default_sessions[@]}"; do
         # If a location appears in the active sessions, we skip it
