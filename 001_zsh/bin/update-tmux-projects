@@ -23,7 +23,7 @@ while IFS=$'\n' read -r line; do
 
 	sessions+=("$session")
     fi
-done < <(find "$HOME"/Workspace -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
+done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 
 # From: https://www.baeldung.com/linux/sort-bash-arrays
 readarray -td '' sessions < <(printf '%s\0' "${sessions[@]}" | sort -z)

@@ -190,10 +190,9 @@ fi
 
 >&2 echo
 success "Successfully created worktree!"
-update-tmux-projects &
 
 >&2 echo
 info "Switching to worktree..."
 sleep 2
 tmux-sessionizer "$(pwd)" "$@"
-update-tmux-active-sessions &
+reset-tmux-cache &
