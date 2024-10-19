@@ -66,7 +66,7 @@ converted_name=${branch_name//\//-}
 # If we are already inside a worktree change directory to the bare repo
 if ! is_bare_repo=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $is_bare_repo == "true" ]]; then
-    cd "$(gitw-get-base 2> /dev/null)/.."
+    cd "$(gitw-get 2> /dev/null)/.."
 fi
 
 # Make sure we are inside a bare repo before proceeding
@@ -172,7 +172,7 @@ fi
 # Optional post checkout steps
 if [[ $checkout_only -ne 1 ]]; then
     current_dir=$(pwd)
-    base_worktree=$(gitw-get-base 2> /dev/null)
+    base_worktree=$(gitw-get 2> /dev/null)
 
     if [[ $copy_venv -eq 1 ]] && [[ -d "$base_worktree/.venv" ]]; then
         >&2 echo

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
+worktree=$(gitw-get "$1")
+
+>&2 echo
+info "Entering '$(basename "$worktree")' worktree..."
+cd "$worktree" || exit
+
+>&2 echo
+info "Updating with remote..."
+if ! output=$(git -c color.ui=always pull 2>&1); then
+    >&2 echo "$output"
+    exit 1
+else
+    if [[ -n "$output" ]]; then
+        >&2 echo "$output"
+    fi
+fi
+
+if [[ -f "poetry.lock" ]]; then
+    >&2 echo
+    info "Updating dependencies..."work
+    if ! >&2 poetry install; then true; fi
+fi
+

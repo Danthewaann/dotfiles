@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
+branch="$1"
+
+if [[ -z "$branch" ]]; then
+   branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+fi
+
+if ! git worktree list | grep "\[$branch\]" | cut -d' ' -f1; then
+   >&2 echo "Worktree for branch '$branch' not found"
+   exit 1
+fi

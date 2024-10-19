@@ -6,13 +6,15 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$CUR_DIR/_git-common"
 
+branch="$1"
+
 if ! in_worktree=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $in_worktree == "true" ]]; then
-    gitw-update-base
-    base_worktree=$(basename "$(gitw-get-base 2> /dev/null)")
+    gitw-update "$branch"
+    worktree=$(basename "$(gitw-get "$branch")")
     >&2 echo
-    info "Rebasing with '$base_worktree' base worktree..."
-    if ! output=$(git -c color.ui=always rebase "$base_worktree" 2>&1); then
+    info "Rebasing with '$worktree' worktree..."
+    if ! output=$(git -c color.ui=always rebase "$worktree" 2>&1); then
         >&2 echo "$output"
         exit 1
     else
