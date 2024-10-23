@@ -204,9 +204,10 @@ return {
               table.concat({
                 "F821",   -- undefined symbols
                 "F841",   -- unused variables
-                "F401",   -- imports
                 "ERA001", -- commented out code
                 "E999",   -- syntax errors
+                "PT001",  -- use `@pytest.fixture` over `@pytest.fixture()`
+                "PT023",  -- use `@pytest.mark.something` over `@pytest.mark.something()`
               }, ",")
             }
           }
