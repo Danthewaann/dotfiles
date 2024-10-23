@@ -4,7 +4,7 @@ return {
   event = "InsertEnter",
   config = function()
     require("nvim-autopairs").setup({
-      disable_filetype = { "markdown", "octo" }
+      disable_filetype = { "markdown", "octo", "TelescopePrompt" }
     })
     local cmp = require("cmp")
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
