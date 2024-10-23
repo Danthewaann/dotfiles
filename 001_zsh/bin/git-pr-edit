@@ -182,6 +182,12 @@ if ! gh pr edit \
     exit 1
 fi
 
+if [[ "$isDraft" == true ]]; then
+    isDraft="yes"
+else
+    isDraft="no"
+fi
+
 if [[ "$new_is_draft" != "$isDraft" ]]; then
     if [[ "$new_is_draft" == "no" ]]; then
         if ! gh pr ready; then
