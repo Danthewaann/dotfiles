@@ -10,17 +10,7 @@ return {
           command = "sleek",
         },
         ruff_fix = {
-          command = utils.get_poetry_venv_executable_path("ruff"),
-          args = {
-            "--fix",
-            "-e",
-            "-n",
-            "--ignore",
-            "ERA001,F841", -- Don't remove commented out code, unused variables
-            "--stdin-filename",
-            "$FILENAME",
-            "-",
-          }
+          command = utils.get_poetry_venv_executable_path("ruff")
         },
         black = {
           command = utils.get_poetry_venv_executable_path("black")
@@ -43,7 +33,7 @@ return {
         -- have other formatters configured.
         ["_"] = { "trim_whitespace" },
       },
-      notify_on_error = false
+      notify_on_error = true
     })
 
     -- Create a command `:W` to format and save the current buffer
