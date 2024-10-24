@@ -62,6 +62,8 @@ fi
 
 # Convert all forward slashes to dashes
 converted_name=${branch_name//\//-}
+# Convert dots to underscores as tmux sessions can't contain dots
+converted_name=$(tr . _ <<< "$converted_name")
 
 # If we are already inside a worktree change directory to the bare repo
 if ! is_bare_repo=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
