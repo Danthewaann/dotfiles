@@ -17,8 +17,8 @@ declare -A pr_types=(
     [ruby]="ruby_prog"
     [go]="go"
     [docker]="docker"
-    [documentation]="docs"
     [terraform]="terraform"
+    [documentation]="docs"
 )
 
 pr_type=
@@ -53,8 +53,8 @@ function pr_info() {
         slack_label=" :${pr_types[$pr_type]}:"
     else
         # Otherwise get the PR type label from the PR labels
-        for label in "${pr_labels[@]}"; do
-            if [[ " ${!pr_types[*]} " =~ " ${label} " ]]; then
+        for label in "${!pr_types[@]}"; do
+            if [[ " ${pr_labels[*]} " =~ " ${label} " ]]; then
                 slack_label=" :${pr_types[$label]}:"
                 break
             fi
