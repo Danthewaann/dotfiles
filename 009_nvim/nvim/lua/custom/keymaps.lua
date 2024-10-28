@@ -184,10 +184,10 @@ vim.keymap.set("n", "<leader>p", function()
       vim.cmd("Git pull")
     end,
     ["gub (git update base worktree)"] = function()
-      vim.cmd("!gitw-update-base")
+      vim.cmd("!gitw-update")
     end,
     ["grb (git rebase with base worktree)"] = function()
-      vim.cmd("!gitw-rebase-with-base")
+      vim.cmd("!gitw-rebase")
     end,
     ["dvb (diff view base)"] = function()
       vim.cmd(":DiffviewOpen origin/master...HEAD")

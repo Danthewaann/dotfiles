@@ -71,7 +71,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "gitw-rebase-with-base && git push --force"
+        gitw-add {{.HeadRefName}} "gitw-rebase && git push --force"
     - key: d
       command: >
         clear &&
