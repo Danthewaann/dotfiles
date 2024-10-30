@@ -14,12 +14,12 @@ while IFS=$'\n' read -r line; do
     # If this directory is a bare git repository, get a list of all immediate sub-directories.
     if ls "$TMUX_CURRENT_DIR/$line"/.bare > /dev/null 2>&1; then
 	while IFS=$'\n' read -r line2; do
-	    session=$(tr . _ <<< "$line/$line2")
+	    session="$line/$line2"
 
 	    sessions+=("$session")
 	done < <(find "$TMUX_CURRENT_DIR/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
     else
-	session=$(tr . _ <<< "$line")
+	session="$line"
 
 	sessions+=("$session")
     fi
