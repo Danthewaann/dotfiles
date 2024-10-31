@@ -17,7 +17,6 @@ while IFS=$'\n' read -r session; do
 done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "dotfiles|notes|github|$base_dir" | sort --numeric-sort --reverse | head -n 10 | cut -d' ' -f2-)
 
 for session in "${active_sessions[@]}"; do
-    session=$(tr _ . <<< "$session")
     if [[ -d "$TMUX_CURRENT_DIR/$session" ]]; then
         sessions+=("$session")
     else
@@ -32,7 +31,6 @@ if [[ -f "$HOME/.tmux-active-sessions" ]]; then
     while IFS=$'\n' read -r line; do persisted_sessions+=("$line"); done < "$HOME/.tmux-active-sessions"
 
     for session in "${persisted_sessions[@]}"; do
-        session=$(tr _ . <<< "$session")
         # If a location appears in the active sessions, we skip it
         # shellcheck disable=SC2076
         if [[ " ${sessions[*]} " =~ " $session " ]]; then
