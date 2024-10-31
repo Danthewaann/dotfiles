@@ -180,7 +180,7 @@ return {
                 ".venv/**"
               },
               diagnosticMode = "openFilesOnly", -- can be "workspace" or "openFilesOnly"
-              typeCheckingMode = "basic", -- can be "off", "basic", "standard", "strict", "recommended" or "all"          
+              typeCheckingMode = "basic",       -- can be "off", "basic", "standard", "strict", "recommended" or "all"
               diagnosticSeverityOverrides = {
                 reportMissingImports = true,
                 reportMissingTypeStubs = false,
