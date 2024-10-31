@@ -123,7 +123,14 @@ return {
           select = true,
         }),
         ["<C-q>"] = cmp.mapping.abort(),
-        ["<C-space>"] = cmp.mapping.complete(),
+        ["<C-space>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              { name = "nvim_lsp" },
+              { name = "nvim_lsp_signature_help" }
+            }
+          }
+        }),
         ["<C-l>"] = cmp.mapping(function(fallback)
           if luasnip.locally_jumpable(1) then
             luasnip.jump(1)
