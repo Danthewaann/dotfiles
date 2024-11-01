@@ -1,5 +1,8 @@
 -- Yank and paste to the system clipboard
-vim.o.clipboard = "unnamedplus"
+-- Schedule the setting after `UiEnter` because it can increase startup-time
+vim.schedule(function()
+  vim.o.clipboard = "unnamedplus"
+end)
 
 -- Show where the cursor is
 vim.o.cursorline = true
