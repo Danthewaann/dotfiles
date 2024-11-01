@@ -14,10 +14,20 @@ return {
     "hrsh7th/nvim-cmp",
 
     -- Useful status updates for LSP
-    { "j-hui/fidget.nvim", opts = {} },
-
-    -- Additional lua configuration, makes nvim stuff amazing!
-    "folke/neodev.nvim",
+    { "j-hui/fidget.nvim",    opts = {} },
+    {
+      -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+      -- used for completion, annotations and signatures of Neovim apis
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          -- Load luvit types when the `vim.uv` word is found
+          { path = "luvit-meta/library", words = { "vim%.uv" } },
+        },
+      },
+    },
+    { "Bilal2453/luvit-meta", lazy = true },
   },
   config = function()
     local utils = require("custom.utils")
@@ -77,7 +87,7 @@ return {
           prompt_title = "LSP Workspace Symbols (" .. word .. ")",
           query = word,
         })
-      end, "[S]earch [S]ymbol")
+      end, "[S]earch [S]symbol")
       nmap("<leader>sf", function()
         local word = vim.fn.expand("<cword>")
         require("telescope.builtin").lsp_workspace_symbols({
@@ -267,9 +277,6 @@ return {
     if utils.file_exists(os.getenv("HOME") .. "/.rbenv") then
       servers["solargraph"] = { settings = {} }
     end
-
-    -- Setup neovim lua configuration
-    require("neodev").setup()
 
     -- Styling for floating windows
     local border = "rounded"
