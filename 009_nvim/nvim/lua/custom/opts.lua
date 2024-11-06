@@ -24,11 +24,7 @@ vim.o.smartcase = true
 vim.o.breakindent = true
 
 -- Set completeo to have a better completion experience
-if vim.fn.has("nvim-0.10") == 1 then
-  vim.o.completeopt = "menu,menuone,noinsert"
-else
-  vim.o.completeo = "menu,menuone,noinsert"
-end
+vim.o.completeopt = "menu,menuone,noinsert"
 
 -- Show special characters when `list` is enabled
 vim.opt.listchars = { tab = "▸.", trail = "·", nbsp = "␣", eol = "¬" }
