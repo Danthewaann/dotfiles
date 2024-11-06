@@ -109,8 +109,6 @@ vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab ri
 -- Resize the current window
 vim.keymap.set("n", "<M-l>", "<cmd> vertical resize+5><CR>", { desc = "Increase window width" })
 vim.keymap.set("n", "<M-h>", "<cmd> vertical resize-5<CR>", { desc = "Decrease window width" })
-vim.keymap.set("n", "<M-k>", "<cmd> resize+5<CR>", { desc = "Increase window height" })
-vim.keymap.set("n", "<M-j>", "<cmd> resize-5<CR>", { desc = "Decrease window height" })
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
