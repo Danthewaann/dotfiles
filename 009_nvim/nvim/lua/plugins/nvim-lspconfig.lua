@@ -205,20 +205,19 @@ return {
           config.settings.python.pythonPath = utils.get_poetry_venv_executable_path("python", false, config.root_dir)
         end,
       },
-      ruff_lsp = {
+      ruff = {
         init_options = {
           settings = {
-            args = {
-              -- Let pyright handle the following errors
-              "--ignore",
-              table.concat({
+            lint = {
+              ignore = {
+                -- Let pyright handle the following errors
                 "F821",   -- undefined symbols
                 "F841",   -- unused variables
                 "ERA001", -- commented out code
                 "E999",   -- syntax errors
                 "PT001",  -- use `@pytest.fixture` over `@pytest.fixture()`
                 "PT023",  -- use `@pytest.mark.something` over `@pytest.mark.something()`
-              }, ",")
+              }
             }
           }
         }
