@@ -20,18 +20,18 @@ return {
       mappings = {
         review_thread = {
           close_review_tab = { lhs = "" },
-          select_next_entry = { lhs = "<M-j>", desc = "move to previous changed file" },
-          select_prev_entry = { lhs = "<M-k>", desc = "move to next changed file" },
+          select_next_entry = { lhs = "<C-j>", desc = "move to previous changed file" },
+          select_prev_entry = { lhs = "<C-k>", desc = "move to next changed file" },
         },
         review_diff = {
           close_review_tab = { lhs = "" },
-          select_next_entry = { lhs = "<M-j>", desc = "move to previous changed file" },
-          select_prev_entry = { lhs = "<M-k>", desc = "move to next changed file" },
+          select_next_entry = { lhs = "<C-j>", desc = "move to previous changed file" },
+          select_prev_entry = { lhs = "<C-k>", desc = "move to next changed file" },
         },
         file_panel = {
           close_review_tab = { lhs = "" },
-          select_next_entry = { lhs = "<M-j>", desc = "move to previous changed file" },
-          select_prev_entry = { lhs = "<M-k>", desc = "move to next changed file" },
+          select_next_entry = { lhs = "<C-j>", desc = "move to previous changed file" },
+          select_prev_entry = { lhs = "<C-k>", desc = "move to next changed file" },
         }
       }
     })

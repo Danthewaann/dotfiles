@@ -17,13 +17,13 @@ return {
         file_panel = {
           {
             "n",
-            "<M-j>",
+            "<C-j>",
             function() actions.select_next_entry() end,
             { desc = "Select next entry" }
           },
           {
             "n",
-            "<M-k>",
+            "<C-k>",
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
           }
@@ -31,13 +31,13 @@ return {
         file_history_panel = {
           {
             "n",
-            "<M-j>",
+            "<C-j>",
             function() actions.select_next_entry() end,
             { desc = "Select next entry" }
           },
           {
             "n",
-            "<M-k>",
+            "<C-k>",
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
           }
@@ -45,13 +45,13 @@ return {
         view = {
           {
             "n",
-            "<M-j>",
+            "<C-j>",
             function() actions.select_next_entry() end,
             { desc = "Select next entry" }
           },
           {
             "n",
-            "<M-k>",
+            "<C-k>",
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
           }
