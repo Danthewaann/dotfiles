@@ -31,13 +31,14 @@ return {
   },
   config = function()
     local utils = require("custom.utils")
+    local border = "rounded"
     local show_virtual_text = true
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
       virtual_text = show_virtual_text,
       signs = false,
-      float = { source = true },
+      float = { source = true, border = border },
       severity_sort = true
     })
 
@@ -51,6 +52,19 @@ return {
       end
       vim.diagnostic.config({ virtual_text = show_virtual_text })
     end, { desc = "[T]oggle virtual [T]ext" })
+
+    -- Styling for floating windows
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, {
+        border = border,
+      }
+    )
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help, {
+        border = border,
+      }
+    )
+    require("lspconfig.ui.windows").default_options.border = border
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -188,8 +202,8 @@ return {
                 "migrations/**",
                 ".venv/**"
               },
-              diagnosticMode = "openFilesOnly", -- can be "workspace" or "openFilesOnly"
-              typeCheckingMode = "basic",       -- can be "off", "basic", "standard", "strict", "recommended" or "all"
+              diagnosticMode = "workspace", -- can be "workspace" or "openFilesOnly"
+              typeCheckingMode = "basic",   -- can be "off", "basic", "standard", "strict", "recommended" or "all"
               diagnosticSeverityOverrides = {
                 reportMissingImports = true,
                 reportMissingTypeStubs = false,
@@ -275,21 +289,6 @@ return {
     if utils.file_exists(os.getenv("HOME") .. "/.rbenv") then
       servers["solargraph"] = { settings = {} }
     end
-
-    -- Styling for floating windows
-    local border = "rounded"
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = border,
-      }
-    )
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, {
-        border = border,
-      }
-    )
-    vim.diagnostic.config({ float = { border = border } })
-    require("lspconfig.ui.windows").default_options.border = border
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
