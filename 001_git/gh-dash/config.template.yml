@@ -70,7 +70,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "gitw-rebase && git push --force"
+        gitw-add {{.HeadRefName}} "gitw-rebase {{.BaseRefName}} && git push --force"
   issues: []
 pager:
   diff: delta
