@@ -1,6 +1,7 @@
 return {
   "vim-test/vim-test",
   event = "VeryLazy",
+  dependencies = { "nvim-neotest/neotest" },
   config = function()
     local utils = require("custom.utils")
 
@@ -124,9 +125,34 @@ return {
     end
 
     vim.keymap.set("n", "<leader>td", debug_nearest_test, { desc = "[T]est [D]ebug nearest" })
-    vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>", { desc = "[T]est [N]earest" })
-    vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>", { desc = "[T]est [F]ile" })
-    vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "[T]est [S]uite" })
+    vim.keymap.set("n", "<leader>tn", function()
+      if not has_makefile then
+        require("neotest").run.run()
+      else
+        vim.cmd(":TestNearest")
+      end
+    end, { desc = "[T]est [N]earest" })
+    vim.keymap.set("n", "<leader>tf", function()
+      if not has_makefile then
+        require("neotest").run.run(vim.fn.expand("%"))
+      else
+        vim.cmd(":TestFile")
+      end
+    end, { desc = "[T]est [F]ile" })
+    vim.keymap.set("n", "<leader>ts", function()
+      if not has_makefile then
+        require("neotest").run.run({ suite = true })
+      else
+        vim.cmd(":TestSuite")
+      end
+    end, { desc = "[T]est [S]uite" })
+    vim.keymap.set("n", "<leader>ta", require("neotest").run.attach, { desc = "[T]est [A]ttach" })
+    vim.keymap.set("n", "<leader>to", function()
+      require("neotest").output.open({ enter = true })
+    end, { desc = "[T]est [O]utput" })
+    vim.keymap.set("n", "<leader>tr", function()
+      require("neotest").summary.open()
+    end, { desc = "[T]est Summa[r]y" })
     vim.keymap.set("n", "<leader>tc", "<cmd>TestClass<CR>", { desc = "[T]est [C]lass" })
     vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "[T]est [L]ast" })
     vim.keymap.set("n", "<leader>tv", "<cmd>TestVisit<CR>zz", { desc = "[T]est [V]isit" })
