@@ -57,6 +57,11 @@ keybindings:
         clear &&
         cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}} || sleep 2
+    - key: D
+      command: >
+        clear &&
+        cd {{.RepoPath}} && 
+        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'DiffviewOpen origin/{{.BaseRefName}}..HEAD'"
     - key: E
       command: >
         clear &&
