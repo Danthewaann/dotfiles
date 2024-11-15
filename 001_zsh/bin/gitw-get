@@ -9,7 +9,7 @@ source "$CUR_DIR/_git-common"
 branch="$1"
 
 if [[ -z "$branch" ]]; then
-   branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+   branch=$(git-get-base-branch)
 fi
 
 if ! git worktree list | grep "\[$branch\]" | cut -d' ' -f1; then
