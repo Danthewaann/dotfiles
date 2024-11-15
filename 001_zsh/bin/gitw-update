@@ -6,7 +6,11 @@ CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$CUR_DIR/_git-common"
 
-worktree=$(gitw-get "$1")
+worktree="$1"
+
+if [[ -z "$worktree" ]]; then
+   worktree=$(gitw-get)
+fi
 
 >&2 echo
 info "Entering '$(basename "$worktree")' worktree..."

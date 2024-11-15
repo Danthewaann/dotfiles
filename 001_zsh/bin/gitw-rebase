@@ -10,11 +10,17 @@ branch="$1"
 
 if ! in_worktree=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $in_worktree == "true" ]]; then
-    gitw-update "$branch"
-    worktree=$(basename "$(gitw-get "$branch")")
+    if [[ -z "$branch" ]]; then
+       branch=$(git-get-base-branch)
+    fi
+
+    worktree=$(gitw-get "$branch")
+
+    gitw-update "$worktree"
     >&2 echo
-    info "Rebasing with '$worktree' worktree..."
-    if ! output=$(git -c color.ui=always rebase "$worktree" 2>&1); then
+    info "Rebasing with '$branch' branch..."
+
+    if ! output=$(git -c color.ui=always rebase "$branch" 2>&1); then
         >&2 echo "$output"
         exit 1
     else
