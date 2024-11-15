@@ -74,10 +74,10 @@ return {
           vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD")
         end,
         ["View all file history "] = function()
-          vim.cmd(":DiffviewFileHistory")
+          vim.cmd(":DiffviewFileHistory --max-count=10000")
         end,
         ["View current file history "] = function()
-          vim.cmd(":DiffviewFileHistory %")
+          vim.cmd(":DiffviewFileHistory  --max-count=10000 %")
         end,
       }
 
@@ -99,7 +99,7 @@ return {
     end, {
       desc = "[D]iff [V]iew",
     })
-    vim.keymap.set("x", "<leader>dv", ":DiffviewFileHistory<CR>", {
+    vim.keymap.set("x", "<leader>dv", ":DiffviewFileHistory --max-count=10000<CR>", {
       silent = true,
       desc = "[D]iff [V]iew file history for selection"
     })
