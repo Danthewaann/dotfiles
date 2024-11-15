@@ -157,54 +157,23 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
   local commands = {
-    ["da (delete all other buffers)"] = function()
+    ["da  (delete all other buffers)"] = function()
       vim.cmd("%bd|e#|bd#")
     end,
-    ["db (dashboard)"] = function()
-      MiniStarter.open()
-    end,
-    ["fx (make file executable)"] = function()
+    ["fx  (make file executable)"] = function()
       utils.run_job(
         "chmod",
         { "+x", vim.fn.expand("%") },
         "Marked " .. vim.fn.expand("%") .. " as executable"
       )
     end,
-    ["gp (git pull)"] = function()
-      vim.cmd("Git pull")
-    end,
-    ["gub (git update base worktree)"] = function()
-      vim.cmd("!gitw-update")
-    end,
-    ["grb (git rebase with base worktree)"] = function()
-      vim.cmd("!gitw-rebase")
-    end,
     ["dvb (diff view base)"] = function()
       vim.cmd(":DiffviewOpen origin/master...HEAD")
     end,
-    ["rv (repository view)"] = function()
-      utils.run_job("gh", { "rv" }, false)
-    end,
-    ["prv (pull request view)"] = function()
-      local pr_number_json = vim.fn.trim(vim.fn.system("gh pr view --json number"))
-      if vim.v.shell_error ~= 0 then
-        M.print_err(pr_number_json)
-        return
-      end
-
-      local pr_number = vim.fn.trim(vim.fn.system("echo '" .. pr_number_json .. "' | jq '.number'"))
-      if vim.v.shell_error ~= 0 then
-        M.print_err(pr_number)
-        return
-      end
-
-      vim.cmd(":tabnew")
-      vim.cmd(":Octo pr edit " .. pr_number)
-    end,
-    ["ss (save session)"] = function()
+    ["ss  (save session)"] = function()
       MiniSessions.write("Session.vim")
     end,
-    ["ti (open ticket)"] = function()
+    ["ti  (open ticket)"] = function()
       local ticket_number = vim.fn.trim(vim.fn.system("get-ticket-number"))
       if vim.v.shell_error ~= 0 then
         M.print_err(ticket_number)
@@ -223,21 +192,8 @@ vim.keymap.set("n", "<leader>p", function()
 
   local cmd = utils.get_project_linting_cmd()
   if cmd ~= nil then
-    commands["l (lint)"] = function()
+    commands["l   (lint)"] = function()
       utils.run_command_in_term(table.concat(cmd, " "))
-    end
-  end
-
-  local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
-  if has_makefile then
-    commands["ml (make lint)"] = function()
-      utils.run_command_in_term("make lint")
-    end
-    commands["mt (make test)"] = function()
-      utils.run_command_in_term("make test")
-    end
-    commands["ms (make shell)"] = function()
-      utils.run_command_in_term("make shell")
     end
   end
 
