@@ -61,10 +61,10 @@ return {
 
     vim.keymap.set("n", "<leader>dv", function()
       local commands = {
-        ["Diff working tree against HEAD"] = function()
+        ["1. Diff working tree against HEAD"] = function()
           vim.cmd(":DiffviewOpen")
         end,
-        ["Diff HEAD against origin merge base"] = function()
+        ["2. Diff HEAD against origin merge base"] = function()
           local base_branch = vim.fn.trim(vim.fn.system("git-get-base-branch"))
           if vim.v.shell_error ~= 0 then
             M.print_err(base_branch)
@@ -73,10 +73,10 @@ return {
 
           vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD")
         end,
-        ["View all file history "] = function()
+        ["3. View all file history "] = function()
           vim.cmd(":DiffviewFileHistory --max-count=10000")
         end,
-        ["View current file history "] = function()
+        ["4. View current file history "] = function()
           vim.cmd(":DiffviewFileHistory  --max-count=10000 %")
         end,
       }
