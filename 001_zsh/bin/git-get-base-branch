@@ -2,15 +2,15 @@
 
 set -eo pipefail
 
-cd ".." || exit
 if ! in_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
 if [[ $in_bare_repo == "true" ]]; then
-  if [[ ! -f .base_branch ]]; then
-    base_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
-    
-    echo "$base_branch" > .base_branch
-  fi
-
-  cat .base_branch
+  cd ".." || exit
 fi
 
+if [[ ! -f .base_branch ]]; then
+  base_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+    
+  echo "$base_branch" > .base_branch
+fi
+
+cat .base_branch
