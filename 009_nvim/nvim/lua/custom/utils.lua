@@ -131,8 +131,6 @@ M.ignore_filetypes = {
   "man",
   "spectre_panel",
   "dbout",
-  "DiffviewFiles",
-  "DiffviewFileHistory",
   "oil",
   "Trouble",
   "VimspectorPrompt",

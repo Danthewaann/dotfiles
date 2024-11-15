@@ -182,8 +182,6 @@ return {
         section_separators = { left = "", right = "" },
         ignore_focus = {
           "dbui",
-          "DiffviewFiles",
-          "DiffviewFileHistory",
           "fugitiveblame",
           "git",
         },
