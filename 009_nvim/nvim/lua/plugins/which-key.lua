@@ -39,7 +39,7 @@ return {
       { "<leader>v_",  hidden = true },
       { "<leader>w",   group = "[W]orkspace" },
       { "<leader>w_",  hidden = true },
-      { "<leader>x",   group = "Diagnostic lists" },
+      { "<leader>x",   group = "Lists (Trouble)" },
       { "<leader>x_",  hidden = true },
     })
 

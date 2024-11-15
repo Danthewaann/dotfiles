@@ -67,31 +67,31 @@ return {
       "n",
       "<leader>xx",
       "<cmd>Trouble diagnostics toggle<cr>",
-      { desc = "Diagnostics (Trouble)" }
+      { desc = "Diagnostics" }
     )
     vim.keymap.set(
       "n",
-      "<leader>cs",
-      "<cmd>Trouble symbols toggle focus=false win.position=left<cr>",
-      { desc = "Symbols (Trouble)" }
+      "<leader>xs",
+      "<cmd>Trouble symbols toggle focus=false win.position=bottom<cr>",
+      { desc = "Symbols" }
     )
     vim.keymap.set(
       "n",
-      "<leader>cl",
+      "<leader>xl",
       "<cmd>Trouble lsp toggle focus=false<cr>",
-      { desc = "LSP Definitions / references / ... (Trouble)" }
+      { desc = "LSP Definitions / references / ..." }
     )
     vim.keymap.set(
       "n",
       "<leader>xL",
       "<cmd>Trouble loclist toggle<cr>",
-      { desc = "Location List (Trouble)" }
+      { desc = "Location List" }
     )
     vim.keymap.set(
       "n",
       "<leader>xQ",
       "<cmd>Trouble qflist toggle<cr>",
-      { desc = "Quickfix List (Trouble)" }
+      { desc = "Quickfix List" }
     )
   end
 }
