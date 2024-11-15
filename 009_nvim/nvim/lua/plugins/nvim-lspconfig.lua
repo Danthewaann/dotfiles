@@ -100,7 +100,7 @@ return {
           prompt_title = "LSP Workspace Symbols (" .. word .. ")",
           query = word,
         })
-      end, "[S]earch [S]symbol")
+      end, "[S]earch [S]ymbol")
       nmap("<leader>sf", function()
         local word = vim.fn.expand("<cword>")
         require("telescope.builtin").lsp_workspace_symbols({
