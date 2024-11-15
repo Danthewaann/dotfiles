@@ -228,7 +228,5 @@ return {
     vim.keymap.set("v", "<leader>sw", function()
       require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
     end, { desc = "[S]earch [W]ord" })
-    vim.keymap.set("n", "<leader>gf", require("telescope.builtin").git_status, { desc = "[G]it [F]iles" })
-    vim.keymap.set("n", "<leader>gls", require("telescope.builtin").git_commits, { desc = "[G]it [L]og [S]earch" })
   end
 }
