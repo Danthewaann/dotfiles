@@ -42,12 +42,11 @@ defaults:
       updatedAt:
         width: 7
       repo:
-        width: 15
+        width: 40
       creator:
-        width: 10
+        width: 30
       assignees:
         width: 20
-        hidden: true
   refetchIntervalMinutes: 30
 repoPaths:
   default_path: ~/Workspace
@@ -79,6 +78,7 @@ confirmQuit: true
 theme:
   ui:
     table:
+      compact: true
       showSeparator: false
   colors:
     text:
