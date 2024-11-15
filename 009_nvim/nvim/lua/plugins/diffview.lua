@@ -59,7 +59,33 @@ return {
       }
     })
 
-    vim.keymap.set("n", "<leader>dv", "<cmd>DiffviewOpen<CR>", {
+    vim.keymap.set("n", "<leader>dv", function()
+      vim.ui.select(
+        { "Diff working tree against HEAD", "Diff HEAD against origin merge base", "Custom" },
+        { prompt = "Choose Diffview" },
+        function(choice)
+          if choice == "Diff working tree against HEAD" then
+            vim.cmd(":DiffviewOpen")
+          elseif choice == "Diff HEAD against origin merge base" then
+            local base_branch = vim.fn.trim(vim.fn.system("git-get-base-branch"))
+            if vim.v.shell_error ~= 0 then
+              M.print_err(base_branch)
+              return
+            end
+
+            vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD")
+          elseif choice == "Custom" then
+            vim.ui.input(
+            { prompt = "Enter DiffviewOpen arguments" },
+              function(input)
+                if input ~= nil then
+                  vim.cmd(":DiffviewOpen " .. input)
+                end
+              end)
+          end
+        end
+      )
+    end, {
       desc = "[D]iff [V]iew",
     })
     vim.keymap.set("n", "<leader>gla", ":DiffviewFileHistory<CR>", {

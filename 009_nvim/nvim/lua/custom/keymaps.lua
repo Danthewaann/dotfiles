@@ -167,9 +167,6 @@ vim.keymap.set("n", "<leader>p", function()
         "Marked " .. vim.fn.expand("%") .. " as executable"
       )
     end,
-    ["dvb (diff view base)"] = function()
-      vim.cmd(":DiffviewOpen origin/master...HEAD")
-    end,
     ["ss  (save session)"] = function()
       MiniSessions.write("Session.vim")
     end,
