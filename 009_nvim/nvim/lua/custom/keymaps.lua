@@ -116,11 +116,20 @@ vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
 -- Git status
-vim.keymap.set("n", "<leader>gg", function()
+vim.keymap.set("n", "<C-g>", function()
+  -- If the git window is already open, close it
+  local fugitive_buf_no = vim.fn.bufnr('^fugitive:')
+  local buf_win_id = vim.fn.bufwinid(fugitive_buf_no)
+  if fugitive_buf_no >= 0 and buf_win_id >= 0 then
+    vim.api.nvim_win_close(buf_win_id, false)
+    return
+  end
+
   -- Open the git window in a horizontal split if the
   -- width of the current window is low, otherwise open it in a vertical split
   local width = vim.api.nvim_win_get_width(0)
   local status, err
+
   if width < 150 then
     ---@diagnostic disable-next-line: param-type-mismatch
     status, err = pcall(vim.cmd, "silent Git")
