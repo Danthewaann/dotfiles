@@ -23,3 +23,7 @@ git-pr-edit.*.md
 # dumps the file contents to disk in case you need it.
 *.py-e
 *.go-e
+
+# File used to cache the base branch for a repo as getting this value
+# dynamically all the time can be slow
+.base_branch
