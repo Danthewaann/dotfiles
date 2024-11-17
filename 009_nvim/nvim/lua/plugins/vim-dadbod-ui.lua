@@ -21,7 +21,7 @@ return {
 
     -- Save queries and db connections to $TMUX_CURRENT_DIR/database_queries if it exists
     local workspace = os.getenv("TMUX_CURRENT_DIR")
-    if utils.file_exists(workspace) then
+    if workspace ~= nil and utils.file_exists(workspace) then
       vim.g.db_ui_save_location = workspace .. "/database_queries"
     end
 
