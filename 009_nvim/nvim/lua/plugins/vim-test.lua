@@ -28,6 +28,7 @@ return {
     }
     local custom_runners = {}
     local enabled_runners = {}
+    local prefer_makefile = true
     local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
 
     for runner, data in pairs(test_runners) do
@@ -126,24 +127,25 @@ return {
 
     vim.keymap.set("n", "<leader>td", debug_nearest_test, { desc = "[T]est [D]ebug nearest" })
     vim.keymap.set("n", "<leader>tn", function()
-      if not has_makefile then
-        require("neotest").run.run()
-      else
+      if prefer_makefile and has_makefile then
         vim.cmd(":TestNearest")
+      else
+        vim.system({ "make", "test.local.setup" }):wait()
+        require("neotest").run.run()
       end
     end, { desc = "[T]est [N]earest" })
     vim.keymap.set("n", "<leader>tf", function()
-      if not has_makefile then
-        require("neotest").run.run(vim.fn.expand("%"))
-      else
+      if prefer_makefile and has_makefile then
         vim.cmd(":TestFile")
+      else
+        require("neotest").run.run(vim.fn.expand("%"))
       end
     end, { desc = "[T]est [F]ile" })
     vim.keymap.set("n", "<leader>ts", function()
-      if not has_makefile then
-        require("neotest").run.run({ suite = true })
-      else
+      if prefer_makefile and has_makefile then
         vim.cmd(":TestSuite")
+      else
+        require("neotest").run.run({ suite = true })
       end
     end, { desc = "[T]est [S]uite" })
     vim.keymap.set("n", "<leader>ta", require("neotest").run.attach, { desc = "[T]est [A]ttach" })
