@@ -14,6 +14,11 @@ return {
         require("neotest-python"),
         require("neotest-go")
       },
+      quickfix = {
+        open = function()
+          vim.cmd("Trouble qflist")
+        end,
+      },
       output = {
         enabled = true,
         open_on_run = false,
