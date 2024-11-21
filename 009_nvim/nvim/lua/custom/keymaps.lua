@@ -52,7 +52,7 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Quickfix list
-vim.keymap.set("n", "<leader>tq", function()
+vim.keymap.set("n", "<C-t>", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win["quickfix"] == 1 then
@@ -63,9 +63,7 @@ vim.keymap.set("n", "<leader>tq", function()
     vim.cmd "cclose"
     return
   end
-  if not vim.tbl_isempty(vim.fn.getqflist()) then
-    vim.cmd "botright copen"
-  end
+  vim.cmd "botright copen"
 end, { desc = "[T]oggle [Q]uickfix" })
 
 -- Window navigation
