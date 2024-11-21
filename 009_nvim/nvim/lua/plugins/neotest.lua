@@ -13,7 +13,11 @@ return {
       adapters = {
         require("neotest-python"),
         require("neotest-go")
-      }
+      },
+      output = {
+        enabled = true,
+        open_on_run = false,
+      },
     })
   end
 }
