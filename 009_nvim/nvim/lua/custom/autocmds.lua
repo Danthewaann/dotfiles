@@ -24,13 +24,13 @@ autocmd("FileType", {
       "n",
       "<leader>e",
       ":normal mavip<CR><Plug>(DBUI_ExecuteQuery)`a",
-      { buffer = true, desc = "[E]xecute SQL query under cursor" }
+      { silent = true, buffer = true, desc = "[E]xecute SQL query under cursor" }
     )
     vim.keymap.set(
       { "v", "x" },
       "<leader>e",
       "ma<Plug>(DBUI_ExecuteQuery)`a",
-      { buffer = true, desc = "[E]xecute SQL query under cursor" }
+      { silent = true, buffer = true, desc = "[E]xecute SQL query under cursor" }
     )
   end
 })
