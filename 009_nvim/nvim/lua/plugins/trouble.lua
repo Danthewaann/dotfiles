@@ -34,7 +34,8 @@ return {
 
     vim.keymap.set("n", "<C-j>", function()
       if require("trouble").is_open() == true then
-        require("trouble").next({ skip_groups = true, jump = true })
+        require("trouble").next({ skip_groups = true })
+        require("trouble").jump()
       else
         local ok, _ = pcall(vim.cmd, "cnext")
         if not ok then
@@ -49,7 +50,8 @@ return {
     end, { desc = "Jump to next trouble/qf item" })
     vim.keymap.set("n", "<C-k>", function()
       if require("trouble").is_open() == true then
-        require("trouble").prev({ skip_groups = true, jump = true })
+        require("trouble").prev({ skip_groups = true })
+        require("trouble").jump()
       else
         local ok, _ = pcall(vim.cmd, "cprevious")
         if not ok then
