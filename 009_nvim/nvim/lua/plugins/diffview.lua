@@ -71,7 +71,7 @@ return {
             return
           end
 
-          vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD")
+          vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD --imply-local")
         end,
         ["3. View all file history "] = function()
           vim.cmd(":DiffviewFileHistory --max-count=10000")
