@@ -158,7 +158,11 @@ return {
         {
           name = "path",
           group_index = 3,
-          keyword_length = 4,
+          option = {
+            get_cwd = function()
+              return vim.fn.getcwd(-1, -1)
+            end
+          }
         },
         {
           name = "buffer",
