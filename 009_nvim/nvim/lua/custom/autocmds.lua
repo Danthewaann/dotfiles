@@ -117,3 +117,15 @@ autocmd("LspAttach", {
     end
   end,
 })
+
+-- Jump to the last position in the file
+augroup("jump_to_last_position", { clear = true })
+autocmd("BufReadPost", {
+  group = "jump_to_last_position",
+  pattern = "*",
+  callback = function()
+    if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
+      vim.cmd(":normal! g`\"")
+    end
+  end,
+})
