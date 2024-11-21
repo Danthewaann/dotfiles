@@ -64,7 +64,7 @@ vim.keymap.set("n", "<leader>tq", function()
     return
   end
   if not vim.tbl_isempty(vim.fn.getqflist()) then
-    vim.cmd "copen"
+    vim.cmd "botright copen"
   end
 end, { desc = "[T]oggle [Q]uickfix" })
 
@@ -147,6 +147,7 @@ end, { desc = "[G]it [G]et" })
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
 vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
 vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>", { silent = true, desc = "[G]it [Y]ank URL" })
+vim.keymap.set("n", "<leader>dt", "<cmd> Git difftool<CR>", { desc = "[D]iff [T]ool" })
 
 -- Replace current word in current file
 vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
