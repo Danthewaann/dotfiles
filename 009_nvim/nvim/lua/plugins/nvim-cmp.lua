@@ -169,6 +169,17 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
+          function(entry1, entry2)
+            -- Filter for keyword arguments for python
+            local entry1_is_keyword_arg = string.sub(entry1.completion_item.label, -1) == "="
+            local entry2_is_keyword_arg = string.sub(entry2.completion_item.label, -1) == "="
+            if entry1_is_keyword_arg and entry2_is_keyword_arg then
+              return cmp.config.compare.order(entry1, entry2)
+            elseif entry1_is_keyword_arg then
+              return true
+            end
+            return false
+          end,
           cmp.config.compare.offset,
           cmp.config.compare.exact,
           cmp.config.compare.score,
