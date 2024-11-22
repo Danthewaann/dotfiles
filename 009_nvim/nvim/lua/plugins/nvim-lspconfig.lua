@@ -219,7 +219,7 @@ return {
                 ".venv/**"
               },
               diagnosticMode = pyright_diagnostic_mode, -- can be "workspace" or "openFilesOnly"
-              typeCheckingMode = "basic",       -- can be "off", "basic", "standard", "strict", "recommended" or "all"
+              typeCheckingMode = "basic",               -- can be "off", "basic", "standard", "strict", "recommended" or "all"
               diagnosticSeverityOverrides = {
                 reportMissingImports = true,
                 reportMissingTypeStubs = false,
@@ -266,23 +266,8 @@ return {
       lua_ls = {
         settings = {
           Lua = {
-            -- From: https://github.com/neovim/neovim/issues/21686#issuecomment-1522446128
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = "LuaJIT",
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = {
-                "vim",
-                "require"
-              },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              checkThirdParty = false,
-              library = vim.api.nvim_get_runtime_file("", true),
+            completion = {
+              callSnippet = "Replace"
             },
             format = {
               enable = true,
@@ -292,7 +277,6 @@ return {
                 quote_style = "double"
               }
             },
-            telemetry = { enable = false },
           },
         },
       },
