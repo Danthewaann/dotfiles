@@ -56,7 +56,28 @@ return {
     cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
       sources = cmp.config.sources({
         { name = "vim-dadbod-completion" }
-      })
+      }),
+      mapping = cmp.mapping.preset.insert({
+        ["<C-l>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.complete({
+              config = {
+                sources = {
+                  {
+                    name = "vim-dadbod-completion",
+                    entry_filter = function(entry, _)
+                      -- Filter for DB table names
+                      return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] == "Class"
+                    end
+                  }
+                }
+              }
+            })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+      }),
     })
 
     -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
