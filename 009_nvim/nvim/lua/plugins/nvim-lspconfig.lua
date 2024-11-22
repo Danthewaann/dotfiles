@@ -70,6 +70,8 @@ return {
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 
+    local pyright_diagnostic_mode = "openFilesOnly"
+
     -- [[ Configure LSP ]]
     -- This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(client, bufnr)
@@ -80,6 +82,20 @@ return {
 
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
+
+      if client.name == "basedpyright" then
+        client.settings.basedpyright.analysis.diagnosticMode = pyright_diagnostic_mode
+        nmap("<leader>rd", function()
+          if pyright_diagnostic_mode == "openFilesOnly" then
+            pyright_diagnostic_mode = "workspace"
+          else
+            pyright_diagnostic_mode = "openFilesOnly"
+          end
+          vim.cmd(":LspRestart")
+          utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
+        end, "Reset Diagnostic Mode")
+      end
+
       nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
       nmap("gh", function()
         -- Workaround: https://github.com/nvim-telescope/telescope.nvim/issues/2368
@@ -202,8 +218,8 @@ return {
                 "migrations/**",
                 ".venv/**"
               },
-              diagnosticMode = "openFilesOnly", -- can be "workspace" or "openFilesOnly"
-              typeCheckingMode = "basic",   -- can be "off", "basic", "standard", "strict", "recommended" or "all"
+              diagnosticMode = pyright_diagnostic_mode, -- can be "workspace" or "openFilesOnly"
+              typeCheckingMode = "basic",       -- can be "off", "basic", "standard", "strict", "recommended" or "all"
               diagnosticSeverityOverrides = {
                 reportMissingImports = true,
                 reportMissingTypeStubs = false,
