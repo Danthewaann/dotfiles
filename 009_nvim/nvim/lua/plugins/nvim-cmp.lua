@@ -67,6 +67,45 @@ return {
       }
     })
 
+    local default_cmp_sources = cmp.config.sources(
+      {
+        { name = "lazydev" },
+      },
+      {
+        { name = "luasnip" },
+      },
+      {
+        { name = "nvim_lsp" },
+      },
+      {
+        {
+          name = "path",
+          option = {
+            get_cwd = function()
+              return vim.fn.getcwd(-1, -1)
+            end
+          }
+        },
+        {
+          name = "buffer",
+          keyword_length = 2,
+          option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                local buf = vim.api.nvim_win_get_buf(win)
+                local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+                if byte_size < 1024 * 1024 then -- 1 Megabyte max
+                  bufs[buf] = true
+                end
+              end
+              return vim.tbl_keys(bufs)
+            end
+          }
+        },
+      }
+    )
+
     ---@diagnostic disable-next-line: missing-fields
     cmp.setup({
       formatting = {
@@ -172,53 +211,17 @@ return {
           end
         end, { "i", "s" }),
       }),
-    })
-
-    local default_cmp_sources = cmp.config.sources({
-      {
-        name = "lazydev",
-        -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
-        group_index = 0,
-      },
-      { name = "luasnip",  group_index = 1 },
-      { name = "nvim_lsp", group_index = 2 },
-      {
-        name = "path",
-        group_index = 3,
-        option = {
-          get_cwd = function()
-            return vim.fn.getcwd(-1, -1)
-          end
-        }
-      },
-      {
-        name = "buffer",
-        group_index = 3,
-        keyword_length = 2,
-        option = {
-          get_bufnrs = function()
-            local bufs = {}
-            for _, win in ipairs(vim.api.nvim_list_wins()) do
-              local buf = vim.api.nvim_win_get_buf(win)
-              local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-              if byte_size < 1024 * 1024 then -- 1 Megabyte max
-                bufs[buf] = true
-              end
-            end
-            return vim.tbl_keys(bufs)
-          end
-        }
-      },
+      sources = default_cmp_sources
     })
 
     -- Disable `nvim_lsp_signature_help` in python files as it isn't good with python
-    vim.api.nvim_create_autocmd("BufEnter", {
+    vim.api.nvim_create_autocmd("BufRead", {
       callback = function(args)
         local filetype = vim.bo[args.buf].filetype
 
         if filetype ~= "python" then
-          local sources = vim.deepcopy(default_cmp_sources)
-          sources[#sources + 1] = { name = "nvim_lsp_signature_help", group_index = 2 }
+          local sources = default_cmp_sources
+          sources[#sources + 1] = { name = "nvim_lsp_signature_help" }
           cmp.setup.buffer {
             sources = sources
           }
