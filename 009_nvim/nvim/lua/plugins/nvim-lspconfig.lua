@@ -11,6 +11,7 @@ return {
       }
     },
     "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
     "hrsh7th/nvim-cmp",
 
     -- Useful status updates for LSP
@@ -54,16 +55,8 @@ return {
     end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Styling for floating windows
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = border,
-      }
-    )
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, {
-        border = border,
-      }
-    )
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
     require("lspconfig.ui.windows").default_options.border = border
 
     -- Diagnostic keymaps
@@ -71,113 +64,122 @@ return {
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 
     local pyright_diagnostic_mode = "openFilesOnly"
-
-    -- [[ Configure LSP ]]
-    -- This function gets run when an LSP connects to a particular buffer.
-    local on_attach = function(client, bufnr)
-      local nmap = function(keys, func, desc)
-        if desc then
-          desc = "LSP: " .. desc
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+      callback = function(event)
+        local map = function(keys, func, desc, mode)
+          mode = mode or "n"
+          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
-        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-      end
+        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        map("gh", function()
+          -- Workaround: https://github.com/nvim-telescope/telescope.nvim/issues/2368
+          vim.cmd(":vsplit | lua vim.lsp.buf.definition()")
+        end, "[G]oto Definition In Vertical Split")
+        map("gs", function()
+          vim.cmd(":split | lua vim.lsp.buf.definition()")
+        end, "[G]oto Definition In [S]plit")
+        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+        map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+        map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
+        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+        map("<leader>sd", require("telescope.builtin").lsp_document_symbols, "[S]earch [D]ocument Symbols")
+        map("<leader>sW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
+        map("<leader>ss", function()
+          local word = vim.fn.expand("<cword>")
+          require("telescope.builtin").lsp_workspace_symbols({
+            prompt_title = "LSP Workspace Symbols (" .. word .. ")",
+            query = word,
+          })
+        end, "[S]earch [S]ymbol")
+        map("<leader>sf", function()
+          local word = vim.fn.expand("<cword>")
+          require("telescope.builtin").lsp_workspace_symbols({
+            prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
+            query = word,
+            symbols = { "function", "method" }
+          })
+        end, "[S]earch [F]unction Symbol")
 
-      if client.name == "basedpyright" then
-        client.settings.basedpyright.analysis.diagnosticMode = pyright_diagnostic_mode
-        nmap("<leader>rd", function()
-          if pyright_diagnostic_mode == "openFilesOnly" then
-            pyright_diagnostic_mode = "workspace"
-          else
-            pyright_diagnostic_mode = "openFilesOnly"
+        -- See `:help K` for why this keymap
+        map("K", function()
+          local winid = require("ufo").peekFoldedLinesUnderCursor()
+          if not winid then
+            vim.lsp.buf.hover()
           end
+        end, "Hover Documentation")
+        map("<leader>rl", function()
+          utils.print("Restarting LSP client...")
           vim.cmd(":LspRestart")
-          utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
-        end, "Reset Diagnostic Mode")
-      end
+        end, "[R]estart [L]sp")
+        map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+        map("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
 
-      nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-      nmap("gh", function()
-        -- Workaround: https://github.com/nvim-telescope/telescope.nvim/issues/2368
-        vim.cmd(":vsplit | lua vim.lsp.buf.definition()")
-      end, "[G]oto Definition In Vertical Split")
-      nmap("gs", function()
-        vim.cmd(":split | lua vim.lsp.buf.definition()")
-      end, "[G]oto Definition In [S]plit")
-      nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-      nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-      nmap("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
-      nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-      nmap("<leader>sd", require("telescope.builtin").lsp_document_symbols, "[S]earch [D]ocument Symbols")
-      nmap("<leader>sW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
-      nmap("<leader>ss", function()
-        local word = vim.fn.expand("<cword>")
-        require("telescope.builtin").lsp_workspace_symbols({
-          prompt_title = "LSP Workspace Symbols (" .. word .. ")",
-          query = word,
-        })
-      end, "[S]earch [S]ymbol")
-      nmap("<leader>sf", function()
-        local word = vim.fn.expand("<cword>")
-        require("telescope.builtin").lsp_workspace_symbols({
-          prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
-          query = word,
-          symbols = { "function", "method" }
-        })
-      end, "[S]earch [F]unction Symbol")
+        -- Lesser used LSP functionality
+        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-      -- See `:help K` for why this keymap
-      nmap("K", function()
-        local winid = require("ufo").peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if client then
+          if client.name == "basedpyright" then
+            client.settings.basedpyright.analysis.diagnosticMode = pyright_diagnostic_mode
+            map("<leader>rd", function()
+              if pyright_diagnostic_mode == "openFilesOnly" then
+                pyright_diagnostic_mode = "workspace"
+              else
+                pyright_diagnostic_mode = "openFilesOnly"
+              end
+              vim.cmd(":LspRestart")
+              utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
+            end, "Reset Diagnostic Mode")
+          end
+
+          -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
+          if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+            local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              buffer = event.buf,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.document_highlight,
+            })
+
+            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+              buffer = event.buf,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.clear_references,
+            })
+          end
+
+          -- Enable inlay hints if the LSP server supports it
+          if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            map("<leader>th", function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+            end, "[T]oggle Inlay [H]ints")
+          end
+
+          vim.api.nvim_create_autocmd("LspDetach", {
+            group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+            callback = function(event2)
+              vim.lsp.buf.clear_references()
+              vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
+            end,
+          })
         end
-      end, "Hover Documentation")
-      nmap("<leader>rl", function()
-        utils.print("Restarting LSP client...")
-        vim.cmd(":LspRestart")
-      end, "[R]estart [L]sp")
-      nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-      nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-      nmap("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
-
-      -- Lesser used LSP functionality
-      nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-      -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
-      if client.server_capabilities.documentHighlightProvider then
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-          buffer = bufnr,
-          callback = vim.lsp.buf.document_highlight,
-        })
-
-        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-          buffer = bufnr,
-          callback = vim.lsp.buf.clear_references,
-        })
       end
+    })
 
-      -- Enable inlay hints if the LSP server supports it
-      if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-        nmap("<leader>th", function()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
-        end, "[T]oggle Inlay [H]ints")
-      end
-    end
+    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-    -- mason-lspconfig requires that these setup functions are called in this order
-    -- before setting up the servers.
-    require("mason").setup()
-    require("mason-lspconfig").setup()
+    -- Add foldingRange capabilities for nvim-ufo
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = false
+    }
 
     -- Enable the following language servers
-    --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-    --
-    --  Add any additional override configuration in the following tables. They will be passed to
-    --  the `settings` field of the server config. You must look up that documentation yourself.
-    --
-    --  If you want to override the default filetypes that your language server will attach to you can
-    --  define the property 'filetypes' to the map in question.
     local servers = {
       clangd = { settings = {} },
       gopls = {
@@ -290,34 +292,25 @@ return {
       servers["solargraph"] = { settings = {} }
     end
 
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-    -- Add foldingRange capabilities for nvim-ufo
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = false
-    }
+    -- mason-lspconfig requires that these setup functions are called in this order
+    -- before setting up the servers.
+    require("mason").setup()
+
+    local ensure_installed = vim.tbl_keys(servers or {})
+    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
     -- Ensure the servers above are installed
-    local mason_lspconfig = require("mason-lspconfig")
-
-    mason_lspconfig.setup({
-      ensure_installed = vim.tbl_keys(servers),
-    })
-
-    mason_lspconfig.setup_handlers({
-      function(server_name)
-        local server = servers[server_name] or {}
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-          init_options = server.init_options,
-          settings = server.settings,
-          before_init = server.before_init,
-          filetypes = server.filetypes,
-        })
-      end,
+    require("mason-lspconfig").setup({
+      handlers = {
+        function(server_name)
+          local server = servers[server_name] or {}
+          -- This handles overriding only values explicitly passed
+          -- by the server configuration above. Useful when disabling
+          -- certain features of an LSP (for example, turning off formatting for ts_ls)
+          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+          require("lspconfig")[server_name].setup(server)
+        end
+      }
     })
   end
 }
