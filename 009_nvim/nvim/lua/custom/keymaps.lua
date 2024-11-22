@@ -100,6 +100,56 @@ vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the last tab"
 vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
 vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
 
+-- Resize the current window
+vim.keymap.set("n", "<M-h>", function()
+  local cur_winnr = vim.api.nvim_get_current_win()
+  vim.cmd(":wincmd h")
+  local other_winnr = vim.api.nvim_get_current_win()
+
+  if cur_winnr == other_winnr then
+    vim.cmd(":vertical resize-5")
+  else
+    vim.cmd(":vertical resize-5")
+    vim.cmd(":wincmd p")
+  end
+end, { desc = "Adjust window width left" })
+vim.keymap.set("n", "<M-l>", function()
+  local cur_winnr = vim.api.nvim_get_current_win()
+  vim.cmd(":wincmd l")
+  local other_winnr = vim.api.nvim_get_current_win()
+
+  if cur_winnr == other_winnr then
+    vim.cmd(":vertical resize-5")
+  else
+    vim.cmd(":vertical resize-5")
+    vim.cmd(":wincmd p")
+  end
+end, { desc = "Adjust window width right" })
+vim.keymap.set("n", "<M-j>", function()
+  local cur_winnr = vim.api.nvim_get_current_win()
+  vim.cmd(":wincmd j")
+  local other_winnr = vim.api.nvim_get_current_win()
+
+  if cur_winnr == other_winnr then
+    vim.cmd(":resize-5")
+  else
+    vim.cmd(":resize-5")
+    vim.cmd(":wincmd p")
+  end
+end, { desc = "Adjust window height up" })
+vim.keymap.set("n", "<M-k>", function()
+  local cur_winnr = vim.api.nvim_get_current_win()
+  vim.cmd(":wincmd k")
+  local other_winnr = vim.api.nvim_get_current_win()
+
+  if cur_winnr == other_winnr then
+    vim.cmd(":resize-5")
+  else
+    vim.cmd(":resize-5")
+    vim.cmd(":wincmd p")
+  end
+end, { desc = "Adjust window height down" })
+
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 
