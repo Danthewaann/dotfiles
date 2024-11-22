@@ -178,17 +178,10 @@ return {
             elseif entry1_is_keyword_arg then
               return true
             end
-            return false
+            return cmp.config.compare.order(entry1, entry2)
           end,
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
           cmp.config.compare.recently_used,
           cmp.config.compare.locality,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
         }
       },
       snippet = {
