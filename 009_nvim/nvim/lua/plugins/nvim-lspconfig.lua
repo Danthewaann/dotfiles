@@ -279,6 +279,7 @@ return {
                 quote_style = "double"
               }
             },
+            diagnostics = { disable = { "missing-fields" } },
           },
         },
       },
