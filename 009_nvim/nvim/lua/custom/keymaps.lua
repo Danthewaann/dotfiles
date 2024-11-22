@@ -81,9 +81,6 @@ vim.keymap.set("n", "<C-w><C-c>", "<Nop>")
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w>t", "<cmd> tabonly<CR>", { desc = "Close all other tabs" })
 
--- Open a new tab
-vim.keymap.set("n", "<C-w>N", "<cmd> tabnew<CR>", { desc = "Create a new tab" })
-
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
 vim.keymap.set("n", "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
