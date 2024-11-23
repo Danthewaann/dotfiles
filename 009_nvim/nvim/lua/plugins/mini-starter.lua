@@ -23,7 +23,7 @@ return {
         starter.gen_hook.aligning("center", "center"),
         starter.gen_hook.padding(3, 2),
       },
-      query_updaters = "BFLOabcdefghijklmnopqrstuvwxyz0123456789_-.",
+      query_updaters = "BFLOabcdefghijklmnopqrstuvwxyz0123456789.",
       footer = "",
       silent = true,
     })
