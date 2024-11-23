@@ -22,12 +22,12 @@ return {
         function()
           if utils.file_exists(".nvim_buffers") then
             return {
-              name = "Load buffers from file",
+              name = "Load managed buffers (.nvim_buffers)",
               action = function()
                 buf_ui.load_menu_from_file(".nvim_buffers")
                 buf_ui.nav_file(1)
               end,
-              section = "Load Buffers"
+              section = "Buffers"
             }
           end
 
