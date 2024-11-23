@@ -228,6 +228,39 @@ vim.keymap.set("n", "<leader>p", function()
   end
 
   local commands = {
+    ["cj  (create new journal entry)"] = function()
+      local template
+      local workspace = os.getenv("TMUX_CURRENT_DIR")
+      if workspace ~= nil and utils.file_exists(workspace) then
+        template = workspace .. "/notes/journal/template.md"
+      end
+
+      vim.ui.input({ prompt = "Enter year", default = os.date("%Y") }, function(input)
+        if input == nil then
+          return
+        end
+
+        local year = input
+        vim.ui.input({ prompt = "Enter week", default = os.date("%W") }, function(input2)
+          if input2 == nil then
+            return
+          end
+
+          local week = input2
+          local file_week = week
+          if tonumber(file_week) < 10 then
+            file_week = "0" .. file_week
+          end
+          local journal_entry = workspace .. "/notes/journal/" .. year .. "/week-" .. file_week .. ".md"
+          local obj = vim.system({ "create-journal-entry", template, journal_entry, year, week }, { text = true }):wait()
+          if obj.code ~= 0 then
+            M.print_err(obj.stderr)
+            return
+          end
+          vim.cmd(":e " .. journal_entry)
+        end)
+      end)
+    end,
     ["da  (delete all other buffers)"] = function()
       vim.cmd("%bd|e#|bd#")
     end,
