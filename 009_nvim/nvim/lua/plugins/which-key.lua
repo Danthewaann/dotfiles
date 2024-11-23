@@ -11,14 +11,12 @@ return {
       win = { border = "rounded" }
     })
     require("which-key").add({
-      { "<leader>b",   group = "[B]reakpoints" },
+      { "<leader>b",   group = "[B]reakpoints, [B]uffers" },
       { "<leader>b_",  hidden = true },
       { "<leader>c",   group = "[C]ode, [C]ommand" },
       { "<leader>c_",  hidden = true },
       { "<leader>d",   group = "[D]iff, [DB]" },
       { "<leader>d_",  hidden = true },
-      { "<leader>f",   group = "[F]ile" },
-      { "<leader>f_",  hidden = true },
       { "<leader>g",   group = "[G]it, [G]enerate, [G]lobal" },
       { "<leader>g_",  hidden = true },
       { "<leader>gp",  group = "[G]it [P]ush" },
@@ -37,8 +35,6 @@ return {
       { "<leader>t_",  hidden = true },
       { "<leader>v",   group = "[V]imspector" },
       { "<leader>v_",  hidden = true },
-      { "<leader>w",   group = "[W]orkspace" },
-      { "<leader>w_",  hidden = true },
       { "<leader>x",   group = "Lists (Trouble)" },
       { "<leader>x_",  hidden = true },
     })

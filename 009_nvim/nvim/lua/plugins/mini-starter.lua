@@ -14,6 +14,7 @@ return {
     end
 
     starter.setup({
+      autoopen = false,
       header = header,
       items = {
         starter.sections.sessions(5, true),

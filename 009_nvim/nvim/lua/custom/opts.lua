@@ -76,7 +76,7 @@ vim.o.showcmd = false
 -- Don't show search count while searching (let lualine manage it)
 -- Also don't show ins-completion-menu messages
 -- Also don't show `scanning tags` messages in ins-completion
-vim.opt.shortmess:append("ScsC")
+vim.opt.shortmess:append("ScsCI")
 
 -- Setup folds with treesitter and nvim-ufo
 vim.o.foldcolumn = "0"
