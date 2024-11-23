@@ -11,8 +11,8 @@ return {
         MkdnGoBack = false,
         MkdnGoForward = false,
         MkdnCreateLinkFromClipboard = { { "n", "v" }, "gl" },
-        MkdnIncreaseHeading = { "n", "<C-l>" },
-        MkdnDecreaseHeading = { "n", "<C-h>" },
+        MkdnIncreaseHeading = { "n", "<C-h>" },
+        MkdnDecreaseHeading = { "n", "<C-l>" },
       }
     })
   end
