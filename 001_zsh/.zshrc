@@ -70,7 +70,53 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv fast-syntax-highlighting)
+plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-syntax-highlighting)
+
+# Use `<C-q>` to enter normal mode in zsh
+ZVM_VI_ESCAPE_BINDKEY=^Q
+
+# Disable the cursor style feature
+ZVM_CURSOR_STYLE_ENABLED=false
+
+# Set visual selection background colour
+ZVM_VI_HIGHLIGHT_BACKGROUND=#323641
+
+# The plugin will auto execute this zvm_after_select_vi_mode function
+function zvm_after_select_vi_mode() {
+  case $ZVM_MODE in
+    $ZVM_MODE_NORMAL)
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}N%{$reset_color%} $ "
+    ;;
+    $ZVM_MODE_INSERT)
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}I%{$reset_color%} $ "
+    ;;
+    $ZVM_MODE_VISUAL)
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}V%{$reset_color%} $ "
+    ;;
+    $ZVM_MODE_VISUAL_LINE)
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}V%{$reset_color%} $ "
+    ;;
+    $ZVM_MODE_REPLACE)
+        PROMPT="$BASE_PROMPT%{$fg_bold[green]%}R%{$reset_color%} $ "
+    ;;
+  esac
+}
+
+zvm_after_init() {
+    # Override <C-P> and <C-N> to cycle through command history (including suggested commands)
+    zvm_bindkey viins '^P' up-line-or-beginning-search
+    zvm_bindkey viins '^N' down-line-or-beginning-search
+}
+
+
+function zvm_vi_yank() {
+    # Yank to system clipboard in zsh-vi-mode
+    # From: https://github.com/jeffreytse/zsh-vi-mode/issues/19
+    zvm_yank
+    echo ${CUTBUFFER} | pbcopy
+    zvm_exit_visual_mode
+}
+
 
 source $ZSH/oh-my-zsh.sh
 
@@ -200,7 +246,9 @@ ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}\uE0A0 "
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
-PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)$ '
+[ -n "$SSH" ] && BASE_PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)'
+[ -z "$SSH" ] && BASE_PROMPT=$'%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)'
+PROMPT="$BASE_PROMPT$ "
 
 # Disable the right-hand side prompt
 RPROMPT=""

@@ -47,3 +47,8 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-git-prompt ]]; then
     run_command "installing zsh-git-prompt" \
         "git clone https://github.com/dcrblack/zsh-git-prompt $ZSH_CUSTOM/plugins/zsh-git-prompt"
 fi
+
+if [[ ! -d $ZSH_CUSTOM/plugins/zsh-vi-mode ]]; then
+    run_command "installing zsh-vi-mode" \
+        "git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode"
+fi
