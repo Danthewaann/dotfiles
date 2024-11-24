@@ -91,6 +91,34 @@ return {
       }),
     })
 
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline({
+        ["<Tab>"] = { c = cmp.config.disable },
+        ["<S-Tab>"] = { c = cmp.config.disable },
+      }),
+      sources = cmp.config.sources({
+        { name = "path" }
+      }, {
+        { name = "cmdline" }
+      }),
+      matching = { disallow_symbol_nonprefix_matching = false },
+      enabled = function()
+        -- Set of commands where cmp will be disabled
+        local disabled = {
+          W = true,
+          w = true,
+          wa = true,
+          q = true,
+          qa = true,
+        }
+        -- Get first word of cmdline
+        local cmd = vim.fn.getcmdline():match("%S+")
+        -- Return true if cmd isn't disabled
+        -- else call/return cmp.close(), which returns false
+        return not disabled[cmd] or cmp.close()
+      end
+    })
+
     -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline({
