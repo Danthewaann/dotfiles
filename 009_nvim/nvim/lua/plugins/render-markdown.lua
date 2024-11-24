@@ -1,7 +1,7 @@
 return {
   "MeanderingProgrammer/markdown.nvim",
   name = "render-markdown",
-  enabled = true,
+  ft = { "markdown", "octo" },
   dependencies = {
     "nvim-treesitter/nvim-treesitter", -- Mandatory
     "nvim-tree/nvim-web-devicons",     -- Optional but recommended
