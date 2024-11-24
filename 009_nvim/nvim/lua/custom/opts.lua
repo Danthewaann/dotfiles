@@ -117,4 +117,5 @@ vim.opt.whichwrap:append("<>[]hl")
 vim.o.jumpoptions = "stack"
 
 -- Command-line completion mode
+vim.o.wildmenu = false
 vim.o.wildmode = "longest:full,full"
