@@ -173,6 +173,12 @@ return {
     cmp.setup({
       formatting = {
         format = function(entry, vim_item)
+          -- Don't show entry kind if we are in the cmdline
+          if vim.api.nvim_get_mode().mode == "c" then
+            vim_item.kind = nil
+            return vim_item
+          end
+
           -- Kind icons
           vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
           -- Source
