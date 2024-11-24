@@ -203,6 +203,10 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=escape(@k, "/")<CR>/<C-r>=escap
 vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
 vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 
+-- Disable Tab and Shift-Tab in command line to let nvim-cmp handle completion over wildmenu
+vim.keymap.set("c", "<Tab>", "<Nop>")
+vim.keymap.set("c", "<S-Tab>", "<Nop>")
+
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
   local function get_ticket_url()
