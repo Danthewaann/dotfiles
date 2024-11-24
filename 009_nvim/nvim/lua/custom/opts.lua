@@ -104,11 +104,6 @@ vim.o.grepformat = "%f:%l:%c:%m"
 -- Disable swap files as they can be annoying
 vim.o.swapfile = false
 
--- Recognize numbered lists when formatting text with `gq`
--- Also don't auto insert comments
-vim.cmd("autocmd BufEnter * set formatoptions=jqlnt")
-vim.cmd("autocmd BufEnter * setlocal formatoptions=jqlnt")
-
 -- Go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 vim.opt.whichwrap:append("<>[]hl")
