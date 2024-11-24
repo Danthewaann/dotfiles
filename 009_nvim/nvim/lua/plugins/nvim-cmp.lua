@@ -108,6 +108,7 @@ return {
           W = true,
           w = true,
           wa = true,
+          wq = true,
           q = true,
           qa = true,
         }
