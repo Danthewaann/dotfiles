@@ -234,21 +234,14 @@ return {
         }),
         ["<C-q>"] = cmp.mapping.abort(),
         ["<C-space>"] = cmp.mapping(function()
-          local config = {}
+          local sources = default_cmp_sources
           local buf = vim.api.nvim_get_current_buf()
           local filetype = vim.bo[buf].filetype
           -- Disable `nvim_lsp_signature_help` in python files as it isn't good with python
           if filetype ~= "python" then
-            config.sources = {
-              { name = "nvim_lsp_signature_help", group_index = 1 },
-              { name = "nvim_lsp",                group_index = 2 }
-            }
-          else
-            config.sources = {
-              { name = "nvim_lsp", group_index = 1 }
-            }
+            sources[#sources + 1] = { name = "nvim_lsp_signature_help" }
           end
-          cmp.complete({ config = config })
+          cmp.complete({ config = { sources = sources } })
         end),
         ["<C-l>"] = cmp.mapping(function(fallback)
           if luasnip.locally_jumpable(1) then
