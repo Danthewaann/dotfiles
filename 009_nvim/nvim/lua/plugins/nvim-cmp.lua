@@ -145,8 +145,7 @@ return {
 
     local default_cmp_sources = cmp.config.sources(
       { { name = "lazydev" }, },
-      { { name = "luasnip" }, },
-      { { name = "nvim_lsp" }, },
+      { { name = "luasnip" }, { name = "nvim_lsp" } },
       {
         {
           name = "path",
