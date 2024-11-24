@@ -147,12 +147,6 @@ vim.keymap.set("n", "<M-k>", function()
   end
 end, { desc = "Adjust window height down" })
 
--- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
-
--- Exit the current window
-vim.keymap.set("n", "<C-q>", "<cmd> q<CR>", { desc = "Close window" })
-
 -- Treat Ctrl+C exactly like <Esc>
 vim.keymap.set({ "n", "i", "x", "o" }, "<C-c>", "<Esc>", { desc = "Escape" })
 
