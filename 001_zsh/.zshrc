@@ -75,8 +75,8 @@ plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv zsh-vi-mode fast-synt
 # Use `<C-q>` to enter normal mode in zsh
 ZVM_VI_ESCAPE_BINDKEY=^Q
 
-# Disable the cursor style feature
-ZVM_CURSOR_STYLE_ENABLED=false
+# Enable the cursor style feature
+ZVM_CURSOR_STYLE_ENABLED=true
 
 # Set visual selection background colour
 ZVM_VI_HIGHLIGHT_BACKGROUND=#323641
@@ -102,12 +102,27 @@ function zvm_after_select_vi_mode() {
   esac
 }
 
-zvm_after_init() {
+function zvm_after_init() {
+    # Always start in insert mode
+    ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+
     # Override <C-P> and <C-N> to cycle through command history (including suggested commands)
     zvm_bindkey viins '^P' up-line-or-beginning-search
     zvm_bindkey viins '^N' down-line-or-beginning-search
+    zvm_bindkey vicmd '^P' up-line-or-beginning-search
+    zvm_bindkey vicmd '^N' down-line-or-beginning-search
+    # Edit the current command in $EDITOR
+    zvm_bindkey viins '^X^E' edit-command-line
+    zvm_bindkey vicmd ' ' edit-command-line
+    # Move up and down without going through history
+    zvm_bindkey vicmd 'k' up-line
+    zvm_bindkey vicmd 'j' down-line
+    # Move to start or end of line
+    zvm_bindkey vicmd 'H' beginning-of-line
+    zvm_bindkey vicmd 'L' end-of-line
+    zvm_bindkey visual 'H' beginning-of-line
+    zvm_bindkey visual 'L' end-of-line
 }
-
 
 function zvm_vi_yank() {
     # Yank to system clipboard in zsh-vi-mode
@@ -116,7 +131,6 @@ function zvm_vi_yank() {
     echo ${CUTBUFFER} | pbcopy
     zvm_exit_visual_mode
 }
-
 
 source $ZSH/oh-my-zsh.sh
 
