@@ -25,6 +25,7 @@ return {
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-buffer",
     "kristijanhusak/vim-dadbod-completion",
+    "uga-rosa/cmp-dictionary",
 
     -- Adds a number of user-friendly snippets
     "rafamadriz/friendly-snippets",
@@ -143,15 +144,9 @@ return {
     })
 
     local default_cmp_sources = cmp.config.sources(
-      {
-        { name = "lazydev" },
-      },
-      {
-        { name = "luasnip" },
-      },
-      {
-        { name = "nvim_lsp" },
-      },
+      { { name = "lazydev" }, },
+      { { name = "luasnip" }, },
+      { { name = "nvim_lsp" }, },
       {
         {
           name = "path",
@@ -161,6 +156,7 @@ return {
             end
           }
         },
+        { name = "dictionary", keyword_length = 2 },
         {
           name = "buffer",
           keyword_length = 2,
@@ -312,6 +308,11 @@ return {
           }
         end
       end
+    })
+
+    require("cmp_dictionary").setup({
+      paths = { "/usr/share/dict/words" },
+      exact_length = 2,
     })
   end
 }
