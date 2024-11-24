@@ -95,13 +95,17 @@ return {
       mapping = cmp.mapping.preset.cmdline({
         ["<Tab>"] = { c = cmp.config.disable },
         ["<S-Tab>"] = { c = cmp.config.disable },
-      }),
-      sources = cmp.config.sources({
-        { name = "path" }
-      }, {
-        { name = "cmdline" }
+        ["<C-space>"] = { c = function() cmp.complete() end },
       }),
       matching = { disallow_symbol_nonprefix_matching = false },
+      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          cmp.config.compare.order,
+          cmp.config.compare.recently_used,
+        }
+      },
       enabled = function()
         -- Set of commands where cmp will be disabled
         local disabled = {
@@ -125,10 +129,17 @@ return {
       mapping = cmp.mapping.preset.cmdline({
         ["<Tab>"] = { c = cmp.config.disable },
         ["<S-Tab>"] = { c = cmp.config.disable },
+        ["<C-space>"] = { c = function() cmp.complete() end },
       }),
-      sources = {
-        { name = "buffer" }
-      }
+      sources = { { name = "buffer" } },
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          cmp.config.compare.order,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
+        }
+      },
     })
 
     local default_cmp_sources = cmp.config.sources(
