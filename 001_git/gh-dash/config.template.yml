@@ -61,12 +61,12 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'DiffviewOpen origin/{{.BaseRefName}}..HEAD'"
+        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'sleep! 250m | DiffviewOpen origin/{{.BaseRefName}}..HEAD'"
     - key: E
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'Octo pr edit {{.PrNumber}}'"
+        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'sleep! 250m | Octo pr edit {{.PrNumber}}'"
     - key: T
       command: >
         clear &&

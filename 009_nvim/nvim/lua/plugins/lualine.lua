@@ -2,7 +2,6 @@ return {
   -- Set lualine as statusline
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
-  event = "VeryLazy",
   config = function()
     local utils = require("custom.utils")
     -- Custom onedark theme

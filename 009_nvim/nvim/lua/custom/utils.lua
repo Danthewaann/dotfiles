@@ -134,7 +134,6 @@ M.ignore_filetypes = {
   "Trouble",
   "VimspectorPrompt",
   "vimspector-disassembly",
-  "starter",
 }
 
 return M
