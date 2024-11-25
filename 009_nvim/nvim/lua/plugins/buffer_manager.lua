@@ -18,5 +18,21 @@ return {
     vim.keymap.set("n", "<C-b>", buf_ui.toggle_quick_menu, { desc = "Toggle buffers list" })
     vim.keymap.set("n", "<C-l>", buf_ui.nav_next, { desc = "Next buffer" })
     vim.keymap.set("n", "<C-h>", buf_ui.nav_prev, { desc = "Previous buffer" })
+
+    -- Save the buffer list to `.nvim_buffers` when we `:write` the buffer list
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("buffer_manager_write", { clear = true }),
+      pattern = "buffer_manager",
+      callback = function(event)
+        vim.api.nvim_create_autocmd("BufWriteCmd", {
+          group = vim.api.nvim_create_augroup("buffer_manager_write_cmd", { clear = true }),
+          buffer = event.buf,
+          callback = function()
+            buf_ui.on_menu_save()
+            buf_ui.save_menu_to_file(".nvim_buffers")
+          end
+        })
+      end
+    })
   end
 }
