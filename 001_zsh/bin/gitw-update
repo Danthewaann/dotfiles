@@ -17,6 +17,17 @@ info "Entering '$(basename "$worktree")' worktree..."
 cd "$worktree" || exit
 
 >&2 echo
+info "Running git fetch..."
+if ! output=$(git -c color.ui=always fetch 2>&1); then
+    >&2 echo "$output"
+    exit 1
+else
+    if [[ -n "$output" ]]; then
+        >&2 echo "$output"
+    fi
+fi
+
+>&2 echo
 info "Updating with remote..."
 if ! git status -uno | grep -i "up to date"; then
     if ! output=$(git -c color.ui=always pull 2>&1); then
