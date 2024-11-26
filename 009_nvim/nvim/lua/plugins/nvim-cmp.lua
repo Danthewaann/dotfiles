@@ -148,15 +148,6 @@ return {
       { { name = "luasnip" }, { name = "nvim_lsp" } },
       {
         {
-          name = "path",
-          option = {
-            get_cwd = function()
-              return vim.fn.getcwd(-1, -1)
-            end
-          }
-        },
-        { name = "dictionary", keyword_length = 2 },
-        {
           name = "buffer",
           keyword_length = 2,
           option = {
@@ -173,6 +164,17 @@ return {
             end
           }
         },
+        {
+          name = "path",
+          option = {
+            get_cwd = function()
+              return vim.fn.getcwd(-1, -1)
+            end
+          }
+        }
+      },
+      {
+        { name = "dictionary", keyword_length = 2, },
       }
     )
 
@@ -195,6 +197,7 @@ return {
             luasnip = "[LuaSnip]",
             nvim_lua = "[Lua]",
             latex_symbols = "[LaTeX]",
+            dictionary = "[Dictionary]",
             ["vim-dadbod-completion"] = "[DB]"
           })[entry.source.name]
           return vim_item
