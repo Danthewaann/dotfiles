@@ -143,6 +143,20 @@ return {
       },
     })
 
+    local buffer_source_option = {
+      get_bufnrs = function()
+        local bufs = {}
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+          if byte_size < 1024 * 1024 then -- 1 Megabyte max
+            bufs[buf] = true
+          end
+        end
+        return vim.tbl_keys(bufs)
+      end
+    }
+
     local default_cmp_sources = cmp.config.sources(
       { { name = "lazydev" }, },
       { { name = "luasnip" }, { name = "nvim_lsp" } },
@@ -150,19 +164,7 @@ return {
         {
           name = "buffer",
           keyword_length = 2,
-          option = {
-            get_bufnrs = function()
-              local bufs = {}
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                local buf = vim.api.nvim_win_get_buf(win)
-                local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-                if byte_size < 1024 * 1024 then -- 1 Megabyte max
-                  bufs[buf] = true
-                end
-              end
-              return vim.tbl_keys(bufs)
-            end
-          }
+          option = buffer_source_option
         },
         {
           name = "path",
@@ -177,6 +179,8 @@ return {
         { name = "dictionary", keyword_length = 2, },
       }
     )
+
+    local current_source = "luasnip"
 
     ---@diagnostic disable-next-line: missing-fields
     cmp.setup({
@@ -236,14 +240,48 @@ return {
         }),
         ["<C-q>"] = cmp.mapping.abort(),
         ["<C-space>"] = cmp.mapping(function()
-          local sources = default_cmp_sources
-          local buf = vim.api.nvim_get_current_buf()
-          local filetype = vim.bo[buf].filetype
-          -- Disable `nvim_lsp_signature_help` in python files as it isn't good with python
-          if filetype ~= "python" then
-            sources[#sources + 1] = { name = "nvim_lsp_signature_help" }
+          if cmp.visible() then
+            if current_source == "luasnip" then
+              current_source = "nvim_lsp"
+              cmp.complete({ config = { sources = { { name = "nvim_lsp" } } } })
+              if not cmp.visible() then
+                current_source = "buffer"
+                cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
+              end
+            elseif current_source == "nvim_lsp" then
+              current_source = "buffer"
+              cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
+            elseif current_source == "buffer" then
+              current_source = "dictionary"
+              cmp.complete({ config = { sources = { { name = "dictionary", keyword_length = 2 } } } })
+              if not cmp.visible() then
+                current_source = "luasnip"
+                cmp.complete({ config = { sources = { { name = "luasnip" } } } })
+                if not cmp.visible() then
+                  current_source = "nvim_lsp"
+                  cmp.complete({ config = { sources = { { name = "nvim_lsp" } } } })
+                  if not cmp.visible() then
+                    current_source = "buffer"
+                    cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
+                  end
+                end
+              end
+            elseif current_source == "dictionary" then
+              current_source = "luasnip"
+              cmp.complete({ config = { sources = { { name = "luasnip" } } } })
+              if not cmp.visible() then
+                current_source = "nvim_lsp"
+                cmp.complete({ config = { sources = { { name = "nvim_lsp" } } } })
+                if not cmp.visible() then
+                  current_source = "buffer"
+                  cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
+                end
+              end
+            end
+          else
+            current_source = "luasnip"
+            cmp.complete({ config = { sources = { { name = "luasnip" } } } })
           end
-          cmp.complete({ config = { sources = sources } })
         end),
         ["<C-l>"] = cmp.mapping(function(fallback)
           if luasnip.locally_jumpable(1) then
