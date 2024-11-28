@@ -76,8 +76,14 @@ vim.keymap.set({ "n", "i", "t" }, "<C-w>k", "<cmd>NvimTmuxNavigateUp<CR>", { des
 vim.keymap.set({ "n", "i", "t" }, "<C-w><C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-w>l", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 
+-- Close window
+vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
+
 -- Close tab
-vim.keymap.set("n", "<C-q>", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
+vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
+
+-- Enter normal-mode in nvim terminal
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
