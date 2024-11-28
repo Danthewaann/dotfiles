@@ -49,7 +49,6 @@ autocmd("TermOpen", {
       -- If a line number was found, open the file and jump to that line number.
       -- If a name was found, just to that name in the file,
       -- otherwise just open the file
-      print(vim.inspect(t))
       if #t == 2 then
         vim.cmd(":e " .. t[1])
       else
