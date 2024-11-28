@@ -1,11 +1,67 @@
 local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
+local utils = require("custom.utils")
 
-augroup("terminal_settings", { clear = true })
 autocmd("TermOpen", {
-  group = "terminal_settings",
+  group = augroup("terminal_settings", { clear = true }),
   pattern = "",
-  command = "setlocal nonumber",
+  callback = function()
+    vim.cmd(":setlocal nonumber signcolumn=no nocursorline")
+    -- Remove newlines when yanking the visual selection
+    -- Needed for the neovim terminal as it insert newlines
+    -- when a line is too long for the screen
+    vim.keymap.set("v", "<leader>y", function()
+      local lines = {}
+      for s in utils.get_visual_selection():gmatch("[^\n]+") do
+        table.insert(lines, s)
+      end
+
+      vim.fn.setreg("+", table.concat(lines))
+    end, { buffer = 0 })
+
+    -- For a running terminal emulator that contains file paths that I would like to
+    -- jump to in another buffer within the same window
+    vim.keymap.set({ "n", "x" }, "gf", function()
+      -- Get the current sequence of non-blank characters
+      if vim.fn.mode() == "n" then
+        vim.cmd(":normal viW")
+      end
+
+      local selection = utils.get_visual_selection()
+
+      -- Separate the path from the potential line number
+      -- e.g. some/path/to/file:42:
+      --      ^ path            ^ line number
+      local t = {}
+      for str in string.gmatch(selection, "([^:]*)") do
+        t[#t + 1] = str
+      end
+
+      -- Check if the file exists
+      if not utils.file_exists(t[1]) then
+        utils.print_err("File not found!")
+        return
+      end
+
+      -- Jump back to the previous buffer
+      vim.cmd(":wincmd p")
+
+      -- If a line number was found, open the file and jump to that line number.
+      -- If a name was found, just to that name in the file,
+      -- otherwise just open the file
+      print(vim.inspect(t))
+      if #t == 2 then
+        vim.cmd(":e " .. t[1])
+      else
+        if t[3] ~= "" then
+          vim.cmd(":e +" .. t[3] .. " " .. t[1])
+        elseif t[4] ~= "" then
+          vim.cmd(":e +/" .. t[4] .. " " .. t[1])
+          vim.cmd(":nohlsearch")
+        end
+      end
+    end, { buffer = 0, silent = true })
+  end,
 })
 
 -- Disable highlighting for sql files.
