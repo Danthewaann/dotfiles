@@ -6,7 +6,7 @@ return {
     require("toggleterm").setup({
       open_mapping = [[<c-t>]],
       shade_terminals = false,
-      direction = "horizontal",
+      direction = "vertical",
       auto_scroll = false,
       size = function(term)
         if term.direction == "horizontal" then
