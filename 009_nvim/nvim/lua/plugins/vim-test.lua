@@ -5,7 +5,7 @@ return {
   config = function()
     local utils = require("custom.utils")
 
-    vim.g["test#strategy"] = "tslime"
+    vim.g["test#strategy"] = "toggleterm"
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 1
 
