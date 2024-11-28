@@ -17,7 +17,7 @@ autocmd("TermOpen", {
       end
 
       vim.fn.setreg("+", table.concat(lines))
-    end, { buffer = 0 })
+    end, { buffer = 0, desc = "[Y]ank selection and remove line breaks" })
 
     -- For a running terminal emulator that contains file paths that I would like to
     -- jump to in another buffer within the same window
