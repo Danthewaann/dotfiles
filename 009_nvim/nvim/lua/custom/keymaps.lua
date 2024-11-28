@@ -67,20 +67,17 @@ vim.keymap.set("n", "<C-t>", function()
 end, { desc = "[T]oggle [Q]uickfix" })
 
 -- Window navigation
+vim.keymap.set({ "n", "i", "t" }, "<C-w><C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-w>h", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "i", "t" }, "<C-w><C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-w>j", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "i", "t" }, "<C-w><C-k>", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-w>k", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "i", "t" }, "<C-w><C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-w>l", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 
--- Tab navigation
-vim.keymap.set({ "n", "i", "t" }, "<C-w><C-h>", "<cmd>tabprevious<CR>", { desc = "Go to previous tab" })
-vim.keymap.set({ "n", "i", "t" }, "<C-w><C-l>", "<cmd>tabnext<CR>", { desc = "Go to next tab" })
-
 -- Close tab
-vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
-
--- Close all tabs except current one
-vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close all other tabs" })
+vim.keymap.set("n", "<C-q>", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
