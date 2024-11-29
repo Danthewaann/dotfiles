@@ -95,11 +95,19 @@ return {
         end, "[S]earch [S]ymbol")
         map("<leader>sf", function()
           local word = vim.fn.expand("<cword>")
-          require("telescope.builtin").lsp_workspace_symbols({
-            prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
-            query = word,
-            symbols = { "function", "method" }
-          })
+          local buf = vim.api.nvim_get_current_buf()
+          if vim.bo[buf].filetype == "python" then
+            require("telescope.builtin").grep_string({
+              prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
+              search = "def " .. word
+            })
+          else
+            require("telescope.builtin").lsp_workspace_symbols({
+              prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
+              query = word,
+              symbols = { "function", "method" }
+            })
+          end
         end, "[S]earch [F]unction Symbol")
 
         -- See `:help K` for why this keymap
