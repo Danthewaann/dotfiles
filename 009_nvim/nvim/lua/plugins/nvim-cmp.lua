@@ -170,7 +170,7 @@ return {
           keyword_length = 2,
           option = buffer_source_option
         },
-        { name = "dictionary", keyword_length = 2 },
+        { name = "dictionary", keyword_length = 2, max_item_count = 10 },
         {
           name = "path",
           option = {
