@@ -26,6 +26,7 @@ return {
     "hrsh7th/cmp-buffer",
     "kristijanhusak/vim-dadbod-completion",
     "uga-rosa/cmp-dictionary",
+    "f3fora/cmp-spell",
 
     -- Adds a number of user-friendly snippets
     "rafamadriz/friendly-snippets",
@@ -60,6 +61,7 @@ return {
     }
 
     local cmp = require("cmp")
+    local types = require("cmp.types")
     local luasnip = require("luasnip")
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup({})
@@ -175,8 +177,21 @@ return {
             get_cwd = function()
               return vim.fn.getcwd(-1, -1)
             end
-          }
+          },
+          max_item_count = 10,
         }
+      },
+      {
+        {
+          name = "spell",
+          option = {
+            keep_all_entries = true,
+            enable_in_context = function()
+              return require("cmp.config.context").in_treesitter_capture("spell")
+            end,
+          },
+          max_item_count = 10,
+        },
       }
     )
 
@@ -202,6 +217,7 @@ return {
             nvim_lua = "[Lua]",
             latex_symbols = "[LaTeX]",
             dictionary = "[Dictionary]",
+            spell = "[Spell]",
             ["vim-dadbod-completion"] = "[DB]"
           })[entry.source.name]
           return vim_item
