@@ -249,6 +249,12 @@ return {
 
             return nil
           end,
+          cmp.config.compare.length,
+          cmp.config.compare.scopes,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.score,
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
           cmp.config.compare.order,
           cmp.config.compare.recently_used,
           cmp.config.compare.locality,
