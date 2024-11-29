@@ -181,7 +181,7 @@ vim.keymap.set("n", "<C-g>", function()
     status, err = pcall(vim.cmd, "silent botright Git | resize-10")
   else
     ---@diagnostic disable-next-line: param-type-mismatch
-    status, err = pcall(vim.cmd, "silent vertical Git")
+    status, err = pcall(vim.cmd, "silent vertical Git | vertical resize-22")
   end
 
   if not status then
