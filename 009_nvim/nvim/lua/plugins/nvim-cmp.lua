@@ -97,6 +97,7 @@ return {
         ["<Tab>"] = { c = cmp.config.disable },
         ["<S-Tab>"] = { c = cmp.config.disable },
         ["<C-space>"] = { c = function() cmp.complete() end },
+        ["<C-q>"] = { c = cmp.mapping.abort() },
       }),
       matching = { disallow_symbol_nonprefix_matching = false },
       sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
@@ -131,6 +132,7 @@ return {
         ["<Tab>"] = { c = cmp.config.disable },
         ["<S-Tab>"] = { c = cmp.config.disable },
         ["<C-space>"] = { c = function() cmp.complete() end },
+        ["<C-q>"] = { c = cmp.mapping.abort() },
       }),
       sources = { { name = "buffer" } },
       sorting = {
@@ -166,6 +168,7 @@ return {
           keyword_length = 2,
           option = buffer_source_option
         },
+        { name = "dictionary", keyword_length = 2 },
         {
           name = "path",
           option = {
@@ -174,13 +177,10 @@ return {
             end
           }
         }
-      },
-      {
-        { name = "dictionary", keyword_length = 2, },
       }
     )
 
-    local current_source = "luasnip"
+    local current_source_group = 1
 
     ---@diagnostic disable-next-line: missing-fields
     cmp.setup({
@@ -220,6 +220,19 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
+          -- Show `buffer` source entries first over `dictionary` source entries
+          function(entry1, entry2)
+            local source1 = entry1.source.name
+            local source2 = entry2.source.name
+
+            if source1 == "buffer" and source2 == "dictionary" then
+              return true
+            elseif source1 == "dictionary" and source2 == "buffer" then
+              return false
+            end
+
+            return nil
+          end,
           cmp.config.compare.order,
           cmp.config.compare.recently_used,
           cmp.config.compare.locality,
@@ -241,46 +254,16 @@ return {
         ["<C-q>"] = cmp.mapping.abort(),
         ["<C-space>"] = cmp.mapping(function()
           if cmp.visible() then
-            if current_source == "luasnip" then
-              current_source = "nvim_lsp"
-              cmp.complete({ config = { sources = { { name = "nvim_lsp" } } } })
-              if not cmp.visible() then
-                current_source = "buffer"
-                cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
-              end
-            elseif current_source == "nvim_lsp" then
-              current_source = "buffer"
-              cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
-            elseif current_source == "buffer" then
-              current_source = "dictionary"
-              cmp.complete({ config = { sources = { { name = "dictionary", keyword_length = 2 } } } })
-              if not cmp.visible() then
-                current_source = "luasnip"
-                cmp.complete({ config = { sources = { { name = "luasnip" } } } })
-                if not cmp.visible() then
-                  current_source = "nvim_lsp"
-                  cmp.complete({ config = { sources = { { name = "nvim_lsp" } } } })
-                  if not cmp.visible() then
-                    current_source = "buffer"
-                    cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
-                  end
-                end
-              end
-            elseif current_source == "dictionary" then
-              current_source = "luasnip"
-              cmp.complete({ config = { sources = { { name = "luasnip" } } } })
-              if not cmp.visible() then
-                current_source = "nvim_lsp"
-                cmp.complete({ config = { sources = { { name = "nvim_lsp" } } } })
-                if not cmp.visible() then
-                  current_source = "buffer"
-                  cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option } } } })
-                end
-              end
+            if current_source_group == 1 then
+              current_source_group = 2
+              cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option }, { name = "dictionary", keyword_length = 2 } } } })
+            elseif current_source_group == 2 then
+              current_source_group = 1
+              cmp.complete({ config = { sources = { { name = "luasnip" }, { name = "nvim_lsp" } } } })
             end
           else
-            current_source = "luasnip"
-            cmp.complete({ config = { sources = { { name = "luasnip" } } } })
+            current_source_group = 1
+            cmp.complete({ config = { sources = { { name = "luasnip" }, { name = "nvim_lsp" } } } })
           end
         end),
         ["<C-l>"] = cmp.mapping(function(fallback)
