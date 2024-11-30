@@ -6,6 +6,11 @@ return {
     local filetype_folds = { go = "lsp" }
 
     require("ufo").setup({
+      close_fold_kinds_for_ft = {
+        go = { "imports" },
+        ---@diagnostic disable-next-line: assign-type-mismatch
+        python = { "import_from_statement", "import_statement" },
+      },
       open_fold_hl_timeout = 150,
       preview = {
         win_config = {
