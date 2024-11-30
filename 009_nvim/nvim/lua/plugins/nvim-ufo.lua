@@ -10,6 +10,10 @@ return {
         go = { "imports" },
         ---@diagnostic disable-next-line: assign-type-mismatch
         python = { "import_from_statement", "import_statement" },
+        ---@diagnostic disable-next-line: assign-type-mismatch
+        json = { "array" },
+        ---@diagnostic disable-next-line: assign-type-mismatch
+        yaml = { "block_mapping_pair", "block_sequence_item" }
       },
       open_fold_hl_timeout = 150,
       preview = {
