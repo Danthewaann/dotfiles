@@ -103,13 +103,6 @@ return {
       }),
       matching = { disallow_symbol_nonprefix_matching = false },
       sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-      sorting = {
-        priority_weight = 2,
-        comparators = {
-          cmp.config.compare.order,
-          cmp.config.compare.recently_used,
-        }
-      },
       completion = {
         autocomplete = false
       },
@@ -124,14 +117,6 @@ return {
         ["<C-q>"] = { c = cmp.mapping.abort() },
       }),
       sources = { { name = "buffer" } },
-      sorting = {
-        priority_weight = 2,
-        comparators = {
-          cmp.config.compare.order,
-          cmp.config.compare.recently_used,
-          cmp.config.compare.locality,
-        }
-      },
     })
 
     local buffer_source_option = {
