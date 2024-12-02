@@ -26,7 +26,19 @@ return {
             "<C-k>",
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
-          }
+          },
+          {
+            "n",
+            "<C-u>",
+            actions.scroll_view(-0.25),
+            { desc = "Scroll the view up" }
+          },
+          {
+            "n",
+            "<C-d>",
+            actions.scroll_view(0.25),
+            { desc = "Scroll the view down" }
+          },
         },
         file_history_panel = {
           {
@@ -40,7 +52,19 @@ return {
             "<C-k>",
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
-          }
+          },
+          {
+            "n",
+            "<C-u>",
+            actions.scroll_view(-0.25),
+            { desc = "Scroll the view up" }
+          },
+          {
+            "n",
+            "<C-d>",
+            actions.scroll_view(0.25),
+            { desc = "Scroll the view down" }
+          },
         },
         view = {
           {
