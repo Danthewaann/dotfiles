@@ -30,7 +30,7 @@ fi
 >&2 echo
 info "Updating with remote..."
 if ! git status -uno | grep -i "up to date"; then
-    if ! output=$(git -c color.ui=always pull 2>&1); then
+    if ! output=$(git -c color.ui=always pull --no-all 2>&1); then
         >&2 echo "$output"
         exit 1
     else
