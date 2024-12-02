@@ -172,7 +172,7 @@ vim.keymap.set("n", "<C-g>", function()
   end
 
   local status, err
-  status, err = pcall(vim.cmd, "silent Git")
+  status, err = pcall(vim.cmd, "silent topleft Git")
 
   if not status then
     utils.print(err)
