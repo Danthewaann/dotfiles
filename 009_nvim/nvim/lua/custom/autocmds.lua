@@ -55,7 +55,12 @@ autocmd("TermOpen", {
         if t[3] ~= "" then
           vim.cmd(":e +" .. t[3] .. " " .. t[1])
         elseif t[4] ~= "" then
-          vim.cmd(":e +/" .. t[4] .. " " .. t[1])
+          -- Split on `[` character as pytest data driven tests contain the sub test name that can't be searched
+          local s = {}
+          for str in string.gmatch(t[4], "([^\\[]*)") do
+            s[#s + 1] = str
+          end
+          vim.cmd(":e +/" .. s[1] .. " " .. t[1])
           vim.cmd(":nohlsearch")
         end
       end
