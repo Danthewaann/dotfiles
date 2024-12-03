@@ -177,7 +177,7 @@ vim.keymap.set("n", "<C-g>", function()
   if not status then
     utils.print(err)
   end
-end, { desc = "[G]it [G]et" })
+end, { desc = "Git status" })
 
 -- Git commands
 vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
