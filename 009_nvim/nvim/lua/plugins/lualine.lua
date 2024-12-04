@@ -90,7 +90,7 @@ return {
       -- Note:
       -- It can also be a function that returns
       -- the value of `max_length` dynamically.
-      mode = 2, -- 0: Shows tab_nr
+      mode = 1, -- 0: Shows tab_nr
       -- 1: Shows tab_name
       -- 2: Shows tab_nr + tab_name
 
@@ -210,7 +210,7 @@ return {
     local merged_config = base_config
     if no_winbar then
       merged_config.options.globalstatus = false
-      merged_config.options.disabled_filetypes = { "ministarter", "TelescopePrompt" }
+      merged_config.options.disabled_filetypes = { "TelescopePrompt" }
       merged_config.sections.lualine_b = { winbar_filename_config }
       merged_config.inactive_sections.lualine_c = { winbar_filename_config }
       merged_config.sections.lualine_x = { "searchcount", winbar_filetype_config, "progress" }
