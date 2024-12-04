@@ -21,6 +21,14 @@ return {
           ["<c-c><c-c>"] = false,
           ["<c-c><c-k>"] = false,
         },
+        rebase_editor = {
+          ["<c-c><c-c>"] = false,
+          ["<c-c><c-k>"] = false,
+        },
+        rebase_editor_I = {
+          ["<c-c><c-c>"] = false,
+          ["<c-c><c-k>"] = false,
+        },
         status = {
           ["S"] = "StageAll",
           ["<c-s>"] = false,
