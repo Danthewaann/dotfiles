@@ -64,3 +64,6 @@ vim.cmd("highlight! link DiagnosticFloatingInfo DiagnosticInfo")
 vim.cmd("highlight! link DiagnosticFloatingHint DiagnosticHint")
 vim.cmd("highlight! link DiagnosticFloatingOk DiagnosticOk")
 vim.cmd("highlight! link LazyBackdrop Normal")
+
+-- From: https://github.com/NeogitOrg/neogit/issues/1371
+vim.cmd("highlight! link NeogitWinSeparator WinSeparator")

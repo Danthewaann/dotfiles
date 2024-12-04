@@ -19,8 +19,6 @@ return {
       { "<leader>d_",  hidden = true },
       { "<leader>g",   group = "[G]it, [G]enerate, [G]lobal" },
       { "<leader>g_",  hidden = true },
-      { "<leader>gp",  group = "[G]it [P]ush" },
-      { "<leader>gp_", hidden = true },
       { "<leader>gs",  group = "[G]lobal [S]earch" },
       { "<leader>gs_", hidden = true },
       { "<leader>h",   group = "Git [H]unk" },

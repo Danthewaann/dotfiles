@@ -161,27 +161,7 @@ vim.keymap.set({ "n", "i", "x", "o" }, "<C-c>", "<Esc>", { desc = "Escape" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
--- Git status
-vim.keymap.set("n", "<C-g>", function()
-  -- If the git window is already open, close it
-  local fugitive_buf_no = vim.fn.bufnr("^fugitive:")
-  local buf_win_id = vim.fn.bufwinid(fugitive_buf_no)
-  if fugitive_buf_no >= 0 and buf_win_id >= 0 then
-    vim.api.nvim_win_close(buf_win_id, false)
-    return
-  end
-
-  local status, err
-  status, err = pcall(vim.cmd, "silent topleft Git")
-
-  if not status then
-    utils.print(err)
-  end
-end, { desc = "Git status" })
-
 -- Git commands
-vim.keymap.set("n", "<leader>gpp", "<cmd> Git push<CR>", { desc = "[G]it [P]ush" })
-vim.keymap.set("n", "<leader>gpf", "<cmd> Git push --force<CR>", { desc = "[G]it [P]ush [F]orce" })
 vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>", { silent = true, desc = "[G]it [Y]ank URL" })
 vim.keymap.set("n", "<leader>dt", "<cmd> Git difftool<CR>", { desc = "[D]iff [T]ool" })
 
