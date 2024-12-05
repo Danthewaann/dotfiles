@@ -15,6 +15,14 @@ return {
       buf_ui.load_menu_from_file(".nvim_buffers")
       utils.print("Loaded buffers list from .nvim_buffers")
     end, { desc = "[B]uffers [L]oad" })
+    vim.keymap.set("n", "<leader>bD", function()
+      local obj = vim.system({ "rm", "-f", ".nvim_buffers" }):wait()
+      if obj.code ~= 0 then
+        utils.print_err(obj.stderr)
+        return
+      end
+      utils.print("Deleted buffers list in .nvim_buffers")
+    end, { desc = "[B]uffers [D]elete" })
     vim.keymap.set("n", "<C-b>", buf_ui.toggle_quick_menu, { desc = "Toggle buffers list" })
     vim.keymap.set("n", "<C-l>", buf_ui.nav_next, { desc = "Next buffer" })
     vim.keymap.set("n", "<C-h>", buf_ui.nav_prev, { desc = "Previous buffer" })
