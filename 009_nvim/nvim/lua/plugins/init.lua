@@ -1,8 +1,4 @@
 return {
-  -- Git management
-  "tpope/vim-fugitive",
-  -- To support getting GitHub links
-  "tpope/vim-rhubarb",
   -- Add readline binds in insert mode
   "tpope/vim-rsi",
   -- Detect tabstop and shiftwidth automatically
