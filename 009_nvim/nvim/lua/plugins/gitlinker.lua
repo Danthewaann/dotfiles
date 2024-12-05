@@ -1,23 +1,32 @@
 return {
-  "ruifm/gitlinker.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  "linrongbin16/gitlinker.nvim",
   config = function()
-    local gitlinker = require("gitlinker")
-    gitlinker.setup({
-      opts = {
-        add_current_line_on_normal_mode = false
-      }
-    })
+    require("gitlinker").setup()
 
-    vim.keymap.set("n", "<leader>gy", function() gitlinker.get_buf_range_url("n") end,
-      { silent = true, desc = "[G]it [Y]ank URL" })
-    vim.keymap.set("v", "<leader>gy", function() gitlinker.get_buf_range_url("v") end,
-      { silent = true, desc = "[G]it [Y]ank URL" })
-    vim.keymap.set("n", "<leader>gY",
-      function() gitlinker.get_buf_range_url("n", { action_callback = gitlinker.actions.open_in_browser }) end,
-      { silent = true, desc = "[G]it open URL in browser" })
-    vim.keymap.set("v", "<leader>gY",
-      function() gitlinker.get_buf_range_url("v", { action_callback = gitlinker.actions.open_in_browser }) end,
-      { silent = true, desc = "[G]it open URL in browser" })
+    vim.keymap.set(
+      { "n", "v" },
+      "<leader>gy",
+      "<cmd>GitLink<cr>",
+      { silent = true, noremap = true, desc = "Yank git permlink" }
+    )
+    vim.keymap.set(
+      { "n", "v" },
+      "<leader>gY",
+      "<cmd>GitLink!<cr>",
+      { silent = true, noremap = true, desc = "Open git permlink" }
+    )
+
+    vim.keymap.set(
+      { "n", "v" },
+      "<leader>gb",
+      "<cmd>GitLink blame<cr>",
+      { silent = true, noremap = true, desc = "Yank git blame link" }
+    )
+    vim.keymap.set(
+      { "n", "v" },
+      "<leader>gB",
+      "<cmd>GitLink! blame<cr>",
+      { silent = true, noremap = true, desc = "Open git blame link" }
+    )
   end
 }
