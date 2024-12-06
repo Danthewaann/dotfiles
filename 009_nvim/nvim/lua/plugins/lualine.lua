@@ -112,16 +112,6 @@ return {
         modified = "",             -- Text to show when the file is modified.
       },
 
-      -- Only show the tabline if there is more than one tab
-      cond = function()
-        if vim.fn.tabpagenr("$") > 1 then
-          vim.cmd("set showtabline=2")
-          return true
-        end
-        vim.cmd("set showtabline=1")
-        return false
-      end,
-
       fmt = function(name, context)
         -- Show + if buffer is modified in tab
         local buflist = vim.fn.tabpagebuflist(context.tabnr)
@@ -186,6 +176,7 @@ return {
           "git",
         },
         globalstatus = true,
+        always_show_tabline = false,
         disabled_filetypes = {
           winbar = utils.ignore_filetypes,
         },
