@@ -2,8 +2,6 @@ return {
   "echasnovski/mini.starter",
   version = "*",
   config = function()
-    local utils = require("custom.utils")
-    local buf_ui = require("buffer_manager.ui")
     local starter = require("mini.starter")
     local header = function()
       local hour = tonumber(vim.fn.strftime("%H"))
@@ -19,20 +17,6 @@ return {
       autoopen = true,
       header = header,
       items = {
-        function()
-          if utils.file_exists(".nvim_buffers") then
-            return {
-              name = "Load managed buffers (.nvim_buffers)",
-              action = function()
-                buf_ui.load_menu_from_file(".nvim_buffers")
-                buf_ui.nav_file(1)
-              end,
-              section = "Buffers"
-            }
-          end
-
-          return {}
-        end,
         starter.sections.sessions(5, true),
         starter.sections.recent_files(20, true)
       },
