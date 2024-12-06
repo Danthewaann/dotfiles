@@ -11,7 +11,7 @@ return {
     local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
     local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
-    vim.treesitter.language.register('markdown', 'octo')
+    vim.treesitter.language.register("markdown", "octo")
 
     require("octo").setup({
       suppress_missing_scope = {
@@ -49,5 +49,40 @@ return {
         )
       end,
     })
+
+    vim.keymap.set("n", "<leader>gh", function()
+      local commands = {
+        ["1. Open PR"] = function()
+          local obj = vim.system({ "gh", "prv" }):wait()
+          if obj.code ~= 0 then
+            M.print_err(obj.stderr)
+            return
+          end
+        end,
+        ["2. Open Repository"] = function()
+          local obj = vim.system({ "gh", "rv" }):wait()
+          if obj.code ~= 0 then
+            M.print_err(obj.stderr)
+            return
+          end
+        end,
+      }
+
+      local keys = vim.tbl_keys(commands)
+      table.sort(keys)
+
+      vim.ui.select(
+        keys,
+        { prompt = "Github" },
+        function(choice)
+          for key, value in pairs(commands) do
+            if choice == key then
+              value()
+              return
+            end
+          end
+        end
+      )
+    end, { desc = "[G]it[H]ub commands" })
   end
 }
