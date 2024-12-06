@@ -12,6 +12,9 @@ return {
       disable_hint = true,
       -- Disables changing the buffer highlights based on where the cursor is.
       disable_context_highlighting = true,
+      commit_editor = {
+        kind = "vsplit",
+      },
       mappings = {
         commit_editor = {
           ["<c-c><c-c>"] = false,
