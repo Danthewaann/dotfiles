@@ -34,7 +34,7 @@ vim.keymap.set({ "v", "x", "o" }, "L", "g_", { desc = "Jump to last non-blank ch
 vim.keymap.set("v", "y", "ygv<Esc>")
 
 -- Go to alternative buffer
-vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true, desc = "Go to alternative buffer" })
+vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternative buffer" })
 
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Go half page down" })
