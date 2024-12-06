@@ -78,8 +78,12 @@ M.trim = function(s)
   return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
 end
 
-M.run_command_in_term = function(args)
-  vim.cmd(":Tmux " .. args)
+M.run_command_in_term = function(args, use_tmux)
+  if use_tmux then
+    vim.cmd(":Tmux " .. args)
+  else
+    require("toggleterm").exec(args)
+  end
 end
 
 M.run_job = function(command, args, success_message, callback)
