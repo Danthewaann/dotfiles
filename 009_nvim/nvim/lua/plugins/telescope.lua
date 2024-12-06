@@ -199,7 +199,7 @@ return {
     pcall(require("telescope").load_extension, "fzf")
 
     -- See `:help telescope.builtin`
-    vim.keymap.set("n", "<leader>?", function()
+    vim.keymap.set("n", "<leader>.", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
     end, { desc = "[?] Find recently opened files" })
     vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
