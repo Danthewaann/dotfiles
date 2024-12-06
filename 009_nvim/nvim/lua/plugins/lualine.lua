@@ -3,7 +3,6 @@ return {
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
   config = function()
-    local utils = require("custom.utils")
     -- Custom onedark theme
     -- From https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/onedark.lua
     local colors = {
@@ -56,33 +55,6 @@ return {
       },
     }
 
-    local function winbar_formatter(result)
-      -- Just output the terminal command if this is a terminal job
-      if string.match(result, "term:.*:.*") then
-        local t = {}
-        local i = 1
-        for str in string.gmatch(result, "([^:]*)") do
-          if i > 3 then
-            t[#t + 1] = str
-          end
-          i = i + 1
-        end
-        return string.gsub(string.sub(table.concat(t, ":"), 2, -2), ":::", "::")
-      elseif string.match(result, "t//.*:.*") then
-        local t = {}
-        local i = 1
-        for str in string.gmatch(result, "([^:]*)") do
-          if i > 5 then
-            t[#t + 1] = str
-          end
-          i = i + 1
-        end
-        -- Remove the term path and port to only include the make command in the tabline
-        return string.gsub(string.sub(table.concat(t, ":", 3), 1, -2), ":::", "::")
-      end
-      return result
-    end
-
     local tabs_config = {
       "tabs",
       tab_max_length = 40,        -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
@@ -123,7 +95,7 @@ return {
       end
     }
 
-    local winbar_filename_config = {
+    local filename_config = {
       "filename",
       file_status = true,    -- Displays file status (readonly status, modified status)
       newfile_status = true, -- Display new file status (new file means no write after created)
@@ -132,7 +104,6 @@ return {
       -- 2: Absolute path
       -- 3: Absolute path, with tilde as the home directory
       -- 4: Filename and parent dir, with tilde as the home directory
-      fmt = winbar_formatter,
       shorting_target = 40, -- Shortens path to leave 40 spaces in the window
       -- for other components. (terrible name, any suggestions?)
       symbols = {
@@ -150,43 +121,22 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
-    local git_extension = {
-      sections = {
-        lualine_a = { function()
-          return "Git Status"
-        end }
-      },
-      inactive_sections = {
-        lualine_c = { function()
-          return "Git Status"
-        end }
-      },
-      filetypes = { "fugitive" }
-    }
-
-    local no_winbar = true
-    local base_config = {
+    require("lualine").setup({
       options = {
         theme = custom_theme,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
-        ignore_focus = {
-          "dbui",
-          "fugitiveblame",
-          "git",
-        },
-        globalstatus = true,
+        ignore_focus = { "dbui", "git" },
+        globalstatus = false,
         always_show_tabline = false,
-        disabled_filetypes = {
-          winbar = utils.ignore_filetypes,
-        },
+        disabled_filetypes = { statusline = { "TelescopePrompt" } },
       },
-      extensions = { "toggleterm", "man", "quickfix", git_extension },
+      extensions = { "toggleterm", "man", "quickfix" },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = {},
+        lualine_b = { filename_config },
         lualine_c = {},
-        lualine_x = {},
+        lualine_x = { "searchcount", winbar_filetype_config, "progress" },
         lualine_y = {},
         lualine_z = { "location" },
       },
@@ -194,36 +144,8 @@ return {
         lualine_a = { tabs_config },
       },
       inactive_sections = {
-        lualine_c = {},
+        lualine_c = { filename_config },
       },
-    }
-
-    local merged_config = base_config
-    if no_winbar then
-      merged_config.options.globalstatus = false
-      merged_config.options.disabled_filetypes = { "TelescopePrompt" }
-      merged_config.sections.lualine_b = { winbar_filename_config }
-      merged_config.inactive_sections.lualine_c = { winbar_filename_config }
-      merged_config.sections.lualine_x = { "searchcount", winbar_filetype_config, "progress" }
-    else
-      merged_config.winbar = {
-        lualine_a = {},
-        lualine_b = { winbar_filetype_config },
-        lualine_c = { winbar_filename_config, "diagnostics" },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      }
-      merged_config.inactive_winbar = {
-        lualine_a = {},
-        lualine_b = { winbar_filename_config, "diagnostics" },
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      }
-    end
-
-    require("lualine").setup(merged_config)
+    })
   end,
 }
