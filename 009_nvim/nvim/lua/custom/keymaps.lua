@@ -1,8 +1,5 @@
 local utils = require("custom.utils")
 
--- Clear highlighting
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-
 -- Treat <space> as a noop
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true, desc = "No-op" })
 

@@ -19,6 +19,7 @@
   "gitlinker.nvim": { "branch": "master", "commit": "df0c4e342742812186f87e32caf82b3e5e288a84" },
   "gitsigns.nvim": { "branch": "main", "commit": "5f808b5e4fef30bd8aca1b803b4e555da07fc412" },
   "gx.nvim": { "branch": "main", "commit": "b01db725a001e4215f363159fc04727f6fde0a1c" },
+  "hlsearch.nvim": { "branch": "main", "commit": "fdeb60b890d15d9194e8600042e5232ef8c29b0e" },
   "icon-picker.nvim": { "branch": "master", "commit": "3ee9a0ea9feeef08ae35e40c8be6a2fa2c20f2d3" },
   "indent-blankline.nvim": { "branch": "master", "commit": "259357fa4097e232730341fa60988087d189193a" },
   "lazy.nvim": { "branch": "main", "commit": "56ead98e05bb37a4ec28930a54d836d033cf00f2" },
