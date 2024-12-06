@@ -179,22 +179,6 @@ vim.keymap.set("c", "<S-Tab>", "<Nop>")
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
-  local function get_ticket_url()
-    local ticket_number = vim.fn.trim(vim.fn.system("get-ticket-number"))
-    if vim.v.shell_error ~= 0 then
-      M.print_err(ticket_number)
-      return nil
-    end
-
-    local base_url = vim.fn.expand("$BASE_TICKETS_URL")
-    if base_url == "$BASE_TICKETS_URL" then
-      M.print_err("BASE_TICKETS_URL environment variable is not set!")
-      return nil
-    end
-
-    return base_url .. ticket_number
-  end
-
   local commands = {
     ["cj  (create new journal entry)"] = function()
       local template
@@ -241,28 +225,6 @@ vim.keymap.set("n", "<leader>p", function()
     end,
     ["ss  (save session)"] = function()
       MiniSessions.write("Session.vim")
-    end,
-    ["ti  (open ticket)"] = function()
-      local ticket_url = get_ticket_url()
-      if ticket_url == nil then
-        return
-      end
-
-      vim.ui.open(ticket_url)
-    end,
-    ["yt  (yank ticket)"] = function()
-      local ticket_url = get_ticket_url()
-      if ticket_url == nil then
-        return
-      end
-
-      local cb_opts = vim.opt.clipboard:get()
-      if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", ticket_url) end
-      if vim.tbl_contains(cb_opts, "unnamedplus") then
-        vim.fn.setreg("+", ticket_url)
-      end
-      vim.fn.setreg("", ticket_url)
-      utils.print("Copied " .. ticket_url .. " to clipboard")
     end,
   }
 
