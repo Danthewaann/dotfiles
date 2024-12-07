@@ -16,7 +16,7 @@ return {
       },
       quickfix = {
         open = function()
-          vim.cmd("Trouble qflist")
+          vim.cmd("botright copen")
         end,
       },
       output = {

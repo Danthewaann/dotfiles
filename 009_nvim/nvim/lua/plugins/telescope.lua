@@ -16,7 +16,6 @@ return {
     }
   },
   config = function()
-    local trouble = require("trouble.sources.telescope")
     local dropdown_layout_config = {
       height = 0.6,
       width = 0.6
@@ -57,7 +56,6 @@ return {
         mappings = {
           ["i"] = {
             ["<C-space>"] = "to_fuzzy_refine",
-            ["<C-e>"] = trouble.open,
             ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
           }
         }

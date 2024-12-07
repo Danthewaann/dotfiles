@@ -35,8 +35,6 @@ return {
       { "<leader>t_",  hidden = true },
       { "<leader>v",   group = "[V]imspector" },
       { "<leader>v_",  hidden = true },
-      { "<leader>x",   group = "Lists (Trouble)" },
-      { "<leader>x_",  hidden = true },
     })
 
     require("which-key").add({

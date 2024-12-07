@@ -63,6 +63,31 @@ vim.keymap.set("n", "<C-e>", function()
   vim.cmd "botright copen"
 end, { desc = "[T]oggle [Q]uickfix" })
 
+
+-- Quickfix navigation
+vim.keymap.set("n", "<C-j>", function()
+  local ok, _ = pcall(vim.cmd, "cnext")
+  if not ok then
+    ok, _ = pcall(vim.cmd, "cfirst")
+    if ok then
+      vim.cmd.normal("zz")
+    end
+  else
+    vim.cmd.normal("zz")
+  end
+end, { desc = "Jump to next qf item" })
+vim.keymap.set("n", "<C-k>", function()
+  local ok, _ = pcall(vim.cmd, "cprevious")
+  if not ok then
+    ok, _ = pcall(vim.cmd, "clast")
+    if ok then
+      vim.cmd.normal("zz")
+    end
+  else
+    vim.cmd.normal("zz")
+  end
+end, { desc = "Jump to previous qf item" })
+
 -- Window navigation
 vim.keymap.set({ "n", "i", "t" }, "<C-w>h", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
 vim.keymap.set({ "n", "i", "t" }, "<C-w>j", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })

@@ -133,7 +133,6 @@ M.ignore_filetypes = {
   "spectre_panel",
   "dbout",
   "oil",
-  "Trouble",
   "VimspectorPrompt",
   "vimspector-disassembly",
 }
