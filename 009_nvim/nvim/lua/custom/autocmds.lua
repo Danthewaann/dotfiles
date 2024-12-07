@@ -188,3 +188,14 @@ autocmd("BufReadPost", {
     end
   end,
 })
+
+-- Quickfix binds
+augroup("quickfix", { clear = true })
+autocmd("FileType", {
+  group = "quickfix",
+  pattern = "qf",
+  callback = function()
+    vim.keymap.set("n", "<C-h>", "<cmd> colder<CR>", { buffer = 0, desc = "Open previous quickfix list" })
+    vim.keymap.set("n", "<C-l>", "<cmd> cnewer<CR>", { buffer = 0, desc = "Open next quickfix list" })
+  end,
+})
