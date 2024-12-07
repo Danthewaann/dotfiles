@@ -16,7 +16,9 @@ return {
       },
       quickfix = {
         open = function()
-          vim.cmd("botright copen")
+          vim.schedule(function()
+            vim.cmd("botright copen")
+          end)
         end,
       },
       output = {
