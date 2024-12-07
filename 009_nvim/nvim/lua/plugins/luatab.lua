@@ -51,6 +51,14 @@ return {
           icon, devhl = devicons.get_icon("git")
         elseif filetype == "vimwiki" then
           icon, devhl = devicons.get_icon("markdown")
+        elseif filetype == "dbui" then
+          icon, devhl = devicons.get_icon("db")
+        elseif filetype == "mysql" then
+          icon, devhl = devicons.get_icon("sql")
+        elseif filetype == "pgsql" then
+          icon, devhl = devicons.get_icon("sql")
+        elseif filetype == "sql" then
+          icon, devhl = devicons.get_icon("sql")
         elseif buftype == "terminal" then
           icon, devhl = devicons.get_icon("zsh")
         else
