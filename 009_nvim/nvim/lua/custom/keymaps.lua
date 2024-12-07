@@ -76,7 +76,7 @@ vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current windo
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
 -- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<ESC><ESC>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 
 -- Tab navigation
 vim.keymap.set({ "n", "i", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
