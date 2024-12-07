@@ -148,7 +148,7 @@ return {
 
     local default_cmp_sources = cmp.config.sources(
       { { name = "lazydev" }, },
-      { { name = "luasnip" }, { name = "nvim_lsp" } },
+      { { name = "luasnip" }, { name = "nvim_lsp" }, { name = "nvim_lsp_signature_help" } },
       {
         {
           name = "buffer",
@@ -320,21 +320,6 @@ return {
         end, { "i", "s" }),
       }),
       sources = default_cmp_sources
-    })
-
-    -- Disable `nvim_lsp_signature_help` in python files as it isn't good with python
-    vim.api.nvim_create_autocmd("BufRead", {
-      callback = function(args)
-        local filetype = vim.bo[args.buf].filetype
-
-        if filetype ~= "python" then
-          local sources = default_cmp_sources
-          sources[#sources + 1] = { name = "nvim_lsp_signature_help" }
-          cmp.setup.buffer {
-            sources = sources
-          }
-        end
-      end
     })
 
     require("cmp_dictionary").setup({
