@@ -1,6 +1,7 @@
 return {
   "stevearc/quicker.nvim",
   event = "VeryLazy",
+  branch = "stevearc-virt-text",
   config = function()
     require("quicker").setup({
       opts = {
