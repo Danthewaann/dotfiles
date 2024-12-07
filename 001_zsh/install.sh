@@ -37,8 +37,3 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autosuggestions ]]; then
     run_command "installing zsh-autosuggestions" \
         "git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
-
-if [[ ! -d $ZSH_CUSTOM/plugins/fast-syntax-highlighting ]]; then
-    run_command "installing fast-syntax-highlighting" \
-        "git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting"
-fi
