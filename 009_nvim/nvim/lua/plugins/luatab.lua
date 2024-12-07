@@ -30,7 +30,7 @@ return {
         elseif file == "" then
           return "[No Name]"
         else
-          return vim.fn.fnamemodify(file, ":p:~:.")
+          return vim.fn.fnamemodify(file, ":p:~:t")
         end
       end,
       devicon = function(bufnr, isSelected)
