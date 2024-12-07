@@ -42,8 +42,3 @@ if [[ ! -d $ZSH_CUSTOM/plugins/fast-syntax-highlighting ]]; then
     run_command "installing fast-syntax-highlighting" \
         "git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting"
 fi
-
-if [[ ! -d $ZSH_CUSTOM/plugins/zsh-git-prompt ]]; then
-    run_command "installing zsh-git-prompt" \
-        "git clone https://github.com/dcrblack/zsh-git-prompt $ZSH_CUSTOM/plugins/zsh-git-prompt"
-fi

@@ -70,7 +70,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-git-prompt zsh-autosuggestions virtualenv fast-syntax-highlighting)
+plugins=(git zsh-autosuggestions virtualenv fast-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -191,11 +191,6 @@ function b64decode () {
 function uuid4 () {
     python -c "import uuid; print(str(uuid.uuid4()))"
 }
-
-# Custom prompt based on the amuse theme
-# https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
-# Must use Powerline font, for \uE0A0 to render.
-ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}\uE0A0 "
 
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
