@@ -82,7 +82,7 @@ M.run_command_in_term = function(args, use_tmux)
   if use_tmux then
     vim.cmd(":Tmux " .. args)
   else
-    require("toggleterm").exec(args)
+    require("toggleterm").exec(args, nil, nil, nil, nil, nil, false, true)
   end
 end
 

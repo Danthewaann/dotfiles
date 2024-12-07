@@ -6,7 +6,7 @@ return {
     require("toggleterm").setup({
       open_mapping = [[<c-t>]],
       shade_terminals = false,
-      direction = "horizontal",
+      direction = "tab",
       auto_scroll = false,
       persist_size = false,
       size = function(term)

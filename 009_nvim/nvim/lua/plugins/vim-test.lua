@@ -5,7 +5,12 @@ return {
   config = function()
     local utils = require("custom.utils")
 
-    vim.g["test#strategy"] = "toggleterm"
+    local function custom_toggleterm_strategy(cmd)
+      require("toggleterm").exec(cmd, nil, nil, nil, nil, nil, false, true)
+    end
+
+    vim.g["test#custom_strategies"] = { custom_toggleterm = custom_toggleterm_strategy }
+    vim.g["test#strategy"] = "custom_toggleterm"
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 1
 

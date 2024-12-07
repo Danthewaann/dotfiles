@@ -43,8 +43,8 @@ autocmd("TermOpen", {
         return
       end
 
-      -- Jump back to the previous buffer
-      vim.cmd(":wincmd p")
+      -- Jump back to the first tab
+      vim.cmd(":tabfirst")
 
       -- If a line number was found, open the file and jump to that line number.
       -- If a name was found, just to that name in the file,
@@ -61,7 +61,6 @@ autocmd("TermOpen", {
             s[#s + 1] = str
           end
           vim.cmd(":e +/" .. s[1] .. " " .. t[1])
-          vim.cmd(":nohlsearch")
         end
       end
     end, { buffer = 0, silent = true })
