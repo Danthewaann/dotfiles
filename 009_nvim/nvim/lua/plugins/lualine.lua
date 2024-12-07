@@ -55,46 +55,6 @@ return {
       },
     }
 
-    local tabs_config = {
-      "tabs",
-      tab_max_length = 40,        -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
-      max_length = vim.o.columns, -- Maximum width of tabs component.
-      -- Note:
-      -- It can also be a function that returns
-      -- the value of `max_length` dynamically.
-      mode = 2, -- 0: Shows tab_nr
-      -- 1: Shows tab_name
-      -- 2: Shows tab_nr + tab_name
-
-      path = 1, -- 0: just shows the filename
-      -- 1: shows the relative path and shorten $HOME to ~
-      -- 2: shows the full path
-      -- 3: shows the full path and shorten $HOME to ~
-      tabs_color = {
-        active = "lualine_a_normal",
-        inactive = "lualine_c_inactive",
-      },
-
-      -- Automatically updates active tab color to match color of other components (will be overidden if buffers_color is set)
-      use_mode_colors = false,
-      component_separators = { left = "", right = "" },
-
-      show_modified_status = true, -- Shows a symbol next to the tab name if the file has been modified.
-      symbols = {
-        modified = "",             -- Text to show when the file is modified.
-      },
-
-      fmt = function(name, context)
-        -- Show + if buffer is modified in tab
-        local buflist = vim.fn.tabpagebuflist(context.tabnr)
-        local winnr = vim.fn.tabpagewinnr(context.tabnr)
-        local bufnr = buflist[winnr]
-        local mod = vim.fn.getbufvar(bufnr, "&mod")
-
-        return name .. (mod == 1 and " +" or "")
-      end
-    }
-
     local filename_config = {
       "filename",
       file_status = true,    -- Displays file status (readonly status, modified status)
@@ -114,7 +74,7 @@ return {
       },
     }
 
-    local winbar_filetype_config = {
+    local filetype_config = {
       "filetype",
       colored = true,             -- Displays filetype icon in color if set to true
       icon_only = false,          -- Display only an icon for filetype
@@ -136,12 +96,9 @@ return {
         lualine_a = { "mode" },
         lualine_b = { filename_config },
         lualine_c = {},
-        lualine_x = { "searchcount", winbar_filetype_config, "progress" },
+        lualine_x = { "searchcount", filetype_config, "progress" },
         lualine_y = {},
         lualine_z = { "location" },
-      },
-      tabline = {
-        lualine_a = { tabs_config },
       },
       inactive_sections = {
         lualine_c = { filename_config },
