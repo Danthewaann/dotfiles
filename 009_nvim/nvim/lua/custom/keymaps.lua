@@ -22,7 +22,7 @@ vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { desc = "Join with line below" })
 
 -- Re-select last pasted text
-vim.keymap.set("n", "gp", "`[v`]", { desc = "Re-select last pasted text" })
+vim.keymap.set("n", "gy", "`[v`]", { desc = "Re-select last pasted text" })
 
 -- Go to the start and end of the line
 vim.keymap.set("n", "H", "0", { desc = "Jump to start of line" })
