@@ -98,7 +98,7 @@ vim.keymap.set({ "n", "i", "t" }, "<C-w>l", "<cmd>NvimTmuxNavigateRight<CR>", { 
 vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
 
 -- Close tab
-vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
+vim.keymap.set({ "n", "i", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
