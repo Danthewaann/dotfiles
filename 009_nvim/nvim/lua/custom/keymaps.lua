@@ -258,6 +258,7 @@ vim.keymap.set("n", "<leader>p", function()
       utils.print("Copied " .. ticket_url .. " to clipboard")
     end,
     ["5. [Mini] Save session"] = function()
+      ---@diagnostic disable-next-line: undefined-global
       MiniSessions.write("Session.vim")
     end,
     ["6. [Buffer] Delete all other buffers"] = function()
