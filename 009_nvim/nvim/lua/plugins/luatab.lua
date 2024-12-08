@@ -3,6 +3,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("luatab").setup({
+      separator = function() return "" end,
       title = function(bufnr)
         local file = vim.fn.bufname(bufnr)
         local buftype = vim.fn.getbufvar(bufnr, "&buftype")
