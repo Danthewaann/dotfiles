@@ -66,25 +66,25 @@ end, { desc = "[T]oggle [Q]uickfix" })
 
 -- Quickfix navigation
 vim.keymap.set("n", "<C-j>", function()
-  local ok, _ = pcall(vim.cmd, "cnext")
+  local ok, _ = pcall(function() vim.cmd(":cnext") end)
   if not ok then
-    ok, _ = pcall(vim.cmd, "cfirst")
+    ok, _ = pcall(function() vim.cmd(":cfirst") end)
     if ok then
-      vim.cmd.normal("zz")
+      vim.fn.feedkeys("zz")
     end
   else
-    vim.cmd.normal("zz")
+    vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to next qf item" })
 vim.keymap.set("n", "<C-k>", function()
-  local ok, _ = pcall(vim.cmd, "cprevious")
+  local ok, _ = pcall(function() vim.cmd(":cprevious") end)
   if not ok then
-    ok, _ = pcall(vim.cmd, "clast")
+    ok, _ = pcall(function() vim.cmd(":clast") end)
     if ok then
-      vim.cmd.normal("zz")
+      vim.fn.feedkeys("zz")
     end
   else
-    vim.cmd.normal("zz")
+    vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to previous qf item" })
 
