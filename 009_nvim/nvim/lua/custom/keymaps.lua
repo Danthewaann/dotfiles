@@ -18,8 +18,6 @@ vim.keymap.set("v", "<", "<gv", { desc = "Decrease indent" })
 -- Keep the cursor in the same place when joining lines
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 
--- Map enter to break the current line
-vim.keymap.set("n", "<CR>", "i<CR><ESC>k$", { desc = "Add linebreak" })
 
 -- Re-select last pasted text
 vim.keymap.set("n", "gp", "`[v`]", { desc = "Re-select last pasted text" })
