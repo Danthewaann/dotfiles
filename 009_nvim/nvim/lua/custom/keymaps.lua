@@ -204,8 +204,73 @@ vim.keymap.set("c", "<S-Tab>", "<Nop>")
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
+  local function get_ticket_url()
+    local ticket_number = vim.fn.trim(vim.fn.system("get-ticket-number"))
+    if vim.v.shell_error ~= 0 then
+      M.print_err(ticket_number)
+      return nil
+    end
+
+    local base_url = vim.fn.expand("$BASE_TICKETS_URL")
+    if base_url == "$BASE_TICKETS_URL" then
+      M.print_err("BASE_TICKETS_URL environment variable is not set!")
+      return nil
+    end
+
+    return base_url .. ticket_number
+  end
+
   local commands = {
-    ["cj  (create new journal entry)"] = function()
+    ["1. [GitHub] Open PR in browser"] = function()
+      local obj = vim.system({ "gh", "prv" }):wait()
+      if obj.code ~= 0 then
+        M.print_err(obj.stderr)
+        return
+      end
+    end,
+    ["2. [GitHub] Open repository in browser"] = function()
+      local obj = vim.system({ "gh", "rv" }):wait()
+      if obj.code ~= 0 then
+        M.print_err(obj.stderr)
+        return
+      end
+    end,
+    ["3. [Ticket] Open in browser"] = function()
+      local ticket_url = get_ticket_url()
+      if ticket_url == nil then
+        return
+      end
+
+      vim.ui.open(ticket_url)
+    end,
+    ["4. [Ticket] Yank to clipboard"] = function()
+      local ticket_url = get_ticket_url()
+      if ticket_url == nil then
+        return
+      end
+
+      local cb_opts = vim.opt.clipboard:get()
+      if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", ticket_url) end
+      if vim.tbl_contains(cb_opts, "unnamedplus") then
+        vim.fn.setreg("+", ticket_url)
+      end
+      vim.fn.setreg("", ticket_url)
+      utils.print("Copied " .. ticket_url .. " to clipboard")
+    end,
+    ["5. [Mini] Save session"] = function()
+      MiniSessions.write("Session.vim")
+    end,
+    ["6. [Buffer] Delete all other buffers"] = function()
+      vim.cmd("%bd|e#|bd#")
+    end,
+    ["7. [File] Make current file executable"] = function()
+      utils.run_job(
+        "chmod",
+        { "+x", vim.fn.expand("%") },
+        "Marked " .. vim.fn.expand("%") .. " as executable"
+      )
+    end,
+    ["8. [Journal] Create new entry"] = function()
       local template
       local workspace = os.getenv("TMUX_CURRENT_DIR")
       if workspace ~= nil and utils.file_exists(workspace) then
@@ -237,19 +302,6 @@ vim.keymap.set("n", "<leader>p", function()
           vim.cmd(":e " .. journal_entry)
         end)
       end)
-    end,
-    ["da  (delete all other buffers)"] = function()
-      vim.cmd("%bd|e#|bd#")
-    end,
-    ["fx  (make file executable)"] = function()
-      utils.run_job(
-        "chmod",
-        { "+x", vim.fn.expand("%") },
-        "Marked " .. vim.fn.expand("%") .. " as executable"
-      )
-    end,
-    ["ss  (save session)"] = function()
-      MiniSessions.write("Session.vim")
     end,
   }
 
