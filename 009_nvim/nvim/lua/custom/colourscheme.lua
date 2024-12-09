@@ -31,8 +31,22 @@ require("onedark").setup({
   highlights = {
     ["@variable"] = { fg = "#e55561" },
     ["@lsp.type.variable"] = { fg = "#e55561" },
-    ["@variable.member "] = { fg = "#e55561" },
   },
+})
+
+-- Override certain LSP semantic tokens with treesitter capture groups
+vim.api.nvim_create_autocmd("LspTokenUpdate", {
+  callback = function(args)
+    local token = args.data.token
+    if token.type == "variable" then
+      for _, value in ipairs(vim.treesitter.get_captures_at_pos(args.buf, token.line, token.start_col)) do
+        if value.capture == "variable.member" then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "@variable.member")
+          break
+        end
+      end
+    end
+  end,
 })
 
 require("onedark").load()
