@@ -48,7 +48,7 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
           capture = "@constant"
           break
         end
-      elseif token.type == "function" then
+      elseif token.type == "method" then
         if value.capture == "constructor" then
           capture = "@constructor"
           break
