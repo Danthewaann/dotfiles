@@ -20,33 +20,10 @@ issuesSections:
 defaults:
   preview:
     open: true
-    width: 90
+    width: 100
   prsLimit: 30
   issuesLimit: 10
   view: prs
-  layout:
-    prs:
-      updatedAt:
-        width: 7
-      repo:
-        width: 40
-      author:
-        width: 30
-      assignees:
-        width: 20
-      base:
-        width: 15
-      lines:
-        width: 20
-    issues:
-      updatedAt:
-        width: 7
-      repo:
-        width: 40
-      creator:
-        width: 30
-      assignees:
-        width: 20
   refetchIntervalMinutes: 30
 repoPaths:
   default_path: ~/Workspace
@@ -83,8 +60,8 @@ confirmQuit: true
 theme:
   ui:
     table:
-      compact: true
-      showSeparator: false
+      compact: false
+      showSeparator: true
   colors:
     text:
       primary: "#a0a8b7"
