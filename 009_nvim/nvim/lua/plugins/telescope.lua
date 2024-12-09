@@ -199,7 +199,7 @@ return {
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<leader>.", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
-    end, { desc = "[?] Find recently opened files" })
+    end, { desc = "[.] Find recently opened files" })
     vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
     vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
       { desc = "[/] Fuzzily search in current buffer" }
@@ -210,6 +210,12 @@ return {
         prompt_title = "Live Grep in Open Files",
       }
     end, { desc = "[S]earch [/] in Open Files" })
+    vim.keymap.set("n", "<leader>s.", function()
+      require("telescope.builtin").find_files {
+        cwd = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"),
+        prompt_title = "Find Files (Current Directory)"
+      }
+    end, { desc = "[S]earch [.] files in current directory" })
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
     vim.keymap.set("n", "<C-f>", require("telescope.builtin").git_files, { desc = "Search Git Files" })
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
