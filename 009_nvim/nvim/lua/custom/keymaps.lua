@@ -207,13 +207,13 @@ vim.keymap.set("n", "<leader>p", function()
   local function get_ticket_url()
     local ticket_number = vim.fn.trim(vim.fn.system("get-ticket-number"))
     if vim.v.shell_error ~= 0 then
-      M.print_err(ticket_number)
+      utils.print_err(ticket_number)
       return nil
     end
 
     local base_url = vim.fn.expand("$BASE_TICKETS_URL")
     if base_url == "$BASE_TICKETS_URL" then
-      M.print_err("BASE_TICKETS_URL environment variable is not set!")
+      utils.print_err("BASE_TICKETS_URL environment variable is not set!")
       return nil
     end
 
@@ -224,14 +224,14 @@ vim.keymap.set("n", "<leader>p", function()
     ["1. [GitHub] Open PR in browser"] = function()
       local obj = vim.system({ "gh", "prv" }):wait()
       if obj.code ~= 0 then
-        M.print_err(obj.stderr)
+        utils.print_err(obj.stderr)
         return
       end
     end,
     ["2. [GitHub] Open repository in browser"] = function()
       local obj = vim.system({ "gh", "rv" }):wait()
       if obj.code ~= 0 then
-        M.print_err(obj.stderr)
+        utils.print_err(obj.stderr)
         return
       end
     end,
@@ -297,7 +297,7 @@ vim.keymap.set("n", "<leader>p", function()
           local journal_entry = workspace .. "/notes/journal/" .. year .. "/week-" .. file_week .. ".md"
           local obj = vim.system({ "create-journal-entry", template, journal_entry, year, week }, { text = true }):wait()
           if obj.code ~= 0 then
-            M.print_err(obj.stderr)
+            utils.print_err(obj.stderr)
             return
           end
           vim.cmd(":e " .. journal_entry)
