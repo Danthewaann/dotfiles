@@ -234,15 +234,27 @@ return {
 
             return nil
           end,
-          cmp.config.compare.length,
-          cmp.config.compare.scopes,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.score,
+          -- Filter for keyword arguments for python
+          function(entry1, entry2)
+            local entry1_is_keyword_arg = string.sub(entry1.completion_item.label, -1) == "="
+            local entry2_is_keyword_arg = string.sub(entry2.completion_item.label, -1) == "="
+            if entry1_is_keyword_arg and entry2_is_keyword_arg then
+              return nil
+            elseif entry1_is_keyword_arg then
+              return true
+            elseif entry2_is_keyword_arg then
+              return false
+            end
+            return nil
+          end,
           cmp.config.compare.offset,
           cmp.config.compare.exact,
-          cmp.config.compare.order,
+          cmp.config.compare.score,
           cmp.config.compare.recently_used,
           cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
         }
       },
       snippet = {
