@@ -18,10 +18,19 @@ return {
     { "j-hui/fidget.nvim",    opts = {} },
     {
       "rachartier/tiny-inline-diagnostic.nvim",
-      event = "VeryLazy", -- Or `LspAttach`
-      priority = 1000,    -- needs to be loaded in first
+      event = "LspAttach", -- Or `LspAttach`
+      priority = 1000,     -- needs to be loaded in first
       config = function()
-        require("tiny-inline-diagnostic").setup()
+        require("tiny-inline-diagnostic").setup({
+          options = {
+            throttle = 0,
+            use_icons_from_diagnostic = true,
+            virt_texts = {
+              -- Set to higher priority than symbol-usage.nvim
+              priority = 10000,
+            },
+          },
+        })
       end
     },
     {
