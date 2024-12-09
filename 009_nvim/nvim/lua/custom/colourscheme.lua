@@ -40,15 +40,19 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
     local token = args.data.token
     local capture = nil
     for _, value in ipairs(vim.treesitter.get_captures_at_pos(args.buf, token.line, token.start_col)) do
-      if value.capture == "variable.member" then
-        capture = "@variable.member"
-        break
-      elseif value.capture == "constant" then
-        capture = "@constant"
-        break
-      elseif value.capture == "constructor" then
-        capture = "@constructor"
-        break
+      if token.type == "variable" then
+        if value.capture == "variable.member" then
+          capture = "@variable.member"
+          break
+        elseif value.capture == "constant" then
+          capture = "@constant"
+          break
+        end
+      elseif token.type == "function" then
+        if value.capture == "constructor" then
+          capture = "@constructor"
+          break
+        end
       end
     end
     if capture ~= nil then
