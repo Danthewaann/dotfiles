@@ -42,6 +42,7 @@ return {
 
     local SymbolKind = vim.lsp.protocol.SymbolKind
     require("symbol-usage").setup({
+      request_pending_text = false,
       disable = {
         lsp = {}
       },
