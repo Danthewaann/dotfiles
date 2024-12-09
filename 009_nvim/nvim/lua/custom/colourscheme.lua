@@ -43,6 +43,9 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
         if value.capture == "variable.member" then
           vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "@variable.member")
           break
+        elseif value.capture == "constant" then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "@constant")
+          break
         end
       end
     end
