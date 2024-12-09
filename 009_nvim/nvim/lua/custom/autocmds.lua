@@ -119,10 +119,15 @@ augroup("markdown", { clear = true })
 autocmd("FileType", {
   group = "markdown",
   pattern = "markdown",
-  -- Autowrap text in markdown files
-  callback = function()
-    local textwidth = 200
-    vim.cmd("setlocal textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
+  callback = function(event)
+    -- Disable `render-markdown` in LSP hover documentation windows
+    if vim.bo[event.buf].buftype == "nofile" then
+      pcall(require("render-markdown").disable)
+    else
+      -- Autowrap text in markdown files
+      local textwidth = 200
+      vim.cmd("setlocal textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
+    end
   end
 })
 
