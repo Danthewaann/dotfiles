@@ -38,16 +38,21 @@ require("onedark").setup({
 vim.api.nvim_create_autocmd("LspTokenUpdate", {
   callback = function(args)
     local token = args.data.token
-    if token.type == "variable" then
-      for _, value in ipairs(vim.treesitter.get_captures_at_pos(args.buf, token.line, token.start_col)) do
-        if value.capture == "variable.member" then
-          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "@variable.member")
-          break
-        elseif value.capture == "constant" then
-          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "@constant")
-          break
-        end
+    local capture = nil
+    for _, value in ipairs(vim.treesitter.get_captures_at_pos(args.buf, token.line, token.start_col)) do
+      if value.capture == "variable.member" then
+        capture = "@variable.member"
+        break
+      elseif value.capture == "constant" then
+        capture = "@constant"
+        break
+      elseif value.capture == "constructor" then
+        capture = "@constructor"
+        break
       end
+    end
+    if capture ~= nil then
+      vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, capture)
     end
   end,
 })
