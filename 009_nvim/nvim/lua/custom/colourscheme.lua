@@ -30,6 +30,8 @@ require("onedark").setup({
   },
   highlights = {
     ["@variable"] = { fg = "#e55561" },
+    ["@lsp.type.variable"] = { fg = "#e55561" },
+    ["@variable.member "] = { fg = "#e55561" },
   },
 })
 

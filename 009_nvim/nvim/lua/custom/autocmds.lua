@@ -164,19 +164,6 @@ autocmd("FileType", {
   end
 })
 
--- Disable LSP semantic tokens
-augroup("lsp_semantic_tokens", { clear = true })
-autocmd("LspAttach", {
-  group = "lsp_semantic_tokens",
-  callback = function(args)
-    local filetype = vim.bo[args.buf].filetype
-    if filetype == "python" or filetype == "lua" then
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      client.server_capabilities.semanticTokensProvider = nil
-    end
-  end,
-})
-
 -- Jump to the last position in the file
 augroup("jump_to_last_position", { clear = true })
 autocmd("BufReadPost", {
