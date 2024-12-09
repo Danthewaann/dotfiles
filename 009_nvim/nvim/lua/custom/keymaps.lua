@@ -220,97 +220,118 @@ vim.keymap.set("n", "<leader>p", function()
     return base_url .. ticket_number
   end
 
-  local commands = {
-    ["1. [GitHub] Open PR in browser"] = function()
-      local obj = vim.system({ "gh", "prv" }):wait()
-      if obj.code ~= 0 then
-        utils.print_err(obj.stderr)
-        return
-      end
-    end,
-    ["2. [GitHub] Open repository in browser"] = function()
-      local obj = vim.system({ "gh", "rv" }):wait()
-      if obj.code ~= 0 then
-        utils.print_err(obj.stderr)
-        return
-      end
-    end,
-    ["3. [Ticket] Open in browser"] = function()
-      local ticket_url = get_ticket_url()
-      if ticket_url == nil then
+  local num_commands = 0
+  local command_name = function(name)
+    num_commands = num_commands + 1
+    if num_commands < 10 then
+      return "0" .. num_commands .. ". " .. name
+    end
+    return num_commands .. ". " .. name
+  end
+
+  local commands = {}
+  local cmd = utils.get_project_linting_cmd()
+  if cmd ~= nil then
+    commands[command_name("[Project] Run linters")] = function()
+      utils.run_command_in_term(table.concat(cmd, " "))
+    end
+  end
+
+  commands[command_name("[Git] Add new worktree")] = function()
+    vim.ui.input({ prompt = "Enter branch name" }, function(input)
+      if input == nil then
         return
       end
 
-      vim.ui.open(ticket_url)
-    end,
-    ["4. [Ticket] Yank to clipboard"] = function()
-      local ticket_url = get_ticket_url()
-      if ticket_url == nil then
+      utils.run_command_in_term("gitw-add " .. input)
+    end)
+  end
+
+  commands[command_name("[Git] Rebase with base worktree")] = function()
+    utils.run_command_in_term("gitw-rebase")
+  end
+  commands[command_name("[GitHub] Open PR in browser")] = function()
+    local obj = vim.system({ "gh", "prv" }):wait()
+    if obj.code ~= 0 then
+      utils.print_err(obj.stderr)
+      return
+    end
+  end
+  commands[command_name("[GitHub] Open repository in browser")] = function()
+    local obj = vim.system({ "gh", "rv" }):wait()
+    if obj.code ~= 0 then
+      utils.print_err(obj.stderr)
+      return
+    end
+  end
+  commands[command_name("[Ticket] Open in browser")] = function()
+    local ticket_url = get_ticket_url()
+    if ticket_url == nil then
+      return
+    end
+
+    vim.ui.open(ticket_url)
+  end
+  commands[command_name("[Ticket] Yank to clipboard")] = function()
+    local ticket_url = get_ticket_url()
+    if ticket_url == nil then
+      return
+    end
+
+    local cb_opts = vim.opt.clipboard:get()
+    if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", ticket_url) end
+    if vim.tbl_contains(cb_opts, "unnamedplus") then
+      vim.fn.setreg("+", ticket_url)
+    end
+    vim.fn.setreg("", ticket_url)
+    utils.print("Copied " .. ticket_url .. " to clipboard")
+  end
+  commands[command_name("[Mini] Save session")] = function()
+    ---@diagnostic disable-next-line: undefined-global
+    MiniSessions.write("Session.vim")
+  end
+  commands[command_name("[Buffer] Delete all other buffers")] = function()
+    vim.cmd("%bd|e#|bd#")
+  end
+  commands[command_name("[File] Make current file executable")] = function()
+    utils.run_job(
+      "chmod",
+      { "+x", vim.fn.expand("%") },
+      "Marked " .. vim.fn.expand("%") .. " as executable"
+    )
+  end
+  commands[command_name("[Journal] Create new entry")] = function()
+    local template
+    local workspace = os.getenv("TMUX_CURRENT_DIR")
+    if workspace ~= nil and utils.file_exists(workspace) then
+      template = workspace .. "/notes/journal/template.md"
+    end
+
+    vim.ui.input({ prompt = "Enter year", default = os.date("%Y") }, function(input)
+      if input == nil then
         return
       end
 
-      local cb_opts = vim.opt.clipboard:get()
-      if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", ticket_url) end
-      if vim.tbl_contains(cb_opts, "unnamedplus") then
-        vim.fn.setreg("+", ticket_url)
-      end
-      vim.fn.setreg("", ticket_url)
-      utils.print("Copied " .. ticket_url .. " to clipboard")
-    end,
-    ["5. [Mini] Save session"] = function()
-      ---@diagnostic disable-next-line: undefined-global
-      MiniSessions.write("Session.vim")
-    end,
-    ["6. [Buffer] Delete all other buffers"] = function()
-      vim.cmd("%bd|e#|bd#")
-    end,
-    ["7. [File] Make current file executable"] = function()
-      utils.run_job(
-        "chmod",
-        { "+x", vim.fn.expand("%") },
-        "Marked " .. vim.fn.expand("%") .. " as executable"
-      )
-    end,
-    ["8. [Journal] Create new entry"] = function()
-      local template
-      local workspace = os.getenv("TMUX_CURRENT_DIR")
-      if workspace ~= nil and utils.file_exists(workspace) then
-        template = workspace .. "/notes/journal/template.md"
-      end
-
-      vim.ui.input({ prompt = "Enter year", default = os.date("%Y") }, function(input)
-        if input == nil then
+      local year = input
+      vim.ui.input({ prompt = "Enter week", default = os.date("%W") }, function(input2)
+        if input2 == nil then
           return
         end
 
-        local year = input
-        vim.ui.input({ prompt = "Enter week", default = os.date("%W") }, function(input2)
-          if input2 == nil then
-            return
-          end
-
-          local week = input2
-          local file_week = week
-          if tonumber(file_week) < 10 then
-            file_week = "0" .. file_week
-          end
-          local journal_entry = workspace .. "/notes/journal/" .. year .. "/week-" .. file_week .. ".md"
-          local obj = vim.system({ "create-journal-entry", template, journal_entry, year, week }, { text = true }):wait()
-          if obj.code ~= 0 then
-            utils.print_err(obj.stderr)
-            return
-          end
-          vim.cmd(":e " .. journal_entry)
-        end)
+        local week = input2
+        local file_week = week
+        if tonumber(file_week) < 10 then
+          file_week = "0" .. file_week
+        end
+        local journal_entry = workspace .. "/notes/journal/" .. year .. "/week-" .. file_week .. ".md"
+        local obj = vim.system({ "create-journal-entry", template, journal_entry, year, week }, { text = true }):wait()
+        if obj.code ~= 0 then
+          utils.print_err(obj.stderr)
+          return
+        end
+        vim.cmd(":e " .. journal_entry)
       end)
-    end,
-  }
-
-  local cmd = utils.get_project_linting_cmd()
-  if cmd ~= nil then
-    commands["l   (lint)"] = function()
-      utils.run_command_in_term(table.concat(cmd, " "))
-    end
+    end)
   end
 
   local keys = vim.tbl_keys(commands)

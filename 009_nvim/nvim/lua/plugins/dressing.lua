@@ -13,6 +13,10 @@ return {
             start_in_insert = true,
             relative = "cursor"
           }
+        elseif opts.prompt == "Enter branch name" then
+          return {
+            width = 70
+          }
         end
       end
     },
