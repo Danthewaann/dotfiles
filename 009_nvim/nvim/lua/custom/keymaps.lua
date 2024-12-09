@@ -89,16 +89,16 @@ vim.keymap.set("n", "<C-k>", function()
 end, { desc = "Jump to previous qf item" })
 
 -- Window navigation
-vim.keymap.set({ "n", "i", "t" }, "<C-w>h", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
-vim.keymap.set({ "n", "i", "t" }, "<C-w>j", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
-vim.keymap.set({ "n", "i", "t" }, "<C-w>k", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "i", "t" }, "<C-w>l", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-w>h", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "t" }, "<C-w>j", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "t" }, "<C-w>k", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "t" }, "<C-w>l", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
 
 -- Close window
 vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
 
 -- Close tab
-vim.keymap.set({ "n", "i", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
+vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
@@ -107,27 +107,27 @@ vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tab
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 
 -- Tab navigation
-vim.keymap.set({ "n", "i", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
-vim.keymap.set({ "n", "i", "t" }, "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
 
 -- Go to tab by number
-vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
-vim.keymap.set("n", "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
-vim.keymap.set("n", "<C-w>3", "<cmd> tabn3<CR>", { desc = "Go to tab 3" })
-vim.keymap.set("n", "<C-w>4", "<cmd> tabn4<CR>", { desc = "Go to tab 4" })
-vim.keymap.set("n", "<C-w>5", "<cmd> tabn5<CR>", { desc = "Go to tab 5" })
-vim.keymap.set("n", "<C-w>6", "<cmd> tabn6<CR>", { desc = "Go to tab 6" })
-vim.keymap.set("n", "<C-w>7", "<cmd> tabn7<CR>", { desc = "Go to tab 7" })
-vim.keymap.set("n", "<C-w>8", "<cmd> tabn8<CR>", { desc = "Go to tab 8" })
-vim.keymap.set("n", "<C-w>9", "<cmd> tabn9<CR>", { desc = "Go to tab 9" })
-vim.keymap.set("n", "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the last tab" })
+vim.keymap.set({ "n", "t" }, "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
+vim.keymap.set({ "n", "t" }, "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
+vim.keymap.set({ "n", "t" }, "<C-w>3", "<cmd> tabn3<CR>", { desc = "Go to tab 3" })
+vim.keymap.set({ "n", "t" }, "<C-w>4", "<cmd> tabn4<CR>", { desc = "Go to tab 4" })
+vim.keymap.set({ "n", "t" }, "<C-w>5", "<cmd> tabn5<CR>", { desc = "Go to tab 5" })
+vim.keymap.set({ "n", "t" }, "<C-w>6", "<cmd> tabn6<CR>", { desc = "Go to tab 6" })
+vim.keymap.set({ "n", "t" }, "<C-w>7", "<cmd> tabn7<CR>", { desc = "Go to tab 7" })
+vim.keymap.set({ "n", "t" }, "<C-w>8", "<cmd> tabn8<CR>", { desc = "Go to tab 8" })
+vim.keymap.set({ "n", "t" }, "<C-w>9", "<cmd> tabn9<CR>", { desc = "Go to tab 9" })
+vim.keymap.set({ "n", "t" }, "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the last tab" })
 
 -- Move tabs left or right
-vim.keymap.set("n", "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
-vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
+vim.keymap.set({ "n", "t" }, "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
+vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
 
 -- Make this a no-op as I use <C-c> to cancel the which key popup
-vim.keymap.set("n", "<C-w><C-c>", "<Nop>")
+vim.keymap.set({ "n", "t" }, "<C-w><C-c>", "<Nop>")
 
 -- Resize the current window
 vim.keymap.set("n", "<M-h>", function()

@@ -1,6 +1,4 @@
 return {
-  -- Add readline binds in insert mode
-  "tpope/vim-rsi",
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
   -- Auto read buffers that have changes outside neovim
