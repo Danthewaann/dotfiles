@@ -136,34 +136,6 @@ autocmd("TextYankPost", {
   end,
 })
 
--- fugitive related keymaps
-augroup("git_status", { clear = true })
-autocmd("FileType", {
-  group = "git_status",
-  pattern = "fugitive",
-  callback = function()
-    vim.keymap.set("n", "<Tab>", ":normal =<CR>", { buffer = true, silent = true })
-    vim.keymap.set("n", "gl", "<cmd>G l<CR>", { desc = "Show git log", buffer = true })
-    vim.cmd("setlocal nowrap nonumber norelativenumber")
-  end,
-})
-
--- Start in insert mode in gitcommit files
-augroup("git_commit", { clear = true })
-autocmd("FileType", {
-  group = "git_commit",
-  pattern = "gitcommit",
-  callback = function()
-    vim.cmd("setlocal nowrap nonumber norelativenumber textwidth=0")
-    -- Start in insert mode if the current line is empty
-    -- (when writing a new commit message)
-    local line = vim.fn.getline(vim.fn.line("."))
-    if line == nil or line == "" then
-      vim.cmd("startinsert")
-    end
-  end
-})
-
 -- Jump to the last position in the file
 augroup("jump_to_last_position", { clear = true })
 autocmd("BufReadPost", {
