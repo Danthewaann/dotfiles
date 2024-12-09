@@ -41,17 +41,22 @@ return {
   config = function()
     local utils = require("custom.utils")
     local border = "rounded"
-    local symbols = { Error = "󰅙", Info = "󰋼", Hint = "󰌵", Warn = "" }
+    local symbols = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+      [vim.diagnostic.severity.WARN] = "󰀪 "
+    }
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
       virtual_text = false,
       signs = {
         text = {
-          [vim.diagnostic.severity.ERROR] = symbols.Error,
-          [vim.diagnostic.severity.WARN] = symbols.Warn,
-          [vim.diagnostic.severity.INFO] = symbols.Info,
-          [vim.diagnostic.severity.HINT] = symbols.Hint,
+          [vim.diagnostic.severity.ERROR] = symbols[vim.diagnostic.severity.ERROR],
+          [vim.diagnostic.severity.WARN] = symbols[vim.diagnostic.severity.WARN],
+          [vim.diagnostic.severity.INFO] = symbols[vim.diagnostic.severity.INFO],
+          [vim.diagnostic.severity.HINT] = symbols[vim.diagnostic.severity.HINT]
         },
         numhl = {
           [vim.diagnostic.severity.ERROR] = "DiagnosticError",
