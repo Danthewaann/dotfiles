@@ -17,6 +17,14 @@ return {
     -- Useful status updates for LSP
     { "j-hui/fidget.nvim",    opts = {} },
     {
+      "rachartier/tiny-inline-diagnostic.nvim",
+      event = "VeryLazy", -- Or `LspAttach`
+      priority = 1000,    -- needs to be loaded in first
+      config = function()
+        require("tiny-inline-diagnostic").setup()
+      end
+    },
+    {
       -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       "folke/lazydev.nvim",
@@ -33,11 +41,10 @@ return {
   config = function()
     local utils = require("custom.utils")
     local border = "rounded"
-    local show_virtual_text = true
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
-      virtual_text = show_virtual_text,
+      virtual_text = false,
       signs = false,
       float = { source = true, border = border },
       severity_sort = true
@@ -45,13 +52,7 @@ return {
 
     -- Toggle virtual text on and off
     vim.keymap.set("n", "<leader>tt", function()
-      show_virtual_text = not show_virtual_text
-      if show_virtual_text then
-        utils.print("Toggling on virtual text")
-      else
-        utils.print("Toggling off virtual text")
-      end
-      vim.diagnostic.config({ virtual_text = show_virtual_text })
+      require("tiny-inline-diagnostic").toggle()
     end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Styling for floating windows
@@ -60,8 +61,12 @@ return {
     require("lspconfig.ui.windows").default_options.border = border
 
     -- Diagnostic keymaps
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+    vim.keymap.set("n", "[d", function()
+      vim.diagnostic.goto_prev({ float = false })
+    end, { desc = "Go to previous diagnostic message" })
+    vim.keymap.set("n", "]d", function()
+      vim.diagnostic.goto_next({ float = false })
+    end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
 
     local pyright_diagnostic_mode = "openFilesOnly"
