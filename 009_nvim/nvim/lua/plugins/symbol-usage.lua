@@ -80,7 +80,7 @@ return {
     vim.keymap.set(
       "n",
       "<leader>tu",
-      ':lua require("symbol-usage").toggle_globally()<CR>',
+      require("symbol-usage").toggle,
       { desc = "[T]oggle Symbol [U]sage", silent = true }
     )
   end,
