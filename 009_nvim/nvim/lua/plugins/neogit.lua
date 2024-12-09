@@ -33,8 +33,9 @@ return {
           ["<c-c><c-k>"] = false,
         },
         status = {
-          ["S"] = "StageAll",
+          ["S"]     = "StageAll",
           ["<c-s>"] = false,
+          ["y"]     = false,
         },
         popup = {
           ["l"] = false,
