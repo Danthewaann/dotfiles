@@ -61,7 +61,7 @@ vim.keymap.set("n", "<C-e>", function()
     return
   end
   vim.cmd "botright copen"
-end, { desc = "[T]oggle [Q]uickfix" })
+end, { desc = "Toggle Quickfix" })
 
 
 -- Quickfix navigation
