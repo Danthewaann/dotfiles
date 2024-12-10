@@ -243,13 +243,22 @@ vim.keymap.set("n", "<leader>p", function()
         return
       end
 
-      utils.run_command_in_term("gitw-add " .. input)
+      utils.run_command_in_term("gitw-add " .. input, true)
     end)
   end
 
   commands[command_name("[Git] Rebase with base worktree")] = function()
-    utils.run_command_in_term("gitw-rebase")
+    utils.run_command_in_term("gitw-rebase", true)
   end
+
+  commands[command_name("[GitHub] Create PR")] = function()
+    utils.run_command_in_term("git-pr-create", true)
+  end
+
+  commands[command_name("[GitHub] Edit PR")] = function()
+    utils.run_command_in_term("git-pr-edit", true)
+  end
+
   commands[command_name("[GitHub] Open PR in browser")] = function()
     local obj = vim.system({ "gh", "prv" }):wait()
     if obj.code ~= 0 then
