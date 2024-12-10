@@ -19,7 +19,7 @@ vim.keymap.set("v", "<", "<gv", { desc = "Decrease indent" })
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 
 -- Yank, comment out and paste the current line.
-vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { desc = "Join with line below" })
+vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { desc = "Yank, comment out and paste line below" })
 
 -- Re-select last pasted text
 vim.keymap.set("n", "gy", "`[v`]", { desc = "Re-select last pasted text" })
