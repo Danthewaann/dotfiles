@@ -109,12 +109,14 @@ return {
 
         map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
         map("gh", function()
-          -- Workaround: https://github.com/nvim-telescope/telescope.nvim/issues/2368
-          vim.cmd(":vsplit | lua vim.lsp.buf.definition()")
+          require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
         end, "[G]oto Definition In Vertical Split")
         map("gs", function()
-          vim.cmd(":split | lua vim.lsp.buf.definition()")
+          require("telescope.builtin").lsp_definitions({ jump_type = "split" })
         end, "[G]oto Definition In [S]plit")
+        map("gt", function()
+          require("telescope.builtin").lsp_definitions({ jump_type = "tab" })
+        end, "[G]oto Definition In [T]ab")
         map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
