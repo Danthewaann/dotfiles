@@ -44,6 +44,9 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
         if value.capture == "variable.member" then
           capture = "@variable.member"
           break
+        elseif value.capture == "property" then
+          capture = "@property"
+          break
         elseif value.capture == "constant" then
           capture = "@constant"
           break
