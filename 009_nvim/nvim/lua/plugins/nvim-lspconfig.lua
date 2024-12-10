@@ -17,24 +17,6 @@ return {
     -- Useful status updates for LSP
     { "j-hui/fidget.nvim",    opts = {} },
     {
-      "rachartier/tiny-inline-diagnostic.nvim",
-      event = "LspAttach",
-      priority = 1000, -- needs to be loaded in first
-      config = function()
-        require("tiny-inline-diagnostic").setup({
-          options = {
-            throttle = 0,
-            enable_on_insert = true,
-            use_icons_from_diagnostic = true,
-            virt_texts = {
-              -- Set to higher priority than symbol-usage.nvim
-              priority = 10000,
-            },
-          },
-        })
-      end
-    },
-    {
       -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       "folke/lazydev.nvim",
@@ -58,9 +40,17 @@ return {
       [vim.diagnostic.severity.WARN] = "󰀪 "
     }
 
+    local show_virtual_text = true
+    local virtual_text_config = {
+      prefix = function(diagnostic)
+        return symbols[diagnostic.severity] or "NA"
+      end,
+      source = "if_many",
+    }
+
     -- Setup initial diagnostic config
     vim.diagnostic.config({
-      virtual_text = false,
+      virtual_text = virtual_text_config,
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = symbols[vim.diagnostic.severity.ERROR],
@@ -81,7 +71,14 @@ return {
 
     -- Toggle virtual text on and off
     vim.keymap.set("n", "<leader>tt", function()
-      require("tiny-inline-diagnostic").toggle()
+      if show_virtual_text then
+        utils.print("Toggling off virtual text")
+        vim.diagnostic.config({ virtual_text = false })
+      else
+        utils.print("Toggling on virtual text")
+        vim.diagnostic.config({ virtual_text = virtual_text_config })
+      end
+      show_virtual_text = not show_virtual_text
     end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Styling for floating windows
