@@ -230,6 +230,7 @@ return {
       gopls = {
         settings = {
           gopls = {
+            semanticTokens = true,
             experimentalPostfixCompletions = true,
             analyses = {
               unusedparams = true,
