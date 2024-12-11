@@ -49,18 +49,19 @@
     ; From: https://github.com/dandavison/delta/issues/481#issuecomment-752948987
     syntax-theme = OneHalfDark
     line-numbers = true
+    side-by-side = false
     hunk-header-style = file line-number syntax
     file-style = magenta omit
     file-modified-label = modified:
     hunk-header-decoration-style = bold black omit
     zero-style                    = dim syntax
-    minus-style                   = bold red
-    minus-non-emph-style          = dim red
-    minus-emph-style              = bold red 52
+    minus-style                   = syntax "#450a15"
+    minus-non-emph-style          = syntax "#450a15"
+    minus-emph-style              = syntax "#600818"
     minus-empty-line-marker-style = normal "#3f0001"
-    plus-style                    = bold green
-    plus-non-emph-style           = dim green
-    plus-emph-style               = bold green 22
+    plus-style                    = syntax "#083618"
+    plus-non-emph-style           = syntax "#083618"
+    plus-emph-style               = syntax "#175c2e"
     plus-empty-line-marker-style  = normal "#002800"
     whitespace-error-style        = reverse red
 [merge]
