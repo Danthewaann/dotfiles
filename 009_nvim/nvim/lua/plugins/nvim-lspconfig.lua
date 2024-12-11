@@ -88,10 +88,10 @@ return {
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = false })
+      vim.diagnostic.jump({ count = -1, float = true })
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, float = false })
+      vim.diagnostic.jump({ count = 1, float = true })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
 
