@@ -14,10 +14,6 @@ If running on macos, run the following instead:
 ./macsetup && ./bootstrap && ./install
 ```
 
-## Notes
-
-I also have some [misc notes](notes/README.md)
-
 ## Other stuff
 
 On M1 MacBooks do the following to fix slow iterm2 startup times (from https://superuser.com/a/458059):
