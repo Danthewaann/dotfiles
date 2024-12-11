@@ -53,8 +53,8 @@ return {
 
     -- Git status
     vim.keymap.set("n", "<C-g>", function()
-      require("neogit").open({ kind = "tab" })
-    end, { desc = "Git status" })
+      require("neogit").open({ kind = "replace" })
+    end, { desc = "Git Status" })
 
     -- Git log commands
     vim.keymap.set("n", "<leader>gla", require("neogit").action("log", "log_head", { "--max-count=10000" }),
