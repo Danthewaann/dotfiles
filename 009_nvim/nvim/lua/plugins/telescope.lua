@@ -161,7 +161,7 @@ return {
         },
         git_status = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           results_title = false,
           path_display = { "filename_first" },
         },
