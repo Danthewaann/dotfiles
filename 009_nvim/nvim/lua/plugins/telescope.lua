@@ -132,11 +132,11 @@ return {
           layout_config = dropdown_layout_config,
         },
         buffers = {
-          theme = "dropdown",
-          previewer = false,
+          theme = "ivy",
+          previewer = true,
           sort_mru = true,
           ignore_current_buffer = true,
-          layout_config = dropdown_layout_config,
+          results_title = false,
           path_display = { "filename_first" },
         },
         oldfiles = {
