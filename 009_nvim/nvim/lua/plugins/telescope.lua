@@ -230,6 +230,7 @@ return {
     end, { desc = "[S]earch [.] files in current directory" })
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
     vim.keymap.set("n", "<C-f>", require("telescope.builtin").git_files, { desc = "Search Git Files" })
+    vim.keymap.set("n", "<C-e>", require("telescope.builtin").git_status, { desc = "Search Git Status" })
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history,
       { desc = "[S]earch [C]ommand History" })
