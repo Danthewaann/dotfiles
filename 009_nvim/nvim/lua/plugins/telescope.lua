@@ -201,6 +201,9 @@ return {
           results_title = false,
         },
       },
+      extensions = {
+        fzf = {}
+      }
     })
 
     local utils = require("custom.utils")
