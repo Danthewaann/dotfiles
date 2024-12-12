@@ -100,10 +100,10 @@ return {
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", function()
-      vim.diagnostic.goto_prev({ float = false })
+      vim.diagnostic.goto_prev({ float = true })
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
-      vim.diagnostic.goto_next({ float = false })
+      vim.diagnostic.goto_next({ float = true })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
 
