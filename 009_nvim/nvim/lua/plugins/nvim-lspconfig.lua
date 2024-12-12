@@ -71,7 +71,7 @@ return {
         numhl = highlights
       },
       float = {
-        source = "if_many",
+        source = true,
         header = "",
         prefix = function(diagnostic)
           return symbols[diagnostic.severity] or "NA", highlights[diagnostic.severity]
