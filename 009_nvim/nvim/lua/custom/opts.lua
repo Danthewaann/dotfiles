@@ -57,7 +57,7 @@ vim.o.sidescrolloff = 16
 vim.o.scrollback = 100000
 
 -- Enable the signcolumn for things like displaying git changes and diagnostics
-vim.o.signcolumn = "auto:1-2"
+vim.o.signcolumn = "auto:1-3"
 
 -- Set updatetime to a low number for faster updates
 vim.o.updatetime = 250
