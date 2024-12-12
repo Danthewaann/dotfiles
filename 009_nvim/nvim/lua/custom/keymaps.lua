@@ -105,7 +105,7 @@ vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tab
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
-vim.keymap.set("t", "<C-c>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
+vim.keymap.set("t", "<C-c><C-c>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
 
 -- Tab navigation
