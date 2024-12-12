@@ -274,9 +274,11 @@ return {
           end,
         },
         ["<C-p>"] = {
-          i = function()
+          i = function(fallback)
             if cmp.visible() then
               cmp.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert })
+            else
+              fallback()
             end
           end,
         },
