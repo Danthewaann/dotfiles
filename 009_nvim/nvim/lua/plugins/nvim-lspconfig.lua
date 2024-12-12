@@ -94,14 +94,16 @@ return {
     end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Styling for floating windows
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
     require("lspconfig.ui.windows").default_options.border = border
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = true })
+      vim.diagnostic.goto_prev({ float = false })
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, float = true })
+      vim.diagnostic.goto_next({ float = false })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
 
@@ -158,7 +160,7 @@ return {
         map("K", function()
           local winid = require("ufo").peekFoldedLinesUnderCursor()
           if not winid then
-            vim.lsp.buf.hover({ border = border })
+            vim.lsp.buf.hover()
           end
         end, "Hover Documentation")
         map("<leader>rl", function()
@@ -168,7 +170,7 @@ return {
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
         map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
         map("<leader>K", function()
-          vim.lsp.buf.signature_help({ border = border })
+          vim.lsp.buf.signature_help()
         end, "Signature Documentation")
 
         -- Lesser used LSP functionality
@@ -191,7 +193,7 @@ return {
           end
 
           -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
-          if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
             vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
               buffer = event.buf,
@@ -207,7 +209,7 @@ return {
           end
 
           -- Enable inlay hints if the LSP server supports it
-          if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map("<leader>th", function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
             end, "[T]oggle Inlay [H]ints")
