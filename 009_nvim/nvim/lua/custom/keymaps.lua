@@ -111,7 +111,12 @@ vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode 
 -- Tab navigation
 vim.keymap.set({ "n", "t" }, "<C-w>h", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
 vim.keymap.set({ "n", "t" }, "<C-w>l", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-p>", "<cmd> silent tabnext #<CR>", { desc = "Go to last accessed tab" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-p>", function()
+  local ok, _ = pcall(function() vim.cmd(":silent tabnext #") end)
+  if not ok then
+    vim.cmd(":silent tabprevious")
+  end
+end, { desc = "Go to last accessed tab" })
 
 -- Go to tab by number
 vim.keymap.set({ "n", "t" }, "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
