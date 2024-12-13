@@ -41,14 +41,7 @@ return {
     }
 
     local show_virtual_text = true
-    local virtual_text_config = {
-      prefix = function(diagnostic, i)
-        if i == 1 then
-          return symbols[diagnostic.severity] or "NA"
-        end
-      end,
-      source = "if_many",
-    }
+    local virtual_text_config = {}
     local highlights = {
       [vim.diagnostic.severity.ERROR] = "DiagnosticError",
       [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
@@ -63,10 +56,10 @@ return {
         -- Set this so `gitsigns.nvim` takes higher priority
         priority = 1,
         text = {
-          [vim.diagnostic.severity.ERROR] = "",
-          [vim.diagnostic.severity.WARN] = "",
-          [vim.diagnostic.severity.INFO] = "",
-          [vim.diagnostic.severity.HINT] = "",
+          [vim.diagnostic.severity.ERROR] = symbols[vim.diagnostic.severity.ERROR],
+          [vim.diagnostic.severity.WARN] = symbols[vim.diagnostic.severity.WARN],
+          [vim.diagnostic.severity.INFO] = symbols[vim.diagnostic.severity.INFO],
+          [vim.diagnostic.severity.HINT] = symbols[vim.diagnostic.severity.HINT],
         },
         numhl = highlights
       },
