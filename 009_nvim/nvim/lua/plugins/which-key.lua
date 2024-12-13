@@ -3,6 +3,8 @@ return {
   event = "VeryLazy",
   config = function()
     require("which-key").setup({
+      preset = "modern",
+      delay = 500,
       layout = {
         spacing = 1,
         width = { min = 5, max = vim.o.columns },
