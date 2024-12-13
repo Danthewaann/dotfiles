@@ -3,30 +3,55 @@ return {
   event = "VeryLazy",
   config = function()
     require("lint").linters_by_ft = {
-      python = { "mypy" },
+      python = { "dmypy" },
       go = { "golangcilint" },
     }
 
     local utils = require("custom.utils")
-    local mypy_linter = require("lint").linters.mypy
 
-    -- Use mypy in virtual environment if found
-    mypy_linter.cmd = utils.get_poetry_venv_executable_path("mypy")
-    mypy_linter.args = {
-      "--show-column-numbers",
-      "--show-error-end",
-      "--show-error-codes",
-      "--hide-error-context",
-      "--no-color-output",
-      "--no-error-summary",
-      "--no-pretty",
+    -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
+    local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"
+    local groups = { "file", "lnum", "col", "end_lnum", "end_col", "severity", "message", "code" }
+    local severities = {
+      error = vim.diagnostic.severity.ERROR,
+      warning = vim.diagnostic.severity.WARN,
+      note = vim.diagnostic.severity.HINT,
     }
 
-    -- This is a table of error codes I ignore as I let pyright handle them instead
+    require("lint").linters.dmypy = {
+      cmd = utils.get_poetry_venv_executable_path("dmypy"),
+      stdin = false,
+      append_fname = false,
+      ignore_exitcode = true,
+      stream = "both",
+      args = {
+        "run",
+        "--timeout",
+        "50000",
+        "--",
+        ".",
+        "--show-column-numbers",
+        "--show-error-end",
+        "--show-error-codes",
+        "--hide-error-context",
+        "--no-color-output",
+        "--no-error-summary",
+        "--no-pretty",
+      },
+      parser = require("lint.parser").from_pattern(
+        pattern,
+        groups,
+        severities,
+        { ["source"] = "mypy" },
+        { end_col_offset = 0 }
+      )
+    }
+
+    -- This is a table of error codes I ignore as I let basedpyright handle them instead
     local error_codes = { "assignment", "name-defined", "call-arg" }
     for _, code in ipairs(error_codes) do
-      table.insert(mypy_linter.args, "--disable-error-code")
-      table.insert(mypy_linter.args, code)
+      table.insert(require("lint").linters.dmypy.args, "--disable-error-code")
+      table.insert(require("lint").linters.dmypy.args, code)
     end
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
