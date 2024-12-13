@@ -130,6 +130,7 @@ end
 
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
+  "NeogitStatus",
   "qf",
   "git",
   "dbui",
