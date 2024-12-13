@@ -83,7 +83,15 @@ M.run_command_in_term = function(args, use_tmux)
     vim.cmd(":Tmux " .. args)
   else
     require("toggleterm").exec(args, nil, nil, nil, nil, nil, false, true)
+    M.schedule_start_insert()
   end
+end
+
+M.schedule_start_insert = function()
+  -- Go back into insert mode to follow the command output
+  vim.schedule(function()
+    vim.cmd(":startinsert!")
+  end)
 end
 
 M.run_job = function(command, args, success_message, callback)

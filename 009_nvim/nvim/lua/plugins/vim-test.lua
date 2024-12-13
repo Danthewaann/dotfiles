@@ -7,6 +7,7 @@ return {
 
     local function custom_toggleterm_strategy(cmd)
       require("toggleterm").exec(cmd, nil, nil, nil, nil, nil, false, true)
+      utils.schedule_start_insert()
     end
 
     vim.g["test#custom_strategies"] = { custom_toggleterm = custom_toggleterm_strategy }
