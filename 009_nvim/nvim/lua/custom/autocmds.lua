@@ -107,17 +107,15 @@ autocmd("FileType", {
 })
 
 -- Turn on spell checking in markdown and git commit buffers
-augroup("spell_checking", { clear = true })
 autocmd("FileType", {
-  group = "spell_checking",
+  group = augroup("spell_checking", { clear = true }),
   pattern = "markdown,gitcommit",
   command = "setlocal spell spelllang=en_us,en_gb",
 })
 
 -- Markdown filetype setup
-augroup("markdown", { clear = true })
 autocmd("FileType", {
-  group = "markdown",
+  group = augroup("markdown", { clear = true }),
   pattern = "markdown",
   callback = function(event)
     -- Disable `render-markdown` in LSP hover documentation windows
@@ -132,9 +130,8 @@ autocmd("FileType", {
 })
 
 -- Highlight on yank
-augroup("YankHighlight", { clear = true })
 autocmd("TextYankPost", {
-  group = "YankHighlight",
+  group = augroup("YankHighlight", { clear = true }),
   pattern = "*",
   callback = function()
     local buf = vim.api.nvim_get_current_buf()
@@ -146,9 +143,8 @@ autocmd("TextYankPost", {
 })
 
 -- Jump to the last position in the file
-augroup("jump_to_last_position", { clear = true })
 autocmd("BufReadPost", {
-  group = "jump_to_last_position",
+  group = augroup("jump_to_last_position", { clear = true }),
   pattern = "*",
   callback = function()
     if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
@@ -158,9 +154,8 @@ autocmd("BufReadPost", {
 })
 
 -- Quickfix binds
-augroup("quickfix", { clear = true })
 autocmd("FileType", {
-  group = "quickfix",
+  group = augroup("quickfix", { clear = true }),
   pattern = "qf",
   callback = function()
     vim.keymap.set("n", "<C-h>", "<cmd> silent! colder<CR>", { buffer = 0, desc = "Open previous quickfix list" })
