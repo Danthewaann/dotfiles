@@ -291,7 +291,14 @@ return {
       ruff = {
         init_options = {
           settings = {
+            organizeImports = true,
+            fixAll = false,
+            showSyntaxErrors = true,
+            format = {
+              preview = true
+            },
             lint = {
+              preview = false,
               ignore = {
                 -- Let pyright handle the following errors
                 "F821",   -- undefined symbols
