@@ -87,6 +87,8 @@ vim.keymap.set("n", "<C-k>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to previous qf item" })
+vim.keymap.set("n", "g<C-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
+vim.keymap.set("n", "g<C-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Window navigation
 vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
