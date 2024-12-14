@@ -40,18 +40,16 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
     local token = args.data.token
     local capture = nil
     for _, value in ipairs(vim.treesitter.get_captures_at_pos(args.buf, token.line, token.start_col)) do
-      if token.type == "class" then
-        if value.capture == "function.method.call" then
-          capture = "@function"
-          break
-        end
-      elseif token.type == "method" then
+      if token.type == "method" then
         if value.capture == "constructor" then
           capture = "@constructor"
           break
         end
       elseif token.type == "variable" then
-        if value.capture == "function.call" then
+        if value.capture == "type" then
+          capture = "@type"
+          break
+        elseif value.capture == "function.call" then
           capture = "@function"
           break
         elseif value.capture == "variable.member" then
