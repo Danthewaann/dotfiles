@@ -137,7 +137,11 @@ autocmd("TextYankPost", {
   group = "YankHighlight",
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank({ higroup = "Visual" })
+    local buf = vim.api.nvim_get_current_buf()
+    -- TODO: Highlighting a yank inside a quickfix list doesn't work
+    if vim.bo[buf].filetype ~= "qf" then
+      vim.highlight.on_yank({ higroup = "Visual" })
+    end
   end,
 })
 
@@ -161,5 +165,18 @@ autocmd("FileType", {
   callback = function()
     vim.keymap.set("n", "<C-h>", "<cmd> silent! colder<CR>", { buffer = 0, desc = "Open previous quickfix list" })
     vim.keymap.set("n", "<C-l>", "<cmd> silent! cnewer<CR>", { buffer = 0, desc = "Open next quickfix list" })
+
+    -- Replace current word in current file
+    vim.keymap.set("n", "<leader>rp",
+      [[:cfdo %s/\<<C-r><C-w>\>/<C-r><C-w>/gI | update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]],
+      { buffer = 0, desc = "[R]e[p]lace current word in qf items" }
+    )
+
+    -- Replace visual selection in current file
+    -- TODO: The below bind raises an error due to the `TextYankPost` autocmd I have above
+    vim.keymap.set("v", "<leader>rp",
+      [["ky:cfdo %s/<C-r>=escape(@k, "/")<CR>/<C-r>=escape(@k, "/")<CR>/gI | update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]],
+      { buffer = 0, desc = "[R]e[p]lace selection in qf items" }
+    )
   end,
 })
