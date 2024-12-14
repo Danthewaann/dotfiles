@@ -28,12 +28,16 @@ return {
           desc = "Refresh the quickfix list"
         }
       },
+      type_icons = {
+        E = "",
+        W = "",
+        I = "",
+        N = "",
+        H = "",
+      },
       highlight = {
-        -- Use treesitter highlighting
-        treesitter = true,
-        -- Use LSP semantic token highlighting
-        lsp = false,
-        -- Load the referenced buffers to apply more accurate highlights (may be slow)
+        treesitter = false,
+        lsp = true,
         load_buffers = false,
       },
     })
