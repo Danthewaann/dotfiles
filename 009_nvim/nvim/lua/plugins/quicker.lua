@@ -37,7 +37,7 @@ return {
       },
       highlight = {
         treesitter = false,
-        lsp = true,
+        lsp = false,
         load_buffers = false,
       },
     })
