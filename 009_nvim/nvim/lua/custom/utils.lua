@@ -128,6 +128,36 @@ M.print_err = function(err)
   vim.notify(err, vim.log.levels.ERROR)
 end
 
+M.parse_dmypy_output = function(output)
+  -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
+  local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"
+  local severities = {
+    error = "E",
+    warning = "W",
+    note = "N",
+  }
+
+  local list = {}
+  for line in vim.gsplit(output, "\n", { plain = true }) do
+    local file, lnum, col, end_lnum, end_col, severity, message, code = line:match(pattern)
+    if file then
+      table.insert(list, {
+        filename = file,
+        lnum = lnum,
+        col = col,
+        end_lnum = end_lnum,
+        end_col = end_col,
+        nr = code,
+        type = severities[severity],
+        text = message,
+      })
+    end
+  end
+
+  vim.fn.setqflist(list)
+  vim.cmd(":botright copen | cc 1")
+end
+
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
   "NeogitStatus",
