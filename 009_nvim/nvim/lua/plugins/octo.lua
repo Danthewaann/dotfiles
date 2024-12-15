@@ -8,9 +8,6 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
-    local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
-    local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
-
     vim.treesitter.language.register("markdown", "octo")
 
     require("octo").setup({
@@ -36,9 +33,8 @@ return {
       }
     })
 
-    augroup("octo", { clear = true })
-    autocmd("FileType", {
-      group = "octo",
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("octo", { clear = true }),
       pattern = "octo_panel",
       callback = function()
         vim.keymap.set(
