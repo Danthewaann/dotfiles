@@ -124,8 +124,8 @@ M.parse_dmypy_output = function(output)
     end
   end
 
-  vim.fn.setqflist(list)
-  vim.cmd(":botright copen | cc 1")
+  vim.fn.setqflist({}, " ", { title = "Mypy errors", items = list })
+  vim.cmd(":botright copen | silent! cc 1")
 end
 
 M.dmypy_args = function(include_cmd)
