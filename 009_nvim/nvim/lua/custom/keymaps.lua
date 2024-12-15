@@ -249,26 +249,17 @@ vim.keymap.set("n", "<leader>p", function()
 
   commands[command_name("[Project] Run mypy")] = function()
     utils.print("Running mypy...")
-    vim.system({
-      utils.get_poetry_venv_executable_path("dmypy"),
-      "run",
-      "--timeout",
-      "50000",
-      "--",
-      ".",
-      "--show-column-numbers",
-      "--show-error-end",
-      "--show-error-codes",
-      "--hide-error-context",
-      "--no-color-output",
-      "--no-error-summary",
-      "--no-pretty",
-    }, {}, function(obj)
-      vim.schedule(function()
-        utils.print("Finished running mypy")
-        utils.parse_dmypy_output(obj.stdout)
+    vim.system(
+      utils.dmypy_args(true), {}, function(obj)
+        vim.schedule(function()
+          if obj.code > 1 then
+            utils.print_err(obj.stderr)
+            return
+          end
+          utils.print("Finished running mypy")
+          utils.parse_dmypy_output(obj.stdout)
+        end)
       end)
-    end)
   end
 
   commands[command_name("[Git] Add new worktree")] = function()

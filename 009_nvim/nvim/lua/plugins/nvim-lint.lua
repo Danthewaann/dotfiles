@@ -24,20 +24,7 @@ return {
       append_fname = false,
       ignore_exitcode = true,
       stream = "both",
-      args = {
-        "run",
-        "--timeout",
-        "50000",
-        "--",
-        ".",
-        "--show-column-numbers",
-        "--show-error-end",
-        "--show-error-codes",
-        "--hide-error-context",
-        "--no-color-output",
-        "--no-error-summary",
-        "--no-pretty",
-      },
+      args = utils.dmypy_args(),
       parser = require("lint.parser").from_pattern(
         pattern,
         groups,
@@ -46,13 +33,6 @@ return {
         { end_col_offset = 0 }
       )
     }
-
-    -- This is a table of error codes I ignore as I let basedpyright handle them instead
-    local error_codes = { "assignment", "name-defined", "call-arg" }
-    for _, code in ipairs(error_codes) do
-      table.insert(require("lint").linters.dmypy.args, "--disable-error-code")
-      table.insert(require("lint").linters.dmypy.args, code)
-    end
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
       callback = function()

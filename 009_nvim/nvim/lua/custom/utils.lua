@@ -158,6 +158,36 @@ M.parse_dmypy_output = function(output)
   vim.cmd(":botright copen | cc 1")
 end
 
+M.dmypy_args = function(include_cmd)
+  local args = {}
+  if include_cmd then
+    table.insert(args, M.get_poetry_venv_executable_path("dmypy"))
+  end
+
+  table.insert(args, "run")
+  table.insert(args, "--timeout")
+  table.insert(args, "50000")
+  table.insert(args, "--")
+  table.insert(args, ".")
+  table.insert(args, "--show-column-numbers")
+  table.insert(args, "--show-error-end")
+  table.insert(args, "--show-error-codes")
+  table.insert(args, "--hide-error-context")
+  table.insert(args, "--no-color-output")
+  table.insert(args, "--no-error-summary")
+  table.insert(args, "--no-pretty")
+
+  -- This is a table of error codes I ignore as I let basedpyright handle them instead
+  local error_codes = { "assignment", "name-defined", "call-arg" }
+  for _, code in ipairs(error_codes) do
+    table.insert(args, "--disable-error-code")
+    table.insert(args, code)
+  end
+
+  vim.print(args)
+  return args
+end
+
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
   "NeogitStatus",
