@@ -103,6 +103,3 @@ vim.cmd("highlight! link DiagnosticFloatingOk DiagnosticOk")
 vim.cmd("highlight! link LazyBackdrop Normal")
 vim.cmd("highlight TabLineSel guifg=#abb2bf guibg=#272731")
 vim.cmd("highlight TabLine guifg=#828997")
-
--- From: https://github.com/NeogitOrg/neogit/issues/1371
-vim.cmd("highlight! link NeogitWinSeparator WinSeparator")
