@@ -74,10 +74,6 @@ M.get_project_linting_cmd = function()
   return cmd
 end
 
-M.trim = function(s)
-  return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
-end
-
 M.run_command_in_term = function(args, use_tmux)
   if use_tmux then
     vim.cmd(":Tmux " .. args)
