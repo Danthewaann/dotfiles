@@ -28,5 +28,5 @@ git-pr-edit.*.md
 # dynamically all the time can be slow
 .base_branch
 
-# File used to store a list of buffers that I want to preserve in nvim
-.nvim_buffers
+# File used by the dmypy daemon
+.dmypy.json
