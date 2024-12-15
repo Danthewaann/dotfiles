@@ -184,7 +184,6 @@ M.dmypy_args = function(include_cmd)
     table.insert(args, code)
   end
 
-  vim.print(args)
   return args
 end
 
