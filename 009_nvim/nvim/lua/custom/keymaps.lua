@@ -103,7 +103,7 @@ vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current windo
 vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
 -- Close all tabs except current one
-vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
 
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
