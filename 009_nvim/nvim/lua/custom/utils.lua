@@ -51,7 +51,7 @@ M.get_poetry_venv_executable_path = function(exe, check_poetry, workspace)
 end
 
 M.file_exists = function(filename)
-  return vim.loop.fs_stat(filename)
+  return vim.uv.fs_stat(filename)
 end
 
 M.get_project_linting_cmd = function()
