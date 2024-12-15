@@ -160,6 +160,8 @@ end
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
   "NeogitStatus",
+  "DiffviewFileHistory",
+  "neotest-summary",
   "qf",
   "git",
   "dbui",
