@@ -94,32 +94,6 @@ M.schedule_start_insert = function()
   end)
 end
 
-M.run_job = function(command, args, success_message, callback)
-  args = args or {}
-  if success_message == nil then
-    success_message = "Success!"
-  end
-  local job = require("plenary.job")
-  local j = job:new({ command = command, args = args })
-  j:add_on_exit_callback(function()
-    local output = j:stderr_result()
-    if j.code ~= 0 then
-      local output_str = M.trim(table.concat(output, "\n"))
-      vim.schedule(function()
-        M.print_err(output_str)
-      end)
-    elseif success_message ~= false then
-      vim.schedule(function()
-        M.print(success_message)
-      end)
-    end
-  end)
-  if callback ~= nil then
-    j:add_on_exit_callback(callback)
-  end
-  j:start()
-end
-
 M.print = function(msg)
   vim.notify(msg, vim.log.levels.INFO)
 end
