@@ -91,10 +91,10 @@ vim.keymap.set("n", "g<C-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item"
 vim.keymap.set("n", "g<C-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Window navigation
-vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd>NvimTmuxNavigateLeft<CR>", { desc = "Go to left window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-j>", "<cmd>NvimTmuxNavigateDown<CR>", { desc = "Go to bottom window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-k>", "<cmd>NvimTmuxNavigateUp<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd>NvimTmuxNavigateRight<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
 
 -- Close window
 vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
