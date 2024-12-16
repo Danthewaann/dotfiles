@@ -19,9 +19,7 @@ autocmd("TermOpen", {
       vim.fn.setreg("+", table.concat(lines))
     end, { buffer = 0, desc = "[Y]ank selection and remove line breaks" })
 
-    -- For a running terminal emulator that contains file paths that I would like to
-    -- jump to in another buffer within the same window
-    vim.keymap.set({ "n", "x" }, "gf", function()
+    local function jump_to_file(in_tab)
       -- Get the current sequence of non-blank characters
       if vim.fn.mode() == "n" then
         vim.cmd(":normal viW")
@@ -43,8 +41,12 @@ autocmd("TermOpen", {
         return
       end
 
-      -- Jump back to the first tab
-      vim.cmd(":tabfirst")
+      -- Jump back to the first tab or the last window
+      if in_tab then
+        vim.cmd(":tabprevious")
+      else
+        vim.cmd(":wincmd p")
+      end
 
       -- If a line number was found, open the file and jump to that line number.
       -- If a name was found, just to that name in the file,
@@ -63,7 +65,11 @@ autocmd("TermOpen", {
           vim.cmd(":e +/" .. s[1] .. " " .. t[1])
         end
       end
-    end, { buffer = 0, silent = true })
+    end
+
+    -- For a running terminal emulator that contains file paths that I would like to jump to in another buffer
+    vim.keymap.set({ "n", "x" }, "gf", function() jump_to_file(false) end, { buffer = 0, silent = true })
+    vim.keymap.set({ "n", "x" }, "<C-w>gf", function() jump_to_file(true) end, { buffer = 0, silent = true })
   end,
 })
 
