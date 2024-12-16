@@ -95,6 +95,7 @@ vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> wincmd h<CR>", { desc = "Go to
 vim.keymap.set({ "n", "t" }, "<C-w><C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
 vim.keymap.set({ "n", "t" }, "<C-w><C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
 vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-w>", "<cmd> wincmd w<CR>", { desc = "Go to right window" })
 
 -- Close window
 vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
