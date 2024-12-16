@@ -14,11 +14,11 @@ return {
           click = "v:lua.ScLa",
         },
         {
-          sign = { namespace = { "gitsigns" } },
+          sign = { namespace = { "gitsigns" }, auto = true },
           click = "v:lua.ScSa"
         },
         {
-          sign = { namespace = { "diagnostic/signs" }, auto = false },
+          sign = { namespace = { "diagnostic/signs" }, auto = true },
           click = "v:lua.ScSa"
         },
         {
