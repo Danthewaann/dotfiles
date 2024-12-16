@@ -78,16 +78,8 @@ M.run_command_in_term = function(args, use_tmux)
   if use_tmux then
     vim.cmd(":Tmux " .. args)
   else
-    require("toggleterm").exec(args, nil, nil, nil, nil, nil, false, true)
-    M.schedule_start_insert()
+    vim.fn["test#strategy#neovim_sticky"](args)
   end
-end
-
-M.schedule_start_insert = function()
-  -- Go back into insert mode to follow the command output
-  vim.schedule(function()
-    vim.cmd(":startinsert!")
-  end)
 end
 
 M.print = function(msg)

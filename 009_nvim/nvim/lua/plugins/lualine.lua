@@ -91,7 +91,7 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt" } },
       },
-      extensions = { "toggleterm", "man", "quickfix" },
+      extensions = { "man", "quickfix" },
       sections = {
         lualine_a = { "mode" },
         lualine_b = { filename_config },

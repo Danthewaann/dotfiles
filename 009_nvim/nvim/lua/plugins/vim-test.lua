@@ -5,15 +5,12 @@ return {
   config = function()
     local utils = require("custom.utils")
 
-    local function custom_toggleterm_strategy(cmd)
-      require("toggleterm").exec(cmd, nil, nil, nil, nil, nil, false, true)
-      utils.schedule_start_insert()
-    end
-
-    vim.g["test#custom_strategies"] = { custom_toggleterm = custom_toggleterm_strategy }
-    vim.g["test#strategy"] = "custom_toggleterm"
+    vim.g["test#strategy"] = "neovim_sticky"
+    vim.g["test#neovim#term_position"] = "botright 10"
+    vim.g["test#neovim_sticky#kill_previous"] = 1
+    vim.g["test#neovim_sticky#reopen_window"] = 1
     vim.g["test#echo_command"] = 0
-    vim.g["test#preserve_screen"] = 1
+    vim.g["test#preserve_screen"] = 0
 
     local test_runners = {
       python = {
