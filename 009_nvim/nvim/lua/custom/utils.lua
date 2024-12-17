@@ -162,7 +162,7 @@ M.ignore_filetypes = {
   "list",
   "help",
   "man",
-  "spectre_panel",
+  "octo_panel",
   "dbout",
   "oil",
   "VimspectorPrompt",
