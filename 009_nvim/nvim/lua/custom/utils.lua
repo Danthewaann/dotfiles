@@ -157,6 +157,7 @@ M.ignore_filetypes = {
   "qf",
   "git",
   "dbui",
+  "ministarter",
   "diff",
   "gitcommit",
   "list",
