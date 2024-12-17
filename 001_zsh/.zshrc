@@ -180,6 +180,11 @@ export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#
 alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
+alias ga='gitw-add'
+alias gu='gitw-update'
+alias gr='gitw-rebase'
+alias prc='git-pr-create'
+alias pre='git-pr-edit'
 
 # Some convenience functions
 function b64encode () {
