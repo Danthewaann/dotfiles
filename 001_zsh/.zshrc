@@ -180,11 +180,14 @@ export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#
 alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
+alias gc='git-clone-bare'
 alias ga='gitw-add'
 alias gu='gitw-update'
 alias gr='gitw-rebase'
 alias prc='git-pr-create'
 alias pre='git-pr-edit'
+alias prv='gh pr view --web'
+alias rv='gh repo view --web'
 
 # Some convenience functions
 function b64encode () {
