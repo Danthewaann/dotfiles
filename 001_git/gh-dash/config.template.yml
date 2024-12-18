@@ -20,7 +20,7 @@ issuesSections:
 defaults:
   preview:
     open: true
-    width: 100
+    width: 70
   prsLimit: 30
   issuesLimit: 10
   view: prs
@@ -29,6 +29,8 @@ repoPaths:
   default_path: ~/Workspace
 keybindings:
   prs:
+    - key: a
+      builtin: approve
     - key: C
       command: >
         clear &&
