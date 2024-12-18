@@ -332,11 +332,12 @@ vim.keymap.set("n", "<leader>p", function()
     vim.cmd("%bd|e#|bd#")
   end
   commands[command_name("[File] Make current file executable")] = function()
-    utils.run_job(
-      "chmod",
-      { "+x", vim.fn.expand("%") },
-      "Marked " .. vim.fn.expand("%") .. " as executable"
-    )
+    local obj = vim.system({ "chmod", "+x", vim.fn.expand("%") }):wait()
+    if obj.code ~= 0 then
+      utils.print_err(obj.stderr)
+      return
+    end
+    utils.print("File marked as executable")
   end
   commands[command_name("[Journal] Create new entry")] = function()
     local template
