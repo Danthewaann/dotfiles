@@ -153,6 +153,7 @@ end
 M.ignore_filetypes = {
   "NeogitStatus",
   "DiffviewFileHistory",
+  "DiffviewFiles",
   "neotest-summary",
   "qf",
   "git",
