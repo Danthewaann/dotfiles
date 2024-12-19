@@ -15,11 +15,7 @@ return {
         require("neotest-golang")
       },
       quickfix = {
-        open = function()
-          vim.schedule(function()
-            vim.cmd("botright copen")
-          end)
-        end,
+        enabled = true
       },
       output = {
         enabled = true,
