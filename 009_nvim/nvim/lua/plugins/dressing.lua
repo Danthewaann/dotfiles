@@ -7,13 +7,11 @@ return {
     },
     input = {
       insert_only = false,
-      start_in_insert = true,
+      start_in_insert = false,
       relative = "editor",
       get_config = function(opts)
         if opts.prompt == "New Name: " then
           return {
-            insert_only = true,
-            start_in_insert = true,
             relative = "cursor"
           }
         elseif opts.prompt == "Enter branch name" then
