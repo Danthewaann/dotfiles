@@ -6,12 +6,12 @@ return {
         vim.g.vimspector_enable_mappings = "HUMAN"
         vim.g.vimspector_install_gadgets = { "debugpy", "vscode-node-debug2", "delve" }
         vim.g.vimspector_sign_priority = {
-            vimspectorBP = 999,
-            vimspectorBPCond = 999,
-            vimspectorBPLog = 999,
-            vimspectorBPDisabled = 999,
-            vimspectorPC = 999,
-            vimspectorPCBP = 1001,
+            vimspectorBP = 1000,
+            vimspectorBPCond = 1000,
+            vimspectorBPLog = 1000,
+            vimspectorBPDisabled = 1000,
+            vimspectorPC = 1000,
+            vimspectorPCBP = 1000,
             vimspectorCurrentThread = 1000,
             vimspectorCurrentFrame = 1000,
         }
