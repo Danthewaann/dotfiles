@@ -53,8 +53,6 @@ return {
     vim.diagnostic.config({
       virtual_text = virtual_text_config,
       signs = {
-        -- Set this so `gitsigns.nvim` takes higher priority
-        priority = 1,
         severity = vim.diagnostic.severity.ERROR,
         text = {
           [vim.diagnostic.severity.ERROR] = symbols[vim.diagnostic.severity.ERROR],

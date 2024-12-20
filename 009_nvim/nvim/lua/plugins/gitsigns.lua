@@ -25,8 +25,6 @@ return {
       row = 0,
       col = 1
     },
-    -- Set this to have higher priority over `neotest`
-    sign_priority = 1001,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
 
