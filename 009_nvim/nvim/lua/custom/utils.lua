@@ -19,28 +19,26 @@ end
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_poetry_venv_executable_path = function(exe, check_poetry, workspace)
   check_poetry = check_poetry or false
-  workspace = workspace or nil
-
-  local lsp_utils = require("lspconfig/util")
+  workspace = workspace or ""
 
   -- Check if the executable exists in the .venv/bin directory
   -- (as this is much quicker than running the poetry command)
-  local venv_exe = lsp_utils.path.join(workspace, ".venv", "bin", exe)
+  local venv_exe = table.concat({ workspace, ".venv", "bin", "exe" }, "/")
   if M.file_exists(venv_exe) then
     return venv_exe
   end
 
   -- Use activated virtualenv.
   if vim.env.VIRTUAL_ENV then
-    return lsp_utils.path.join(vim.env.VIRTUAL_ENV, "bin", exe)
+    return table.concat({ vim.env.VIRTUAL_ENV, "bin", exe }, "/")
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
-  if check_poetry and M.file_exists(lsp_utils.path.join(workspace, "poetry.lock")) then
+  if check_poetry and M.file_exists(table.concat({ workspace, "poetry.lock" }, "/")) then
     if python_venv == nil then
       python_venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
     end
-    venv_exe = lsp_utils.path.join(python_venv, "bin", exe)
+    venv_exe = table.concat({ python_venv, "bin", exe }, "/")
     if M.file_exists(venv_exe) then
       return venv_exe
     end
