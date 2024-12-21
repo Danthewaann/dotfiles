@@ -56,8 +56,8 @@ vim.o.sidescrolloff = 16
 -- Allow for maximum scroll back in the neovim terminal emulator
 vim.o.scrollback = 100000
 
--- Enable the signcolumn for things like displaying git changes and diagnostics
-vim.o.signcolumn = "auto:1-3"
+-- Enable the signcolumn for things like displaying git changes
+vim.o.signcolumn = "yes"
 
 -- Set updatetime to a low number for faster updates
 vim.o.updatetime = 250
