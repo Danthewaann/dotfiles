@@ -19,11 +19,11 @@ end
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 M.get_poetry_venv_executable_path = function(exe, check_poetry, workspace)
   check_poetry = check_poetry or false
-  workspace = workspace or ""
+  workspace = workspace or "."
 
   -- Check if the executable exists in the .venv/bin directory
   -- (as this is much quicker than running the poetry command)
-  local venv_exe = table.concat({ workspace, ".venv", "bin", "exe" }, "/")
+  local venv_exe = table.concat({ workspace, ".venv", "bin", exe }, "/")
   if M.file_exists(venv_exe) then
     return venv_exe
   end
