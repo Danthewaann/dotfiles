@@ -33,34 +33,14 @@ return {
   config = function()
     local utils = require("custom.utils")
     local border = "rounded"
-    local symbols = {
-      [vim.diagnostic.severity.ERROR] = "󰅚 ",
-      [vim.diagnostic.severity.INFO] = " ",
-      [vim.diagnostic.severity.HINT] = " ",
-      [vim.diagnostic.severity.WARN] = "󰀪 "
-    }
-
     local show_virtual_text = true
     local virtual_text_config = {}
-    local highlights = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
-      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
-    }
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
       virtual_text = virtual_text_config,
       signs = false,
-      float = {
-        source = true,
-        header = "",
-        prefix = function(diagnostic)
-          return symbols[diagnostic.severity] or "NA", highlights[diagnostic.severity]
-        end,
-        border = border
-      },
+      float = { source = "if_many", border = border },
       severity_sort = true
     })
 
