@@ -358,8 +358,9 @@ vim.keymap.set("n", "<leader>p", function()
         end
 
         local week = input2
-        local file_week = week
-        if tonumber(file_week) < 10 then
+        local file_week = tonumber(week)
+        if file_week < 10 then
+          ---@diagnostic disable-next-line: cast-local-type
           file_week = "0" .. file_week
         end
         local journal_entry = workspace .. "/notes/journal/" .. year .. "/week-" .. file_week .. ".md"
