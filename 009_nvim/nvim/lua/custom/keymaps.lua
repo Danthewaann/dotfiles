@@ -302,6 +302,26 @@ vim.keymap.set("n", "<leader>p", function()
       return
     end
   end
+  commands[command_name("[Github] Yank PR to clipboard")] = function()
+    vim.system({ "gh", "pr", "view", "--json", "url", "--jq", ".url" }, { text = true }, function(obj)
+      vim.schedule(function()
+        if obj.code ~= 0 then
+          utils.print_err(obj.stderr)
+          return
+        end
+
+        local url = vim.fn.trim(obj.stdout)
+        local cb_opts = vim.opt.clipboard:get()
+        if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", url) end
+        if vim.tbl_contains(cb_opts, "unnamedplus") then
+          vim.fn.setreg("+", url)
+        end
+        vim.fn.setreg("", url)
+        utils.print("Copied " .. url .. " to clipboard")
+      end)
+    end)
+  end
+
   commands[command_name("[Ticket] Open in browser")] = function()
     local ticket_url = get_ticket_url()
     if ticket_url == nil then
