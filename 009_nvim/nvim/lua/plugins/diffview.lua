@@ -26,7 +26,9 @@ return {
             "<C-k>",
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
-          }
+          },
+          { "n", "h", false },
+          { "n", "l", false },
         },
         file_history_panel = {
           {
@@ -41,6 +43,8 @@ return {
             function() actions.select_prev_entry() end,
             { desc = "Select previous entry" }
           },
+          { "n", "h", false },
+          { "n", "l", false },
         },
         view = {
           {
