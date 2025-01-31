@@ -7,12 +7,19 @@ return {
         complete = "x"
       },
       mappings = {
-        MkdnEnter = false,
+        MkdnEnter = { { "n", "v", "i" }, "<CR>" },
         MkdnGoBack = false,
         MkdnGoForward = false,
-        MkdnCreateLinkFromClipboard = { { "n", "v" }, "<leader>l" },
-        MkdnIncreaseHeading = false,
-        MkdnDecreaseHeading = false,
+        MkdnCreateLinkFromClipboard = { { "n", "v" }, "<leader>la" },
+        MkdnDestroyLink = { "n", "<leader>ld" },
+        MkdnIncreaseHeading = { "n", "<leader>=" },
+        MkdnDecreaseHeading = { "n", "<leader>-" },
+        MkdnTableNewRowBelow = { "n", "<leader>ir" },
+        MkdnTableNewRowAbove = { "n", "<leader>iR" },
+        MkdnTableNewColAfter = { "n", "<leader>ic" },
+        MkdnTableNewColBefore = { "n", "<leader>iC" },
+        MkdnFoldSection = false,
+        MkdnUnfoldSection = false,
       }
     })
   end
