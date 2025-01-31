@@ -10,7 +10,7 @@ return {
         MkdnEnter = false,
         MkdnGoBack = false,
         MkdnGoForward = false,
-        MkdnCreateLinkFromClipboard = { { "n", "v" }, "gl" },
+        MkdnCreateLinkFromClipboard = { { "n", "v" }, "<leader>l" },
         MkdnIncreaseHeading = false,
         MkdnDecreaseHeading = false,
       }

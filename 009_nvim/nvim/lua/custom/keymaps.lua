@@ -411,6 +411,27 @@ vim.keymap.set("n", "<leader>p", function()
   )
 end, { desc = "Command [P]rompt" })
 
+-- Folds
+vim.keymap.set("n", "gl", function()
+  local line = vim.fn.line(".")
+  local foldlevel = vim.fn.foldlevel(line)
+  if foldlevel == 0 then
+    vim.notify("No fold found", vim.log.levels.INFO)
+  else
+    vim.cmd("normal! za")
+  end
+end, { desc = "Toggle fold" })
+
+vim.keymap.set("n", "gL", function()
+  local line = vim.fn.line(".")
+  local foldlevel = vim.fn.foldlevel(line)
+  if foldlevel == 0 then
+    vim.notify("No fold found", vim.log.levels.INFO)
+  else
+    vim.cmd("normal! zA")
+  end
+end, { desc = "Toggle fold recursively" })
+
 vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
 })
