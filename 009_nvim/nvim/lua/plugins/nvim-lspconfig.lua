@@ -111,13 +111,13 @@ return {
         end
 
         map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-        map("gh", function()
+        map("<C-w>gh", function()
           require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
         end, "[G]oto Definition In Vertical Split")
-        map("gs", function()
+        map("<C-w>gs", function()
           require("telescope.builtin").lsp_definitions({ jump_type = "split" })
         end, "[G]oto Definition In [S]plit")
-        map("gt", function()
+        map("<C-w>gt", function()
           require("telescope.builtin").lsp_definitions({ jump_type = "tab" })
         end, "[G]oto Definition In [T]ab")
         map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
