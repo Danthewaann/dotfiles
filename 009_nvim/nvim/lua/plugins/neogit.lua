@@ -1,5 +1,5 @@
 return {
-  "NeogitOrg/neogit",
+  "Danthewaann/neogit",
   event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
