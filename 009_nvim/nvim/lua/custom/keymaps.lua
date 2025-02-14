@@ -216,6 +216,53 @@ vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
 vim.keymap.set("c", "<Tab>", "<Nop>")
 vim.keymap.set("c", "<S-Tab>", "<Nop>")
 
+vim.keymap.set("n", "<leader>dB", function()
+  vim.cmd("%bd|e#|bd#")
+end, { desc = "[D]elete All Other [B]uffers" })
+
+vim.keymap.set("n", "<leader>ga", function()
+  vim.ui.input({ prompt = "Enter branch name" }, function(input)
+    local obj = vim.system({ "gh", "prv" }):wait()
+    if obj.code ~= 0 then
+      utils.print_err(obj.stderr)
+      return
+    end
+    if input == nil then
+      return
+    end
+
+    utils.run_command_in_term("gitw-add " .. input, true)
+  end)
+end, { desc = "[G]it Worktree [A]dd" })
+
+vim.keymap.set("n", "<leader>gc", function()
+  utils.run_command_in_term("git-pr-create", true)
+end, { desc = "[G]it PR [C]reate" })
+
+vim.keymap.set("n", "<leader>ge", function()
+  utils.run_command_in_term("git-pr-edit", true)
+end, { desc = "[G]it PR [E]dit" })
+
+vim.keymap.set("n", "<leader>gv", function()
+  local obj = vim.system({ "gh", "prv" }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(obj.stderr)
+    return
+  end
+end, { desc = "[G]it PR [V]iew" })
+
+vim.keymap.set("n", "<leader>gu", function()
+  utils.run_command_in_term("gitw-rebase", true)
+end, { desc = "[G]it Rebase/[U]pdate With Base Branch" })
+
+vim.keymap.set("n", "<leader>gr", function()
+  local obj = vim.system({ "gh", "rv" }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(obj.stderr)
+    return
+  end
+end, { desc = "[G]it [R]epo View" })
+
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
   local function get_ticket_url()
@@ -266,42 +313,6 @@ vim.keymap.set("n", "<leader>p", function()
       end)
   end
 
-  commands[command_name("[Git] Add new worktree")] = function()
-    vim.ui.input({ prompt = "Enter branch name" }, function(input)
-      if input == nil then
-        return
-      end
-
-      utils.run_command_in_term("gitw-add " .. input, true)
-    end)
-  end
-
-  commands[command_name("[Git] Rebase with base worktree")] = function()
-    utils.run_command_in_term("gitw-rebase", true)
-  end
-
-  commands[command_name("[GitHub] Create PR")] = function()
-    utils.run_command_in_term("git-pr-create", true)
-  end
-
-  commands[command_name("[GitHub] Edit PR")] = function()
-    utils.run_command_in_term("git-pr-edit", true)
-  end
-
-  commands[command_name("[GitHub] Open PR in browser")] = function()
-    local obj = vim.system({ "gh", "prv" }):wait()
-    if obj.code ~= 0 then
-      utils.print_err(obj.stderr)
-      return
-    end
-  end
-  commands[command_name("[GitHub] Open repository in browser")] = function()
-    local obj = vim.system({ "gh", "rv" }):wait()
-    if obj.code ~= 0 then
-      utils.print_err(obj.stderr)
-      return
-    end
-  end
   commands[command_name("[Github] Yank PR to clipboard")] = function()
     vim.system({ "gh", "pr", "view", "--json", "url", "--jq", ".url" }, { text = true }, function(obj)
       vim.schedule(function()
@@ -347,9 +358,6 @@ vim.keymap.set("n", "<leader>p", function()
   commands[command_name("[Mini] Save session")] = function()
     ---@diagnostic disable-next-line: undefined-global
     MiniSessions.write("Session.vim")
-  end
-  commands[command_name("[Buffer] Delete all other buffers")] = function()
-    vim.cmd("%bd|e#|bd#")
   end
   commands[command_name("[File] Make current file executable")] = function()
     local obj = vim.system({ "chmod", "+x", vim.fn.expand("%") }):wait()

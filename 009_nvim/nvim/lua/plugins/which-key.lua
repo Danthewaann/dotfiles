@@ -13,17 +13,16 @@ return {
       win = { border = "rounded" }
     })
     require("which-key").add({
-      { "<leader>b",   group = "[B]reakpoints, [B]uffers" },
+      { "<leader>b",   group = "[B]reakpoints" },
       { "<leader>b_",  hidden = true },
       { "<leader>c",   group = "[C]ode, [C]ommand" },
       { "<leader>c_",  hidden = true },
-      { "<leader>d",   group = "[D]iff, [DB]" },
+      { "<leader>d",   group = "[D]iff, [DB], [D]elete" },
       { "<leader>d_",  hidden = true },
-      { "<leader>g",   group = "[G]it, [G]enerate, [G]lobal" },
+      { "<leader>g",   group = "[G]it, [G]enerate" },
       { "<leader>g_",  hidden = true },
       { "<leader>gl",  group = "[G]it [L]og" },
       { "<leader>gl_", hidden = true },
-      { "<leader>gs",  group = "[G]lobal [S]earch" },
       { "<leader>gs_", hidden = true },
       { "<leader>h",   group = "Git [H]unk" },
       { "<leader>h_",  hidden = true },
@@ -42,12 +41,10 @@ return {
     require("which-key").add({
       {
         mode = { "v" },
-        { "<leader>",   group = "VISUAL <leader>" },
-        { "<leader>g",  group = "[G]it, [G]lobal" },
-        { "<leader>gs", group = "[G]lobal [S]earch" },
-        { "<leader>h",  desc = "Git [H]unk" },
-        { "<leader>r",  group = "[R]eplace" },
-        { "<leader>s",  group = "[S]earch" },
+        { "<leader>",  group = "VISUAL <leader>" },
+        { "<leader>h", desc = "Git [H]unk" },
+        { "<leader>r", group = "[R]eplace" },
+        { "<leader>s", group = "[S]earch" },
       },
     })
   end
