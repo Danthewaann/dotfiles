@@ -35,6 +35,7 @@ return {
         status = {
           ["S"]     = "StageAll",
           ["<c-s>"] = false,
+          ["<c-p>"] = false,
           ["y"]     = false,
         },
         popup = {
