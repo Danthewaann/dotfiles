@@ -15,6 +15,9 @@ return {
       commit_editor = {
         kind = "vsplit",
       },
+      status = {
+        recent_commit_count = 50
+      },
       mappings = {
         commit_editor = {
           ["<c-c><c-c>"] = false,
