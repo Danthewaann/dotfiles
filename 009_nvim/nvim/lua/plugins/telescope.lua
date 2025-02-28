@@ -16,9 +16,9 @@ return {
     }
   },
   config = function()
-    local dropdown_layout_config = {
-      height = 0.6,
-      width = 0.6
+    local ivy_layout_config = {
+      height = { padding = 0 },
+      width = { padding = 0 }
     }
     local grep_args = function(_)
       return { "--hidden" }
@@ -69,12 +69,12 @@ return {
         }
       },
       pickers = {
-        marks = { theme = "dropdown", previewer = false, layout_config = { width = 0.5 } },
         lsp_definitions = {
           theme = "ivy",
           path_display = { "filename_first" },
           show_line = false,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_references = {
           theme = "ivy",
@@ -82,17 +82,20 @@ return {
           include_declaration = false,
           show_line = false,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_implementations = {
           theme = "ivy",
           path_display = { "filename_first" },
           show_line = true,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_type_definitions = {
           theme = "ivy",
           path_display = { "filename_first" },
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_incoming_calls = {
           theme = "ivy",
@@ -101,6 +104,7 @@ return {
           fname_width = 0.6,
           symbol_width = 0.4,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_outgoing_calls = {
           theme = "ivy",
@@ -109,6 +113,7 @@ return {
           fname_width = 0.6,
           symbol_width = 0.4,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_workspace_symbols = {
           theme = "ivy",
@@ -118,6 +123,7 @@ return {
           symbol_width = 0.3,
           symbol_type_width = 0.1,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_dynamic_workspace_symbols = {
           theme = "ivy",
@@ -127,17 +133,19 @@ return {
           symbol_width = 0.3,
           symbol_type_width = 0.1,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         lsp_document_symbols = {
           theme = "ivy",
           previewer = true,
           symbol_width = 0.9,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         current_buffer_fuzzy_find = {
-          theme = "dropdown",
-          previewer = false,
-          layout_config = dropdown_layout_config,
+          theme = "ivy",
+          previewer = true,
+          layout_config = ivy_layout_config,
         },
         buffers = {
           theme = "ivy",
@@ -146,44 +154,49 @@ return {
           ignore_current_buffer = true,
           results_title = false,
           path_display = { "filename_first" },
+          layout_config = ivy_layout_config,
         },
         oldfiles = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           results_title = false,
           path_display = { "filename_first" },
+          layout_config = ivy_layout_config,
         },
         find_files = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           no_ignore = true,
           hidden = true,
           results_title = false,
           path_display = { "filename_first" },
+          layout_config = ivy_layout_config,
         },
         git_files = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           results_title = false,
           path_display = { "filename_first" },
+          layout_config = ivy_layout_config,
         },
         git_status = {
           theme = "ivy",
           previewer = true,
           results_title = false,
           path_display = { "filename_first" },
+          layout_config = ivy_layout_config,
         },
-        help_tags = { theme = "ivy", results_title = false },
-        git_commits = { theme = "ivy", results_title = false },
-        search_history = { theme = "dropdown", layout_config = dropdown_layout_config },
-        command_history = { theme = "dropdown", layout_config = dropdown_layout_config },
+        help_tags = { theme = "ivy", results_title = false, layout_config = ivy_layout_config, },
+        git_commits = { theme = "ivy", results_title = false, layout_config = ivy_layout_config, },
+        search_history = { theme = "ivy", layout_config = ivy_layout_config },
+        command_history = { theme = "ivy", layout_config = ivy_layout_config },
         -- TODO: this doesn't work as when you select a picker
         -- the telescope picker layout doesn't update correctly
         -- pickers = {
         --   theme = "dropdown",
         --   previewer = false,
         -- },
-        man_pages = { theme = "ivy", previewer = false, results_title = false },
+        man_pages = { theme = "ivy", previewer = false, results_title = false, layout_config = ivy_layout_config, },
         diagnostics = {
           theme = "ivy",
           path_display = { "filename_first" },
@@ -191,22 +204,25 @@ return {
           sort_by = "severity",
           previewer = false,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         grep_string = {
           theme = "ivy",
-          previewer = true,
+          previewer = false,
           path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
         live_grep = {
           theme = "ivy",
-          previewer = true,
+          previewer = false,
           path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
           results_title = false,
+          layout_config = ivy_layout_config,
         },
       },
       extensions = {
