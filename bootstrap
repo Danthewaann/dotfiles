@@ -9,7 +9,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/common
 
 setup_gitconfig () {
-    if ! [[ -f "$SCRIPT_DIR"/001_git/.gitconfig ]]; then
+    if ! [[ -f "$SCRIPT_DIR"/git/.gitconfig ]]; then
         info 'setup gitconfig'
 
         git_credential='cache'
@@ -25,7 +25,7 @@ setup_gitconfig () {
         sed -e "s/AUTHORNAME/$git_authorname/g" \
             -e "s/AUTHOREMAIL/$git_authoremail/g" \
             -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" \
-            "$SCRIPT_DIR"/001_git/.gitconfig.example > "$SCRIPT_DIR"/001_git/.gitconfig
+            "$SCRIPT_DIR"/git/.gitconfig.example > "$SCRIPT_DIR"/git/.gitconfig
 
         success 'gitconfig'
     fi
@@ -36,16 +36,17 @@ install_symlinks () {
 
     overwrite_all=false backup_all=false skip_all=false
 
-    symlink_files=()
-    while IFS=" " read -r line; do symlink_files+=("$line"); done < <(find -H "$SCRIPT_DIR" -maxdepth 2 -name 'symlink.sh' | sort)
-
-    for symlink_file in "${symlink_files[@]}"; do
+    for module in "${MODULES[@]}"; do
+        if [[ ! -f "$module/symlink.sh" ]]; then
+            warn "no symlink.sh file found for $module, skipping"
+            continue
+        fi
         info ""
-        info "running symlink file $symlink_file"
+        info "running symlink file : $module/symlink.sh"
         info "==========================================="
         info ""
-        if ! symlinks=$(sh -c "$symlink_file" 2>&1); then
-            fail "failed to run symlink file $symlink_file"
+        if ! symlinks=$(sh -c "$module/symlink.sh" 2>&1); then
+            fail "failed to run symlink file : $module/symlink.sh"
         else
             for link in "${symlinks[@]}"; do
                 lines=()
@@ -56,7 +57,7 @@ install_symlinks () {
                 done
             done
             info ""
-            success "finished symlink file $symlink_file"
+            success "finished symlink file : $module/symlink.sh"
             info "==========================================="
         fi
     done

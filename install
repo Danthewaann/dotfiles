@@ -8,38 +8,26 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$SCRIPT_DIR"/common
 
-# find all installers and run them iteratively
-installers=()
-while IFS=" " read -r line; do installers+=("$line"); done < <(find . -name install.sh | sort)
-
 echo ""
 
+# find all installers and run them iteratively
 info "running installers : log file -> $LOG_FILE"
-for installer in "${installers[@]}"; do
+for module in "${MODULES[@]}"; do
     info ""
     info "==========================================="
 
-    skip_installer=0
-    for skip in "${SKIP_INSTALLERS[@]}"; do
-        if echo "$installer" | grep "_$skip/" > /dev/null; then
-            skip_installer=1
-            break
-        fi
-    done
-
-    if [[ $skip_installer -eq 1 ]]; then
-        warn "skipping installer $installer"
-        info "==========================================="
+    if [[ ! -d "./$module" ]]; then
+        warn "installer not found : $module" 
         continue
-    else
-        info "running installer $installer"
-        info ""
     fi
 
-    if ! sh -c "$installer"; then
-        fail "failed to run installer $installer"
+    info "running installer : $module/install.sh"
+    info ""
+
+    if ! sh -c "$module/install.sh"; then
+        fail "failed to run installer : $module/install.sh"
     else
-        success "finished installer $installer"
+        success "finished installer : $module/install.sh"
     fi
 
     info "==========================================="

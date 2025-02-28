@@ -1,8 +1,8 @@
 .DS_Store
 *.zip
-001_git/.gitconfig
-001_git/gh-dash/config.yml
-007_tmux/tmux-*/
+git/.gitconfig
+git/gh-dash/config.yml
+tmux/tmux-*/
 debug.log
 *.tar.gz
 *.gnome_installed_one_dark_theme*
@@ -12,7 +12,7 @@ Session.vim
 .tmux-save-sessions
 .zprofile
 
-001_zsh/functions/_poetry
-001_zsh/functions/_gh
-006_docker/config.json
+zsh/functions/_poetry
+zsh/functions/_gh
+docker/config.json
 variables
