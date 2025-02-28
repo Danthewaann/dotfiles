@@ -30,12 +30,5 @@ return {
       footer = "",
       silent = true,
     })
-
-    -- Clear `statuscolumn` as `statuscol` sets it
-    vim.api.nvim_create_autocmd("User", {
-      group = vim.api.nvim_create_augroup("mini-started-customer", { clear = true }),
-      pattern = "MiniStarterOpened",
-      command = "setlocal statuscolumn="
-    })
   end
 }
