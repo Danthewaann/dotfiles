@@ -78,6 +78,7 @@ if [[ $is_bare_repo != "true" ]]; then
     exit 1
 fi
 
+# If the worktree already exists, switch to it
 if [[ -d $converted_name ]]; then
     info "Switching to worktree..."
     cd "$converted_name" || exit
@@ -97,9 +98,16 @@ else
 fi
 >&2 echo
 
-# Create a new worktree using the converted name
+# Check if branch already exists
+branch_arg=
+if ! git branch | grep "\w*$branch_name\$" > /dev/null; then
+    # Need to create the branch as it doesn't exist
+    branch_arg="-b" 
+fi
+
+# Create a new worktree using the converted name whilst checking out the branch
 info "Creating worktree..."
-if ! output=$(git worktree add "$converted_name" 2>&1); then
+if ! output=$(git worktree add "$converted_name" $branch_arg "$branch_name" 2>&1); then
     error "$output"
     exit 1
 else
@@ -107,69 +115,9 @@ else
         >&2 echo "$output"
     fi
 fi
->&2 echo
 
 # Enter the new worktree
 cd "$converted_name" || exit
-
-info "Creating branch..."
-
-# Attempt to rename worktree branch to use the correct branch name
-if ! output=$(git branch -m "$branch_name" 2>&1); then
-    # If the branch name already exists, check it out instead of creating it
-    if [[ $output == *"already exists"* ]]; then
-        echo "Branch '$branch_name' exists locally, switching to it"
-        if ! output=$(git checkout "$branch_name" 2>&1); then
-            error "Failed to checkout branch : $output"
-            exit 1
-        else
-            if [[ -n "$output" ]]; then
-                >&2 echo "$output"
-            fi
-        fi
-        if ! output=$(git rev-parse --abbrev-ref "$branch_name@{upstream}" 2>&1); then
-            echo "Branch '$branch_name' has no upstream set, setting to 'origin/$branch_name'"
-            if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
-                warn "Failed to set upstream for branch : $output"
-            else
-                if [[ -n "$output" ]]; then
-                    >&2 echo "$output"
-                fi
-            fi
-        fi
-    fi
-# Check if the branch exists remotely, if it does set it as upstream and hard reset to it
-elif git branch -r | grep "$branch_name" > /dev/null 2>&1; then
-    echo "Branch '$branch_name' exists remotely, setting as upstream and hard resetting to it"
-    if ! output=$(git branch --set-upstream-to=origin/"$branch_name" 2>&1); then
-        error "Failed to set upstream to branch : $output"
-        exit 1
-    else
-        if [[ -n "$output" ]]; then
-            >&2 echo "$output"
-        fi
-    fi
-    if ! output=$(git reset --hard origin/"$branch_name" 2>&1); then
-        error "Failed to hard reset branch : $output"
-        exit 1
-    else
-        if [[ -n "$output" ]]; then
-            >&2 echo "$output"
-        fi
-    fi
-
-    >&2 echo
-    info "Running git pull..."
-    if ! output=$(git -c color.ui=always pull 2>&1); then
-        >&2 echo "$output"
-        exit 1
-    else
-        if [[ -n "$output" ]]; then
-            >&2 echo "$output"
-        fi
-    fi
-fi
-
 
 # Optional post checkout steps
 if [[ $checkout_only -ne 1 ]]; then
