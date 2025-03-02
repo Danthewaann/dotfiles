@@ -1,7 +1,10 @@
 # Global variables used in my installers and dotfiles
-export PYTHON_VERSION=3.11.0
-export POETRY_VERSION=1.6.1
+export GH_CLI_VERSION=2.67.0
+export PYTHON_VERSION=3.13.0
+export POETRY_VERSION=1.8.4
 export NODE_VERSION=20.4.0
-export GO_VERSION=1.22.1
+export GO_VERSION=1.23.5
+export RUBY_VERSION=3.3.2
+export TMUX_VERSION=3.5a
 export IGNORE_ERRORS=false
 export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim)

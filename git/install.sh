@@ -17,14 +17,14 @@ else
             sudo apt-get -y update && \\
             sudo apt-get -y install git"
 
-    if [[ ! -f "$SCRIPT_DIR/gh_2.51.0_linux_amd64.deb" ]]; then
+    if [[ ! -f "$SCRIPT_DIR"/gh_"$GH_CLI_VERSION"_linux_amd64.deb ]]; then
         run_command "downloading github cli" \
-            "wget -O $SCRIPT_DIR/gh_2.51.0_linux_amd64.deb \\
-            https://github.com/cli/cli/releases/download/v2.51.0/gh_2.51.0_linux_amd64.deb"
+            wget -O "$SCRIPT_DIR"/gh_"$GH_CLI_VERSION"_linux_amd64.deb \\
+            https://github.com/cli/cli/releases/download/v"$GH_CLI_VERSION"/gh_"$GH_CLI_VERSION"_linux_amd64.deb
     fi
 
     run_command "installing github cli" \
-        "sudo dpkg -i $SCRIPT_DIR/gh_2.51.0_linux_amd64.deb"
+        sudo dpkg -i "$SCRIPT_DIR"/gh_"$GH_CLI_VERSION"_linux_amd64.deb
 fi
 
 run_command "logging into github" \
@@ -34,7 +34,7 @@ run_command "configuring github cli" \
     "gh config set editor nvim"
 
 run_command "installing github cli dash extension" \
-    "gh extension install dlvhdr/gh-dash --force --pin v4.0.0"
+    "gh extension install dlvhdr/gh-dash"
 
 run_command "installing github cli notify extension" \
     "gh extension install dcrblack/gh-notify --force"

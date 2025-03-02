@@ -38,12 +38,12 @@ if [[ $OSTYPE == "darwin"* ]]; then
 fi
 
 # Only install provided Ruby version if it isn't already available
-if ! rbenv versions | grep "3.2.2" > /dev/null 2>&1; then
+if ! rbenv versions | grep "$RUBY_VERSION" > /dev/null 2>&1; then
     # From https://stackoverflow.com/a/74821955
-    run_command "installing ruby 3.2.2" "RUBY_CFLAGS=\"-w\" rbenv install 3.2.2"
+    run_command "installing ruby $RUBY_VERSION" "RUBY_CFLAGS=\"-w\" rbenv install $RUBY_VERSION"
 fi
 
-run_command "setting global ruby version to 3.2.2" "rbenv global 3.2.2"
+run_command "setting global ruby version to $RUBY_VERSION" "rbenv global $RUBY_VERSION"
 
 # Need to install this version of nokogiri to be able to install solargraph LSP
 run_command "installing nokogiri" "gem install nokogiri -v 1.13.10"
