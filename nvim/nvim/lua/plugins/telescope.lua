@@ -69,6 +69,13 @@ return {
         }
       },
       pickers = {
+        builtin = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+          show_line = false,
+          results_title = false,
+          layout_config = ivy_layout_config,
+        },
         lsp_definitions = {
           theme = "ivy",
           path_display = { "filename_first" },
@@ -144,7 +151,7 @@ return {
         },
         current_buffer_fuzzy_find = {
           theme = "ivy",
-          previewer = true,
+          previewer = false,
           layout_config = ivy_layout_config,
         },
         buffers = {
