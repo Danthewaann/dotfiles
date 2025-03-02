@@ -145,4 +145,4 @@ success "Successfully created worktree!"
 info "Switching to worktree..."
 sleep 2
 tmux-sessionizer "$(pwd)" "$@"
-reset-tmux-cache &
+tmux-reset-cache &

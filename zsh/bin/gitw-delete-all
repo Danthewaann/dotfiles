@@ -38,7 +38,7 @@ else
     if ! eval "$command"; then true; fi
     >&2 echo
 
-    reset-tmux-cache &
+    tmux-reset-cache &
 
     if [[ $got_error -ne 0 ]]; then
         exit 1

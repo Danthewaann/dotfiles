@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+tmux-clear-projects
+tmux-clear-active-sessions
+tmux-update-projects
+tmux-update-active-sessions

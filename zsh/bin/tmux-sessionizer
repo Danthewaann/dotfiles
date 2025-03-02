@@ -22,7 +22,7 @@ else
     current_session=$(tr _ . <<< "$current_session")
 
     if [[ ! -f "$HOME/.tmux-projects" ]]; then
-        update-tmux-projects
+        tmux-update-projects
     fi
 
     base_dir=$(basename "$TMUX_CURRENT_DIR")
@@ -32,7 +32,7 @@ else
     sessions=()
 
     if [[ ! -f "$HOME/.tmux-active-sessions" ]]; then
-        update-tmux-active-sessions
+        tmux-update-active-sessions
     fi
 
     while IFS=$'\n' read -r line; do sessions+=("$(cut -d' ' -f1 <<< "$line")"); done < <(grep -E -v "$current_session$|dotfiles|notes|github|$base_dir$" < "$HOME/.tmux-active-sessions")
@@ -65,7 +65,7 @@ tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s "$selected_session" -c "$selected"
-    update-tmux-active-sessions &
+    tmux-update-active-sessions &
     exit 0
 fi
 
@@ -79,4 +79,4 @@ if [[ $# -gt 0 ]]; then
 fi
 
 tmux switch-client -t "$selected_session"
-update-tmux-active-sessions &
+tmux-update-active-sessions &
