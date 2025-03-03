@@ -98,16 +98,22 @@ else
 fi
 >&2 echo
 
-# Check if branch already exists
-branch_arg=
+# Check if branch already exists locally
+local_branch_arg=
 if ! git branch | grep "\w*$branch_name\$" > /dev/null; then
-    # Need to create the branch as it doesn't exist
-    branch_arg="-b" 
+    local_branch_arg="-b" 
+fi
+
+# Check if branch already exists remotely
+remote_branch_arg=
+if git branch -r | grep "\w*origin/$branch_name\$" > /dev/null; then
+    remote_branch_arg="--track origin/$branch_name"
 fi
 
 # Create a new worktree using the converted name whilst checking out the branch
 info "Creating worktree..."
-if ! output=$(git worktree add "$converted_name" $branch_arg "$branch_name" 2>&1); then
+# shellcheck disable=SC2086
+if ! output=$(git worktree add "$converted_name" $local_branch_arg "$branch_name" $remote_branch_arg 2>&1); then
     error "$output"
     exit 1
 else
