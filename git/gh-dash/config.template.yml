@@ -1,6 +1,11 @@
 prSections:
-  - title: My PRs
+  - title: My Open PRs
     filters: is:open author:@me
+    layout:
+      author:
+        hidden: true
+  - title: My Closed PRs
+    filters: is:closed author:@me
     layout:
       author:
         hidden: true
