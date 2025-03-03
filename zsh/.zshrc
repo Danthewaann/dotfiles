@@ -166,6 +166,9 @@ if [[ -d "$HOME"/.rbenv ]]; then
     eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
 fi
 
+# Add XDG_CONFIG_HOME to broadbast where my config files should live
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # Add local scripts, rust, bob, golang, ruby and python stuff to path
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
 
