@@ -15,14 +15,14 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection down a lin
 vim.keymap.set("v", ">", ">gv", { desc = "Increase indent" })
 vim.keymap.set("v", "<", "<gv", { desc = "Decrease indent" })
 
+-- Re-select last pasted text
+vim.keymap.set("n", "gV", "`[v`]", { desc = "Re-select last pasted text" })
+
 -- Keep the cursor in the same place when joining lines
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 
 -- Yank, comment out and paste the current line.
 vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { desc = "Yank, comment out and paste line below" })
-
--- Re-select last pasted text
-vim.keymap.set("n", "gy", "`[v`]", { desc = "Re-select last pasted text" })
 
 -- Go to the start and end of the line
 vim.keymap.set("n", "H", "0", { desc = "Jump to start of line" })
