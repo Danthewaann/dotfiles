@@ -76,6 +76,13 @@ return {
           results_title = false,
           layout_config = ivy_layout_config,
         },
+        pickers = {
+          theme = "ivy",
+          path_display = { "filename_first" },
+          show_line = false,
+          results_title = false,
+          layout_config = ivy_layout_config,
+        },
         lsp_definitions = {
           theme = "ivy",
           path_display = { "filename_first" },
@@ -215,7 +222,7 @@ return {
         },
         grep_string = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
@@ -224,7 +231,7 @@ return {
         },
         live_grep = {
           theme = "ivy",
-          previewer = false,
+          previewer = true,
           path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
