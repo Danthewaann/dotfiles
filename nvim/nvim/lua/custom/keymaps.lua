@@ -225,16 +225,16 @@ end, { desc = "[D]elete All Other [B]uffers" })
 
 vim.keymap.set("n", "<leader>ga", function()
   vim.ui.input({ prompt = "Enter branch name" }, function(input)
-    local obj = vim.system({ "gh", "prv" }):wait()
-    if obj.code ~= 0 then
-      utils.print_err(obj.stderr)
-      return
-    end
     if input == nil then
       return
     end
 
-    utils.run_command_in_term("gitw-add " .. input, true)
+    utils.print("Creating worktree " .. input .. "...")
+    local obj = vim.system({ "gitw-add", input }):wait()
+    if obj.code ~= 0 then
+      utils.print_err(obj.stderr)
+      return
+    end
   end)
 end, { desc = "[G]it Worktree [A]dd" })
 
@@ -247,6 +247,7 @@ vim.keymap.set("n", "<leader>ge", function()
 end, { desc = "[G]it PR [E]dit" })
 
 vim.keymap.set("n", "<leader>gv", function()
+  utils.print("Opening pull request in browser...")
   local obj = vim.system({ "gh", "prv" }):wait()
   if obj.code ~= 0 then
     utils.print_err(obj.stderr)
@@ -255,10 +256,24 @@ vim.keymap.set("n", "<leader>gv", function()
 end, { desc = "[G]it PR [V]iew" })
 
 vim.keymap.set("n", "<leader>gu", function()
-  utils.run_command_in_term("gitw-rebase", true)
+  local obj = vim.system({ "git-get-base-branch" }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(obj.stderr)
+    return
+  end
+  local base_branch = vim.fn.trim(obj.stdout)
+
+  utils.print("Rebasing worktree with " .. base_branch .. "...")
+  obj = vim.system({ "gitw-rebase" }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(obj.stderr)
+    return
+  end
+  utils.print("Rebased worktree with " .. base_branch .. "...")
 end, { desc = "[G]it Rebase/[U]pdate With Base Branch" })
 
 vim.keymap.set("n", "<leader>gr", function()
+  utils.print("Opening repository in browser...")
   local obj = vim.system({ "gh", "rv" }):wait()
   if obj.code ~= 0 then
     utils.print_err(obj.stderr)
