@@ -41,6 +41,9 @@ keybindings:
         clear &&
         cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}} || sleep 2
+    - key: d
+      command: >
+        clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} | nvim -R -
     - key: D
       command: >
         clear &&
