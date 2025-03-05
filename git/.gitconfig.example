@@ -9,11 +9,11 @@
     #############
     a = add --all
     #############
-    d = diff
+    d = "!f() { output=$(git diff); if [[ -n $output ]]; then git diff -w | nvim -R -; fi; }; f"
     ds = !git --no-pager diff --shortstat
-    db = "!f() { git diff $(git branch -r | grep -Ei \"${1:-origin/(main|master)}\")..HEAD; }; f"
-    dbs = "!f() { git --no-pager diff --shortstat $(git branch -r | grep -Ei \"${1:-origin/(main|master)}\")..HEAD; }; f"
-    dt = "!f() { git difftool $(git branch -r | grep -Ei \"${1:-origin/(main|master)}\")..HEAD; }; f"
+    db = "!f() { branch=${1:-origin/$(git-get-base-branch)}..HEAD; output=$(git diff $branch); if [[ -n $output ]]; then git diff -w $branch | nvim -R -; fi; }; f"
+    dbs = "!f() { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim; }; f"
+    dt = "!f() { git difftool ${1:-origin/$(git-get-base-branch)}..HEAD; }; f"
     #############
     # see `git help log` for detailed help.
     #   %h: abbreviated commit hash
