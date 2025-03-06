@@ -194,6 +194,7 @@ alias prc='git-pr-create'
 alias pre='git-pr-edit'
 alias prv='gh pr view --web'
 alias rv='gh repo view --web'
+alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
 
 # Some convenience functions
 function b64encode () {
