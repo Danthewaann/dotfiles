@@ -13,8 +13,8 @@ echo "$SCRIPT_DIR/coc-settings.json" "$HOME/coc-settings.json"
 
 echo "$SCRIPT_DIR/.vimspector.json" "$HOME/.vimspector.json"
 
-mkdir -p "$HOME/.config/clangd"
-echo "$SCRIPT_DIR/clangd_config.yaml" "$HOME/.config/clangd/config.yaml"
+mkdir -p "$XDG_CONFIG_HOME/clangd"
+echo "$SCRIPT_DIR/clangd_config.yaml" "$XDG_CONFIG_HOME/clangd/config.yaml"
 
 mkdir -p "$HOME/.vim/autoload"
 for d in "$SCRIPT_DIR"/autoload/*; do
