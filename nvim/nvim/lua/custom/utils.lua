@@ -147,6 +147,16 @@ M.dmypy_args = function(include_cmd)
   return args
 end
 
+M.get_cursor_position = function(path)
+  local filename_modifier = vim.g["test#filename_modifier"] or ":."
+  local position = {
+    file = vim.fn.fnamemodify(path, filename_modifier),
+    line = path == vim.fn.expand("%") and vim.fn.line(".") or 1,
+    col = path == vim.fn.expand("%") and vim.fn.col(".") or 1,
+  }
+  return position
+end
+
 -- filetypes to ignore for plugins
 M.ignore_filetypes = {
   "NeogitStatus",
