@@ -31,6 +31,7 @@ return {
         "json",
         "markdown",
         "markdown_inline",
+        "diff",
         "gitcommit",
         "make",
         "dockerfile",
