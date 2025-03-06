@@ -1,5 +1,6 @@
 return {
     "puremourning/vimspector",
+    enabled = false,
     event = "VeryLazy",
     init = function()
         -- Must define this before loading vimspector
