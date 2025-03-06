@@ -316,6 +316,7 @@ return {
       ts_ls = { settings = {} },
       html = { settings = {}, filetypes = { "html", "twig", "hbs" } },
       jsonls = { settings = {} },
+      yamlls = { settings = {} },
       bashls = {
         settings = {
           bashIde = {
