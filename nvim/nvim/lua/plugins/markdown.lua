@@ -6,6 +6,7 @@ return {
     "nvim-treesitter/nvim-treesitter", -- Mandatory
     "nvim-tree/nvim-web-devicons",     -- Optional but recommended
   },
+  ft = { "markdown", "octo" },
   config = function()
     require("render-markdown").setup({
       file_types = { "markdown", "octo" },
