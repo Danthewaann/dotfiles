@@ -11,13 +11,6 @@ local function setup_test_runners()
     return
   end
 
-  vim.g["test#strategy"] = "neovim_sticky"
-  vim.g["test#neovim#term_position"] = "botright 15"
-  vim.g["test#neovim_sticky#kill_previous"] = 1
-  vim.g["test#neovim_sticky#reopen_window"] = 1
-  vim.g["test#echo_command"] = 0
-  vim.g["test#preserve_screen"] = 1
-
   local test_runners = {
     python = {
       custom = "make",
@@ -76,6 +69,15 @@ end
 
 return {
   "vim-test/vim-test",
+  lazy = false,
+  config = function()
+    vim.g["test#strategy"] = "neovim_sticky"
+    vim.g["test#neovim#term_position"] = "botright 15"
+    vim.g["test#neovim_sticky#kill_previous"] = 1
+    vim.g["test#neovim_sticky#reopen_window"] = 1
+    vim.g["test#echo_command"] = 0
+    vim.g["test#preserve_screen"] = 1
+  end,
   keys = {
     {
       "<leader>td",
