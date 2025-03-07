@@ -7,6 +7,13 @@ autocmd("TermOpen", {
   pattern = "",
   callback = function()
     vim.cmd(":setlocal nonumber signcolumn=no nocursorline")
+
+    vim.keymap.set("n", "<C-p>", function()
+      vim.cmd(":startinsert")
+      -- From: https://vi.stackexchange.com/questions/21449/send-keys-to-a-terminal-buffer
+      vim.fn.feedkeys("\x1b\x5b\x41")
+    end, { buffer = 0, desc = "Select previous terminal command" })
+
     -- Remove newlines when yanking the visual selection
     -- Needed for the neovim terminal as it insert newlines
     -- when a line is too long for the screen
