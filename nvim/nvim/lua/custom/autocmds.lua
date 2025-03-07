@@ -164,8 +164,8 @@ autocmd("FileType", {
   group = augroup("quickfix", { clear = true }),
   pattern = "qf",
   callback = function()
-    vim.keymap.set("n", "<C-h>", "<cmd> silent! colder<CR>", { buffer = 0, desc = "Open previous quickfix list" })
-    vim.keymap.set("n", "<C-l>", "<cmd> silent! cnewer<CR>", { buffer = 0, desc = "Open next quickfix list" })
+    vim.keymap.set("n", "<leader>l", "<cmd> silent! colder<CR>", { buffer = 0, desc = "Open previous quickfix list" })
+    vim.keymap.set("n", "<leader>n", "<cmd> silent! cnewer<CR>", { buffer = 0, desc = "Open next quickfix list" })
 
     -- Replace current word in current file
     vim.keymap.set("n", "<leader>rp",
