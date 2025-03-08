@@ -17,8 +17,9 @@ return {
       autoopen = true,
       header = header,
       items = {
-        { name = "Find files", action = "lua require('telescope.builtin').find_files()", section = "Actions" },
-        { name = "Live grep",  action = "lua require('telescope.builtin').live_grep()",  section = "Actions" },
+        { name = "Find files",       action = "lua require('telescope.builtin').find_files()", section = "Actions" },
+        { name = "Browse file tree", action = "Oil .",                                         section = "Actions" },
+        { name = "Live grep",        action = "lua require('telescope.builtin').live_grep()",  section = "Actions" },
         starter.sections.sessions(5, true),
         starter.sections.recent_files(20, true)
       },
@@ -26,9 +27,10 @@ return {
         starter.gen_hook.aligning("center", "center"),
         starter.gen_hook.padding(3, 2),
       },
-      query_updaters = "BFLOabcdefghijklmnopqrstuvwxyz0123456789.",
       footer = "",
       silent = true,
     })
+
+    vim.keymap.set("n", "<leader>m", MiniStarter.open, { desc = "[M]ini Dashboard" })
   end
 }

@@ -89,7 +89,7 @@ return {
         ignore_focus = { "dbui", "git" },
         globalstatus = false,
         always_show_tabline = false,
-        disabled_filetypes = { statusline = { "TelescopePrompt" } },
+        disabled_filetypes = { statusline = { "TelescopePrompt", "ministarter" } },
       },
       extensions = { "man", "quickfix" },
       sections = {
