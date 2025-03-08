@@ -182,6 +182,10 @@ export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#
 # Use nvim as the manpager
 export MANPAGER='nvim +Man!'
 
+# Configure colours for `ls` on mac OS
+# See `man ls` for more details about colours
+export LSCOLORS="Exfxcxdxfxegedabagacad"
+
 # Some aliases
 alias ll='ls -alFh'
 alias la='ls -A'
