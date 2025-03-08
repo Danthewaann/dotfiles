@@ -211,6 +211,11 @@ function uuid4 () {
     python -c "import uuid; print(str(uuid.uuid4()))"
 }
 
+# Custom prompt prefix based on the amuse theme
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
+# Must use Powerline font, for \uE0A0 to render.
+ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}\uE0A0%{${reset_color}%} ("
+
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
@@ -229,7 +234,7 @@ function git_super_status() {
         if [ "$GIT_AHEAD" -ne "0" ]; then
             STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_AHEAD$GIT_AHEAD%{${reset_color}%}"
         fi
-        if [ -z "$STATUS" ]; then
+        if [ "$GIT_BEHIND" -ne "0" ] || [ "$GIT_AHEAD" -ne "0" ]; then
             STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_SEPARATOR"
         fi
         if [ "$GIT_STAGED" -ne "0" ]; then
