@@ -70,7 +70,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions virtualenv)
+plugins=(git git-prompt zsh-autosuggestions virtualenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -210,8 +210,52 @@ function uuid4 () {
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
-[ -n "$SSH" ] && BASE_PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)'
-[ -z "$SSH" ] && BASE_PROMPT=$'%{$fg_bold[green]%}%~%{$reset_color%}\n$(virtualenv_prompt_info)'
+# From: https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git-prompt/git-prompt.plugin.zsh
+function git_super_status() {
+    precmd_update_git_vars
+    if [ -n "$__CURRENT_GIT_STATUS" ]; then
+        # If we are in a git worktree, don't output the branch name
+        if [[ -f $PWD/.git ]]; then
+            GIT_BRANCH=
+        fi
+        STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_BRANCH$GIT_BRANCH$GIT_UPSTREAM%{${reset_color}%}"
+        if [ "$GIT_BEHIND" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_BEHIND$GIT_BEHIND%{${reset_color}%}"
+        fi
+        if [ "$GIT_AHEAD" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_AHEAD$GIT_AHEAD%{${reset_color}%}"
+        fi
+        if [ -z "$STATUS" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_SEPARATOR"
+        fi
+        if [ "$GIT_STAGED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_STAGED$GIT_STAGED%{${reset_color}%}"
+        fi
+        if [ "$GIT_CONFLICTS" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CONFLICTS$GIT_CONFLICTS%{${reset_color}%}"
+        fi
+        if [ "$GIT_CHANGED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CHANGED$GIT_CHANGED%{${reset_color}%}"
+        fi
+        if [ "$GIT_DELETED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_DELETED$GIT_DELETED%{${reset_color}%}"
+        fi
+        if [ "$GIT_UNTRACKED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_UNTRACKED$GIT_UNTRACKED%{${reset_color}%}"
+        fi
+        if [ "$GIT_STASHED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_STASHED$GIT_STASHED%{${reset_color}%}"
+        fi
+        if [ "$GIT_CLEAN" -eq "1" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CLEAN"
+        fi
+        STATUS="$STATUS%{${reset_color}%}$ZSH_THEME_GIT_PROMPT_SUFFIX"
+        echo "$STATUS"
+    fi
+}
+
+[ -n "$SSH" ] && BASE_PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
+[ -z "$SSH" ] && BASE_PROMPT=$'%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
 PROMPT="$BASE_PROMPT$ "
 
 # Disable the right-hand side prompt
