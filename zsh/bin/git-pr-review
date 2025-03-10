@@ -12,4 +12,4 @@ if [[ -z "$pr_number" ]]; then
     pr_number=$(gh pr view --json number | jq -r .number)
 fi
 
-git pull > /dev/null && nvim . -c "Octo pr edit $pr_number"
+nvim . -c "Octo pr edit $pr_number"
