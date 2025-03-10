@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -oe pipefail
+
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$CUR_DIR/_git-common"
+
+pr_number="$1"
+
+if [[ -z "$pr_number" ]]; then
+    pr_number=$(gh pr view --json number | jq -r .number)
+fi
+
+git pull > /dev/null && nvim . -c "Octo pr edit $pr_number"
