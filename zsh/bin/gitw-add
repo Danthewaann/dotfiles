@@ -98,16 +98,20 @@ else
 fi
 >&2 echo
 
-# Check if branch already exists locally
-local_branch_arg=
-if ! git branch | grep "\w*$branch_name\$" > /dev/null; then
-    local_branch_arg="-b" 
-fi
+base_branch=$(git-get-base-branch)
 
-# Check if branch already exists remotely
-remote_branch_arg=
-if git branch -r | grep "\w*origin/$branch_name\$" > /dev/null; then
-    remote_branch_arg="--track origin/$branch_name"
+if [[ "$branch_name" != "$base_branch" ]]; then
+    # Check if branch already exists locally
+    local_branch_arg=
+    if ! git branch | grep "\w*$branch_name\$" > /dev/null; then
+        local_branch_arg="-b" 
+    fi
+
+    # Check if branch already exists remotely
+    remote_branch_arg=
+    if git branch -r | grep "\w*origin/$branch_name\$" > /dev/null; then
+        remote_branch_arg="--track origin/$branch_name"
+    fi
 fi
 
 # Create a new worktree using the converted name whilst checking out the branch
