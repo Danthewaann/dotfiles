@@ -1,7 +1,8 @@
 local utils = require("custom.utils")
 
 local prefer_makefile = true
-local use_neotest = true
+local use_neotest = false
+local use_neovim_term = false
 local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
 
 local setup_runners = false
@@ -71,7 +72,11 @@ return {
   "vim-test/vim-test",
   lazy = false,
   config = function()
-    vim.g["test#strategy"] = "neovim_sticky"
+    if use_neovim_term then
+      vim.g["test#strategy"] = "neovim_sticky"
+    else
+      vim.g["test#strategy"] = "tslime"
+    end
     vim.g["test#neovim#term_position"] = "botright 15"
     vim.g["test#neovim_sticky#kill_previous"] = 1
     vim.g["test#neovim_sticky#reopen_window"] = 1
@@ -79,6 +84,21 @@ return {
     vim.g["test#preserve_screen"] = 1
   end,
   keys = {
+    {
+      "<leader>T",
+      function()
+        if use_neovim_term then
+          vim.g["test#strategy"] = "tslime"
+          utils.print("Toggling tmux terminal")
+        else
+          vim.g["test#strategy"] = "neovim_sticky"
+          utils.print("Toggling nvim terminal")
+        end
+
+        use_neovim_term = not use_neovim_term
+      end,
+      { desc = "[T]est Toggle Strategy" }
+    },
     {
       "<leader>td",
       function()
