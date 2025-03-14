@@ -52,7 +52,7 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Quickfix list
-vim.keymap.set("n", "<C-l>", function()
+vim.keymap.set("n", "<M-l>", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win["quickfix"] == 1 then
@@ -68,7 +68,7 @@ end, { desc = "Toggle Quickfix" })
 
 
 -- Quickfix navigation
-vim.keymap.set("n", "<C-j>", function()
+vim.keymap.set("n", "<M-j>", function()
   local ok, _ = pcall(function() vim.cmd(":cnext") end)
   if not ok then
     ok, _ = pcall(function() vim.cmd(":cfirst") end)
@@ -79,7 +79,7 @@ vim.keymap.set("n", "<C-j>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to next qf item" })
-vim.keymap.set("n", "<C-k>", function()
+vim.keymap.set("n", "<M-k>", function()
   local ok, _ = pcall(function() vim.cmd(":cprevious") end)
   if not ok then
     ok, _ = pcall(function() vim.cmd(":clast") end)
@@ -90,8 +90,8 @@ vim.keymap.set("n", "<C-k>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to previous qf item" })
-vim.keymap.set("n", "g<C-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
-vim.keymap.set("n", "g<C-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
+vim.keymap.set("n", "g<M-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
+vim.keymap.set("n", "g<M-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Window navigation
 vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
@@ -143,7 +143,7 @@ vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Mo
 vim.keymap.set({ "n", "t" }, "<C-w><C-c>", "<Nop>")
 
 -- Resize the current window
-vim.keymap.set("n", "<M-h>", function()
+vim.keymap.set("n", "<M-Left>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
   vim.cmd(":wincmd h")
   local other_winnr = vim.api.nvim_get_current_win()
@@ -155,7 +155,7 @@ vim.keymap.set("n", "<M-h>", function()
     vim.cmd(":wincmd p")
   end
 end, { desc = "Adjust window width left" })
-vim.keymap.set("n", "<M-l>", function()
+vim.keymap.set("n", "<M-Right>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
   vim.cmd(":wincmd l")
   local other_winnr = vim.api.nvim_get_current_win()
@@ -167,7 +167,7 @@ vim.keymap.set("n", "<M-l>", function()
     vim.cmd(":wincmd p")
   end
 end, { desc = "Adjust window width right" })
-vim.keymap.set("n", "<M-j>", function()
+vim.keymap.set("n", "<M-Down>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
   vim.cmd(":wincmd j")
   local other_winnr = vim.api.nvim_get_current_win()
@@ -179,7 +179,7 @@ vim.keymap.set("n", "<M-j>", function()
     vim.cmd(":wincmd p")
   end
 end, { desc = "Adjust window height up" })
-vim.keymap.set("n", "<M-k>", function()
+vim.keymap.set("n", "<M-Up>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
   vim.cmd(":wincmd k")
   local other_winnr = vim.api.nvim_get_current_win()
