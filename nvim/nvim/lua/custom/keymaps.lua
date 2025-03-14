@@ -94,11 +94,10 @@ vim.keymap.set("n", "g<M-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item"
 vim.keymap.set("n", "g<M-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Window navigation
-vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-w>", "<cmd> wincmd w<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "t" }, "<C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "t" }, "<C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "t" }, "<C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
 
 -- Close window
 vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
@@ -114,14 +113,8 @@ vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
 
 -- Tab navigation
-vim.keymap.set({ "n", "t" }, "<C-w>h", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
-vim.keymap.set({ "n", "t" }, "<C-w>l", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-p>", function()
-  local ok, _ = pcall(function() vim.cmd(":silent tabnext #") end)
-  if not ok then
-    vim.cmd(":silent tabprevious")
-  end
-end, { desc = "Go to last accessed tab" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
 
 -- Go to tab by number
 vim.keymap.set({ "n", "t" }, "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
