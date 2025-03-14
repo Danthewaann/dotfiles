@@ -1,7 +1,7 @@
 local utils = require("custom.utils")
 
 local prefer_makefile = true
-local use_neotest = false
+local use_neotest = true
 local use_neovim_term = false
 local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
 
@@ -190,6 +190,7 @@ return {
           vim.cmd(":TestSuite")
         else
           require("neotest").run.run({ suite = true })
+          require("neotest").summary.open()
         end
       end,
       desc = "[T]est [S]uite"
@@ -201,13 +202,13 @@ return {
     },
     {
       "<leader>to",
-      function() require("neotest").output.open({ enter = true }) end,
-      desc = "[T]est [A]ttach"
+      function() require("neotest").output_panel.toggle() end,
+      desc = "[T]est [O]utput"
     },
     {
       "<leader>tr",
       function() require("neotest").summary.open() end,
-      desc = "[T]est [A]ttach"
+      desc = "[T]est Summa[R]y"
     },
     {
       "<leader>tc",

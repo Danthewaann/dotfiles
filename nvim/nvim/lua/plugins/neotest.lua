@@ -21,6 +21,11 @@ return {
         enabled = true,
         open_on_run = false,
       },
+      summary = {
+        mappings = {
+          expand = "<Tab>"
+        }
+      }
     })
   end
 }
