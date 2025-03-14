@@ -140,6 +140,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
     export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/findutils/libexec/gnubin${PATH+:$PATH}";
     export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
     export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+    fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
     alias sed="gsed"
 else

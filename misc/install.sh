@@ -68,6 +68,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing rename" \
         "brew install rename"
+
+    run_command "installing just" \
+        "brew install just"
 else
     run_command "installing fzf" \
         "sudo apt-get install -y fzf"
