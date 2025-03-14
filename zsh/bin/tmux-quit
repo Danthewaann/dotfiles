@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+tmux-kill-sessions
+"$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh quiet" 
+tmux kill-server
