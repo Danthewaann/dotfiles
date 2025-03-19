@@ -148,7 +148,7 @@ return {
 
     local default_cmp_sources = cmp.config.sources(
       { { name = "lazydev" }, },
-      { { name = "luasnip" }, { name = "nvim_lsp" }, { name = "nvim_lsp_signature_help" } },
+      { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" }, { name = "nvim_lsp_signature_help" } },
       {
         {
           name = "buffer",
@@ -294,11 +294,11 @@ return {
               cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option }, { name = "dictionary", keyword_length = 2 } } } })
             elseif current_source_group == 2 then
               current_source_group = 1
-              cmp.complete({ config = { sources = { { name = "luasnip" }, { name = "nvim_lsp" } } } })
+              cmp.complete({ config = { sources = { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" } } } })
             end
           else
             current_source_group = 1
-            cmp.complete({ config = { sources = { { name = "luasnip" }, { name = "nvim_lsp" } } } })
+            cmp.complete({ config = { sources = { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" } } } })
           end
         end),
         ["<C-l>"] = cmp.mapping(function(fallback)
