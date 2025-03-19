@@ -224,7 +224,7 @@ vim.keymap.set("n", "<leader>ga", function()
     utils.print("Creating worktree " .. input .. "...")
     local obj = vim.system({ "gitw-add", input }):wait()
     if obj.code ~= 0 then
-      utils.print_err(obj.stderr)
+      utils.print_err(vim.fn.trim(obj.stderr))
       return
     end
   end)
@@ -242,7 +242,7 @@ vim.keymap.set("n", "<leader>gv", function()
   utils.print("Opening pull request in browser...")
   local obj = vim.system({ "gh", "prv" }):wait()
   if obj.code ~= 0 then
-    utils.print_err(obj.stderr)
+    utils.print_err(vim.fn.trim(obj.stderr))
     return
   end
 end, { desc = "[G]it PR [V]iew" })
@@ -250,7 +250,7 @@ end, { desc = "[G]it PR [V]iew" })
 vim.keymap.set("n", "<leader>gu", function()
   local obj = vim.system({ "git-get-base-branch" }):wait()
   if obj.code ~= 0 then
-    utils.print_err(obj.stderr)
+    utils.print_err(vim.fn.trim(obj.stderr))
     return
   end
   local base_branch = vim.fn.trim(obj.stdout)
@@ -258,7 +258,7 @@ vim.keymap.set("n", "<leader>gu", function()
   utils.print("Rebasing worktree with " .. base_branch .. "...")
   obj = vim.system({ "gitw-rebase" }):wait()
   if obj.code ~= 0 then
-    utils.print_err(obj.stderr)
+    utils.print_err(vim.fn.trim(obj.stderr))
     return
   end
   utils.print("Rebased worktree with " .. base_branch .. "...")
@@ -268,7 +268,7 @@ vim.keymap.set("n", "<leader>gr", function()
   utils.print("Opening repository in browser...")
   local obj = vim.system({ "gh", "rv" }):wait()
   if obj.code ~= 0 then
-    utils.print_err(obj.stderr)
+    utils.print_err(vim.fn.trim(obj.stderr))
     return
   end
 end, { desc = "[G]it [R]epo View" })
@@ -308,13 +308,23 @@ vim.keymap.set("n", "<leader>p", function()
     end
   end
 
+  commands[command_name("[Terminal] Open terminal in current buffer directory")] = function()
+    local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+    cmd = { "tmux", "new-window", "-c", cur_dur }
+    utils.print(table.concat(cmd, " "))
+    local obj = vim.system(cmd):wait()
+    if obj.code ~= 0 then
+      utils.print_err(vim.fn.trim(obj.stderr))
+    end
+  end
+
   commands[command_name("[Project] Run mypy")] = function()
     utils.print("Running mypy...")
     vim.system(
       utils.dmypy_args(true), {}, function(obj)
         vim.schedule(function()
           if obj.code > 1 then
-            utils.print_err(obj.stderr)
+            utils.print_err(vim.fn.trim(obj.stderr))
             return
           end
           utils.print("Finished running mypy")
@@ -327,7 +337,7 @@ vim.keymap.set("n", "<leader>p", function()
     vim.system({ "gh", "pr", "view", "--json", "url", "--jq", ".url" }, { text = true }, function(obj)
       vim.schedule(function()
         if obj.code ~= 0 then
-          utils.print_err(obj.stderr)
+          utils.print_err(vim.fn.trim(obj.stderr))
           return
         end
 
@@ -372,7 +382,7 @@ vim.keymap.set("n", "<leader>p", function()
   commands[command_name("[File] Make current file executable")] = function()
     local obj = vim.system({ "chmod", "+x", vim.fn.expand("%") }):wait()
     if obj.code ~= 0 then
-      utils.print_err(obj.stderr)
+      utils.print_err(vim.fn.trim(obj.stderr))
       return
     end
     utils.print("File marked as executable")
@@ -404,7 +414,7 @@ vim.keymap.set("n", "<leader>p", function()
         local journal_entry = workspace .. "/notes/journal/" .. year .. "/week-" .. file_week .. ".md"
         local obj = vim.system({ "create-journal-entry", template, journal_entry, year, week }, { text = true }):wait()
         if obj.code ~= 0 then
-          utils.print_err(obj.stderr)
+          utils.print_err(vim.fn.trim(obj.stderr))
           return
         end
         vim.cmd(":e " .. journal_entry)
