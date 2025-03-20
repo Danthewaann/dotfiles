@@ -59,7 +59,8 @@ return {
           "__pycache__",
           "^.coverage/",
         },
-        layout_strategy = "horizontal",
+        layout_strategy = require("telescope.themes").get_ivy().layout_strategy,
+        layout_config = ivy_layout_config,
         mappings = {
           ["i"] = {
             ["<C-space>"] = "to_fuzzy_refine",
@@ -240,6 +241,7 @@ return {
         },
       },
       extensions = {
+        aerial = {},
         fzf = {}
       }
     })
@@ -248,6 +250,7 @@ return {
 
     -- Enable telescope extensions, if installed
     pcall(require("telescope").load_extension, "fzf")
+    pcall(require("telescope").load_extension, "aerial")
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<leader>.", function()
@@ -275,6 +278,8 @@ return {
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history,
       { desc = "[S]earch [C]ommand History" })
+    vim.keymap.set("n", "<leader>sd", require("telescope").extensions.aerial.aerial,
+      { desc = "[S]earch [D]ocument Symbols" })
     vim.keymap.set("n", "<leader>si", require("telescope.builtin").search_history, { desc = "[S]earch H[i]story" })
     vim.keymap.set("n", "<leader>sx", require("telescope.builtin").diagnostics, { desc = "[S]earch Diagnostics" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
