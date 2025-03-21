@@ -259,18 +259,8 @@ return {
         settings = {
           basedpyright = {
             analysis = {
-              exclude = {
-                "**/node_modules",
-                "**/__pycache__",
-                "migrations/**",
-                ".venv/**"
-              },
-              ignore = {
-                "**/node_modules",
-                "**/__pycache__",
-                "migrations/**",
-                ".venv/**"
-              },
+              -- Ignore diagnostic output in files under these paths
+              ignore = { "migrations/**", ".venv/**" },
               diagnosticMode = pyright_diagnostic_mode, -- can be "workspace" or "openFilesOnly"
               typeCheckingMode = "basic",               -- can be "off", "basic", "standard", "strict", "recommended" or "all"
               diagnosticSeverityOverrides = {
