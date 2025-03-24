@@ -231,7 +231,7 @@ function git_super_status() {
     precmd_update_git_vars
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
         # If we are in a git worktree, don't output the branch name
-        if [[ -f $PWD/.git ]]; then
+        if [[ $(git config --get core.bare | trim) == "true" ]]; then
             GIT_BRANCH=
         fi
         STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_BRANCH$GIT_BRANCH$GIT_UPSTREAM%{${reset_color}%}"
