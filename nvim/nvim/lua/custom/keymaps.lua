@@ -387,6 +387,16 @@ vim.keymap.set("n", "<leader>p", function()
     end
     utils.print("File marked as executable")
   end
+  commands[command_name("[File] Yank current file path")] = function()
+    local path = vim.fn.expand("%")
+    local cb_opts = vim.opt.clipboard:get()
+    if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
+    if vim.tbl_contains(cb_opts, "unnamedplus") then
+      vim.fn.setreg("+", path)
+    end
+    vim.fn.setreg("", path)
+    utils.print("Copied " .. path .. " to clipboard")
+  end
   commands[command_name("[Journal] Create new entry")] = function()
     local template
     local workspace = os.getenv("TMUX_CURRENT_DIR")
