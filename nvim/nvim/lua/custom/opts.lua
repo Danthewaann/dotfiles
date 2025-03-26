@@ -47,9 +47,6 @@ vim.o.incsearch = true
 -- Enable 256 colours
 vim.o.termguicolors = true
 
--- Make sure 8 lines are above/below the cursor
-vim.o.scrolloff = 16
-
 -- Make sure 8 columns are left/right of the cursor
 vim.o.sidescrolloff = 16
 
