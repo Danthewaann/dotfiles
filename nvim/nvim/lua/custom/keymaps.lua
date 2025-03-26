@@ -40,12 +40,14 @@ vim.keymap.set("v", "y", "ygv<Esc>")
 vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternative buffer" })
 
 -- Vertical navigation
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Go half page down" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Go half page up" })
-vim.keymap.set("n", "gg", "ggzz", { desc = "First line" })
-vim.keymap.set("n", "G", "Gzz", { desc = "Last line" })
-vim.keymap.set("n", "{", "{zz", { desc = "Next paragraph" })
-vim.keymap.set("n", "}", "}zz", { desc = "Previous paragraph" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump half page up" })
+vim.keymap.set("n", "<M-d>", "<C-e>", { desc = "Scroll page down" })
+vim.keymap.set("n", "<M-u>", "<C-y>", { desc = "Scroll page up" })
+vim.keymap.set("n", "gg", "ggzz", { desc = "Jump to first line" })
+vim.keymap.set("n", "G", "Gzz", { desc = "Jump to last line" })
+vim.keymap.set("n", "{", "{zz", { desc = "Jump to next paragraph" })
+vim.keymap.set("n", "}", "}zz", { desc = "Jump to previous paragraph" })
 
 -- Jump list navigation
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
