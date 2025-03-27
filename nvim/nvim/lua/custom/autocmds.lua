@@ -135,8 +135,13 @@ autocmd("FileType", {
     if vim.bo[event.buf].buftype == "nofile" then
       pcall(require("render-markdown").disable)
     else
-      -- Autowrap text in markdown files
+      local file_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":t:r")
       local textwidth = 160
+      -- Use a smaller textwidth for git related markdown files so they wrap better in a browser
+      if string.find(file_name, "git%-pr%-") then
+        textwidth = 120
+      end
+      -- Autowrap text in markdown files
       vim.cmd("setlocal textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
     end
   end
