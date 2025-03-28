@@ -85,7 +85,7 @@ return {
   end,
   keys = {
     {
-      "<leader>T",
+      "<leader>tT",
       function()
         if use_neovim_term then
           vim.g["test#strategy"] = "tslime"
@@ -97,7 +97,7 @@ return {
 
         use_neovim_term = not use_neovim_term
       end,
-      { desc = "[T]est Toggle Strategy" }
+      desc = "[T]est [T]oggle Strategy"
     },
     {
       "<leader>td",
