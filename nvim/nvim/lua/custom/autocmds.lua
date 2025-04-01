@@ -135,10 +135,14 @@ autocmd("FileType", {
     if vim.bo[event.buf].buftype == "nofile" then
       pcall(require("render-markdown").disable)
     else
+      local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":p:h:t")
       local file_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":t:r")
       local textwidth = 160
-      -- Use a smaller textwidth for git related markdown files so they wrap better in a browser
-      if string.find(file_name, "git%-pr%-") then
+      if dir_name == "rfcs" then
+        -- Use a smaller textwidth for RFC related markdown files so they wrap better in confluence
+        textwidth = 105
+      elseif string.find(file_name, "git%-pr%-") then
+        -- Use a smaller textwidth for git related markdown files so they wrap better in a browser
         textwidth = 120
       end
       -- Autowrap text in markdown files
