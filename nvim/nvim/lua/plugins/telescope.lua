@@ -16,10 +16,6 @@ return {
     }
   },
   config = function()
-    local ivy_layout_config = {
-      height = { padding = 0 },
-      width = { padding = 0 }
-    }
     local grep_args = function(_)
       return { "--hidden" }
     end
@@ -59,8 +55,18 @@ return {
           "__pycache__",
           "^.coverage/",
         },
-        layout_strategy = require("telescope.themes").get_ivy().layout_strategy,
-        layout_config = ivy_layout_config,
+        layout_strategy = "bottom_pane",
+        layout_config = {
+          height = { padding = 0 },
+          width = { padding = 0 }
+        },
+        sorting_strategy = "ascending",
+        border = true,
+        borderchars = {
+          prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+          results = { " " },
+          preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        },
         mappings = {
           ["i"] = {
             ["<C-space>"] = "to_fuzzy_refine",
@@ -71,173 +77,131 @@ return {
       },
       pickers = {
         builtin = {
-          theme = "ivy",
           path_display = { "filename_first" },
           show_line = false,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         pickers = {
-          theme = "ivy",
           path_display = { "filename_first" },
           show_line = false,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_definitions = {
-          theme = "ivy",
           path_display = { "filename_first" },
           show_line = false,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_references = {
-          theme = "ivy",
           path_display = { "filename_first" },
           include_declaration = false,
           show_line = false,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_implementations = {
-          theme = "ivy",
           path_display = { "filename_first" },
           show_line = true,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_type_definitions = {
-          theme = "ivy",
           path_display = { "filename_first" },
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_incoming_calls = {
-          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.4,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_outgoing_calls = {
-          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.4,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_workspace_symbols = {
-          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.3,
           symbol_type_width = 0.1,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_dynamic_workspace_symbols = {
-          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
           fname_width = 0.6,
           symbol_width = 0.3,
           symbol_type_width = 0.1,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         lsp_document_symbols = {
-          theme = "ivy",
           previewer = true,
           symbol_width = 0.9,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         current_buffer_fuzzy_find = {
-          theme = "ivy",
-          previewer = false,
-          layout_config = ivy_layout_config,
+          previewer = false
         },
         buffers = {
-          theme = "ivy",
           previewer = true,
           sort_mru = true,
           ignore_current_buffer = true,
           results_title = false,
           path_display = { "filename_first" },
-          layout_config = ivy_layout_config,
         },
         oldfiles = {
-          theme = "ivy",
           previewer = true,
           results_title = false,
           path_display = { "filename_first" },
-          layout_config = ivy_layout_config,
         },
         find_files = {
-          theme = "ivy",
           previewer = true,
           no_ignore = true,
           hidden = true,
           results_title = false,
           path_display = { "filename_first" },
-          layout_config = ivy_layout_config,
         },
         git_files = {
-          theme = "ivy",
           previewer = true,
           results_title = false,
           path_display = { "filename_first" },
-          layout_config = ivy_layout_config,
         },
         git_status = {
-          theme = "ivy",
           previewer = true,
           results_title = false,
           path_display = { "filename_first" },
-          layout_config = ivy_layout_config,
         },
-        help_tags = { theme = "ivy", results_title = false, layout_config = ivy_layout_config, },
-        git_commits = { theme = "ivy", results_title = false, layout_config = ivy_layout_config, },
-        search_history = { theme = "ivy", layout_config = ivy_layout_config },
-        command_history = { theme = "ivy", layout_config = ivy_layout_config },
+        help_tags = { results_title = false },
+        git_commits = { results_title = false },
         -- TODO: this doesn't work as when you select a picker
         -- the telescope picker layout doesn't update correctly
         -- pickers = {
         --   theme = "dropdown",
         --   previewer = false,
         -- },
-        man_pages = { theme = "ivy", previewer = false, results_title = false, layout_config = ivy_layout_config, },
+        man_pages = { previewer = false, results_title = false },
         diagnostics = {
-          theme = "ivy",
           path_display = { "filename_first" },
           disable_coordinates = true,
           sort_by = "severity",
           previewer = false,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         grep_string = {
-          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
         live_grep = {
-          theme = "ivy",
           previewer = true,
           path_display = { "filename_first" },
           use_regex = true,
           additional_args = grep_args,
           results_title = false,
-          layout_config = ivy_layout_config,
         },
       },
       extensions = {
