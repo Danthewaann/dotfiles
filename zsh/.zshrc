@@ -188,8 +188,8 @@ export MANPAGER='nvim +Man!'
 export LSCOLORS="Exfxcxdxfxegedabagacad"
 
 # Configure binds for `gh notify`
-export GH_NOTIFY_FZF_OPTS="--bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down'" 
-export GH_NOTIFY_VIEW_DIFF_KEY="ctrl-f" 
+export GH_NOTIFY_FZF_OPTS="--bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down'"
+export GH_NOTIFY_VIEW_DIFF_KEY="ctrl-f"
 export GH_NOTIFY_VIEW_PATCH_KEY=" "
 
 # Some aliases
@@ -216,6 +216,13 @@ function b64decode () {
 }
 function uuid4 () {
     python -c "import uuid; print(str(uuid.uuid4()))"
+}
+# Git apply patch from clipboard
+function gap () {
+    echo "Applying patch...\n"
+    patch="$(pbpaste)\n"
+    echo "$patch"
+    echo "$patch" | git apply -
 }
 
 # Custom prompt prefix based on the amuse theme
