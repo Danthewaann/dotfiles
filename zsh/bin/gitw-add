@@ -144,7 +144,7 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo
         info "Running poetry install..."
         >&2 echo
-        if ! poetry install > /dev/stderr 2>&1; then true; fi
+        if ! poetry install --all-extras > /dev/stderr 2>&1; then true; fi
     fi
 fi
 

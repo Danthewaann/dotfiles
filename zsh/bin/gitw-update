@@ -42,6 +42,6 @@ if ! git status -uno | grep -i "up to date"; then
     if [[ -f "poetry.lock" ]]; then
         >&2 echo
         info "Updating dependencies..."
-        if ! >&2 poetry install; then true; fi
+        if ! >&2 poetry install --all-extras; then true; fi
     fi
 fi
