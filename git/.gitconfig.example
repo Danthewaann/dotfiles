@@ -32,6 +32,8 @@
     lll = log --graph --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s\"
     lb = log --all --graph --decorate --oneline --simplify-by-decoration
     #############
+    r = restore
+    #############
     w = worktree
 [filter "lfs"]
     clean = git-lfs clean -- %f
