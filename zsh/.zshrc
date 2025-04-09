@@ -147,7 +147,7 @@ else
     # Setup Python version manager
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$("$PYENV_ROOT"/bin/pyenv init -)"
+    eval "$("$PYENV_ROOT"/bin/pyenv init - zsh)"
 
     alias pbcopy="xclip"
 fi
