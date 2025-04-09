@@ -39,8 +39,8 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing findutils" \
         "brew install findutils"
 
-    run_command "installing md5sum" \
-        "brew install md5sha1sum"
+    run_command "installing coreutils" \
+        "brew install coreutils"
 
     run_command "installing htop" \
         "brew install htop"
