@@ -31,7 +31,7 @@ return {
         ["*"] = { "codespell" },
         -- Use the "_" filetype to run formatters on filetypes that don't
         -- have other formatters configured.
-        ["_"] = { "trim_whitespace" },
+        ["_"] = { "trim_whitespace", lsp_format = "prefer" },
       },
       notify_on_error = true
     })
@@ -46,7 +46,7 @@ return {
           ["end"] = { args.line2, end_line:len() },
         }
       end
-      require("conform").format({ lsp_format = "prefer", timeout_ms = 3000, range = range })
+      require("conform").format({ timeout_ms = 3000, range = range })
       vim.cmd(":write")
     end, { range = true, desc = "Format and save current buffer" })
   end,
