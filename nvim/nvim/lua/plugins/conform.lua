@@ -18,6 +18,7 @@ return {
       },
       formatters_by_ft = {
         -- Conform will run multiple formatters sequentially
+        bash = { "shfmt" },
         python = { "ruff_fix", "black" },
         ruby = { "rubyfmt" },
         javascript = { "prettierd", "prettier", stop_after_first = true },

@@ -30,3 +30,6 @@ else
     run_command "installing golangci-lint" \
         "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.56.2"
 fi
+
+run_command "installing shfmt" \
+    "go install mvdan.cc/sh/v3/cmd/shfmt@latest"
