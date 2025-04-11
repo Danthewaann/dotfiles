@@ -46,7 +46,7 @@ return {
           ["end"] = { args.line2, end_line:len() },
         }
       end
-      require("conform").format({ lsp_fallback = true, timeout_ms = 3000, range = range })
+      require("conform").format({ lsp_format = "prefer", timeout_ms = 3000, range = range })
       vim.cmd(":write")
     end, { range = true, desc = "Format and save current buffer" })
   end,
