@@ -131,9 +131,10 @@ autocmd("FileType", {
   group = augroup("markdown", { clear = true }),
   pattern = "markdown",
   callback = function(event)
-    -- Disable `render-markdown` in LSP hover documentation windows
+    -- Disable `render-markdown` in LSP hover documentation windows and spell checking
     if vim.bo[event.buf].buftype == "nofile" then
       pcall(require("render-markdown").disable)
+      vim.o.spell = false
     else
       local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":p:h:t")
       local file_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":t:r")
