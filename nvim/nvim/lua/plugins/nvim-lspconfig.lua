@@ -57,8 +57,6 @@ return {
     end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Styling for floating windows
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
     require("lspconfig.ui.windows").default_options.border = border
 
     -- From :h diagnostic-handlers-example
@@ -94,10 +92,10 @@ return {
     }
     -- Diagnostic keymaps
     vim.keymap.set("n", "[d", function()
-      vim.diagnostic.goto_prev({ float = true })
+      vim.diagnostic.jump({ count = -1, float = true })
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
-      vim.diagnostic.goto_next({ float = true })
+      vim.diagnostic.jump({ count = 1, float = true })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
 
@@ -153,7 +151,7 @@ return {
         map("K", function()
           local winid = require("ufo").peekFoldedLinesUnderCursor()
           if not winid then
-            vim.lsp.buf.hover()
+            vim.lsp.buf.hover({ border = "rounded" })
           end
         end, "Hover Documentation")
         map("<leader>rl", function()
