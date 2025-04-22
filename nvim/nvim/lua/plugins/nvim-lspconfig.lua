@@ -97,7 +97,19 @@ return {
     vim.keymap.set("n", "]d", function()
       vim.diagnostic.jump({ count = 1, float = true })
     end, { desc = "Go to next diagnostic message" })
-    vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Open diagnostics in quickfix list" })
+    vim.keymap.set("n", "<M-x>", function()
+      local qf_exists = false
+      for _, win in pairs(vim.fn.getwininfo()) do
+        if win["quickfix"] == 1 then
+          qf_exists = true
+        end
+      end
+      if qf_exists == true then
+        vim.cmd "cclose"
+        return
+      end
+      vim.diagnostic.setqflist()
+    end, { desc = "Open diagnostics in quickfix list" })
 
     local pyright_diagnostic_mode = "openFilesOnly"
     vim.api.nvim_create_autocmd("LspAttach", {
