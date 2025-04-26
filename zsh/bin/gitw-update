@@ -9,7 +9,7 @@ source "$CUR_DIR/_git-common"
 worktree="$1"
 
 if [[ -z "$worktree" ]]; then
-   worktree=$(gitw-get)
+   worktree=$(gitw-get "$(git branch --show-current)")
 fi
 
 >&2 echo
