@@ -30,6 +30,7 @@ defaults:
   issuesLimit: 10
   view: prs
   refetchIntervalMinutes: 30
+  prApproveComment: ""
 repoPaths:
   default_path: ~/Workspace
 keybindings:
