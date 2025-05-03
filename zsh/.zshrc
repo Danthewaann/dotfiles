@@ -85,6 +85,7 @@ source $ZSH/oh-my-zsh.sh
 # - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
 # - '.' matches "regular files"
 # - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+fpath=($fpath $HOME/.zsh_completions)
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
     compinit;

@@ -19,6 +19,8 @@ done
 
 echo "$SCRIPT_DIR/functions" "$HOME/.zsh_functions"
 
+echo "$SCRIPT_DIR/completions" "$HOME/.zsh_completions"
+
 if [[ ! -f "$SCRIPT_DIR/.tmux-default-sessions" ]]; then
     cp "$SCRIPT_DIR/.tmux-default-sessions.example" "$SCRIPT_DIR/.tmux-default-sessions"
 fi

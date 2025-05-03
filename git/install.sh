@@ -38,6 +38,3 @@ run_command "installing github cli dash extension" \
 
 run_command "installing github cli notify extension" \
     "gh extension install meiji163/gh-notify"
-
-run_command "installing github cli autocomplete" \
-    "gh completion -s zsh > ~/.zsh_functions/_gh"

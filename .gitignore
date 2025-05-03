@@ -12,7 +12,6 @@ Session.vim
 .tmux-save-sessions
 .zprofile
 
-zsh/functions/_poetry
-zsh/functions/_gh
+zsh/completions/*
 docker/config.json
 variables
