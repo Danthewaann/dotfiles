@@ -37,28 +37,34 @@ keybindings:
     - key: a
       builtin: approve
     - key: C
+      name: checkout
       command: >
         clear &&
         cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}} || sleep 2
     - key: d
+      name: diff
       command: >
         clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -
     - key: D
+      name: diffview
       command: >
         clear &&
         cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'DiffviewOpen origin/{{.BaseRefName}}..HEAD'"
     - key: E
+      name: review
       command: >
         clear &&
         cd {{.RepoPath}} && 
         gitw-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'"
     - key: T
+      name: open ticket url
       command: >
         clear &&
         open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}}) || sleep 2
     - key: U
+      name: rebase with base
       command: >
         clear &&
         cd {{.RepoPath}} && 
