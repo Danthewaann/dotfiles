@@ -16,10 +16,14 @@ if [[ $in_worktree == "true" ]]; then
 
     worktree=$(gitw-get "$branch")
 
-    gitw-update "$worktree"
+    info "Updating '$branch' branch..."
+    if ! output=$(gitw-update "$worktree" 2>&1); then
+        >&2 echo "$output"
+        exit 1
+    fi
+
     >&2 echo
     info "Rebasing with '$branch' branch..."
-
     if ! output=$(git -c color.ui=always rebase "$branch" 2>&1); then
         >&2 echo "$output"
         exit 1
