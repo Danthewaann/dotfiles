@@ -240,15 +240,6 @@ vim.keymap.set("n", "<leader>ge", function()
   utils.run_command_in_term("git-pr-edit", true)
 end, { desc = "[G]it PR [E]dit" })
 
-vim.keymap.set("n", "<leader>gv", function()
-  utils.print("Opening pull request in browser...")
-  local obj = vim.system({ "gh", "prv" }):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-    return
-  end
-end, { desc = "[G]it PR [V]iew" })
-
 vim.keymap.set("n", "<leader>gu", function()
   local obj = vim.system({ "git-get-base-branch" }):wait()
   if obj.code ~= 0 then
@@ -266,14 +257,37 @@ vim.keymap.set("n", "<leader>gu", function()
   utils.print("Rebased worktree with " .. base_branch .. "...")
 end, { desc = "[G]it Rebase/[U]pdate With Base Branch" })
 
-vim.keymap.set("n", "<leader>gr", function()
-  utils.print("Opening repository in browser...")
-  local obj = vim.system({ "gh", "rv" }):wait()
+vim.keymap.set("n", "<leader>gvp", function()
+  utils.print("Opening pull request in browser...")
+  local obj = vim.system({ "gh", "pr", "view", "--web" }):wait()
   if obj.code ~= 0 then
     utils.print_err(vim.fn.trim(obj.stderr))
     return
   end
-end, { desc = "[G]it [R]epo View" })
+end, { desc = "[G]it [V]iew [P]r" })
+
+vim.keymap.set("n", "<leader>gvb", function()
+  utils.print("Opening branch in browser...")
+  local obj = vim.system({ "git", "branch", "--show-current" }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(vim.fn.trim(obj.stderr))
+    return
+  end
+  obj = vim.system({ "gh", "browse", "-b", vim.fn.trim(obj.stdout) }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(vim.fn.trim(obj.stderr))
+    return
+  end
+end, { desc = "[G]it [V]iew [B]ranch" })
+
+vim.keymap.set("n", "<leader>gvr", function()
+  utils.print("Opening repository in browser...")
+  local obj = vim.system({ "gh", "browse" }):wait()
+  if obj.code ~= 0 then
+    utils.print_err(vim.fn.trim(obj.stderr))
+    return
+  end
+end, { desc = "[G]it [V]iew [R]epo" })
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
