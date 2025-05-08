@@ -4,6 +4,7 @@ return {
   cmd = { "DiffviewOpen" },
   config = function()
     local actions = require("diffview.config").actions
+    local utils = require("custom.utils")
     require("diffview").setup({
       file_panel = {
         listing_style = "list",
@@ -71,16 +72,38 @@ return {
         ["2. Diff HEAD against origin merge base"] = function()
           local base_branch = vim.fn.trim(vim.fn.system("git-get-base-branch"))
           if vim.v.shell_error ~= 0 then
-            M.print_err(base_branch)
+            utils.print_err(base_branch)
             return
           end
 
           vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD --imply-local")
         end,
-        ["3. View all file history "] = function()
+        ["3. RAW diff working tree against HEAD"] = function()
+          vim.cmd("new git diff | read! git diff")
+          vim.cmd("set filetype=diff | only | normal ggdd")
+          local buf = vim.api.nvim_get_current_buf()
+          vim.bo[buf].modified = false
+          vim.bo[buf].modifiable = false
+          vim.bo[buf].buflisted = false
+        end,
+        ["4. RAW diff HEAD against origin merge base"] = function()
+          local obj = vim.system({ "git-get-base-branch" }):wait()
+          if obj.code ~= 0 then
+            utils.print_err(vim.fn.trim(obj.stderr))
+            return
+          end
+          local base_branch = vim.fn.trim(obj.stdout)
+          vim.cmd("new git diff " .. base_branch .. " | read! git diff " .. base_branch)
+          vim.cmd("set filetype=diff | only | normal ggdd")
+          local buf = vim.api.nvim_get_current_buf()
+          vim.bo[buf].modified = false
+          vim.bo[buf].modifiable = false
+          vim.bo[buf].buflisted = false
+        end,
+        ["5. View all file history "] = function()
           vim.cmd(":DiffviewFileHistory --max-count=10000")
         end,
-        ["4. View current file history "] = function()
+        ["6. View current file history "] = function()
           vim.cmd(":DiffviewFileHistory  --max-count=10000 %")
         end,
       }
