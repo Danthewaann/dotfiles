@@ -206,6 +206,7 @@ alias pre='git-pr-edit'
 alias prr='git-pr-review'
 alias prv='gh pr view --web'
 alias rv='gh repo view --web'
+alias rvb='gh repo view --web --branch $(git branch --show-current)'
 alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
 
 # Some convenience functions

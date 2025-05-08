@@ -6,12 +6,6 @@ editor: nvim
 prompt: enabled
 # A pager program to send command output to, e.g. "less". Set the value to "cat" to disable the pager.
 pager: bat
-# Aliases allow you to create nicknames for gh commands
-aliases:
-    prv: pr view --web
-    pre: pr edit
-    prc: pr view --comments
-    rv: repo view --web
 # The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
 # What web browser gh should use when opening URLs. If blank, will refer to environment.
