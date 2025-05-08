@@ -23,7 +23,8 @@ return {
       { "<leader>g_",  hidden = true },
       { "<leader>gl",  group = "[G]it [L]og" },
       { "<leader>gl_", hidden = true },
-      { "<leader>gs_", hidden = true },
+      { "<leader>gv",  group = "[G]it [V]iew" },
+      { "<leader>gv_", hidden = true },
       { "<leader>h",   group = "Git [H]unk" },
       { "<leader>h_",  hidden = true },
       { "<leader>p",   group = "Command [P]rompt" },
@@ -42,6 +43,8 @@ return {
       {
         mode = { "v" },
         { "<leader>",  group = "VISUAL <leader>" },
+        { "<leader>d", group = "[D]iff" },
+        { "<leader>g", group = "[G]it" },
         { "<leader>h", desc = "Git [H]unk" },
         { "<leader>r", group = "[R]eplace" },
         { "<leader>s", group = "[S]earch" },
