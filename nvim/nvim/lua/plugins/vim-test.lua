@@ -222,7 +222,12 @@ return {
       "<leader>tl",
       function()
         setup_test_runners()
-        vim.cmd(":TestLast")
+
+        if not use_neotest or (prefer_makefile and has_makefile) then
+          vim.cmd(":TestLast")
+        else
+          require("neotest").run.run_last()
+        end
       end,
       desc = "[T]est [L]ast"
     },
@@ -230,7 +235,12 @@ return {
       "<leader>tv",
       function()
         setup_test_runners()
-        vim.cmd(":TestVisit")
+
+        if not use_neotest or (prefer_makefile and has_makefile) then
+          vim.cmd(":TestVisit")
+        else
+          vim.print(require("neotest").run.get_last_run())
+        end
       end,
       desc = "[T]est [V]isit"
     },
