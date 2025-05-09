@@ -162,8 +162,12 @@ return {
         if not use_neotest or (prefer_makefile and has_makefile) then
           vim.cmd(":TestNearest")
         else
-          vim.system({ "make", "test.local.setup" }):wait()
-          require("neotest").run.run()
+          local extra_args = {}
+          local buf = vim.api.nvim_get_current_buf()
+          if vim.bo[buf].filetype == "python" then
+            extra_args = { "-vvv" }
+          end
+          require("neotest").run.run({ extra_args = extra_args })
         end
       end,
       desc = "[T]est [N]earest"
