@@ -7,7 +7,7 @@ return {
         add = "ys",            -- Add surrounding in Normal and Visual modes
         delete = "ds",         -- Delete surrounding
         find = "gs",           -- Find surrounding (to the right)
-        find_left = "gS",      -- Find surrounding (to the left)
+        find_left = "gF",      -- Find surrounding (to the left)
         highlight = "gh",      -- Highlight surrounding
         replace = "cs",        -- Replace surrounding
         update_n_lines = "gn", -- Update `n_lines`
