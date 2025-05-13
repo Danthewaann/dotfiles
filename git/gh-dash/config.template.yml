@@ -1,3 +1,5 @@
+# GitHub search syntax:
+#   https://github.com/github/docs/blob/main/content/search-github/github-code-search/understanding-github-code-search-syntax.md
 prSections:
   - title: My Open PRs
     filters: is:open author:@me
