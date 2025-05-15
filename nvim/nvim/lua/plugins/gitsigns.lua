@@ -34,7 +34,7 @@ return {
         vim.keymap.set(mode, l, r, opts)
       end
 
-      map("n", "<leader>hs", gs.stage_hunk, { buffer = bufnr, desc = "Stage git hunk" })
+      map("n", "<leader>hs", gs.stage_hunk, { buffer = bufnr, desc = "Stage/Unstage git hunk" })
       map("n", "<leader>hr", gs.reset_hunk, { buffer = bufnr, desc = "Reset git hunk" })
       map("v", "<leader>hs", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
@@ -43,7 +43,6 @@ return {
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { buffer = bufnr, desc = "Resert git hunk" })
       map("n", "<leader>hS", gs.stage_buffer, { buffer = bufnr, desc = "Stage buffer" })
-      map("n", "<leader>hu", gs.undo_stage_hunk, { buffer = bufnr, desc = "Undo staged hunk" })
       map("n", "<leader>hR", gs.reset_buffer, { buffer = bufnr, desc = "Reset buffer" })
       map("n", "<leader>hp", gs.preview_hunk, { buffer = bufnr, desc = "Preview git hunk" })
       map("n", "<leader>hb", function()
@@ -53,7 +52,7 @@ return {
       map("n", "<leader>hD", function()
         gs.diffthis("~")
       end, { buffer = bufnr, desc = "Show diff of buffer" })
-      map("n", "<leader>ht", gs.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted lines" })
+      map("n", "<leader>ht", gs.preview_hunk_inline, { buffer = bufnr, desc = "Preview hunk at cursor position inline" })
 
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr, desc = "Select inner hunk" })
@@ -64,7 +63,7 @@ return {
           return "]czz"
         end
         vim.schedule(function()
-          gs.next_hunk()
+          gs.nav_hunk("next")
           vim.cmd.normal("zz")
         end)
         return "<Ignore>"
@@ -74,7 +73,7 @@ return {
           return "[czz"
         end
         vim.schedule(function()
-          gs.prev_hunk()
+          gs.nav_hunk("prev")
           vim.cmd.normal("zz")
         end)
         return "<Ignore>"
