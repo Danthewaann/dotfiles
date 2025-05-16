@@ -226,6 +226,9 @@ function gap () {
     echo "$patch"
     echo "$patch" | git apply -
 }
+function checkport () {
+    sudo lsof -i tcp:"$1"
+}
 
 # Custom prompt prefix based on the amuse theme
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
