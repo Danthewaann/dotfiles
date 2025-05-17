@@ -103,6 +103,15 @@ fi
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
+# Add XDG_CONFIG_HOME to broadbast where my config files should live
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# Use nvim as the manpager
+export MANPAGER='nvim +Man!'
+
+# Add bob, local scripts and golang to path
+export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin${PATH+:$PATH}"
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -120,8 +129,12 @@ fpath=($fpath $HOME/.zsh_functions)
 autoload -Uz vim
 autoload -Uz tmux
 autoload -Uz nvm
+autoload -Uz node
+autoload -Uz npm
 autoload -Uz pyenv
+autoload -Uz python
 autoload -Uz rbenv
+autoload -Uz ruby
 
 # Use <Alt-b> and <Alt-f> to jump a word at a time
 # Use `cat` to see what keycodes are sent
@@ -135,13 +148,7 @@ bindkey "^N" down-line-or-beginning-search
 # Linux only setup
 if [[ $OSTYPE == "darwin"* ]]; then
     # Add brew to path
-    export HOMEBREW_PREFIX="/opt/homebrew";
-    export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-    export HOMEBREW_REPOSITORY="/opt/homebrew";
-    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/findutils/libexec/gnubin${PATH+:$PATH}";
-    export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
-    export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
-    fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 
     alias sed="gsed"
 else
@@ -150,29 +157,23 @@ else
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$("$PYENV_ROOT"/bin/pyenv init - zsh)"
 
+    # Setup node version manager
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+    # Use the default nvm alias
+    if [[ -e ~/.nvm/alias/default ]]; then
+        PATH="$PATH:$HOME/.nvm/versions/node/v$(< ~/.nvm/alias/default)/bin"
+    fi
+
+    # Setup Ruby version manager
+    if [[ -d "$HOME"/.rbenv ]]; then
+        eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
+    fi
+
     alias pbcopy="xclip"
 fi
-
-# Setup node version manager
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Use the default nvm alias
-if [[ -e ~/.nvm/alias/default ]]; then
-    PATH="$PATH:$HOME/.nvm/versions/node/$(< ~/.nvm/alias/default)/bin"
-fi
-
-# Setup Ruby version manager
-if [[ -d "$HOME"/.rbenv ]]; then
-    eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
-fi
-
-# Add XDG_CONFIG_HOME to broadbast where my config files should live
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# Add local scripts, rust, bob, golang, ruby and python stuff to path
-export PATH="$HOME/.local/share/bob/nvim-bin:$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
 
 # Set theme for bat
 export BAT_THEME="TwoDark"
@@ -180,9 +181,6 @@ export BAT_THEME="TwoDark"
 # Setup fzf to use ripgrep for search
 export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.gitignore --glob ""'
 export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#c678dd,hl:#5c6370,fg:#abb2bf,header:#5c6370,info:#c678dd,pointer:#c678dd,marker:#c678dd,fg+:#abb2bf,preview-bg:#282c34,prompt:#c678dd,hl+:#c678dd'
-
-# Use nvim as the manpager
-export MANPAGER='nvim +Man!'
 
 # Configure colours for `ls` on mac OS
 # See `man ls` for more details about colours

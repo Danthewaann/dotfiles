@@ -7,10 +7,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Use the default nvm alias
-if [[ -e ~/.nvm/alias/default ]]; then
-    PATH="$PATH:$HOME/.nvm/versions/node/$(< ~/.nvm/alias/default)/bin"
-fi
-
 # Invoke the real nvm function now
 nvm "$@"
