@@ -28,10 +28,8 @@ vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { desc = "Yank, comment out and paste line below" })
 
 -- Go to the start and end of the line
-vim.keymap.set("n", "H", "0", { desc = "Jump to start of line" })
-vim.keymap.set("n", "L", "$", { desc = "Jump to end of line" })
-vim.keymap.set({ "v", "x", "o" }, "H", "_", { desc = "Jump to first non-blank character in line" })
-vim.keymap.set({ "v", "x", "o" }, "L", "g_", { desc = "Jump to last non-blank character in line" })
+vim.keymap.set({ "n", "v", "x", "o" }, "H", "^", { desc = "Jump to first non-blank character in line" })
+vim.keymap.set({ "n", "v", "x", "o" }, "L", "g_", { desc = "Jump to last non-blank character in line" })
 
 -- Prevent the cursor from jumping to the start of a selection after yanking it
 vim.keymap.set("v", "y", "ygv<Esc>")
