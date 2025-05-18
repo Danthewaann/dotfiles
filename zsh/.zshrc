@@ -11,8 +11,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git-prompt zsh-autosuggestions virtualenv zsh-lazyload)
 
-source $ZSH/oh-my-zsh.sh
-
 # From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
 # and https://htr3n.github.io/2018/07/faster-zsh/
 # On slow systems, checking the cached .zcompdump file to see if it must be
@@ -31,6 +29,8 @@ if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
 else
     compinit -C;
 fi
+
+source $ZSH/oh-my-zsh.sh
 
 # Setup root variables
 export NVM_ROOT="$HOME/.nvm"
