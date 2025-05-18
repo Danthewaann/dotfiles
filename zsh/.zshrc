@@ -114,6 +114,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
     # Add brew to path
     eval "$(/opt/homebrew/bin/brew shellenv)"
 
+    # Allow gnu `find` to be available
+    export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
+
     # Lazyload commands to improve startup time
     lazyload nvm node npm -- '[ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
         [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion'
