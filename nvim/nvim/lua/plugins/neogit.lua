@@ -43,7 +43,7 @@ return {
         },
         popup = {
           ["l"] = false,
-          ["<C-l>"] = "LogPopup",
+          ["O"] = "LogPopup",
           ["v"] = false,
           ["R"] = "RevertPopup",
           ["w"] = false,
