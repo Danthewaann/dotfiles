@@ -2,11 +2,6 @@
 
 set -eo pipefail
 
-if ! in_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
-if [[ $in_bare_repo == "true" ]]; then
-  cd ".." || exit
-fi
-
 if [[ ! -f .base_branch ]]; then
   base_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
     
