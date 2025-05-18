@@ -209,25 +209,13 @@ alias rvb='gh repo view --web --branch $(git branch --show-current)'
 alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
 
 # Some convenience functions
-function b64encode () {
-    python -c "import base64; print(base64.b64encode('$1'.encode()).decode())"
-}
-function b64decode () {
-    python -c "import base64; print(base64.b64decode('$1').decode())"
-}
-function uuid4 () {
-    python -c "import uuid; print(str(uuid.uuid4()))"
-}
+function b64e () { echo -n "$1" | base64 }
+function b64d () { echo -n "$1" | base64 -D; echo }
+function uuid4 () { python -c "import uuid; print(str(uuid.uuid4()))" }
+
 # Git apply patch from clipboard
-function gap () {
-    echo "Applying patch...\n"
-    patch="$(pbpaste)\n"
-    echo "$patch"
-    echo "$patch" | git apply -
-}
-function checkport () {
-    sudo lsof -i tcp:"$1"
-}
+function gap () { patch="$(pbpaste)\n"; echo "$patch" | git apply - }
+function checkport () { sudo lsof -i tcp:"$1" }
 
 # Custom prompt prefix based on the amuse theme
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
@@ -298,6 +286,4 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 _git 2>/dev/null
 compdef _git_show_branch gitw-add
 
-if [[ -f $HOME/.zprofile ]]; then
-    source $HOME/.zprofile
-fi
+if [[ -f $HOME/.zprofile ]]; then source $HOME/.zprofile; fi
