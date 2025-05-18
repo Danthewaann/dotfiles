@@ -70,7 +70,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git-prompt zsh-autosuggestions virtualenv)
+plugins=(git-prompt zsh-autosuggestions virtualenv zsh-lazyload)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,6 +100,11 @@ fi
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# Setup root variables
+export NVM_ROOT="$HOME/.nvm"
+export PYENV_ROOT="$HOME/.pyenv"
+export RBENV_ROOT="$HOME/.rbenv"
+
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
@@ -109,8 +114,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Use nvim as the manpager
 export MANPAGER='nvim +Man!'
 
-# Add bob, local scripts and golang to path
-export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin${PATH+:$PATH}"
+# Add pyenv bin, bob, local scripts and golang to path
+export PATH="$PYENV_ROOT/bin:$HOME/.local/share/bob/nvim-bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin${PATH+:$PATH}"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -128,13 +133,12 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.local/bin:/usr/local/go/bin:
 fpath=($fpath $HOME/.zsh_functions)
 autoload -Uz vim
 autoload -Uz tmux
-autoload -Uz nvm
-autoload -Uz node
-autoload -Uz npm
-autoload -Uz pyenv
-autoload -Uz python
-autoload -Uz rbenv
-autoload -Uz ruby
+
+# Lazyload commands to improve startup time
+lazyload nvm node npm -- '[ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
+    [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion'
+lazyload pyenv python -- 'eval "$($PYENV_ROOT/bin/pyenv init - zsh)"'
+lazyload rbenv ruby -- 'if [[ -d "$RBENV_ROOT" ]]; then eval "$($RBENV_ROOT/bin/rbenv init - zsh)"; fi'
 
 # Use <Alt-b> and <Alt-f> to jump a word at a time
 # Use `cat` to see what keycodes are sent
@@ -153,14 +157,11 @@ if [[ $OSTYPE == "darwin"* ]]; then
     alias sed="gsed"
 else
     # Setup Python version manager
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$("$PYENV_ROOT"/bin/pyenv init - zsh)"
 
     # Setup node version manager
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    [ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
+    [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion
 
     # Use the default nvm alias
     if [[ -e ~/.nvm/alias/default ]]; then
@@ -168,7 +169,7 @@ else
     fi
 
     # Setup Ruby version manager
-    if [[ -d "$HOME"/.rbenv ]]; then
+    if [[ -d "$RBENV_ROOT" ]]; then
         eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
     fi
 

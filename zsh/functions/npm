@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# From https://peterlyons.com/problog/2018/01/zsh-lazy-loading/
-
-# Invoke the real nvm function now
-~/.nvm/versions/node/v"$(<~/.nvm/alias/default)"/bin/npm "$@"

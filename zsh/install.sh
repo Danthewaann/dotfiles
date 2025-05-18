@@ -37,3 +37,9 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autosuggestions ]]; then
     run_command "installing zsh-autosuggestions" \
         "git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
+
+if [[ ! -d $ZSH_CUSTOM/plugins/zsh-lazyload ]]; then
+    run_command "installing zsh-lazyload" \
+        "git clone https://github.com/qoomon/zsh-lazyload $ZSH_CUSTOM/plugins/zsh-lazyload"
+fi
+
