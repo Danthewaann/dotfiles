@@ -17,8 +17,6 @@ for f in "$SCRIPT_DIR"/bin/*; do
     echo "$f" "$HOME/.local/bin/$(basename "$f")"
 done
 
-echo "$SCRIPT_DIR/functions" "$HOME/.zsh_functions"
-
 echo "$SCRIPT_DIR/completions" "$HOME/.zsh_completions"
 
 if [[ ! -f "$SCRIPT_DIR/.tmux-default-sessions" ]]; then
