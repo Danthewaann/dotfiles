@@ -17,10 +17,10 @@ return {
       autoopen = true,
       header = header,
       items = {
+        starter.sections.sessions(5, true),
         { name = "Find files",       action = "lua require('telescope.builtin').find_files()", section = "Actions" },
         { name = "Browse file tree", action = "Oil .",                                         section = "Actions" },
         { name = "Live grep",        action = "lua require('telescope.builtin').live_grep()",  section = "Actions" },
-        starter.sections.sessions(5, true),
         starter.sections.recent_files(20, true)
       },
       content_hooks = {
