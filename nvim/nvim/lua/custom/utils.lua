@@ -174,9 +174,7 @@ M.ignore_filetypes = {
   "man",
   "octo_panel",
   "dbout",
-  "oil",
-  "VimspectorPrompt",
-  "vimspector-disassembly",
+  "oil"
 }
 
 return M

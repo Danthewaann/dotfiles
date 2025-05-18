@@ -11,8 +11,6 @@ echo "$SCRIPT_DIR/.vimrc" "$HOME/.vimrc"
 
 echo "$SCRIPT_DIR/coc-settings.json" "$HOME/coc-settings.json"
 
-echo "$SCRIPT_DIR/.vimspector.json" "$HOME/.vimspector.json"
-
 mkdir -p "$XDG_CONFIG_HOME/clangd"
 echo "$SCRIPT_DIR/clangd_config.yaml" "$XDG_CONFIG_HOME/clangd/config.yaml"
 

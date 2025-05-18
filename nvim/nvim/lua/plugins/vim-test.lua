@@ -100,61 +100,6 @@ return {
       desc = "[T]est [T]oggle Strategy"
     },
     {
-      "<leader>td",
-      function()
-        setup_test_runners()
-
-        local position = utils.get_cursor_position(vim.fn.expand("%"))
-        local runner = vim.fn["test#determine_runner"](position.file)
-        if runner == 0 or runner == nil then
-          utils.print_err("Not a test file")
-          return
-        end
-
-        local language, runner_type = unpack(vim.fn.split(runner, "#"))
-        local build_args = vim.fn["test#" .. runner .. "#build_position"]("nearest", position)
-        assert(build_args)
-
-        local args
-        if language == "go" then
-          -- Need to reverse the build args for `delve test`
-          -- e.g. `-run 'TestCheckWebsites$' .pkg/concurrency` to
-          -- `.pkg/concurrency -- -test.run 'TestCheckWebsites$'`
-          args = build_args[2] .. " -- " .. "-test.run " .. vim.fn.split(build_args[1])[2]
-        else
-          args = vim.fn.join(build_args)
-        end
-
-        local debug_config = { configuration = "", args = args }
-
-        if runner_type == "make" then
-          utils.print("Starting test docker container...")
-          local container = vim.fn.trim(vim.fn.system("get-test-container --start"))
-          if vim.v.shell_error ~= 0 then
-            utils.print_err("Failed to start test container!\n" .. container)
-            return
-          end
-
-          local remote_path = vim.fn.trim(vim.fn.system("get-remote-path"))
-          if vim.v.shell_error ~= 0 then
-            utils.print_err("Failed to get remote path!\n" .. remote_path)
-            return
-          end
-
-          debug_config.configuration = language .. " - remote test launch"
-          debug_config.remotePath = remote_path
-        else
-          debug_config.configuration = language .. " - debug test"
-        end
-
-        -- Set the last test position
-        vim.g["test#last_position"] = position
-
-        vim.fn["vimspector#LaunchWithSettings"](debug_config)
-      end,
-      desc = "[T]est [D]ebug nearest"
-    },
-    {
       "<leader>tn",
       function()
         setup_test_runners()
