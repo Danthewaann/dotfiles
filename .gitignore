@@ -13,5 +13,6 @@ Session.vim
 .zprofile
 
 zsh/completions/*
+!zsh/completions/_gitw-add
 docker/config.json
 variables

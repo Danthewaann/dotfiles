@@ -206,8 +206,4 @@ ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
-# Add git branch completion to custom gitw-add script
-_git 2>/dev/null
-compdef _git_show_branch gitw-add
-
 if [[ -f $HOME/.zprofile ]]; then source $HOME/.zprofile; fi

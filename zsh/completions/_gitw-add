@@ -1,0 +1,4 @@
+#compdef gitw-add
+
+_git 2>/dev/null;
+compdef _git_show_branch gitw-add
