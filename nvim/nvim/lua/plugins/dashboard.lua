@@ -1,5 +1,5 @@
 return {
-  "nvimdev/dashboard-nvim",
+  "Danthewaann/dashboard-nvim",
   event = "VimEnter",
   config = function()
     require("dashboard").setup {
@@ -15,9 +15,7 @@ return {
           "",
         },
         week_header = { enable = false },
-        shortcut = {
-          -- { desc = "󰊳 Check Plugins", group = "@property", action = "Lazy check", key = "u" },
-        },
+        shortcut = {},
         project = { enable = false },
         mru = { enable = false },
         footer = {},
