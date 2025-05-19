@@ -2,7 +2,7 @@
 
 set -e
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
@@ -34,7 +34,7 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$("$PYENV_ROOT"/bin/pyenv init -)"
 
 # Only install provided Python version if it isn't already available
-if ! pyenv versions | grep "$PYTHON_VERSION" > /dev/null 2>&1; then
+if ! pyenv versions | grep "$PYTHON_VERSION" >/dev/null 2>&1; then
     run_command "installing python $PYTHON_VERSION" \
         "pyenv install -s $PYTHON_VERSION"
 fi
@@ -45,31 +45,35 @@ run_command "setting global python version to $PYTHON_VERSION" \
 # Need to make sure flake8 is installed for coc-pyright to work correctly
 # for some reason. I also added other packages here for general use so
 # my vim setup works when editing standalone files outside of a project.
+
+run_command "installing pipx" \
+    "pip install pipx"
+
 run_command "installing python linters and formatters" \
-    "pip install flake8 black isort mypy ruff codespell"
+    "pipx install flake8 black isort mypy ruff codespell"
 
 run_command "installing ipython" \
-    "pip install ipython"
+    "pipx install ipython"
 
 run_command "installing pre-commit" \
-    "pip install pre-commit"
+    "pipx install pre-commit"
 
 run_command "installing pynvim" \
     "pip install pynvim"
 
 run_command "installing twine" \
-    "pip install twine"
+    "pipx install twine"
 
 run_command "installing pyallel" \
-    "pip install pyallel"
+    "pipx install pyallel"
 
 # Make sure executables are available
 run_command "rehashing pyenv" \
     "pyenv rehash"
 
-if type poetry &> /dev/null; then
+if type poetry &>/dev/null; then
     # Re-install poetry package manager
-    if ! poetry -V | grep "$POETRY_VERSION" > /dev/null 2>&1; then
+    if ! poetry -V | grep "$POETRY_VERSION" >/dev/null 2>&1; then
         run_command "re-installing poetry version $POETRY_VERSION" \
             "curl -sSL https://install.python-poetry.org | python3 - --uninstall" \
             "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -"
@@ -84,7 +88,7 @@ run_command "configuring poetry" \
     "poetry config virtualenvs.in-project true"
 
 run_command "installing poetry zsh autocomplete" \
-    "poetry completions zsh > ~/.zsh_functions/_poetry"
+    "poetry completions zsh > ~/.zsh_completions/_poetry"
 
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing firefox geckodriver" \
@@ -95,8 +99,7 @@ else
             "wget -O $SCRIPT_DIR/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.32.2/geckodriver-v0.32.2-linux64.tar.gz"
 
         run_command "unpacking $SCRIPT_DIR/geckodriver.tar.gz to -> /usr/local/bin/geckodriver" \
-                    "sudo rm -rf /usr/local/bin/geckodriver && \\
+            "sudo rm -rf /usr/local/bin/geckodriver && \\
                     sudo tar -C /usr/local/bin -xzf $SCRIPT_DIR/geckodriver.tar.gz"
     fi
 fi
-
