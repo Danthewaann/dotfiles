@@ -45,7 +45,6 @@ run_command "setting global python version to $PYTHON_VERSION" \
 # Need to make sure flake8 is installed for coc-pyright to work correctly
 # for some reason. I also added other packages here for general use so
 # my vim setup works when editing standalone files outside of a project.
-
 run_command "installing pipx" \
     "pip install pipx"
 
@@ -67,22 +66,8 @@ run_command "installing twine" \
 run_command "installing pyallel" \
     "pipx install pyallel"
 
-# Make sure executables are available
-run_command "rehashing pyenv" \
-    "pyenv rehash"
-
-if type poetry &>/dev/null; then
-    # Re-install poetry package manager
-    if ! poetry -V | grep "$POETRY_VERSION" >/dev/null 2>&1; then
-        run_command "re-installing poetry version $POETRY_VERSION" \
-            "curl -sSL https://install.python-poetry.org | python3 - --uninstall" \
-            "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -"
-    fi
-else
-    # Install poetry package manager
-    run_command "installing poetry version $POETRY_VERSION" \
-        "curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -"
-fi
+run_command "installing poetry" \
+    "pipx install poetry==$POETRY_VERSION"
 
 run_command "configuring poetry" \
     "poetry config virtualenvs.in-project true"
