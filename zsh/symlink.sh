@@ -11,6 +11,8 @@ echo "$SCRIPT_DIR/.gitignore" "$HOME/.gitignore"
 
 echo "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
 
+echo "$SCRIPT_DIR/.zshenv" "$HOME/.zshenv"
+
 mkdir -p "$HOME/.local/bin"
 
 for f in "$SCRIPT_DIR"/bin/*; do

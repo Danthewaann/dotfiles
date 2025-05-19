@@ -10,4 +10,4 @@ print("""${input}""".strip())
 EOF
 }
 
-run | python3 -W ignore::SyntaxWarning -
+run | python -W ignore::SyntaxWarning -
