@@ -76,6 +76,9 @@ vim.o.showcmd = false
 -- Also don't show the intro screen
 vim.opt.shortmess:append("ScsCI")
 
+-- Disable ruler that shows at the bottom right of the screen
+vim.o.ruler = false
+
 -- Setup folds with treesitter and nvim-ufo
 vim.o.foldcolumn = "0"
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
