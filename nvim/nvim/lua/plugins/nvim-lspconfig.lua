@@ -5,13 +5,17 @@ return {
     -- Automatically install LSPs to stdpath for neovim
     {
       "williamboman/mason.nvim",
+      commit = "0f6fea935578039a271cdb52a5fdfcc58474bc5d",
       opts = {
         ui = {
           border = "rounded"
         },
       }
     },
-    "williamboman/mason-lspconfig.nvim",
+    {
+      "williamboman/mason-lspconfig.nvim",
+      commit = "1a31f824b9cd5bc6f342fc29e9a53b60d74af245"
+    },
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     "hrsh7th/nvim-cmp",
 
