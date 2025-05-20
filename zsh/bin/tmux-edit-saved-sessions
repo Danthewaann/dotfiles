@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Whitelist of sessions to not kill
+$EDITOR ~/.tmux-save-sessions
