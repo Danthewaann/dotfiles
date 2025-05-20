@@ -49,6 +49,8 @@ return {
           "__pycache__",
           "^.coverage/",
         },
+        path_display = { "filename_first" },
+        results_title = false,
         layout_strategy = "bottom_pane",
         layout_config = {
           height = { padding = 0 },
@@ -69,70 +71,15 @@ return {
         }
       },
       pickers = {
-        builtin = {
-          path_display = { "filename_first" },
-          show_line = false,
-          results_title = false,
-        },
-        pickers = {
-          path_display = { "filename_first" },
-          show_line = false,
-          results_title = false,
-        },
-        lsp_definitions = {
-          path_display = { "filename_first" },
-          show_line = false,
-          results_title = false,
-        },
-        lsp_references = {
-          path_display = { "filename_first" },
-          include_declaration = false,
-          show_line = false,
-          results_title = false,
-        },
-        lsp_implementations = {
-          path_display = { "filename_first" },
-          show_line = true,
-          results_title = false,
-        },
-        lsp_type_definitions = {
-          path_display = { "filename_first" },
-          results_title = false,
-        },
-        lsp_incoming_calls = {
-          previewer = true,
-          path_display = { "filename_first" },
-          fname_width = 0.6,
-          symbol_width = 0.4,
-          results_title = false,
-        },
-        lsp_outgoing_calls = {
-          previewer = true,
-          path_display = { "filename_first" },
-          fname_width = 0.6,
-          symbol_width = 0.4,
-          results_title = false,
-        },
         lsp_workspace_symbols = {
-          previewer = true,
-          path_display = { "filename_first" },
-          fname_width = 0.6,
-          symbol_width = 0.3,
-          symbol_type_width = 0.1,
-          results_title = false,
+          fname_width = 0.4,
+          symbol_width = 0.4,
+          symbol_type_width = 0.1
         },
         lsp_dynamic_workspace_symbols = {
-          previewer = true,
-          path_display = { "filename_first" },
-          fname_width = 0.6,
-          symbol_width = 0.3,
-          symbol_type_width = 0.1,
-          results_title = false,
-        },
-        lsp_document_symbols = {
-          previewer = true,
-          symbol_width = 0.9,
-          results_title = false,
+          fname_width = 0.4,
+          symbol_width = 0.4,
+          symbol_type_width = 0.1
         },
         current_buffer_fuzzy_find = {
           previewer = false
@@ -140,61 +87,24 @@ return {
         buffers = {
           previewer = true,
           sort_mru = true,
-          ignore_current_buffer = true,
-          results_title = false,
-          path_display = { "filename_first" },
-        },
-        oldfiles = {
-          previewer = true,
-          results_title = false,
-          path_display = { "filename_first" },
+          ignore_current_buffer = true
         },
         find_files = {
           previewer = true,
           no_ignore = true,
-          hidden = true,
-          results_title = false,
-          path_display = { "filename_first" },
+          hidden = true
         },
-        git_files = {
-          previewer = true,
-          results_title = false,
-          path_display = { "filename_first" },
-        },
-        git_status = {
-          previewer = true,
-          results_title = false,
-          path_display = { "filename_first" },
-        },
-        help_tags = { results_title = false },
-        git_commits = { results_title = false },
-        -- TODO: this doesn't work as when you select a picker
-        -- the telescope picker layout doesn't update correctly
-        -- pickers = {
-        --   theme = "dropdown",
-        --   previewer = false,
-        -- },
-        man_pages = { previewer = false, results_title = false },
+        man_pages = { previewer = false },
         diagnostics = {
-          path_display = { "filename_first" },
-          disable_coordinates = true,
           sort_by = "severity",
-          previewer = false,
-          results_title = false,
+          previewer = false
         },
         grep_string = {
-          previewer = true,
-          path_display = { "filename_first" },
           use_regex = true,
-          additional_args = grep_args,
-          results_title = false,
+          additional_args = grep_args
         },
         live_grep = {
-          previewer = true,
-          path_display = { "filename_first" },
-          use_regex = true,
-          additional_args = grep_args,
-          results_title = false,
+          additional_args = grep_args
         },
       },
       extensions = {
@@ -204,7 +114,7 @@ return {
           col1_width = 4,
           col2_width = 80,
           -- Available modes: symbols, lines, both
-          show_columns = "both",
+          show_columns = "symbols",
         },
         fzf = {}
       }
