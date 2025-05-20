@@ -12,6 +12,7 @@ return {
     vim.treesitter.language.register("markdown", "octo")
 
     require("octo").setup({
+      use_local_fs = true,
       suppress_missing_scope = {
         projects_v2 = true,
       },
