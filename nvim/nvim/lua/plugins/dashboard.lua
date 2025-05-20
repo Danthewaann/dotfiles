@@ -2,6 +2,8 @@ return {
   "Danthewaann/dashboard-nvim",
   event = "VimEnter",
   config = function()
+    ---@diagnostic disable-next-line: param-type-mismatch
+    local dir = vim.fn.fnamemodify(vim.loop.cwd(), ":~:.")
     require("dashboard").setup {
       config = {
         header = {
@@ -13,6 +15,7 @@ return {
           " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
           " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
           "",
+          "Current dir: " .. dir,
         },
         week_header = { enable = false },
         shortcut = {},
