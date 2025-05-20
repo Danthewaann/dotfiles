@@ -21,13 +21,6 @@ return {
       return { "--hidden" }
     end
 
-    -- Action to open the first entry in the quickfix list after opening it
-    local open_and_select_first_qf_entry = require("telescope.actions.mt").transform_mod({
-      mod = function()
-        vim.cmd(":botright copen | cc 1")
-      end
-    }).mod
-
     require("telescope").setup({
       defaults = {
         -- Cache the last 10 pickers so I can resume them later
@@ -71,7 +64,6 @@ return {
         mappings = {
           ["i"] = {
             ["<C-space>"] = "to_fuzzy_refine",
-            ["<C-q>"] = require("telescope.actions").send_to_qflist + open_and_select_first_qf_entry,
             ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
           }
         }
