@@ -296,7 +296,7 @@ return {
         init_options = {
           settings = {
             organizeImports = true,
-            fixAll = false,
+            fixAll = true,
             showSyntaxErrors = true,
             format = {
               preview = true
