@@ -1,5 +1,5 @@
 return {
-  "Danthewaann/dashboard-nvim",
+  "nvimdev/dashboard-nvim",
   event = "VimEnter",
   config = function()
     ---@diagnostic disable-next-line: param-type-mismatch
