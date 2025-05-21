@@ -90,12 +90,12 @@ function uuid4 () { python -c "import uuid; print(str(uuid.uuid4()))" }
 function gap () { patch="$(pbpaste)\n"; echo "$patch" | git apply - }
 function checkport () { sudo lsof -i tcp:"$1" }
 function tmux {
-    # Expose current dir of where tmux was ran to tmux and 
+    # Expose current dir of where tmux was ran to tmux and
     # if no args are provided, create a session that is named after
     # the current directory where tmux was launched from
-    if [ "$#" -eq 0 ]; then 
+    if [ "$#" -eq 0 ]; then
         TMUX_CURRENT_DIR="${PWD}" command tmux new-session -s "$(basename "${PWD}")"
-    else 
+    else
         TMUX_CURRENT_DIR="${PWD}" command tmux "$@"
     fi
 }
