@@ -45,7 +45,7 @@ return {
     vim.diagnostic.config({
       virtual_text = virtual_text_config,
       signs = false,
-      float = { source = "if_many", border = border },
+      float = { source = true, border = border },
       severity_sort = true
     })
 
