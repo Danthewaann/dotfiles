@@ -1,6 +1,5 @@
 return {
-  "pwntester/octo.nvim",
-  commit = "fe39ac0eedbaedc0db5382ee5ec0e57091d55d9e",
+  "Danthewaann/octo.nvim",
   event = "VeryLazy",
   cmd = "Octo",
   dependencies = {
