@@ -66,6 +66,9 @@ run_command "installing twine" \
 run_command "installing pyallel" \
     "pipx install pyallel"
 
+run_command "installing uv" \
+    "pipx install uv"
+
 run_command "installing poetry" \
     "pipx install poetry==$POETRY_VERSION"
 
