@@ -187,7 +187,29 @@ return {
         if not use_neotest or (prefer_makefile and has_makefile) then
           vim.cmd(":TestVisit")
         else
-          vim.print(require("neotest").run.get_last_run())
+          local test, _ = require("neotest").run.get_last_run()
+          assert(test)
+
+          local t = {}
+          for str in string.gmatch(test, "([^:]*)") do
+            t[#t + 1] = str
+          end
+
+          if #t == 2 then
+            vim.cmd(":e " .. t[1])
+          else
+            if t[3] ~= "" then
+              vim.cmd(":e +" .. t[3] .. " " .. t[1])
+            elseif t[4] ~= "" then
+              -- Split on `[` character as pytest data driven tests contain the sub test name that can't be searched
+              local s = {}
+              for str in string.gmatch(t[4], "([^\\[]*)") do
+                s[#s + 1] = str
+              end
+              vim.cmd(":e +/" .. s[1] .. " " .. t[1])
+            end
+          end
+          vim.print(t)
         end
       end,
       desc = "[T]est [V]isit"
