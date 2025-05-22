@@ -59,9 +59,13 @@ return {
           vim.api.nvim_buf_delete(buf, { force = true })
         end
       end
-      vim.api.nvim_command("Octo pr")
+      print("Opening PR...")
+      vim.cmd("Octo pr")
     end, { desc = "Open PR for current branch" })
-    vim.keymap.set("n", "<leader>ov", "<cmd>Octo review<CR>", { desc = "Start or resume review" })
+    vim.keymap.set("n", "<leader>ov", function()
+      print("Opening review for PR...")
+      vim.cmd("Octo review")
+    end, { desc = "Start or resume review" })
     vim.keymap.set("n", "<leader>ot", "<cmd>Octo review thread<CR>", { desc = "Show review threads" })
   end
 }
