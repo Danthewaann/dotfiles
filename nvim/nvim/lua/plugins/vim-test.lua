@@ -153,7 +153,7 @@ return {
     },
     {
       "<leader>to",
-      function() require("neotest").output_panel.toggle() end,
+      function() require("neotest").output.open({ enter = true }) end,
       desc = "[T]est [O]utput"
     },
     {
