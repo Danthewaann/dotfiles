@@ -18,13 +18,10 @@ return {
       quickfix = {
         enabled = true
       },
-      output = {
-        enabled = true,
-        open_on_run = false,
-      },
       summary = {
         mappings = {
-          expand = "<Tab>"
+          expand = "<Tab>",
+          jumpto = "<CR>"
         }
       }
     })
