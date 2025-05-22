@@ -145,7 +145,10 @@ return {
     },
     {
       "<leader>ta",
-      function() require("neotest").run.attach() end,
+      function()
+        require("neotest").run.attach()
+        vim.cmd("startinsert")
+      end,
       desc = "[T]est [A]ttach"
     },
     {
