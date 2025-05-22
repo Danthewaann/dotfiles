@@ -1,6 +1,8 @@
 return {
   "sindrets/diffview.nvim",
-  event = "VeryLazy",
+  keys = {
+    { "<leader>dv", desc = "[D]iff [V]iew" }
+  },
   cmd = { "DiffviewOpen" },
   config = function()
     local actions = require("diffview.config").actions

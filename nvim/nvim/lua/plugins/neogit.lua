@@ -1,6 +1,15 @@
 return {
   "NeogitOrg/neogit",
-  event = "VeryLazy",
+  keys = {
+    { "<C-g>",       desc = "Git Status" },
+    {
+      "<leader>gl",
+      mode = "x",
+      desc = "[G]it [L]og for selection",
+    },
+    { "<leader>gla", desc = "[G]it [L]og [A]ll" },
+    { "<leader>glf", desc = "[G]it [L]og [F]ile" },
+  },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "sindrets/diffview.nvim",
