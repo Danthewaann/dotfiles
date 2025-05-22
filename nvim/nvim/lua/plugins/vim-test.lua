@@ -70,7 +70,6 @@ end
 
 return {
   "vim-test/vim-test",
-  event = "VeryLazy",
   config = function()
     if use_neovim_term then
       vim.g["test#strategy"] = "neovim_sticky"
