@@ -154,21 +154,17 @@ if [[ $checkout_only -ne 1 ]]; then
     current_dir=$(pwd)
     base_worktree=$(gitw-get 2>/dev/null)
 
-    if [[ $copy_venv -eq 1 ]] && [[ -d "$base_worktree/.venv" ]]; then
-        >&2 echo
-        info "Copying ../$base_worktree/.venv to $converted_name/.venv"
-        mkdir -p "$current_dir/$converted_name/.venv"
-        # From https://www.zylk.net/en/web-2-0/blog/-/blogs/how-to-copy-files-in-linux-faster-and-safer-than-cp
-        cd "$base_worktree/.venv"
-        tar cf - . | (
-            cd "$current_dir/$converted_name/.venv"
-            tar xvf -
-        ) 2>/dev/null
-    elif [[ -f "poetry.lock" ]]; then
+    if [[ -f "poetry.lock" ]]; then
         >&2 echo
         info "Running poetry install..."
         >&2 echo
         if ! poetry install --all-extras >/dev/stderr 2>&1; then true; fi
+    elif [[ -f "pyproject.toml" ]]; then
+        >&2 echo
+        info "Running uv pip install with pyproject.toml..."
+        >&2 echo
+        if ! uv venv >/dev/stderr 2>&1; then true; fi
+        if ! uv pip install -r pyproject.toml --all-extras >/dev/stderr 2>&1; then true; fi
     fi
 fi
 
