@@ -212,7 +212,6 @@ return {
               vim.cmd(":e +/" .. s[1] .. " " .. t[1])
             end
           end
-          vim.print(t)
         end
       end,
       desc = "[T]est [V]isit"
