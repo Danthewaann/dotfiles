@@ -64,18 +64,17 @@ local function get_all_breakpoints()
   return true
 end
 
-vim.keymap.set("n", "<leader>bp", set_breakpoint, { desc = "Add [B]reak[p]oint" })
+vim.keymap.set("n", "<leader>bP", set_breakpoint, { desc = "Add hardcoded [B]reak[p]oint" })
 vim.keymap.set("n", "<leader>bd", function()
+  vim.cmd(":DapClearBreakpoints")
   if get_all_breakpoints() then
     local num = vim.fn.getqflist()
     if #num > 0 then
-      utils.print("Deleting all breakpoints...")
+      utils.print("Deleting all hardcoded breakpoints...")
       vim.cmd(":silent cfdo g/\"runtime\"/d")
       vim.cmd(":silent cdo delete")
       -- Refresh the breakpoints location list
       get_all_breakpoints()
-    else
-      utils.print_err("No breakpoints found!")
     end
   end
 end, { desc = "[B]reakpoints [D]elete" })
@@ -85,7 +84,7 @@ vim.keymap.set("n", "<leader>bs", function()
     if #num > 0 then
       vim.cmd(":copen")
     else
-      utils.print_err("No breakpoints found!")
+      utils.print_err("No hardcoded breakpoints found!")
     end
   end
 end, { desc = "[B]reakpoints [S]how" })

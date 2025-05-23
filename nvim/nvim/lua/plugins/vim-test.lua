@@ -117,6 +117,22 @@ return {
       desc = "[T]est [N]earest"
     },
     {
+      "<leader>td",
+      function()
+        setup_test_runners()
+
+        if use_neotest then
+          local extra_args = {}
+          local buf = vim.api.nvim_get_current_buf()
+          if vim.bo[buf].filetype == "python" then
+            extra_args = { "-vvv" }
+          end
+          require("neotest").run.run({ extra_args = extra_args, strategy = "dap" })
+        end
+      end,
+      desc = "[T]est [N]earest"
+    },
+    {
       "<leader>tf",
       function()
         setup_test_runners()
