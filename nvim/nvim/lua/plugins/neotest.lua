@@ -18,6 +18,9 @@ return {
       quickfix = {
         enabled = true
       },
+      output = {
+        open_on_run = false,
+      },
       summary = {
         mappings = {
           expand = "<Tab>",
