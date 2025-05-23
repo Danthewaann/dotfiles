@@ -66,7 +66,7 @@ end
 
 vim.keymap.set("n", "<leader>bP", set_breakpoint, { desc = "Add hardcoded [B]reak[p]oint" })
 vim.keymap.set("n", "<leader>bd", function()
-  vim.cmd(":DapClearBreakpoints")
+  require("dap").clear_breakpoints()
   if get_all_breakpoints() then
     local num = vim.fn.getqflist()
     if #num > 0 then
@@ -79,12 +79,19 @@ vim.keymap.set("n", "<leader>bd", function()
   end
 end, { desc = "[B]reakpoints [D]elete" })
 vim.keymap.set("n", "<leader>bs", function()
+  -- If nvim-dap breakpoints are found then just show them over hardcoded ones
+  require("dap").list_breakpoints(true)
+  local num = vim.fn.getqflist()
+  if #num > 0 then
+    return
+  end
+
   if get_all_breakpoints() then
-    local num = vim.fn.getqflist()
+    num = vim.fn.getqflist()
     if #num > 0 then
       vim.cmd(":copen")
     else
-      utils.print_err("No hardcoded breakpoints found!")
+      utils.print_err("No breakpoints found!")
     end
   end
 end, { desc = "[B]reakpoints [S]how" })
