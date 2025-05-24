@@ -1,6 +1,6 @@
-M = {}
+local module = {}
 
-M.send_to_tmux = function(args)
+module.send_to_tmux = function(args)
   local windows = vim.tbl_map(tonumber,
     vim.split(vim.system({ "tmux", "list-windows", "-F", "#{window_index}" }):wait().stdout, "\n")
   )
@@ -33,4 +33,4 @@ M.send_to_tmux = function(args)
   vim.system({ "tmux", "select-window", "-t", window_id }):wait()
 end
 
-return M
+return module

@@ -1,9 +1,9 @@
-M = {}
+local module = {}
 
 local python_venv = nil
 
 -- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
-M.get_visual_selection = function()
+module.get_visual_selection = function()
   vim.cmd('noau normal! "vy"')
   local text = vim.fn.getreg("v")
   vim.fn.setreg("v", {})
@@ -17,13 +17,13 @@ M.get_visual_selection = function()
 end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
-M.get_poetry_venv_executable_path = function(exe, workspace)
+module.get_poetry_venv_executable_path = function(exe, workspace)
   workspace = workspace or "."
 
   -- Check if the executable exists in the .venv/bin directory
   -- (as this is much quicker than running the poetry command)
   local venv_exe = table.concat({ workspace, ".venv", "bin", exe }, "/")
-  if M.file_exists(venv_exe) then
+  if module.file_exists(venv_exe) then
     return venv_exe
   end
 
@@ -33,13 +33,13 @@ M.get_poetry_venv_executable_path = function(exe, workspace)
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
-  if M.file_exists(table.concat({ workspace, "poetry.lock" }, "/")) then
+  if module.file_exists(table.concat({ workspace, "poetry.lock" }, "/")) then
     if python_venv == nil then
       local obj = vim.system({ "poetry", "env", "info", "-p" }):wait()
       python_venv = vim.fn.trim(obj.stdout)
     end
     venv_exe = table.concat({ python_venv, "bin", exe }, "/")
-    if M.file_exists(venv_exe) then
+    if module.file_exists(venv_exe) then
       return venv_exe
     end
   end
@@ -48,21 +48,21 @@ M.get_poetry_venv_executable_path = function(exe, workspace)
   return exe
 end
 
-M.file_exists = function(filename)
+module.file_exists = function(filename)
   return vim.uv.fs_stat(filename)
 end
 
-M.get_project_linting_cmd = function()
+module.get_project_linting_cmd = function()
   local cmd = {}
   local file = ""
 
-  if M.file_exists("poetry.lock") then
+  if module.file_exists("poetry.lock") then
     cmd = { "poetry", "run" }
   else
     return nil
   end
 
-  if M.file_exists("scripts/lint.sh") then
+  if module.file_exists("scripts/lint.sh") then
     file = "scripts/lint.sh"
   else
     return nil
@@ -72,7 +72,7 @@ M.get_project_linting_cmd = function()
   return cmd
 end
 
-M.run_command_in_term = function(args, use_tmux)
+module.run_command_in_term = function(args, use_tmux)
   if use_tmux then
     vim.cmd(":Tmux " .. args)
   else
@@ -80,15 +80,15 @@ M.run_command_in_term = function(args, use_tmux)
   end
 end
 
-M.print = function(msg)
+module.print = function(msg)
   vim.notify(msg, vim.log.levels.INFO)
 end
 
-M.print_err = function(err)
+module.print_err = function(err)
   vim.notify(err, vim.log.levels.ERROR)
 end
 
-M.parse_dmypy_output = function(output)
+module.parse_dmypy_output = function(output)
   -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
   local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"
   local severities = {
@@ -118,10 +118,10 @@ M.parse_dmypy_output = function(output)
   vim.cmd(":botright copen | silent! cc 1")
 end
 
-M.dmypy_args = function(include_cmd)
+module.dmypy_args = function(include_cmd)
   local args = {}
   if include_cmd then
-    table.insert(args, M.get_poetry_venv_executable_path("dmypy"))
+    table.insert(args, module.get_poetry_venv_executable_path("dmypy"))
   end
 
   table.insert(args, "run")
@@ -147,7 +147,7 @@ M.dmypy_args = function(include_cmd)
   return args
 end
 
-M.get_cursor_position = function(path)
+module.get_cursor_position = function(path)
   local filename_modifier = vim.g["test#filename_modifier"] or ":."
   local position = {
     file = vim.fn.fnamemodify(path, filename_modifier),
@@ -158,7 +158,7 @@ M.get_cursor_position = function(path)
 end
 
 -- filetypes to ignore for plugins
-M.ignore_filetypes = {
+module.ignore_filetypes = {
   "NeogitStatus",
   "DiffviewFileHistory",
   "DiffviewFiles",
@@ -177,4 +177,4 @@ M.ignore_filetypes = {
   "oil"
 }
 
-return M
+return module
