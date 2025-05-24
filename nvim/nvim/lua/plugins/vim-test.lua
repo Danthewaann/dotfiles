@@ -132,7 +132,7 @@ return {
           require("neotest").run.run({ extra_args = extra_args, strategy = "dap" })
         end
       end,
-      desc = "[T]est [N]earest"
+      desc = "[T]est [D]ebug Nearest"
     },
     {
       "<leader>tf",
