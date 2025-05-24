@@ -1,4 +1,5 @@
 local utils = require("custom.utils")
+local tmux = require("custom.tmux")
 
 local prefer_makefile = true
 local use_neotest = true
@@ -74,20 +75,21 @@ return {
     if use_neovim_term then
       vim.g["test#strategy"] = "neovim_sticky"
     else
-      vim.g["test#strategy"] = "tslime"
+      vim.g["test#strategy"] = "tmux"
     end
     vim.g["test#neovim#term_position"] = "botright 15"
     vim.g["test#neovim_sticky#kill_previous"] = 1
     vim.g["test#neovim_sticky#reopen_window"] = 1
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 1
+    vim.g["test#custom_strategies"] = { tmux = tmux.send_to_tmux }
   end,
   keys = {
     {
       "<leader>tT",
       function()
         if use_neovim_term then
-          vim.g["test#strategy"] = "tslime"
+          vim.g["test#strategy"] = "tmux"
           utils.print("Toggling tmux terminal")
         else
           vim.g["test#strategy"] = "neovim_sticky"
