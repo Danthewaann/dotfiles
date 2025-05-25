@@ -226,26 +226,6 @@ vim.keymap.set("n", "<leader>yf", function()
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current [F]ile path" })
 
-vim.keymap.set("n", "<leader>yp", function()
-  vim.system({ "gh", "pr", "view", "--json", "url", "--jq", ".url" }, { text = true }, function(obj)
-    vim.schedule(function()
-      if obj.code ~= 0 then
-        utils.print_err(vim.fn.trim(obj.stderr))
-        return
-      end
-
-      local url = vim.fn.trim(obj.stdout)
-      local cb_opts = vim.opt.clipboard:get()
-      if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", url) end
-      if vim.tbl_contains(cb_opts, "unnamedplus") then
-        vim.fn.setreg("+", url)
-      end
-      vim.fn.setreg("", url)
-      utils.print("Copied " .. url .. " to clipboard")
-    end)
-  end)
-end, { desc = "[Y]ank current [PR] url" })
-
 vim.keymap.set("n", "<leader>tb", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
   local cmd = { "tmux", "new-window", "-c", cur_dur }
