@@ -107,6 +107,14 @@ return {
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
       icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
+      floating = {
+        mappings = {
+          expand = { "<Tab>" }
+        },
+      },
+      mappings = {
+        expand = { "<Tab>", "<2-LeftMouse>" },
+      },
       controls = {
         icons = {
           pause = "⏸",
@@ -121,6 +129,15 @@ return {
         },
       },
     }
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("dap-float-binds", { clear = true }),
+      pattern = "dap-float",
+      callback = function(args)
+        vim.keymap.set("n", "<Tab>", "<cmd>lua require('dap.ui').trigger_actions({ mode = 'first' })<CR>",
+          { buffer = args.buf })
+      end
+    })
 
     -- Change breakpoint icons
     vim.api.nvim_set_hl(0, "DapBreak", { fg = "#e51400" })
