@@ -121,10 +121,10 @@ if [[ $OSTYPE == "darwin"* ]]; then
     export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
 
     # Lazyload commands to improve startup time
-    lazyload nvm node npm -- '[ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
+    lazyload nvm -- '[ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
         [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion'
-    lazyload pyenv python -- 'eval "$($PYENV_ROOT/bin/pyenv init - zsh)"'
-    lazyload rbenv ruby -- 'if [[ -d "$RBENV_ROOT" ]]; then eval "$($RBENV_ROOT/bin/rbenv init - zsh)"; fi'
+    lazyload pyenv -- 'eval "$($PYENV_ROOT/bin/pyenv init --no-push-path - zsh)"'
+    lazyload rbenv -- 'if [[ -d "$RBENV_ROOT" ]]; then eval "$($RBENV_ROOT/bin/rbenv init - zsh)"; fi'
 
     alias sed="gsed"
 else
