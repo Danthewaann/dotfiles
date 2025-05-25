@@ -7,6 +7,9 @@ require("custom.opts")
 -- [[ Setting keymaps ]]
 require("custom.keymaps")
 
+-- [[ Setting commands ]]
+require("custom.commands")
+
 -- [[ Setting auto commands ]]
 require("custom.autocmds")
 

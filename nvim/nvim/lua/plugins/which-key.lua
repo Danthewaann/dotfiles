@@ -32,8 +32,6 @@ return {
       { "<leader>h_",  hidden = true },
       { "<leader>o",   group = "[O]cto PR review" },
       { "<leader>o_",  hidden = true },
-      { "<leader>p",   group = "Command [P]rompt" },
-      { "<leader>p_",  hidden = true },
       { "<leader>r",   group = "[R]ename, [R]eplace, [R]estart" },
       { "<leader>r_",  hidden = true },
       { "<leader>s",   group = "[S]earch" },
