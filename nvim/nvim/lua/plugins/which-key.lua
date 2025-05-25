@@ -4,7 +4,10 @@ return {
   config = function()
     require("which-key").setup({
       preset = "modern",
-      delay = 500,
+      delay = function(ctx)
+        -- Have no deplay for plugins and the spell checking popup with `z=`
+        return ctx.plugin and 0 or 500
+      end,
       layout = {
         spacing = 1,
         width = { min = 5, max = vim.o.columns },
