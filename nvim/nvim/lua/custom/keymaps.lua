@@ -215,96 +215,49 @@ vim.keymap.set("n", "<leader>dB", function()
   vim.cmd("%bd|e#|bd#")
 end, { desc = "[D]elete All Other [B]uffers" })
 
-vim.keymap.set("n", "<leader>ga", function()
-  vim.ui.input({ prompt = "Enter branch name" }, function(input)
-    if input == nil then
-      return
-    end
+vim.keymap.set("n", "<leader>yf", function()
+  local path = vim.fn.expand("%")
+  local cb_opts = vim.opt.clipboard:get()
+  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
+  if vim.tbl_contains(cb_opts, "unnamedplus") then
+    vim.fn.setreg("+", path)
+  end
+  vim.fn.setreg("", path)
+  utils.print("Copied " .. path .. " to clipboard")
+end, { desc = "[Y]ank current [F]ile path" })
 
-    utils.print("Creating worktree " .. input .. "...")
-    local obj = vim.system({ "gitw-add", input }):wait()
-    if obj.code ~= 0 then
-      utils.print_err(vim.fn.trim(obj.stderr))
-      return
-    end
+vim.keymap.set("n", "<leader>yp", function()
+  vim.system({ "gh", "pr", "view", "--json", "url", "--jq", ".url" }, { text = true }, function(obj)
+    vim.schedule(function()
+      if obj.code ~= 0 then
+        utils.print_err(vim.fn.trim(obj.stderr))
+        return
+      end
+
+      local url = vim.fn.trim(obj.stdout)
+      local cb_opts = vim.opt.clipboard:get()
+      if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", url) end
+      if vim.tbl_contains(cb_opts, "unnamedplus") then
+        vim.fn.setreg("+", url)
+      end
+      vim.fn.setreg("", url)
+      utils.print("Copied " .. url .. " to clipboard")
+    end)
   end)
-end, { desc = "[G]it Worktree [A]dd" })
+end, { desc = "[Y]ank current [PR] url" })
 
-vim.keymap.set("n", "<leader>gc", function()
-  utils.run_command_in_term("git-pr-create", true)
-end, { desc = "[G]it PR [C]reate" })
-
-vim.keymap.set("n", "<leader>ge", function()
-  utils.run_command_in_term("git-pr-edit", true)
-end, { desc = "[G]it PR [E]dit" })
-
-vim.keymap.set("n", "<leader>gu", function()
-  local obj = vim.system({ "git-get-base-branch" }):wait()
+vim.keymap.set("n", "<leader>tb", function()
+  local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local cmd = { "tmux", "new-window", "-c", cur_dur }
+  utils.print(table.concat(cmd, " "))
+  local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
     utils.print_err(vim.fn.trim(obj.stderr))
-    return
   end
-  local base_branch = vim.fn.trim(obj.stdout)
-
-  utils.print("Rebasing worktree with " .. base_branch .. "...")
-  obj = vim.system({ "gitw-rebase" }):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-    return
-  end
-  utils.print("Rebased worktree with " .. base_branch .. "...")
-end, { desc = "[G]it Rebase/[U]pdate With Base Branch" })
-
-vim.keymap.set("n", "<leader>gvp", function()
-  utils.print("Opening pull request in browser...")
-  local obj = vim.system({ "gh", "pr", "view", "--web" }):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-    return
-  end
-end, { desc = "[G]it [V]iew [P]r" })
-
-vim.keymap.set("n", "<leader>gvb", function()
-  utils.print("Opening branch in browser...")
-  local obj = vim.system({ "git", "branch", "--show-current" }):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-    return
-  end
-  obj = vim.system({ "gh", "browse", "-b", vim.fn.trim(obj.stdout) }):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-    return
-  end
-end, { desc = "[G]it [V]iew [B]ranch" })
-
-vim.keymap.set("n", "<leader>gvr", function()
-  utils.print("Opening repository in browser...")
-  local obj = vim.system({ "gh", "browse" }):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-    return
-  end
-end, { desc = "[G]it [V]iew [R]epo" })
+end, { desc = "Open [T]erminal in current [B]uffer directory" })
 
 -- Select custom command to run from a visual prompt
 vim.keymap.set("n", "<leader>p", function()
-  local function get_ticket_url()
-    local ticket_number = vim.fn.trim(vim.fn.system("get-ticket-number"))
-    if vim.v.shell_error ~= 0 then
-      utils.print_err(ticket_number)
-      return nil
-    end
-
-    local base_url = vim.fn.expand("$BASE_TICKETS_URL")
-    if base_url == "$BASE_TICKETS_URL" then
-      utils.print_err("BASE_TICKETS_URL environment variable is not set!")
-      return nil
-    end
-
-    return base_url .. ticket_number
-  end
-
   local num_commands = 0
   local command_name = function(name)
     num_commands = num_commands + 1
@@ -319,16 +272,6 @@ vim.keymap.set("n", "<leader>p", function()
   if cmd ~= nil then
     commands[command_name("[Project] Run linters")] = function()
       utils.run_command_in_term(table.concat(cmd, " "))
-    end
-  end
-
-  commands[command_name("[Terminal] Open terminal in current buffer directory")] = function()
-    local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
-    cmd = { "tmux", "new-window", "-c", cur_dur }
-    utils.print(table.concat(cmd, " "))
-    local obj = vim.system(cmd):wait()
-    if obj.code ~= 0 then
-      utils.print_err(vim.fn.trim(obj.stderr))
     end
   end
 
@@ -347,70 +290,6 @@ vim.keymap.set("n", "<leader>p", function()
       end)
   end
 
-  commands[command_name("[Github] Yank PR to clipboard")] = function()
-    vim.system({ "gh", "pr", "view", "--json", "url", "--jq", ".url" }, { text = true }, function(obj)
-      vim.schedule(function()
-        if obj.code ~= 0 then
-          utils.print_err(vim.fn.trim(obj.stderr))
-          return
-        end
-
-        local url = vim.fn.trim(obj.stdout)
-        local cb_opts = vim.opt.clipboard:get()
-        if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", url) end
-        if vim.tbl_contains(cb_opts, "unnamedplus") then
-          vim.fn.setreg("+", url)
-        end
-        vim.fn.setreg("", url)
-        utils.print("Copied " .. url .. " to clipboard")
-      end)
-    end)
-  end
-
-  commands[command_name("[Ticket] Open in browser")] = function()
-    local ticket_url = get_ticket_url()
-    if ticket_url == nil then
-      return
-    end
-
-    vim.ui.open(ticket_url)
-  end
-  commands[command_name("[Ticket] Yank to clipboard")] = function()
-    local ticket_url = get_ticket_url()
-    if ticket_url == nil then
-      return
-    end
-
-    local cb_opts = vim.opt.clipboard:get()
-    if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", ticket_url) end
-    if vim.tbl_contains(cb_opts, "unnamedplus") then
-      vim.fn.setreg("+", ticket_url)
-    end
-    vim.fn.setreg("", ticket_url)
-    utils.print("Copied " .. ticket_url .. " to clipboard")
-  end
-  commands[command_name("[Mini] Save session")] = function()
-    ---@diagnostic disable-next-line: undefined-global
-    MiniSessions.write("Session.vim")
-  end
-  commands[command_name("[File] Make current file executable")] = function()
-    local obj = vim.system({ "chmod", "+x", vim.fn.expand("%") }):wait()
-    if obj.code ~= 0 then
-      utils.print_err(vim.fn.trim(obj.stderr))
-      return
-    end
-    utils.print("File marked as executable")
-  end
-  commands[command_name("[File] Yank current file path")] = function()
-    local path = vim.fn.expand("%")
-    local cb_opts = vim.opt.clipboard:get()
-    if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
-    if vim.tbl_contains(cb_opts, "unnamedplus") then
-      vim.fn.setreg("+", path)
-    end
-    vim.fn.setreg("", path)
-    utils.print("Copied " .. path .. " to clipboard")
-  end
   commands[command_name("[Journal] Create new entry")] = function()
     local template
     local workspace = os.getenv("TMUX_CURRENT_DIR")
@@ -484,6 +363,7 @@ vim.keymap.set("n", "gL", function()
   end
 end, { desc = "Toggle fold recursively" })
 
-vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {
+-- Spelling
+vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
 })
