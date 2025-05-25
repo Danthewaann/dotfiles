@@ -21,35 +21,28 @@ else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
     current_session=$(tr _ . <<< "$current_session")
 
-    if [[ ! -f "$HOME/.tmux-projects" ]]; then
-        tmux-update-projects
-    fi
-
-    base_dir=$(basename "$TMUX_CURRENT_DIR")
-
-    while IFS=$'\n' read -r line; do default_sessions+=("$line"); done < <(grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" < "$HOME/.tmux-projects")
-
     sessions=()
 
-    if [[ ! -f "$HOME/.tmux-active-sessions" ]]; then
-        tmux-update-active-sessions
-    fi
+    while IFS=$'\n' read -r line; do
+        # If this directory is a bare git repository, get a list of all immediate sub-directories.
+        if ls "$TMUX_CURRENT_DIR/$line"/.bare >/dev/null 2>&1; then
+            while IFS=$'\n' read -r line2; do
+                session="$line/$line2"
 
-    while IFS=$'\n' read -r line; do sessions+=("$(cut -d' ' -f1 <<< "$line")"); done < <(grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" < "$HOME/.tmux-active-sessions")
-
-    for session in "${default_sessions[@]}"; do
-        # If a location appears in the active sessions, we skip it
-        # shellcheck disable=SC2076
-        if [[ " ${sessions[*]} " =~ " $session " ]]; then
-            continue
+                sessions+=("$session")
+            done < <(find "$TMUX_CURRENT_DIR/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
+        else
+            session="$line"
+            sessions+=("$session")
         fi
+    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 
-        sessions+=("$session")
-    done
+    # From: https://www.baeldung.com/linux/sort-bash-arrays
+    readarray -td '' sessions < <(printf '%s\0' "${sessions[@]}" | sort -z)
 
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
-    selected_session=$(tr . _ <<< "$selected")
+    selected_session=$(tr . _ <<<"$selected")
 
     # If this is a relative path, prepend it with $TMUX_CURRENT_DIR
     if [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
@@ -69,7 +62,7 @@ if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-if ! tmux has-session -t="$selected_session" 2> /dev/null; then
+if ! tmux has-session -t="$selected_session" 2>/dev/null; then
     tmux new-session -ds "$selected_session" -c "$selected"
 fi
 
