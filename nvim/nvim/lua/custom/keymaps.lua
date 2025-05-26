@@ -19,7 +19,7 @@ vim.keymap.set("v", "<", "<gv", { desc = "Decrease indent" })
 vim.keymap.set("n", "gV", "`[v`]", { desc = "Re-select last pasted text" })
 
 -- Search inside the current visual selection
-vim.keymap.set("x", "g/", "<Esc>/\\%V", { desc = "Search inside visual selection" })
+vim.keymap.set("x", "/", "<Esc>/\\%V", { desc = "Search inside visual selection" })
 
 -- Keep the cursor in the same place when joining lines
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
