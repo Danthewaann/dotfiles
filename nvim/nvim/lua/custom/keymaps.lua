@@ -229,7 +229,6 @@ end, { desc = "[Y]ank current [F]ile path" })
 vim.keymap.set("n", "<leader>tb", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
   local cmd = { "tmux", "new-window", "-c", cur_dur }
-  utils.print(table.concat(cmd, " "))
   local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
     utils.print_err(vim.fn.trim(obj.stderr))
