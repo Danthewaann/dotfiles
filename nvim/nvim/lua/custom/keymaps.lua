@@ -185,9 +185,6 @@ vim.keymap.set("n", "<M-Up>", function()
   end
 end, { desc = "Adjust window height down" })
 
--- Treat Ctrl+C exactly like <Esc>
-vim.keymap.set({ "n", "i", "x", "o" }, "<C-c>", "<Esc>", { desc = "Escape" })
-
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
