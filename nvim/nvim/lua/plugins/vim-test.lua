@@ -171,7 +171,10 @@ return {
     },
     {
       "<leader>to",
-      function() require("neotest").output.open({ enter = true }) end,
+      function()
+        require("neotest").output.open({ enter = true })
+        vim.cmd("startinsert")
+      end,
       desc = "[T]est [O]utput"
     },
     {
