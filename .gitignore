@@ -2,13 +2,11 @@
 *.zip
 git/.gitconfig
 git/gh-dash/config.yml
-tmux/tmux-*/
 debug.log
 *.tar.gz
 *.gnome_installed_one_dark_theme*
 Session.vim
 *.deb
-.tmux-default-sessions
 .tmux-save-sessions
 .zprofile
 
