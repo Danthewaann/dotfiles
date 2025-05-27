@@ -52,7 +52,14 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Quickfix list
+vim.keymap.set("n", "<M-h>", function()
+  pcall(function() vim.cmd(":colder") end)
+end, { desc = "Go to older quickfix list" })
 vim.keymap.set("n", "<M-l>", function()
+  pcall(function() vim.cmd(":colder") end)
+end, { desc = "Go to newer quickfix list" })
+
+vim.keymap.set("n", "<M-e>", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win["quickfix"] == 1 then
