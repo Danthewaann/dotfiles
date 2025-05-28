@@ -9,7 +9,7 @@ return {
   ft = { "markdown", "octo" },
   config = function()
     require("render-markdown").setup({
-      enabled = false,
+      enabled = true,
       file_types = { "markdown", "octo" },
     })
 
