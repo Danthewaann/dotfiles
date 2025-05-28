@@ -109,16 +109,14 @@ if [[ "$branch_name" != "$base_branch" ]]; then
         local_branch_arg="-b"
     fi
 
-    # If the branch already exists remotely track it
-    remote_branch_arg=
-    if git branch -r | grep "\w*origin/$branch_name\$" >/dev/null; then
-        remote_branch_arg="--track origin/$branch_name"
+    if [[ "$converted_name" != "$branch_name" ]]; then
+        add_args=("$converted_name" "$local_branch_arg" "$branch_name")
+    else
+        add_args=("$local_branch_arg" "$branch_name")
     fi
-
-    add_args=("$converted_name" "$local_branch_arg" "$branch_name" "$remote_branch_arg")
 else
-    add_args=("$branch_name")
     track_base_branch=1
+    add_args=("$branch_name")
 fi
 
 # Create a new worktree using the converted name whilst checking out the branch
