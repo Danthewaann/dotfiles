@@ -67,6 +67,13 @@ converted_name=${branch_name//\//-}
 # Convert dots to underscores as tmux sessions can't contain dots
 converted_name=$(tr . _ <<<"$converted_name")
 
+# If we are inside a python virtual environment, we need to source the
+# activate script to allow us to run the deactivate script later
+# when checking out a repo that contains a `poetry.lock` file.
+#
+# shellcheck disable=SC1091
+if [[ -n "$VIRTUAL_ENV" ]]; then source .venv/bin/activate; fi
+
 # If we are already inside a worktree change directory to the bare repo
 if ! is_bare_repo=$(git rev-parse --is-inside-work-tree 2>&1); then true; fi
 if [[ $is_bare_repo == "true" ]]; then
@@ -156,6 +163,10 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo
         info "Running poetry install..."
         >&2 echo
+        # We need to deactivate the current virtual environment otherwise poetry install
+        # will install packages into the current virtual environment instead of the new
+        # one we want to create for the new worktree.
+        if [[ -n "$VIRTUAL_ENV" ]]; then deactivate; fi
         if ! poetry install --all-extras >/dev/stderr 2>&1; then true; fi
     elif [[ -f "pyproject.toml" ]]; then
         >&2 echo
