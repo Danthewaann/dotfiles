@@ -69,6 +69,13 @@ return {
       desc = "Debug: See last session result.",
     },
     {
+      "<leader>de",
+      function()
+        require("dap").set_exception_breakpoints()
+      end,
+      desc = "[D]ebug Set [E]xception Breakpoints",
+    },
+    {
       "<leader>dh",
       function()
         require("dap.ui.widgets").hover()
@@ -154,6 +161,9 @@ return {
     dap.listeners.after.event_initialized["dapui_config"] = dapui.open
     dap.listeners.before.event_terminated["dapui_config"] = dapui.close
     dap.listeners.before.event_exited["dapui_config"] = dapui.close
+
+    -- Don't pause on exceptions for python tests
+    dap.defaults.python.exception_breakpoints = {}
 
     local utils = require("custom.utils")
     require("dap-python").setup(utils.get_poetry_venv_executable_path("python"))
