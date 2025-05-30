@@ -169,12 +169,7 @@ return {
       {
         {
           name = "spell",
-          option = {
-            keep_all_entries = true,
-            enable_in_context = function()
-              return require("cmp.config.context").in_treesitter_capture("spell")
-            end,
-          },
+          option = { keep_all_entries = true },
           max_item_count = 10,
         },
       }
@@ -288,17 +283,30 @@ return {
         }),
         ["<C-q>"] = cmp.mapping.abort(),
         ["<C-space>"] = cmp.mapping(function()
-          if cmp.visible() then
-            if current_source_group == 1 then
-              current_source_group = 2
-              cmp.complete({ config = { sources = { { name = "buffer", option = buffer_source_option }, { name = "dictionary", keyword_length = 2 } } } })
-            elseif current_source_group == 2 then
-              current_source_group = 1
-              cmp.complete({ config = { sources = { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" } } } })
-            end
-          else
+          if current_source_group == 1 then
+            current_source_group = 2
+            cmp.complete({
+              config = {
+                sources = {
+                  {
+                    name = "buffer",
+                    option = buffer_source_option,
+                  },
+                  {
+                    name = "dictionary",
+                    keyword_length = 2,
+                  },
+                  {
+                    name = "spell",
+                    option = { keep_all_entries = true },
+                    max_item_count = 10,
+                  },
+                },
+              }
+            })
+          elseif current_source_group == 2 then
             current_source_group = 1
-            cmp.complete({ config = { sources = { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" } } } })
+            cmp.complete()
           end
         end),
         ["<C-l>"] = cmp.mapping(function(fallback)
