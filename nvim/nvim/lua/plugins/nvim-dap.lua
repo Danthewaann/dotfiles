@@ -105,6 +105,13 @@ return {
       end,
       desc = "[D]ebug [S]copes",
     },
+    {
+      "<leader>dt",
+      function()
+        require("dapui").toggle()
+      end,
+      desc = "[D]ebug [T]oggle UI"
+    },
   },
   config = function()
     local dap = require "dap"
@@ -114,6 +121,25 @@ return {
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
       icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
+      layouts = {
+        {
+          elements = {
+            { id = "scopes",      size = 0.25 },
+            { id = "breakpoints", size = 0.25 },
+            { id = "stacks",      size = 0.25 },
+            { id = "watches",     size = 0.25 },
+          },
+          position = "left",
+          size = 40,
+        },
+        {
+          elements = {
+            { id = "repl",    size = 0.5 },
+            { id = "console", size = 0.5 }
+          },
+          position = "bottom",
+          size = 10
+        } },
       floating = {
         mappings = {
           expand = { "<Tab>" }
@@ -158,7 +184,6 @@ return {
       vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
     end
 
-    dap.listeners.after.event_initialized["dapui_config"] = dapui.open
     dap.listeners.before.event_terminated["dapui_config"] = dapui.close
     dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
