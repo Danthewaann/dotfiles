@@ -6,11 +6,11 @@ return {
     "nvim-treesitter/nvim-treesitter", -- Mandatory
     "nvim-tree/nvim-web-devicons",     -- Optional but recommended
   },
-  ft = { "markdown", "octo" },
+  ft = { "markdown", "octo", "codecompanion" },
   config = function()
     require("render-markdown").setup({
       enabled = true,
-      file_types = { "markdown", "octo" },
+      file_types = { "markdown", "octo", "codecompanion" },
     })
 
     vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>", { desc = "[T]oggle [M]arkdown view" })
