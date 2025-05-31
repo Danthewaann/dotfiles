@@ -10,7 +10,7 @@ args=()
 branch_name=
 checkout_only=0
 copy_venv=0
-track_base_branch=0
+track_branch=0
 
 function usage() {
     cat <<-END >/dev/stderr
@@ -96,6 +96,9 @@ if [[ -d $converted_name ]]; then
     exit $?
 fi
 
+# If we get to this point, the branch hasn't been checked out into a worktree yet
+# When running `git fetch` remote branch info will be fetched, meaning theses branches
+# will appear as if they have been created locally when we run `git branch` below.
 info "Running git fetch..."
 if ! output=$(git -c color.ui=always fetch 2>&1); then
     >&2 echo "$output"
@@ -114,6 +117,10 @@ if [[ "$branch_name" != "$base_branch" ]]; then
     local_branch_arg=
     if ! git branch | grep "\w*$branch_name\$" >/dev/null; then
         local_branch_arg="-b"
+    else
+        # At this point if the branch exists locally, it also should existing remotely
+        # so we need to make sure to setup remote tracking info for it so git pull works.
+        track_branch=1
     fi
 
     if [[ "$converted_name" != "$branch_name" ]]; then
@@ -122,7 +129,7 @@ if [[ "$branch_name" != "$base_branch" ]]; then
         add_args=("$local_branch_arg" "$branch_name")
     fi
 else
-    track_base_branch=1
+    track_branch=1
     add_args=("$branch_name")
 fi
 
@@ -141,9 +148,9 @@ fi
 # Enter the new worktree
 cd "$converted_name" || exit
 
-if [[ $track_base_branch -eq 1 ]]; then
+if [[ $track_branch -eq 1 ]]; then
     >&2 echo
-    info "Setting tracking information for base branch..."
+    info "Setting remote tracking information for branch..."
     if ! output=$(git branch --set-upstream-to=origin/"$branch_name" "$branch_name" 2>&1); then
         error "$output"
         exit 1
