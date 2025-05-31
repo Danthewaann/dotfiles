@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
-source "$CUR_DIR/_git-common"
-
-grep -i "workdir" Dockerfile | head -n 1 | awk '{print $2}'
