@@ -11,25 +11,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git-prompt zsh-autosuggestions virtualenv zsh-lazyload)
 
-# From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
-# and https://htr3n.github.io/2018/07/faster-zsh/
-# On slow systems, checking the cached .zcompdump file to see if it must be
-# regenerated adds a noticeable delay to zsh startup.  This little hack restricts
-# it to once a day.  It should be pasted into your own completion file.
-#
-# The globbing is a little complicated here:
-# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
-# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
-# - '.' matches "regular files"
-# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
-fpath=($fpath $HOME/.zsh_completions)
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit;
-else
-    compinit -C;
-fi
-
+# Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # Setup root variables
@@ -54,7 +36,22 @@ export BAT_THEME="TwoDark"
 
 # Setup fzf to use ripgrep for search
 export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.gitignore --glob ""'
-export FZF_DEFAULT_OPTS='--color=border:#31353f,bg+:#1a1d21,bg:#1a1d21,spinner:#c678dd,hl:#5c6370,fg:#abb2bf,header:#5c6370,info:#c678dd,pointer:#c678dd,marker:#c678dd,fg+:#abb2bf,preview-bg:#282c34,prompt:#c678dd,hl+:#c678dd'
+
+# Setup colorscheme for fzf
+export FZF_DEFAULT_OPTS='--color=border:#31353f
+                         --color=bg+:#1a1d21
+                         --color=bg:#1a1d21
+                         --color=spinner:#c678dd
+                         --color=hl:#5c6370
+                         --color=fg:#abb2bf
+                         --color=header:#5c6370
+                         --color=info:#c678dd
+                         --color=pointer:#c678dd
+                         --color=marker:#c678dd
+                         --color=fg+:#abb2bf
+                         --color=preview-bg:#1a1d21
+                         --color=prompt:#c678dd
+                         --color=hl+:#c678dd'
 
 # Configure colours for `ls` on mac OS
 # See `man ls` for more details about colours
@@ -92,6 +89,7 @@ function uuid4 () { python -c "import uuid; print(str(uuid.uuid4()))" }
 
 # Git apply patch from clipboard
 function gap () { patch="$(pbpaste)\n"; echo "$patch" | git apply - }
+# Check what is running at a given port
 function checkport () { sudo lsof -i tcp:"$1" }
 function tmux {
     # Expose current dir of where tmux was ran to tmux and
@@ -109,12 +107,16 @@ function tmux {
 bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 
-# Cycle through command history (including suggested commands)
+# [C-p, C-n] Cycle through command history (including suggested commands)
 bindkey "^P" up-line-or-beginning-search
 bindkey "^N" down-line-or-beginning-search
 
-# Linux only setup
+# [Shift-Tab] Move through the completion menu backwards
+bindkey "^[[Z" reverse-menu-complete
+
 if [[ $OSTYPE == "darwin"* ]]; then
+    # mac OS only setup
+    #
     # Add brew to path
     eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -129,6 +131,8 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     alias sed="gsed"
 else
+    # Linux only setup
+    #
     # Setup Python version manager
     eval "$("$PYENV_ROOT"/bin/pyenv init - zsh)"
 
@@ -149,13 +153,8 @@ else
     alias pbcopy="xclip"
 fi
 
-# Custom prompt prefix based on the amuse theme
-# https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/amuse.zsh-theme
-# Must use Powerline font, for \uE0A0 to render.
-ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}\uE0A0%{${reset_color}%} ("
-ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
-ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
-
+# Setup git info in prompt
+#
 # From: https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git-prompt/git-prompt.plugin.zsh
 function git_super_status() {
     precmd_update_git_vars
@@ -200,15 +199,54 @@ function git_super_status() {
     fi
 }
 
-[ -n "$SSH" ] && BASE_PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
-[ -z "$SSH" ] && BASE_PROMPT=$'%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)'
-PROMPT="$BASE_PROMPT$ "
+# Set the prompt
+#
+# Optionally include user and hostname in the prompt if we are in an SSH session
+[ -n "$SSH" ] && PROMPT=$'%{$fg[magenta]%}%n@%M:%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)$ ' || \
+                 PROMPT=$'%{$fg_bold[green]%}%~%{$reset_color%}$(git_super_status)\n$(virtualenv_prompt_info)$ '
 
 # Disable the right-hand side prompt
 RPROMPT=""
 
-VIRTUAL_ENV_DISABLE_PROMPT=0
+# Setup virtual environment details if one is activated in the prompt
 ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
 ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+
+# Add my custom zsh completions scripts to fpath so they are detected by compinit
+fpath=($fpath $HOME/.zsh_completions)
+
+# From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
+# and https://htr3n.github.io/2018/07/faster-zsh/
+# On slow systems, checking the cached .zcompdump file to see if it must be
+# regenerated adds a noticeable delay to zsh startup.  This little hack restricts
+# it to once a day.  It should be pasted into your own completion file.
+#
+# The globbing is a little complicated here:
+# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
+# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
+# - '.' matches "regular files"
+# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit;
+else
+    compinit -C;
+fi
+
+# Set completion styles
+#
+# More info can be found from `man zshmodules`
+#
+# From: https://unix.stackexchange.com/a/214699
+# and http://www.masterzen.fr/2009/04/19/in-love-with-zsh-part-one/
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format "$fg[yellow]%B--- %d%b"
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+zstyle ':completion:*' group-name ''
+
