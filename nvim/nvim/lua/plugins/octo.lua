@@ -11,8 +11,6 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
-    vim.treesitter.language.register("markdown", "octo")
-
     require("octo").setup({
       picker = "telescope",
       use_local_fs = true,
