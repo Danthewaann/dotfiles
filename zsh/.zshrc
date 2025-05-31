@@ -217,8 +217,10 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 # Add my custom zsh completions scripts to fpath so they are detected by compinit
 fpath=($fpath $HOME/.zsh_completions)
 
-# From https://carlosbecker.com/posts/speeding-up-zsh/ and https://gist.github.com/ctechols/ca1035271ad134841284
-# and https://htr3n.github.io/2018/07/faster-zsh/
+# Load zsh completion scripts using compinit
+#
+# More info can be found from `man zshcompsys`
+#
 # On slow systems, checking the cached .zcompdump file to see if it must be
 # regenerated adds a noticeable delay to zsh startup.  This little hack restricts
 # it to once a day.  It should be pasted into your own completion file.
@@ -228,6 +230,11 @@ fpath=($fpath $HOME/.zsh_completions)
 # - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
 # - '.' matches "regular files"
 # - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+#
+# From:
+#  - https://carlosbecker.com/posts/speeding-up-zsh/
+#  - https://gist.github.com/ctechols/ca1035271ad134841284
+#  - https://htr3n.github.io/2018/07/faster-zsh/
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
     compinit;
@@ -239,8 +246,9 @@ fi
 #
 # More info can be found from `man zshmodules`
 #
-# From: https://unix.stackexchange.com/a/214699
-# and http://www.masterzen.fr/2009/04/19/in-love-with-zsh-part-one/
+# From:
+#  - https://unix.stackexchange.com/a/214699
+#  - http://www.masterzen.fr/2009/04/19/in-love-with-zsh-part-one/
 zstyle ':completion:*' menu yes select
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' verbose yes
