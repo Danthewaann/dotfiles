@@ -160,7 +160,14 @@ function git_super_status() {
     precmd_update_git_vars
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
         # If we are in a git worktree, don't output the branch name
-        if [[ $(git config --get core.bare | trim) == "true" ]]; then
+        #
+        # The git that comes with homebrew is slow when running the following command
+        # to properly determine if we are in a bare repository
+        #
+        #   $(git config --get core.bare | trim) == "true"
+        #
+        # The command that is used below is much faster and it works with my setup
+        if [[ ! -d .git ]]; then
             GIT_BRANCH=
         fi
         STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_BRANCH$GIT_BRANCH$GIT_UPSTREAM%{${reset_color}%}"
