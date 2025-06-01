@@ -246,7 +246,7 @@ fpath=($fpath $HOME/.zsh_completions)
 #  - https://gist.github.com/ctechols/ca1035271ad134841284
 #  - https://htr3n.github.io/2018/07/faster-zsh/
 autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
     compinit;
 else
     compinit -C;
