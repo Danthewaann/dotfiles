@@ -263,4 +263,5 @@ else
     compinit -C;
 fi
 
+# Uncomment the following line and the first line in this file to enable profiling
 # zprof
