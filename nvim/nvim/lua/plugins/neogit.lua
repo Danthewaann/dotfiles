@@ -73,7 +73,7 @@ return {
     vim.keymap.set("n", "<leader>gla", require("neogit").action("log", "log_head", { "--max-count=10000" }),
       { desc = "[G]it [L]og [A]ll" })
     vim.keymap.set("n", "<leader>glf", function()
-      require("neogit").action("log", "log_current", { "--max-count=10000", "--", vim.fn.expand("%") })()
+      require("neogit").action("log", "log_current", { "--follow", "--max-count=10000", "--", vim.fn.expand("%") })()
     end, { desc = "[G]it [L]og [F]ile" })
     vim.keymap.set("x", "<leader>gl", function()
       vim.cmd([[ execute "normal! \<ESC>" ]])
