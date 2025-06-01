@@ -1,6 +1,7 @@
 return {
   "MeanderingProgrammer/markdown.nvim",
   name = "render-markdown",
+  commit = "bfbb46af43c95115a06419ef290e16e2fa2a1941",
   enabled = true,
   dependencies = {
     "nvim-treesitter/nvim-treesitter", -- Mandatory
