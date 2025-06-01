@@ -7,4 +7,4 @@ export GO_VERSION=1.23.5
 export RUBY_VERSION=3.3.2
 export TMUX_VERSION=3.5a
 export IGNORE_ERRORS=false
-export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim)
+export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim vim)
