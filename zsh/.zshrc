@@ -12,7 +12,17 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git-prompt zsh-autosuggestions virtualenv zsh-lazyload)
+#
+# Can find external plugins from: https://github.com/topics/zsh-plugins
+plugins=(
+    git-prompt
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-autocomplete
+    zsh-autopair
+    zsh-lazyload
+    virtualenv
+)
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -111,11 +121,14 @@ bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 
 # [C-p, C-n] Cycle through command history (including suggested commands)
-bindkey "^P" up-line-or-beginning-search
-bindkey "^N" down-line-or-beginning-search
+bindkey -a "^P" up-line-or-beginning-search
+bindkey -a "^N" down-line-or-beginning-search
 
-# [Shift-Tab] Move through the completion menu backwards
-bindkey "^[[Z" reverse-menu-complete
+# [Tab, Shift-Tab] Move through and select completion menu items
+bindkey '^I' menu-select
+bindkey "$terminfo[kcbt]" menu-select
+bindkey -M menuselect '^I' menu-complete
+bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
 
 if [[ $OSTYPE == "darwin"* ]]; then
     # mac OS only setup
@@ -219,10 +232,8 @@ function git_super_status() {
 RPROMPT=""
 
 # Setup virtual environment details if one is activated in the prompt
-ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="(%{$fg[green]%}🐍"
-ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}) "
-ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
-ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+ZSH_THEME_VIRTUALENV_PREFIX="(%{$fg[green]%}🐍"
+ZSH_THEME_VIRTUALENV_SUFFIX="%{$reset_color%}) "
 
 # Add my custom zsh completions scripts to fpath so they are detected by compinit
 fpath=($fpath $HOME/.zsh_completions)
