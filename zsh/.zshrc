@@ -1,3 +1,6 @@
+# Uncomment the following line and the last line in this file to enable profiling
+# zmodload zsh/zprof
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -265,3 +268,4 @@ zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
 zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 zstyle ':completion:*' group-name ''
 
+# zprof
