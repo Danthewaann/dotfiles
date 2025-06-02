@@ -115,8 +115,14 @@ base_branch=$(git-get-base-branch)
 if [[ "$branch_name" != "$base_branch" ]]; then
     # If the branch doesn't exist locally create it
     local_branch_arg=
+    remote_tracking_arg=
     if ! git branch | grep "\w*$branch_name\$" >/dev/null; then
         local_branch_arg="-b"
+
+        # If this branch exists remotely, set tracking info the the new local branch
+        if [[ -n $local_branch_arg ]] && git branch -r | grep "\w*$branch_name\$" >/dev/null; then
+            remote_tracking_arg="--track origin/$branch_name"
+        fi
     else
         # At this point if the branch exists locally, it also should existing remotely
         # so we need to make sure to setup remote tracking info for it so git pull works.
@@ -124,9 +130,9 @@ if [[ "$branch_name" != "$base_branch" ]]; then
     fi
 
     if [[ "$converted_name" != "$branch_name" ]]; then
-        add_args=("$converted_name" "$local_branch_arg" "$branch_name")
+        add_args=("$converted_name" "$local_branch_arg" "$branch_name" "$remote_tracking_arg")
     else
-        add_args=("$local_branch_arg" "$branch_name")
+        add_args=("$local_branch_arg" "$branch_name" "$remote_tracking_arg")
     fi
 else
     track_branch=1
