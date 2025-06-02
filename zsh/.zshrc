@@ -120,15 +120,17 @@ function tmux {
 bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 
-# [C-p, C-n] Cycle through command history (including suggested commands)
-bindkey -a "^P" up-line-or-beginning-search
-bindkey -a "^N" down-line-or-beginning-search
-
 # [Tab, Shift-Tab] Move through and select completion menu items
 bindkey '^I' menu-select
 bindkey "$terminfo[kcbt]" menu-select
 bindkey -M menuselect '^I' menu-complete
 bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
+
+# Suppress completion until a minimum number of characters have been typed
+zstyle ':autocomplete:*' min-input 3
+
+# Limit the max number of completions lines are shown
+zstyle -e ':autocomplete:*:*' list-lines 'reply=( $(( LINES / 4 )) )'
 
 if [[ $OSTYPE == "darwin"* ]]; then
     # mac OS only setup
