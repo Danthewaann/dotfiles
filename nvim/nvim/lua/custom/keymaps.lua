@@ -264,3 +264,6 @@ end, { desc = "Toggle fold recursively" })
 vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
 })
+
+-- Command line abbreviations
+vim.cmd("cabbrev dv DV")
