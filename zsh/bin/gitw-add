@@ -183,6 +183,7 @@ if [[ $checkout_only -ne 1 ]]; then
         >&2 echo
         if ! uv venv >/dev/stderr 2>&1; then true; fi
         if ! uv pip install -r pyproject.toml --all-extras >/dev/stderr 2>&1; then true; fi
+        if ! uv pip install -r pyproject.toml --group dev >/dev/stderr 2>&1; then true; fi
     fi
 fi
 
