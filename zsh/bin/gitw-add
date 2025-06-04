@@ -117,7 +117,7 @@ if [[ "$branch_name" != "$base_branch" ]]; then
     local_branch_arg=
     remote_tracking_arg=
     if ! git branch | grep "\w*$branch_name\$" >/dev/null; then
-        local_branch_arg="-b"
+        local_branch_arg="-b $branch_name"
 
         # If this branch exists remotely, set tracking info the the new local branch
         if [[ -n $local_branch_arg ]] && git branch -r | grep "\w*$branch_name\$" >/dev/null; then
@@ -129,11 +129,7 @@ if [[ "$branch_name" != "$base_branch" ]]; then
         track_branch=1
     fi
 
-    if [[ "$converted_name" != "$branch_name" ]]; then
-        add_args=("$converted_name" "$local_branch_arg" "$branch_name" "$remote_tracking_arg")
-    else
-        add_args=("$local_branch_arg" "$branch_name" "$remote_tracking_arg")
-    fi
+    add_args=("$converted_name" "$local_branch_arg" "$remote_tracking_arg")
 else
     track_branch=1
     add_args=("$branch_name")
