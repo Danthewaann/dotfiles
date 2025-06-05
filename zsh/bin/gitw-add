@@ -112,27 +112,23 @@ fi
 
 base_branch=$(git-get-base-branch)
 
-if [[ "$branch_name" != "$base_branch" ]]; then
-    # If the branch doesn't exist locally create it
-    local_branch_arg=
-    remote_tracking_arg=
-    if ! git branch | grep "\w*$branch_name\$" >/dev/null; then
-        local_branch_arg="-b $branch_name"
+if [[ "$branch_name" == "$base_branch" ]]; then
+    track_branch=1
+    add_args=("$branch_name")
+else
+    # Create or reset the branch at this point. Any commits in this branch that
+    # don't match what's in the remote will be removed. I don't think this will
+    # cause any problems for my workflow, as I always associate a branch with a
+    # physical checkout.
+    local_branch_arg="-B $branch_name"
 
-        # If this branch exists remotely, set tracking info the the new local branch
-        if [[ -n $local_branch_arg ]] && git branch -r | grep "\w*$branch_name\$" >/dev/null; then
-            remote_tracking_arg="--track origin/$branch_name"
-        fi
-    else
-        # At this point if the branch exists locally, it also should existing remotely
-        # so we need to make sure to setup remote tracking info for it so git pull works.
-        track_branch=1
+    # If this branch exists remotely, set up tracking info for the local branch
+    remote_tracking_arg=
+    if git branch -r | grep "\w*$branch_name\$" >/dev/null; then
+        remote_tracking_arg="--track origin/$branch_name"
     fi
 
     add_args=("$converted_name" "$local_branch_arg" "$remote_tracking_arg")
-else
-    track_branch=1
-    add_args=("$branch_name")
 fi
 
 # Create a new worktree using the converted name whilst checking out the branch
