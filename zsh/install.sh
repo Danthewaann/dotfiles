@@ -52,3 +52,9 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-lazyload ]]; then
     run_command "installing zsh-lazyload" \
         "git clone https://github.com/qoomon/zsh-lazyload $ZSH_CUSTOM/plugins/zsh-lazyload"
 fi
+
+if [[ ! -d $ZSH_CUSTOM/plugins/zsh-fzf-history-search ]]; then
+    run_command "installing zsh-fzf-history-search" \
+        "git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM}/plugins/zsh-fzf-history-search"
+fi
+
