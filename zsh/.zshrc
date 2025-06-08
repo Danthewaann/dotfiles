@@ -66,10 +66,6 @@ export FZF_DEFAULT_OPTS='--color=border:#31353f
                          --color=prompt:#c678dd
                          --color=hl+:#c678dd'
 
-# Configure colours for `ls` on mac OS
-# See `man ls` for more details about colours
-export LSCOLORS="Exfxcxdxfxegedabagacad"
-
 # Configure binds for `gh notify`
 export GH_NOTIFY_FZF_OPTS="--bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down'"
 export GH_NOTIFY_VIEW_DIFF_KEY="ctrl-f"
