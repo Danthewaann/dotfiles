@@ -43,11 +43,6 @@ if [[ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]]; then
         "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 
-if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autocomplete ]]; then
-    run_command "installing zsh-autocomplete" \
-        "git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete"
-fi
-
 if [[ ! -d $ZSH_CUSTOM/plugins/zsh-autopair ]]; then
     run_command "installing zsh-autopair" \
         "git clone https://github.com/hlissner/zsh-autopair $ZSH_CUSTOM/plugins/zsh-autopair"
