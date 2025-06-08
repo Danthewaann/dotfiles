@@ -253,5 +253,20 @@ else
     compinit -C;
 fi
 
+# Set completion styles
+#
+# More info can be found from `man zshmodules`
+#
+# From:
+#  - https://unix.stackexchange.com/a/214699
+#  - http://www.masterzen.fr/2009/04/19/in-love-with-zsh-part-one/
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format "$fg[yellow]%B--- %d%b"
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+zstyle ':completion:*' group-name ''
+
 # Uncomment the following line and the first line in this file to enable profiling
 # zprof
