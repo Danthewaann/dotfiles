@@ -1,5 +1,5 @@
 return {
-  "fnune/recall.nvim",
+  "Danthewaann/recall.nvim",
   config = function()
     require("recall").setup({})
     vim.keymap.set("n", "<leader>mm", "<cmd>RecallToggle<CR>", { desc = "[M]ark [M]ake" })
