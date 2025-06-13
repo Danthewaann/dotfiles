@@ -5,7 +5,7 @@ set -o pipefail
 if [[ $# -gt 0 ]]; then
     selected=$1; shift
 
-    if ls "$selected/../.bare" > /dev/null 2>&1; then
+    if [ -d "$selected/../.bare" ]; then
         # If this parent directory for the selected directory is a bare git repository,
         # prepend the parent directory to the selected directory.
         selected_session=$(basename "$(dirname "$selected")")/$(basename "$selected")
@@ -21,7 +21,7 @@ else
 
     while IFS=$'\n' read -r line; do
         # If this directory is a bare git repository, get a list of all immediate sub-directories.
-        if ls "$TMUX_CURRENT_DIR/$line"/.bare >/dev/null 2>&1; then
+        if [ -d "$TMUX_CURRENT_DIR/$line"/.bare ]; then
             while IFS=$'\n' read -r line2; do
                 session="$line/$line2"
 
