@@ -19,14 +19,21 @@ NC='\033[0m'
 RED='\033[0;31m'
 
 got_error=0
+worktree_name=$(basename "$(dirname "$worktree")")/$(basename "$worktree")
+
 # Check if I have opened a PR for the current branch
 if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
     echo -e "${YELLOW_BOLD}A PR is open for this worktree, skipping${NC}"
     exit 0
 fi
+
 if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
-    echo -e "${RED_BOLD}Failed to delete${NC}"
-    error_no_level "$result" 2>&1
+    echo -e "${RED_BOLD}Failed to delete${NC}: $worktree_name"
+    if grep -q "contains modified or untracked files, use --force to delete it" <<< "$result"; then
+        echo "contains modified or untracked files, use --force to delete it" | indent
+    else
+        echo "$result" | indent
+    fi
     exit 1
 fi
-echo -e "${GREEN_BOLD}Successfully deleted${NC}"
+echo -e "${GREEN_BOLD}Successfully deleted${NC}: $worktree_name"

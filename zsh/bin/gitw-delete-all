@@ -17,26 +17,18 @@ if [[ $is_bare_repo != "true" ]]; then
         fi
     done < <(find "$(pwd)" -mindepth 1 -maxdepth 1 -type d)
 else
-    info "Checking for git worktrees in $(pwd)..."
-    >&2 echo
+    cur_dir=$(basename "$PWD")
+    echo "Checking for git worktrees in $cur_dir..."
     worktrees=()
     while IFS='' read -r line; do worktrees+=("$line"); done < <(git worktree list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1)
     if [[ ${#worktrees[@]} -eq 0 ]]; then
-        error_no_level "No worktrees to delete" 2>&1
-        >&2 echo
         exit 1
     fi
 
     got_error=0
-    command="pyallel --colour yes"
     for worktree in "${worktrees[@]}"; do
-        command="$command \"gitw-delete $worktree\""
-        if [[ "$#" -gt 0 ]]; then
-            command="$command $*"
-        fi
+        if ! gitw-delete "$worktree" "$@" | indent; then true; fi
     done
-    if ! eval "$command"; then true; fi
-    >&2 echo
 
     tmux-reset-cache &
 
@@ -44,4 +36,3 @@ else
         exit 1
     fi
 fi
-
