@@ -108,3 +108,7 @@ vim.o.jumpoptions = "stack"
 -- Command-line completion mode
 vim.o.wildmenu = false
 vim.o.wildmode = "longest:full,full"
+
+-- Setup project specific shada file to store marks, history
+-- for just the current project
+vim.opt.shadafile = ".vim/project.shada"
