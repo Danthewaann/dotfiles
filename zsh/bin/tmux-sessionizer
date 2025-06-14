@@ -3,35 +3,40 @@
 set -o pipefail
 
 if [[ $# -gt 0 ]]; then
-    selected=$1; shift
+    selected=$1
+    shift
 
     if [ -d "$selected/../.bare" ]; then
         # If this parent directory for the selected directory is a bare git repository,
         # prepend the parent directory to the selected directory.
         selected_session=$(basename "$(dirname "$selected")")/$(basename "$selected")
-        selected_session=$(tr . _ <<< "$selected_session")
+        selected_session=$(tr . _ <<<"$selected_session")
     else
         selected_session=$(basename "$selected" | tr . _)
     fi
 else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
-    current_session=$(tr _ . <<< "$current_session")
+    current_session=$(tr _ . <<<"$current_session")
 
     sessions=()
 
     while IFS=$'\n' read -r line; do
         # If this directory is a bare git repository, get a list of all immediate sub-directories.
-        if [ -d "$TMUX_CURRENT_DIR/$line"/.bare ]; then
-            while IFS=$'\n' read -r line2; do
-                session="$line/$line2"
-
-                sessions+=("$session")
-            done < <(find "$TMUX_CURRENT_DIR/$line" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf "%f\n")
+        if [[ -d "$line/.bare" ]]; then
+            continue
+        elif [ -d "$line"/../.bare ]; then
+            # Bash variable substitution
+            # From: https://stackoverflow.com/questions/22401091/bash-variable-substitution-vs-dirname-and-basename
+            dir=${line%/*}
+            dir_base=${dir##*/}
+            session=$dir_base/${line##*/}
+        elif [[ -e "$line/.git" ]]; then
+            session=${line##*/}
         else
-            session="$line"
-            sessions+=("$session")
+            continue
         fi
-    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
+        sessions+=("$session")
+    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 2 -type d -not -name '.*')
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
     readarray -td '' sessions < <(printf '%s\0' "${sessions[@]}" | sort -z)
