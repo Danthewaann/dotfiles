@@ -21,21 +21,20 @@ else
     sessions=()
 
     while IFS=$'\n' read -r line; do
-        # If this directory is a bare git repository, get a list of all immediate sub-directories.
+        # If this line is a bare git repository, skip it
         if [[ -d "$line/.bare" ]]; then
             continue
+        # If this line is a directory inside a bare git repository, add it
         elif [ -d "$line"/../.bare ]; then
             # Bash variable substitution
             # From: https://stackoverflow.com/questions/22401091/bash-variable-substitution-vs-dirname-and-basename
             dir=${line%/*}
             dir_base=${dir##*/}
-            session=$dir_base/${line##*/}
-        elif [[ -e "$line/.git" ]]; then
-            session=${line##*/}
-        else
-            continue
+            sessions+=("$dir_base/${line##*/}")
+        # If the parent directory of the current line is TMUX_CURRENT_DIR we add this line
+        elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR" ]]; then
+            sessions+=("${line##*/}")
         fi
-        sessions+=("$session")
     done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 2 -type d -not -name '.*')
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
