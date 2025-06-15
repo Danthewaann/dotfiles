@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-# Whitelist of sessions to keep active
-$EDITOR ~/.tmux-active-sessions

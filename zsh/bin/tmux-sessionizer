@@ -42,7 +42,8 @@ else
 
     base_dir=$(basename "$TMUX_CURRENT_DIR")
 
-    while IFS=$'\n' read -r line; do sessions+=("* $(cut -d' ' -f1 <<< "$line")"); done < <(grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" < "$HOME/.tmux-active-sessions")
+    # Include active sessions in recently used order
+    while IFS=$'\n' read -r line; do sessions+=("* $line"); done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" | sort --numeric-sort --reverse | cut -d' ' -f2)
 
     for session in "${default_sessions[@]}"; do
         # If a location appears in the active sessions, we skip it
@@ -71,7 +72,6 @@ tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s "$selected_session" -c "$selected"
-    tmux-update-active-sessions &
     exit 0
 fi
 
@@ -85,4 +85,3 @@ if [[ $# -gt 0 ]]; then
 fi
 
 tmux switch-client -t "$selected_session"
-tmux-update-active-sessions &

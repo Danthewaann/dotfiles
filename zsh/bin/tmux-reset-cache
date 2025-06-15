@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-tmux-clear-active-sessions
-tmux-update-active-sessions
