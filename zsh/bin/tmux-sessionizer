@@ -18,7 +18,7 @@ else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
     current_session=$(tr _ . <<<"$current_session")
 
-    sessions=()
+    default_sessions=()
 
     while IFS=$'\n' read -r line; do
         # If this line is a bare git repository, skip it
@@ -30,19 +30,32 @@ else
             # From: https://stackoverflow.com/questions/22401091/bash-variable-substitution-vs-dirname-and-basename
             dir=${line%/*}
             dir_base=${dir##*/}
-            sessions+=("$dir_base/${line##*/}")
+            default_sessions+=("$dir_base/${line##*/}")
         # If the parent directory of the current line is TMUX_CURRENT_DIR we add this line
         elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR" ]]; then
-            sessions+=("${line##*/}")
+            default_sessions+=("${line##*/}")
         fi
     done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 2 -type d -not -name '.*')
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
-    readarray -td '' sessions < <(printf '%s\0' "${sessions[@]}" | sort -z)
+    readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
+
+    base_dir=$(basename "$TMUX_CURRENT_DIR")
+
+    while IFS=$'\n' read -r line; do sessions+=("* $(cut -d' ' -f1 <<< "$line")"); done < <(grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" < "$HOME/.tmux-active-sessions")
+
+    for session in "${default_sessions[@]}"; do
+        # If a location appears in the active sessions, we skip it
+        # shellcheck disable=SC2076
+        if [[ " ${sessions[*]} " =~ " $session " ]]; then
+            continue
+        fi
+        sessions+=("$session")
+    done
 
     # shellcheck disable=SC2086
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' $TMUX_FZF_OPTIONS)
-    selected_session=$(tr . _ <<<"$selected")
+    selected_session=$(tr . _ <<<"$selected" | cut -d' ' -f2)
 
     # If this is a relative path, prepend it with $TMUX_CURRENT_DIR
     if [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
