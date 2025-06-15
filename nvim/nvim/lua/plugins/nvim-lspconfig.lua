@@ -38,28 +38,36 @@ return {
   config = function()
     local utils = require("custom.utils")
     local border = "rounded"
-    local show_virtual_text = true
-    local virtual_text_config = {}
+    local virtual_lines_config = { current_line = true }
+    local symbols = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+      [vim.diagnostic.severity.WARN] = "󰀪 "
+    }
+    local highlights = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+    }
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
-      virtual_text = virtual_text_config,
-      signs = false,
+      virtual_lines = virtual_lines_config,
+      signs = {
+        severity = vim.diagnostic.severity.ERROR,
+        text = {
+          [vim.diagnostic.severity.ERROR] = symbols[vim.diagnostic.severity.ERROR],
+          [vim.diagnostic.severity.WARN] = symbols[vim.diagnostic.severity.WARN],
+          [vim.diagnostic.severity.INFO] = symbols[vim.diagnostic.severity.INFO],
+          [vim.diagnostic.severity.HINT] = symbols[vim.diagnostic.severity.HINT],
+        },
+        numhl = highlights
+      },
       float = { source = true, border = border },
       severity_sort = true
     })
-
-    -- Toggle virtual text on and off
-    vim.keymap.set("n", "<leader>tt", function()
-      if show_virtual_text then
-        utils.print("Toggling off virtual text")
-        vim.diagnostic.config({ virtual_text = false })
-      else
-        utils.print("Toggling on virtual text")
-        vim.diagnostic.config({ virtual_text = virtual_text_config })
-      end
-      show_virtual_text = not show_virtual_text
-    end, { desc = "[T]oggle virtual [T]ext" })
 
     -- Styling for floating windows
     require("lspconfig.ui.windows").default_options.border = border
@@ -95,7 +103,12 @@ return {
         orig_signs_handler.hide(ns, bufnr)
       end,
     }
+
     -- Diagnostic keymaps
+    vim.keymap.set("n", "<leader>tt", function()
+      local new_config = not vim.diagnostic.config().virtual_lines
+      vim.diagnostic.config({ virtual_lines = new_config })
+    end, { desc = "[T]oggle virtual [T]ext" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, float = true })
     end, { desc = "Go to previous diagnostic message" })
