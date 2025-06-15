@@ -12,7 +12,13 @@ return {
   config = function()
     require("neotest").setup({
       adapters = {
-        require("neotest-python"),
+        require("neotest-python")({
+          -- Run tests with the highest level of verbosity and 
+          -- don't color the output as neovim doesn't interpret colour escape codes
+          args = { "-vvv", "--color=no" },
+          -- Discover parametrized tests
+          pytest_discover_instances = true,
+        }),
         require("neotest-golang")
       },
       quickfix = {
