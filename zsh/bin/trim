@@ -1,13 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -o pipefail
+import sys
 
-input=$(cat)
-
-run() {
-cat <<EOF 
-print("""${input}""".strip())
-EOF
-}
-
-run | python -W ignore::SyntaxWarning -
+try:
+    print(sys.stdin.read().strip())
+except KeyboardInterrupt:
+    pass
