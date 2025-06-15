@@ -2,38 +2,41 @@
 
 set -e
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 source "$CUR_DIR/_git-common"
 
 worktree="$1"
 shift
 
-WHITE_BOLD='\033[1m'
-GREEN_BOLD='\033[1;32m'
-BLUE_BOLD='\033[1;34m'
-RED_BOLD='\033[1;31m'
-YELLOW_BOLD='\033[1;33m'
-YELLOW='\033[0;33m'
-NC='\033[0m'
-RED='\033[0;31m'
+cd "$worktree" || exit
 
 got_error=0
 worktree_name=$(basename "$(dirname "$worktree")")/$(basename "$worktree")
+cur_branch=$(git branch --show-current)
 
 # Check if I have opened a PR for the current branch
-if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$(cd "$worktree" && git branch --show-current)" > /dev/null 2>&1; then
-    echo -e "${YELLOW_BOLD}A PR is open for this worktree, skipping${NC}"
+if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$cur_branch" >/dev/null 2>&1; then
+    echo -e "${YELLOW_BOLD}Skipping${NC}: $worktree_name"
+    echo "A PR is open for this worktree" | indent
+    exit 0
+fi
+
+# Make sure we don't delete worktrees that aren't pushed to their remote origin
+if [ "$(git rev-parse "$cur_branch")" != "$(git rev-parse "origin/$cur_branch")" ]; then
+    echo -e "${YELLOW_BOLD}Skipping${NC}: $worktree_name"
+    echo "Local branch is not synced with remote origin branch" | indent
     exit 0
 fi
 
 if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
     echo -e "${RED_BOLD}Failed to delete${NC}: $worktree_name"
-    if grep -q "contains modified or untracked files, use --force to delete it" <<< "$result"; then
-        echo "contains modified or untracked files, use --force to delete it" | indent
+    if grep -q "contains modified or untracked files, use --force to delete it" <<<"$result"; then
+        echo "This worktree contains modified or untracked files, use --force to delete it" | indent
     else
         echo "$result" | indent
     fi
     exit 1
 fi
+
 echo -e "${GREEN_BOLD}Successfully deleted${NC}: $worktree_name"
