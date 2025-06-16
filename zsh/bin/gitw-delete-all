@@ -30,8 +30,6 @@ else
         if ! gitw-delete "$worktree" "$@" | indent; then true; fi
     done
 
-    tmux-reset-cache &
-
     if [[ $got_error -ne 0 ]]; then
         exit 1
     fi
