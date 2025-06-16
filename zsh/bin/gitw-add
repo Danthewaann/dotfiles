@@ -8,18 +8,12 @@ source "$CUR_DIR/_git-common"
 
 args=()
 branch_name=
-checkout_only=0
-copy_venv=0
-track_branch=0
 
 function usage() {
     cat <<-END >/dev/stderr
 
 Usage:
     branch_name      name of the branch to create
-
-    --checkout-only  only checkout the branch
-    --copy           copy .venv from base worktree into new worktree
 END
 }
 
@@ -28,14 +22,6 @@ while [[ $# -gt 0 ]]; do
     -h | --help)
         usage
         exit 2
-        ;;
-    --checkout-only)
-        checkout_only=1
-        shift
-        ;;
-    --copy)
-        copy_venv=1
-        shift
         ;;
     *)
         args+=("$1")
@@ -139,28 +125,25 @@ fi
 # Enter the new worktree
 cd "$converted_name" || exit
 
-# Optional post checkout steps
-if [[ $checkout_only -ne 1 ]]; then
-    current_dir=$(pwd)
-    base_worktree=$(gitw-get 2>/dev/null)
-
-    if [[ -f "poetry.lock" ]]; then
-        >&2 echo
-        info "Running poetry install..."
-        >&2 echo
-        # We need to deactivate the current virtual environment otherwise poetry install
-        # will install packages into the current virtual environment instead of the new
-        # one we want to create for the new worktree.
-        if [[ -n "$VIRTUAL_ENV" ]]; then deactivate; fi
-        if ! poetry install --all-extras >/dev/stderr 2>&1; then true; fi
-    elif [[ -f "pyproject.toml" ]]; then
-        >&2 echo
-        info "Running uv pip install with pyproject.toml..."
-        >&2 echo
-        if ! uv venv >/dev/stderr 2>&1; then true; fi
-        if ! uv pip install -r pyproject.toml --all-extras >/dev/stderr 2>&1; then true; fi
-        if ! uv pip install -r pyproject.toml --group dev >/dev/stderr 2>&1; then true; fi
-    fi
+# Post checkout steps
+current_dir=$(pwd)
+base_worktree=$(gitw-get 2>/dev/null)
+if [[ -f "poetry.lock" ]]; then
+    >&2 echo
+    info "Running poetry install..."
+    >&2 echo
+    # We need to deactivate the current virtual environment otherwise poetry install
+    # will install packages into the current virtual environment instead of the new
+    # one we want to create for the new worktree.
+    if [[ -n "$VIRTUAL_ENV" ]]; then deactivate; fi
+    if ! poetry install --all-extras >/dev/stderr 2>&1; then true; fi
+elif [[ -f "pyproject.toml" ]]; then
+    >&2 echo
+    info "Running uv pip install with pyproject.toml..."
+    >&2 echo
+    if ! uv venv >/dev/stderr 2>&1; then true; fi
+    if ! uv pip install -r pyproject.toml --all-extras >/dev/stderr 2>&1; then true; fi
+    if ! uv pip install -r pyproject.toml --group dev >/dev/stderr 2>&1; then true; fi
 fi
 
 >&2 echo
