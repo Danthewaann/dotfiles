@@ -6,37 +6,8 @@ CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 source "$CUR_DIR/_git-common"
 
-args=()
-branch_name=
-
-function usage() {
-    cat <<-END >/dev/stderr
-
-Usage:
-    branch_name      name of the branch to create
-END
-}
-
-while [[ $# -gt 0 ]]; do
-    case $1 in
-    -h | --help)
-        usage
-        exit 2
-        ;;
-    *)
-        args+=("$1")
-        shift
-        ;;
-    esac
-done
-
->&2 echo
-
-set -- "${args[@]}"
-
 if [[ $# -lt 1 ]]; then
     error "Must provide a branch name!"
-    usage
     exit 1
 fi
 
