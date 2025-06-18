@@ -88,6 +88,34 @@ module.print_err = function(err)
   vim.notify(err, vim.log.levels.ERROR)
 end
 
+module.parse_ruff_output = function(output)
+  -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/ruff.lua
+  local severities = {
+    ["F821"] = "E", -- undefined name `name`
+    ["E902"] = "E", -- `IOError`
+    ["E999"] = "E", -- `SyntaxError`
+  }
+
+  local list = {}
+  local results = vim.json.decode(output)
+  for _, result in ipairs(results or {}) do
+    local diagnostic = {
+      filename = result.filename,
+      lnum = result.location.row,
+      col = result.location.column,
+      end_lnum = result.end_location.row,
+      end_col = result.end_location.column,
+      nr = result.code,
+      type = severities[result.code] or "W",
+      text = result.message,
+    }
+    table.insert(list, diagnostic)
+  end
+
+  vim.fn.setqflist({}, " ", { title = "Ruff errors", items = list })
+  vim.cmd(":botright copen | silent! cc 1")
+end
+
 module.parse_dmypy_output = function(output)
   -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
   local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"

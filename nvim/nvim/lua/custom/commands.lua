@@ -15,6 +15,32 @@ vim.api.nvim_create_user_command("Mypy", function()
     end)
 end, { desc = "Run Mypy and populate quickfix list with errors" })
 
+vim.api.nvim_create_user_command("Ruff", function()
+  utils.print("Running ruff...")
+  vim.system(
+    {
+      utils.get_poetry_venv_executable_path("ruff"),
+      "check",
+      "--force-exclude",
+      "--quiet",
+      "--no-fix",
+      "--output-format",
+      "json",
+      ".",
+    }, {},
+    function(obj)
+      vim.schedule(function()
+        if obj.code > 1 then
+          utils.print_err(vim.fn.trim(obj.stderr))
+          return
+        end
+        utils.print("Finished running ruff")
+        vim.print(obj.stdout)
+        utils.parse_ruff_output(obj.stdout)
+      end)
+    end)
+end, { desc = "Run Ruff and populate quickfix list with errors" })
+
 vim.api.nvim_create_user_command("ProjectLint", function()
   local cmd = utils.get_project_linting_cmd()
   if cmd ~= nil then
