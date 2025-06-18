@@ -4,6 +4,12 @@ return {
   config = function()
     local utils = require("custom.utils")
 
+    local python_formatters = { "ruff_fix" }
+    local black_exe = utils.get_poetry_venv_executable_path("black")
+    if black_exe ~= "black" then
+      table.insert(python_formatters, "black")
+    end
+
     require("conform").setup({
       formatters = {
         sleek = {
@@ -13,13 +19,13 @@ return {
           command = utils.get_poetry_venv_executable_path("ruff")
         },
         black = {
-          command = utils.get_poetry_venv_executable_path("black")
+          command = black_exe
         },
       },
       formatters_by_ft = {
         -- Conform will run multiple formatters sequentially
         bash = { "shfmt" },
-        python = { "ruff_fix", "black" },
+        python = python_formatters,
         ruby = { "rubyfmt" },
         javascript = { "prettierd", "prettier", stop_after_first = true },
         json = { "prettierd", "prettier", stop_after_first = true },
