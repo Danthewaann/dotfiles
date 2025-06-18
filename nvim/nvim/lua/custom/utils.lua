@@ -108,6 +108,7 @@ module.parse_ruff_output = function(output)
       nr = result.code,
       type = severities[result.code] or "W",
       text = result.message,
+      source = "ruff"
     }
     table.insert(list, diagnostic)
   end
@@ -116,7 +117,7 @@ module.parse_ruff_output = function(output)
   vim.cmd(":botright copen | silent! cc 1")
 end
 
-module.parse_dmypy_output = function(output)
+module.parse_mypy_output = function(output)
   -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
   local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"
   local severities = {
@@ -138,12 +139,31 @@ module.parse_dmypy_output = function(output)
         nr = code,
         type = severities[severity],
         text = message,
+        source = "mypy"
       })
     end
   end
 
   vim.fn.setqflist({}, " ", { title = "Mypy errors", items = list })
   vim.cmd(":botright copen | silent! cc 1")
+end
+
+module.mypy_args = function(include_cmd)
+  local args = {}
+  if include_cmd then
+    table.insert(args, module.get_poetry_venv_executable_path("mypy"))
+  end
+
+  table.insert(args, "--show-column-numbers")
+  table.insert(args, "--show-error-end")
+  table.insert(args, "--show-error-codes")
+  table.insert(args, "--hide-error-context")
+  table.insert(args, "--no-color-output")
+  table.insert(args, "--no-error-summary")
+  table.insert(args, "--no-pretty")
+  table.insert(args, ".")
+
+  return args
 end
 
 module.dmypy_args = function(include_cmd)
@@ -164,13 +184,6 @@ module.dmypy_args = function(include_cmd)
   table.insert(args, "--no-color-output")
   table.insert(args, "--no-error-summary")
   table.insert(args, "--no-pretty")
-
-  -- This is a table of error codes I ignore as I let basedpyright handle them instead
-  local error_codes = { "assignment", "name-defined", "call-arg" }
-  for _, code in ipairs(error_codes) do
-    table.insert(args, "--disable-error-code")
-    table.insert(args, code)
-  end
 
   return args
 end
