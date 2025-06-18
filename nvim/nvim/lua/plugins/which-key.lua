@@ -18,7 +18,7 @@ return {
     require("which-key").add({
       { "<leader>a",   group = "[A]I" },
       { "<leader>a_",  hidden = true },
-      { "<leader>b",   group = "[B]reakpoints" },
+      { "<leader>b",   group = "[B]reakpoints, [B]uffers" },
       { "<leader>b_",  hidden = true },
       { "<leader>c",   group = "[C]ode" },
       { "<leader>c_",  hidden = true },
