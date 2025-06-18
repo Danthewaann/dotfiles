@@ -23,7 +23,7 @@ return {
 
     mypy_linter.cmd = utils.get_poetry_venv_executable_path(mypy)
 
-    vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
+    vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost" }, {
       callback = function()
         -- Only run the linter in buffers that you can modify in order to
         -- avoid superfluous noise, notably within the handy LSP pop-ups that
