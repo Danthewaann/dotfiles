@@ -35,7 +35,6 @@ vim.api.nvim_create_user_command("Ruff", function()
           return
         end
         utils.print("Finished running ruff")
-        vim.print(obj.stdout)
         utils.parse_ruff_output(obj.stdout)
       end)
     end)
