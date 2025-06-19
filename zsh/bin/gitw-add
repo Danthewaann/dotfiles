@@ -113,10 +113,8 @@ elif [[ -f "pyproject.toml" ]]; then
     info "Running uv pip install with pyproject.toml..."
     >&2 echo
     if ! uv venv >/dev/stderr 2>&1; then true; fi
-    # Install the project
-    if ! uv pip install . >/dev/stderr 2>&1; then true; fi
-    # Install any optional dependencies like dev dependencies
-    if ! uv pip install -r pyproject.toml --all-extras >/dev/stderr 2>&1; then true; fi
+    # Install the project and all optional dependencies
+    if ! uv pip install . -r pyproject.toml --all-extras >/dev/stderr 2>&1; then true; fi
 fi
 
 >&2 echo
