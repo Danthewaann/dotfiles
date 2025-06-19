@@ -100,12 +100,6 @@ end, { desc = "Jump to previous qf item" })
 vim.keymap.set("n", "g<M-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
 vim.keymap.set("n", "g<M-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
--- Window navigation
-vim.keymap.set({ "n", "t" }, "<C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
-vim.keymap.set({ "n", "t" }, "<C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
-vim.keymap.set({ "n", "t" }, "<C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "t" }, "<C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
-
 -- Close window
 vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
 
