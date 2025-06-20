@@ -8,7 +8,7 @@ debug.log
 Session.vim
 *.deb
 .tmux-save-sessions
-.zprofile
+.secretsrc
 
 zsh/completions/*
 !zsh/completions/_gitw-add

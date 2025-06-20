@@ -2,7 +2,7 @@
 
 set -e
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
@@ -27,8 +27,8 @@ fi
 
 echo "$SCRIPT_DIR/.tmux-save-sessions" "$HOME/.tmux-save-sessions"
 
-if [[ ! -f "$SCRIPT_DIR/.zprofile" ]]; then
-    cp "$SCRIPT_DIR/.zprofile.example" "$SCRIPT_DIR/.zprofile"
+if [[ ! -f "$SCRIPT_DIR/.secretsrc" ]]; then
+    cp "$SCRIPT_DIR/.secretsrc.example" "$SCRIPT_DIR/.secretsrc"
 fi
 
-echo "$SCRIPT_DIR/.zprofile" "$HOME/.zprofile"
+echo "$SCRIPT_DIR/.secretsrc" "$HOME/.secretsrc"

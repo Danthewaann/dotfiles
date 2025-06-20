@@ -268,5 +268,8 @@ zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
 zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 zstyle ':completion:*' group-name ''
 
+# Load my secrets rc file
+if [ -f $HOME/.secretsrc ]; then source $HOME/.secretsrc; fi
+
 # Uncomment the following line and the first line in this file to enable profiling
 # zprof
