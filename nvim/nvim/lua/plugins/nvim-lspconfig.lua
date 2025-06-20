@@ -54,7 +54,7 @@ return {
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
-      virtual_lines = virtual_lines_config,
+      virtual_lines = not virtual_lines_config,
       signs = {
         severity = vim.diagnostic.severity.ERROR,
         text = {
@@ -105,7 +105,7 @@ return {
     }
 
     -- Diagnostic keymaps
-    vim.keymap.set("n", "<leader>tt", function()
+    vim.keymap.set("n", "<C-t>", function()
       local new_config = not vim.diagnostic.config().virtual_lines
       vim.diagnostic.config({ virtual_lines = new_config })
     end, { desc = "[T]oggle virtual [T]ext" })
