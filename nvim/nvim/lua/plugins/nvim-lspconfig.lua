@@ -38,7 +38,6 @@ return {
   config = function()
     local utils = require("custom.utils")
     local border = "rounded"
-    local virtual_lines_config = { current_line = true }
     local symbols = {
       [vim.diagnostic.severity.ERROR] = "󰅚 ",
       [vim.diagnostic.severity.INFO] = " ",
@@ -54,7 +53,7 @@ return {
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
-      virtual_lines = not virtual_lines_config,
+      virtual_lines = false,
       signs = {
         severity = vim.diagnostic.severity.ERROR,
         text = {
@@ -108,7 +107,7 @@ return {
     vim.keymap.set("n", "<C-t>", function()
       local new_config = not vim.diagnostic.config().virtual_lines
       vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "[T]oggle virtual [T]ext" })
+    end, { desc = "Toggle virtual lines" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, float = true })
     end, { desc = "Go to previous diagnostic message" })
