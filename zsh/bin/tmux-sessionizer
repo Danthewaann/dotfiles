@@ -18,6 +18,7 @@ else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
     current_session=$(tr _ . <<<"$current_session")
 
+    base_dir=$(basename "$TMUX_CURRENT_DIR")
     default_sessions=()
 
     while IFS=$'\n' read -r line; do
@@ -35,12 +36,10 @@ else
         elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR" ]]; then
             default_sessions+=("${line##*/}")
         fi
-    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 2 -type d -not -name '.*')
+    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 2 -type d -not -name '.*' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$")
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
     readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
-
-    base_dir=$(basename "$TMUX_CURRENT_DIR")
 
     # Include active sessions in recently used order
     while IFS=$'\n' read -r line; do sessions+=("* $line"); done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" | sort --numeric-sort --reverse | cut -d' ' -f2)
