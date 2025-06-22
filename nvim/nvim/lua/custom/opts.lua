@@ -111,4 +111,9 @@ vim.o.wildmode = "longest:full,full"
 
 -- Setup project specific shada file to store marks, history
 -- for just the current project
-vim.opt.shadafile = ".vim/project.shada"
+if #vim.fn.argv() == 0 then
+  vim.opt.shadafile = ".vim/project.shada"
+else
+  -- Disable the shadafile if we are opening a file directly
+  vim.opt.shadafile = "NONE"
+end
