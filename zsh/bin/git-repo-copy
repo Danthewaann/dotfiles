@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -oe pipefail
+
+CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+
+source "$CUR_DIR/_git-common"
+
+repo_url=$(gh repo view --json url --jq .url)
+
+if [[ $OSTYPE == "darwin"* ]]; then
+    PBCOPY="pbcopy"
+else
+    PBCOPY="xclip"
+fi
+
+>&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
+echo "$repo_url"
+echo "$repo_url" | $PBCOPY
