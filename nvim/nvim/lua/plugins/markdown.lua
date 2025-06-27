@@ -1,7 +1,5 @@
 return {
-  "MeanderingProgrammer/markdown.nvim",
-  name = "render-markdown",
-  commit = "bfbb46af43c95115a06419ef290e16e2fa2a1941",
+  "MeanderingProgrammer/render-markdown.nvim",
   enabled = true,
   dependencies = {
     "nvim-treesitter/nvim-treesitter", -- Mandatory
@@ -12,6 +10,7 @@ return {
     require("render-markdown").setup({
       enabled = true,
       file_types = { "markdown", "codecompanion" },
+      anti_conceal = { enabled = true, above = 5, below = 5 }
     })
 
     vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>", { desc = "[T]oggle [M]arkdown view" })
