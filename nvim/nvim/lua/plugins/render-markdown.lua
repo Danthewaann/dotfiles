@@ -8,9 +8,8 @@ return {
   ft = { "markdown", "codecompanion" },
   config = function()
     require("render-markdown").setup({
-      enabled = true,
-      file_types = { "markdown", "codecompanion" },
-      anti_conceal = { enabled = true, above = 5, below = 5 }
+      enabled = false,
+      file_types = { "markdown", "codecompanion" }
     })
 
     vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>", { desc = "[T]oggle [M]arkdown view" })
