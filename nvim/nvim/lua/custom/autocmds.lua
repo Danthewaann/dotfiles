@@ -147,7 +147,7 @@ autocmd("FileType", {
         textwidth = 115
       end
       -- Autowrap text in markdown files
-      vim.cmd("setlocal textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0")
+      vim.cmd("setlocal textwidth=" .. textwidth .. " formatoptions=cqt wrapmargin=0 wrap")
     end
   end
 })
