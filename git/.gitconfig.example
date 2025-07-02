@@ -40,11 +40,17 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+[advice]
+    setUpstreamFailure = false
+[branch]
+    sort = -committerdate
+[column]
+    ui = auto
+[commit]
+    verbose = false
 [core]
     pager = delta
     excludesfile = ~/.gitignore
-[interactive]
-    diffFilter = delta --color-only
 [delta]
     navigate = true # use n and N to move between diff sections
 
@@ -66,16 +72,27 @@
     plus-emph-style               = syntax "#175c2e"
     plus-empty-line-marker-style  = normal "#002800"
     whitespace-error-style        = reverse red
+[diff]
+    algorithm = histrogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+    tool = nvimdiff
+[interactive]
+    diffFilter = delta --color-only
 [merge]
     conflictstyle = diff3
-[diff]
-    colorMoved = default
-    tool = nvimdiff
-[push]
-    autoSetupRemote = true
-[pull]
-    rebase = true
 [oh-my-zsh]
     hide-info = 1
-[advice]
-    setUpstreamFailure = false
+[pull]
+    rebase = true
+[push]
+    autoSetupRemote = true
+    followTags = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+[rerere]
+    enabled = true
+    autoupdate = true
