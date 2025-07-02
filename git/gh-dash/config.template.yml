@@ -72,7 +72,7 @@ keybindings:
         gitw-add {{.HeadRefName}} "gitw-rebase {{.BaseRefName}} && git push --force"
   issues: []
 pager:
-  diff: delta
+  diff: less
 confirmQuit: true
 theme:
   ui:
