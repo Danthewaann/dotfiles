@@ -56,6 +56,10 @@
     mnemonicPrefix = true
     renames = true
     tool = nvimdiff
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
 [merge]
     conflictstyle = diff3
 [oh-my-zsh]
