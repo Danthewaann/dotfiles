@@ -2,15 +2,24 @@
 
 # Whitelist of sessions to not kill
 ignore_sessions=()
-while IFS=$'\n' read -r session; do ignore_sessions+=("$session"); done < "$HOME/.tmux-save-sessions"
+while IFS=$'\n' read -r session; do ignore_sessions+=("$session"); done <"$HOME/.tmux-save-sessions"
 
+# Load all sessions
 sessions=()
 while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(tmux list-sessions)
+
+# Load 10 active sessions and sort them in most recently used order
+active_sessions=()
+base_dir=$(basename "$TMUX_CURRENT_DIR")
+while IFS=$'\n' read -r line; do
+    active_sessions+=("$line")
+done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "dotfiles$|notes$|github$|$base_dir$" | sort --numeric-sort --reverse | head -n 10 | cut -d' ' -f2-)
 
 for session in "${sessions[@]}"; do
     session=$(echo "$session" | cut -d: -f1 | tr -d '[:blank:]')
 
-    if [[ ! " ${ignore_sessions[*]} " =~ " ${session} " ]]; then
+    # Kill sessions that aren't in `ignore_sessions` and `active_sessions`
+    if [[ ! " ${ignore_sessions[*]} " =~ " ${session} " ]] && [[ ! " ${active_sessions[*]} " =~ " ${session} " ]]; then
         tmux kill-session -t "$session"
     fi
 done
