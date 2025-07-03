@@ -91,6 +91,25 @@ alias pv='gh pr view --web'
 alias rv='gh repo view --web'
 alias tv='ticket-open'
 alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
+function d () { output=$(git diff); if [[ -n $output ]]; then git diff -w | nvim -R -; fi; }
+function ds () { git --no-pager diff --shortstat | trim }
+function db () { branch=${1:-origin/$(git-get-base-branch)}..HEAD; output=$(git diff $branch); if [[ -n $output ]]; then git diff $branch | nvim -R -; fi; }
+function dbs () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
+# see `git help log` for detailed help.
+#   %h: abbreviated commit hash
+#   %d: ref names, like the --decorate option of git-log(1)
+#   %cn: commiter name
+#   %ce: committer email
+#   %cr: committer date, relative
+#   %ci: committer date, ISO 8601-like format
+#   %an: author name
+#   %ae: author email
+#   %ar: author date, relative
+#   %ai: author date, ISO 8601-like format
+#   %s: subject
+function gl () { git log --oneline --graph --decorate }
+function gll () { git log --graph --pretty=format:"%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s" }
+function glll () { git log --graph --pretty=format:"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s" }
 
 # Some convenience functions
 function b64e () { echo -n "$1" | base64 }
