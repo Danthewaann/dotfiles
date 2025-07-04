@@ -1,19 +1,18 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
+import platform
+import subprocess
 
-CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+repo_url = subprocess.check_output(
+    ["gh", "repo", "view", "--json", "url", "--jq", ".url"], text=True
+).strip()
 
-source "$CUR_DIR/_git-common"
+if platform.system() == "Darwin":
+    command = "pbcopy"
+else:
+    command = "xclip"
 
-repo_url=$(gh repo view --json url --jq .url)
+subprocess.run(f"echo '{repo_url}' | {command}", shell=True, check=True)
 
-if [[ $OSTYPE == "darwin"* ]]; then
-    PBCOPY="pbcopy"
-else
-    PBCOPY="xclip"
-fi
-
->&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-echo "$repo_url"
-echo "$repo_url" | $PBCOPY
+print("\nThe below has been copied to your clipboard! 📋\n")
+print(repo_url)

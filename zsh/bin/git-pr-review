@@ -1,15 +1,14 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
+import subprocess
+import sys
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+pr_number = (
+    sys.argv[1]
+    if len(sys.argv) > 1
+    else subprocess.check_output(
+        ["gh", "pr", "view", "--json", "number", "--jq", ".number"], text=True
+    ).strip()
+)
 
-source "$CUR_DIR/_git-common"
-
-pr_number="$1"
-
-if [[ -z "$pr_number" ]]; then
-    pr_number=$(gh pr view --json number | jq -r .number)
-fi
-
-nvim . -c "Octo pr edit $pr_number"
+subprocess.run(f"nvim . -c 'Octo pr edit {pr_number}'", shell=True, check=True)

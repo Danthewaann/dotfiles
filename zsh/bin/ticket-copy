@@ -1,24 +1,24 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
 
-CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+import os
+import platform
+import subprocess
+import sys
+import _utils
 
-source "$CUR_DIR/_git-common"
+base_tickets_url = os.getenv("BASE_TICKETS_URL")
+if not base_tickets_url:
+    _utils.error("BASE_TICKETS_URL environment variables is not set!")
+    sys.exit(1)
 
-ticket_number=$(get-ticket-number)
+if platform.system() == "Darwin":
+    command = "pbcopy"
+else:
+    command = "xclip"
 
-if [[ -z "$BASE_TICKETS_URL" ]]; then
-    error "BASE_TICKETS_URL environment variables is not set!"
-    exit 1
-fi
-
-if [[ $OSTYPE == "darwin"* ]]; then
-    PBCOPY="pbcopy"
-else
-    PBCOPY="xclip"
-fi
-
->&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-echo "$BASE_TICKETS_URL$ticket_number"
-echo "$BASE_TICKETS_URL$ticket_number" | $PBCOPY
+ticket_number = _utils.get_ticket_number()
+ticket_url = f"{base_tickets_url}{ticket_number}"
+subprocess.run(f"echo '{ticket_url}' | {command}", shell=True, check=True)
+print("\nThe below has been copied to your clipboard! 📋\n")
+print(ticket_url)

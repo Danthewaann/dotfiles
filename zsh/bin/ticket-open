@@ -1,16 +1,15 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
+import os
+import subprocess
+import sys
+import _utils
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+base_tickets_url = os.getenv("BASE_TICKETS_URL")
+if not base_tickets_url:
+    _utils.error("BASE_TICKETS_URL environment variables is not set!")
+    sys.exit(1)
 
-source "$CUR_DIR/_git-common"
-
-ticket_number=$(get-ticket-number)
-
-if [[ -z "$BASE_TICKETS_URL" ]]; then
-    error "BASE_TICKETS_URL environment variables is not set!"    
-    exit 1
-fi
-
-open "$BASE_TICKETS_URL$ticket_number"
+ticket_number = _utils.get_ticket_number()
+ticket_url = f"{base_tickets_url}{ticket_number}"
+subprocess.run(["open", ticket_url], check=True)

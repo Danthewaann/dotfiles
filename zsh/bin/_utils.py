@@ -51,37 +51,40 @@ def inside_bare_repo() -> bool:
 
 def get_base_branch() -> str:
     base_branch_file = pathlib.Path(".base_branch")
-
     if not base_branch_file.exists():
         remote_branches = subprocess.check_output(
             ["git", "remote", "show", "origin"], text=True
         )
-
         base_branch: str | None = None
         for branch in remote_branches.splitlines():
             if "HEAD branch" in branch:
                 base_branch = branch.split()[4]
                 break
-
         if not base_branch:
             raise ValueError("failed to get base git branch")
-
         base_branch_file.write_text(base_branch)
         return base_branch
-
     return base_branch_file.read_text().strip()
 
 
 def get_worktree(branch: str | None = None) -> str:
     branch = branch or get_base_branch()
-
     worktrees = subprocess.check_output(["git", "worktree", "list"], text=True)
-
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
-
     if not match:
         raise ValueError("failed to get worktree")
-
     worktree = match.group(1)
-
     return worktree
+
+
+def get_ticket_number(branch: str | None = None) -> str | None:
+    branch = (
+        branch
+        or subprocess.check_output(
+            ["git", "branch", "--show-current"], text=True
+        ).strip()
+    )
+    if match := re.search(r"/\D*(\d+)\D*/", branch):
+        return match.group(1)
+    error(f"No ticket number found for {branch}")
+    return None

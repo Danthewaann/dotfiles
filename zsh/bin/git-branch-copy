@@ -1,19 +1,16 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
+import platform
+import subprocess
 
-CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
 
-source "$CUR_DIR/_git-common"
+if platform.system() == "Darwin":
+    command = "pbcopy"
+else:
+    command = "xclip"
 
-branch=$(git branch --show-current)
+subprocess.run(f"echo '{branch}' | {command}", shell=True, check=True)
 
-if [[ $OSTYPE == "darwin"* ]]; then
-    PBCOPY="pbcopy"
-else
-    PBCOPY="xclip"
-fi
-
->&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-echo "$branch"
-echo "$branch" | $PBCOPY
+print("\nThe below has been copied to your clipboard! 📋\n")
+print(branch)
