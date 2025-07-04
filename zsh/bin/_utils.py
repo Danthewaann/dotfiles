@@ -1,3 +1,4 @@
+import os
 import re
 import subprocess
 import sys
@@ -56,10 +57,8 @@ def get_base_branch() -> str:
             ["git", "remote", "show", "origin"], text=True
         )
         base_branch: str | None = None
-        for branch in remote_branches.splitlines():
-            if "HEAD branch" in branch:
-                base_branch = branch.split()[4]
-                break
+        if match := re.search(r"HEAD branch: (.*)", remote_branches):
+            base_branch = match.group(1)
         if not base_branch:
             raise ValueError("failed to get base git branch")
         base_branch_file.write_text(base_branch)
@@ -67,14 +66,14 @@ def get_base_branch() -> str:
     return base_branch_file.read_text().strip()
 
 
-def get_worktree(branch: str | None = None) -> str:
+def get_worktree(branch: str | None = None) -> pathlib.Path:
     branch = branch or get_base_branch()
     worktrees = subprocess.check_output(["git", "worktree", "list"], text=True)
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
     if not match:
         raise ValueError("failed to get worktree")
     worktree = match.group(1)
-    return worktree
+    return pathlib.Path(worktree)
 
 
 def get_ticket_number(branch: str | None = None) -> str | None:
@@ -88,3 +87,67 @@ def get_ticket_number(branch: str | None = None) -> str | None:
         return match.group(1)
     error(f"No ticket number found for {branch}")
     return None
+
+
+def run_git_fetch() -> None:
+    info("Running git fetch...")
+    proc = subprocess.run(
+        ["git", "-c", "color.ui=always", "fetch"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if proc.stdout:
+        print(proc.stdout.rstrip(), file=sys.stderr)
+    if proc.returncode != 0:
+        sys.exit(1)
+
+
+def run_git_pull() -> None:
+    proc = subprocess.run(
+        ["git", "-c", "color.ui=always", "pull", "--no-all"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if proc.stdout:
+        print(proc.stdout.rstrip(), file=sys.stderr)
+    if proc.returncode != 0:
+        sys.exit(1)
+
+
+def run_git_rebase(branch: str | None = None) -> None:
+    branch = branch or get_base_branch()
+
+    proc = subprocess.run(
+        ["git", "-c", "color.ui=always", "rebase", branch],
+        text=True,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if proc.stdout:
+        print(proc.stdout.rstrip(), file=sys.stderr)
+    if proc.returncode != 0:
+        sys.exit(1)
+
+
+def update_python_deps() -> None:
+    if pathlib.Path("poetry.lock").exists():
+        print(file=sys.stderr)
+        info("Running poetry install...")
+        print(file=sys.stderr)
+        # We need to deactivate the current virtual environment otherwise poetry install
+        # will install packages into the current virtual environment instead of the new
+        # one we want to create for the new worktree.
+        if os.getenv("VIRTUAL_ENV"):
+            subprocess.run(["deactivate"])
+        subprocess.run(["poetry", "install", "--all-extras"])
+    elif pathlib.Path("pyproject.lock").exists():
+        print(file=sys.stderr)
+        info("Running uv pip install with pyproject.toml...")
+        print(file=sys.stderr)
+        subprocess.run(["uv", "venv"])
+        subprocess.run(
+            ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"]
+        )
