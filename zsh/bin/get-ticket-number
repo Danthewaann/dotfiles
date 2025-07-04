@@ -1,17 +1,21 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -e
+import subprocess
+import sys
+import re
+import _utils
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+current_branch = (
+    sys.argv[1]
+    if len(sys.argv) > 1
+    else subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+)
 
-source "$CUR_DIR/_git-common"
+# Extract the ticket number from the branch name
+if match := re.search(r"/\D*(\d+)\D*/", current_branch):
+    print(match.group(1))
+    sys.exit(0)
 
-# Get the ticketnumber for the provided or current repo branch
-currentbranch="${1:-$(git branch --show-current)}"
-
-if ! ticketnumber=$(echo "$currentbranch" | grep -Eo "\/.*[0-9]+.*\/" | grep -Eo "\d+"); then
-    >&2 echo "No ticketnumber found for $currentbranch"
-    exit 1
-fi
-
-echo "$ticketnumber"
+# If no ticket number is found, print an error and exit
+_utils.error(f"No ticket number found for {current_branch}")
+sys.exit(1)
