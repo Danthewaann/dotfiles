@@ -1,11 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -eo pipefail
+import _utils
 
-if [[ ! -f .base_branch ]]; then
-  base_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
-    
-  echo "$base_branch" > .base_branch
-fi
-
-cat .base_branch
+print(_utils.get_base_branch())
