@@ -1,25 +1,36 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-# Whitelist of sessions to not kill
-ignore_sessions=()
-while IFS=$'\n' read -r session; do ignore_sessions+=("$session"); done <"$HOME/.tmux-save-sessions"
+import os
+import pathlib
+import subprocess
 
-# Load all sessions
-sessions=()
-while IFS=$'\n' read -r line; do sessions+=("$line"); done < <(tmux list-sessions)
+sessions_file = pathlib.Path.home() / ".tmux-save-sessions"
+ignore_sessions: list[str] = []
+if sessions_file.exists():
+    ignore_sessions = sessions_file.read_text().splitlines()
 
-# Load 10 active sessions and sort them in most recently used order
-active_sessions=()
-base_dir=$(basename "$TMUX_CURRENT_DIR")
-while IFS=$'\n' read -r line; do
-    active_sessions+=("$line")
-done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "dotfiles$|notes$|github$|$base_dir$" | sort --numeric-sort --reverse | head -n 10 | cut -d' ' -f2-)
+sessions = subprocess.check_output(
+    ["tmux", "list-sessions", "-F", "#S"], text=True
+).splitlines()
 
-for session in "${sessions[@]}"; do
-    session=$(echo "$session" | cut -d: -f1 | tr -d '[:blank:]')
+active_sessions: list[str] = subprocess.check_output(
+    ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"], text=True
+).splitlines()
+active_sessions.sort(reverse=True)
 
-    # Kill sessions that aren't in `ignore_sessions` and `active_sessions`
-    if [[ ! " ${ignore_sessions[*]} " =~ " ${session} " ]] && [[ ! " ${active_sessions[*]} " =~ " ${session} " ]]; then
-        tmux kill-session -t "$session"
-    fi
-done
+base_dir = str(pathlib.Path(os.getenv("TMUX_CURRENT_DIR")).stem)  # pyright: ignore
+recent_active_sessions: list[str] = []
+count = 0
+for session in active_sessions:
+    if count == 10:
+        break
+
+    _, session = session.split()
+    if session not in ("dotfiles", "notes", "github", base_dir):
+        recent_active_sessions.append(session)
+        count += 1
+
+
+for session in sessions:
+    if session not in ignore_sessions and session not in recent_active_sessions:
+        subprocess.run(["tmux", "kill-session", "-t", session], check=True)
