@@ -3,19 +3,15 @@
 import pathlib
 import re
 import subprocess
+import _utils
 
-proc = subprocess.run(
-    ["git", "rev-parse", "--is-bare-repository"], text=True, capture_output=True
-)
 
-is_bare_repo = proc.stdout.strip()
-
-if is_bare_repo != "true":
+if not _utils.inside_bare_repo():
     for dir in pathlib.Path.cwd().iterdir():
         if (dir / ".bare").exists():
             subprocess.run("gitw-list", cwd=dir)
 else:
-    cur_dur = pathlib.Path.cwd()
+    cur_dir = pathlib.Path.cwd()
     worktrees = subprocess.check_output(["git", "worktree", "list"], text=True)
     for worktree in worktrees.splitlines():
         if not re.search(r"(\[main\]|\[master\]|\(bare\))", worktree):
