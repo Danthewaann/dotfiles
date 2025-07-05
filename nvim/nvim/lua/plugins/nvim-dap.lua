@@ -191,6 +191,6 @@ return {
     dap.defaults.python.exception_breakpoints = {}
 
     local utils = require("custom.utils")
-    require("dap-python").setup(utils.get_poetry_venv_executable_path("python"))
+    require("dap-python").setup(utils.get_venv_executable_path("python"))
   end,
 }

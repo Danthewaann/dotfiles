@@ -5,7 +5,7 @@ return {
     local utils = require("custom.utils")
 
     local python_formatters = { "ruff_fix", "ruff_format" }
-    local black_exe = utils.get_poetry_venv_executable_path("black")
+    local black_exe = utils.get_venv_executable_path("black")
     if black_exe ~= "black" then
       table.insert(python_formatters, "black")
     end
@@ -16,7 +16,7 @@ return {
           command = "sleek",
         },
         ruff_fix = {
-          command = utils.get_poetry_venv_executable_path("ruff")
+          command = utils.get_venv_executable_path("ruff")
         },
         black = {
           command = black_exe

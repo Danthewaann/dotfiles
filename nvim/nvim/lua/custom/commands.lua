@@ -34,7 +34,7 @@ vim.api.nvim_create_user_command("Ruff", function()
   utils.print("Running ruff...")
   vim.system(
     {
-      utils.get_poetry_venv_executable_path("ruff"),
+      utils.get_venv_executable_path("ruff"),
       "check",
       "--force-exclude",
       "--quiet",

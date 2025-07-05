@@ -17,7 +17,7 @@ module.get_visual_selection = function()
 end
 
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
-module.get_poetry_venv_executable_path = function(exe, workspace)
+module.get_venv_executable_path = function(exe, workspace)
   workspace = workspace or "."
 
   -- Check if the executable exists in the .venv/bin directory
@@ -30,18 +30,6 @@ module.get_poetry_venv_executable_path = function(exe, workspace)
   -- Use activated virtualenv.
   if vim.env.VIRTUAL_ENV then
     return table.concat({ vim.env.VIRTUAL_ENV, "bin", exe }, "/")
-  end
-
-  -- Find and use virtualenv via poetry in workspace directory.
-  if module.file_exists(table.concat({ workspace, "poetry.lock" }, "/")) then
-    if python_venv == nil then
-      local obj = vim.system({ "poetry", "env", "info", "-p" }):wait()
-      python_venv = vim.fn.trim(obj.stdout)
-    end
-    venv_exe = table.concat({ python_venv, "bin", exe }, "/")
-    if module.file_exists(venv_exe) then
-      return venv_exe
-    end
   end
 
   -- Fallback to the provided exe
@@ -151,7 +139,7 @@ end
 module.mypy_args = function(include_cmd)
   local args = {}
   if include_cmd then
-    table.insert(args, module.get_poetry_venv_executable_path("mypy"))
+    table.insert(args, module.get_venv_executable_path("mypy"))
   end
 
   table.insert(args, "--show-column-numbers")
@@ -169,7 +157,7 @@ end
 module.dmypy_args = function(include_cmd)
   local args = {}
   if include_cmd then
-    table.insert(args, module.get_poetry_venv_executable_path("dmypy"))
+    table.insert(args, module.get_venv_executable_path("dmypy"))
   end
 
   table.insert(args, "run")
