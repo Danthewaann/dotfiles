@@ -153,38 +153,23 @@ if old_hash.hexdigest() == new_hash.hexdigest():
     new_pr_file.unlink(missing_ok=True)
     sys.exit(1)
 
-# Use sed address ranges to extract each section
-# From: https://www.baeldung.com/linux/print-lines-between-two-patterns
-new_title = subprocess.check_output(
-    "gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }'"
-    + f" < {new_pr_file}",
-    shell=True,
-    text=True,
-).strip()
-new_labels = subprocess.check_output(
-    "gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }'"
-    + f" < {new_pr_file}",
-    shell=True,
-    text=True,
-).splitlines()
-new_is_draft = subprocess.check_output(
-    "gsed -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! p } }'"
-    + f" < {new_pr_file}",
-    shell=True,
-    text=True,
-).strip()
-new_base_branch = subprocess.check_output(
-    "gsed -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }'"
-    + f" < {new_pr_file}",
-    shell=True,
-    text=True,
-).strip()
-new_body = subprocess.check_output(
-    "gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }'"
-    + f" < {new_pr_file}",
-    shell=True,
-    text=True,
-).strip()
+content = new_pr_file.read_text()
+
+match = re.search("--- TITLE\n(.*?)\n--- END", content, re.MULTILINE)
+assert match
+new_title = match.group(1)
+match = re.search("--- LABELS\n(.*?)\n--- END", content, re.MULTILINE | re.DOTALL)
+assert match
+new_labels = match.group(1).splitlines()
+match = re.search("--- IS DRAFT\n(.*?)\n--- END", content, re.MULTILINE)
+assert match
+new_is_draft = match.group(1)
+match = re.search("--- STATE\n(.*?)\n--- END", content, re.MULTILINE)
+assert match
+new_base_branch = match.group(1)
+match = re.search("--- BODY\n(.*?)\n--- END", content, re.MULTILINE | re.DOTALL)
+assert match
+new_body = match.group(1)
 
 args = [
     "gh",
