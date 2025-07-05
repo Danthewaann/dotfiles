@@ -1,289 +1,219 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
+from typing import Any
+import os
+import hashlib
+import json
+import pathlib
+import platform
+import re
+import subprocess
+import sys
+import time
+import _utils
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-source "$CUR_DIR/_git-common"
-
-set -u
-
-prog=$(basename "$0")
-args=()
-
-# Github label to slack emoji associate array
-declare -A pr_types=(
-    [python]="python"
-    [ruby]="ruby_prog"
-    [go]="go"
-    [docker]="docker"
-    [terraform]="terraform"
-    [documentation]="docs"
-)
-
-pr_type=
-pr_title=
-pr_is_draft=0
-base_branch=
-labels=()
-
-if [[ $OSTYPE == "darwin"* ]]; then
-    PBCOPY="pbcopy"
-    SED="gsed"
-else
-    PBCOPY="xclip"
-    SED="sed"
-fi
-
-function usage() {
-    gh pr create --help
+# Github label to slack emojis
+pr_types = {
+    "python": "python",
+    "ruby": "ruby_prog",
+    "go": "go",
+    "docker": "docker",
+    "terraform": "terraform",
+    "documentation": "docs",
 }
 
-function pr_info() {
-    slack_label=""
-    content=$(gh pr view --json url --json labels --json title)
-    url=$(echo "$content" | jq -r .url)
-    pr_title=$(echo "$content" | jq -r .title)
+prog = pathlib.Path(sys.argv[0]).stem
 
-    pr_labels=()
-    while IFS=$'\n' read -r label; do pr_labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
+if platform.system() == "Darwin":
+    pb_copy = "pbcopy"
+else:
+    pb_copy = "xclip"
 
-    # If a PR type was manually provided use that one
-    if [[ -n $pr_type ]]; then
-        slack_label=" :${pr_types[$pr_type]}:"
-    else
-        # Otherwise get the PR type label from the PR labels
-        for label in "${!pr_types[@]}"; do
-            if [[ " ${pr_labels[*]} " =~ " ${label} " ]]; then
-                slack_label=" :${pr_types[$label]}:"
-                break
-            fi
-        done
-    fi
 
-    if [[ $pr_is_draft -ne 0 ]]; then
-        output=$(printf "%s\n:point_up:%s [Draft PR] %s\n" "$url" "$slack_label" "$pr_title")
-    else
-        output=$(printf "%s\n:point_up:%s %s\n" "$url" "$slack_label" "$pr_title")
-    fi
+def print_pr_info(is_draft: bool = False) -> None:
+    slack_label = ""
+    content: dict[str, Any] = json.loads(
+        subprocess.check_output(
+            ["gh", "pr", "view", "--json", "url", "--json", "labels", "--json", "title"]
+        )
+    )
+    url = content["url"]
+    title = content["title"]
+    labels = content["labels"]
 
-    >&2 printf "\nThe below has been copied to your clipboard! 📋\n\n"
-    echo "$output"
-    echo "$output" | $PBCOPY
-}
+    for pr_type in pr_types:
+        if pr_type in labels:
+            slack_label = f" :{pr_types[pr_type]}:"
+            break
 
-while [[ $# -gt 0 ]]; do
-    case $1 in
-    -h|--help)
-        usage
-        exit 2
-        ;;
-    -l|--label)
-        # shellcheck disable=SC2076
-        if [[ " ${!pr_types[*]} " =~ " ${2} " ]]; then
-            pr_type=$2
-        fi
-        labels+=("$2")
-        shift; shift
-        ;;
-    -t|--title)
-        pr_title="$2"
-        shift; shift
-        ;;
-    -d|--draft)
-        pr_is_draft=1
-        shift
-        ;;
-    -B|--base)
-        base_branch="$2"
-        shift; shift
-        ;;
-    *)
-        args+=("$1")
-        shift
-        ;;
-    esac
-done
+    if is_draft:
+        output = f"{url}\n:point_up:{slack_label} [Draft PR] {title}"
+    else:
+        output = f"{url}\n:point_up:{slack_label} {title}"
 
-cur_branch=$(git branch --show-current)
+    print("\nThe below has been copied to your clipboard! 📋\n")
+    print(output)
+    subprocess.run(f"echo '{output}' | {pb_copy}", shell=True, check=True)
+
+
+current_branch = _utils.get_current_branch()
 
 # Check that this branch exists remotely
-if ! git branch -r | grep "$cur_branch" > /dev/null 2>&1; then
-    >&2 echo
-    error "Branch doesn't exist on remote origin!"
-    exit 1
-fi
+remote_branches = subprocess.check_output(["git", "branch", "-r"], text=True)
+if not re.search(current_branch, remote_branches):
+    _utils.error("Branch doesn't exist on remote origin!")
+    sys.exit(1)
 
 # Check if a PR has already been opened for the current branch
-if pr_title=$(gh pr list | grep "$cur_branch" | cut -f2); then
-    >&2 echo
-    warn "A PR has already been opened for this branch"
-    pr_info
-    exit 1
-fi
+pr_info = subprocess.check_output(["gh", "pr", "list"], text=True)
+if re.search(current_branch, pr_info):
+    print(file=sys.stderr)
+    _utils.warn("A PR has already been opened for this branch")
+    print_pr_info()
+    sys.exit(1)
 
-if [[ -z $base_branch ]]; then
-    base_branch="$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)"
-fi
+base_branch = _utils.get_base_branch()
+
+existing_old_pr_files = list(pathlib.Path(".").glob("git-pr-create*old*"))
+existing_old_pr_files.sort(key=lambda x: x.stem)
+existing_new_pr_files = list(pathlib.Path(".").glob("git-pr-create*new*"))
+existing_new_pr_files.sort(key=lambda x: x.stem)
+
+existing_old = existing_old_pr_files[0] if existing_old_pr_files else None
+existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
-existing_old_pr_files=()
-while IFS=$'\n' read -r file; do existing_old_pr_files+=("$file"); done < <(find ./git-pr-create*old* 2> /dev/null | sort --reverse)
+if existing_old and existing_new:
+    old_pr_file = existing_old
+    new_pr_file = existing_new
+    _utils.info(f"Using existing PR file: {existing_new}")
+    time.sleep(0.5)
 
-existing_new_pr_files=()
-while IFS=$'\n' read -r file; do existing_new_pr_files+=("$file"); done < <(find ./git-pr-create*new* 2> /dev/null | sort --reverse)
+    old_hash = hashlib.md5(existing_old.read_bytes())
 
-if [[ "${#existing_new_pr_files[@]}" -gt 0 ]]; then
-    old_pr_file_name="${existing_old_pr_files[0]}"
-    new_pr_file_name="${existing_new_pr_files[0]}"
-    info "Using existing PR file: $new_pr_file_name"
-    sleep 1
-
-    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
-
-    $EDITOR "$new_pr_file_name"
-else
+    subprocess.run([os.getenv("EDITOR"), new_pr_file])
+else:
     # Get list of labels that are available in the current repository
-    repo_labels=()
-    while IFS=$'\n' read -r label; do repo_labels+=("$label"); done < <(gh label list --json name --jq '.[].name' --limit 100)
+    repo_labels = subprocess.check_output(
+        ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
+        text=True,
+    ).splitlines()
 
-    # Make sure that all of the provided labels are in `repo_labels`
-    invalid_labels=()
-    for label in "${labels[@]}"; do
-        # shellcheck disable=SC2076
-        if [[ ! " ${repo_labels[*]} " =~ " ${label} " ]]; then
-            invalid_labels+=("$label")
-        fi
-    done
+    # Use the last commit message as the PR title
+    pr_title = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], text=True)
+    cur_time = int(time.time())
+    old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
+    new_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.new.md")
+    pr_template = ""
+    pr_template_file = pathlib.Path(".github/PULL_REQUEST_TEMPLATE.md")
+    if pr_template_file.exists():
+        pr_template = pr_template_file.read_text()
+    ticket_number = _utils.get_ticket_number(current_branch)
+    if ticket_number:
+        pr_template = re.sub("TICKET_NUMBER", ticket_number, pr_template)
 
-    # If we have an invalid labels we print an error and exit
-    if [[ ${#invalid_labels[@]} -ne 0 ]]; then
-        >&2 echo
-        error "The following labels were not found in git repository"
-        >&2 echo
-        >&2 printf "invalid labels -> (%s)\n" "${invalid_labels[*]}"
-        >&2 echo
+    pr_file_content = f"""--- TITLE
+{pr_title.strip()}
+--- END
 
-        >&2 echo "Here are the top 100 valid labels for this git repository:"
-        >&2 echo
-        gh label list --json name --jq '.[].name' --limit 100
-        exit 1
-    fi
+--- EXISTING LABELS
+{"\n".join(repo_labels)}
+--- END
 
-    # If a title isn't provided, use the last commit message
-    if [[ -z $pr_title ]]; then
-        pr_title=$(git log -1 --pretty=%B)
-    fi
+--- LABELS
+--- END
 
-    cur_time=$(date +%s)
-    old_pr_file_name=git-pr-create."$cur_time".old.md
-    new_pr_file_name=git-pr-create."$cur_time".new.md
+IS DRAFT can be `yes` or `no`
+--- IS DRAFT
+no
+--- END
 
-    echo -e "--- TITLE\n$pr_title\n--- END\n" > "$old_pr_file_name"
-    echo -e "--- TITLE\n$pr_title\n--- END\n" > "$new_pr_file_name"
-    echo -e "--- EXISTING LABELS" >> "$old_pr_file_name"
-    echo -e "--- EXISTING LABELS" >> "$new_pr_file_name"
-    for label in "${repo_labels[@]}"; do
-        echo "$label" >> "$old_pr_file_name"
-        echo "$label" >> "$new_pr_file_name"
-    done
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+--- BASE BRANCH
+{base_branch.strip()}
+--- END
 
-    echo -e "--- LABELS" >> "$old_pr_file_name"
-    echo -e "--- LABELS" >> "$new_pr_file_name"
-    for label in "${labels[@]}"; do
-        echo "$label" >> "$old_pr_file_name"
-        echo "$label" >> "$new_pr_file_name"
-    done
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+--- BODY
+{pr_template.strip()}
+--- END
+"""
 
-    echo -e "IS DRAFT can be \`yes\` or \`no\`\n" >> "$old_pr_file_name"
-    echo -e "IS DRAFT can be \`yes\` or \`no\`\n" >> "$new_pr_file_name"
-    echo -e "--- IS DRAFT" >> "$old_pr_file_name"
-    echo -e "--- IS DRAFT" >> "$new_pr_file_name"
-    if [[ $pr_is_draft -ne 0 ]]; then
-        echo "yes" >> "$old_pr_file_name"
-        echo "yes" >> "$new_pr_file_name"
-    else
-        echo "no" >> "$old_pr_file_name"
-        echo "no" >> "$new_pr_file_name"
-    fi
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+    old_pr_file.write_text(pr_file_content)
+    new_pr_file.write_text(pr_file_content)
 
-    echo -e "--- BASE BRANCH" >> "$old_pr_file_name"
-    echo -e "--- BASE BRANCH" >> "$new_pr_file_name"
-    echo "$base_branch" >> "$old_pr_file_name"
-    echo "$base_branch" >> "$new_pr_file_name"
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+    old_hash = hashlib.md5(pr_file_content.encode())
 
-    echo -e "--- BODY" >> "$old_pr_file_name"
-    echo -e "--- BODY" >> "$new_pr_file_name"
-    if [[ -f .github/PULL_REQUEST_TEMPLATE.md ]]; then
-        cat .github/PULL_REQUEST_TEMPLATE.md >> "$old_pr_file_name"
-        cat .github/PULL_REQUEST_TEMPLATE.md >> "$new_pr_file_name"
-    fi
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+    subprocess.run([os.getenv("EDITOR"), new_pr_file])
 
-    if ! ticket_number=$(get-ticket-number 2>&1); then
-        >&2 echo
-        warn "$ticket_number"
-        sleep 1
-    else
-        $SED -i "s/TICKET_NUMBER/$ticket_number/g" "$old_pr_file_name"
-        $SED -i "s/TICKET_NUMBER/$ticket_number/g" "$new_pr_file_name"
-    fi
+new_hash = hashlib.md5(new_pr_file.read_bytes())
 
-    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
-
-    $EDITOR "$new_pr_file_name"
-fi
-
-new_file_md5=$(md5sum "$new_pr_file_name" | cut -d' ' -f1)
-
-if [[ "$old_file_md5" == "$new_file_md5" ]]; then
-    >&2 echo -e "\nNo PR created!"
-    rm -f "$old_pr_file_name"
-    rm -f "$new_pr_file_name"
-    exit 1
-fi
+if old_hash.hexdigest() == new_hash.hexdigest():
+    print("\nNo PR created!", file=sys.stderr)
+    old_pr_file.unlink(missing_ok=True)
+    new_pr_file.unlink(missing_ok=True)
+    sys.exit(1)
 
 # Use sed address ranges to extract each section
 # From: https://www.baeldung.com/linux/print-lines-between-two-patterns
-title=$($SED -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
+new_title = subprocess.check_output(
+    "gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_labels = subprocess.check_output(
+    "gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).splitlines()
+new_is_draft = subprocess.check_output(
+    "gsed -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_base_branch = subprocess.check_output(
+    "gsed -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_body = subprocess.check_output(
+    "gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
 
-labels=()
-while IFS=$'\n' read -r label; do labels+=("--label" "$label"); done < <($SED -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+args = [
+    "gh",
+    "pr",
+    "create",
+    "--head",
+    current_branch,
+    "--assignee",
+    "@me",
+    "--title",
+    new_title,
+    "--body",
+    new_body,
+    "--base",
+    new_base_branch,
+]
 
-isDraft=$($SED -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! p } }' < "$new_pr_file_name")
+for label in new_labels:
+    args.append("--label")
+    args.append(label)
+if new_is_draft == "yes":
+    args.append("--draft")
 
-if [[ "$isDraft" == "yes" ]]; then
-    args+=("--draft")
-fi
+proc = subprocess.run(args, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+if proc.returncode != 0:
+    _utils.error(proc.stdout)
+    _utils.warn(f"PR file written to {new_pr_file}, re-run '{prog}' to use")
+    sys.exit(1)
 
-base_branch=$($SED -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }' < "$new_pr_file_name")
-
-body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name")
-
-if ! output=$(gh pr create \
-    --head "$(git branch --show-current)" \
-    --assignee "@me" \
-    --title "$title" \
-    --body "$body" \
-    --base "$base_branch" \
-    "${labels[@]}" \
-    "${args[@]}" 2>&1); then
-    >&2 echo
-    error "$output\n"
-    warn "PR file written to $new_pr_file_name, re-run '$prog' to use"
-    exit 1
-fi
-
-pr_info
-
-rm -f "$old_pr_file_name"
-rm -f "$new_pr_file_name"
+print_pr_info(is_draft=True if new_is_draft == "yes" else False)
+old_pr_file.unlink(missing_ok=True)
+new_pr_file.unlink(missing_ok=True)
