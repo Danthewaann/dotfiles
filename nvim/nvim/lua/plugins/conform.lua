@@ -1,6 +1,6 @@
 return {
   "stevearc/conform.nvim",
-  event = "VeryLazy",
+  cmd = "W",
   config = function()
     local utils = require("custom.utils")
 
