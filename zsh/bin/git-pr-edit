@@ -1,216 +1,214 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -oe pipefail
+import json
+import os
+import hashlib
+import pathlib
+import re
+import subprocess
+import sys
+import time
+import _utils
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-source "$CUR_DIR/_git-common"
-
-set -u
-
-prog=$(basename "$0")
-args=()
-
-if [[ $OSTYPE == "darwin"* ]]; then
-    SED="gsed"
-else
-    SED="sed"
-fi
-
-function usage() {
-    gh pr edit --help
-}
-
-while [[ $# -gt 0 ]]; do
-    case $1 in
-    -h|--help)
-        usage
-        exit 2
-        ;;
-    *)
-        args+=("$1")
-        shift
-        ;;
-    esac
-done
-
-cur_branch=$(git branch --show-current)
+prog = pathlib.Path(sys.argv[0]).stem
+current_branch = _utils.get_current_branch()
 
 # Check that this branch exists remotely
-if ! git branch -r | grep "$cur_branch" > /dev/null 2>&1; then
-    >&2 echo
-    error "Branch doesn't exist on remote origin!"
-    exit 1
-fi
+remote_branches = subprocess.check_output(["git", "branch", "-r"], text=True)
+if not re.search(current_branch, remote_branches):
+    _utils.error("Branch doesn't exist on remote origin!")
+    sys.exit(1)
+
+base_branch = _utils.get_base_branch()
+
+existing_old_pr_files = list(pathlib.Path(".").glob("git-pr-create*old*"))
+existing_old_pr_files.sort(key=lambda x: x.stem)
+existing_new_pr_files = list(pathlib.Path(".").glob("git-pr-create*new*"))
+existing_new_pr_files.sort(key=lambda x: x.stem)
+
+existing_old = existing_old_pr_files[0] if existing_old_pr_files else None
+existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
-existing_old_pr_files=()
-while IFS=$'\n' read -r file; do existing_old_pr_files+=("$file"); done < <(find ./git-pr-edit*old* 2> /dev/null | sort --reverse)
+if existing_old and existing_new:
+    old_pr_file = existing_old
+    new_pr_file = existing_new
+    _utils.info(f"Using existing PR file: {existing_new}")
+    time.sleep(0.5)
 
-existing_new_pr_files=()
-while IFS=$'\n' read -r file; do existing_new_pr_files+=("$file"); done < <(find ./git-pr-edit*new* 2> /dev/null | sort --reverse)
+    old_hash = hashlib.md5(existing_old.read_bytes())
 
-if [[ "${#existing_new_pr_files[@]}" -gt 0 ]]; then
-    old_pr_file_name="${existing_old_pr_files[0]}"
-    new_pr_file_name="${existing_new_pr_files[0]}"
-    info "Using existing PR file: $new_pr_file_name"
-    sleep 1
+    subprocess.run([os.getenv("EDITOR"), new_pr_file])
+else:
+    # Get list of labels that are available in the current repository
+    repo_labels = subprocess.check_output(
+        ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
+        text=True,
+    ).splitlines()
 
-    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
+    # Use the last commit message as the PR title
+    pr_title = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], text=True)
+    cur_time = int(time.time())
+    old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
+    new_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.new.md")
 
-    $EDITOR "$new_pr_file_name"
-else
-    repo_labels=()
-    while IFS=$'\n' read -r label; do repo_labels+=("$label"); done < <(gh label list --json name --jq '.[].name' --limit 100)
+    content = json.loads(
+        subprocess.check_output(
+            [
+                "gh",
+                "pr",
+                "view",
+                "--json",
+                "title",
+                "--json",
+                "body",
+                "--json",
+                "labels",
+                "--json",
+                "isDraft",
+                "--json",
+                "state",
+                "--json",
+                "number",
+                "--json",
+                "baseRefName",
+            ]
+        )
+    )
+    pr_number = content["number"]
+    title = content["title"]
+    body = content["body"]
+    is_draft = content["isDraft"]
+    state = content["state"].lower()
+    base_branch = content["baseRefName"]
+    labels = [label["name"] for label in content["labels"]]
+    breakpoint()
 
-    cur_time=$(date +%s)
-    old_pr_file_name=git-pr-edit."$cur_time".old.md
-    new_pr_file_name=git-pr-edit."$cur_time".new.md
+    pr_file_content = f"""--- TITLE
+{title.strip()}
+--- END
 
-    content=$(gh pr view --json title --json body --json labels --json isDraft --json state --json number --json baseRefName)
-    pr_number=$(echo "$content" | jq -r .number)
-    title=$(echo "$content" | jq -r .title)
-    body=$(echo "$content" | jq -r .body | trim)
-    isDraft=$(echo "$content" | jq -r .isDraft)
-    state=$(echo "$content" | jq -r .state | tr '[:upper:]' '[:lower:]')
-    base_branch=$(echo "$content" | jq -r .baseRefName)
+--- EXISTING LABELS
+{"\n".join(repo_labels)}
+--- END
 
-    labels=()
-    while IFS=$'\n' read -r label; do labels+=("$label"); done < <(echo "$content" | jq -r .labels[].name)
+--- LABELS
+{"\n".join(labels)}
+--- END
 
-    echo -e "--- TITLE\n$title\n--- END\n" > "$old_pr_file_name"
-    echo -e "--- TITLE\n$title\n--- END\n" > "$new_pr_file_name"
-    echo -e "--- EXISTING LABELS" >> "$old_pr_file_name"
-    echo -e "--- EXISTING LABELS" >> "$new_pr_file_name"
-    for label in "${repo_labels[@]}"; do
-        echo "$label" >> "$old_pr_file_name"
-        echo "$label" >> "$new_pr_file_name"
-    done
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+IS DRAFT can be `yes` or `no`
+--- IS DRAFT
+{"yes" if is_draft else "no"}
+--- END
 
-    echo -e "--- LABELS" >> "$old_pr_file_name"
-    echo -e "--- LABELS" >> "$new_pr_file_name"
-    for label in "${labels[@]}"; do
-        echo "$label" >> "$old_pr_file_name"
-        echo "$label" >> "$new_pr_file_name"
-    done
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+STATE can be `open`, `merged` or `closed`
+--- STATE
+{state}
+--- END
 
-    echo -e "IS DRAFT can be \`yes\` or \`no\`\n" >> "$old_pr_file_name"
-    echo -e "IS DRAFT can be \`yes\` or \`no\`\n" >> "$new_pr_file_name"
-    echo -e "--- IS DRAFT" >> "$old_pr_file_name"
-    echo -e "--- IS DRAFT" >> "$new_pr_file_name"
-    if [[ $isDraft == true ]]; then
-        echo "yes" >> "$old_pr_file_name"
-        echo "yes" >> "$new_pr_file_name"
-    else
-        echo "no" >> "$old_pr_file_name"
-        echo "no" >> "$new_pr_file_name"
-    fi
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+--- BASE BRANCH
+{base_branch.strip()}
+--- END
 
-    echo -e "STATE can be \`open\`, \`merged\` or \`closed\`\n" >> "$old_pr_file_name"
-    echo -e "STATE can be \`open\`, \`merged\` or \`closed\`\n" >> "$new_pr_file_name"
-    echo -e "--- STATE" >> "$old_pr_file_name"
-    echo -e "--- STATE" >> "$new_pr_file_name"
-    echo "$state" >> "$old_pr_file_name"
-    echo "$state" >> "$new_pr_file_name"
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+--- BODY
+{body.strip()}
+--- END
+"""
 
-    echo -e "--- BASE BRANCH" >> "$old_pr_file_name"
-    echo -e "--- BASE BRANCH" >> "$new_pr_file_name"
-    echo "$base_branch" >> "$old_pr_file_name"
-    echo "$base_branch" >> "$new_pr_file_name"
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+    old_pr_file.write_text(pr_file_content)
+    new_pr_file.write_text(pr_file_content)
 
-    echo -e "--- BODY" >> "$old_pr_file_name"
-    echo -e "--- BODY" >> "$new_pr_file_name"
-    echo "$body" >> "$old_pr_file_name"
-    echo "$body" >> "$new_pr_file_name"
-    echo -e "--- END\n" >> "$old_pr_file_name"
-    echo -e "--- END\n" >> "$new_pr_file_name"
+    old_hash = hashlib.md5(pr_file_content.encode())
 
-    old_file_md5=$(md5sum "$old_pr_file_name" | cut -d' ' -f1)
+    subprocess.run([os.getenv("EDITOR"), new_pr_file])
 
-    $EDITOR "$new_pr_file_name"
-fi
+new_hash = hashlib.md5(new_pr_file.read_bytes())
 
-new_file_md5=$(md5sum "$new_pr_file_name" | cut -d' ' -f1)
-
-if [[ "$old_file_md5" == "$new_file_md5" ]]; then
-    >&2 echo -e "\nPR not updated!"
-    rm -f "$old_pr_file_name"
-    rm -f "$new_pr_file_name"
-    exit 1
-fi
+if old_hash.hexdigest() == new_hash.hexdigest():
+    print("\nNo PR created!", file=sys.stderr)
+    old_pr_file.unlink(missing_ok=True)
+    new_pr_file.unlink(missing_ok=True)
+    sys.exit(1)
 
 # Use sed address ranges to extract each section
 # From: https://www.baeldung.com/linux/print-lines-between-two-patterns
-new_title=$($SED -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }' < "$new_pr_file_name")
+new_title = subprocess.check_output(
+    "gsed -n '/--- TITLE/, /--- END/{ /--- TITLE/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_labels = subprocess.check_output(
+    "gsed -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).splitlines()
+new_is_draft = subprocess.check_output(
+    "gsed -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_state = subprocess.check_output(
+    "gsed -n '/--- STATE/, /--- END/{ /--- STATE/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_base_branch = subprocess.check_output(
+    "gsed -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
+new_body = subprocess.check_output(
+    "gsed -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }'"
+    + f" < {new_pr_file}",
+    shell=True,
+    text=True,
+).strip()
 
-new_labels=()
-while IFS=$'\n' read -r label; do new_labels+=("--add-label" "$label"); done < <($SED -n '/--- LABELS/, /--- END/{ /--- LABELS/! { /--- END/! p } }' < "$new_pr_file_name")
+args = [
+    "gh",
+    "pr",
+    "edit",
+    "--title",
+    new_title,
+    "--body",
+    new_body,
+    "--base",
+    new_base_branch,
+]
 
-# Delete labels that are not in the original labels for the PR
-for label in "${labels[@]}"; do
-    if [[ ! " ${new_labels[*]} " =~ " ${label} " ]]; then
-        new_labels+=("--remove-label" "$label")
-    fi
-done
+for label in labels:
+    # Delete labels that are not in the original labels for the PR
+    if label not in new_labels:
+        args.append("--remove-label")
+    else:
+        args.append("--add-label")
+    args.append(label)
 
-new_is_draft=$($SED -n '/--- IS DRAFT/, /--- END/{ /--- IS DRAFT/! { /--- END/! p } }' < "$new_pr_file_name")
+proc = subprocess.run(args, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+if proc.returncode != 0:
+    _utils.error(proc.stdout)
+    _utils.warn(f"PR file written to {new_pr_file}, re-run '{prog}' to use")
+    sys.exit(1)
 
-new_state=$($SED -n '/--- STATE/, /--- END/{ /--- STATE/! { /--- END/! p } }' < "$new_pr_file_name")
+new_is_draft = True if new_is_draft == "yes" else False
 
-new_base_branch=$($SED -n '/--- BASE BRANCH/, /--- END/{ /--- BASE BRANCH/! { /--- END/! p } }' < "$new_pr_file_name")
+if new_is_draft is not is_draft:
+    if new_is_draft is False:
+        subprocess.run(["gh", "pr", "ready"], check=True)
+    elif new_state == "draft":
+        subprocess.run(["gh", "pr", "ready", "--undo"], check=True)
 
-new_body=$($SED -n '/--- BODY/, /--- END/{ /--- BODY/! { /--- END/! p } }' < "$new_pr_file_name" | trim)
+if new_state != state:
+    if new_state == "open" and state == "closed":
+        subprocess.run(["gh", "pr", "reopen", pr_number], check=True)
+    elif new_state == "closed":
+        subprocess.run(["gh", "pr", "close", pr_number], check=True)
 
-if ! gh pr edit \
-    --title "$new_title" \
-    --body "$new_body" \
-    --base "$new_base_branch" \
-    "${new_labels[@]}" \
-    "${args[@]}"; then
-    >&2 echo
-    warn "PR file written to $new_pr_file_name, re-run '$prog' to use" 
-    exit 1
-fi
-
-if [[ "$isDraft" == true ]]; then
-    isDraft="yes"
-else
-    isDraft="no"
-fi
-
-if [[ "$new_is_draft" != "$isDraft" ]]; then
-    if [[ "$new_is_draft" == "no" ]]; then
-        if ! gh pr ready; then
-            exit 1
-        fi
-    elif [[ "$new_state" == "draft" ]]; then
-        if ! gh pr ready --undo; then
-            exit 1
-        fi
-    fi
-fi
-
-if [[ "$new_state" != "$state" ]]; then
-    if [[ "$new_state" == "open" ]] && [[ "$state" == "closed" ]]; then
-        if ! gh pr reopen "$pr_number"; then
-            exit 1
-        fi
-    elif [[ "$new_state" == "closed" ]]; then
-        if ! gh pr close "$pr_number"; then
-            exit 1
-        fi
-    fi
-fi
-
-rm -f "$old_pr_file_name"
-rm -f "$new_pr_file_name"
+old_pr_file.unlink(missing_ok=True)
+new_pr_file.unlink(missing_ok=True)
