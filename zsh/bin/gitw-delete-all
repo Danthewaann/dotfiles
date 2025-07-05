@@ -1,36 +1,27 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -e
+import pathlib
+import re
+import subprocess
+import _utils
+import sys
 
-CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+args = sys.argv[1:]
 
-source "$CUR_DIR/_git-common"
-
-# Delete all git worktrees in current bare repository
-if ! is_bare_repo=$(git rev-parse --is-bare-repository 2>&1); then true; fi
-if [[ $is_bare_repo != "true" ]]; then
-    while IFS=$'\n' read -r dir; do
-        # If this directory is a bare git repository, run this command against that repo
-        if ls "$dir"/.bare > /dev/null 2>&1; then
-            cd "$dir"
-            if ! gitw-delete-all "$@"; then true; fi
-        fi
-    done < <(find "$(pwd)" -mindepth 1 -maxdepth 1 -type d)
-else
-    cur_dir=$(basename "$PWD")
-    echo "Checking for git worktrees in $cur_dir..."
-    worktrees=()
-    while IFS='' read -r line; do worktrees+=("$line"); done < <(git worktree list | grep -vE "(\[main\]|\[master\]|\(bare\))" | cut -d' ' -f1)
-    if [[ ${#worktrees[@]} -eq 0 ]]; then
-        exit 1
-    fi
-
-    got_error=0
-    for worktree in "${worktrees[@]}"; do
-        if ! gitw-delete "$worktree" "$@" | indent; then true; fi
-    done
-
-    if [[ $got_error -ne 0 ]]; then
-        exit 1
-    fi
-fi
+if not _utils.inside_bare_repo():
+    for dir in pathlib.Path.cwd().iterdir():
+        if (dir / ".bare").exists():
+            subprocess.run(["gitw-delete-all", *args], cwd=dir)
+else:
+    cur_dir = pathlib.Path.cwd().stem
+    print(f"Checking for git worktrees in {cur_dir}...")
+    worktrees = subprocess.check_output(["git", "worktree", "list"], text=True)
+    for worktree in worktrees.splitlines():
+        if not re.search(r"(\[main\]|\[master\]|\(bare\))", worktree):
+            proc = subprocess.run(
+                ["gitw-delete", worktree.split()[0], *args],
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+            print(_utils.indent(proc.stdout.strip()), file=sys.stderr)
