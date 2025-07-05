@@ -22,6 +22,8 @@ pr_types = {
     "terraform": "terraform",
     "documentation": "docs",
 }
+editor = os.getenv("EDITOR")
+assert editor
 
 prog = pathlib.Path(sys.argv[0]).stem
 
@@ -92,7 +94,7 @@ if existing_old and existing_new:
 
     old_hash = hashlib.md5(existing_old.read_bytes())
 
-    subprocess.run([os.getenv("EDITOR"), new_pr_file])
+    subprocess.run([editor, new_pr_file])
 else:
     # Get list of labels that are available in the current repository
     repo_labels = subprocess.check_output(
@@ -143,7 +145,7 @@ no
 
     old_hash = hashlib.md5(pr_file_content.encode())
 
-    subprocess.run([os.getenv("EDITOR"), new_pr_file])
+    subprocess.run([editor, new_pr_file])
 
 new_hash = hashlib.md5(new_pr_file.read_bytes())
 
