@@ -3,6 +3,7 @@ import re
 import subprocess
 import sys
 import pathlib
+import textwrap
 
 WHITE_BOLD = "\033[1m"
 GREEN_BOLD = "\033[1;32m"
@@ -14,20 +15,24 @@ NC = "\033[0m"
 RED = "\033[0;31m"
 
 
-def error(message: str) -> None:
-    print(f"{RED}ERROR: {message}{NC}", file=sys.stderr)
+def error(message: str, end: str = "\n") -> None:
+    print(f"{RED}ERROR: {message}{NC}", end=end, file=sys.stderr)
 
 
-def info(message: str) -> None:
-    print(f"{WHITE_BOLD}{message}{NC}", file=sys.stderr)
+def info(message: str, end: str = "\n") -> None:
+    print(f"{WHITE_BOLD}{message}{NC}", end=end, file=sys.stderr)
 
 
-def success(message: str) -> None:
-    print(f"{GREEN_BOLD}{message}{NC}", file=sys.stderr)
+def success(message: str, end: str = "\n") -> None:
+    print(f"{GREEN_BOLD}{message}{NC}", end=end, file=sys.stderr)
 
 
-def warn(message: str) -> None:
-    print(f"{YELLOW}WARN: {message}{NC}", file=sys.stderr)
+def warn(message: str, end: str = "\n") -> None:
+    print(f"{YELLOW}WARN: {message}{NC}", end=end, file=sys.stderr)
+
+
+def indent(message: str) -> str:
+    return textwrap.indent(message, "    ")
 
 
 def inside_worktree() -> bool:

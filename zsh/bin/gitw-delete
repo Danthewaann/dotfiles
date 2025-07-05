@@ -1,42 +1,75 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -e
+import os
+import pathlib
+import re
+import subprocess
+import sys
+import _utils
 
-CUR_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+if len(sys.argv) < 2:
+    _utils.error("Must provide a worktree!")
+    sys.exit(1)
 
-source "$CUR_DIR/_git-common"
+worktree = pathlib.Path(sys.argv[1])
+args = sys.argv[2:]
 
-worktree="$1"
-shift
+if not worktree.is_dir():
+    _utils.error("Worktree doesn't exist!")
+    sys.exit(1)
+os.chdir(worktree)
 
-cd "$worktree" || exit
-
-got_error=0
-worktree_name=$(basename "$(dirname "$worktree")")/$(basename "$worktree")
-cur_branch=$(git branch --show-current)
+worktree_name = pathlib.Path.cwd().parent.stem + "/" + worktree.stem
+cur_branch = _utils.get_current_branch()
 
 # Check if I have opened a PR for the current branch
-if [[ -d "$worktree" ]] && gh pr list --author "@me" | grep "$cur_branch" >/dev/null 2>&1; then
-    echo -e "${YELLOW_BOLD}Skipping${NC}: $worktree_name"
-    echo "A PR is open for this worktree" | indent
-    exit 0
-fi
+prs = subprocess.check_output(["gh", "pr", "list", "--author", "@me"], text=True)
+if re.search(cur_branch, prs):
+    _utils.warn("Skipping: ", end="")
+    print(worktree_name, file=sys.stderr)
+    print(_utils.indent("A PR is open for this worktree"))
+    sys.exit(0)
 
 # Make sure we don't delete worktrees that aren't pushed to their remote origin
-if [ "$(git rev-parse "$cur_branch")" != "$(git rev-parse "origin/$cur_branch")" ]; then
-    echo -e "${YELLOW_BOLD}Skipping${NC}: $worktree_name"
-    echo "Local branch is not synced with remote origin branch" | indent
-    exit 0
-fi
+local_branch_rev = subprocess.check_output(
+    ["git", "rev-parse", cur_branch], text=True
+).strip()
+proc = subprocess.run(
+    ["git", "rev-parse", f"origin/{cur_branch}"],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.DEVNULL,
+)
+remote_branch_rev = local_branch_rev
+if proc.returncode == 0:
+    remote_branch_rev = proc.stdout.strip()
 
-if ! result=$(git worktree remove "$worktree" "$@" 2>&1); then
-    echo -e "${RED_BOLD}Failed to delete${NC}: $worktree_name"
-    if grep -q "contains modified or untracked files, use --force to delete it" <<<"$result"; then
-        echo "This worktree contains modified or untracked files, use --force to delete it" | indent
-    else
-        echo "$result" | indent
-    fi
-    exit 1
-fi
+if local_branch_rev != remote_branch_rev:
+    _utils.warn("Skipping: ", end="")
+    print(worktree_name, file=sys.stderr)
+    print(_utils.indent("Local branch is not synced with remote origin branch"))
+    sys.exit(0)
 
-echo -e "${GREEN_BOLD}Successfully deleted${NC}: $worktree_name"
+proc = subprocess.run(
+    ["git", "worktree", "remove", worktree, *args],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+)
+if proc.returncode != 0:
+    _utils.error("Failed to delete: ", end="")
+    if re.search(
+        "contains modified or untracked files, use --force to delete it", proc.stdout
+    ):
+        print(
+            _utils.indent(
+                "This worktree contains modified or untracked files, use --force to delete it"
+            ),
+            file=sys.stderr,
+        )
+    else:
+        print(_utils.indent(proc.stdout), file=sys.stderr)
+    sys.exit(1)
+
+_utils.success("Successfully deleted: ", end="")
+print(worktree_name, file=sys.stderr)
