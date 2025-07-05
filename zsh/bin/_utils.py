@@ -77,16 +77,17 @@ def get_worktree(branch: str | None = None) -> pathlib.Path:
 
 
 def get_ticket_number(branch: str | None = None) -> str | None:
-    branch = (
-        branch
-        or subprocess.check_output(
-            ["git", "branch", "--show-current"], text=True
-        ).strip()
-    )
+    branch = branch or get_current_branch()
     if match := re.search(r"/\D*(\d+)\D*/", branch):
         return match.group(1)
     error(f"No ticket number found for {branch}")
     return None
+
+
+def get_current_branch() -> str:
+    return subprocess.check_output(
+        ["git", "branch", "--show-current"], text=True
+    ).strip()
 
 
 def run_git_fetch() -> None:

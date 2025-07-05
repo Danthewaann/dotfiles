@@ -2,8 +2,9 @@
 
 import platform
 import subprocess
+import _utils
 
-branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+branch = _utils.get_current_branch()
 
 if platform.system() == "Darwin":
     command = "pbcopy"

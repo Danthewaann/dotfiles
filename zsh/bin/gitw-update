@@ -9,9 +9,7 @@ import _utils
 worktree = (
     pathlib.Path(sys.argv[1])
     if len(sys.argv) > 1
-    else _utils.get_worktree(
-        subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
-    )
+    else _utils.get_worktree(_utils.get_current_branch())
 )
 
 print(file=sys.stderr)
@@ -22,7 +20,9 @@ _utils.run_git_fetch()
 print(file=sys.stderr)
 
 _utils.info("Updating with remote...")
-status = subprocess.check_output(["git", "status", "-uno"], text=True, stderr=subprocess.STDOUT)
+status = subprocess.check_output(
+    ["git", "status", "-uno"], text=True, stderr=subprocess.STDOUT
+)
 print(status, file=sys.stderr)
 if "up to date" not in status:
     _utils.run_git_pull()
