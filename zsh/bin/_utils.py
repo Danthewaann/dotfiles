@@ -1,9 +1,16 @@
+from __future__ import annotations
+
+import functools
+from typing import TYPE_CHECKING
 import os
 import re
 import subprocess
 import sys
 import pathlib
 import textwrap
+
+if TYPE_CHECKING:
+    from _typeshed import StrPath
 
 WHITE_BOLD = "\033[1m"
 GREEN_BOLD = "\033[1;32m"
@@ -95,47 +102,35 @@ def get_current_branch() -> str:
     ).strip()
 
 
+def run_command(cmd: list[str | StrPath]) -> None:
+    proc = subprocess.run(
+        cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
+    log = functools.partial(print, file=sys.stderr)
+    if proc.returncode != 0:
+        log = error
+    if proc.stdout:
+        log(proc.stdout.rstrip())
+
+
 def run_git_fetch() -> None:
     info("Running git fetch...")
-    proc = subprocess.run(
+    run_command(
         ["git", "-c", "color.ui=always", "fetch"],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
     )
-    if proc.stdout:
-        print(proc.stdout.rstrip(), file=sys.stderr)
-    if proc.returncode != 0:
-        sys.exit(1)
 
 
 def run_git_pull() -> None:
-    proc = subprocess.run(
+    run_command(
         ["git", "-c", "color.ui=always", "pull", "--no-all"],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
     )
-    if proc.stdout:
-        print(proc.stdout.rstrip(), file=sys.stderr)
-    if proc.returncode != 0:
-        sys.exit(1)
 
 
 def run_git_rebase(branch: str | None = None) -> None:
     branch = branch or get_base_branch()
-
-    proc = subprocess.run(
+    run_command(
         ["git", "-c", "color.ui=always", "rebase", branch],
-        text=True,
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
     )
-    if proc.stdout:
-        print(proc.stdout.rstrip(), file=sys.stderr)
-    if proc.returncode != 0:
-        sys.exit(1)
 
 
 def update_python_deps() -> None:
