@@ -10,7 +10,7 @@ if _utils.inside_worktree():
     worktree = _utils.get_worktree(branch)
     _utils.info(f"Updating '{branch} branch...")
     proc = subprocess.run(
-        "gitw-update",
+        ["gitw-update", worktree],
         text=True,
         check=True,
         stdout=subprocess.PIPE,
