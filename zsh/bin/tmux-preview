@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 session="$(echo "$1" | cut -d' ' -f2)"
-tree --noreport -C -L 1 "$TMUX_CURRENT_DIR/$session"
 if output=$(tmux capture-pane -ep -t "$session" 2>&1); then
 	echo
 	while IFS= read -r line; do
@@ -14,4 +13,6 @@ if output=$(tmux capture-pane -ep -t "$session" 2>&1); then
 		echo "${line//$no_escapes/$trimmed_string}"
 		# echo -e "$line" | sed -E "s/$escaped_no_escapes/$escaped_trimmed_string/"
 	done <<<"$output"
+else
+	tree --noreport -C -L 1 "$TMUX_CURRENT_DIR/$session"
 fi
