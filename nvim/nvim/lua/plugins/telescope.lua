@@ -101,7 +101,6 @@ return {
           previewer = false
         },
         grep_string = {
-          use_regex = true,
           additional_args = grep_args
         },
         live_grep = {
