@@ -166,7 +166,7 @@ new_labels = match.group(1).splitlines()
 match = re.search("--- IS DRAFT\n(.*?)\n--- END", content, re.MULTILINE)
 assert match
 new_is_draft = match.group(1)
-match = re.search("--- STATE\n(.*?)\n--- END", content, re.MULTILINE)
+match = re.search("--- BASE BRANCH\n(.*?)\n--- END", content, re.MULTILINE)
 assert match
 new_base_branch = match.group(1)
 match = re.search("--- BODY\n(.*?)\n--- END", content, re.MULTILINE | re.DOTALL)
