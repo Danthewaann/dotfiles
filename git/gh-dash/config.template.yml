@@ -42,7 +42,7 @@ keybindings:
       command: >
         clear &&
         cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} || sleep 2
+        gitw-add {{.HeadRefName}}
     - key: d
       name: diff
       command: >
@@ -63,7 +63,7 @@ keybindings:
       name: open ticket url
       command: >
         clear &&
-        open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}}) || sleep 2
+        open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}})
     - key: U
       name: rebase with base
       command: >
