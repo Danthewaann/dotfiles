@@ -14,20 +14,11 @@ editor = os.getenv("EDITOR")
 assert editor
 prog = pathlib.Path(sys.argv[0]).stem
 current_branch = _utils.get_current_branch()
-
-# Check that this branch exists remotely
-remote_branches = subprocess.check_output(["git", "branch", "-r"], text=True)
-if not re.search(current_branch, remote_branches):
-    _utils.error("Branch doesn't exist on remote origin!")
-    sys.exit(1)
-
 base_branch = _utils.get_base_branch()
-
 existing_old_pr_files = list(pathlib.Path(".").glob("git-pr-create*old*"))
 existing_old_pr_files.sort(key=lambda x: x.stem)
 existing_new_pr_files = list(pathlib.Path(".").glob("git-pr-create*new*"))
 existing_new_pr_files.sort(key=lambda x: x.stem)
-
 existing_old = existing_old_pr_files[0] if existing_old_pr_files else None
 existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
