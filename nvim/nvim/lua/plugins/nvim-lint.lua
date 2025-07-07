@@ -1,5 +1,5 @@
 return {
-  "mfussenegger/nvim-lint",
+  "Danthewaann/nvim-lint",
   event = "VeryLazy",
   config = function()
     require("lint").linters_by_ft = {
