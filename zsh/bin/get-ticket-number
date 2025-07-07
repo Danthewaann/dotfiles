@@ -3,7 +3,8 @@
 import sys
 import _utils
 
-ticket_number = _utils.get_ticket_number()
+branch = sys.argv[1] if len(sys.argv) > 1 else _utils.get_current_branch()
+ticket_number = _utils.get_ticket_number(branch)
 
 if ticket_number is None:
     sys.exit(1)
