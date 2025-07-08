@@ -190,10 +190,21 @@ return {
           vim.cmd(":LspRestart")
         end, "[R]estart [L]sp")
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-        map("<leader>K", function()
-          vim.lsp.buf.signature_help()
-        end, "Signature Documentation")
+        map("<leader>ca", function()
+          vim.lsp.buf.code_action({
+            filter = function(x)
+              -- Filter out the following code actions as I never use them:
+              --   Ruff: Fix all auto-fixable problems
+              --   Ruff: Organize imports
+              --   Ruff F821: Undefined variable
+              if x.kind == "source.fixAll.ruff" or x.kind == "source.organizeImports.ruff" or x.title:find("Ruff %(F821%):") ~= nil then
+                return false
+              end
+              return true
+            end
+          })
+        end, "[C]ode [A]ction")
+        map("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
 
         -- Lesser used LSP functionality
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
