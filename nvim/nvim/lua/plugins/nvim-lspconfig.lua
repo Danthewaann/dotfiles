@@ -110,9 +110,11 @@ return {
     end, { desc = "Toggle virtual lines" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, float = true })
+      vim.fn.feedkeys("zz")
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
       vim.diagnostic.jump({ count = 1, float = true })
+      vim.fn.feedkeys("zz")
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<M-x>", function()
       local qf_exists = false

@@ -63,8 +63,8 @@ return {
           return "]czz"
         end
         vim.schedule(function()
-          gs.nav_hunk("next")
-          vim.cmd.normal("zz")
+          gs.nav_hunk("next", { preview = true })
+          vim.fn.feedkeys("zz")
         end)
         return "<Ignore>"
       end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
@@ -73,8 +73,8 @@ return {
           return "[czz"
         end
         vim.schedule(function()
-          gs.nav_hunk("prev")
-          vim.cmd.normal("zz")
+          gs.nav_hunk("prev", { preview = true })
+          vim.fn.feedkeys("zz")
         end)
         return "<Ignore>"
       end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
