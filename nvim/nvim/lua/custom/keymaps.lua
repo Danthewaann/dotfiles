@@ -136,6 +136,9 @@ vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Mo
 -- Make this a no-op as I use <C-c> to cancel the which key popup
 vim.keymap.set({ "n", "t" }, "<C-w><C-c>", "<Nop>")
 
+-- Toggle highlight search
+vim.keymap.set({ "n" }, "<Esc>", ":set hls!<CR>", { silent = true })
+
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
