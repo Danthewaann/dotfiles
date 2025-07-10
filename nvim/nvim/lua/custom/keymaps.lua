@@ -37,6 +37,9 @@ vim.keymap.set("v", "y", "ygv<Esc>")
 -- Go to alternative buffer
 vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternative buffer" })
 
+-- Toggle word wrap
+vim.keymap.set("n", "yow", ":set wrap!<CR>", { silent = true, desc = "Go to alternative buffer" })
+
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump half page up" })
