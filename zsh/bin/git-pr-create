@@ -42,7 +42,7 @@ def print_pr_info(is_draft: bool = False) -> None:
     )
     url = content["url"]
     title = content["title"]
-    labels = content["labels"]
+    labels = [label["name"] for label in content["labels"]]
 
     for pr_type in pr_types:
         if pr_type in labels:
