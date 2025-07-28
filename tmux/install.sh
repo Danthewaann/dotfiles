@@ -21,7 +21,7 @@ else
     fi
 
     run_command "installing libevent tmux dependency" \
-        "sudo apt-get install -y libevent-dev"
+        "sudo apt-get install -y libevent-dev ncurses-dev build-essential bison pkg-config"
 
     run_command "unpacking tmux" \
         "tar -C $SCRIPT_DIR -zxf $SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz"

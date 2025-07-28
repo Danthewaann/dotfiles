@@ -9,6 +9,7 @@ Session.vim
 *.deb
 .tmux-save-sessions
 .secretsrc
+tmux/tmux-*/
 
 zsh/completions/*
 !zsh/completions/_gitw-add
