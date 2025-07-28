@@ -11,5 +11,4 @@ run_command "installing neovim bob version manager" \
     "$HOME/.cargo/bin/cargo install --git https://github.com/MordechaiHadad/bob.git"
 
 run_command "installing neovim" \
-    "$HOME/.cargo/bin/bob install nightly && bob use nightly"
-
+    "$HOME/.cargo/bin/bob use $NVIM_VERSION"

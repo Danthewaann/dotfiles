@@ -6,5 +6,6 @@ export NODE_VERSION=20.4.0
 export GO_VERSION=1.23.5
 export RUBY_VERSION=3.3.2
 export TMUX_VERSION=3.5a
+export NVIM_VERSION=v0.11.3
 export IGNORE_ERRORS=false
 export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim vim)
