@@ -98,7 +98,7 @@ function dbs () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-bra
 # see `git help log` for detailed help.
 #   %h: abbreviated commit hash
 #   %d: ref names, like the --decorate option of git-log(1)
-#   %cn: commiter name
+#   %cn: committer name
 #   %ce: committer email
 #   %cr: committer date, relative
 #   %ci: committer date, ISO 8601-like format
