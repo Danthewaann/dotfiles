@@ -29,6 +29,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 else
     run_command "installing golangci-lint" \
         "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.56.2"
+
+    run_command "installing fzf" \
+        "go install github.com/junegunn/fzf@latest"
 fi
 
 run_command "installing shfmt" \

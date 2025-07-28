@@ -72,9 +72,6 @@ if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing just" \
         "brew install just"
 else
-    run_command "installing fzf" \
-        "sudo apt-get install -y fzf"
-
     run_command "installing fd" \
         "sudo apt-get install -y fd-find"
 
