@@ -148,36 +148,17 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     # Allow gnu `find` to be available
     export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
-
-    # Lazyload commands to improve startup time
-    lazyload nvm -- '[ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
-        [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion'
-    lazyload pyenv -- 'eval "$($PYENV_ROOT/bin/pyenv init --no-push-path - zsh)"'
-    lazyload rbenv -- 'if [[ -d "$RBENV_ROOT" ]]; then eval "$($RBENV_ROOT/bin/rbenv init - zsh)"; fi'
-
     alias sed="gsed"
 else
     # Linux only setup
-    #
-    # Setup Python version manager
-    eval "$("$PYENV_ROOT"/bin/pyenv init - zsh)"
-
-    # Setup node version manager
-    [ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
-    [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion
-
-    # Use the default nvm alias
-    if [[ -e ~/.nvm/alias/default ]]; then
-        PATH="$PATH:$HOME/.nvm/versions/node/v$(< ~/.nvm/alias/default)/bin"
-    fi
-
-    # Setup Ruby version manager
-    if [[ -d "$RBENV_ROOT" ]]; then
-        eval "$("$HOME"/.rbenv/bin/rbenv init - zsh)"
-    fi
-
     alias pbcopy="xclip"
 fi
+
+# Lazyloaded functions
+lazyload nvm -- '[ -s "$NVM_ROOT/nvm.sh" ] && \. "$NVM_ROOT/nvm.sh"  # This loads nvm
+    [ -s "$NVM_ROOT/bash_completion" ] && \. "$NVM_ROOT/bash_completion"  # This loads nvm bash_completion'
+lazyload pyenv -- 'eval "$($PYENV_ROOT/bin/pyenv init --no-push-path - zsh)"'
+lazyload rbenv -- 'if [[ -d "$RBENV_ROOT" ]]; then eval "$($RBENV_ROOT/bin/rbenv init - zsh)"; fi'
 
 # Setup git info in prompt
 #
