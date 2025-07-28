@@ -1,5 +1,5 @@
 return {
-  "Danthewaann/neotest",
+  "nvim-neotest/neotest",
   lazy = true,
   dependencies = {
     "nvim-neotest/nvim-nio",

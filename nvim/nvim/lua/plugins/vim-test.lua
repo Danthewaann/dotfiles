@@ -238,5 +238,5 @@ return {
       desc = "[T]est [V]isit"
     },
   },
-  dependencies = { "Danthewaann/neotest" },
+  dependencies = { "nvim-neotest/neotest" },
 }

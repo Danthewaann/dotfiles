@@ -1,5 +1,5 @@
 return {
-  "Danthewaann/octo.nvim",
+  "pwntester/octo.nvim",
   keys = {
     { "<leader>op", desc = "[O]cto open [P]R" },
     { "<leader>ov", desc = "[O]cto start or resume PR re[v]iew" },
