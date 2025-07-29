@@ -4,47 +4,53 @@
 
 set -eo pipefail
 
-BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+BASE_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 export LOG_FILE="$BASE_DIR/debug.log"
 
-info () {
-    printf "\r[ \033[00;34m..\033[0m ] %s\n" "$1"
+info() {
+    printf "\r[\033[00;34m.....\033[0m] %s\n" "$1"
     log_to_file " .. " "$1"
 }
 
-warn () {
-    printf "\r[\033[0;33mWARN\033[0m] %s\n" "$1"
+warn() {
+    printf "\r[\033[0;33m WARN\033[0m] %s\n" "$1"
     log_to_file "WARN" "$1"
 }
 
-user () {
-    printf "\r[ \033[0;33m??\033[0m ] %s\n" "$1"
+debug() {
+    printf "\r[\033[0;33mDEBUG\033[0m] %s\n" "$1"
+    log_to_file "DEBUG" "$1"
+}
+
+user() {
+    printf "\r[ \033[0;33m  ??\033[0m] %s\n" "$1"
     log_to_file " ?? " "$1"
 }
 
-success () {
-    printf "\r\033[2K[ \033[00;32mOK\033[0m ] %s\n" "$1"
+success() {
+    printf "\r\033[2K[ \033[00;32m  OK\033[0m] %s\n" "$1"
     log_to_file " OK " "$1"
 }
 
-fail () {
-    printf "\r\033[2K[\033[0;31mFAIL\033[0m] %s\n" "$1"
+fail() {
+    printf "\r\033[2K[\033[0;31m FAIL\033[0m] %s\n" "$1"
     log_to_file "FAIL" "$1"
 }
 
-log_to_file () {
+log_to_file() {
     local cur_date
     cur_date=$(get_date)
-    printf "%s [%s] %s\n" "$cur_date" "$1" "$2" >> "$LOG_FILE"
+    printf "%s [%s] %s\n" "$cur_date" "$1" "$2" >>"$LOG_FILE"
 }
 
-get_date () {
+get_date() {
     date +"%Y-%m-%dT%H:%M:%S"
 }
 
-run_command () {
-    local msg=$1; shift
+run_command() {
+    local msg=$1
+    shift
 
     info "$msg"
     while [[ $# -gt 0 ]]; do
@@ -52,16 +58,18 @@ run_command () {
             info ""
             fail "failed to run: $1"
             fail ""
-            while IFS= read -r line; do fail "$line"; done <<< "$output"
+            while IFS= read -r line; do fail "$line"; done <<<"$output"
             if [[ "$IGNORE_ERRORS" == "false" ]]; then
                 exit 1
             fi
+        elif [[ "$DEBUG" -eq 1 ]]; then
+            while IFS= read -r line; do debug "$line"; done <<<"$output"
         fi
         shift
     done
 }
 
-link_file () {
+link_file() {
     local src=$1 dst=$2
 
     local overwrite=
@@ -82,26 +90,25 @@ link_file () {
                 read -r -n 1 action
 
                 case "$action" in
-                    o )
+                o)
                     overwrite=true
                     ;;
-                    O )
+                O)
                     overwrite_all=true
                     ;;
-                    b )
+                b)
                     backup=true
                     ;;
-                    B )
+                B)
                     backup_all=true
                     ;;
-                    s )
+                s)
                     skip=true
                     ;;
-                    S )
+                S)
                     skip_all=true
                     ;;
-                    * )
-                    ;;
+                *) ;;
                 esac
             fi
         fi
@@ -125,14 +132,14 @@ link_file () {
         fi
     fi
 
-    if [ "$skip" != "true" ]; then  # "false" or empty
+    if [ "$skip" != "true" ]; then # "false" or empty
         ln -s "$1" "$2"
         success "linked $1 to $2"
     fi
 }
 
 # Check if we are running under WSL (Windows Subsystem for Linux)
-inside_wsl () {
+inside_wsl() {
     [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
 }
 
@@ -144,14 +151,13 @@ load_variables() {
         read -r -n 1 action
 
         case "$action" in
-            y )
-                create=true
-                ;;
-            n )
-                create=false
-                ;;
-            * )
-                ;;
+        y)
+            create=true
+            ;;
+        n)
+            create=false
+            ;;
+        *) ;;
         esac
 
         if [[ "$create" = "true" ]]; then
@@ -166,4 +172,3 @@ load_variables() {
 }
 
 if ! load_variables; then exit 1; fi
-

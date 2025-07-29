@@ -9,3 +9,5 @@ export TMUX_VERSION=3.5a
 export NVIM_VERSION=v0.11.3
 export IGNORE_ERRORS=false
 export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim vim)
+# Change to 1 to enable debug logging
+export DEBUG=0
