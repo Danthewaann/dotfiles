@@ -19,7 +19,7 @@
 [core]
     excludesfile = ~/.gitignore
 [diff]
-    algorithm = histrogram
+    algorithm = histogram
     colorMoved = plain
     mnemonicPrefix = true
     renames = true
