@@ -1,4 +1,4 @@
-# Global variables used in my installers and dotfiles
+# Versions of tools to use
 export GH_CLI_VERSION=2.67.0
 export PYTHON_VERSION=3.13.0
 export POETRY_VERSION=2.1.3
@@ -7,7 +7,14 @@ export GO_VERSION=1.23.5
 export RUBY_VERSION=3.3.2
 export TMUX_VERSION=3.5a
 export NVIM_VERSION=v0.11.3
-export IGNORE_ERRORS=false
+
+# Change to 0 to stop the main installer on the first error it encounters instead of continuing
+export IGNORE_ERRORS=1
+
+# List of installer modules to run in the given order e.g zsh/install.sh
+#
+# Each array memeber corresponds to the directory that contains the appropriate install.sh script
 export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim vim)
+
 # Change to 1 to enable debug logging
 export DEBUG=0

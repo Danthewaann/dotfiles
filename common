@@ -59,7 +59,7 @@ run_command() {
             fail "failed to run: $1"
             fail ""
             while IFS= read -r line; do fail "$line"; done <<<"$output"
-            if [[ "$IGNORE_ERRORS" == "false" ]]; then
+            if [[ "$IGNORE_ERRORS" -eq 0 ]]; then
                 exit 1
             fi
         elif [[ "$DEBUG" -eq 1 ]]; then
