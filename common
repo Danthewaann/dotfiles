@@ -47,20 +47,18 @@ run_command () {
     local msg=$1; shift
 
     info "$msg"
-    info "~~~~~~~~~~~~~~~~~~~~~~~~"
     while [[ $# -gt 0 ]]; do
-        if ! eval "$1" 2>&1 | while IFS= read -r line; do info "$line"; done; then
+        if ! output=$(eval "$1" 2>&1); then
             info ""
-            fail "failed!"
+            fail "failed to run: $1"
+            fail ""
+            while IFS= read -r line; do fail "$line"; done <<< "$output"
             if [[ "$IGNORE_ERRORS" == "false" ]]; then
                 exit 1
             fi
         fi
         shift
     done
-    info ""
-    success "done!"
-    info ""
 }
 
 link_file () {
