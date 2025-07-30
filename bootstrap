@@ -37,15 +37,15 @@ install_symlinks () {
     overwrite_all=false backup_all=false skip_all=false
 
     for module in "${MODULES[@]}"; do
+        info "==========================================="
         if [[ ! -f "$module/symlink.sh" ]]; then
             warn "no symlink.sh file found for $module, skipping"
             continue
         fi
-        info ""
         info "running symlink file : $module/symlink.sh"
-        info "==========================================="
         info ""
         if ! symlinks=$(sh -c "$module/symlink.sh" 2>&1); then
+            fail ""
             fail "failed to run symlink file : $module/symlink.sh"
         else
             for link in "${symlinks[@]}"; do
@@ -58,7 +58,6 @@ install_symlinks () {
             done
             info ""
             success "finished symlink file : $module/symlink.sh"
-            info "==========================================="
         fi
     done
 }
