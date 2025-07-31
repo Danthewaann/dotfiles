@@ -63,7 +63,7 @@ return {
           return "]czz"
         end
         vim.schedule(function()
-          gs.nav_hunk("next", { preview = true })
+          gs.nav_hunk("next", { preview = false })
           vim.fn.feedkeys("zz")
         end)
         return "<Ignore>"
@@ -73,7 +73,7 @@ return {
           return "[czz"
         end
         vim.schedule(function()
-          gs.nav_hunk("prev", { preview = true })
+          gs.nav_hunk("prev", { preview = false })
           vim.fn.feedkeys("zz")
         end)
         return "<Ignore>"
