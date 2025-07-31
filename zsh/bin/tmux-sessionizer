@@ -56,15 +56,16 @@ else
     # shellcheck disable=SC2086,SC2016
     selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' --preview='$HOME/.local/bin/tmux-preview {}' --preview-window 40%,noinfo $TMUX_FZF_OPTIONS)
     selected_session=$(tr . _ <<<"$selected" | cut -d' ' -f2)
-
-    # If this is a relative path, prepend it with $TMUX_CURRENT_DIR
-    if [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
-        selected="$TMUX_CURRENT_DIR/$selected"
-    fi
 fi
 
+# Exit if no session was selected
 if [[ -z $selected ]]; then
     exit 0
+fi
+
+# If this is a relative path, prepend it with $TMUX_CURRENT_DIR
+if [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
+    selected="$TMUX_CURRENT_DIR/$selected"
 fi
 
 tmux_running=$(pgrep tmux)
