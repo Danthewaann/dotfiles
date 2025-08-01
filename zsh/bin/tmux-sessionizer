@@ -63,8 +63,11 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
+# If this is the basename of TMUX_CURRENT_DIR use the absolute path
+if [[ "$selected" == $(basename "$TMUX_CURRENT_DIR") ]]; then
+    selected="$TMUX_CURRENT_DIR"
 # If this is a relative path, prepend it with $TMUX_CURRENT_DIR
-if [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
+elif [[ -n $selected ]] && [[ "${selected:0:1}" != "/" ]]; then
     selected="$TMUX_CURRENT_DIR/$selected"
 fi
 
