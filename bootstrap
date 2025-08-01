@@ -10,16 +10,16 @@ source "$SCRIPT_DIR"/common
 
 setup_gitconfig () {
     if ! [[ -f "$SCRIPT_DIR"/git/.gitconfig ]]; then
-        info 'setup gitconfig'
+        info "setup gitconfig"
 
-        git_credential='cache'
+        git_credential="cache"
         if [ "$(uname -s)" == "Darwin" ]; then
-            git_credential='osxkeychain'
+            git_credential="osxkeychain"
         fi
 
-        user ' - What is your github author name?'
+        user " - What is your github author name?"
         read -r -e git_authorname
-        user ' - What is your github author email?'
+        user " - What is your github author email?"
         read -r -e git_authoremail
 
         sed -e "s/AUTHORNAME/$git_authorname/g" \
@@ -27,7 +27,7 @@ setup_gitconfig () {
             -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" \
             "$SCRIPT_DIR"/git/.gitconfig.example > "$SCRIPT_DIR"/git/.gitconfig
 
-        success 'gitconfig'
+        success "gitconfig"
     fi
 }
 
@@ -62,10 +62,8 @@ install_symlinks () {
     done
 }
 
-echo ''
-
 setup_gitconfig
 install_symlinks
 
-echo ''
-echo 'All bootstrapped!'
+echo
+echo "All bootstrapped!"

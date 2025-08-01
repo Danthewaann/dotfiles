@@ -99,6 +99,20 @@ else
     run_command "installing bat" \
         "sudo dpkg -i $SCRIPT_DIR/bat.deb"
 
+    if [[ ! -d "$HOME/.keyd" ]]; then
+        run_command "downloading keyd" \
+            "git clone https://github.com/rvaiya/keyd $HOME/.keyd"
+    fi
+
+    cd "$HOME/.keyd"
+    run_command "installing keyd" \
+        "make && sudo make install"
+    run_command "starting keyd" \
+        "sudo systemctl enable --now keyd"
+    run_command "reloading keyd" \
+        "sudo keyd reload"
+    cd - > /dev/null
+
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
 
