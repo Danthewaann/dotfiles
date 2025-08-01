@@ -9,7 +9,7 @@ export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims${PATH+:$PATH}"
 # Allow cargo tools to be findable
 source "$HOME/.cargo/env"
 
-# Skip the global compinit that Ubuntu performs in favour of the one we perfom in `.zshrc`
+# Skip the global compinit that Ubuntu performs in favour of the one we perform in `.zshrc`
 #
 # From: https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=3664231#gistcomment-3664231
 skip_global_compinit=1

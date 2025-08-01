@@ -128,6 +128,9 @@ else
     run_command "installing i3" \
         "sudo apt install i3"
 
+    run_command "installing rofi" \
+        "sudo apt install rofi"
+
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
 
