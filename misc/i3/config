@@ -215,3 +215,10 @@ assign [class="kitty"] $ws1
 assign [class="Google-chrome"] $ws2
 exec --no-startup-id kitty
 exec --no-startup-id google-chrome
+
+# Only show the border for all windows (disables the title bar)
+for_window [all] border pixel 3
+
+# Hide borders on workspaces with only one window visible,
+# but keep them on workspaces with multiple windows visible
+hide_edge_borders smart
