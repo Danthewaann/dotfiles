@@ -150,4 +150,8 @@ configuration {
   }
 }
 
-@theme "dmenu"
+@theme "tokyonight"
+
+configuration {
+  font: "JetBrainsMono Nerd Font Medium 16";
+}

@@ -2,7 +2,7 @@
 
 set -e
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
@@ -130,6 +130,13 @@ else
 
     run_command "installing rofi" \
         "sudo apt install rofi"
+
+    if [[ ! -d "$HOME/rofi-collection" ]]; then
+        run_command "downloading rofi-collection" \
+            "git clone https://github.com/Murzchnvok/rofi-collection $HOME/rofi-collection"
+        run_command "installing rofi onedark theme" \
+            "mkdir -p $HOME/.local/share/rofi/themes && cp $HOME/rofi-collection/tokyonight/tokyonight.rasi $HOME/.local/share/rofi/themes"
+    fi
 
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
