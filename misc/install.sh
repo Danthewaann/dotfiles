@@ -151,8 +151,12 @@ else
             "cd $HOME/i3lock-color && ./install-i3lock-color.sh"
     fi
 
-    run_command "installing betterlockscreen" \
-        "wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system"
+    if [[ ! -d "$HOME/i3lock-fancy" ]]; then
+        run_command "downloading i3lock-fancy" \
+            "git clone https://github.com/meskarune/i3lock-fancy.git $HOME/i3lock-fancy"
+        run_command "installing i3lock-fancy" \
+            "cd $HOME/i3lock-fancy && sudo make install"
+    fi
 
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
