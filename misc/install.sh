@@ -141,6 +141,19 @@ else
     run_command "installing polybar" \
         "sudo apt install polybar"
 
+    run_command "installing imagemagick" \
+        "sudo apt install imagemagick"
+
+    if [[ ! -d "$HOME/i3lock-color" ]]; then
+        run_command "downloading i3lock-color" \
+            "git clone https://github.com/Raymo111/i3lock-color.git $HOME/i3lock-color"
+        run_command "installing i3lock-color" \
+            "cd $HOME/i3lock-color && ./install-i3lock-color.sh"
+    fi
+
+    run_command "installing betterlockscreen" \
+        "wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system"
+
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
 
