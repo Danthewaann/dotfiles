@@ -187,6 +187,9 @@ else
     run_command "installing rename" \
         "sudo apt-get install -y rename"
 
+    run_command "removing apport in ubuntu" \
+        "sudo apt purge apport"
+
     if ! inside_wsl; then
         run_command "installing xclip" \
             "sudo apt-get install -y xclip"
