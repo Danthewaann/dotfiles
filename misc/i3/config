@@ -219,3 +219,6 @@ hide_edge_borders smart
 
 # Start polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Setup keyrepeat
+exec_always --no-startup-id xset r rate 300 50

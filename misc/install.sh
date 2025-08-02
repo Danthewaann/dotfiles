@@ -167,7 +167,7 @@ else
             "sudo apt-get install -y xclip"
 
         run_command "setting up key-repeat" \
-            "xset r rate 200 60" \
+            "xset r rate 300 50" \
     else
         if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then
             run_command "downloading win32yank" \
