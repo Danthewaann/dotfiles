@@ -138,6 +138,9 @@ else
             "mkdir -p $HOME/.local/share/rofi/themes && cp $HOME/rofi-collection/tokyonight/tokyonight.rasi $HOME/.local/share/rofi/themes"
     fi
 
+    run_command "installing polybar" \
+        "sudo apt install polybar"
+
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
 
