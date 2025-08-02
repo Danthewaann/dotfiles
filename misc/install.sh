@@ -158,6 +158,12 @@ else
             "cd $HOME/i3lock-fancy && sudo make install"
     fi
 
+    run_command "installing brightnessctl" \
+        "sudo apt install brightnessctl "
+
+    run_command "chmoding brightnessctl" \
+        "sudo chmod +s /usr/bin/brightnessctl"
+
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
 
