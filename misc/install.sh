@@ -183,8 +183,9 @@ else
         run_command "installing xclip" \
             "sudo apt-get install -y xclip"
 
-        run_command "setting up key-repeat" \
-            "xset r rate 300 50" \
+        run_command "setting up key-repeat in gnome" \
+            "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
+            "gsettings set org.gnome.desktop.peripherals.keyboard delay 200"
     else
         if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then
             run_command "downloading win32yank" \
