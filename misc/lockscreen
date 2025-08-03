@@ -1,0 +1,54 @@
+#!/bin/sh
+
+BLANK="#00000000"
+DEFAULT="#8ebd6b"
+TEXT="#8ebd6b"
+WRONG="#8b3434"
+
+i3lock \
+	--insidever-color=$BLANK \
+	--ringver-color=$TEXT \
+	\
+	--insidewrong-color=$BLANK \
+	--ringwrong-color=$WRONG \
+	\
+	--inside-color=$BLANK \
+	--ring-color=$DEFAULT \
+	--line-color=$BLANK \
+	--separator-color=$DEFAULT \
+	\
+	--greeter-text="󰌾 Type password to unlock" \
+	--greeter-pos="ix:iy+300" \
+	--verif-text="Verifying..." \
+	--wrong-text="Wrong!" \
+	--noinput-text="No input" \
+	--lock-text="Locking..." \
+	--lockfailed-text="Lock failed!" \
+	\
+	--greeter-color=$TEXT \
+	--verif-color=$TEXT \
+	--wrong-color=$WRONG \
+	--time-color=$TEXT \
+	--date-color=$TEXT \
+	--layout-color=$TEXT \
+	--keyhl-color=$WRONG \
+	--bshl-color=$WRONG \
+	\
+	--greeter-font="HackNerdFont-Regular" \
+	--greeter-size="32" \
+	--verif-font="HackNerdFont-Regular" \
+	--verif-size="32" \
+	--wrong-font="HackNerdFont-Regular" \
+	--wrong-size="32" \
+	--time-font="HackNerdFont-Regular" \
+	--time-size="32" \
+	--date-font="HackNerdFont-Regular" \
+	--date-size="24" \
+	\
+	--screen 1 \
+	--blur 5 \
+	--clock \
+	--indicator \
+	--radius 160 \
+	--time-str="%H:%M:%S" \
+	--date-str="%A, %Y-%m-%d"

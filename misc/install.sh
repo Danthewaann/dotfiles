@@ -153,13 +153,6 @@ else
             "cd $HOME/i3lock-color && ./install-i3lock-color.sh"
     fi
 
-    if [[ ! -d "$HOME/i3lock-fancy" ]]; then
-        run_command "downloading i3lock-fancy" \
-            "git clone https://github.com/meskarune/i3lock-fancy.git $HOME/i3lock-fancy"
-        run_command "installing i3lock-fancy" \
-            "cd $HOME/i3lock-fancy && sudo make install"
-    fi
-
     run_command "installing brightnessctl" \
         "sudo apt install brightnessctl "
 
