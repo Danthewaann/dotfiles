@@ -153,8 +153,11 @@ else
             "cd $HOME/i3lock-color && ./install-i3lock-color.sh"
     fi
 
+    run_command "installing xautolock" \
+        "sudo apt install xautolock"
+
     run_command "installing brightnessctl" \
-        "sudo apt install brightnessctl "
+        "sudo apt install brightnessctl"
 
     run_command "chmoding brightnessctl" \
         "sudo chmod +s /usr/bin/brightnessctl"
