@@ -29,6 +29,9 @@ return {
           end)
         end,
       },
+      floating = {
+        border = "rounded"
+      },
       output = {
         open_on_run = false,
       },
