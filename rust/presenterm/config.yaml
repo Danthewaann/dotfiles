@@ -5,7 +5,7 @@ defaults:
   terminal_font_size: 16
 
   # the theme to use by default in every presentation unless overridden.
-  theme: terminal-dark
+  theme: my-terminal-dark
 
   # the image protocol to use.
   image_protocol: kitty-local
@@ -101,4 +101,3 @@ bindings:
 
   # the key binding to suspend the application.
   suspend: ["<c-z>"]
-
