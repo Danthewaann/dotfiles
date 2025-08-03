@@ -153,5 +153,5 @@ configuration {
 @theme "tokyonight"
 
 configuration {
-  font: "JetBrainsMono Nerd Font Medium 16";
+  font: "Hack Nerd Font Medium 16";
 }
