@@ -162,6 +162,19 @@ else
     run_command "chmoding brightnessctl" \
         "sudo chmod +s /usr/bin/brightnessctl"
 
+    if [[ ! -d "$HOME/picom" ]]; then
+        run_command "downloading picom" \
+            "git clone https://github.com/yshui/picom.git $HOME/picom"
+    fi
+
+    run_command "installing picom dependencies" \
+        "sudo apt-get install -y libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev meson ninja-build cmake uthash-dev"
+
+    cd "$HOME/picom"
+    run_command "installing picom" \
+        "meson setup --buildtype=release build && sudo ninja -C build install"
+    cd - >/dev/null
+
     run_command "installing openssh-server" \
         "sudo apt-get install -y openssh-server"
 

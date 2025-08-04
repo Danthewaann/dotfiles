@@ -20,3 +20,5 @@ echo "$SCRIPT_DIR/polybar" "$XDG_CONFIG_HOME/polybar"
 echo "$SCRIPT_DIR/lockscreen" "$HOME/.local/bin/lockscreen"
 
 echo "$SCRIPT_DIR/dunst" "$XDG_CONFIG_HOME/dunst"
+
+echo "$SCRIPT_DIR/picom" "$XDG_CONFIG_HOME/picom"
