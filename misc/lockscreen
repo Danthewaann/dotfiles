@@ -4,19 +4,19 @@ BLANK="#00000000"
 DEFAULT="#8ebd6b"
 TEXT="#8ebd6b"
 WRONG="#8b3434"
-DIM=00000080
+BG="#272731"
 
 i3lock \
-	--insidever-color=$DIM \
+	--insidever-color=$BG \
 	--ringver-color=$TEXT \
 	\
-	--insidewrong-color=$DIM \
+	--insidewrong-color=$BG \
 	--ringwrong-color=$WRONG \
 	\
-	--inside-color=$DIM \
+	--inside-color=$BG \
 	--ring-color=$DEFAULT \
 	--line-color=$BLANK \
-	--separator-color=$DIM \
+	--separator-color=$BG \
 	\
 	--greeter-text="󰌾 Type password to unlock" \
 	--greeter-pos="ix:iy+300" \
@@ -32,7 +32,7 @@ i3lock \
 	--time-color=$TEXT \
 	--date-color=$TEXT \
 	--layout-color=$TEXT \
-	--keyhl-color=$DIM \
+	--keyhl-color=$BG \
 	--bshl-color=$WRONG \
 	\
 	--greeter-font="HackNerdFont-Regular" \
