@@ -116,20 +116,20 @@ else
     if [[ ! -f "$SCRIPT_DIR/keyring.deb" ]]; then
         # From: https://i3wm.org/docs/repositories.html
         run_command "downloading i3 keyring" \
-            "/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2025.03.09_all.deb keyring.deb SHA256:2c2601e6053d5c68c2c60bcd088fa9797acec5f285151d46de9c830aaba6173c"
+            "/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2025.03.09_all.deb $SCRIPT_DIR/keyring.deb SHA256:2c2601e6053d5c68c2c60bcd088fa9797acec5f285151d46de9c830aaba6173c"
         run_command "installing i3 keyring" \
-            "sudo apt install $SCRIPT_DIR/keyring.deb"
+            "sudo apt-get install -y $SCRIPT_DIR/keyring.deb"
         run_command "adding i3 keyring to -> /etc/apt/sources.list.d/sur5r-i3.list" \
             "echo 'deb [signed-by=/usr/share/keyrings/sur5r-keyring.gpg] http://debian.sur5r.net/i3/ $(grep '^VERSION_CODENAME=' /etc/os-release | cut -f2 -d=) universe' | sudo tee /etc/apt/sources.list.d/sur5r-i3.list"
         run_command "updating apt" \
-            "sudo apt update"
+            "sudo apt-get update"
     fi
 
     run_command "installing i3" \
-        "sudo apt install i3"
+        "sudo apt-get install -y i3"
 
     run_command "installing rofi" \
-        "sudo apt install rofi"
+        "sudo apt-get install -y rofi"
 
     if [[ ! -d "$HOME/rofi-collection" ]]; then
         run_command "downloading rofi-collection" \
@@ -139,14 +139,14 @@ else
     fi
 
     run_command "installing polybar" \
-        "sudo apt install polybar"
+        "sudo apt-get install -y polybar"
 
     run_command "installing imagemagick" \
-        "sudo apt install imagemagick"
+        "sudo apt-get install -y imagemagick"
 
     if [[ ! -d "$HOME/i3lock-color" ]]; then
         run_command "installing i3lock-color dependencies" \
-            "sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev libgif-dev"
+            "sudo apt-get install -y autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev libgif-dev"
         run_command "downloading i3lock-color" \
             "git clone https://github.com/Raymo111/i3lock-color.git $HOME/i3lock-color"
         run_command "installing i3lock-color" \
@@ -154,10 +154,10 @@ else
     fi
 
     run_command "installing xautolock" \
-        "sudo apt install xautolock"
+        "sudo apt-get install -y xautolock"
 
     run_command "installing brightnessctl" \
-        "sudo apt install brightnessctl"
+        "sudo apt-get install -y brightnessctl"
 
     run_command "chmoding brightnessctl" \
         "sudo chmod +s /usr/bin/brightnessctl"
