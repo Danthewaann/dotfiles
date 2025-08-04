@@ -17,4 +17,4 @@ run_command "installing sleek - sql formatter" \
     "$HOME/.cargo/bin/cargo install sleek"
 
 run_command "installing presenterm - markdown slides in the terminal" \
-    "$HOME/.cargo/bin/cargo install presenterm --version 0.14.0"
+    "$HOME/.cargo/bin/cargo install presenterm --version 0.15.1"
