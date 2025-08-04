@@ -1,0 +1,19 @@
+[global]
+width = (100, 500)
+background = "#272731"
+foreground = "#a0a8b7"
+separator_color = "#535965"
+frame_width = 2
+font = "Hack 14"
+
+[base16_low]
+    msg_urgency = "low"
+    frame_color = "#e2b86b"
+
+[base16_normal]
+    msg_urgency = "normal"
+    frame_color = "#8ebd6b"
+
+[base16_critical]
+    msg_urgency = "critical"
+    frame_color = "#8b3434"

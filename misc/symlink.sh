@@ -18,3 +18,5 @@ echo "$SCRIPT_DIR/rofi" "$XDG_CONFIG_HOME/rofi"
 echo "$SCRIPT_DIR/polybar" "$XDG_CONFIG_HOME/polybar"
 
 echo "$SCRIPT_DIR/lockscreen" "$HOME/.local/bin/lockscreen"
+
+echo "$SCRIPT_DIR/dunst" "$XDG_CONFIG_HOME/dunst"

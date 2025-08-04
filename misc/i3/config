@@ -227,3 +227,6 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Setup keyrepeat
 exec_always --no-startup-id xset r rate 300 50
+
+# Start system notifications daemon
+exec_always --no-startup-id dunst
