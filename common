@@ -70,7 +70,7 @@ run_command() {
 }
 
 link_file() {
-    local src=$1 dst=$2
+    local src=$1 dst=$2 as_sudo=${3:-false}
 
     local overwrite=
     local backup=
@@ -133,7 +133,9 @@ link_file() {
     fi
 
     if [ "$skip" != "true" ]; then # "false" or empty
-        sudo ln -s "$1" "$2"
+        cmd="ln"
+        if [ "$as_sudo" == "true" ]; then cmd="sudo $cmd"; fi
+        $cmd -s "$1" "$2"
         success "linked $1 to $2"
     fi
 }

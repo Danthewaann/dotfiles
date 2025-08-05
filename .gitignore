@@ -10,6 +10,7 @@ Session.vim
 .tmux-save-sessions
 .secretsrc
 tmux/tmux-*/
+__pycache__
 
 zsh/completions/*
 !zsh/completions/_gitw-add

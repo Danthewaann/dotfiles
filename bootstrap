@@ -53,7 +53,7 @@ install_symlinks () {
                 while IFS=$'\n' read -r line; do lines+=("$line"); done < <(echo "$link" | tr "\n" "\n")
                 for line in "${lines[@]}"; do
                     IFS=" " read -r -a parts <<< "$line"
-                    link_file "${parts[0]}" "${parts[1]}"
+                    link_file "${parts[0]}" "${parts[1]}" "${parts[@]:2}"
                 done
             done
             info ""
