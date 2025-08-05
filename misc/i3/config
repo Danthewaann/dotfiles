@@ -234,3 +234,6 @@ exec_always --no-startup-id xset r rate 300 50
 
 # Start the picom compositor
 exec --no-startup-id picom -b
+
+# If GNOME is available, theme choices you've made with gnome-tweaks should work for gtk-enabled applications.
+exec --no-startup-id /usr/libexec/gsd-xsettings
