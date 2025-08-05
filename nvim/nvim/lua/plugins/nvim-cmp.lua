@@ -100,6 +100,15 @@ return {
         ["<S-Tab>"] = { c = cmp.config.disable },
         ["<C-space>"] = { c = function() cmp.complete() end },
         ["<C-q>"] = { c = cmp.mapping.abort() },
+        ["<CR>"] = {
+          c = function(fallback)
+            if cmp.visible() then
+              cmp.confirm()
+            else
+              fallback()
+            end
+          end
+        },
       }),
       matching = { disallow_symbol_nonprefix_matching = false },
       sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
@@ -128,6 +137,17 @@ return {
         ["<S-Tab>"] = { c = cmp.config.disable },
         ["<C-space>"] = { c = function() cmp.complete() end },
         ["<C-q>"] = { c = cmp.mapping.abort() },
+        ["<CR>"] = {
+          c = function(fallback)
+            if cmp.visible() then
+              cmp.confirm()
+              -- Press enter to start the search
+              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "c", false)
+            else
+              fallback()
+            end
+          end
+        },
       }),
       sources = { { name = "buffer" } },
     })
