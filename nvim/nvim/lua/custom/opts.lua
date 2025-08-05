@@ -113,9 +113,12 @@ vim.o.wildmode = "longest:full,full"
 
 -- Setup project specific shada file to store marks, history
 -- for just the current project if we can create the `.vim` folder.
-if #vim.v.argv == 2 then
-  vim.opt.shadafile = ".vim/project.shada"
-else
-  -- Disable the shadafile in all other cases
-  vim.opt.shadafile = "NONE"
-end
+vim.schedule(function()
+  -- If the current directory is writable and we are just running `nvim` with no arguements
+  if #vim.v.argv == 2 and vim.uv.fs_access(vim.uv.cwd(), "W") then
+    vim.opt.shadafile = ".vim/project.shada"
+  else
+    -- Disable the shadafile in all other cases
+    vim.opt.shadafile = "NONE"
+  end
+end)
