@@ -15,4 +15,8 @@ echo "$SCRIPT_DIR/OneDark.conf" "$XDG_CONFIG_HOME/kitty/OneDark.conf"
 
 echo "$SCRIPT_DIR/kitty.conf" "$XDG_CONFIG_HOME/kitty/kitty.conf"
 
+if [[ $OSTYPE != "darwin"* ]]; then
+    echo "$SCRIPT_DIR/linux-laptop-kitty.conf" "$XDG_CONFIG_HOME/kitty/linux-laptop-kitty.conf"
+fi
+
 echo "$SCRIPT_DIR/kitty-startup.session" "$XDG_CONFIG_HOME/kitty/kitty-startup.session"
