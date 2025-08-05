@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+session="$1"
+
+if ! tmux has-session -t "$session" 2>/dev/null; then
+	tmux new-session -d -s "$session" -c "$HOME"
+fi
+
+if ! grep -E "$session" "$HOME/.tmux-save-sessions"; then
+	echo "$session" >>"$HOME/.tmux-save-sessions"
+fi
+
+tmux switch-client -t "$session"
