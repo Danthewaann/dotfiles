@@ -40,11 +40,11 @@ vim.o.equalalways = true
 vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.o.undofile = true
 
--- Don't highlight searches
-vim.o.hlsearch = false
+-- Highlight searches
+vim.o.hlsearch = true
 
--- Don't highlight incremental searches
-vim.o.incsearch = false
+-- Highlight incremental searches
+vim.o.incsearch = true
 
 -- Enable 256 colours
 vim.o.termguicolors = true
