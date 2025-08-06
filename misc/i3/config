@@ -141,8 +141,8 @@ bindsym $mod+minus scratchpad show
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1:terminal"
 set $ws2 "2:web"
-set $ws3 "3:misc"
-set $ws4 "4"
+set $ws3 "3:mail"
+set $ws4 "4:misc"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -213,11 +213,13 @@ focus_on_window_activation focus
 # Automatically start some programs on first boot
 assign [class="kitty"] $ws1
 assign [class="Google-chrome"] $ws2
+assign [class="thunderbird-esr"] $ws3
 exec --no-startup-id kitty
 exec --no-startup-id google-chrome
+exec --no-startup-id thunderbird
 
-# Assign all other windows to workspace 3
-assign [class=".*"] $ws3
+# Assign all other windows to workspace 4
+assign [class=".*"] $ws4
 
 # Only show the border for all windows (disables the title bar)
 for_window [all] border pixel 3
