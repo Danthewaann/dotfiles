@@ -4,7 +4,7 @@ background = "#272731"
 foreground = "#a0a8b7"
 separator_color = "#535965"
 frame_width = 2
-font = "Hack 14"
+font = "Hack 10"
 
 [base16_low]
     msg_urgency = "low"
