@@ -1,9 +1,9 @@
 [global]
 width = (100, 500)
-background = "#272731"
+background = "#1a1d21"
 foreground = "#a0a8b7"
 separator_color = "#535965"
-frame_width = 2
+frame_width = 1
 font = "Hack 10"
 
 [base16_low]

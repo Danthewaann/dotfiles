@@ -4,7 +4,7 @@ BLANK="#00000000"
 DEFAULT="#8ebd6b"
 TEXT="#8ebd6b"
 WRONG="#8b3434"
-BG="#272731"
+BG="#1a1d21"
 
 i3lock \
 	--insidever-color=$BG \
