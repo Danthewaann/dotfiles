@@ -16,5 +16,8 @@ export IGNORE_ERRORS=1
 # Each array memeber corresponds to the directory that contains the appropriate install.sh script
 export MODULES=(git misc zsh node python golang rust fonts docker tmux nvim vim)
 
+# Change this to 1 to install latex (it can take quite a long time to install)
+export INSTALL_LATEX=0
+
 # Change to 1 to enable debug logging
 export DEBUG=0

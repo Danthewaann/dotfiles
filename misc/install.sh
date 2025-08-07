@@ -197,7 +197,7 @@ else
         "sudo apt-get install -y rename"
 
     run_command "removing apport in ubuntu" \
-        "sudo apt purge apport"
+        "sudo apt-get purge apport"
 
     if ! inside_wsl; then
         run_command "installing xclip" \
@@ -216,5 +216,10 @@ else
                 "chmod +x $SCRIPT_DIR/win32yank.exe" \
                 "sudo mv $SCRIPT_DIR/win32yank.exe /usr/local/bin/"
         fi
+    fi
+
+    if [[ "$INSTALL_LATEX" -eq 1 ]]; then
+        run_command "installing latex" \
+            "sudo apt-get install -y texlive-full"
     fi
 fi
