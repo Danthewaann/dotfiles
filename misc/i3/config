@@ -222,7 +222,7 @@ exec --no-startup-id thunderbird
 assign [class=".*"] $ws4
 
 # Only show the border for all windows (disables the title bar)
-for_window [all] border pixel 3
+for_window [all] border pixel 1
 
 # Hide borders on workspaces with only one window visible,
 # but keep them on workspaces with multiple windows visible
@@ -239,3 +239,12 @@ exec --no-startup-id picom -b
 
 # If GNOME is available, theme choices you've made with gnome-tweaks should work for gtk-enabled applications.
 exec --no-startup-id /usr/libexec/gsd-xsettings
+
+# Add colours for windows
+# class                 border  backgr. text    indicator child_border
+client.focused          #8ebd6b #1a1d21 #a0a8b7 #2e9ef4   #8ebd6b
+client.focused_inactive #272731 #1a1d21 #a0a8b7 #484e50   #272731
+client.unfocused        #272731 #1a1d21 #535965 #292d2e   #272731
+client.urgent           #2f343a #1a1d21 #a0a8b7 #900000   #2f343a
+client.placeholder      #000000 #1a1d21 #a0a8b7 #000000   #000000
+client.background       #1a1d21
