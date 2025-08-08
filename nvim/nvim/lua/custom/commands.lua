@@ -55,15 +55,6 @@ vim.api.nvim_create_user_command("Ruff", function()
     end)
 end, { desc = "Run Ruff and populate quickfix list with errors" })
 
-vim.api.nvim_create_user_command("ProjectLint", function()
-  local cmd = utils.get_project_linting_cmd()
-  if cmd ~= nil then
-    utils.run_command_in_term(table.concat(cmd, " "))
-  else
-    utils.print_err("No linters found for project!")
-  end
-end, { desc = "Run project linters" })
-
 vim.api.nvim_create_user_command("CreateJournalEntry", function()
   local template
   local workspace = os.getenv("TMUX_CURRENT_DIR")

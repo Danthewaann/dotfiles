@@ -1,7 +1,5 @@
 local module = {}
 
-local python_venv = nil
-
 -- From: https://github.com/nvim-telescope/telescope.nvim/issues/1923#issuecomment-1122642431
 module.get_visual_selection = function()
   vim.cmd('noau normal! "vy"')
@@ -38,34 +36,6 @@ end
 
 module.file_exists = function(filename)
   return vim.uv.fs_stat(filename)
-end
-
-module.get_project_linting_cmd = function()
-  local cmd = {}
-  local file = ""
-
-  if module.file_exists("poetry.lock") then
-    cmd = { "poetry", "run" }
-  else
-    return nil
-  end
-
-  if module.file_exists("scripts/lint.sh") then
-    file = "scripts/lint.sh"
-  else
-    return nil
-  end
-
-  cmd[#cmd + 1] = file
-  return cmd
-end
-
-module.run_command_in_term = function(args, use_tmux)
-  if use_tmux then
-    vim.cmd(":Tmux " .. args)
-  else
-    vim.fn["test#strategy#neovim_sticky"](args)
-  end
 end
 
 module.print = function(msg)
@@ -174,16 +144,6 @@ module.dmypy_args = function(include_cmd)
   table.insert(args, "--no-pretty")
 
   return args
-end
-
-module.get_cursor_position = function(path)
-  local filename_modifier = vim.g["test#filename_modifier"] or ":."
-  local position = {
-    file = vim.fn.fnamemodify(path, filename_modifier),
-    line = path == vim.fn.expand("%") and vim.fn.line(".") or 1,
-    col = path == vim.fn.expand("%") and vim.fn.col(".") or 1,
-  }
-  return position
 end
 
 -- filetypes to ignore for plugins
