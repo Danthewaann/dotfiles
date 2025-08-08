@@ -211,6 +211,10 @@ bindsym $mod+r mode "resize"
 focus_on_window_activation focus
 
 # Automatically start some programs on first boot
+#
+# Use `xprop` to find the WM_CLASS(STRING) values
+# The first value is the instance, the second value is the class
+# e.g. WM_CLASS(STRING) = "google-chrome", "Google-chrome"
 assign [class="kitty"] $ws1
 assign [class="Google-chrome"] $ws2
 assign [class="thunderbird-esr"] $ws3
