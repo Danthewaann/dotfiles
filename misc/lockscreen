@@ -19,7 +19,7 @@ i3lock \
 	--separator-color=$BG \
 	\
 	--greeter-text="󰌾 Type password to unlock" \
-	--greeter-pos="ix:iy+300" \
+	--greeter-pos="ix:iy+60" \
 	--verif-text="Verifying..." \
 	--wrong-text="Wrong!" \
 	--noinput-text="No input" \
@@ -36,7 +36,7 @@ i3lock \
 	--bshl-color=$WRONG \
 	\
 	--greeter-font="HackNerdFont-Regular" \
-	--greeter-size="28" \
+	--greeter-size="16" \
 	--verif-font="HackNerdFont-Regular" \
 	--verif-size="28" \
 	--wrong-font="HackNerdFont-Regular" \
@@ -51,6 +51,6 @@ i3lock \
 	--clock \
 	--indicator \
 	--radius 160 \
-	--ring-width 12.0 \
+	--ring-width 6.0 \
 	--time-str="%H:%M:%S" \
 	--date-str="%A, %Y-%m-%d"
