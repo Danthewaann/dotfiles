@@ -19,7 +19,7 @@ i3lock \
 	--separator-color=$BG \
 	\
 	--greeter-text="󰌾 Type password to unlock" \
-	--greeter-pos="ix:iy+60" \
+	--greeter-pos="ix:iy+50" \
 	--verif-text="Verifying..." \
 	--wrong-text="Wrong!" \
 	--noinput-text="No input" \
@@ -43,6 +43,7 @@ i3lock \
 	--wrong-size="28" \
 	--time-font="HackNerdFont-Regular" \
 	--time-size="28" \
+	--time-pos="ix:iy-20" \
 	--date-font="HackNerdFont-Regular" \
 	--date-size="18" \
 	\
