@@ -24,8 +24,9 @@ vim.keymap.set("x", "/", "<Esc>/\\%V", { desc = "Search inside visual selection"
 -- Keep the cursor in the same place when joining lines
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join with line below" })
 
--- Yank, comment out and paste the current line.
+-- Yank, comment out and paste the current line or current selection.
 vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { desc = "Yank, comment out and paste line below" })
+vim.keymap.set("v", "yc", "ygv<cmd>normal gcc<CR>p", { desc = "Yank, comment out and paste the current selection below" })
 
 -- Go to the start and end of the line
 vim.keymap.set({ "n", "v", "x", "o" }, "H", "^", { desc = "Jump to first non-blank character in line" })
