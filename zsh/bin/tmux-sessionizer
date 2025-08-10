@@ -10,13 +10,13 @@ if [[ $# -gt 0 ]]; then
         # If this parent directory for the selected directory is a bare git repository,
         # prepend the parent directory to the selected directory.
         selected_session=$(basename "$(dirname "$selected")")/$(basename "$selected")
-        selected_session=$(tr . _ <<<"$selected_session")
+        selected_session=${selected_session/./_}
     else
         selected_session=$(basename "$selected" | tr . _)
     fi
 else
     current_session=$(tmux display-message -p | sed -e 's/^\[//' -e 's/\].*//')
-    current_session=$(tr _ . <<<"$current_session")
+    current_session=${current_session/./_}
 
     base_dir=$(basename "$TMUX_CURRENT_DIR")
     default_sessions=()
@@ -45,9 +45,10 @@ else
     while IFS=$'\n' read -r line; do sessions+=("* $line"); done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" | sort --numeric-sort --reverse | cut -d' ' -f2)
 
     for session in "${default_sessions[@]}"; do
-        # If a location appears in the active sessions, we skip it
+        # If a location appears in the active sessions or it is the current session, we skip it
+        escaped_session=${session/./_}
         # shellcheck disable=SC2076
-        if [[ " ${sessions[*]} " =~ " $session " ]]; then
+        if [[ " ${sessions[*]} " =~ " $escaped_session " ]] || [[ "$escaped_session" == "$current_session" ]]; then
             continue
         fi
         sessions+=("$session")
