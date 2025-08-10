@@ -106,7 +106,7 @@ vim.opt.whichwrap:append("<>[]hl")
 
 -- Make the jumplist not confusing sometimes
 -- Also remove unloaded buffers from the jumplist
-vim.opt.jumpoptions = {"stack", "clean"}
+vim.opt.jumpoptions = { "stack", "clean" }
 
 -- Command-line completion mode
 vim.o.wildmenu = false
