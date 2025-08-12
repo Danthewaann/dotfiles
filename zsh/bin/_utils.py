@@ -144,7 +144,7 @@ def update_python_deps() -> None:
         if os.getenv("VIRTUAL_ENV"):
             subprocess.run(["deactivate"])
         subprocess.run(["poetry", "install", "--all-extras"])
-    elif pathlib.Path("pyproject.lock").exists():
+    elif pathlib.Path("pyproject.toml").exists():
         print(file=sys.stderr)
         info("Running uv pip install with pyproject.toml...")
         print(file=sys.stderr)
