@@ -99,25 +99,7 @@ if proc.returncode != 0:
 os.chdir(converted_name)
 
 # Post checkout steps
-if pathlib.Path("poetry.lock").exists():
-    print(file=sys.stderr)
-    _utils.info("Running poetry install...")
-    print(file=sys.stderr)
-    # We need to deactivate the current virtual environment otherwise poetry install
-    # will install packages into the current virtual environment instead of the new
-    # one we want to create for the new worktree.
-    if os.getenv("VIRTUAL_ENV"):
-        subprocess.run(["deactivate"])
-    subprocess.run(["poetry", "install", "--all-extras"])
-elif pathlib.Path("pyproject.toml").exists():
-    print(file=sys.stderr)
-    _utils.info("Running uv pip install with pyproject.toml...")
-    print(file=sys.stderr)
-    subprocess.run(["uv", "venv"])
-    # Install the project and all optional dependencies
-    subprocess.run(
-        ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"]
-    )
+_utils.update_python_deps()
 
 print(file=sys.stderr)
 _utils.success("Successfully created worktree!")
