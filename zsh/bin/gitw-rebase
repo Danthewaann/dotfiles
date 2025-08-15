@@ -22,7 +22,9 @@ if _utils.inside_worktree():
 
     print(file=sys.stderr)
     _utils.info(f"Rebasing with '{branch} branch...")
-    _utils.run_git_rebase(branch)
+    proc = _utils.run_git_rebase(branch)
+    if proc.returncode != 0:
+        sys.exit(1)
     _utils.update_python_deps()
 else:
     print(file=sys.stderr)

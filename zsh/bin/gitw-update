@@ -25,5 +25,7 @@ status = subprocess.check_output(
 )
 print(status, file=sys.stderr)
 if "up to date" not in status:
-    _utils.run_git_pull()
+    proc = _utils.run_git_pull()
+    if proc.returncode != 0:
+        sys.exit(1)
     _utils.update_python_deps()

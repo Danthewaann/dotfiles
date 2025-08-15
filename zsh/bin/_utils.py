@@ -102,7 +102,7 @@ def get_current_branch() -> str:
     ).strip()
 
 
-def run_command(cmd: list[str | StrPath]) -> None:
+def run_command(cmd: list[str | StrPath]) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(
         cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
@@ -112,23 +112,25 @@ def run_command(cmd: list[str | StrPath]) -> None:
     if proc.stdout:
         log(proc.stdout.rstrip())
 
+    return proc
 
-def run_git_fetch() -> None:
+
+def run_git_fetch() -> subprocess.CompletedProcess[str]:
     info("Running git fetch...")
-    run_command(
+    return run_command(
         ["git", "-c", "color.ui=always", "fetch"],
     )
 
 
-def run_git_pull() -> None:
-    run_command(
+def run_git_pull() -> subprocess.CompletedProcess[str]:
+    return run_command(
         ["git", "-c", "color.ui=always", "pull", "--no-all"],
     )
 
 
-def run_git_rebase(branch: str | None = None) -> None:
+def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch()
-    run_command(
+    return run_command(
         ["git", "-c", "color.ui=always", "rebase", branch],
     )
 
