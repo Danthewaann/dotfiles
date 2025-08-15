@@ -143,11 +143,18 @@ def update_python_deps() -> None:
         # We need to deactivate the current virtual environment otherwise poetry install
         # will install packages into the current virtual environment instead of the new
         # one we want to create for the new worktree.
-        if os.getenv("VIRTUAL_ENV"):
-            subprocess.run(["deactivate"])
-        subprocess.run(["poetry", "install", "--all-extras"])
+        env = os.environ
+        if env.get("VIRTUAL_ENV"):
+            # Create a copy of the current environment
+            env = os.environ.copy()
+            # Remove virtual environment-specific variables
+            env.pop("VIRTUAL_ENV", None)
+            env.pop("PYTHONHOME", None)
+            env.pop("PYTHONPATH", None)
+
+        subprocess.run(["poetry", "install", "--all-extras"], env=env)
     elif pathlib.Path("pyproject.toml").exists():
         print(file=sys.stderr)
-        info("Running uv pip install with pyproject.toml...")
+        info("Running uv sync...")
         print(file=sys.stderr)
         subprocess.run(["uv", "sync", "--all-extras"])

@@ -23,14 +23,6 @@ if branch_name.startswith("origin/"):
 # Convert all forward slashes to dashes and dots to underscores as tmux sessions can't contain dots
 converted_name = branch_name.replace("/", "-").replace(".", "_")
 
-# If we are inside a python virtual environment, we need to source the
-# activate script to allow us to run the deactivate script later
-# when checking out a repo that contains a `poetry.lock` file.
-if os.getenv("VIRTUAL_ENV"):
-    activate_script = pathlib.Path(".venv/bin/activate")
-    if activate_script.exists():
-        subprocess.run(["source", activate_script], check=True)
-
 # If we are already inside a worktree change directory to the bare repo
 if _utils.inside_worktree():
     base_repo = _utils.get_worktree()
