@@ -150,7 +150,4 @@ def update_python_deps() -> None:
         print(file=sys.stderr)
         info("Running uv pip install with pyproject.toml...")
         print(file=sys.stderr)
-        subprocess.run(["uv", "venv"])
-        subprocess.run(
-            ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"]
-        )
+        subprocess.run(["uv", "sync", "--all-extras"])
