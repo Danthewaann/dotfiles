@@ -62,13 +62,13 @@ vim.api.nvim_create_user_command("CreateJournalEntry", function()
     template = workspace .. "/notes/journal/template.md"
   end
 
-  vim.ui.input({ prompt = "Enter year", default = os.date("%Y") }, function(input)
+  vim.ui.input({ prompt = "Enter year: ", default = os.date("%Y") }, function(input)
     if input == nil then
       return
     end
 
     local year = input
-    vim.ui.input({ prompt = "Enter week", default = os.date("%W") }, function(input2)
+    vim.ui.input({ prompt = "Enter week: ", default = os.date("%W") }, function(input2)
       if input2 == nil then
         return
       end
