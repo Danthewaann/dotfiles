@@ -6,7 +6,7 @@ export NODE_VERSION=20.4.0
 export GO_VERSION=1.23.5
 export RUBY_VERSION=3.3.2
 export TMUX_VERSION=3.5a
-export NVIM_VERSION=v0.11.3
+export NVIM_VERSION=v0.11.4
 
 # Change to 0 to stop the main installer on the first error it encounters instead of continuing
 export IGNORE_ERRORS=1
