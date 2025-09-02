@@ -78,12 +78,11 @@ return {
         end
         vim.cmd(":DiffviewOpen origin/" .. base_branch .. "...HEAD --imply-local")
       elseif arg == "raw" then
-        vim.cmd("new git diff | read! git diff")
+        vim.cmd("new git diff | normal ggdG")
+        vim.cmd("read! git diff")
         vim.cmd("set filetype=diff | only | normal ggdd")
         local buf = vim.api.nvim_get_current_buf()
         vim.bo[buf].modified = false
-        vim.bo[buf].modifiable = false
-        vim.bo[buf].buflisted = false
       elseif arg == "raw-origin" then
         local obj = vim.system({ "git-get-base-branch" }):wait()
         if obj.code ~= 0 then
@@ -91,12 +90,11 @@ return {
           return
         end
         local base_branch = vim.fn.trim(obj.stdout)
-        vim.cmd("new git diff " .. base_branch .. " | read! git diff " .. base_branch)
+        vim.cmd("new git diff " .. base_branch .. " | normal ggdG")
+        vim.cmd("read! git diff " .. base_branch)
         vim.cmd("set filetype=diff | only | normal ggdd")
         local buf = vim.api.nvim_get_current_buf()
         vim.bo[buf].modified = false
-        vim.bo[buf].modifiable = false
-        vim.bo[buf].buflisted = false
       elseif arg == "file-history" then
         vim.cmd(":DiffviewFileHistory --max-count=10000")
       elseif arg == "cur-file-history" then
