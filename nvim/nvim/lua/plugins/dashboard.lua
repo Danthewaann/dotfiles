@@ -4,6 +4,7 @@ return {
   config = function()
     ---@diagnostic disable-next-line: param-type-mismatch
     local dir = vim.fn.fnamemodify(vim.loop.cwd(), ":~:.")
+    local version = vim.version()
     require("dashboard").setup {
       config = {
         header = {
@@ -21,7 +22,9 @@ return {
         shortcut = {},
         project = { enable = false },
         mru = { enable = false },
-        footer = {},
+        footer = {
+          "Version: " .. string.format("%d.%d.%d", version.major, version.minor, version.patch),
+        },
       },
     }
   end,
