@@ -91,6 +91,7 @@ alias pv='gh pr view --web'
 alias rv='gh repo view --web'
 alias tv='ticket-open'
 alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
+alias gap='git-apply-patch'
 function d () { output=$(git diff); if [[ -n $output ]]; then git diff -w | nvim -R -; fi; }
 function ds () { git --no-pager diff --shortstat | trim }
 function db () { branch=${1:-origin/$(git-get-base-branch)}..HEAD; output=$(git diff $branch); if [[ -n $output ]]; then git diff $branch | nvim -R -; fi; }
@@ -116,8 +117,6 @@ function b64e () { echo -n "$1" | base64 }
 function b64d () { echo -n "$1" | base64 -D; echo }
 function uuid4 () { python -c "import uuid; print(str(uuid.uuid4()))" }
 
-# Git apply patch from clipboard
-function gap () { patch="$(pbpaste)\n"; echo "$patch" | git apply - }
 # Check what is running at a given port
 function checkport () { sudo lsof -i tcp:"$1" }
 function tmux {

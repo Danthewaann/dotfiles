@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+import platform
+import subprocess
+
+if platform.system() == "Darwin":
+    command = "pbpaste"
+else:
+    command = ["xclip", "-selection", "clipboard", "-o"]
+
+patch = subprocess.check_output(command, text=True)
+
+subprocess.run(["git", "apply", "-"], text=True, input=patch)
