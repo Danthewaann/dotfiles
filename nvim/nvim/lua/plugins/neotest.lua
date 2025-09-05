@@ -13,7 +13,7 @@ return {
     require("neotest").setup({
       adapters = {
         require("neotest-python")({
-          -- Run tests with the highest level of verbosity and 
+          -- Run tests with the highest level of verbosity and
           -- don't color the output as neovim doesn't interpret colour escape codes
           args = { "-vvv", "--color=no" },
           -- Discover parametrized tests
@@ -22,12 +22,8 @@ return {
         require("neotest-golang")
       },
       quickfix = {
-        enabled = true,
-        open = function()
-          vim.schedule(function()
-            vim.cmd(":botright copen | wincmd p")
-          end)
-        end,
+        enabled = false,
+        open = false,
       },
       floating = {
         border = "rounded"
