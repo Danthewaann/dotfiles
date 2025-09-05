@@ -1,11 +1,8 @@
 local utils = require("custom.utils")
 local tmux = require("custom.tmux")
 
-local prefer_makefile = true
-local use_neotest = true
-local use_neovim_term = false
-local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
-
+local test_strategies = { "neotest", "nvim", "tmux" }
+local cur_test_strategy = 1
 local setup_runners = false
 
 local function setup_test_runners()
@@ -32,6 +29,7 @@ local function setup_test_runners()
   }
   local custom_runners = {}
   local enabled_runners = {}
+  local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
 
   for runner, data in pairs(test_runners) do
     custom_runners[runner] = { data.custom }
@@ -72,11 +70,6 @@ end
 return {
   "vim-test/vim-test",
   config = function()
-    if use_neovim_term then
-      vim.g["test#strategy"] = "neovim_sticky"
-    else
-      vim.g["test#strategy"] = "tmux"
-    end
     vim.g["test#neovim#term_position"] = "botright 15"
     vim.g["test#neovim_sticky#kill_previous"] = 1
     vim.g["test#neovim_sticky#reopen_window"] = 1
@@ -88,15 +81,21 @@ return {
     {
       "<leader>tT",
       function()
-        if use_neovim_term then
-          vim.g["test#strategy"] = "tmux"
-          utils.print("Toggling tmux terminal")
-        else
-          vim.g["test#strategy"] = "neovim_sticky"
-          utils.print("Toggling nvim terminal")
+        cur_test_strategy = cur_test_strategy + 1
+        if cur_test_strategy > #test_strategies then
+          cur_test_strategy = 1
         end
 
-        use_neovim_term = not use_neovim_term
+        local new_strategy = test_strategies[cur_test_strategy]
+        if new_strategy == "nvim" then
+          vim.g["test#strategy"] = "neovim_sticky"
+          utils.print("Using nvim test strategy")
+        elseif new_strategy == "tmux" then
+          vim.g["test#strategy"] = "tmux"
+          utils.print("Using tmux test strategy")
+        else
+          utils.print("Using neotest test strategy")
+        end
       end,
       desc = "[T]est [T]oggle Strategy"
     },
@@ -105,7 +104,8 @@ return {
       function()
         setup_test_runners()
 
-        if not use_neotest or (prefer_makefile and has_makefile) then
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "nvim" or test_strategy == "tmux" then
           vim.cmd(":TestNearest")
         else
           local extra_args = {}
@@ -123,13 +123,16 @@ return {
       function()
         setup_test_runners()
 
-        if use_neotest then
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "neotest" then
           local extra_args = {}
           local buf = vim.api.nvim_get_current_buf()
           if vim.bo[buf].filetype == "python" then
             extra_args = { "-vvv" }
           end
           require("neotest").run.run({ extra_args = extra_args, strategy = "dap" })
+        else
+          utils.print_err("Debugging not supported with current test strategy: " .. test_strategy)
         end
       end,
       desc = "[T]est [D]ebug Nearest"
@@ -139,7 +142,8 @@ return {
       function()
         setup_test_runners()
 
-        if not use_neotest or (prefer_makefile and has_makefile) then
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "nvim" or test_strategy == "tmux" then
           vim.cmd(":TestFile")
         else
           require("neotest").run.run(vim.fn.expand("%"))
@@ -152,7 +156,8 @@ return {
       function()
         setup_test_runners()
 
-        if not use_neotest or (prefer_makefile and has_makefile) then
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "nvim" or test_strategy == "tmux" then
           vim.cmd(":TestSuite")
         else
           require("neotest").run.run({ suite = true })
@@ -186,7 +191,13 @@ return {
       "<leader>tc",
       function()
         setup_test_runners()
-        vim.cmd(":TestClass")
+
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "nvim" or test_strategy == "tmux" then
+          vim.cmd(":TestClass")
+        else
+          utils.print_err("Test class not supported with current test strategy: " .. test_strategy)
+        end
       end,
       desc = "[T]est [C]lass"
     },
@@ -195,7 +206,8 @@ return {
       function()
         setup_test_runners()
 
-        if not use_neotest or (prefer_makefile and has_makefile) then
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "nvim" or test_strategy == "tmux" then
           vim.cmd(":TestLast")
         else
           require("neotest").run.run_last()
@@ -208,7 +220,8 @@ return {
       function()
         setup_test_runners()
 
-        if not use_neotest or (prefer_makefile and has_makefile) then
+        local test_strategy = test_strategies[cur_test_strategy]
+        if test_strategy == "nvim" or test_strategy == "tmux" then
           vim.cmd(":TestVisit")
         else
           local test, _ = require("neotest").run.get_last_run()
