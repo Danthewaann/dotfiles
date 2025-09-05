@@ -106,7 +106,7 @@ vim.keymap.set("n", "g<M-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item"
 vim.keymap.set("n", "g<M-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Close window
-vim.keymap.set("n", "<C-q>", "<cmd> quit<CR>", { desc = "Close the current window" })
+vim.keymap.set("n", "<Esc><Esc>", "<cmd> quit<CR>", { desc = "Close the current window" })
 
 -- Close tab
 vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
@@ -115,7 +115,7 @@ vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the
 vim.keymap.set({ "n", "t" }, "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
 
 -- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
 
 -- Tab navigation
@@ -142,7 +142,7 @@ vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Mo
 vim.keymap.set({ "n", "t" }, "<C-w><C-c>", "<Nop>")
 
 -- Toggle highlight search
-vim.keymap.set({ "n" }, "<Esc>", ":set hls!<CR>", { silent = true })
+vim.keymap.set({ "n" }, "gl", ":set hls!<CR>", { silent = true })
 
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
@@ -240,27 +240,6 @@ vim.keymap.set("n", "<leader>tb", function()
     utils.print_err(vim.fn.trim(obj.stderr))
   end
 end, { desc = "Open [T]erminal in current [B]uffer directory" })
-
--- Folds
-vim.keymap.set("n", "gl", function()
-  local line = vim.fn.line(".")
-  local foldlevel = vim.fn.foldlevel(line)
-  if foldlevel == 0 then
-    vim.notify("No fold found", vim.log.levels.INFO)
-  else
-    vim.cmd("normal! za")
-  end
-end, { desc = "Toggle fold" })
-
-vim.keymap.set("n", "gL", function()
-  local line = vim.fn.line(".")
-  local foldlevel = vim.fn.foldlevel(line)
-  if foldlevel == 0 then
-    vim.notify("No fold found", vim.log.levels.INFO)
-  else
-    vim.cmd("normal! zA")
-  end
-end, { desc = "Toggle fold recursively" })
 
 -- Spelling
 vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
