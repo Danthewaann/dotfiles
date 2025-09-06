@@ -22,7 +22,7 @@ return {
         require("neotest-golang")
       },
       quickfix = {
-        enabled = false,
+        enabled = true,
         open = false,
       },
       floating = {
