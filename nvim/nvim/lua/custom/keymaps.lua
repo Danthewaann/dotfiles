@@ -105,9 +105,6 @@ end, { desc = "Jump to previous qf item" })
 vim.keymap.set("n", "g<M-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
 vim.keymap.set("n", "g<M-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
--- Close window
-vim.keymap.set("n", "<Esc><Esc>", "<cmd> quit<CR>", { desc = "Close the current window" })
-
 -- Close tab
 vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 
@@ -142,7 +139,7 @@ vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Mo
 vim.keymap.set({ "n", "t" }, "<C-w><C-c>", "<Nop>")
 
 -- Toggle highlight search
-vim.keymap.set({ "n" }, "gl", ":set hls!<CR>", { silent = true })
+vim.keymap.set({ "n" }, "<Esc>", ":set hls!<CR>", { silent = true })
 
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
