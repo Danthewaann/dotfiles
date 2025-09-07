@@ -16,8 +16,8 @@ return {
           -- Run tests with the highest level of verbosity and
           -- don't color the output as neovim doesn't interpret colour escape codes
           args = { "-vvv", "--color=no" },
-          -- Discover parametrized tests
-          pytest_discover_instances = true,
+          -- Don't discover parametrized tests as this can slow down test discovery by quite a lot
+          pytest_discover_instances = false,
         }),
         require("neotest-golang")
       },
