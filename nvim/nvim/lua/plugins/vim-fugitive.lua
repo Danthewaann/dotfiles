@@ -4,7 +4,7 @@ return {
   config = function()
     vim.keymap.set("n", "<C-g>", "<cmd> Git<CR>", { desc = "Git status" })
 
-    local git_log_args = "--oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
+    local git_log_args = "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
 
     vim.keymap.set("n", "<leader>gla", string.format("<cmd> Git log %s<CR>", git_log_args),
       { desc = "[G]it [L]og [A]ll" })
