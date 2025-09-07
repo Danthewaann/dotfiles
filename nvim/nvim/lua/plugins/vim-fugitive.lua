@@ -32,10 +32,10 @@ return {
       callback = function(event)
         local buf = event.buf
         vim.opt_local.signcolumn = "no"
-        vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf, noremap = true })
-        vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = true, desc = "Git push" })
-        vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = true, desc = "Git push --force" })
-        vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buffer = true, desc = "Git pull" })
+        vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf })
+        vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = buf, desc = "Git push" })
+        vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
+        vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buffer = buf, desc = "Git pull" })
       end
     })
   end
