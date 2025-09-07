@@ -148,9 +148,6 @@ end
 
 -- filetypes to ignore for plugins
 module.ignore_filetypes = {
-  "NeogitStatus",
-  "DiffviewFileHistory",
-  "DiffviewFiles",
   "neotest-summary",
   "qf",
   "git",

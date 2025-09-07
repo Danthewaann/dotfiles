@@ -47,12 +47,6 @@ keybindings:
       name: diff
       command: >
         clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -
-    - key: D
-      name: diffview
-      command: >
-        clear &&
-        cd {{.RepoPath}} && 
-        gitw-add {{.HeadRefName}} "git pull > /dev/null && nvim . -c 'DiffviewOpen origin/{{.BaseRefName}}..HEAD'"
     - key: E
       name: review
       command: >

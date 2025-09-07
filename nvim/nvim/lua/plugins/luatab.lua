@@ -42,14 +42,6 @@ return {
         local devicons = require "nvim-web-devicons"
         if filetype == "TelescopePrompt" then
           icon, devhl = devicons.get_icon("telescope")
-        elseif filetype == "NeogitStatus" then
-          icon, devhl = devicons.get_icon("git")
-        elseif filetype == "NeogitPopup" then
-          icon, devhl = devicons.get_icon("git")
-        elseif filetype == "NeogitLogView" then
-          icon, devhl = devicons.get_icon("git")
-        elseif filetype == "NeogitCommitView" then
-          icon, devhl = devicons.get_icon("git")
         elseif filetype == "vimwiki" then
           icon, devhl = devicons.get_icon("markdown")
         elseif filetype == "dbui" then
