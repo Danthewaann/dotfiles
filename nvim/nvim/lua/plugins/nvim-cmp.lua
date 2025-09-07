@@ -114,23 +114,8 @@ return {
         ["<CR>"] = { c = confirm_cmdline },
       }),
       matching = { disallow_symbol_nonprefix_matching = false },
+      completion = { autocomplete = false },
       sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-      enabled = function()
-        -- Set of commands where cmp will be disabled
-        local disabled = {
-          W = true,
-          w = true,
-          wa = true,
-          wq = true,
-          q = true,
-          qa = true,
-        }
-        -- Get first word of cmdline
-        local cmd = vim.fn.getcmdline():match("%S+")
-        -- Return true if cmd isn't disabled
-        -- else call/return cmp.close(), which returns false
-        return not disabled[cmd] or cmp.close()
-      end
     })
 
     -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
