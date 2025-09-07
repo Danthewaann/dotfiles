@@ -281,30 +281,34 @@ return {
         }),
         ["<C-q>"] = cmp.mapping.abort(),
         ["<C-space>"] = cmp.mapping(function()
-          if current_source_group == 1 then
-            current_source_group = 2
-            cmp.complete({
-              config = {
-                sources = {
-                  {
-                    name = "buffer",
-                    option = buffer_source_option,
+          if cmp.visible() then
+            if current_source_group == 1 then
+              current_source_group = 2
+              cmp.complete({
+                config = {
+                  sources = {
+                    {
+                      name = "buffer",
+                      option = buffer_source_option,
+                    },
+                    {
+                      name = "dictionary",
+                      keyword_length = 2,
+                    },
+                    {
+                      name = "spell",
+                      option = { keep_all_entries = true },
+                      max_item_count = 10,
+                    },
                   },
-                  {
-                    name = "dictionary",
-                    keyword_length = 2,
-                  },
-                  {
-                    name = "spell",
-                    option = { keep_all_entries = true },
-                    max_item_count = 10,
-                  },
-                },
-              }
-            })
-          elseif current_source_group == 2 then
-            current_source_group = 1
-            cmp.complete()
+                }
+              })
+            elseif current_source_group == 2 then
+              current_source_group = 1
+              cmp.complete({ reason = "auto" })
+            end
+          else
+            cmp.complete({ reason = "auto" })
           end
         end),
         ["<C-l>"] = cmp.mapping(function(fallback)
