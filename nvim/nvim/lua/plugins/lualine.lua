@@ -81,27 +81,45 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
+    local dashboard_extension = {
+      sections = {
+        lualine_a = {},
+        lualine_b = { function() return vim.fn.fnamemodify(vim.loop.cwd(), ":~:.") end },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { function()
+          local version = vim.version()
+          return string.format("%d.%d.%d", version.major, version.minor, version.patch)
+        end },
+      },
+
+      filetypes = { "dashboard" }
+    }
+
     require("lualine").setup({
       options = {
         theme = custom_theme,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
-        ignore_focus = { "dbui", "git" },
+        ignore_focus = { "dbui", "git", "dashboard" },
         globalstatus = false,
         always_show_tabline = false,
-        disabled_filetypes = { statusline = { "TelescopePrompt", "dashboard" } },
+        disabled_filetypes = { statusline = { "TelescopePrompt" } },
       },
-      extensions = { "man", "quickfix", "fugitive" },
+      extensions = { "man", "quickfix", "fugitive", "aerial", dashboard_extension },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { filename_config },
+        lualine_b = { filename_config, "diff", "diagnostics" },
+
         lualine_c = {},
-        lualine_x = { "searchcount", filetype_config, "progress" },
+        lualine_x = { "searchcount", "selectioncount", filetype_config, "filesize", "progess" },
         lualine_y = {},
         lualine_z = { "location" },
       },
       inactive_sections = {
         lualine_c = { filename_config },
+        lualine_x = { "location" },
       },
     })
   end,
