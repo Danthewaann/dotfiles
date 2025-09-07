@@ -31,6 +31,7 @@ return {
       pattern = "fugitive",
       callback = function(event)
         local buf = event.buf
+        vim.opt_local.signcolumn = "no"
         vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf, noremap = true })
         vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = true, desc = "Git push" })
         vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = true, desc = "Git push --force" })
