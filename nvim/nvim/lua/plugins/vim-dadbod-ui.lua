@@ -50,5 +50,35 @@ return {
         vim.keymap.set("n", "<Tab>", "<Plug>(DBUI_SelectLine)", { buffer = 0 })
       end,
     })
+    autocmd("FileType", {
+      group = "sql",
+      pattern = { "sql", "mysql", "plsql" },
+      callback = function()
+        vim.keymap.set(
+          "n",
+          "<leader>e",
+          ":normal mavip<CR><Plug>(DBUI_ExecuteQuery)`a",
+          { silent = true, buffer = true, desc = "[E]xecute SQL query under cursor" }
+        )
+        vim.keymap.set(
+          { "v", "x" },
+          "<leader>e",
+          "ma<Plug>(DBUI_ExecuteQuery)`a",
+          { silent = true, buffer = true, desc = "[E]xecute SQL query under cursor" }
+        )
+      end
+    })
+    autocmd("FileType", {
+      group = "sql",
+      pattern = "dbout",
+      callback = function()
+        vim.keymap.set(
+          "n",
+          "<CR>",
+          "<Plug>(DBUI_JumpToForeignKey)",
+          { buffer = true, desc = "Jump to foreign key" }
+        )
+      end
+    })
   end
 }
