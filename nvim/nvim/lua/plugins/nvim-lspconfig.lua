@@ -104,10 +104,10 @@ return {
     }
 
     -- Diagnostic keymaps
-    vim.keymap.set("n", "<C-t>", function()
+    vim.keymap.set("n", "<leader>tV", function()
       local new_config = not vim.diagnostic.config().virtual_lines
       vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "Toggle virtual lines" })
+    end, { desc = "[T]oggle [V]irtual lines" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, float = true })
       vim.fn.feedkeys("zz")
