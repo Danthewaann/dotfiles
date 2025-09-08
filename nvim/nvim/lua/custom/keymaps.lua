@@ -205,10 +205,10 @@ vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=escape(@k, "/")<CR>/<C-r>=escap
   { desc = "[R]e[p]lace selection in file" }
 )
 
--- Use <C-P> and <C-N> to cycle through history in vim command mode
+-- Use <M-P> and <M-N> to cycle through history in vim command mode
 -- This is needed to allow command line completion to work properly
-vim.keymap.set("c", "<C-p>", "<Up>", { desc = "Previous command" })
-vim.keymap.set("c", "<C-n>", "<Down>", { desc = "Next command" })
+vim.keymap.set("c", "<M-p>", "<Up>", { desc = "Previous command" })
+vim.keymap.set("c", "<M-n>", "<Down>", { desc = "Next command" })
 
 -- Disable Tab and Shift-Tab in command line to let nvim-cmp handle completion over wildmenu
 vim.keymap.set("c", "<Tab>", "<Nop>")
