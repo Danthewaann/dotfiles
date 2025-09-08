@@ -114,7 +114,6 @@ return {
         ["<CR>"] = { c = confirm_cmdline },
       }),
       matching = { disallow_symbol_nonprefix_matching = false },
-      completion = { autocomplete = false },
       sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
     })
 
