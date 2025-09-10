@@ -7,18 +7,18 @@ return {
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
 
-    vim.keymap.set("n", "<leader>gla", string.format("<cmd> Git log %s<CR>", git_log_args),
+    vim.keymap.set("n", "<leader>gla", string.format("<cmd> vertical Git log %s<CR>", git_log_args),
       { desc = "[G]it [L]og [A]ll" })
     vim.keymap.set("n", "<leader>glA", "<cmd>Gclog<CR>", { desc = "[G]it [L]og [A]ll in quickfix list" })
     vim.keymap.set("n", "<leader>glf", function()
-      vim.cmd(string.format("Git log %s %s", git_log_args, vim.fn.expand("%")))
+      vim.cmd(string.format("vertical Git log %s %s", git_log_args, vim.fn.expand("%")))
     end, { desc = "[G]it [L]og current [F]ile" })
     vim.keymap.set("n", "<leader>glF", "<cmd>0Gclog<CR>", { desc = "[G]it [L]og current [F]ile in quickfix list" })
     vim.keymap.set("x", "<leader>gl", function()
       vim.cmd([[ execute "normal! \<ESC>" ]])
       local start_pos = vim.api.nvim_buf_get_mark(0, "<")[1]
       local end_pos = vim.api.nvim_buf_get_mark(0, ">")[1]
-      vim.cmd(string.format("Git log %s --no-patch -L %s,%s:%s", git_log_args, start_pos, end_pos, vim.fn.expand("%")))
+      vim.cmd(string.format("vertical Git log %s --no-patch -L %s,%s:%s", git_log_args, start_pos, end_pos, vim.fn.expand("%")))
     end, { desc = "[G]it [L]og current selection" })
     vim.keymap.set("v", "<leader>gL", ":Gclog<CR>",
       { desc = "[G]it [L]og current selection in quickfix list", silent = true })
