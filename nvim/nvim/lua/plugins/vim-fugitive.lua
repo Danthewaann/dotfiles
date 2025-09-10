@@ -3,6 +3,7 @@ return {
   dependencies = { "tpope/vim-rhubarb" },
   config = function()
     vim.keymap.set("n", "<C-g>", "<cmd> Git<CR>", { desc = "Git status" })
+    vim.keymap.set("n", "<leader>gd", "<cmd>vertical Git diff HEAD<CR>", { desc = "[G]it [D]iff" })
 
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
