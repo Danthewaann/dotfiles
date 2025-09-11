@@ -81,11 +81,12 @@ vim.opt.shortmess:append("ScsCI")
 -- Disable ruler that shows at the bottom right of the screen
 vim.o.ruler = false
 
--- Setup folds with treesitter and nvim-ufo
+-- Setup folds with treesitter
 vim.o.foldcolumn = "0"
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
-vim.o.foldenable = true
+vim.o.foldmethod = "expr"
+vim.o.foldtext = ""
+vim.o.fillchars = "fold: "
 
 -- Search down into subfolders
 -- Provides tab-completion for all file-related tasks

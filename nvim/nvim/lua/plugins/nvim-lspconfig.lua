@@ -177,12 +177,7 @@ return {
         end, "[S]earch [F]unction Symbol")
 
         -- See `:help K` for why this keymap
-        map("K", function()
-          local winid = require("ufo").peekFoldedLinesUnderCursor()
-          if not winid then
-            vim.lsp.buf.hover({ border = "rounded" })
-          end
-        end, "Hover Documentation")
+        map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
         map("<leader>rl", function()
           utils.print("Restarting LSP client...")
           vim.cmd(":LspRestart")
@@ -260,12 +255,6 @@ return {
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-    -- Add foldingRange capabilities for nvim-ufo
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = false
-    }
 
     -- Enable the following language servers
     local servers = {
