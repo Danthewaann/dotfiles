@@ -6,7 +6,7 @@ return {
     vim.keymap.set("n", "<leader>gd", "<cmd>vertical Git diff HEAD<CR>", { desc = "[G]it [D]iff" })
 
     local git_log_args =
-    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
+    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %s'"
 
     vim.keymap.set("n", "<leader>gla", string.format("<cmd> vertical Git log %s<CR>", git_log_args),
       { desc = "[G]it [L]og [A]ll" })
@@ -19,7 +19,8 @@ return {
       vim.cmd([[ execute "normal! \<ESC>" ]])
       local start_pos = vim.api.nvim_buf_get_mark(0, "<")[1]
       local end_pos = vim.api.nvim_buf_get_mark(0, ">")[1]
-      vim.cmd(string.format("vertical Git log %s --no-patch -L %s,%s:%s", git_log_args, start_pos, end_pos, vim.fn.expand("%")))
+      vim.cmd(string.format("vertical Git log %s --no-patch -L %s,%s:%s", git_log_args, start_pos, end_pos,
+        vim.fn.expand("%")))
     end, { desc = "[G]it [L]og current selection" })
     vim.keymap.set("v", "<leader>gL", ":Gclog<CR>",
       { desc = "[G]it [L]og current selection in quickfix list", silent = true })
@@ -35,6 +36,7 @@ return {
         local buf = event.buf
         vim.opt_local.signcolumn = "no"
         vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf })
+        vim.keymap.set("n", "p", "<nop>", { buffer = buf })
         vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = buf, desc = "Git push" })
         vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
         vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buffer = buf, desc = "Git pull" })
@@ -44,7 +46,11 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("gitcommit_startinsert", { clear = true }),
       pattern = "gitcommit",
-      callback = function() vim.cmd.startinsert() end
+      callback = function()
+        if #vim.fn.getline(".") == 0 then
+          vim.cmd.startinsert()
+        end
+      end
     })
   end
 }
