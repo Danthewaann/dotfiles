@@ -79,7 +79,7 @@ return {
   end,
   keys = {
     {
-      "<leader>tT",
+      "<leader>tS",
       function()
         cur_test_strategy = cur_test_strategy + 1
         if cur_test_strategy > #test_strategies then
@@ -97,7 +97,7 @@ return {
           utils.print("Using neotest test strategy")
         end
       end,
-      desc = "[T]est [T]oggle Strategy"
+      desc = "[T]oggle Test [S]trategy"
     },
     {
       "<leader>tn",
