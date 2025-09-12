@@ -64,6 +64,6 @@ return {
       print("Opening review for PR...")
       vim.cmd("Octo review")
     end, { desc = "Start or resume review" })
-    vim.keymap.set("n", "<leader>ot", "<cmd>Octo review thread<CR>", { desc = "Show review threads" })
+    vim.keymap.set("n", "<localleader>t", "<cmd>Octo review thread<CR>", { desc = "Show review threads" })
   end
 }
