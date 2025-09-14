@@ -83,6 +83,7 @@ vim.o.ruler = false
 
 -- Setup folds with treesitter
 vim.o.foldcolumn = "0"
+vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldmethod = "expr"
 vim.o.foldtext = ""
