@@ -106,8 +106,9 @@ autocmd("FileType", {
       pcall(require("render-markdown").disable)
       vim.o.spell = false
     else
-      -- Enable wrapping of text in markdown files
-      vim.cmd("setlocal wrap textwidth=180")
+      -- Enable soft wrapping of text in markdown files
+      vim.cmd("setlocal wrap")
+      vim.cmd("set linebreak breakindent showbreak=>\\ ")
     end
   end
 })
