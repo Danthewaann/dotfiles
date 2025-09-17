@@ -1,6 +1,9 @@
 return {
   -- Adds git related signs to the gutter, as well as utilities for managing changes
   "lewis6991/gitsigns.nvim",
+  -- Need to use a stable version as gitsigns is not updating correctly when using vim-fugitive to commit changes:
+  -- https://github.com/lewis6991/gitsigns.nvim/issues/1381
+  version = "*",
   opts = {
     signs = {
       add = { text = "+" },
