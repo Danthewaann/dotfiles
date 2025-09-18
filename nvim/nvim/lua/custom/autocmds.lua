@@ -89,26 +89,28 @@ autocmd("BufEnter", {
   command = "setlocal syntax=off",
 })
 
--- Turn on spell checking in markdown and git commit buffers
+-- Turn on spell checking in markdown, octo and git commit buffers
 autocmd("FileType", {
   group = augroup("spell_checking", { clear = true }),
-  pattern = "markdown,gitcommit",
+  pattern = { "markdown", "octo", "gitcommit" },
   command = "setlocal spell spelllang=en_us,en_gb",
 })
 
--- Markdown filetype setup
+-- Enable soft wrapping of lines in markdown and octo buffers
 autocmd("FileType", {
-  group = augroup("markdown", { clear = true }),
+  group = augroup("soft-wrap", { clear = true }),
+  pattern = { "markdown", "octo" },
+  command = "set wrap linebreak breakindent showbreak=>\\ ",
+})
+
+-- Disable `render-markdown` in LSP hover documentation windows and spell checking
+autocmd("FileType", {
+  group = augroup("disable-markdown-rendering", { clear = true }),
   pattern = "markdown",
   callback = function(event)
-    -- Disable `render-markdown` in LSP hover documentation windows and spell checking
     if vim.bo[event.buf].buftype == "nofile" then
       pcall(require("render-markdown").disable)
       vim.o.spell = false
-    else
-      -- Enable soft wrapping of text in markdown files
-      vim.cmd("setlocal wrap")
-      vim.cmd("set linebreak breakindent showbreak=>\\ ")
     end
   end
 })
