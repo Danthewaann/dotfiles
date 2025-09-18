@@ -51,7 +51,7 @@ return {
       end,
     })
     autocmd("FileType", {
-      group = "sql",
+      group = "dadbod-ui",
       pattern = { "sql", "mysql", "plsql" },
       callback = function()
         vim.keymap.set(
@@ -69,7 +69,7 @@ return {
       end
     })
     autocmd("FileType", {
-      group = "sql",
+      group = "dadbod-ui",
       pattern = "dbout",
       callback = function()
         vim.keymap.set(
