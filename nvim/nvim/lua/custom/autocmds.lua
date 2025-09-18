@@ -99,7 +99,7 @@ autocmd("FileType", {
 autocmd("FileType", {
   group = augroup("soft-wrap", { clear = true }),
   pattern = { "markdown", "octo" },
-  command = "set wrap linebreak breakindent showbreak=>\\ ",
+  command = "setlocal wrap linebreak breakindent showbreak=>\\ ",
 })
 
 -- Disable `render-markdown` in LSP hover documentation windows and spell checking
