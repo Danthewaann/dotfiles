@@ -3,7 +3,7 @@ local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 local utils = require("custom.utils")
 
 autocmd("TermOpen", {
-  group = augroup("terminal_settings", { clear = true }),
+  group = augroup("terminal-settings", { clear = true }),
   pattern = "",
   callback = function()
     vim.cmd(":setlocal nonumber signcolumn=no nocursorline")
@@ -82,16 +82,15 @@ autocmd("TermOpen", {
 
 -- Disable highlighting for sql files.
 -- treesitter will handle syntax highlighting if the file isn't too large in size
-augroup("sql", { clear = true })
 autocmd("BufEnter", {
-  group = "sql",
+  group = augroup("disable-sql-syntax", { clear = true }),
   pattern = "*.sql",
   command = "setlocal syntax=off",
 })
 
 -- Turn on spell checking in markdown, octo and git commit buffers
 autocmd("FileType", {
-  group = augroup("spell_checking", { clear = true }),
+  group = augroup("spell-checking", { clear = true }),
   pattern = { "markdown", "octo", "gitcommit" },
   command = "setlocal spell spelllang=en_us,en_gb",
 })
@@ -130,7 +129,7 @@ autocmd("TextYankPost", {
 
 -- Jump to the last position in the file
 autocmd("BufReadPost", {
-  group = augroup("jump_to_last_position", { clear = true }),
+  group = augroup("jump-to-last-position", { clear = true }),
   pattern = "*",
   callback = function()
     if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
