@@ -27,6 +27,8 @@ return {
     "kristijanhusak/vim-dadbod-completion",
     "uga-rosa/cmp-dictionary",
     "f3fora/cmp-spell",
+    "petertriho/cmp-git",
+    "hrsh7th/cmp-emoji",
 
     -- Adds a number of user-friendly snippets
     "rafamadriz/friendly-snippets",
@@ -145,6 +147,8 @@ return {
     }
 
     local default_cmp_sources = cmp.config.sources(
+      { { name = "emoji" } },
+      { { name = "git" } },
       { { name = "lazydev" }, },
       { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" }, { name = "nvim_lsp_signature_help" } },
       {
@@ -350,5 +354,7 @@ return {
       paths = { "/usr/share/dict/words" },
       exact_length = 2,
     })
+
+    require("cmp_git").setup()
   end
 }
