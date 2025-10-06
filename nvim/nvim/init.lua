@@ -22,6 +22,12 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   -- For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
+  {
+    "folke/lazy.nvim",
+    -- Pin to this version as nvim-dap-python doesn't build due to this commit:
+    -- https://github.com/folke/lazy.nvim/commit/147f5a3f55b5491bbc77a55ce846ef5eb575fa42
+    version = "v11.17.1",
+  },
   { import = "plugins" },
 }, {
   ui = {
