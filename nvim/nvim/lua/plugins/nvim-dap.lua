@@ -78,7 +78,7 @@ return {
     {
       "<leader>dh",
       function()
-        require("dap.ui.widgets").hover()
+        require("dap.ui.widgets").hover(nil, { border = "rounded" })
       end,
       desc = "[D]ebug [H]over",
     },
@@ -93,7 +93,7 @@ return {
       "<leader>df",
       function()
         local widgets = require("dap.ui.widgets")
-        widgets.centered_float(widgets.frames)
+        widgets.centered_float(widgets.frames, { border = "rounded" })
       end,
       desc = "[D]ebug [F]rames",
     },
@@ -101,7 +101,7 @@ return {
       "<leader>ds",
       function()
         local widgets = require("dap.ui.widgets")
-        widgets.centered_float(widgets.scopes)
+        widgets.centered_float(widgets.scopes, { border = "rounded" })
       end,
       desc = "[D]ebug [S]copes",
     },
@@ -141,6 +141,7 @@ return {
           size = 10
         } },
       floating = {
+        border = "rounded",
         mappings = {
           expand = { "<Tab>" }
         },
