@@ -184,10 +184,18 @@ return {
     {
       "<leader>to",
       function()
+        require("neotest").output.open({ short = true, enter = true })
+        vim.cmd("startinsert")
+      end,
+      desc = "[T]est short [O]utput "
+    },
+    {
+      "<leader>tO",
+      function()
         require("neotest").output.open({ enter = true })
         vim.cmd("startinsert")
       end,
-      desc = "[T]est [O]utput"
+      desc = "[T]est long [O]utput"
     },
     {
       "<leader>tr",
