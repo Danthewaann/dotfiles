@@ -26,6 +26,9 @@ vim.o.breakindent = true
 -- Set completeo to have a better completion experience
 vim.o.completeopt = "menu,menuone,noinsert"
 
+-- Set the border for all floating windows
+vim.o.winborder = "rounded"
+
 -- Show special characters when `list` is enabled
 vim.opt.listchars = { tab = "▸.", trail = "·", nbsp = "␣", eol = "¬" }
 
