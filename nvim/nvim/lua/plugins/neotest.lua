@@ -26,8 +26,8 @@ return {
       },
       floating = {
         border = "rounded",
-        max_height = 0.9,
-        max_width = 0.9,
+        max_height = 0.99,
+        max_width = 0.99,
         options = {}
       },
       output = {
