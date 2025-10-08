@@ -29,11 +29,18 @@ local function setup_test_runners()
   }
   local custom_runners = {}
   local enabled_runners = {}
+  local use_make = false
   local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
+  if has_makefile then
+    local obj = vim.system({ "grep", "'^unit:'", "Makefile" }):wait()
+    if obj.code == 0 then
+      use_make = true
+    end
+  end
 
   for runner, data in pairs(test_runners) do
     custom_runners[runner] = { data.custom }
-    if has_makefile then
+    if use_make then
       vim.g["test#" .. runner .. "#runner"] = data.custom
       table.insert(enabled_runners, runner .. "#" .. data.custom)
     else
