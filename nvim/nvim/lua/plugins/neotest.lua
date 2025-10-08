@@ -13,9 +13,8 @@ return {
     require("neotest").setup({
       adapters = {
         require("neotest-python")({
-          -- Run tests with the highest level of verbosity and
-          -- don't color the output as neovim doesn't interpret colour escape codes
-          args = { "-vvv", "--color=no" },
+          -- Run tests with higher verbosity
+          args = { "-vv" },
           -- Don't discover parametrized tests as this can slow down test discovery by quite a lot
           pytest_discover_instances = false,
         }),
@@ -26,12 +25,16 @@ return {
         open = false,
       },
       floating = {
-        border = "rounded"
+        border = "rounded",
+        max_height = 0.9,
+        max_width = 0.9,
+        options = {}
       },
       output = {
         open_on_run = false,
       },
       summary = {
+        animated = false,
         mappings = {
           expand = "<Tab>",
           jumpto = "<CR>"
