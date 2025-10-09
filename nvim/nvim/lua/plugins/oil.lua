@@ -21,6 +21,10 @@ return {
         conceallevel = 3,
         concealcursor = "nvic",
       },
+      lsp_file_methods = {
+        -- Time to wait for LSP file operations to complete before skipping
+        timeout_ms = 10000,
+      },
       -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
       -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
       -- Additionally, if it is a string that matches "actions.<name>",
