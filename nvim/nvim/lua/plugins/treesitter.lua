@@ -35,6 +35,7 @@ return {
       "objc",
       "swift",
       "just",
+      "tmux",
     }
 
     require("nvim-treesitter").install(parsers)
