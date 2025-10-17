@@ -58,6 +58,7 @@ proc = subprocess.run(
 )
 if proc.returncode != 0:
     _utils.error("Failed to delete: ", end="")
+    print(worktree_name, file=sys.stderr)
     if re.search(
         "contains modified or untracked files, use --force to delete it", proc.stdout
     ):
