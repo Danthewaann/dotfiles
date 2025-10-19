@@ -50,21 +50,34 @@ return {
       [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
       [vim.diagnostic.severity.HINT] = "DiagnosticHint",
     }
+    local virtual_text_config = {
+      prefix = function(diagnostic, i, total)
+        return symbols[diagnostic.severity]
+      end
+    }
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
       virtual_lines = false,
+      virtual_text = virtual_text_config,
       signs = {
         severity = vim.diagnostic.severity.ERROR,
         text = {
-          [vim.diagnostic.severity.ERROR] = symbols[vim.diagnostic.severity.ERROR],
-          [vim.diagnostic.severity.WARN] = symbols[vim.diagnostic.severity.WARN],
-          [vim.diagnostic.severity.INFO] = symbols[vim.diagnostic.severity.INFO],
-          [vim.diagnostic.severity.HINT] = symbols[vim.diagnostic.severity.HINT],
+          [vim.diagnostic.severity.ERROR] = "",
+          [vim.diagnostic.severity.WARN] = "",
+          [vim.diagnostic.severity.INFO] = "",
+          [vim.diagnostic.severity.HINT] = "",
         },
         numhl = highlights
       },
-      float = { source = true, border = border },
+      float = {
+        source = "if_many",
+        header = { "Diagnostics:", "DiagnosticInfo" },
+        border = border,
+        prefix = function(diagnostic, i, total)
+          return symbols[diagnostic.severity], highlights[diagnostic.severity]
+        end
+      },
       severity_sort = true
     })
 
@@ -104,15 +117,23 @@ return {
     }
 
     -- Diagnostic keymaps
-    vim.keymap.set("n", "<leader>tV", function()
+    vim.keymap.set("n", "<leader>tL", function()
       local new_config = not vim.diagnostic.config().virtual_lines
       vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "[T]oggle [V]irtual lines" })
+    end, { desc = "[T]oggle Virtual [L]ines" })
+    vim.keymap.set("n", "<leader>tV", function()
+      local existing_config = vim.diagnostic.config().virtual_text
+      if existing_config ~= false then
+        vim.diagnostic.config({ virtual_text = false })
+      else
+        vim.diagnostic.config({ virtual_text = virtual_text_config })
+      end
+    end, { desc = "[T]oggle [V]irtual Text" })
     vim.keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = true })
+      vim.diagnostic.jump({ count = -1 })
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, float = true })
+      vim.diagnostic.jump({ count = 1 })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<M-x>", function()
       local qf_exists = false
