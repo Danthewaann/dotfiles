@@ -153,8 +153,16 @@ def update_python_deps() -> None:
             env.pop("PYTHONPATH", None)
 
         subprocess.run(["poetry", "install", "--all-extras"], env=env)
-    elif pathlib.Path("pyproject.toml").exists():
+    elif pathlib.Path("uv.lock").exists():
         print(file=sys.stderr)
         info("Running uv sync...")
         print(file=sys.stderr)
         subprocess.run(["uv", "sync", "--all-extras"])
+    elif pathlib.Path("pyproject.toml").exists():
+        print(file=sys.stderr)
+        info("Running uv pip install...")
+        print(file=sys.stderr)
+        subprocess.run(["uv", "venv"])
+        subprocess.run(
+            ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"]
+        )
