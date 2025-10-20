@@ -48,6 +48,7 @@ return {
           "^.cache/",
           "__pycache__",
           "^.coverage/",
+          "^.tox/",
         },
         path_display = { "filename_first" },
         results_title = false,
