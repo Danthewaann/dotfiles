@@ -60,16 +60,7 @@ return {
     vim.diagnostic.config({
       virtual_lines = false,
       virtual_text = virtual_text_config,
-      signs = {
-        severity = vim.diagnostic.severity.ERROR,
-        text = {
-          [vim.diagnostic.severity.ERROR] = "",
-          [vim.diagnostic.severity.WARN] = "",
-          [vim.diagnostic.severity.INFO] = "",
-          [vim.diagnostic.severity.HINT] = "",
-        },
-        numhl = highlights
-      },
+      signs = false,
       float = {
         source = "if_many",
         header = { "Diagnostics:", "DiagnosticInfo" },
