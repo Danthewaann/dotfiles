@@ -150,6 +150,7 @@ return {
     end, { desc = "Open diagnostics in quickfix list" })
 
     local pyright_diagnostic_mode = "openFilesOnly"
+    local pyright_type_checking_mode = "basic"
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
@@ -237,6 +238,16 @@ return {
               vim.cmd(":LspRestart")
               utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
             end, "Reset Diagnostic Mode")
+            client.settings.basedpyright.analysis.typeCheckingMode = pyright_type_checking_mode
+            map("<leader>rt", function()
+              if pyright_type_checking_mode == "basic" then
+                pyright_type_checking_mode = "off"
+              else
+                pyright_type_checking_mode = "basic"
+              end
+              vim.cmd(":LspRestart")
+              utils.print("Restarting LSP with typeCheckingMode=" .. pyright_type_checking_mode)
+            end, "Reset Type Checking Mode")
           end
 
           -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
