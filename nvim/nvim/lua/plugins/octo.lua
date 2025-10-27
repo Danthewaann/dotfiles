@@ -1,6 +1,5 @@
 return {
-  "Danthewaann/octo.nvim",
-  branch = "my-fixes",
+  "pwntester/octo.nvim",
   keys = {
     { "<leader>op", desc = "[O]cto open [P]R" },
     { "<leader>ov", desc = "[O]cto start or resume PR re[v]iew" },
