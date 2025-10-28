@@ -18,7 +18,6 @@ plugins=(
     git-prompt
     zsh-autosuggestions
     zsh-syntax-highlighting
-    zsh-autopair
     zsh-lazyload
     zsh-fzf-history-search
     virtualenv
