@@ -22,6 +22,37 @@ existing_new_pr_files.sort(key=lambda x: x.stem)
 existing_old = existing_old_pr_files[0] if existing_old_pr_files else None
 existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
+content = json.loads(
+    subprocess.check_output(
+        [
+            "gh",
+            "pr",
+            "view",
+            "--json",
+            "title",
+            "--json",
+            "body",
+            "--json",
+            "labels",
+            "--json",
+            "isDraft",
+            "--json",
+            "state",
+            "--json",
+            "number",
+            "--json",
+            "baseRefName",
+        ]
+    )
+)
+pr_number = content["number"]
+title = content["title"]
+body = content["body"]
+is_draft = content["isDraft"]
+state = content["state"].lower()
+base_branch = content["baseRefName"]
+labels = [label["name"] for label in content["labels"]]
+
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
 if existing_old and existing_new:
     old_pr_file = existing_old
@@ -39,42 +70,9 @@ else:
         text=True,
     ).splitlines()
 
-    # Use the last commit message as the PR title
-    pr_title = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], text=True)
     cur_time = int(time.time())
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
     new_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.new.md")
-
-    content = json.loads(
-        subprocess.check_output(
-            [
-                "gh",
-                "pr",
-                "view",
-                "--json",
-                "title",
-                "--json",
-                "body",
-                "--json",
-                "labels",
-                "--json",
-                "isDraft",
-                "--json",
-                "state",
-                "--json",
-                "number",
-                "--json",
-                "baseRefName",
-            ]
-        )
-    )
-    pr_number = content["number"]
-    title = content["title"]
-    body = content["body"]
-    is_draft = content["isDraft"]
-    state = content["state"].lower()
-    base_branch = content["baseRefName"]
-    labels = [label["name"] for label in content["labels"]]
 
     pr_file_content = f"""--- TITLE
 {title.strip()}
@@ -117,7 +115,7 @@ STATE can be `open`, `merged` or `closed`
 new_hash = hashlib.md5(new_pr_file.read_bytes())
 
 if old_hash.hexdigest() == new_hash.hexdigest():
-    print("\nNo PR created!", file=sys.stderr)
+    print("\nPR not updated!", file=sys.stderr)
     old_pr_file.unlink(missing_ok=True)
     new_pr_file.unlink(missing_ok=True)
     sys.exit(1)
