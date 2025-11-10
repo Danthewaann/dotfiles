@@ -191,10 +191,18 @@ return {
 
         -- See `:help K` for why this keymap
         map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
-        map("<leader>rl", function()
+        map("<leader>lr", function()
           utils.print("Restarting LSP client...")
           vim.cmd(":LspRestart")
-        end, "[R]estart [L]sp")
+        end, "[L]sp [R]estart")
+        map("<leader>ls", function()
+          utils.print("Stopping LSP client...")
+          vim.cmd(":LspStop")
+        end, "[L]sp [S]top")
+        map("<leader>lS", function()
+          utils.print("Starting LSP client...")
+          vim.cmd(":LspStart")
+        end, "[L]sp [S]tart")
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
         map("<leader>ca", function()
           vim.lsp.buf.code_action({
