@@ -31,7 +31,8 @@ local function setup_test_runners()
   local enabled_runners = {}
   local use_make = false
   local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
-  if has_makefile then
+  local has_dockerfile = vim.fn.empty(vim.fn.glob("Dockerfile")) == 0
+  if has_makefile and has_dockerfile then
     local obj = vim.system({ "grep", "^unit:", "Makefile" }):wait()
     if obj.code == 0 then
       use_make = true
