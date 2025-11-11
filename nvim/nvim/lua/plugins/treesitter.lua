@@ -48,8 +48,9 @@ return {
         vim.treesitter.start()
         -- Folds
         vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-        -- Disable the @spell capture group
+        -- Disable the @spell and @nospell capture groups
         vim.api.nvim_set_hl(0, "@spell", { link = "NONE" })
+        vim.api.nvim_set_hl(0, "@nospell", { link = "NONE" })
       end,
     })
   end
