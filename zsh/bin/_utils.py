@@ -78,6 +78,14 @@ def get_base_branch() -> str:
     return base_branch_file.read_text().strip()
 
 
+def get_root_git_dir() -> pathlib.Path:
+    return pathlib.Path(
+        subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"], text=True
+        ).strip()
+    )
+
+
 def get_worktree(branch: str | None = None) -> pathlib.Path:
     branch = branch or get_base_branch()
     worktrees = subprocess.check_output(["git", "worktree", "list"], text=True)
