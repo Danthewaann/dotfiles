@@ -49,6 +49,7 @@ return {
           "__pycache__",
           "^.coverage/",
           "^.tox/",
+          "^htmlcov/",
         },
         path_display = { "filename_first" },
         results_title = false,
