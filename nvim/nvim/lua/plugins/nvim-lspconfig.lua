@@ -319,6 +319,7 @@ return {
             analysis = {
               -- Ignore diagnostic output in files under these paths
               ignore = { "migrations/**", ".venv/**" },
+              exclude = { "migrations/**", ".venv/**", ".tox/**" },
               diagnosticMode = pyright_diagnostic_mode, -- can be "workspace" or "openFilesOnly"
               typeCheckingMode = "basic",               -- can be "off", "basic", "standard", "strict", "recommended" or "all"
               diagnosticSeverityOverrides = {
