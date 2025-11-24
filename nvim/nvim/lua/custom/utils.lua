@@ -96,7 +96,7 @@ module.parse_mypy_output = function(output)
         end_col = end_col,
         nr = code,
         type = severities[severity],
-        text = message,
+        text = message .. " # type: ignore [" .. code .. "]",
         source = "mypy"
       })
     end
