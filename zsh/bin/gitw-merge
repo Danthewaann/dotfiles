@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import subprocess
+import sys
+import _utils
+
+
+if _utils.inside_worktree():
+    branch = sys.argv[1] if len(sys.argv) > 1 else _utils.get_base_branch()
+    worktree = _utils.get_worktree(branch)
+    _utils.info(f"Updating '{branch}' branch...")
+    proc = subprocess.run(
+        ["gitw-update", worktree],
+        text=True,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if proc.returncode != 0:
+        print(proc.stdout.rstrip(), file=sys.stderr)
+        sys.exit(1)
+
+    print(file=sys.stderr)
+    _utils.info(f"Merging with '{branch}' branch...")
+    proc = _utils.run_git_merge(branch)
+    if proc.returncode != 0:
+        sys.exit(1)
+    _utils.update_python_deps()
+else:
+    print(file=sys.stderr)
+    _utils.error("Must be run inside a git worktree")
+    sys.exit(1)

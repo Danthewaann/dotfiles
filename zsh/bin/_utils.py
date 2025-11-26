@@ -143,6 +143,13 @@ def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str
     )
 
 
+def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
+    branch = branch or get_base_branch()
+    return run_command(
+        ["git", "-c", "color.ui=always", "merge", branch],
+    )
+
+
 def update_python_deps() -> None:
     if pathlib.Path("poetry.lock").exists():
         print(file=sys.stderr)
