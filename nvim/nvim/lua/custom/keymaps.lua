@@ -239,6 +239,6 @@ vim.keymap.set("n", "<leader>tb", function()
 end, { desc = "Open [T]erminal in current [B]uffer directory" })
 
 -- Spelling
-vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
+vim.keymap.set("i", "<C-k>", "<Esc>[s1z=gi", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
 })
