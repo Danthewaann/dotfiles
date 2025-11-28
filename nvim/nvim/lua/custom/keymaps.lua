@@ -64,7 +64,7 @@ vim.keymap.set("n", "<C-M-p>", function()
   pcall(function() vim.cmd(":colder") end)
 end, { desc = "Go to newer quickfix list" })
 
-vim.keymap.set("n", "<M-e>", function()
+vim.keymap.set("n", "<C-q>", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win["quickfix"] == 1 then
