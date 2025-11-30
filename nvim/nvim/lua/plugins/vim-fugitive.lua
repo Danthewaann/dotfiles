@@ -2,7 +2,7 @@ return {
   "tpope/vim-fugitive",
   dependencies = { "tpope/vim-rhubarb" },
   config = function()
-    vim.keymap.set("n", "<C-g>", "<cmd> Git<CR>", { desc = "Git status" })
+    vim.keymap.set("n", "<leader>gs", "<cmd> Git<CR>", { desc = "[G]it [S]tatus" })
     vim.keymap.set("n", "<leader>gd", "<cmd>vertical Git diff HEAD<CR>", { desc = "[G]it [D]iff" })
 
     local git_log_args =
