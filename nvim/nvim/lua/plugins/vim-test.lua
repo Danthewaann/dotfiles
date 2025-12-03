@@ -157,6 +157,7 @@ return {
           vim.cmd(":TestFile")
         else
           require("neotest").run.run(vim.fn.expand("%"))
+          require("neotest").summary.open()
         end
       end,
       desc = "[T]est [F]ile"
