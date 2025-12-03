@@ -165,7 +165,7 @@ return {
         map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
         map("<leader>sW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
-        map("<leader>ss", function()
+        map("<leader>sS", function()
           local word = vim.fn.expand("<cword>")
           require("telescope.builtin").lsp_workspace_symbols({
             prompt_title = "LSP Workspace Symbols (" .. word .. ")",

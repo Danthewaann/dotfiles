@@ -135,7 +135,7 @@ return {
     )
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
     vim.keymap.set("n", "<C-f>", require("telescope.builtin").git_files, { desc = "Search Git Tracked Files" })
-    vim.keymap.set("n", "<C-g>", require("telescope.builtin").git_status, { desc = "Search Changed Git Files" })
+    vim.keymap.set("n", "<leader>sg", require("telescope.builtin").git_status, { desc = "Search Changed Git Files" })
     vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history,
       { desc = "[S]earch [C]ommand History" })
@@ -147,7 +147,7 @@ return {
     vim.keymap.set("n", "<leader>so", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
     end, { desc = "[S]earch Recently [O]pened Files" })
-    vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+    vim.keymap.set("n", "<leader>ss", require("telescope.builtin").live_grep, { desc = "[S]earch by Grep" })
     vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
     vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
