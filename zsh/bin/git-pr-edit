@@ -172,7 +172,7 @@ new_is_draft = True if new_is_draft == "yes" else False
 if new_is_draft is not is_draft:
     if new_is_draft is False:
         subprocess.run(["gh", "pr", "ready"], check=True)
-    elif new_state == "draft":
+    else:
         subprocess.run(["gh", "pr", "ready", "--undo"], check=True)
 
 if new_state != state:
