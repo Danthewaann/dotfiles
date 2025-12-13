@@ -17,10 +17,6 @@ return {
     }
   },
   config = function()
-    local grep_args = function(_)
-      return { "--hidden" }
-    end
-
     require("telescope").setup({
       defaults = {
         -- Cache the last 10 pickers so I can resume them later
@@ -38,18 +34,6 @@ return {
           "--column",
           "--smart-case",
           "--hidden",
-        },
-        file_ignore_patterns = {
-          "^vendor/",
-          "^.git/",
-          "^node_modules/",
-          "^.venv/",
-          "^.mypy_cache/",
-          "^.cache/",
-          "__pycache__",
-          "^.coverage/",
-          "^.tox/",
-          "^htmlcov/",
         },
         path_display = { "filename_first" },
         results_title = false,
@@ -94,8 +78,6 @@ return {
         },
         find_files = {
           previewer = true,
-          no_ignore = true,
-          hidden = true
         },
         man_pages = { previewer = false },
         diagnostics = {
@@ -103,10 +85,10 @@ return {
           previewer = false
         },
         grep_string = {
-          additional_args = grep_args
+          additional_args = {}
         },
         live_grep = {
-          additional_args = grep_args
+          additional_args = {}
         },
       },
       extensions = {
