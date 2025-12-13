@@ -228,7 +228,7 @@ return {
           if client.name == "basedpyright" then
             ---@diagnostic disable-next-line: undefined-field
             client.settings.basedpyright.analysis.diagnosticMode = pyright_diagnostic_mode
-            map("<leader>rd", function()
+            map("<leader>ld", function()
               if pyright_diagnostic_mode == "openFilesOnly" then
                 pyright_diagnostic_mode = "workspace"
               else
@@ -236,9 +236,9 @@ return {
               end
               vim.cmd(":LspRestart")
               utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
-            end, "Reset Diagnostic Mode")
+            end, "Change [D]iagnostic Mode")
             client.settings.basedpyright.analysis.typeCheckingMode = pyright_type_checking_mode
-            map("<leader>rt", function()
+            map("<leader>lt", function()
               if pyright_type_checking_mode == "basic" then
                 pyright_type_checking_mode = "off"
               else
@@ -246,7 +246,7 @@ return {
               end
               vim.cmd(":LspRestart")
               utils.print("Restarting LSP with typeCheckingMode=" .. pyright_type_checking_mode)
-            end, "Reset Type Checking Mode")
+            end, "Change [T]ype Checking Mode")
           end
 
           -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
@@ -275,9 +275,9 @@ return {
 
           -- Enable inlay hints if the LSP server supports it
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map("<leader>th", function()
+            map("<leader>lh", function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
-            end, "[T]oggle Inlay [H]ints")
+            end, "Toggle Inlay [H]ints")
           end
         end
       end
