@@ -6,7 +6,7 @@ return {
       -- Jump forwards/backwards with '{' and '}'
       vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
       vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-      vim.keymap.set("n", "<leader>tA", "<cmd>AerialToggle!<CR>", { desc = "[T]oggle [A]erial", buffer = bufnr })
+      vim.keymap.set("n", "<leader>A", "<cmd>AerialToggle!<CR>", { desc = "Toggle [A]erial", buffer = bufnr })
     end
   },
   -- Optional dependencies
