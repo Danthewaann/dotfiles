@@ -191,7 +191,7 @@ return {
 
         -- See `:help K` for why this keymap
         map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
-        map("<leader>lr", function()
+        map("<leader>lR", function()
           utils.print("Restarting LSP client...")
           vim.cmd(":LspRestart")
         end, "[L]sp [R]estart")
@@ -203,8 +203,8 @@ return {
           utils.print("Starting LSP client...")
           vim.cmd(":LspStart")
         end, "[L]sp [S]tart")
-        map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        map("<leader>ca", function()
+        map("<leader>lr", vim.lsp.buf.rename, "[R]ename")
+        map("<leader>lc", function()
           vim.lsp.buf.code_action({
             filter = function(x)
               -- Filter out the following code actions as I never use them:
@@ -217,7 +217,7 @@ return {
               return true
             end
           })
-        end, "[C]ode [A]ction")
+        end, "[C]ode Action")
         map("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
 
         -- Lesser used LSP functionality
