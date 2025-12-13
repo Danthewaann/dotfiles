@@ -57,10 +57,10 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Quickfix list
-vim.keymap.set("n", "<C-M-n>", function()
+vim.keymap.set("n", "<C-h>", function()
   pcall(function() vim.cmd(":cnewer") end)
 end, { desc = "Go to older quickfix list" })
-vim.keymap.set("n", "<C-M-p>", function()
+vim.keymap.set("n", "<C-l>", function()
   pcall(function() vim.cmd(":colder") end)
 end, { desc = "Go to newer quickfix list" })
 
@@ -80,7 +80,7 @@ end, { desc = "Toggle Quickfix" })
 
 
 -- Quickfix navigation
-vim.keymap.set("n", "<M-j>", function()
+vim.keymap.set("n", "<C-j>", function()
   local ok, _ = pcall(function() vim.cmd(":cnext") end)
   if not ok then
     ok, _ = pcall(function() vim.cmd(":cfirst") end)
@@ -91,7 +91,7 @@ vim.keymap.set("n", "<M-j>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to next qf item" })
-vim.keymap.set("n", "<M-k>", function()
+vim.keymap.set("n", "<C-k>", function()
   local ok, _ = pcall(function() vim.cmd(":cprevious") end)
   if not ok then
     ok, _ = pcall(function() vim.cmd(":clast") end)
@@ -102,8 +102,8 @@ vim.keymap.set("n", "<M-k>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to previous qf item" })
-vim.keymap.set("n", "g<M-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
-vim.keymap.set("n", "g<M-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
+vim.keymap.set("n", "g<C-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
+vim.keymap.set("n", "g<C-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Close tab
 vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
