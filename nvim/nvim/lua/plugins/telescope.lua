@@ -112,7 +112,7 @@ return {
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, { desc = "Search Open Files" })
-    vim.keymap.set("n", "<leader>s/", require("telescope.builtin").current_buffer_fuzzy_find,
+    vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
       { desc = "[S]earch Fuzzily in current buffer [/]" }
     )
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Search Files" })
