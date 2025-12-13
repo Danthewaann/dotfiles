@@ -45,8 +45,6 @@ vim.keymap.set("n", "yol", ":set list!<CR>", { silent = true, desc = "Toggle lis
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump half page up" })
-vim.keymap.set("n", "<M-d>", "<C-e>", { desc = "Scroll page down" })
-vim.keymap.set("n", "<M-u>", "<C-y>", { desc = "Scroll page up" })
 vim.keymap.set("n", "gg", "ggzz", { desc = "Jump to first line" })
 vim.keymap.set("n", "G", "Gzz", { desc = "Jump to last line" })
 vim.keymap.set("n", "{", "{zz", { desc = "Jump to next paragraph" })
