@@ -14,7 +14,8 @@ return {
       cond = function()
         return vim.fn.executable("make") == 1
       end,
-    }
+    },
+    "fdschmidt93/telescope-egrepify.nvim",
   },
   config = function()
     require("telescope").setup({
@@ -100,7 +101,11 @@ return {
           -- Available modes: symbols, lines, both
           show_columns = "symbols",
         },
-        fzf = {}
+        fzf = {},
+        egrepify = {
+          -- Don't highlight search results
+          results_ts_hl = false,
+        }
       }
     })
 
@@ -109,6 +114,7 @@ return {
     -- Enable telescope extensions, if installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "aerial")
+    pcall(require("telescope").load_extension, "egrepify")
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, { desc = "Search Open Files" })
@@ -129,7 +135,7 @@ return {
     vim.keymap.set("n", "<leader>so", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
     end, { desc = "[S]earch Recently [O]pened Files" })
-    vim.keymap.set("n", "<leader>ss", require("telescope.builtin").live_grep, { desc = "[S]earch by Grep" })
+    vim.keymap.set("n", "<leader>ss", require("telescope").extensions.egrepify.egrepify, { desc = "[S]earch by Grep" })
     vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
     vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
