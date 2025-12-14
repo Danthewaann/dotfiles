@@ -6,7 +6,7 @@ return {
     { "<leader>aa", "<cmd>CodeCompanionActions<CR>",     desc = "Open [A]I [A]ctions" }
   },
   opts = {
-    strategies = {
+    interactions = {
       chat = {
         adapter = "githubmodels",
         keymaps = {
@@ -26,7 +26,10 @@ return {
       inline = {
         adapter = "githubmodels",
       },
-      agent = {
+      cmd = {
+        adapter = "githubmodels",
+      },
+      background = {
         adapter = "githubmodels",
       },
     },
