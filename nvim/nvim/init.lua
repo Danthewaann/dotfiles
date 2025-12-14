@@ -31,7 +31,6 @@ require("lazy").setup({
   { import = "plugins.core" },
   { import = "plugins.cosmetic" },
   { import = "plugins.extras" },
-  { import = "plugins.vimscript" },
 }, {
   ui = {
     border = "rounded"
