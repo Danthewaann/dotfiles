@@ -28,7 +28,10 @@ require("lazy").setup({
     -- https://github.com/folke/lazy.nvim/commit/147f5a3f55b5491bbc77a55ce846ef5eb575fa42
     version = "v11.17.1",
   },
-  { import = "plugins" },
+  { import = "plugins.core" },
+  { import = "plugins.cosmetic" },
+  { import = "plugins.extras" },
+  { import = "plugins.vimscript" },
 }, {
   ui = {
     border = "rounded"
