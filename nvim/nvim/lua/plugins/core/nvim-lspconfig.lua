@@ -5,17 +5,13 @@ return {
     -- Automatically install LSPs to stdpath for neovim
     {
       "williamboman/mason.nvim",
-      commit = "0f6fea935578039a271cdb52a5fdfcc58474bc5d",
       opts = {
         ui = {
           border = "rounded"
         },
       }
     },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      commit = "1a31f824b9cd5bc6f342fc29e9a53b60d74af245"
-    },
+    "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     "hrsh7th/nvim-cmp",
 
@@ -395,6 +391,8 @@ return {
 
     -- Ensure the servers above are installed
     require("mason-lspconfig").setup({
+      ensure_installed = {},
+      automatic_installation = false,
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
