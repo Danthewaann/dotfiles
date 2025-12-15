@@ -26,6 +26,9 @@ vim.o.breakindent = true
 -- Set completeo to have a better completion experience
 vim.o.completeopt = "menu,menuone,noinsert"
 
+-- Set messageopt to include `wait` so I can skip the press enter to continue prompts
+vim.o.messagesopt = "wait:500,history:500"
+
 -- Set the border for all floating windows
 vim.o.winborder = "rounded"
 
