@@ -2,6 +2,7 @@
 
 import os
 import re
+import shutil
 import sys
 import subprocess
 import pathlib
@@ -86,6 +87,12 @@ if proc.stdout:
     print(proc.stdout.rstrip(), file=sys.stderr)
 if proc.returncode != 0:
     sys.exit(1)
+
+# Copy the .vim folder so I can re-use global marks and history
+assert base_repo
+vim_dir = base_repo / ".vim"
+if vim_dir.exists():
+    shutil.copytree(vim_dir, f"{converted_name}/.vim")
 
 # Enter the new worktree
 os.chdir(converted_name)
