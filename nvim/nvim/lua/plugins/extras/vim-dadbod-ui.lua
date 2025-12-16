@@ -1,6 +1,14 @@
 return {
   "kristijanhusak/vim-dadbod-ui",
-  event = "VeryLazy",
+  keys = {
+    {
+      -- Open DB connections window
+      "<leader>db",
+      "<cmd> tab DBUI<CR>",
+      silent = true,
+      desc = "Open [DB] UI"
+    }
+  },
   dependencies = { "tpope/vim-dadbod" },
   config = function()
     local utils = require("custom.utils")
@@ -30,9 +38,6 @@ return {
 
     -- Don't use neovim's notfication system
     vim.g.db_ui_use_nvim_notify = 0
-
-    -- Open DB connections window
-    vim.keymap.set("n", "<leader>db", "<cmd> tab DBUI<CR>", { silent = true, desc = "Open [DB] UI" })
 
     augroup("dadbod-ui", { clear = true })
     autocmd("FileType", {
