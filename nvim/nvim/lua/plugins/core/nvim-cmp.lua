@@ -380,7 +380,10 @@ return {
       end)
 
       -- Proceed with spell check
-      vim.cmd.normal("[sEla")
+      vim.cmd.normal("[si")
+      local word_row, word_col = unpack(vim.api.nvim_win_get_cursor(0))
+      local current_word = vim.fn.expand("<cword>")
+      vim.api.nvim_win_set_cursor(0, {word_row, word_col + #current_word + 1})
       cmp.complete({
         reason = "auto",
         config = {
