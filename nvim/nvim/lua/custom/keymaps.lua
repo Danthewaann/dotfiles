@@ -102,8 +102,6 @@ vim.keymap.set("n", "<C-k>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to previous qf item" })
-vim.keymap.set("n", "g<C-j>", "<cmd> clast<CR>", { desc = "Jump to last qf item" })
-vim.keymap.set("n", "g<C-k>", "<cmd> cfirst<CR>", { desc = "Jump to first qf item" })
 
 -- Close tab
 vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
@@ -134,9 +132,6 @@ vim.keymap.set({ "n", "t" }, "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the 
 -- Move tabs left or right
 vim.keymap.set({ "n", "t" }, "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
 vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
-
--- Make this a no-op as I use <C-c> to cancel the which key popup
-vim.keymap.set({ "n", "t" }, "<C-w><C-c>", "<Nop>")
 
 -- Toggle highlight search
 vim.keymap.set({ "n" }, "<Esc>", ":set hls!<CR>", { silent = true })
