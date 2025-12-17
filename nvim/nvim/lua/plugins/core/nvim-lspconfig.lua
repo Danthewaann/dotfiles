@@ -186,8 +186,8 @@ return {
           utils.print("Starting LSP client...")
           vim.cmd(":LspStart")
         end, "[L]sp [S]tart")
-        map("<leader>lr", vim.lsp.buf.rename, "[R]ename")
-        map("<leader>lc", function()
+        map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+        map("<leader>ca", function()
           vim.lsp.buf.code_action({
             filter = function(x)
               -- Filter out the following code actions as I never use them:
@@ -200,7 +200,7 @@ return {
               return true
             end
           })
-        end, "[C]ode Action")
+        end, "[C]ode [A]ction")
         map("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
 
         -- Lesser used LSP functionality
