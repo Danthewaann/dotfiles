@@ -38,7 +38,7 @@ vim.keymap.set("v", "y", "ygv<Esc>")
 -- Go to alternative buffer
 vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternative buffer" })
 
--- Toggle word wrap
+-- Toggle text based options
 vim.keymap.set("n", "yow", ":set wrap!<CR>", { silent = true, desc = "Toggle word wrap" })
 vim.keymap.set("n", "yol", ":set list!<CR>", { silent = true, desc = "Toggle list chars" })
 
@@ -56,7 +56,7 @@ vim.keymap.set("n", "}", "}zz", { desc = "Jump to previous paragraph" })
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
--- Quickfix list
+-- Quickfix list management
 vim.keymap.set("n", "<C-h>", function()
   pcall(function() vim.cmd(":cnewer") end)
 end, { desc = "Go to older quickfix list" })
@@ -79,7 +79,7 @@ vim.keymap.set("n", "<C-q>", function()
 end, { desc = "Toggle Quickfix" })
 
 
--- Quickfix navigation
+-- Quickfix list navigation
 vim.keymap.set("n", "<C-j>", function()
   local ok, _ = pcall(function() vim.cmd(":cnext") end)
   if not ok then
@@ -196,12 +196,25 @@ vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
 -- Replace current word in current file
-vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+vim.keymap.set("n", "<leader>rp", function()
+    local selection = vim.fn.expand("<cword>")
+    local left = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
+    vim.api.nvim_feedkeys(":%s/" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
+      false)
+  end,
   { desc = "[R]e[p]lace current word in file" }
 )
 
 -- Replace visual selection in current file
-vim.keymap.set("v", "<leader>rp", [["ky:%s/<C-r>=escape(@k, "/")<CR>/<C-r>=escape(@k, "/")<CR>/gI<Left><Left><Left>]],
+vim.keymap.set("v", "<leader>rp", function()
+    local selection = utils.get_visual_selection()
+    for _, char in ipairs({ "/" }) do
+      selection = selection:gsub('%' .. char, '\\' .. char)
+    end
+    local left = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
+    vim.api.nvim_feedkeys(":%s/\\V" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
+      false)
+  end,
   { desc = "[R]e[p]lace selection in file" }
 )
 
@@ -237,4 +250,3 @@ vim.keymap.set("n", "<leader>tb", function()
     utils.print_err(vim.fn.trim(obj.stderr))
   end
 end, { desc = "Open [T]erminal in current [B]uffer directory" })
-
