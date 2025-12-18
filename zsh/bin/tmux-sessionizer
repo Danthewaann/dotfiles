@@ -2,6 +2,17 @@
 
 set -o pipefail
 
+relative_path() {
+    local target_abs base_abs
+    local target=$1
+    local base=$2
+    cd "$(dirname "$target")" || exit
+    target_abs=$(pwd)/$(basename "$target")
+    cd "$base" || exit
+    base_abs=$(pwd)
+    echo "${target_abs#"$base_abs"/}"
+}
+
 if [[ $# -gt 0 ]]; then
     selected=$1
     shift
@@ -9,8 +20,7 @@ if [[ $# -gt 0 ]]; then
     if [ -d "$selected/../.bare" ]; then
         # If this parent directory for the selected directory is a bare git repository,
         # prepend the parent directory to the selected directory.
-        selected_session=$(basename "$(dirname "$selected")")/$(basename "$selected")
-        selected_session=${selected_session/./_}
+        selected_session=$(relative_path "$selected" "$TMUX_CURRENT_DIR" | tr . _)
     else
         selected_session=$(basename "$selected" | tr . _)
     fi
