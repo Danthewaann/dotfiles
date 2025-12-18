@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import _utils
@@ -16,14 +17,26 @@ import _utils
 # => Clones to a /my-repo directory
 
 if len(sys.argv) < 2:
-    _utils.error("Usage: git-clone-bare <url> [name]")
+    _utils.info("Usage: git-clone-bare <git url or user/name> [name]")
     sys.exit(1)
 
 url = sys.argv[1]
-basename = pathlib.Path(url)
-name = pathlib.Path(sys.argv[2]) if len(sys.argv) > 2 else pathlib.Path(basename.stem)
+if url.startswith("git@github.com"):
+    name = (
+        pathlib.Path(sys.argv[2])
+        if len(sys.argv) > 2
+        else pathlib.Path(pathlib.Path(url).stem)
+    )
+elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", url):
+    name = pathlib.Path(url)
+    url = f"git@github.com:{url}.git"
+else:
+    _utils.error(
+        "Invalid value provided, must be a 'git@github.com' url or a '<user>/<repo>' string"
+    )
+    sys.exit(1)
 
-name.mkdir(exist_ok=True)
+name.mkdir(parents=True, exist_ok=True)
 os.chdir(name)
 
 # Moves all the administrative git files (a.k.a $GIT_DIR) under .bare directory.
