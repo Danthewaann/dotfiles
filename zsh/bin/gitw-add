@@ -17,8 +17,13 @@ def validate_working_dir(value: Any) -> pathlib.Path | None:
         return None
 
     working_dir = pathlib.Path(value)
-    if not working_dir.exists() and not working_dir.is_dir():
-        raise argparse.ArgumentTypeError("must provide a valid directory")
+    if not working_dir.exists():
+        # If this directory doesn't exist, check if it exists under my directory
+        # This is useful for switching to my forks of github repos
+        working_dir = pathlib.Path("Danthewaann") / working_dir.name
+
+        if not working_dir.is_dir():
+            raise argparse.ArgumentTypeError("must provide a valid directory")
 
     return working_dir
 
