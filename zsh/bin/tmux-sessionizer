@@ -29,14 +29,16 @@ else
         elif [ -d "$line"/../.bare ]; then
             # Bash variable substitution
             # From: https://stackoverflow.com/questions/22401091/bash-variable-substitution-vs-dirname-and-basename
-            dir=${line%/*}
-            dir_base=${dir##*/}
-            default_sessions+=("$dir_base/${line##*/}")
-        # If the parent directory of the current line is TMUX_CURRENT_DIR we add this line
-        elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR" ]]; then
-            default_sessions+=("${line##*/}")
+            parent_dirname=${line%/*}
+            parent_basename=${parent_dirname##*/}
+            parent_parent_dirname=${parent_dirname%/*}
+            parent_parent_basename=${parent_parent_dirname##*/}
+            default_sessions+=("$parent_parent_basename/$parent_basename/${line##*/}")
+        # If the parent directory of the current line is TMUX_CURRENT_DIR/misc we add this line
+        elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR/misc" ]]; then
+            default_sessions+=("misc/${line##*/}")
         fi
-    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 2 -type d -not -name '.*' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$")
+    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 3 -type d -not -name '.*' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$")
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
     readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)

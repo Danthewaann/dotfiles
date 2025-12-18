@@ -41,7 +41,7 @@ keybindings:
       name: checkout
       command: >
         clear &&
-        cd {{.RepoPath}} && 
+        cd ~/Workspace/{{.RepoName}} && 
         gitw-add {{.HeadRefName}}
     - key: d
       name: diff
@@ -51,19 +51,25 @@ keybindings:
       name: review
       command: >
         clear &&
-        cd {{.RepoPath}} && 
+        cd ~/Workspace/{{.RepoName}} && 
         gitw-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'"
     - key: T
       name: open ticket url
       command: >
         clear &&
         open $BASE_TICKETS_URL$(get-ticket-number {{.HeadRefName}})
-    - key: U
+    - key: R
       name: rebase with base
       command: >
         clear &&
-        cd {{.RepoPath}} && 
+        cd ~/Workspace/{{.RepoName}} && 
         gitw-add {{.HeadRefName}} "gitw-rebase {{.BaseRefName}} && git push --force"
+    - key: M
+      name: merge with base
+      command: >
+        clear &&
+        cd ~/Workspace/{{.RepoName}} && 
+        gitw-add {{.HeadRefName}} "gitw-merge {{.BaseRefName}} && git push"
   issues: []
 pager:
   diff: less
