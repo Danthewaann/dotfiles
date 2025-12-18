@@ -89,7 +89,7 @@ if proc.returncode != 0:
     sys.exit(1)
 
 # Copy the .vim folder so I can re-use global marks and history
-assert base_repo
+base_repo = _utils.get_worktree()
 vim_dir = base_repo / ".vim"
 if vim_dir.exists():
     shutil.copytree(vim_dir, f"{converted_name}/.vim")
