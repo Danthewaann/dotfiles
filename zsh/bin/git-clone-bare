@@ -6,6 +6,7 @@ import re
 import subprocess
 import sys
 import _utils
+import argparse
 
 # From: https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
 #
@@ -16,20 +17,27 @@ import _utils
 # git-clone-bare git@github.com:name/repo.git my-repo
 # => Clones to a /my-repo directory
 
+parser = argparse.ArgumentParser(prog="git-clone-bare")
+parser.add_argument("value", metavar="[git url or <user>/<repo>]")
+parser.add_argument("--name", dest="name")
+parser.add_argument("--fork", dest="fork")
+
 if len(sys.argv) < 2:
-    _utils.info("Usage: git-clone-bare <git url or user/name> [name]")
+    parser.print_usage()
     sys.exit(1)
 
-url = sys.argv[1]
-if url.startswith("git@github.com"):
-    name = (
-        pathlib.Path(sys.argv[2])
-        if len(sys.argv) > 2
-        else pathlib.Path(pathlib.Path(url).stem)
-    )
-elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", url):
-    name = pathlib.Path(url)
-    url = f"git@github.com:{url}.git"
+args = parser.parse_args()
+value = args.value
+name = args.name
+fork = args.fork
+
+if value.startswith("git@github.com"):
+    name = pathlib.Path(name) if name else pathlib.Path(pathlib.Path(value).stem)
+    base_name = name
+elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value):
+    name = pathlib.Path(value)
+    base_name = value.split("/")[1]
+    value = f"git@github.com:{value}.git"
 else:
     _utils.error(
         "Invalid value provided, must be a 'git@github.com' url or a '<user>/<repo>' string"
@@ -49,21 +57,45 @@ os.chdir(name)
 # hotfix-bug-12
 # ...
 print(file=sys.stderr)
-_utils.info("Cloning bare repository...")
-_utils.run_command(["git", "clone", "--bare", url, ".bare"])
+_utils.info(f"Cloning bare {name} repository...")
+proc = _utils.run_command(["git", "clone", "--bare", value, ".bare"])
+if proc.returncode != 0:
+    sys.exit(1)
 
 with open(".git", "w") as git_file:
     git_file.write("gitdir: ./.bare\n")
 
 # Explicitly sets the remote origin fetch so we can fetch remote branches
-subprocess.run(
+proc = subprocess.run(
     ["git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"]
 )
+if proc.returncode != 0:
+    sys.exit(1)
 
 # Gets all branches from origin
 print(file=sys.stderr)
 _utils.info("Fetching remote branches...")
-_utils.run_command(["git", "fetch", "origin"])
+proc = _utils.run_command(["git", "fetch", "origin"])
+if proc.returncode != 0:
+    sys.exit(1)
+
+if fork:
+    print(file=sys.stderr)
+    _utils.info("Fetching upstream branches...")
+    proc = _utils.run_command(
+        [
+            "git",
+            "remote",
+            "add",
+            "upstream",
+            f"https://github.com/{fork}/{base_name}.git",
+        ]
+    )
+    if proc.returncode != 0:
+        sys.exit(1)
+    proc = _utils.run_command(["git", "fetch", "upstream"])
+    if proc.returncode != 0:
+        sys.exit(1)
 
 # Creating base worktree
 print(file=sys.stderr)
