@@ -15,7 +15,7 @@ worktree = pathlib.Path(sys.argv[1])
 args = sys.argv[2:]
 
 if not worktree.is_dir():
-    _utils.error("Worktree doesn't exist!")
+    _utils.error(f"Worktree '{worktree.name}' doesn't exist!")
     sys.exit(1)
 os.chdir(worktree)
 
