@@ -17,9 +17,20 @@ import argparse
 # git-clone-bare git@github.com:name/repo.git my-repo
 # => Clones to a /my-repo directory
 
+
+def validate_value(value: str) -> pathlib.Path:
+    if value.startswith("git@github.com"):
+        return pathlib.Path(pathlib.Path(value).stem)
+    elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value):
+        return pathlib.Path(value)
+    else:
+        raise argparse.ArgumentTypeError(
+            "Invalid value provided, must be a 'git@github.com' url or a '<user>/<repo>' string"
+        )
+
+
 parser = argparse.ArgumentParser(prog="git-clone-bare")
-parser.add_argument("value", metavar="[git url or <user>/<repo>]")
-parser.add_argument("--name", dest="name")
+parser.add_argument("value", metavar="[GIT_URL or <USER>/<REPO>]", type=validate_value)
 parser.add_argument("--fork", dest="fork")
 
 if len(sys.argv) < 2:
@@ -27,25 +38,16 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 args = parser.parse_args()
-value = args.value
-name = args.name
-fork = args.fork
+value: pathlib.Path = args.value
+fork: str | None = args.fork
 
-if value.startswith("git@github.com"):
-    name = pathlib.Path(name) if name else pathlib.Path(pathlib.Path(value).stem)
-    base_name = name
-elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value):
-    name = pathlib.Path(value)
-    base_name = value.split("/")[1]
-    value = f"git@github.com:{value}.git"
-else:
-    _utils.error(
-        "Invalid value provided, must be a 'git@github.com' url or a '<user>/<repo>' string"
-    )
+if value.exists():
+    _utils.error(f"{value} already exists!")
     sys.exit(1)
 
-name.mkdir(parents=True, exist_ok=True)
-os.chdir(name)
+breakpoint()
+value.mkdir(parents=True, exist_ok=True)
+os.chdir(value)
 
 # Moves all the administrative git files (a.k.a $GIT_DIR) under .bare directory.
 #
@@ -57,8 +59,10 @@ os.chdir(name)
 # hotfix-bug-12
 # ...
 print(file=sys.stderr)
-_utils.info(f"Cloning bare {name} repository...")
-proc = _utils.run_command(["git", "clone", "--bare", value, ".bare"])
+_utils.info(f"Cloning bare {value} repository...")
+proc = _utils.run_command(
+    ["git", "clone", "--bare", f"git@github.com:{value}.git", ".bare"]
+)
 if proc.returncode != 0:
     sys.exit(1)
 
@@ -88,7 +92,7 @@ if fork:
             "remote",
             "add",
             "upstream",
-            f"https://github.com/{fork}/{base_name}.git",
+            f"https://github.com/{fork}/{value.name}.git",
         ]
     )
     if proc.returncode != 0:
