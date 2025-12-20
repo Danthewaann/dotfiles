@@ -2,6 +2,7 @@ return {
   "tpope/vim-fugitive",
   dependencies = { "tpope/vim-rhubarb" },
   config = function()
+    local utils = require("custom.utils")
     vim.keymap.set("n", "<C-g>", "<cmd> Git<CR>", { desc = "[G]it [S]tatus" })
 
     local git_log_args =
@@ -22,6 +23,30 @@ return {
     end, { desc = "[G]it [L]og current selection" })
     vim.keymap.set("v", "<leader>gL", ":Gclog<CR>",
       { desc = "[G]it [L]og current selection in quickfix list", silent = true })
+    vim.keymap.set("n", "<leader>gc", function()
+      vim.system({ "git", "jump", "--stdout", "merge" }, {}, function(obj)
+        vim.schedule(function()
+          if obj.code > 1 then
+            utils.print_err(vim.fn.trim(obj.stderr))
+            return
+          end
+          local qf_entries = {}
+          for line in obj.stdout:gmatch("[^\r\n]+") do
+            local filename, lnum, text = line:match("([^:]+):(%d+):%s*(.+)")
+            if filename and lnum and text then
+              table.insert(qf_entries, {
+                filename = filename,
+                lnum = tonumber(lnum),
+                col = 0,
+                text = text,
+              })
+            end
+          end
+          vim.fn.setqflist(qf_entries)
+          vim.cmd("copen")
+        end)
+      end)
+    end, { desc = "[G]it [C]onflicts" })
 
     vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>",
       { desc = "[G]it [Y]ank link to clipboard", silent = true })
