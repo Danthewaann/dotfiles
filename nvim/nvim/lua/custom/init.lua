@@ -18,3 +18,7 @@ require("custom.breakpoints")
 
 -- [[ Custom tmux code ]]
 require("custom.tmux")
+
+-- [[ Builtin optional plugins ]]
+vim.cmd("packadd nohlsearch")
+vim.cmd("packadd nvim.undotree")

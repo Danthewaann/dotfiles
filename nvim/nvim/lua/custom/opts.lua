@@ -64,7 +64,6 @@ vim.o.signcolumn = "yes"
 -- Set updatetime to a lower number for faster updates
 -- Also used for `:packadd nohlsearch`
 vim.o.updatetime = 2000
-vim.cmd("packadd nohlsearch")
 
 -- Set timeoutlen to a lower number for faster mapping completions
 vim.o.timeoutlen = 750
