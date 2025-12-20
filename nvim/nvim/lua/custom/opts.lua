@@ -66,7 +66,7 @@ vim.o.signcolumn = "yes"
 vim.o.updatetime = 2000
 
 -- Set timeoutlen to a lower number for faster mapping completions
-vim.o.timeoutlen = 750
+vim.o.timeoutlen = 1000
 
 -- Don't show mode information (normal, insert etc.) as I've included it in the statusline
 vim.o.showmode = false
