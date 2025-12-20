@@ -45,7 +45,6 @@ if value.exists():
     _utils.error(f"{value} already exists!")
     sys.exit(1)
 
-breakpoint()
 value.mkdir(parents=True, exist_ok=True)
 os.chdir(value)
 
