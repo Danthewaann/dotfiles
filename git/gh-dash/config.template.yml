@@ -46,6 +46,10 @@ keybindings:
       name: diff
       command: >
         clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -
+    - key: D
+      name: difftool
+      command: >
+        clear && gitw-add {{.HeadRefName}} "git difftool -d {{.HeadRefName}} origin/{{.BaseRefName}}" -C ~/Workspace/{{.RepoName}}
     - key: E
       name: review
       command: >

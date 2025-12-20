@@ -18,12 +18,14 @@
     verbose = false
 [core]
     excludesfile = ~/.gitignore
+[difftool "nvim_difftool"]
+    cmd = nvim -c \"packadd nvim.difftool\" -c \"DiffTool $LOCAL $REMOTE\"
 [diff]
     algorithm = histogram
     colorMoved = plain
     mnemonicPrefix = true
     renames = true
-    tool = nvimdiff
+    tool = nvim_difftool
 [fetch]
     prune = true
     pruneTags = true
