@@ -133,9 +133,6 @@ vim.keymap.set({ "n", "t" }, "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the 
 vim.keymap.set({ "n", "t" }, "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
 vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
 
--- Toggle highlight search
-vim.keymap.set({ "n" }, "<Esc>", ":set hls!<CR>", { silent = true })
-
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
