@@ -122,6 +122,9 @@ return {
     vim.keymap.set("n", "]d", function()
       vim.diagnostic.jump({ count = 1 })
     end, { desc = "Go to next diagnostic message" })
+    vim.keymap.set("n", "<leader>x", function()
+      vim.diagnostic.setqflist({ open = true })
+    end, { desc = "Open diagnostics in quickfix list" })
 
     local pyright_diagnostic_mode = "openFilesOnly"
     local pyright_type_checking_mode = "basic"
