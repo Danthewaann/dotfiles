@@ -43,11 +43,11 @@ vim.o.equalalways = true
 vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.o.undofile = true
 
--- Don't highlight searches
-vim.o.hlsearch = false
+-- Highlight searches
+vim.o.hlsearch = true
 
--- Don't highlight incremental searches
-vim.o.incsearch = false
+-- Highlight incremental searches
+vim.o.incsearch = true
 
 -- Enable 256 colours
 vim.o.termguicolors = true
@@ -61,9 +61,13 @@ vim.o.scrollback = 100000
 -- Enable the signcolumn for things like displaying git changes
 vim.o.signcolumn = "yes"
 
--- Set updatetime to a low number for faster updates
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
+-- Set updatetime to a lower number for faster updates
+-- Also used for `:packadd nohlsearch`
+vim.o.updatetime = 2000
+vim.cmd("packadd nohlsearch")
+
+-- Set timeoutlen to a lower number for faster mapping completions
+vim.o.timeoutlen = 750
 
 -- Don't show mode information (normal, insert etc.) as I've included it in the statusline
 vim.o.showmode = false
