@@ -42,7 +42,7 @@ return {
               })
             end
           end
-          vim.fn.setqflist(qf_entries)
+          vim.fn.setqflist({}, " ", { title = "Git conflicts", items = qf_entries })
           vim.cmd("copen")
         end)
       end)
