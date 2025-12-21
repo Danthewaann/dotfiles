@@ -48,8 +48,15 @@ return {
     }
     local virtual_text_config = {
       format = function(diagnostic)
-        -- Extract only the first line of the diagnostic message
-        return diagnostic.message:match("^[^\n]*")
+        -- Count number of lines in the message
+        local _, count = diagnostic.message:gsub("\n", "")
+        count = count + 1
+        -- Extract only the first line of the diagnostic message and trim it
+        local message = diagnostic.message:match("^[^\n]*"):match("^%s*(.-)%s*$")
+        if count > 1 then
+          return message .. " [TRUNCATED]"
+        end
+        return message
       end,
       prefix = function(diagnostic, i, total)
         return symbols[diagnostic.severity]
