@@ -113,10 +113,6 @@ vim.keymap.set({ "n", "t" }, "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close 
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
 
--- Tab navigation
-vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
-
 -- Go to tab by number
 vim.keymap.set({ "n", "t" }, "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
 vim.keymap.set({ "n", "t" }, "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
