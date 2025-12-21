@@ -72,13 +72,13 @@ return {
     require("lspconfig.ui.windows").default_options.border = border
 
     -- From :h diagnostic-handlers-example
-    local ns = vim.api.nvim_create_namespace("my_namespace")
+    local ns = vim.api.nvim_create_namespace("highest_severity_diagnostic")
 
-    -- Get a reference to the original signs handler
-    local orig_signs_handler = vim.diagnostic.handlers.signs
+    -- Get a reference to the original virtual_text handler
+    local orig_vt_handler = vim.diagnostic.handlers.virtual_text
 
-    -- Override the built-in signs handler
-    vim.diagnostic.handlers.signs = {
+    -- Override the built-in virtual_text handler
+    vim.diagnostic.handlers.virtual_text = {
       show = function(_, bufnr, _, opts)
         -- Get all diagnostics from the whole buffer rather than just the
         -- diagnostics passed to the handler
@@ -86,7 +86,7 @@ return {
 
         -- Find the "worst" diagnostic per line
         local max_severity_per_line = {}
-        for _, d in pairs(diagnostics) do
+        for _, d in ipairs(diagnostics) do
           local m = max_severity_per_line[d.lnum]
           if not m or d.severity < m.severity then
             max_severity_per_line[d.lnum] = d
@@ -96,10 +96,10 @@ return {
         -- Pass the filtered diagnostics (with our custom namespace) to
         -- the original handler
         local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
-        orig_signs_handler.show(ns, bufnr, filtered_diagnostics, opts)
+        orig_vt_handler.show(ns, bufnr, filtered_diagnostics, opts)
       end,
       hide = function(_, bufnr)
-        orig_signs_handler.hide(ns, bufnr)
+        orig_vt_handler.hide(ns, bufnr)
       end,
     }
 
