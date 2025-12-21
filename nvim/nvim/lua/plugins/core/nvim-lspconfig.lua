@@ -47,6 +47,10 @@ return {
       [vim.diagnostic.severity.HINT] = "DiagnosticHint",
     }
     local virtual_text_config = {
+      format = function(diagnostic)
+        -- Extract only the first line of the diagnostic message
+        return diagnostic.message:match("^[^\n]*")
+      end,
       prefix = function(diagnostic, i, total)
         return symbols[diagnostic.severity]
       end
