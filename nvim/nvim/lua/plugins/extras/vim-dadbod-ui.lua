@@ -30,7 +30,7 @@ return {
     -- Save queries and db connections to $TMUX_CURRENT_DIR/database_queries if it exists
     local workspace = os.getenv("TMUX_CURRENT_DIR")
     if workspace ~= nil and utils.file_exists(workspace) then
-      vim.g.db_ui_save_location = workspace .. "/database_queries"
+      vim.g.db_ui_save_location = workspace .. "/misc/database_queries"
     end
 
     -- Position the drawer on the right side of the window
