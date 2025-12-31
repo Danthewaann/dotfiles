@@ -40,6 +40,12 @@ return {
         results_title = false,
         layout_strategy = "bottom_pane",
         layout_config = {
+          center = {
+            anchor = "S",
+            height = 0.40,
+            width = { padding = 0 },
+            preview_cutoff = 1,
+          },
           height = { padding = 0 },
           width = { padding = 0 }
         },
@@ -135,12 +141,16 @@ return {
     vim.keymap.set("n", "<leader>so", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
     end, { desc = "[S]earch Recently [O]pened Files" })
-    vim.keymap.set("n", "<leader>ss", require("telescope").extensions.egrepify.egrepify, { desc = "[S]earch by Grep" })
+    vim.keymap.set("n", "<leader>ss", function()
+      require("telescope").extensions.egrepify.egrepify({ layout_strategy = "center" })
+    end, { desc = "[S]earch by Grep" })
     vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
-    vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
+    vim.keymap.set("n", "<leader>sw", function()
+      require("telescope.builtin").grep_string({ layout_strategy = "center" })
+    end, { desc = "[S]earch [W]ord" })
     vim.keymap.set("v", "<leader>sw", function()
-      require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
+      require("telescope.builtin").grep_string({ search = utils.get_visual_selection(), layout_strategy = "center" })
     end, { desc = "[S]earch [W]ord" })
   end
 }
