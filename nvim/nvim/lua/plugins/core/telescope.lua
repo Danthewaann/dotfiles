@@ -42,7 +42,8 @@ return {
         layout_config = {
           center = {
             anchor = "S",
-            height = 0.40,
+            anchor_padding = 0,
+            height = 0.60,
             width = { padding = 0 },
             preview_cutoff = 1,
           },
