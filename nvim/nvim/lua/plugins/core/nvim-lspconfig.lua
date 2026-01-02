@@ -54,7 +54,7 @@ return {
         -- Extract only the first line of the diagnostic message and trim it
         local message = diagnostic.message:match("^[^\n]*"):match("^%s*(.-)%s*$")
         if count > 1 then
-          return message .. " [TRUNCATED]"
+          return message .. " ..."
         end
         return message
       end,
