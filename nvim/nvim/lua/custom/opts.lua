@@ -26,7 +26,7 @@ vim.o.smartcase = true
 -- Enable break indent
 vim.o.breakindent = true
 
--- Set completeo to have a better completion experience
+-- Set completeopt to have a better completion experience
 vim.o.completeopt = "menu,menuone,noinsert"
 
 -- Set the border for all floating windows
