@@ -5,12 +5,24 @@ return {
   -- See `:help ibl`
   main = "ibl",
   config = function()
-    local utils = require("custom.utils")
-
     require("ibl").setup({
       scope = { enabled = false },
       exclude = {
-        filetypes = utils.ignore_filetypes
+        filetypes = {
+          "neotest-summary",
+          "qf",
+          "git",
+          "dashboard",
+          "dbui",
+          "diff",
+          "gitcommit",
+          "list",
+          "help",
+          "man",
+          "octo_panel",
+          "dbout",
+          "oil"
+        }
       }
     })
   end

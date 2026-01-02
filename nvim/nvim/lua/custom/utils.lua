@@ -146,21 +146,4 @@ module.dmypy_args = function(include_cmd)
   return args
 end
 
--- filetypes to ignore for plugins
-module.ignore_filetypes = {
-  "neotest-summary",
-  "qf",
-  "git",
-  "dashboard",
-  "dbui",
-  "diff",
-  "gitcommit",
-  "list",
-  "help",
-  "man",
-  "octo_panel",
-  "dbout",
-  "oil"
-}
-
 return module
