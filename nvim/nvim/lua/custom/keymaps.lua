@@ -179,6 +179,9 @@ vim.keymap.set("n", "<M-Up>", function()
   end
 end, { desc = "Adjust window height down" })
 
+-- Keep the cursor position when searching, don't move to next match
+vim.keymap.set('n', '*', '*N')
+
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
