@@ -108,7 +108,10 @@ autocmd("FileType", {
   pattern = "markdown",
   callback = function(event)
     if vim.bo[event.buf].buftype == "nofile" then
-      pcall(require("render-markdown").disable)
+      local status, module = pcall(require, "render-markdown")
+      if status then
+        module.disable()
+      end
       vim.o.spell = false
     end
   end
