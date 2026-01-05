@@ -92,10 +92,10 @@ alias rv='gh repo view --web'
 alias tv='ticket-open'
 alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
 alias gap='git-apply-patch'
-function d () { output=$(git diff); if [[ -n $output ]]; then git diff -w | nvim -R -; fi; }
-function ds () { git --no-pager diff --shortstat | trim }
-function db () { branch=${1:-origin/$(git-get-base-branch)}..HEAD; output=$(git diff $branch); if [[ -n $output ]]; then git diff $branch | nvim -R -; fi; }
-function dbs () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
+function gd () { output=$(git diff); if [[ -n $output ]]; then git diff -w | nvim -R -; fi; }
+function gds () { git --no-pager diff --shortstat | trim }
+function gdb () { branch=${1:-origin/$(git-get-base-branch)}..HEAD; output=$(git diff $branch); if [[ -n $output ]]; then git diff $branch | nvim -R -; fi; }
+function gdbs () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
 # see `git help log` for detailed help.
 #   %h: abbreviated commit hash
 #   %d: ref names, like the --decorate option of git-log(1)
