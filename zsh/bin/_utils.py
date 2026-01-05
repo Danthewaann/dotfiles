@@ -151,33 +151,32 @@ def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]
 
 
 def update_python_deps() -> None:
+    # We need to deactivate the current virtual environment otherwise poetry install
+    # will install packages into the current virtual environment instead of the new
+    # one we want to create for the new worktree.
+    env: dict[str, str] = os.environ.copy()
+    if env.get("VIRTUAL_ENV"):
+        # Remove virtual environment-specific variables
+        env.pop("VIRTUAL_ENV", None)
+        env.pop("PYTHONHOME", None)
+        env.pop("PYTHONPATH", None)
+
     if pathlib.Path("poetry.lock").exists():
         print(file=sys.stderr)
         info("Running poetry install...")
         print(file=sys.stderr)
-        # We need to deactivate the current virtual environment otherwise poetry install
-        # will install packages into the current virtual environment instead of the new
-        # one we want to create for the new worktree.
-        env = os.environ
-        if env.get("VIRTUAL_ENV"):
-            # Create a copy of the current environment
-            env = os.environ.copy()
-            # Remove virtual environment-specific variables
-            env.pop("VIRTUAL_ENV", None)
-            env.pop("PYTHONHOME", None)
-            env.pop("PYTHONPATH", None)
-
         subprocess.run(["poetry", "install", "--all-extras"], env=env)
     elif pathlib.Path("uv.lock").exists():
         print(file=sys.stderr)
         info("Running uv sync...")
         print(file=sys.stderr)
-        subprocess.run(["uv", "sync", "--all-extras"])
+        subprocess.run(["uv", "sync", "--all-extras"], env=env)
     elif pathlib.Path("pyproject.toml").exists():
         print(file=sys.stderr)
         info("Running uv pip install...")
         print(file=sys.stderr)
-        subprocess.run(["uv", "venv"])
+        subprocess.run(["uv", "venv"], env=env)
         subprocess.run(
-            ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"]
+            ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],
+            env=env,
         )
