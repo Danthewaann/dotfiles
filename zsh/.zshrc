@@ -108,9 +108,7 @@ function dbs () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-bra
 #   %ar: author date, relative
 #   %ai: author date, ISO 8601-like format
 #   %s: subject
-function gl () { git log --oneline --graph --decorate }
-function gll () { git log --graph --pretty=format:"%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s" }
-function glll () { git log --graph --pretty=format:"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s" }
+function gl () { nvim -c "Git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s' | only" }
 
 # Some convenience functions
 function b64e () { echo -n "$1" | base64 }
