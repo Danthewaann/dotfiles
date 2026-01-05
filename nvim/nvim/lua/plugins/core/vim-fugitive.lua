@@ -6,7 +6,7 @@ return {
     vim.keymap.set("n", "<C-g>", "<cmd> Git<CR>", { desc = "[G]it [S]tatus" })
 
     local git_log_args =
-    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%Creset %s'"
+    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
 
     vim.keymap.set("n", "<leader>gla", string.format("<cmd> Git log %s<CR>", git_log_args),
       { desc = "[G]it [L]og [A]ll" })
