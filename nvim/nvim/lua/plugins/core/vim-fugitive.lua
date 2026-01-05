@@ -8,7 +8,7 @@ return {
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
 
-    vim.keymap.set("n", "<leader>gla", string.format("<cmd> Git log %s<CR>", git_log_args),
+    vim.keymap.set("n", "<leader>gla", string.format("<cmd> tab Git log %s<CR>", git_log_args),
       { desc = "[G]it [L]og [A]ll" })
     vim.keymap.set("n", "<leader>glA", "<cmd>Gclog<CR>", { desc = "[G]it [L]og [A]ll in quickfix list" })
     vim.keymap.set("n", "<leader>glf", function()
