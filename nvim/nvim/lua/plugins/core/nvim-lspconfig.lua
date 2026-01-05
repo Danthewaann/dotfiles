@@ -190,15 +190,15 @@ return {
         map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
         map("<leader>lR", function()
           utils.print("Restarting LSP client...")
-          vim.cmd(":LspRestart")
+          vim.cmd(":lsp restart")
         end, "[L]sp [R]estart")
         map("<leader>ls", function()
           utils.print("Stopping LSP client...")
-          vim.cmd(":LspStop")
+          vim.cmd(":lsp stop")
         end, "[L]sp [S]top")
         map("<leader>lS", function()
           utils.print("Starting LSP client...")
-          vim.cmd(":LspStart")
+          vim.cmd(":lsp stop")
         end, "[L]sp [S]tart")
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
         map("<leader>ca", function()
@@ -231,7 +231,7 @@ return {
               else
                 pyright_diagnostic_mode = "openFilesOnly"
               end
-              vim.cmd(":LspRestart")
+              vim.cmd(":lsp restart")
               utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
             end, "Change [D]iagnostic Mode")
             client.settings.basedpyright.analysis.typeCheckingMode = pyright_type_checking_mode
@@ -241,7 +241,7 @@ return {
               else
                 pyright_type_checking_mode = "basic"
               end
-              vim.cmd(":LspRestart")
+              vim.cmd(":lsp restart")
               utils.print("Restarting LSP with typeCheckingMode=" .. pyright_type_checking_mode)
             end, "Change [T]ype Checking Mode")
           end
