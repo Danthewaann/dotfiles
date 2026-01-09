@@ -36,7 +36,7 @@ return {
       "swift",
       "just",
       "tmux",
-      "sh",
+      "bash",
     }
 
     require("nvim-treesitter").install(parsers)
