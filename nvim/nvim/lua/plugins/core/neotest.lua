@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   "nvim-neotest/neotest",
   lazy = true,
@@ -33,8 +34,16 @@ return {
       output = {
         open_on_run = false,
       },
+      status = {
+        enabled = true,
+        signs = true,
+        virtual_text = false
+      },
       summary = {
         animated = false,
+        count = false,
+        expand_errors = true,
+        follow = true,
         mappings = {
           expand = "<Tab>",
           jumpto = "<CR>"
