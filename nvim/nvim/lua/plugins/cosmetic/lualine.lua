@@ -81,12 +81,20 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
+    local git_shortstat = function()
+      local obj = vim.system({ "git", "--no-pager", "diff", "HEAD", "--shortstat" }):wait()
+      if obj.code ~= 0 then
+        return ""
+      end
+      return obj.stdout:match("^%s*(.-)%s*$")
+    end
+
     local dashboard_extension = {
       sections = {
         lualine_a = {},
         lualine_b = { function() return vim.fn.fnamemodify(vim.loop.cwd(), ":~:.") end },
         lualine_c = {},
-        lualine_x = {},
+        lualine_x = { git_shortstat },
         lualine_y = {},
         lualine_z = { function()
           local version = vim.version()
@@ -96,6 +104,9 @@ return {
 
       filetypes = { "dashboard" }
     }
+
+    local fugitive_extension = require("lualine.extensions.fugitive")
+    fugitive_extension.sections.lualine_x = { git_shortstat }
 
     require("lualine").setup({
       options = {
@@ -107,11 +118,10 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt" } },
       },
-      extensions = { "man", "quickfix", "fugitive", "aerial", dashboard_extension },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", dashboard_extension },
       sections = {
         lualine_a = { "mode" },
         lualine_b = { filename_config, "diff", "diagnostics" },
-
         lualine_c = {},
         lualine_x = { "searchcount", "selectioncount", filetype_config, "filesize", "progess" },
         lualine_y = {},
