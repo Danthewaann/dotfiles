@@ -1,0 +1,18 @@
+#compdef db
+
+# Keeping this here in case I need it
+#
+# Need to load git completions
+# _git 2>/dev/null;
+#
+# _show_all_branches () {
+# 	# From _git_show_branch
+# 	__gitcomp_direct "$(__git_heads)"
+# }
+
+# From: https://unix.stackexchange.com/a/269818
+_git_branch_names () {
+  compadd "${(@)${(f)$(git branch)}#??}"
+}
+
+compdef _git_branch_names db
