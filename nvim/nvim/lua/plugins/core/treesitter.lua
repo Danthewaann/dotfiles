@@ -36,7 +36,6 @@ return {
       "swift",
       "just",
       "tmux",
-      "bash",
     }
 
     require("nvim-treesitter").install(parsers)
@@ -46,6 +45,20 @@ return {
       callback = function()
         -- Syntax highlighting
         vim.treesitter.start()
+        -- Folds
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        -- Disable the @spell and @nospell capture groups
+        vim.api.nvim_set_hl(0, "@spell", { link = "NONE" })
+        vim.api.nvim_set_hl(0, "@nospell", { link = "NONE" })
+      end,
+    })
+
+    -- Enable bash syntax highlighting for shell files
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "sh" },
+      callback = function(args)
+        -- Syntax highlighting
+        vim.treesitter.start(args.buf, "bash")
         -- Folds
         vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
         -- Disable the @spell and @nospell capture groups
