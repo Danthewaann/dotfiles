@@ -234,22 +234,15 @@ fpath=($fpath $HOME/.zsh_completions)
 # regenerated adds a noticeable delay to zsh startup.  This little hack restricts
 # it to once a day.  It should be pasted into your own completion file.
 #
-# The globbing is a little complicated here:
-# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
-# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
-# - '.' matches "regular files"
-# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
-#
 # From:
 #  - https://carlosbecker.com/posts/speeding-up-zsh/
 #  - https://gist.github.com/ctechols/ca1035271ad134841284
 #  - https://htr3n.github.io/2018/07/faster-zsh/
 autoload -Uz compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-    compinit;
-else
-    compinit -C;
+if [ "$(find ~/.zcompdump -mtime +1)" ] ; then
+    compinit
 fi
+compinit -C
 
 # Set completion styles
 #
