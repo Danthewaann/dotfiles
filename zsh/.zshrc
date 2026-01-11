@@ -8,6 +8,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # status check for large repositories much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# Add my custom zsh completions scripts to fpath so they are detected by compinit when we source oh-my-zsh.sh below
+fpath=($fpath $HOME/.zsh_completions)
+
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -23,7 +26,7 @@ plugins=(
     virtualenv
 )
 
-# Load oh-my-zsh
+# Load oh-my-zsh (this also runs compinit)
 source $ZSH/oh-my-zsh.sh
 
 # Setup root variables
@@ -222,27 +225,6 @@ RPROMPT=""
 # Setup virtual environment details if one is activated in the prompt
 ZSH_THEME_VIRTUALENV_PREFIX="(%{$fg[green]%}🐍"
 ZSH_THEME_VIRTUALENV_SUFFIX="%{$reset_color%}) "
-
-# Add my custom zsh completions scripts to fpath so they are detected by compinit
-fpath=($fpath $HOME/.zsh_completions)
-
-# Load zsh completion scripts using compinit
-#
-# More info can be found from `man zshcompsys`
-#
-# On slow systems, checking the cached .zcompdump file to see if it must be
-# regenerated adds a noticeable delay to zsh startup.  This little hack restricts
-# it to once a day.  It should be pasted into your own completion file.
-#
-# From:
-#  - https://carlosbecker.com/posts/speeding-up-zsh/
-#  - https://gist.github.com/ctechols/ca1035271ad134841284
-#  - https://htr3n.github.io/2018/07/faster-zsh/
-autoload -Uz compinit
-if [ "$(find ~/.zcompdump -mtime +1)" ] ; then
-    compinit
-fi
-compinit -C
 
 # Set completion styles
 #
