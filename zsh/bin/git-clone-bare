@@ -47,7 +47,6 @@ if value.exists():
     sys.exit(1)
 
 value.mkdir(parents=True, exist_ok=True)
-os.chdir(value)
 
 # Moves all the administrative git files (a.k.a $GIT_DIR) under .bare directory.
 #
@@ -61,10 +60,14 @@ os.chdir(value)
 print(file=sys.stderr)
 _utils.info(f"Cloning bare {value} repository...")
 proc = _utils.run_command(
-    ["git", "clone", "--bare", f"git@github.com:{value}.git", ".bare"]
+    ["git", "-C", value, "clone", "--bare", f"git@github.com:{value}.git", ".bare"]
 )
 if proc.returncode != 0:
+    value.rmdir()
     sys.exit(1)
+
+# Jump into the bare repo directory
+os.chdir(value)
 
 with open(".git", "w") as git_file:
     git_file.write("gitdir: ./.bare\n")
