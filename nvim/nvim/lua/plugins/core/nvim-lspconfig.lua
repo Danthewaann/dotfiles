@@ -115,6 +115,9 @@ return {
     }
 
     -- Diagnostic keymaps
+    vim.keymap.set("n", "<leader>tD", function()
+      vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+    end, { desc = "[T]oggle [D]iagnostics" })
     vim.keymap.set("n", "<leader>tL", function()
       local new_config = not vim.diagnostic.config().virtual_lines
       vim.diagnostic.config({ virtual_lines = new_config })
