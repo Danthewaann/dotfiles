@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import pathlib
 import re
@@ -20,7 +21,9 @@ import argparse
 
 def validate_value(value: str) -> pathlib.Path:
     if value.startswith("git@github.com"):
-        return pathlib.Path(pathlib.Path(value).stem)
+        _, value = value.split(":")
+        value = value.removesuffix(".git")
+        return pathlib.Path(value)
     elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value):
         return pathlib.Path(value)
     else:
@@ -31,7 +34,6 @@ def validate_value(value: str) -> pathlib.Path:
 
 parser = argparse.ArgumentParser(prog="git-clone-bare")
 parser.add_argument("value", metavar="[GIT_URL or <USER>/<REPO>]", type=validate_value)
-parser.add_argument("--fork", dest="fork")
 
 if len(sys.argv) < 2:
     parser.print_usage()
@@ -39,7 +41,6 @@ if len(sys.argv) < 2:
 
 args = parser.parse_args()
 value: pathlib.Path = args.value
-fork: str | None = args.fork
 
 if value.exists():
     _utils.error(f"{value} already exists!")
@@ -82,7 +83,47 @@ proc = _utils.run_command(["git", "fetch", "origin"])
 if proc.returncode != 0:
     sys.exit(1)
 
-if fork:
+print(file=sys.stderr)
+_utils.info("Setting default repo...")
+proc = _utils.run_command(
+    [
+        "gh",
+        "repo",
+        "set-default",
+        value,
+    ]
+)
+if proc.returncode != 0:
+    sys.exit(1)
+
+print(file=sys.stderr)
+_utils.info("Fetching parent settings...")
+proc = subprocess.run(
+    [
+        "gh",
+        "repo",
+        "view",
+        "--json",
+        "parent",
+        "--json",
+        "isFork",
+    ],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+)
+if proc.returncode != 0:
+    sys.exit(1)
+
+settings = json.loads(proc.stdout)
+
+if not settings["isFork"]:
+    print(
+        f"{_utils.YELLOW}This repo is not a fork, skipping upstream fetch{_utils.NC}",
+        file=sys.stderr,
+    )
+else:
+    owner = settings["parent"]["owner"]["login"]
     print(file=sys.stderr)
     _utils.info("Fetching upstream branches...")
     proc = _utils.run_command(
@@ -91,7 +132,7 @@ if fork:
             "remote",
             "add",
             "upstream",
-            f"https://github.com/{fork}/{value.name}.git",
+            f"https://github.com/{owner}/{value.name}.git",
         ]
     )
     if proc.returncode != 0:
