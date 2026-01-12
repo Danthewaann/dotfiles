@@ -78,7 +78,7 @@ return {
     vim.g["test#neovim_sticky#kill_previous"] = 1
     vim.g["test#neovim_sticky#reopen_window"] = 1
     vim.g["test#echo_command"] = 0
-    vim.g["test#preserve_screen"] = 1
+    vim.g["test#preserve_screen"] = 0
     vim.g["test#python#pytest#options"] = { nearest = "-vv" }
   end,
   keys = {
