@@ -132,6 +132,13 @@ vim.keymap.set({ "n", "t" }, "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the 
 vim.keymap.set({ "n", "t" }, "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
 vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
 
+-- Window navigation
+vim.keymap.set({ "n", "t" }, "<C-w>h", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "t" }, "<C-w>j", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "t" }, "<C-w>k", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "t" }, "<C-w>l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-w>", "<cmd> wincmd w<CR>", { desc = "Switch windows" })
+
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
   local cur_winnr = vim.api.nvim_get_current_win()
