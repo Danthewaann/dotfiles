@@ -74,12 +74,15 @@ return {
   "vim-test/vim-test",
   config = function()
     vim.g["test#strategy"] = "neovim_sticky"
+    vim.g["test#python#pytest#options"] = { nearest = "-vv" }
+
+    -- Theses are only used for the neovim_sticky test strategy
     vim.g["test#neovim#term_position"] = "botright 20"
     vim.g["test#neovim_sticky#kill_previous"] = 1
     vim.g["test#neovim_sticky#reopen_window"] = 1
+    vim.g["test#neovim_sticky#use_existing"] = 0
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 0
-    vim.g["test#python#pytest#options"] = { nearest = "-vv" }
   end,
   keys = {
     {
