@@ -13,10 +13,10 @@ return {
       "<leader>sm", "<cmd>Telescope recall<CR>", desc = "[S]earch [M]arks"
     },
     {
-      "<M-h>", "<cmd>RecallPrevious<CR>zz", desc = "Jump to previous mark"
+      "<C-h>", "<cmd>RecallPrevious<CR>zz", desc = "Jump to previous mark"
     },
     {
-      "<M-l>", "<cmd>RecallNext<CR>zz", desc = "Jump to next mark"
+      "<C-l>", "<cmd>RecallNext<CR>zz", desc = "Jump to next mark"
     },
   }
 }
