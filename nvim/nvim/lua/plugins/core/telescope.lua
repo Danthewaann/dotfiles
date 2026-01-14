@@ -76,6 +76,10 @@ return {
           symbol_width = 0.4,
           symbol_type_width = 0.1
         },
+        lsp_references = {
+          include_declaration = false,
+          include_current_line = true,
+        },
         current_buffer_fuzzy_find = {
           previewer = false
         },
