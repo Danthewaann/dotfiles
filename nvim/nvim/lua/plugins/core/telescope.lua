@@ -124,7 +124,7 @@ return {
     pcall(require("telescope").load_extension, "egrepify")
 
     -- See `:help telescope.builtin`
-    vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, { desc = "Search Open Files" })
+    vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "Search Open Files" })
     vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
       { desc = "[S]earch Fuzzily in current buffer [/]" }
     )
