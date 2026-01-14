@@ -1,9 +1,10 @@
 return {
   "Danthewaann/recall.nvim",
   opts = {},
+  lazy = false,
   keys = {
     {
-      "<leader>mm", "<cmd>RecallToggle<CR>", desc = "[M]ark [M]ake"
+      "<C-b>", "<cmd>RecallToggle<CR>", desc = "Toggle [B]ookmark"
     },
     {
       "<leader>mc", "<cmd>RecallClear<CR>", desc = "[M]ark [C]lear"
