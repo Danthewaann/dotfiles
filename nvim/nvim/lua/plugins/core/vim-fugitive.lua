@@ -63,6 +63,7 @@ return {
         vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = buf, desc = "Git push" })
         vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
         vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buffer = buf, desc = "Git pull" })
+        vim.keymap.set("n", "S", "<cmd> Git add .<CR>", { buffer = buf, desc = "Git add all" })
       end
     })
 
