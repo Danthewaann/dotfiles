@@ -3,7 +3,7 @@ return {
   dependencies = { "tpope/vim-rhubarb" },
   config = function()
     local utils = require("custom.utils")
-    vim.keymap.set("n", "<leader>gg", "<cmd> Git<CR>", { desc = "[G]it [S]tatus" })
+    vim.keymap.set("n", "<leader>gg", "<cmd> Git<CR>", { desc = "[G]it Status" })
 
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
