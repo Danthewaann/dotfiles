@@ -3,7 +3,7 @@ return {
   dependencies = { "tpope/vim-rhubarb" },
   config = function()
     local utils = require("custom.utils")
-    vim.keymap.set("n", "<leader>gs", "<cmd> Git<CR>", { desc = "[G]it [S]tatus" })
+    vim.keymap.set("n", "<leader>gg", "<cmd> Git<CR>", { desc = "[G]it [S]tatus" })
 
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
@@ -23,6 +23,7 @@ return {
     end, { desc = "[G]it [L]og current selection" })
     vim.keymap.set("v", "<leader>gL", ":Gclog<CR>",
       { desc = "[G]it [L]og current selection in quickfix list", silent = true })
+    vim.keymap.set({"n", "v"}, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set("n", "<leader>gc", function()
       vim.system({ "git", "jump", "--stdout", "merge" }, {}, function(obj)
         vim.schedule(function()
