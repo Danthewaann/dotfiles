@@ -97,6 +97,7 @@ alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Running
 alias gc='git jump merge'
 alias gp='git-apply-patch'
 function gd () { branch=${1:-origin/$(git-get-base-branch)}..HEAD; nvim -c "Git diff $branch | only" }
+function gds () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
 # see `git help log` for detailed help.
 #   %h: abbreviated commit hash
 #   %d: ref names, like the --decorate option of git-log(1)
