@@ -60,7 +60,7 @@ return {
         mappings = {
           ["i"] = {
             ["<C-space>"] = "to_fuzzy_refine",
-            ["<C-t>"] = require("telescope.actions.layout").toggle_preview,
+            ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
             ["<C-e>"] = require("telescope.actions").send_selected_to_qflist + require("telescope.actions").open_qflist,
           }
         }
