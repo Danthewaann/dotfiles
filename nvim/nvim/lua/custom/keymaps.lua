@@ -108,6 +108,42 @@ vim.keymap.set({ "n", "t" }, "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the
 -- Close all tabs except current one
 vim.keymap.set({ "n", "t" }, "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
 
+-- Toggle a terminal that can be used by vim-test
+vim.keymap.set({ "n", "t" }, "<C-t>", function()
+  local terminal_buf = nil
+
+  -- Iterate through all buffers
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    -- Check if the buffer is a terminal and has the variable `_test_vim_neovim_sticky`
+    if vim.bo[buf].buftype == "terminal" and vim.b[buf]._test_vim_neovim_sticky ~= nil then
+      terminal_buf = buf
+    end
+  end
+
+  if terminal_buf then
+    -- Check if the terminal is currently visible in any window
+    local is_visible = false
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win) == terminal_buf then
+        is_visible = true
+        -- Hide the terminal by closing the window
+        vim.api.nvim_win_close(win, true)
+        break
+      end
+    end
+
+    -- If the terminal is not visible, open it in a new split
+    if not is_visible then
+      vim.api.nvim_command("botright 20 split | buffer " .. terminal_buf)
+    end
+  else
+    -- If the terminal buffer doesn't exist, create a new terminal
+    vim.api.nvim_command("botright 20 split | terminal")
+    local new_buf = vim.api.nvim_get_current_buf()
+    vim.b[new_buf]._test_vim_neovim_sticky = true
+  end
+end, { desc = "Toggle Terminal" })
+
 -- Enter normal-mode in nvim terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })

@@ -10,6 +10,10 @@ return {
     end,
     disable_max_lines = 0,
     disable_max_size = 0,
+    layout = {
+      max_width = { 80, 0.4 },
+      default_direction = "right",
+    }
   },
   -- Optional dependencies
   dependencies = {
