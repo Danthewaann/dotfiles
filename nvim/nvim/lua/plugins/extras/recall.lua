@@ -4,7 +4,7 @@ return {
   lazy = false,
   keys = {
     {
-      "<C-b>", "<cmd>RecallToggle<CR>", desc = "Toggle [B]ookmark"
+      "<leader>mm", "<cmd>RecallToggle<CR>", desc = "Toggle [B]ookmark"
     },
     {
       "<leader>mc", "<cmd>RecallClear<CR>", desc = "[M]ark [C]lear"
