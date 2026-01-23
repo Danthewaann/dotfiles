@@ -7,7 +7,6 @@
   "cmp-emoji": { "branch": "main", "commit": "e8398e2adf512a03bb4e1728ca017ffeac670a9f" },
   "cmp-git": { "branch": "main", "commit": "b24309c386c9666c549a1abaedd4956541676d06" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
-  "cmp-nvim-lsp-signature-help": { "branch": "main", "commit": "fd3e882e56956675c620898bf1ffcf4fcbe7ec84" },
   "cmp-path": { "branch": "main", "commit": "c642487086dbd9a93160e1679a1327be111cbc25" },
   "cmp-spell": { "branch": "master", "commit": "694a4e50809d6d645c1ea29015dad0c293f019d6" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },

@@ -231,7 +231,7 @@ return {
             end
           })
         end, "[C]ode [A]ction")
-        map("<leader>K", vim.lsp.buf.signature_help, "Signature Documentation")
+        map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation", "i")
 
         -- Lesser used LSP functionality
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")

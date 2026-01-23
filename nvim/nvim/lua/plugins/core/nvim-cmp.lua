@@ -20,7 +20,6 @@ return {
 
     -- Adds LSP completion capabilities
     "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-nvim-lsp-signature-help",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-buffer",
@@ -150,7 +149,7 @@ return {
       { { name = "emoji" } },
       { { name = "git" } },
       { { name = "lazydev" }, },
-      { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" }, { name = "nvim_lsp_signature_help" } },
+      { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" } },
       {
         {
           name = "buffer",
@@ -358,7 +357,7 @@ return {
     require("cmp_git").setup({})
 
     -- Spell checking fixes
-    vim.keymap.set("i", "<C-k>", function()
+    vim.keymap.set("i", "<C-l>", function()
       -- Get the current cursor position
       local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 
@@ -383,7 +382,7 @@ return {
       vim.cmd.normal("[si")
       local word_row, word_col = unpack(vim.api.nvim_win_get_cursor(0))
       local current_word = vim.fn.expand("<cword>")
-      vim.api.nvim_win_set_cursor(0, {word_row, word_col + #current_word + 1})
+      vim.api.nvim_win_set_cursor(0, { word_row, word_col + #current_word + 1 })
       cmp.complete({
         reason = "auto",
         config = {
