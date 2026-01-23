@@ -1,4 +1,5 @@
 local setup_runners = false
+local utils = require("custom.utils")
 
 local function setup_test_runners()
   if setup_runners then
@@ -97,12 +98,15 @@ return {
       "<leader>td",
       function()
         setup_test_runners()
-        local extra_args = {}
         local buf = vim.api.nvim_get_current_buf()
-        if vim.bo[buf].filetype == "python" then
-          extra_args = { "-vvv" }
+        local filetype = vim.bo[buf].filetype
+        if filetype ~= "python" then
+          utils.print_err("Current file not supported!")
+          return
         end
-        require("neotest").run.run({ extra_args = extra_args, strategy = "dap", suite = false, })
+        if filetype == "python" then
+          require("dap-python").test_method({ "-vv" })
+        end
       end,
       desc = "[T]est [D]ebug Nearest"
     },
