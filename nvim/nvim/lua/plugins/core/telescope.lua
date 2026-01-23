@@ -128,14 +128,14 @@ return {
     pcall(require("telescope").load_extension, "egrepify")
 
     -- See `:help telescope.builtin`
-    vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, { desc = "Search Open Files" })
     vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
       { desc = "[S]earch Fuzzily in current buffer [/]" }
     )
     vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, { desc = "Search Files" })
     vim.keymap.set("n", "<C-p>", require("telescope.builtin").git_files, { desc = "Search Git Tracked Files" })
     vim.keymap.set("n", "<leader>sg", require("telescope.builtin").git_status, { desc = "Search Changed Git Files" })
-    vim.keymap.set("n", "<leader>sb", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
+    vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[S]earch Open [B]uffers" })
+    vim.keymap.set("n", "<leader>sB", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
     vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history,
       { desc = "[S]earch [C]ommand History" })
     vim.keymap.set("n", "<leader>sd", require("telescope").extensions.aerial.aerial,
