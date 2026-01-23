@@ -79,11 +79,11 @@ return {
 
     -- Theses are only used for the neovim_sticky test strategy
     vim.g["test#neovim#term_position"] = "botright 20"
-    vim.g["test#neovim_sticky#kill_previous"] = 1
+    vim.g["test#neovim_sticky#kill_previous"] = 0
     vim.g["test#neovim_sticky#reopen_window"] = 1
     vim.g["test#neovim_sticky#use_existing"] = 0
     vim.g["test#echo_command"] = 0
-    vim.g["test#preserve_screen"] = 0
+    vim.g["test#preserve_screen"] = 1
   end,
   keys = {
     {
