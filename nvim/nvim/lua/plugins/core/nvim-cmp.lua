@@ -67,17 +67,6 @@ return {
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup({})
 
-    -- Function that auto confirms the current selection for use on the cmdline
-    local confirm_cmdline = function(fallback)
-      if cmp.visible() then
-        cmp.confirm()
-        -- Press enter to start the search
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "c", false)
-      else
-        fallback()
-      end
-    end
-
     -- Set configuration for specific filetype.
     cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
       sources = cmp.config.sources({
@@ -112,7 +101,6 @@ return {
         ["<S-Tab>"] = { c = cmp.config.disable },
         ["<C-space>"] = { c = function() cmp.complete() end },
         ["<C-q>"] = { c = cmp.mapping.abort() },
-        ["<CR>"] = { c = confirm_cmdline },
       }),
       ---@diagnostic disable-next-line: missing-fields
       matching = { disallow_symbol_nonprefix_matching = false },
@@ -141,7 +129,6 @@ return {
         ["<S-Tab>"] = { c = cmp.config.disable },
         ["<C-space>"] = { c = function() cmp.complete() end },
         ["<C-q>"] = { c = cmp.mapping.abort() },
-        ["<CR>"] = { c = confirm_cmdline },
       }),
       sources = { { name = "buffer" } },
     })
