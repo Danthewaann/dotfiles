@@ -161,10 +161,8 @@ return {
     }
 
     local default_cmp_sources = cmp.config.sources(
-      { { name = "emoji" } },
-      { { name = "git" } },
       { { name = "lazydev" }, },
-      { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" } },
+      { { name = "luasnip", max_item_count = 5 }, { name = "nvim_lsp" }, { name = "git" }, { name = "emoji" } },
       {
         {
           name = "buffer",
@@ -369,7 +367,14 @@ return {
       exact_length = 2,
     })
 
-    require("cmp_git").setup({})
+    require("cmp_git").setup({
+      filetypes = { "gitcommit", "octo", "NeogitCommitMessage", "markdown" },
+      git = {
+        commits = {
+          limit = 100,
+        },
+      },
+    })
 
     -- Spell checking fixes
     vim.keymap.set("i", "<C-l>", function()
