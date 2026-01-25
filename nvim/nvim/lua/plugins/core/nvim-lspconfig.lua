@@ -412,28 +412,23 @@ return {
       servers["solargraph"] = { settings = {} }
     end
 
-    -- mason-lspconfig requires that these setup functions are called in this order
-    -- before setting up the servers.
+    -- Configure LSP server settings
+    for server_name, server in pairs(servers) do
+      -- This handles overriding only values explicitly passed
+      -- by the server configuration above. Useful when disabling
+      -- certain features of an LSP (for example, turning off formatting for ts_ls)
+      server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+      vim.lsp.config(server_name, server)
+    end
+
+    -- Enable all LSP servers defined above
+    local server_names = vim.tbl_keys(servers or {})
+    vim.lsp.enable(server_names)
+
+    -- mason-lspconfig requires that these setup functions are called in this order before setting up the servers
     require("mason").setup()
-
-    local ensure_installed = vim.tbl_keys(servers or {})
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
     -- Ensure the servers above are installed
-    require("mason-lspconfig").setup({
-      ensure_installed = {},
-      automatic_installation = false,
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-          vim.lsp.config[server_name] = server
-          vim.lsp.enable(server_name)
-        end
-      }
-    })
+    require("mason-tool-installer").setup({ ensure_installed = server_names })
+    require("mason-lspconfig").setup({ ensure_installed = {}, automatic_installation = false })
   end
 }
