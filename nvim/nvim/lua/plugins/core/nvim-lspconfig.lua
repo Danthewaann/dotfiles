@@ -46,6 +46,26 @@ return {
       [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
       [vim.diagnostic.severity.HINT] = "DiagnosticHint",
     }
+
+    local ignored_codes = {
+      -- Let pyright handle the following errors
+      "F821",   -- undefined symbols
+      "F841",   -- unused variables
+      "ERA001", -- commented out code
+      "E999",   -- syntax errors
+      "PT001",  -- use `@pytest.fixture` over `@pytest.fixture()`
+      "PT023",  -- use `@pytest.mark.something` over `@pytest.mark.something()`
+    }
+
+    local function filter_diagnostics(diagnostic)
+      for _, code in ipairs(ignored_codes) do
+        if diagnostic.code == code then
+          return false
+        end
+      end
+      return true
+    end
+
     local virtual_text_config = {
       format = function(diagnostic)
         -- Count number of lines in the message
@@ -72,6 +92,12 @@ return {
         source = "if_many",
         header = { "Diagnostics:", "DiagnosticInfo" },
         border = border,
+        format = function(diagnostic)
+          if not filter_diagnostics(diagnostic) then
+            return nil
+          end
+          return diagnostic.message
+        end,
         prefix = function(diagnostic, i, total)
           return symbols[diagnostic.severity], highlights[diagnostic.severity]
         end
@@ -94,6 +120,7 @@ return {
         -- Get all diagnostics from the whole buffer rather than just the
         -- diagnostics passed to the handler
         local diagnostics = vim.diagnostic.get(bufnr)
+        diagnostics = vim.tbl_filter(filter_diagnostics, diagnostics)
 
         -- Find the "worst" diagnostic per line
         local max_severity_per_line = {}
@@ -113,6 +140,22 @@ return {
         orig_vt_handler.hide(ns, bufnr)
       end,
     }
+
+    -- Get a reference to the original underline handler
+    local original_underline_handler = vim.diagnostic.handlers.underline
+
+    -- Override the built-in underline handler
+    vim.diagnostic.handlers.underline = {
+      show = function(namespace, bufnr, diagnostics, opts)
+        -- Filter out diagnostics
+        local filtered_diagnostics = vim.tbl_filter(filter_diagnostics, diagnostics)
+        original_underline_handler.show(namespace, bufnr, filtered_diagnostics, opts)
+      end,
+      hide = function(namespace, bufnr)
+        original_underline_handler.hide(namespace, bufnr)
+      end,
+    }
+
 
     -- Remove a bunch of builtin LSP keymaps I don't use
     -- See :h lsp-defaults
@@ -134,7 +177,7 @@ return {
     vim.keymap.set("n", "<leader>tL", function()
       local new_config = not vim.diagnostic.config().virtual_lines
       vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "[T]oggle Virtual [L]ines" })
+    end, { desc = "[T]oggle Virtual [L]lines" })
     vim.keymap.set("n", "<leader>tV", function()
       local existing_config = vim.diagnostic.config().virtual_text
       if existing_config ~= false then
@@ -163,7 +206,7 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
-        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]definition")
         map("<C-w>gh", function()
           require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
         end, "[G]oto Definition In Vertical Split")
@@ -176,7 +219,7 @@ return {
         map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
-        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]definition")
         map("<leader>sW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
         map("<leader>sS", function()
           local word = vim.fn.expand("<cword>")
@@ -184,7 +227,7 @@ return {
             prompt_title = "LSP Workspace Symbols (" .. word .. ")",
             query = word,
           })
-        end, "[S]earch [S]ymbol")
+        end, "[S]earch [S]symbol")
         map("<leader>sf", function()
           local word = vim.fn.expand("<cword>")
           local buf = vim.api.nvim_get_current_buf()
