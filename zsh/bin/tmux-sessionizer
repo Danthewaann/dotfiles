@@ -48,13 +48,22 @@ else
         elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR/misc" ]]; then
             default_sessions+=("misc/${line##*/}")
         fi
-    done < <(find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 3 -type d -not -name '.*' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$")
+    done < <(
+        find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 3 -type d -not -name '.*' |
+            grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$"
+    )
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
     readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
 
     # Include active sessions in recently used order
-    while IFS=$'\n' read -r line; do sessions+=("* $line"); done < <(tmux list-sessions -F '#{session_last_attached} #S' | grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" | sort --numeric-sort --reverse | cut -d' ' -f2)
+    while IFS=$'\n' read -r line; do sessions+=("* $line"); done < <(
+        tmux list-sessions -F '#{session_last_attached} #S' |
+            grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" |
+            sort --numeric-sort --reverse |
+            cut -d' ' -f2 |
+            head -n 10
+    )
 
     for session in "${default_sessions[@]}"; do
         # If a location appears in the active sessions or it is the current session, we skip it
@@ -67,7 +76,13 @@ else
     done
 
     # shellcheck disable=SC2086,SC2016
-    selected=$(printf "%s\n" "${sessions[@]}" | "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux --header='Select target session.' --preview='$HOME/.local/bin/tmux-preview {}' --preview-window 40%,noinfo $TMUX_FZF_OPTIONS)
+    selected=$(
+        printf "%s\n" "${sessions[@]}" |
+            "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux \
+                --header='Select target session.' \
+                --preview='$HOME/.local/bin/tmux-preview {}' \
+                --preview-window 40%,noinfo $TMUX_FZF_OPTIONS
+    )
     selected_session=$(tr . _ <<<"$selected" | cut -d' ' -f2)
 fi
 
