@@ -387,6 +387,23 @@ return {
       lua_ls = {
         settings = {
           Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              version = "LuaJIT",
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = { "vim" },
+              disable = { "missing-fields" },
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file("", true),
+              checkThirdParty = false,
+            },
+            telemetry = {
+              enable = false, -- Disable telemetry for privacy
+            },
             completion = {
               callSnippet = "Replace"
             },
@@ -398,7 +415,6 @@ return {
                 quote_style = "double"
               }
             },
-            diagnostics = { disable = { "missing-fields" } },
           },
         },
       },
