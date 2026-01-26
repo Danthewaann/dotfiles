@@ -109,10 +109,9 @@ return {
       enabled = function()
         -- Set of commands where cmp will be disabled
         local disabled = {
-          W = true,
-          w = true,
           wq = true,
           wa = true,
+          qa = true,
         }
         -- Get first word of cmdline
         local cmd = vim.fn.getcmdline():match("%S+")
