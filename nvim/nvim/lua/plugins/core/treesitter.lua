@@ -1,10 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
-  -- The commit after this one crashes my neovim to crash when I open
-  -- lua and vim files
-  -- See: https://github.com/nvim-treesitter/nvim-treesitter/issues/8459
-  commit = "737088f",
   build = ":TSUpdate",
   config = function()
     local parsers = {
