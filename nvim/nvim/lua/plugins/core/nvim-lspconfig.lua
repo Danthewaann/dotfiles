@@ -12,7 +12,6 @@ return {
       }
     },
     "williamboman/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
     "hrsh7th/nvim-cmp",
 
     -- Useful status updates for LSP
@@ -484,10 +483,8 @@ return {
     local server_names = vim.tbl_keys(servers or {})
     vim.lsp.enable(server_names)
 
-    -- mason-lspconfig requires that these setup functions are called in this order before setting up the servers
+    -- mason-lspconfig requires that these mason is setup first before setting up the servers
     require("mason").setup()
-    -- Ensure the servers above are installed
-    require("mason-tool-installer").setup({ ensure_installed = server_names })
-    require("mason-lspconfig").setup({ ensure_installed = {}, automatic_installation = false })
+    require("mason-lspconfig").setup({ ensure_installed = server_names })
   end
 }
