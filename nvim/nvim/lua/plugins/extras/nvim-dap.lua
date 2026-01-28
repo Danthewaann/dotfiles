@@ -40,6 +40,22 @@ return {
       desc = "Debug: Step Out",
     },
     {
+      "<leader>td",
+      function()
+        local utils = require("custom.utils")
+        local buf = vim.api.nvim_get_current_buf()
+        local filetype = vim.bo[buf].filetype
+        if filetype ~= "python" then
+          utils.print_err("Current file not supported!")
+          return
+        end
+        if filetype == "python" then
+          require("dap-python").test_method({ "-vv" })
+        end
+      end,
+      desc = "[T]est [D]ebug Nearest"
+    },
+    {
       "<leader>bp",
       function()
         require("dap").toggle_breakpoint()
