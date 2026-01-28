@@ -15,6 +15,11 @@ return {
       vim.cmd [[Git]]
     end, { desc = "[G]it Status" })
 
+    vim.keymap.set("n", "<leader>hr", "<cmd> Git restore %<CR>", { desc = "Reset buffer" })
+    vim.keymap.set("n", "<leader>hd", "<cmd> Gdiffsplit!<CR>", { desc = "Show diff of buffer" })
+    vim.keymap.set("n", "<leader>hc", "<cmd> Git! difftool --name-only<CR>", { desc = "Show hunks in a quickfix list" })
+    vim.keymap.set("n", "<leader>hC", "<cmd> Git difftool -y<CR>", { desc = "Show changed files in seperate tabs" })
+
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
 
@@ -70,7 +75,8 @@ return {
         local buf = event.buf
         vim.opt_local.signcolumn = "no"
         vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf })
-        vim.keymap.set("n", "gl", "<cmd> vertical Git log --oneline --full-history<CR>", { buffer = buf, desc = "Git log" })
+        vim.keymap.set("n", "gl", "<cmd> vertical Git log --oneline --full-history<CR>",
+          { buffer = buf, desc = "Git log" })
         vim.keymap.set("n", "p", "<nop>", { buffer = buf })
         vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = buf, desc = "Git push" })
         vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
