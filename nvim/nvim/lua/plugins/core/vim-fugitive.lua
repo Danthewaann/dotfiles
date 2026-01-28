@@ -70,6 +70,7 @@ return {
         local buf = event.buf
         vim.opt_local.signcolumn = "no"
         vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf })
+        vim.keymap.set("n", "gl", "<cmd> vertical Git log --oneline --full-history<CR>", { buffer = buf, desc = "Git log" })
         vim.keymap.set("n", "p", "<nop>", { buffer = buf })
         vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = buf, desc = "Git push" })
         vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
