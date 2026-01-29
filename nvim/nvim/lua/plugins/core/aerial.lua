@@ -11,7 +11,7 @@ return {
         end
         vim.cmd(":" .. count .. "AerialPrev")
       end, { buffer = bufnr, silent = true })
-      vim.keymap.set("n", "{", function()
+      vim.keymap.set("n", "}", function()
         local count = vim.v.count
         if count == 0 then
           count = 1
