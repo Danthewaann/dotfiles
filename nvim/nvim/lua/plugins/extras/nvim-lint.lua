@@ -1,6 +1,6 @@
 return {
   "Danthewaann/nvim-lint",
-  event = "VeryLazy",
+  event = { "BufRead", "BufWritePost", "InsertLeave" },
   config = function()
     require("lint").linters_by_ft = {
       go = { "golangcilint" },
