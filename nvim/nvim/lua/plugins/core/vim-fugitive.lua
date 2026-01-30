@@ -15,11 +15,6 @@ return {
       vim.cmd [[Git]]
     end, { desc = "[G]it Status" })
 
-    vim.keymap.set("n", "<leader>hr", "<cmd> Git restore %<CR>", { desc = "Reset buffer" })
-    vim.keymap.set("n", "<leader>hd", "<cmd> Gdiffsplit!<CR>", { desc = "Show diff of buffer" })
-    vim.keymap.set("n", "<leader>hc", "<cmd> Git! difftool --name-only<CR>", { desc = "Show hunks in a quickfix list" })
-    vim.keymap.set("n", "<leader>hC", "<cmd> Git difftool -y<CR>", { desc = "Show changed files in seperate tabs" })
-
     local git_log_args =
     "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
 
