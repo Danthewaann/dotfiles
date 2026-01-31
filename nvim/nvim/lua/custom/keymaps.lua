@@ -226,7 +226,7 @@ vim.keymap.set("n", "<M-Up>", function()
 end, { desc = "Adjust window height down" })
 
 -- Keep the cursor position when searching, don't move to next match
-vim.keymap.set('n', '*', '*N')
+vim.keymap.set("n", "*", "*N")
 
 -- Center screen when moving through search results
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
@@ -246,7 +246,7 @@ vim.keymap.set("n", "<leader>rp", function()
 vim.keymap.set("v", "<leader>rp", function()
     local selection = utils.get_visual_selection()
     for _, char in ipairs({ "/" }) do
-      selection = selection:gsub('%' .. char, '\\' .. char)
+      selection = selection:gsub("%" .. char, "\\" .. char)
     end
     local left = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
     vim.api.nvim_feedkeys(":%s/\\V" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
@@ -287,3 +287,9 @@ vim.keymap.set("n", "<leader>tb", function()
     utils.print_err(vim.fn.trim(obj.stderr))
   end
 end, { desc = "Open [T]erminal in current [B]uffer directory" })
+
+
+-- Spelling
+vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
+  desc = "Fix last spelling mistake whilst persisting the cursor position",
+})
