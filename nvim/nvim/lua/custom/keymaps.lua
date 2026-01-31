@@ -260,7 +260,7 @@ vim.keymap.set("v", "<leader>rp", function()
 vim.keymap.set("c", "<M-p>", "<Up>", { desc = "Previous command" })
 vim.keymap.set("c", "<M-n>", "<Down>", { desc = "Next command" })
 
--- Disable Tab and Shift-Tab in command line to let nvim-cmp handle completion over wildmenu
+-- Disable Tab and Shift-Tab in command line to let blink.cmp handle completion over wildmenu
 vim.keymap.set("c", "<Tab>", "<Nop>")
 vim.keymap.set("c", "<S-Tab>", "<Nop>")
 

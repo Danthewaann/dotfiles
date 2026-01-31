@@ -12,7 +12,6 @@ return {
       }
     },
     "williamboman/mason-lspconfig.nvim",
-    -- "hrsh7th/nvim-cmp",
     -- Allows extra capabilities provided by blink.cmp
     "saghen/blink.cmp",
 
