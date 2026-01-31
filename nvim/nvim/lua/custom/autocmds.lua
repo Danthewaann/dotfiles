@@ -92,14 +92,24 @@ autocmd("BufEnter", {
 autocmd("FileType", {
   group = augroup("spell-checking", { clear = true }),
   pattern = { "markdown", "octo", "gitcommit" },
-  command = "setlocal spell spelllang=en_us,en_gb",
+  callback = function()
+    -- Need to schedule this as harpoon doesn't play well with `setlocal`
+    vim.schedule(function()
+      vim.cmd("setlocal spell spelllang=en_us,en_gb")
+    end)
+  end,
 })
 
 -- Enable soft wrapping of lines in markdown and octo buffers
 autocmd("FileType", {
   group = augroup("soft-wrap", { clear = true }),
   pattern = { "markdown", "octo" },
-  command = "setlocal wrap linebreak breakindent showbreak==>\\ ",
+  callback = function()
+    -- Need to schedule this as harpoon doesn't play well with `setlocal`
+    vim.schedule(function()
+      vim.cmd("setlocal wrap linebreak breakindent showbreak==>\\ ")
+    end)
+  end,
 })
 
 -- Disable `render-markdown` in LSP hover documentation windows and spell checking
