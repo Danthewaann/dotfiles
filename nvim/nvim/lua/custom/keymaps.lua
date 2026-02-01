@@ -56,10 +56,10 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Quickfix list management
-vim.keymap.set("n", "<M-h>", function()
+vim.keymap.set("n", "<C-h>", function()
   pcall(function() vim.cmd(":cnewer") end)
 end, { desc = "Go to older quickfix list" })
-vim.keymap.set("n", "<M-l>", function()
+vim.keymap.set("n", "<C-l>", function()
   pcall(function() vim.cmd(":colder") end)
 end, { desc = "Go to newer quickfix list" })
 
