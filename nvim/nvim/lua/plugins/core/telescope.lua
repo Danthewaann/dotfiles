@@ -90,6 +90,8 @@ return {
         },
         find_files = {
           previewer = true,
+          hidden = true,
+          no_ignore = false,
         },
         man_pages = { previewer = false },
         diagnostics = {
