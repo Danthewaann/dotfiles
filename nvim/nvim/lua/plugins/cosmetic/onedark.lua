@@ -104,7 +104,7 @@ return {
     vim.cmd("highlight LspReferenceText gui=underline guifg=NONE guibg=NONE")
     vim.cmd("highlight LspReferenceRead gui=underline guifg=NONE guibg=NONE")
     vim.cmd("highlight LspReferenceWrite gui=underline guifg=NONE guibg=NONE")
-    vim.cmd("highlight PmenuSel guifg=NONE guibg=#464d5e")
+    vim.cmd("highlight PmenuSel guifg=NONE guibg=#272731")
     vim.cmd("highlight Pmenu guifg=#7a818e guibg=NONE")
     vim.cmd("highlight DiffText guibg=#272731")
     vim.cmd("highlight! link MasonBackdrop Normal")
