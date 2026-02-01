@@ -6,7 +6,7 @@ autocmd("TermOpen", {
   group = augroup("terminal-settings", { clear = true }),
   pattern = "",
   callback = function()
-    vim.cmd(":setlocal nonumber signcolumn=no nocursorline")
+    vim.cmd(":setlocal number")
 
     vim.keymap.set("n", "<C-p>", function()
       vim.cmd(":startinsert")
