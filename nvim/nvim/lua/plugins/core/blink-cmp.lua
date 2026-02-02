@@ -124,14 +124,15 @@ return {
     sources = {
       default = function()
         -- put those which will be shown always
-        local result = { "lsp", "path", "snippets", "buffer", "git" }
+        local result = { "lsp", "path", "snippets", "buffer" }
         if
-        -- turn on dictionary in markdown or text file
+        -- turn on dictionary and git sources in markdown or text files
             vim.tbl_contains({ "markdown", "text" }, vim.bo.filetype) or
             -- or turn on dictionary if cursor is in the comment block
             inside_comment_block()
         then
           table.insert(result, "dictionary")
+          table.insert(result, "git")
         end
         return result
       end,
