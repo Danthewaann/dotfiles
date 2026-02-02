@@ -39,6 +39,47 @@ return {
       },
     })
 
+    -- Override certain LSP semantic tokens with treesitter capture groups
+    vim.api.nvim_create_autocmd("LspTokenUpdate", {
+      callback = function(args)
+        local token = args.data.token
+        local capture = nil
+        for _, value in ipairs(vim.treesitter.get_captures_at_pos(args.buf, token.line, token.start_col)) do
+          if token.type == "method" then
+            if value.capture == "constructor" then
+              capture = "@constructor"
+              break
+            end
+          elseif token.type == "function" then
+            if value.capture == "constructor" then
+              capture = "@constructor"
+              break
+            end
+          elseif token.type == "variable" then
+            if value.capture == "type" then
+              capture = "@type"
+              break
+            elseif value.capture == "function.call" then
+              capture = "@function"
+              break
+            elseif value.capture == "variable.member" then
+              capture = "@variable.member"
+              break
+            elseif value.capture == "property" then
+              capture = "@property"
+              break
+            elseif value.capture == "constant" then
+              capture = "@constant"
+              break
+            end
+          end
+        end
+        if capture ~= nil then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, capture)
+        end
+      end,
+    })
+
     require("onedark").load()
 
     vim.cmd("highlight LspSignatureActiveParameter ctermbg=242 guibg=#323641")
