@@ -2,12 +2,8 @@ return {
   "jakewvincent/mkdnflow.nvim",
   ft = "markdown",
   opts = {
-    to_do = {
-      symbols = { " ", "-", "x" },
-      complete = "x"
-    },
     mappings = {
-      MkdnEnter = { { "n", "v", "i" }, "<CR>" },
+      MkdnEnter = { { "n", "v" }, "<CR>" },
       MkdnGoBack = false,
       MkdnGoForward = false,
       MkdnCreateLinkFromClipboard = { { "n", "v" }, "<leader>la" },
