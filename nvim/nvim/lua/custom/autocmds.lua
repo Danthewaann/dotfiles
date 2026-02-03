@@ -14,6 +14,10 @@ autocmd("TermOpen", {
       vim.fn.feedkeys("\x1b\x5b\x41")
     end, { buffer = 0, desc = "Select previous terminal command" })
 
+    -- Jump between prompts in the terminal
+    vim.keymap.set({ "n", "x", "o" }, "<C-h>", [[?^\$<CR>]], { buffer = 0, silent = true })
+    vim.keymap.set({ "n", "x", "o" }, "<C-l>", [[/^\$<CR>]], { buffer = 0, silent = true })
+
     -- Remove newlines when yanking the visual selection
     -- Needed for the neovim terminal as it insert newlines
     -- when a line is too long for the screen
