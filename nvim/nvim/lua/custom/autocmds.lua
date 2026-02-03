@@ -8,12 +8,6 @@ autocmd("TermOpen", {
   callback = function()
     vim.cmd(":setlocal number")
 
-    vim.keymap.set("n", "<C-p>", function()
-      vim.cmd(":startinsert")
-      -- From: https://vi.stackexchange.com/questions/21449/send-keys-to-a-terminal-buffer
-      vim.fn.feedkeys("\x1b\x5b\x41")
-    end, { buffer = 0, desc = "Select previous terminal command" })
-
     -- Jump between prompts in the terminal
     vim.keymap.set({ "n", "x", "o" }, "<C-h>", [[?^\$<CR>]], { buffer = 0, silent = true })
     vim.keymap.set({ "n", "x", "o" }, "<C-l>", [[/^\$<CR>]], { buffer = 0, silent = true })
