@@ -37,7 +37,9 @@ autocmd("TermOpen", {
       --      ^ path            ^ line number
       local t = {}
       for str in string.gmatch(selection, "([^:]*)") do
-        t[#t + 1] = str
+        if str ~= "" then
+          t[#t + 1] = str
+        end
       end
 
       -- Check if the file exists
@@ -56,20 +58,30 @@ autocmd("TermOpen", {
       -- If a line number was found, open the file and jump to that line number.
       -- If a name was found, just to that name in the file,
       -- otherwise just open the file
-      if #t == 2 then
+      if #t == 1 then
         vim.cmd(":e " .. t[1])
-      else
-        if t[3] ~= "" then
-          vim.cmd(":e +" .. t[3] .. " " .. t[1])
-        elseif t[4] ~= "" then
+      elseif #t == 2 then
+        local lnum = tonumber(t[2])
+        if lnum ~= nil then
+          vim.cmd(":e +" .. lnum .. " " .. t[1])
+        else
           -- Split on `[` character as pytest data driven tests contain the sub test name that can't be searched
           local s = {}
-          for str in string.gmatch(t[4], "([^\\[]*)") do
+          for str in string.gmatch(t[2], "([^\\[]*)") do
             s[#s + 1] = str
           end
           vim.cmd(":e +/" .. s[1] .. " " .. t[1])
         end
+      elseif #t == 3 then
+        -- Split on `[` character as pytest data driven tests contain the sub test name that can't be searched
+        local s = {}
+        for str in string.gmatch(t[3], "([^\\[]*)") do
+          s[#s + 1] = str
+        end
+        vim.cmd(":e +/" .. s[1] .. " " .. t[1])
       end
+
+      vim.cmd(":nohlsearch")
     end
 
     -- For a running terminal emulator that contains file paths that I would like to jump to in another buffer
