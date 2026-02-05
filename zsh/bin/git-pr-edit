@@ -74,35 +74,47 @@ else:
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
     new_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.new.md")
 
-    pr_file_content = f"""--- TITLE
+    pr_file_content = f"""<!-- TITLE -->
+
 {title.strip()}
---- END
 
---- EXISTING LABELS
+<!-- END -->
+
+<!-- EXISTING LABELS -->
+
 {"\n".join(repo_labels)}
---- END
 
---- LABELS
+<!-- END -->
+
+<!-- LABELS -->
+
 {"\n".join(labels)}
---- END
 
-IS DRAFT can be `yes` or `no`
---- IS DRAFT
+<!-- END -->
+
+<!-- IS DRAFT can be `yes` or `no` -->
+
 {"yes" if is_draft else "no"}
---- END
 
-STATE can be `open`, `merged` or `closed`
---- STATE
+<!-- END -->
+
+<!-- STATE can be `open`, `merged` or `closed` -->
+
 {state}
---- END
 
---- BASE BRANCH
+<!-- END -->
+
+<!-- BASE BRANCH -->
+
 {base_branch.strip()}
---- END
 
---- BODY
+<!-- END -->
+
+<!-- BODY -->
+
 {body.strip()}
---- END
+
+<!-- END -->
 """
 
     old_pr_file.write_text(pr_file_content)
@@ -122,22 +134,28 @@ if old_hash.hexdigest() == new_hash.hexdigest():
 
 content = new_pr_file.read_text()
 
-match = re.search("--- TITLE\n(.*?)\n--- END", content, re.MULTILINE)
+match = re.search("<!-- TITLE -->\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE)
 assert match
 new_title = match.group(1)
-match = re.search("--- LABELS\n(.*?)\n--- END", content, re.MULTILINE | re.DOTALL)
+match = re.search(
+    "<!-- LABELS -->\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE | re.DOTALL
+)
 assert match
 new_labels = match.group(1).splitlines()
-match = re.search("--- IS DRAFT\n(.*?)\n--- END", content, re.MULTILINE)
+match = re.search("<!-- IS DRAFT.*-->\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE)
 assert match
 new_is_draft = match.group(1)
-match = re.search("--- STATE\n(.*?)\n--- END", content, re.MULTILINE)
-assert match
-new_state = match.group(1)
-match = re.search("--- BASE BRANCH\n(.*?)\n--- END", content, re.MULTILINE)
+match = re.search(
+    "<!-- BASE BRANCH -->\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE
+)
 assert match
 new_base_branch = match.group(1)
-match = re.search("--- BODY\n(.*?)\n--- END", content, re.MULTILINE | re.DOTALL)
+match = re.search("<!-- STATE.*-->\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE)
+assert match
+new_state = match.group(1)
+match = re.search(
+    "<!-- BODY -->\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE | re.DOTALL
+)
 assert match
 new_body = match.group(1)
 
