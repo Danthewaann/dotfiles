@@ -114,11 +114,14 @@ return {
     completion = {
       -- By default, you may press `<c-space>` to show the documentation.
       -- Optionally, set `auto_show = true` to show the documentation after a delay.
-      documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      documentation = { auto_show = true, auto_show_delay_ms = 500 },
 
       -- Disable auto brackets
       -- NOTE: some LSPs may add auto brackets themselves anyway
       accept = { auto_brackets = { enabled = false }, },
+
+      -- Draw the menu to look like nvim-cmp's menu
+      menu = { draw = { columns = { { "label", "label_description" }, { "kind_icon", "kind", gap = 1 } } } },
     },
 
     sources = {
@@ -185,7 +188,27 @@ return {
     -- which automatically downloads a prebuilt binary when enabled.
     --
     -- See :h blink-cmp-config-fuzzy for more information
-    fuzzy = { implementation = "prefer_rust_with_warning" },
+    fuzzy = {
+      implementation = "prefer_rust_with_warning",
+      sorts = {
+        -- Filter for keyword arguments for python
+        function(entry1, entry2)
+          local entry1_is_keyword_arg = string.sub(entry1.label, -1) == "="
+          local entry2_is_keyword_arg = string.sub(entry2.label, -1) == "="
+          if entry1_is_keyword_arg and entry2_is_keyword_arg then
+            return nil
+          elseif entry1_is_keyword_arg then
+            return true
+          elseif entry2_is_keyword_arg then
+            return false
+          end
+          return nil
+        end,
+        -- default sorts
+        "score",
+        "sort_text",
+      }
+    },
 
     -- Shows a signature help window while you type arguments for a function
     signature = { enabled = true },
