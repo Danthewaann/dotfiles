@@ -102,11 +102,17 @@ autocmd("BufEnter", {
 autocmd("FileType", {
   group = augroup("spell-checking", { clear = true }),
   pattern = { "markdown", "octo", "gitcommit" },
-  callback = function()
-    -- Need to schedule this as harpoon doesn't play well with `setlocal`
-    vim.schedule(function()
-      vim.cmd("setlocal spell spelllang=en_us,en_gb")
-    end)
+  callback = function(event)
+    -- Need to do this as harpoon doesn't play well with `setlocal`
+    for _, win_nr in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win_nr) == event.buf then
+        vim.wo[win_nr].wrap = true
+        vim.wo[win_nr].linebreak = true
+        vim.wo[win_nr].breakindent = true
+        vim.wo[win_nr].showbreak = "=> "
+        break
+      end
+    end
   end,
 })
 
@@ -114,11 +120,17 @@ autocmd("FileType", {
 autocmd("FileType", {
   group = augroup("soft-wrap", { clear = true }),
   pattern = { "markdown", "octo" },
-  callback = function()
-    -- Need to schedule this as harpoon doesn't play well with `setlocal`
-    vim.schedule(function()
-      vim.cmd("setlocal wrap linebreak breakindent showbreak==>\\ ")
-    end)
+  callback = function(event)
+    -- Need to do this as harpoon doesn't play well with `setlocal`
+    for _, win_nr in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win_nr) == event.buf then
+        vim.wo[win_nr].wrap = true
+        vim.wo[win_nr].linebreak = true
+        vim.wo[win_nr].breakindent = true
+        vim.wo[win_nr].showbreak = "=> "
+        break
+      end
+    end
   end,
 })
 
