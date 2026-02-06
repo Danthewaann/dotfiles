@@ -169,23 +169,21 @@ if old_hash.hexdigest() == new_hash.hexdigest():
 
 content = new_pr_file.read_text()
 
-match = re.search("## Title\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE)
+match = re.search("## Title\n+(.*?)\n*<!-- END -->", content, re.MULTILINE)
 assert match
-new_title = match.group(1)
-match = re.search(
-    "## Labels\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE | re.DOTALL
-)
+new_title = match.group(1).strip()
+match = re.search("## Labels\n+(.*?)\n*<!-- END -->", content, re.MULTILINE | re.DOTALL)
 assert match
-new_labels = match.group(1).splitlines()
-match = re.search("## Is Draft.*\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE)
+new_labels = match.group(1).strip().splitlines()
+match = re.search("## Is Draft.*\n+(.*?)\n*<!-- END -->", content, re.MULTILINE)
 assert match
-new_is_draft = match.group(1)
-match = re.search("## Base Branch\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE)
+new_is_draft = match.group(1).strip()
+match = re.search("## Base Branch\n+(.*?)\n*<!-- END -->", content, re.MULTILINE)
 assert match
-new_base_branch = match.group(1)
-match = re.search("## Body\n\n(.*?)\n\n<!-- END -->", content, re.MULTILINE | re.DOTALL)
+new_base_branch = match.group(1).strip()
+match = re.search("## Body\n+(.*?)\n*<!-- END -->", content, re.MULTILINE | re.DOTALL)
 assert match
-new_body = match.group(1)
+new_body = match.group(1).strip()
 
 args = [
     "gh",
