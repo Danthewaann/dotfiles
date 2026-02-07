@@ -5,11 +5,15 @@ return {
     local utils = require("custom.utils")
     vim.keymap.set("n", "<C-g>", function()
       local windows = vim.api.nvim_list_wins()
-      for _, v in pairs(windows) do
-        local status, _ = pcall(vim.api.nvim_win_get_var, v, "fugitive_status")
+      for _, win in pairs(windows) do
+        local status, _ = pcall(vim.api.nvim_win_get_var, win, "fugitive_status")
         if status then
-          local ok, _ = pcall(vim.api.nvim_win_close, v, false)
-          if ok then
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].filetype == "fugitive" then
+            local ok, _ = pcall(vim.api.nvim_win_close, win, true)
+            if not ok then
+              utils.print_err("Cannot close fugitive as it is the last window")
+            end
             return
           end
         end
