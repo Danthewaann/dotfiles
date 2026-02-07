@@ -18,5 +18,9 @@ require("custom.tmux")
 
 -- [[ Builtin optional plugins ]]
 vim.cmd("packadd nohlsearch")
-vim.cmd("packadd nvim.difftool")
-vim.cmd("packadd nvim.undotree")
+
+local version = vim.version()
+if version.major < 0 or (version.major == 0 and version.minor > 11) then
+  vim.cmd("packadd nvim.difftool")
+  vim.cmd("packadd nvim.undotree")
+end
