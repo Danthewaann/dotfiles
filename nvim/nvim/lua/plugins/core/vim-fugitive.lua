@@ -8,8 +8,10 @@ return {
       for _, v in pairs(windows) do
         local status, _ = pcall(vim.api.nvim_win_get_var, v, "fugitive_status")
         if status then
-          vim.api.nvim_win_close(v, false)
-          return
+          local ok, _ = pcall(vim.api.nvim_win_close, v, false)
+          if ok then
+            return
+          end
         end
       end
       vim.cmd [[Git]]
