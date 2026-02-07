@@ -2,7 +2,7 @@ local default_sources = function()
   -- put those which will be shown always
   local result = { "lsp", "path", "snippets" }
   -- turn on buffer, dictionary and git sources in markdown or text files
-  if vim.tbl_contains({ "markdown", "text" }, vim.bo.filetype) then
+  if vim.tbl_contains({ "markdown", "text", "gitcommit" }, vim.bo.filetype) then
     table.insert(result, "buffer")
     table.insert(result, "dictionary")
     table.insert(result, "git")
