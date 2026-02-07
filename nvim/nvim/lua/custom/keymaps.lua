@@ -120,6 +120,7 @@ vim.keymap.set({ "n", "t" }, "<C-t>", function()
     -- Check if the buffer is a terminal and has the variable `_test_vim_neovim_sticky`
     if vim.bo[buf].buftype == "terminal" and vim.b[buf]._test_vim_neovim_sticky ~= nil then
       terminal_buf = buf
+      break
     end
   end
 
