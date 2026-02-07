@@ -1,40 +1,13 @@
--- Use this function to check if the cursor is inside a comment block
--- From: https://github.com/Kaiser-Yang/blink-cmp-dictionary#how-to-enable-this-plugin-for-comment-blocks-or-specific-file-types-only
-local function inside_comment_block()
-  if vim.api.nvim_get_mode().mode ~= "i" then
-    return false
+local default_sources = function()
+  -- put those which will be shown always
+  local result = { "lsp", "path", "snippets" }
+  -- turn on buffer, dictionary and git sources in markdown or text files
+  if vim.tbl_contains({ "markdown", "text" }, vim.bo.filetype) then
+    table.insert(result, "buffer")
+    table.insert(result, "dictionary")
+    table.insert(result, "git")
   end
-  local node_under_cursor = vim.treesitter.get_node()
-  local parser = vim.treesitter.get_parser(nil, nil, { error = false })
-  local query = vim.treesitter.query.get(vim.bo.filetype, "highlights")
-  if not parser or not node_under_cursor or not query then
-    return false
-  end
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  row = row - 1
-  for id, node, _ in query:iter_captures(node_under_cursor, 0, row, row + 1) do
-    if query.captures[id]:find("comment") then
-      local start_row, start_col, end_row, end_col = node:range()
-      if start_row <= row and row <= end_row then
-        if start_row == row and end_row == row then
-          if start_col <= col and col <= end_col then
-            return true
-          end
-        elseif start_row == row then
-          if start_col <= col then
-            return true
-          end
-        elseif end_row == row then
-          if col <= end_col then
-            return true
-          end
-        else
-          return true
-        end
-      end
-    end
-  end
-  return false
+  return result
 end
 
 return {
@@ -104,6 +77,14 @@ return {
 
       -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
       --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+
+      ["<C-space>"] = { function(cmp)
+        if cmp.is_visible() then
+          cmp.show({ providers = { "buffer", "dictionary" } })
+        else
+          cmp.show({ providers = default_sources() })
+        end
+      end, "show", "show_documentation", "hide_documentation" },
     },
 
     appearance = {
@@ -126,24 +107,9 @@ return {
     },
 
     sources = {
-      default = function()
-        -- put those which will be shown always
-        local result = { "lsp", "path", "snippets", "buffer" }
-        if
-        -- turn on dictionary and git sources in markdown or text files
-            vim.tbl_contains({ "markdown", "text" }, vim.bo.filetype) or
-            -- or turn on dictionary if cursor is in the comment block
-            inside_comment_block()
-        then
-          table.insert(result, "dictionary")
-          table.insert(result, "git")
-        end
-        return result
-      end,
+      default = default_sources,
 
       providers = {
-        -- defaults to `{ 'buffer' }`
-        lsp = { fallbacks = {} },
         path = {
           opts = {
             -- Get completions relative to cwd
@@ -192,6 +158,19 @@ return {
     fuzzy = {
       implementation = "prefer_rust_with_warning",
       sorts = {
+        -- Show `Buffer` source entries first over `Dict` source entries
+        function(entry1, entry2)
+          local source1 = entry1.source_name
+          local source2 = entry2.source_name
+
+          if source1 == "Buffer" and source2 == "Dict" then
+            return true
+          elseif source1 == "Dict" and source2 == "Buffer" then
+            return false
+          end
+
+          return nil
+        end,
         -- Filter for keyword arguments for python
         function(entry1, entry2)
           local entry1_is_keyword_arg = string.sub(entry1.label, -1) == "="
