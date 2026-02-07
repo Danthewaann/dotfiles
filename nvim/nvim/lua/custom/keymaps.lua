@@ -71,7 +71,10 @@ vim.keymap.set("n", "<C-q>", function()
     end
   end
   if qf_exists == true then
-    vim.cmd "cclose"
+    local ok, _ = pcall(function() vim.cmd("cclose") end)
+    if not ok then
+      utils.print_err("Cannot close quickfix as it is the last window")
+    end
     return
   end
   vim.cmd "botright copen"
@@ -127,7 +130,10 @@ vim.keymap.set({ "n", "t" }, "<C-t>", function()
       if vim.api.nvim_win_get_buf(win) == terminal_buf then
         is_visible = true
         -- Hide the terminal by closing the window
-        vim.api.nvim_win_close(win, true)
+        local ok, _ = pcall(vim.api.nvim_win_close, win, true)
+        if not ok then
+          utils.print_err("Cannot close terminal as it is the last window")
+        end
         break
       end
     end
