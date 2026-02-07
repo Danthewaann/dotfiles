@@ -255,15 +255,6 @@ vim.keymap.set("v", "<leader>rp", function()
   { desc = "[R]e[p]lace selection in file" }
 )
 
--- Use <M-P> and <M-N> to cycle through history in vim command mode
--- This is needed to allow command line completion to work properly
-vim.keymap.set("c", "<M-p>", "<Up>", { desc = "Previous command" })
-vim.keymap.set("c", "<M-n>", "<Down>", { desc = "Next command" })
-
--- Disable Tab and Shift-Tab in command line to let blink.cmp handle completion over wildmenu
-vim.keymap.set("c", "<Tab>", "<Nop>")
-vim.keymap.set("c", "<S-Tab>", "<Nop>")
-
 vim.keymap.set("n", "<leader>dB", function()
   vim.cmd("%bd|e#|bd#")
 end, { desc = "[D]elete All Other [B]uffers" })
