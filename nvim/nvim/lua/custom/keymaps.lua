@@ -154,10 +154,6 @@ end, { desc = "Toggle Terminal" })
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
 
--- Tab navigation
-vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
-
 -- Go to tab by number
 vim.keymap.set({ "n", "t" }, "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
 vim.keymap.set({ "n", "t" }, "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
@@ -176,9 +172,13 @@ vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Mo
 
 -- Window navigation
 vim.keymap.set({ "n", "t" }, "<C-w>h", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
 vim.keymap.set({ "n", "t" }, "<C-w>j", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
 vim.keymap.set({ "n", "t" }, "<C-w>k", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "t" }, "<C-w>l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
+vim.keymap.set({ "n", "t" }, "<C-w>l", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
 vim.keymap.set({ "n", "t" }, "<C-w><C-w>", "<cmd> wincmd w<CR>", { desc = "Switch windows" })
 
 -- Resize the current window
