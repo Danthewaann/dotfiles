@@ -47,6 +47,7 @@ return {
       "Kaiser-Yang/blink-cmp-dictionary",
       dependencies = { "nvim-lua/plenary.nvim" }
     },
+    "kristijanhusak/vim-dadbod-completion",
   },
   --- @module 'blink.cmp'
   --- @type blink.cmp.Config
@@ -109,6 +110,11 @@ return {
     sources = {
       default = default_sources,
 
+      per_filetype = {
+        sql = { "dadbod" },
+        lua = { inherit_defaults = true, "lazydev" }
+      },
+
       providers = {
         path = {
           opts = {
@@ -141,6 +147,12 @@ return {
         git = {
           module = "blink-cmp-git",
           name = "Git",
+        },
+        dadbod = { module = "vim_dadbod_completion.blink" },
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          score_offset = 100,
         },
       }
     },
