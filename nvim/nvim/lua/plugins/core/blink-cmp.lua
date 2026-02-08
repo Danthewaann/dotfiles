@@ -1,6 +1,6 @@
 local default_sources = function()
   -- put those which will be shown always
-  local result = { "lsp", "path", "snippets" }
+  local result = { "lsp", "path", "snippets", "buffer" }
   -- turn on buffer, dictionary and git sources in markdown or text files
   if vim.tbl_contains({ "markdown", "text", "gitcommit" }, vim.bo.filetype) then
     table.insert(result, "buffer")
@@ -126,25 +126,21 @@ return {
                 return vim.bo[bufnr].buftype == ""
               end, vim.api.nvim_list_bufs())
             end
-          }
+          },
+          score_offset = 100,
         },
         dictionary = {
           module = "blink-cmp-dictionary",
           name = "Dict",
-          -- Make sure this is at least 2.
-          -- 3 is recommended
           min_keyword_length = 3,
           opts = {
-            -- options for blink-cmp-dictionary
             dictionary_directories = { vim.fn.expand("~/.config/nvim/dictionary") }
-          }
+          },
+          score_offset = 50,
         },
         git = {
           module = "blink-cmp-git",
           name = "Git",
-          opts = {
-            -- options for the blink-cmp-git
-          },
         },
       }
     },
@@ -158,19 +154,6 @@ return {
     fuzzy = {
       implementation = "prefer_rust_with_warning",
       sorts = {
-        -- Show `Buffer` source entries first over `Dict` source entries
-        function(entry1, entry2)
-          local source1 = entry1.source_name
-          local source2 = entry2.source_name
-
-          if source1 == "Buffer" and source2 == "Dict" then
-            return true
-          elseif source1 == "Dict" and source2 == "Buffer" then
-            return false
-          end
-
-          return nil
-        end,
         -- Filter for keyword arguments for python
         function(entry1, entry2)
           local entry1_is_keyword_arg = string.sub(entry1.label, -1) == "="
