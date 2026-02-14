@@ -22,29 +22,31 @@ existing_new_pr_files.sort(key=lambda x: x.stem)
 existing_old = existing_old_pr_files[0] if existing_old_pr_files else None
 existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
-content = json.loads(
-    subprocess.check_output(
-        [
-            "gh",
-            "pr",
-            "view",
-            "--json",
-            "title",
-            "--json",
-            "body",
-            "--json",
-            "labels",
-            "--json",
-            "isDraft",
-            "--json",
-            "state",
-            "--json",
-            "number",
-            "--json",
-            "baseRefName",
-        ]
-    )
+proc = _utils.run_command(
+    [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "title",
+        "--json",
+        "body",
+        "--json",
+        "labels",
+        "--json",
+        "isDraft",
+        "--json",
+        "state",
+        "--json",
+        "number",
+        "--json",
+        "baseRefName",
+    ]
 )
+if proc.returncode != 0:
+    sys.exit(1)
+
+content = json.loads(proc.stdout)
 pr_number = content["number"]
 title = content["title"]
 body = content["body"]
