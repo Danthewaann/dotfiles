@@ -4,32 +4,53 @@ import os
 import pathlib
 import subprocess
 import _utils
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--keep-recent", action="store_true", default=False, dest="keep_recent"
+)
+
+args = parser.parse_args()
+keep_recent: bool = args.keep_recent
+
+base_dir = str(pathlib.Path(os.environ["TMUX_CURRENT_DIR"]).stem)
+current_session = _utils.check_output(["tmux", "display-message", "-p", "#S"]).strip()
+all_sessions = list(
+    map(
+        str.strip,
+        _utils.check_output(["tmux", "list-sessions", "-F", "#S"]).splitlines(),
+    )
+)
+active_sessions: list[str] = sorted(
+    _utils.check_output(
+        ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"]
+    ).splitlines(),
+    reverse=True,
+)
 
 sessions_file = pathlib.Path.home() / ".tmux-save-sessions"
 ignore_sessions: list[str] = []
 if sessions_file.exists():
     ignore_sessions = sessions_file.read_text().splitlines()
 
-sessions = _utils.check_output(["tmux", "list-sessions", "-F", "#S"]).splitlines()
 
-active_sessions: list[str] = _utils.check_output(
-    ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"]
-).splitlines()
-active_sessions.sort(reverse=True)
+if not keep_recent:
+    for session in all_sessions:
+        if session != current_session and session not in ignore_sessions:
+            subprocess.run(["tmux", "kill-session", "-t", session], check=True)
+else:
+    recent_active_sessions: list[str] = []
+    count = 0
+    for session in active_sessions:
+        if count == 10:
+            break
 
-base_dir = str(pathlib.Path(os.getenv("TMUX_CURRENT_DIR")).stem)  # pyright: ignore
-recent_active_sessions: list[str] = []
-count = 0
-for session in active_sessions:
-    if count == 10:
-        break
+        _, session = session.split()
+        if session not in ignore_sessions and session != base_dir:
+            recent_active_sessions.append(session)
+            count += 1
 
-    _, session = session.split()
-    if session not in ("dotfiles", "notes", "github", base_dir):
-        recent_active_sessions.append(session)
-        count += 1
-
-
-for session in sessions:
-    if session not in ignore_sessions and session not in recent_active_sessions:
-        subprocess.run(["tmux", "kill-session", "-t", session], check=True)
+    for session in all_sessions:
+        if session not in ignore_sessions and session not in recent_active_sessions:
+            subprocess.run(["tmux", "kill-session", "-t", session], check=True)
