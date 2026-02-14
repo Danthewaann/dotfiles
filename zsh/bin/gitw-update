@@ -2,7 +2,6 @@
 
 import os
 import pathlib
-import subprocess
 import sys
 import _utils
 
@@ -20,9 +19,7 @@ _utils.run_git_fetch()
 print(file=sys.stderr)
 
 _utils.info("Updating with remote...")
-status = subprocess.check_output(
-    ["git", "status", "-uno"], text=True, stderr=subprocess.STDOUT
-)
+status = _utils.check_output(["git", "status", "-uno"])
 print(status, file=sys.stderr)
 if "up to date" not in status:
     proc = _utils.run_git_pull()

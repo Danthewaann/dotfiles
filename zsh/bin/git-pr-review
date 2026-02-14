@@ -2,12 +2,13 @@
 
 import subprocess
 import sys
+import _utils
 
 pr_number = (
     sys.argv[1]
     if len(sys.argv) > 1
-    else subprocess.check_output(
-        ["gh", "pr", "view", "--json", "number", "--jq", ".number"], text=True
+    else _utils.check_output(
+        ["gh", "pr", "view", "--json", "number", "--jq", ".number"]
     ).strip()
 )
 

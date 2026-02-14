@@ -22,31 +22,29 @@ existing_new_pr_files.sort(key=lambda x: x.stem)
 existing_old = existing_old_pr_files[0] if existing_old_pr_files else None
 existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
-proc = _utils.run_command(
-    [
-        "gh",
-        "pr",
-        "view",
-        "--json",
-        "title",
-        "--json",
-        "body",
-        "--json",
-        "labels",
-        "--json",
-        "isDraft",
-        "--json",
-        "state",
-        "--json",
-        "number",
-        "--json",
-        "baseRefName",
-    ]
+content = json.loads(
+    _utils.check_output(
+        [
+            "gh",
+            "pr",
+            "view",
+            "--json",
+            "title",
+            "--json",
+            "body",
+            "--json",
+            "labels",
+            "--json",
+            "isDraft",
+            "--json",
+            "state",
+            "--json",
+            "number",
+            "--json",
+            "baseRefName",
+        ]
+    )
 )
-if proc.returncode != 0:
-    sys.exit(1)
-
-content = json.loads(proc.stdout)
 pr_number = content["number"]
 title = content["title"]
 body = content["body"]
@@ -67,9 +65,8 @@ if existing_old and existing_new:
     subprocess.run([editor, new_pr_file])
 else:
     # Get list of labels that are available in the current repository
-    repo_labels = subprocess.check_output(
+    repo_labels = _utils.check_output(
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
-        text=True,
     ).splitlines()
 
     cur_time = int(time.time())

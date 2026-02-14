@@ -16,7 +16,7 @@ if not _utils.inside_bare_repo():
 else:
     cur_dir = pathlib.Path.cwd().stem
     print(f"Checking for git worktrees in {cur_dir}...")
-    worktrees = subprocess.check_output(["git", "worktree", "list"], text=True)
+    worktrees = _utils.check_output(["git", "worktree", "list"])
     for worktree in worktrees.splitlines():
         if not re.search(r"(\[main\]|\[master\]|\(bare\))", worktree):
             proc = subprocess.run(

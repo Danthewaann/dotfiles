@@ -2,9 +2,10 @@
 
 import platform
 import subprocess
+import _utils
 
-pr_url = subprocess.check_output(
-    ["gh", "pr", "view", "--json", "url", "--jq", ".url"], text=True
+pr_url = _utils.check_output(
+    ["gh", "pr", "view", "--json", "url", "--jq", ".url"]
 ).strip()
 
 if platform.system() == "Darwin":

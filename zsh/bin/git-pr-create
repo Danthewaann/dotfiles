@@ -36,7 +36,7 @@ else:
 def print_pr_info(is_draft: bool = False) -> None:
     slack_label = ""
     content: dict[str, Any] = json.loads(
-        subprocess.check_output(
+        _utils.check_output(
             ["gh", "pr", "view", "--json", "url", "--json", "labels", "--json", "title"]
         )
     )
@@ -62,13 +62,13 @@ def print_pr_info(is_draft: bool = False) -> None:
 current_branch = _utils.get_current_branch()
 
 # Check that this branch exists remotely
-remote_branches = subprocess.check_output(["git", "branch", "-r"], text=True)
+remote_branches = _utils.check_output(["git", "branch", "-r"])
 if not re.search(current_branch, remote_branches):
     _utils.error("Branch doesn't exist on remote origin!")
     sys.exit(1)
 
 # Check if a PR has already been opened for the current branch
-pr_info = subprocess.check_output(["gh", "pr", "list"], text=True)
+pr_info = _utils.check_output(["gh", "pr", "list"])
 if re.search(current_branch, pr_info):
     print(file=sys.stderr)
     _utils.warn("A PR has already been opened for this branch")
@@ -97,13 +97,12 @@ if existing_old and existing_new:
     subprocess.run([editor, new_pr_file])
 else:
     # Get list of labels that are available in the current repository
-    repo_labels = subprocess.check_output(
+    repo_labels = _utils.check_output(
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
-        text=True,
     ).splitlines()
 
     # Use the last commit message as the PR title
-    pr_title = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], text=True)
+    pr_title = _utils.check_output(["git", "log", "-1", "--pretty=%B"])
     cur_time = int(time.time())
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
     new_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.new.md")

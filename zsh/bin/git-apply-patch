@@ -2,12 +2,13 @@
 
 import platform
 import subprocess
+import _utils
 
 if platform.system() == "Darwin":
-    command = "pbpaste"
+    command = ["pbpaste"]
 else:
     command = ["xclip", "-selection", "clipboard", "-o"]
 
-patch = subprocess.check_output(command, text=True)
+patch = _utils.check_output(command)
 
 subprocess.run(["git", "apply", "-"], text=True, input=patch)

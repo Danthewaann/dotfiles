@@ -3,18 +3,17 @@
 import os
 import pathlib
 import subprocess
+import _utils
 
 sessions_file = pathlib.Path.home() / ".tmux-save-sessions"
 ignore_sessions: list[str] = []
 if sessions_file.exists():
     ignore_sessions = sessions_file.read_text().splitlines()
 
-sessions = subprocess.check_output(
-    ["tmux", "list-sessions", "-F", "#S"], text=True
-).splitlines()
+sessions = _utils.check_output(["tmux", "list-sessions", "-F", "#S"]).splitlines()
 
-active_sessions: list[str] = subprocess.check_output(
-    ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"], text=True
+active_sessions: list[str] = _utils.check_output(
+    ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"]
 ).splitlines()
 active_sessions.sort(reverse=True)
 
