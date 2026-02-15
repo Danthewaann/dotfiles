@@ -17,12 +17,16 @@ if [[ $# -gt 0 ]]; then
     selected=$1
     shift
 
-    if [ -d "$selected/../.bare" ]; then
-        # If this parent directory for the selected directory is a bare git repository,
-        # prepend the parent directory to the selected directory.
-        selected_session=$(relative_path "$selected" "$TMUX_CURRENT_DIR" | tr . _)
+    if [[ "$selected" =~ ^[0-9]+$ ]]; then
+        selected_session=$(sed -n "${selected}p" ~/.tmux-save-sessions)
     else
-        selected_session=$(basename "$selected" | tr . _)
+        if [ -d "$selected/../.bare" ]; then
+            # If this parent directory for the selected directory is a bare git repository,
+            # prepend the parent directory to the selected directory.
+            selected_session=$(relative_path "$selected" "$TMUX_CURRENT_DIR" | tr . _)
+        else
+            selected_session=$(basename "$selected" | tr . _)
+        fi
     fi
 else
     current_session=$(tmux display-message -p '#S')

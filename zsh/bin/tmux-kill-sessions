@@ -29,15 +29,15 @@ active_sessions: list[str] = sorted(
     reverse=True,
 )
 
-sessions_file = pathlib.Path.home() / ".tmux-save-sessions"
-ignore_sessions: list[str] = []
+sessions_file = pathlib.Path.home() / ".tmux-default-sessions"
+default_sessions: list[str] = []
 if sessions_file.exists():
-    ignore_sessions = sessions_file.read_text().splitlines()
+    default_sessions = sessions_file.read_text().splitlines()
 
 
 if not keep_recent:
     for session in all_sessions:
-        if session != current_session and session not in ignore_sessions:
+        if session != current_session and session not in default_sessions:
             subprocess.run(["tmux", "kill-session", "-t", session], check=True)
 else:
     recent_active_sessions: list[str] = []
@@ -47,10 +47,10 @@ else:
             break
 
         _, session = session.split()
-        if session not in ignore_sessions and session != base_dir:
+        if session not in default_sessions and session != base_dir:
             recent_active_sessions.append(session)
             count += 1
 
     for session in all_sessions:
-        if session not in ignore_sessions and session not in recent_active_sessions:
+        if session not in default_sessions and session not in recent_active_sessions:
             subprocess.run(["tmux", "kill-session", "-t", session], check=True)

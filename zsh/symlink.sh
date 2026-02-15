@@ -21,11 +21,7 @@ done
 
 echo "$SCRIPT_DIR/completions" "$HOME/.zsh_completions"
 
-if [[ ! -f "$SCRIPT_DIR/.tmux-save-sessions" ]]; then
-    cp "$SCRIPT_DIR/.tmux-save-sessions.example" "$SCRIPT_DIR/.tmux-save-sessions"
-fi
-
-echo "$SCRIPT_DIR/.tmux-save-sessions" "$HOME/.tmux-save-sessions"
+echo "$SCRIPT_DIR/.tmux-default-sessions" "$HOME/.tmux-default-sessions"
 
 if [[ ! -f "$SCRIPT_DIR/.secretsrc" ]]; then
     cp "$SCRIPT_DIR/.secretsrc.example" "$SCRIPT_DIR/.secretsrc"
