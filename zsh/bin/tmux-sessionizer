@@ -19,6 +19,9 @@ if [[ $# -gt 0 ]]; then
 
     if [[ "$selected" =~ ^[0-9]+$ ]]; then
         selected_session=$(sed -n "${selected}p" ~/.tmux-save-sessions)
+        if [[ -z "$selected_session" ]]; then
+            exit
+        fi
     else
         if [ -d "$selected/../.bare" ]; then
             # If this parent directory for the selected directory is a bare git repository,
