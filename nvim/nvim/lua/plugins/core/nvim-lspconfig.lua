@@ -134,7 +134,7 @@ return {
         -- Pass the filtered diagnostics (with our custom namespace) to
         -- the original handler
         local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
-        orig_vt_handler.show(ns, bufnr, filtered_diagnostics, opts)
+        pcall(orig_vt_handler.show, ns, bufnr, filtered_diagnostics, opts)
       end,
       hide = function(_, bufnr)
         orig_vt_handler.hide(ns, bufnr)
