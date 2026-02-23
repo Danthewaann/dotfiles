@@ -88,7 +88,8 @@ else
             "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux \
                 --header='Select target session.' \
                 --preview='$HOME/.local/bin/tmux-preview {}' \
-                --preview-window 40%,noinfo $TMUX_FZF_OPTIONS
+                --preview-window 40%,noinfo $TMUX_FZF_OPTIONS |
+            sed 's/^* //'
     )
     selected_session=$(tr . _ <<<"$selected" | cut -d' ' -f2)
 fi
