@@ -64,7 +64,11 @@ else
     readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
 
     # Include saved sessions first
-    while IFS=$'\n' read -r line; do sessions+=("* $line"); done <"$HOME/.tmux-save-sessions"
+    session_number=1
+    while IFS=$'\n' read -r line; do
+        sessions+=("${session_number}. $line")
+        session_number=$((session_number + 1))
+    done <"$HOME/.tmux-save-sessions"
 
     # Then include active sessions in recently used order
     while IFS=$'\n' read -r line; do
@@ -100,7 +104,7 @@ else
                 --header='Select target session.' \
                 --preview='$HOME/.local/bin/tmux-preview {}' \
                 --preview-window 40%,noinfo $TMUX_FZF_OPTIONS |
-            sed 's/^* //'
+            cut -d' ' -f2
     )
     selected_session=$(tr . _ <<<"$selected" | cut -d' ' -f2)
 fi
