@@ -12,6 +12,12 @@ autocmd("TermOpen", {
     vim.keymap.set({ "n", "x", "o" }, "{", [[?^\$<CR>]], { buffer = 0, silent = true })
     vim.keymap.set({ "n", "x", "o" }, "}", [[/^\$<CR>]], { buffer = 0, silent = true })
 
+    -- Populate quickfix list with stack traces in the terminal
+    vim.keymap.set(
+      "n", "<leader>u", "v{<cmd>NvimUnstack<CR>",
+      { desc = "[U]nstack traces", buffer = 0, silent = true, remap = true }
+    )
+
     -- Remove newlines when yanking the visual selection
     -- Needed for the neovim terminal as it insert newlines
     -- when a line is too long for the screen
