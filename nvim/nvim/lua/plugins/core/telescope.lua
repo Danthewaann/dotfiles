@@ -141,6 +141,7 @@ return {
     vim.keymap.set("n", "<leader>sd", require("telescope").extensions.aerial.aerial,
       { desc = "[S]earch [D]ocument Symbols" })
     vim.keymap.set("n", "<leader>sx", require("telescope.builtin").diagnostics, { desc = "[S]earch Diagnostics" })
+    vim.keymap.set("n", "<leader>sq", require("telescope.builtin").quickfix, { desc = "[S]earch [Q]uickfix List" })
     vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>so", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
