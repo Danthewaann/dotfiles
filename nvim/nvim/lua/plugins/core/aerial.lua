@@ -1,6 +1,7 @@
 return {
   "stevearc/aerial.nvim",
   event = "VeryLazy",
+  keys = { { "<C-e>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" } } },
   opts = {
     on_attach = function(bufnr)
       -- Jump forwards/backwards with '{' and '}'
@@ -25,7 +26,6 @@ return {
         end
         vim.cmd(":" .. count .. "AerialGo")
       end, { desc = "[G]o to [S]ymbol", buffer = bufnr, silent = true })
-      vim.keymap.set("n", "<C-e>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial", buffer = bufnr })
     end,
     disable_max_lines = 0,
     disable_max_size = 0,
