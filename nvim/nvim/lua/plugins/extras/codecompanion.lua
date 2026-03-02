@@ -8,7 +8,8 @@ return {
   opts = {
     interactions = {
       chat = {
-        adapter = "githubmodels",
+        adapter = "anthropic",
+        model = "claude-sonnet-4-20250514",
         keymaps = {
           send = {
             modes = { n = "<CR>", i = "<nop>" },
@@ -24,13 +25,16 @@ return {
         },
       },
       inline = {
-        adapter = "githubmodels",
+        adapter = "anthropic",
+        model = "claude-sonnet-4-20250514",
       },
       cmd = {
-        adapter = "githubmodels",
+        adapter = "anthropic",
+        model = "claude-sonnet-4-20250514",
       },
       background = {
-        adapter = "githubmodels",
+        adapter = "anthropic",
+        model = "claude-sonnet-4-20250514",
       },
     },
   },
