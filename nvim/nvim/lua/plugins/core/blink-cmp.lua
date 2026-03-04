@@ -111,7 +111,8 @@ return {
 
       per_filetype = {
         sql = { "dadbod" },
-        lua = { inherit_defaults = true, "lazydev" }
+        lua = { inherit_defaults = true, "lazydev" },
+        codecompanion = { "codecompanion" },
       },
 
       providers = {
