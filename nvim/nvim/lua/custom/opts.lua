@@ -98,10 +98,6 @@ vim.o.foldmethod = "expr"
 vim.o.foldtext = ""
 vim.o.fillchars = "fold: "
 
--- Search down into subfolders
--- Provides tab-completion for all file-related tasks
-vim.opt.path:append("**")
-
 -- Use ripgrep for the :grep command
 vim.o.grepprg = "rg --vimgrep --color=never"
 
