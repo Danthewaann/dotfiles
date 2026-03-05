@@ -4,12 +4,6 @@ vim.schedule(function()
   vim.o.clipboard = "unnamedplus"
 end)
 
--- Show where the cursor is
-vim.o.cursorline = true
-
--- Show the cursor line per screen line
-vim.o.cursorlineopt = "screenline,number"
-
 -- Display line numbers
 vim.wo.number = true
 
