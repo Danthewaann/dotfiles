@@ -66,8 +66,12 @@ endif
 " dialogue asking if you wish to save changed files
 set confirm
 
-" Set the update time so vim refreshes quickly
-set updatetime=50
+" Set updatetime to a lower number for faster updates
+" Also used for `:packadd nohlsearch`
+set updatetime=2000
+if exists(':packadd')
+  packadd nohlsearch
+endif
 
 " From https://stackoverflow.com/a/58042714
 " Quickly time out on keycodes, but never time out on mappings
@@ -91,8 +95,11 @@ if has("termguicolors")
     set termguicolors
 endif
 
-" Toggle highlight search
-nnoremap <silent><Esc> :set hls!<cr>
+" Highlight searches
+set hlsearch
+
+" Highlight incremental searches
+set incsearch
 
 " Move the current visual selection up or down a line at a time
 " From https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -119,6 +126,16 @@ vnoremap <leader>rp "ky:%s/<C-R>=escape(@k, "/")<CR>/<C-R>=escape(@k, "/")<CR>/g
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
+" Better file explorer binds
+function! OpenCwdInNetrw()
+  execute 'Explore' getcwd()
+endfunction
+nnoremap <silent> - :Explore<CR>
+nnoremap <silent> _ :call OpenCwdInNetrw()<CR>
+
+" Go to alternative buffer
+nnoremap <silent><BS> :b#<CR>zz
+
 " COLOUR THEME ===================================================================================================
 
 " The slate colourscheme is available from vim 7.4 onwards
@@ -131,7 +148,7 @@ augroup my_colorschemes
 augroup END
 
 set background=dark
-colorscheme slate 
+colorscheme slate
 
 " NAVIGATION ===================================================================================================
 
@@ -147,30 +164,27 @@ nnoremap } }zz
 nnoremap <C-I> <C-I>zz
 nnoremap <C-O> <C-O>zz
 
-" Close all buffers in the current window/tab
+" Close tab
 nnoremap <silent><C-W>q :tabclose<CR>
 
-" Window navigation
-nnoremap <C-H> <C-W><C-H>
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-
-" Tab navigation
-nnoremap <silent><C-W><C-H> :tabprevious<CR>
-nnoremap <silent><C-W><C-L> :tabnext<CR>
+" Close all tabs except current one
+nnoremap <silent><C-W><C-o> :tabonly<CR>
 
 " Open a new tab
 nnoremap <silent><C-W>N :tabnew<CR>
 
 " Go to tab by number
-noremap  <silent><C-W>1 :tabn1<CR>
-noremap  <silent><C-W>2 :tabn2<CR>
-noremap  <silent><C-W>3 :tabn3<CR>
-noremap  <silent><C-W>4 :tabn4<CR>
-noremap  <silent><C-W>5 :tabn5<CR>
-noremap  <silent><C-W>6 :tabn6<CR>
-noremap  <silent><C-W>7 :tabn7<CR>
-noremap  <silent><C-W>8 :tabn8<CR>
-noremap  <silent><C-W>9 :tabn9<CR>
-noremap  <silent><C-W>0 :tablast<cr>
+noremap <silent><C-W>1 :tabn1<CR>
+noremap <silent><C-W>2 :tabn2<CR>
+noremap <silent><C-W>3 :tabn3<CR>
+noremap <silent><C-W>4 :tabn4<CR>
+noremap <silent><C-W>5 :tabn5<CR>
+noremap <silent><C-W>6 :tabn6<CR>
+noremap <silent><C-W>7 :tabn7<CR>
+noremap <silent><C-W>8 :tabn8<CR>
+noremap <silent><C-W>9 :tabn9<CR>
+noremap <silent><C-W>0 :tablast<cr>
+
+" Move tabs left or right
+noremap <silent><C-W>, :-tabmove<cr>
+noremap <silent><C-W>. :+tabmove<cr>
