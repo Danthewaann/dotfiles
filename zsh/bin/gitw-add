@@ -2,13 +2,12 @@
 
 import argparse
 import os
-import re
 import shutil
 import sys
 import subprocess
 import pathlib
 import time
-from typing import Any
+from typing import Any, Sequence
 import _utils
 
 
@@ -34,9 +33,9 @@ parser.add_argument("args", nargs="*")
 parser.add_argument("-C", dest="working_dir", type=validate_working_dir)
 
 parsed_args = parser.parse_args()
-branch_name = parsed_args.branch
-args = parsed_args.args
-working_dir = parsed_args.working_dir
+branch_name: str = parsed_args.branch
+args: Sequence[str] = parsed_args.args
+working_dir: pathlib.Path | None = parsed_args.working_dir
 
 if working_dir:
     os.chdir(working_dir)
@@ -87,9 +86,9 @@ local_branch_arg = ["-B", branch_name]
 # If this branch exists remotely, set up tracking info for the local branch
 remote_tracking_arg = []
 remote_branches = subprocess.run(
-    ["git", "branch", "-r"], text=True, capture_output=True
+    ["git", "ls-remote", "--branches", "origin"], text=True, capture_output=True
 ).stdout
-if re.search(rf"\w*origin/{branch_name}$", remote_branches, re.MULTILINE):
+if branch_name in remote_branches:
     remote_tracking_arg = ["--track", f"origin/{branch_name}"]
 
 # Create a new worktree using the converted name whilst checking out the branch
