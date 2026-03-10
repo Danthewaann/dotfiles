@@ -71,6 +71,9 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
     run_command "installing just" \
         "brew install just"
+
+    run_command "installing wordnet" \
+        "brew install wordnet"
 else
     run_command "installing fd" \
         "sudo apt-get install -y fd-find"
