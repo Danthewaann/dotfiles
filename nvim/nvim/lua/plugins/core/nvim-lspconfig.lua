@@ -48,7 +48,7 @@ return {
     }
 
     local ignored_codes = {
-      -- Let pyright handle the following errors
+      -- Let ty handle the following errors
       "F821",   -- undefined symbols
       "F841",   -- unused variables
       "ERA001", -- commented out code
@@ -196,8 +196,6 @@ return {
       vim.diagnostic.setqflist({ open = true })
     end, { desc = "Open diagnostics in quickfix list" })
 
-    local pyright_diagnostic_mode = "openFilesOnly"
-    local pyright_type_checking_mode = "basic"
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
@@ -281,30 +279,6 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client then
-          if client.name == "basedpyright" then
-            ---@diagnostic disable-next-line: undefined-field
-            client.settings.basedpyright.analysis.diagnosticMode = pyright_diagnostic_mode
-            map("<leader>ld", function()
-              if pyright_diagnostic_mode == "openFilesOnly" then
-                pyright_diagnostic_mode = "workspace"
-              else
-                pyright_diagnostic_mode = "openFilesOnly"
-              end
-              vim.cmd(":lsp restart")
-              utils.print("Restarting LSP with diagnosticMode=" .. pyright_diagnostic_mode)
-            end, "Change [D]iagnostic Mode")
-            client.settings.basedpyright.analysis.typeCheckingMode = pyright_type_checking_mode
-            map("<leader>lt", function()
-              if pyright_type_checking_mode == "basic" then
-                pyright_type_checking_mode = "off"
-              else
-                pyright_type_checking_mode = "basic"
-              end
-              vim.cmd(":lsp restart")
-              utils.print("Restarting LSP with typeCheckingMode=" .. pyright_type_checking_mode)
-            end, "Change [T]ype Checking Mode")
-          end
-
           -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
@@ -379,29 +353,7 @@ return {
           },
         }
       },
-      basedpyright = {
-        settings = {
-          basedpyright = {
-            analysis = {
-              -- Ignore diagnostic output in files under these paths
-              ignore = { ".venv/**", ".tox/**" },
-              exclude = { ".venv/**", ".tox/**" },
-              diagnosticMode = pyright_diagnostic_mode, -- can be "workspace" or "openFilesOnly"
-              typeCheckingMode = "basic",               -- can be "off", "basic", "standard", "strict", "recommended" or "all"
-              diagnosticSeverityOverrides = {
-                reportMissingImports = true,
-                reportMissingTypeStubs = false,
-                reportUnusedImport = true,
-              },
-              useLibraryCodeForTypes = true
-            },
-          },
-          python = {}
-        },
-        before_init = function(_, config)
-          config.settings.python.pythonPath = utils.get_venv_executable_path("python", config.root_dir)
-        end,
-      },
+      ty = { settings = {} },
       ruff = {
         settings = {
           organizeImports = true,
@@ -413,7 +365,7 @@ return {
           lint = {
             preview = false,
             ignore = {
-              -- Let pyright handle the following errors
+              -- Let ty handle the following errors
               "F821",   -- undefined symbols
               "F841",   -- unused variables
               "ERA001", -- commented out code

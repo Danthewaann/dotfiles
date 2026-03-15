@@ -42,9 +42,6 @@ fi
 run_command "setting global python version to $PYTHON_VERSION" \
     "pyenv global $PYTHON_VERSION"
 
-# Need to make sure flake8 is installed for coc-pyright to work correctly
-# for some reason. I also added other packages here for general use so
-# my vim setup works when editing standalone files outside of a project.
 run_command "installing pipx" \
     "pip install pipx"
 
