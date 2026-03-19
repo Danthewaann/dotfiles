@@ -108,12 +108,7 @@ autocmd("BufEnter", {
 autocmd("FileType", {
   group = augroup("spell-checking", { clear = true }),
   pattern = { "markdown", "octo", "gitcommit" },
-  callback = function()
-    vim.wo.wrap = true
-    vim.wo.linebreak = true
-    vim.wo.breakindent = true
-    vim.wo.showbreak = "=> "
-  end,
+  command = "setlocal spell spelllang=en_us,en_gb"
 })
 
 -- Enable soft wrapping of lines in markdown and octo buffers
