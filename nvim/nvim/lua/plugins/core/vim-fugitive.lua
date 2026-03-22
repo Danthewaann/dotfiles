@@ -22,7 +22,7 @@ return {
     end, { desc = "[G]it Status" })
 
     local git_log_args =
-    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
+    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %C(green)(%an)%Creset %s'"
 
     vim.keymap.set("n", "<leader>gla", string.format("<cmd> tab Git log %s<CR>", git_log_args),
       { desc = "[G]it [L]og [A]ll" })
