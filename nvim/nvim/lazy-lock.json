@@ -36,7 +36,6 @@
   "nvim-treesitter": { "branch": "main", "commit": "e5f65e31a5ec0e8526b2311ff8c7aaea4a581c82" },
   "nvim-treesitter-context": { "branch": "master", "commit": "9a8e39993e3b895601bf8227124a48ea8268149e" },
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "7359dfcefa38db632541e1f9b5b5f291626a1d47" },
-  "nvim-unstack": { "branch": "main", "commit": "391f8ad53434322eb89b38f7647babec4d856e02" },
   "nvim-web-devicons": { "branch": "master", "commit": "d7462543c9e366c0d196c7f67a945eaaf5d99414" },
   "octo.nvim": { "branch": "master", "commit": "c14f5b6ee92f0b2717efd525211bcb6cebf03fa6" },
   "oil.nvim": { "branch": "master", "commit": "0fcc83805ad11cf714a949c98c605ed717e0b83e" },
