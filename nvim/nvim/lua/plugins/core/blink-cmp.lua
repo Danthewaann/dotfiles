@@ -135,6 +135,9 @@ return {
           },
           score_offset = 100,
         },
+        snippets = {
+          score_offset = 110
+        },
         dictionary = {
           module = "blink-cmp-dictionary",
           name = "Dict",
