@@ -239,25 +239,35 @@ vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
--- Replace current word in current file
+-- Replace current word in current file or all files in quickfix list
 vim.keymap.set("n", "<leader>rp", function()
     local selection = vim.fn.expand("<cword>")
     local left = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
-    vim.api.nvim_feedkeys(":%s/" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
-      false)
+    if vim.bo.buftype == "quickfix" then
+      vim.api.nvim_feedkeys(":cfdo %s/\\V" .. selection .. "/" .. selection .. "/gI" .. left .. left .. left, "n",
+        false)
+    else
+      vim.api.nvim_feedkeys(":%s/\\V" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
+        false)
+    end
   end,
   { desc = "[R]e[p]lace current word in file" }
 )
 
--- Replace visual selection in current file
+-- Replace visual selection in current file or all files in quickfix list
 vim.keymap.set("v", "<leader>rp", function()
     local selection = utils.get_visual_selection()
     for _, char in ipairs({ "/" }) do
       selection = selection:gsub("%" .. char, "\\" .. char)
     end
     local left = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
-    vim.api.nvim_feedkeys(":%s/\\V" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
-      false)
+    if vim.bo.buftype == "quickfix" then
+      vim.api.nvim_feedkeys(":cfdo %s/\\V" .. selection .. "/" .. selection .. "/gI" .. left .. left .. left, "n",
+        false)
+    else
+      vim.api.nvim_feedkeys(":%s/\\V" .. selection .. "/" .. selection .. "/gIc" .. left .. left .. left .. left, "n",
+        false)
+    end
   end,
   { desc = "[R]e[p]lace selection in file" }
 )
