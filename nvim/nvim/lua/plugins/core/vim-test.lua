@@ -73,8 +73,18 @@ end
 return {
   "vim-test/vim-test",
   config = function()
+    local pytest_options = {}
+    -- If pytest-xdist is installed in the current python project, use it when running the suite strategy,
+    -- and disable it when running the nearest or file test strategies
+    local result = vim.system({ "grep", "pytest-xdist", "pyproject.toml" }, { text = true }):wait()
+    if result.code == 0 then
+      pytest_options = { nearest = "-vv -n 0", file = "-n 0", suite = "-n auto" }
+    else
+      pytest_options = { nearest = "-vv" }
+    end
+
     vim.g["test#strategy"] = "neovim_sticky"
-    vim.g["test#python#pytest#options"] = { nearest = "-vv" }
+    vim.g["test#python#pytest#options"] = pytest_options
 
     -- Theses are only used for the neovim_sticky test strategy
     vim.g["test#neovim#term_position"] = "botright 20"
