@@ -50,7 +50,7 @@ return {
           return
         end
         if filetype == "python" then
-          require("dap-python").test_method({ "-vv" })
+          require("dap-python").test_method(utils.generate_pytest_options("dap"))
         end
       end,
       desc = "[T]est [D]ebug Nearest"

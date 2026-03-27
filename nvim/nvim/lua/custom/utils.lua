@@ -146,4 +146,32 @@ module.dmypy_args = function(include_cmd)
   return args
 end
 
+module.generate_pytest_options = function(mode)
+  -- If pytest-xdist is installed in the current python project, use it when running the suite strategy,
+  -- and disable it when running the nearest or file test strategies
+  local result = vim.system({ "grep", "pytest-xdist", "pyproject.toml" }, { text = true }):wait()
+  local options = {}
+  if result.code == 0 then
+    if mode == "vim-test" then
+      options = { nearest = "-vv -n 0", file = "-n 0", suite = "-n auto" }
+    elseif mode == "dap" then
+      options = {
+        config = function(conf)
+          table.insert(conf.args, "-n")
+          table.insert(conf.args, "0")
+          return conf
+        end
+      }
+    end
+  else
+    if mode == "vim-test" then
+      options = { nearest = "-vv" }
+    elseif mode == "dap" then
+      options = nil
+    end
+  end
+
+  return options
+end
+
 return module
