@@ -315,7 +315,7 @@ vim.keymap.set("n", "<leader>dB", function()
 end, { desc = "[D]elete All Other [B]uffers" })
 
 vim.keymap.set("n", "<leader>yf", function()
-  local path = vim.fn.expand("%")
+  local path = vim.fn.expand("%:p:.")
   local cb_opts = vim.opt.clipboard:get()
   if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
   if vim.tbl_contains(cb_opts, "unnamedplus") then
@@ -323,7 +323,18 @@ vim.keymap.set("n", "<leader>yf", function()
   end
   vim.fn.setreg("", path)
   utils.print("Copied " .. path .. " to clipboard")
-end, { desc = "[Y]ank current [F]ile path" })
+end, { desc = "[Y]ank current [F]ile relative path" })
+
+vim.keymap.set("n", "<leader>yF", function()
+  local path = vim.fn.expand("%:p")
+  local cb_opts = vim.opt.clipboard:get()
+  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
+  if vim.tbl_contains(cb_opts, "unnamedplus") then
+    vim.fn.setreg("+", path)
+  end
+  vim.fn.setreg("", path)
+  utils.print("Copied " .. path .. " to clipboard")
+end, { desc = "[Y]ank current [F]ile absolute path" })
 
 vim.keymap.set("n", "<leader>tb", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
