@@ -137,11 +137,6 @@ return {
     {
       "<leader>tq",
       function()
-        if vim.bo.filetype ~= "python" then
-          utils.print_err("Loading test results in quickfix not supported!")
-          return
-        end
-
         vim.cmd(":PytestLoadFailures")
       end,
       desc = "[T]est load results into [Q]uickfix"
@@ -149,11 +144,6 @@ return {
     {
       "<leader>tQ",
       function()
-        if vim.bo.filetype ~= "python" then
-          utils.print_err("Loading test results in quickfix not supported!")
-          return
-        end
-
         vim.cmd(":PytestClearDiagnostics")
       end,
       desc = "[T]est clear results from [Q]uickfix"
