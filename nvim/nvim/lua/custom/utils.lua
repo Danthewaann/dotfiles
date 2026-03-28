@@ -180,9 +180,24 @@ module.generate_pytest_options = function(mode)
 end
 
 local ns = vim.api.nvim_create_namespace("pytest_failures")
+local stored_diagnostics = {} -- keyed by absolute filepath
+local augroup = vim.api.nvim_create_augroup("PytestDiagnostics", { clear = true })
+
+-- Re-apply diagnostics when an affected buffer is entered
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = augroup,
+  callback = function(args)
+    local filename = vim.api.nvim_buf_get_name(args.buf)
+    local diagnostics = stored_diagnostics[filename]
+    if diagnostics then
+      vim.diagnostic.set(ns, args.buf, diagnostics)
+    end
+  end,
+})
 
 ---Clear all pytest diagnostics across all buffers
 function module.clear_diagnostics()
+  stored_diagnostics = {}
   vim.diagnostic.reset(ns)
 end
 
@@ -208,6 +223,8 @@ local function set_diagnostics(qf_items)
       })
     end
   end
+
+  stored_diagnostics = by_file
 
   -- Set diagnostics per buffer
   for filename, diagnostics in pairs(by_file) do
