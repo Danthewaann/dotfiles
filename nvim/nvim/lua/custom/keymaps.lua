@@ -85,6 +85,11 @@ end, { desc = "Toggle Quickfix" })
 vim.keymap.set("n", "<C-j>", function()
   local qf = vim.fn.getqflist({ idx = 0, items = 0 })
   local current_item = qf.items[qf.idx]
+  if current_item == nil then
+    utils.print("No quickfix list items found")
+    return
+  end
+
   local cursor_lnum = vim.api.nvim_win_get_cursor(0)[1]
   local cursor_bufnr = vim.api.nvim_get_current_buf()
   local on_same_line = cursor_bufnr == current_item.bufnr and cursor_lnum == current_item.lnum
@@ -110,6 +115,11 @@ end, { desc = "Jump to next qf item" })
 vim.keymap.set("n", "<C-k>", function()
   local qf = vim.fn.getqflist({ idx = 0, items = 0 })
   local current_item = qf.items[qf.idx]
+  if current_item == nil then
+    utils.print("No quickfix list items found")
+    return
+  end
+
   local cursor_lnum = vim.api.nvim_win_get_cursor(0)[1]
   local cursor_bufnr = vim.api.nvim_get_current_buf()
   local on_same_line = cursor_bufnr == current_item.bufnr and cursor_lnum == current_item.lnum
