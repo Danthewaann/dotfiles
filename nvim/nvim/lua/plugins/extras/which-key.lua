@@ -53,6 +53,7 @@ return {
         { "<leader>h", group = "Git [H]unk" },
         { "<leader>r", group = "[R]eplace" },
         { "<leader>s", group = "[S]earch" },
+        { "<leader>y", group = "[Y]ank" },
       },
     })
   end
