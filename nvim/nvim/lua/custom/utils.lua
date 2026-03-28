@@ -196,16 +196,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 ---Clear all pytest diagnostics across all buffers
-function module.clear_diagnostics()
+function module.clear_pytest_diagnostics()
   stored_diagnostics = {}
   vim.diagnostic.reset(ns)
 end
 
 ---Set diagnostics from quickfix items grouped by filename
 ---@param qf_items table List of quickfix items
-local function set_diagnostics(qf_items)
+local function set_pytest_diagnostics(qf_items)
   -- Clear existing diagnostics first
-  module.clear_diagnostics()
+  module.clear_pytest_diagnostics()
 
   -- Group diagnostics by filename
   local by_file = {}
@@ -234,7 +234,7 @@ local function set_diagnostics(qf_items)
   end
 end
 
-function module.load_failures(results_file)
+function module.load_pytest_failures(results_file)
   results_file = results_file or "results.json"
 
   local f = io.open(results_file, "r")
@@ -291,25 +291,9 @@ function module.load_failures(results_file)
     items = qf_items,
   })
 
-  set_diagnostics(qf_items)
+  set_pytest_diagnostics(qf_items)
 
   vim.notify(("%d pytest failure(s) loaded into quickfix"):format(#qf_items), vim.log.levels.WARN)
 end
-
--- Register a user command for convenience
-vim.api.nvim_create_user_command("PytestLoadFailures", function(opts)
-  module.load_failures(opts.args ~= "" and opts.args or nil)
-end, {
-  nargs = "?",
-  complete = "file",
-  desc = "Load pytest failures from a results.json file into the quickfix list",
-})
-
-vim.api.nvim_create_user_command("PytestClearDiagnostics", function()
-  module.clear_diagnostics()
-end, {
-  desc = "Clear all pytest failure diagnostics",
-})
-
 
 return module

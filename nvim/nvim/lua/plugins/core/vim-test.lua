@@ -137,14 +137,14 @@ return {
     {
       "<leader>tq",
       function()
-        vim.cmd(":PytestLoadFailures")
+        utils.load_pytest_failures()
       end,
       desc = "[T]est load results into [Q]uickfix"
     },
     {
       "<leader>tQ",
       function()
-        vim.cmd(":PytestClearDiagnostics")
+        utils.clear_pytest_diagnostics()
       end,
       desc = "[T]est clear results from [Q]uickfix"
     },
