@@ -83,6 +83,20 @@ end, { desc = "Toggle Quickfix" })
 
 -- Quickfix list navigation
 vim.keymap.set("n", "<C-j>", function()
+  local qf = vim.fn.getqflist({ idx = 0, items = 0 })
+  local current_item = qf.items[qf.idx]
+  local cursor_lnum = vim.api.nvim_win_get_cursor(0)[1]
+  local cursor_bufnr = vim.api.nvim_get_current_buf()
+  local on_same_line = cursor_bufnr == current_item.bufnr and cursor_lnum == current_item.lnum
+
+  if not on_same_line then
+    local ok, _ = pcall(function() vim.cmd(":cc " .. qf.idx) end)
+    if ok then
+      vim.fn.feedkeys("zz")
+    end
+    return
+  end
+
   local ok, _ = pcall(function() vim.cmd(":cnext") end)
   if not ok then
     ok, _ = pcall(function() vim.cmd(":cfirst") end)
@@ -94,6 +108,20 @@ vim.keymap.set("n", "<C-j>", function()
   end
 end, { desc = "Jump to next qf item" })
 vim.keymap.set("n", "<C-k>", function()
+  local qf = vim.fn.getqflist({ idx = 0, items = 0 })
+  local current_item = qf.items[qf.idx]
+  local cursor_lnum = vim.api.nvim_win_get_cursor(0)[1]
+  local cursor_bufnr = vim.api.nvim_get_current_buf()
+  local on_same_line = cursor_bufnr == current_item.bufnr and cursor_lnum == current_item.lnum
+
+  if not on_same_line then
+    local ok, _ = pcall(function() vim.cmd(":cc " .. qf.idx) end)
+    if ok then
+      vim.fn.feedkeys("zz")
+    end
+    return
+  end
+
   local ok, _ = pcall(function() vim.cmd(":cprevious") end)
   if not ok then
     ok, _ = pcall(function() vim.cmd(":clast") end)
