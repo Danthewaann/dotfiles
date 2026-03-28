@@ -72,7 +72,6 @@ module.parse_ruff_output = function(output)
   end
 
   vim.fn.setqflist({}, " ", { title = "Ruff errors", items = list })
-  vim.cmd(":botright copen | silent! cc 1")
 end
 
 module.parse_mypy_output = function(output)
@@ -103,7 +102,6 @@ module.parse_mypy_output = function(output)
   end
 
   vim.fn.setqflist({}, " ", { title = "Mypy errors", items = list })
-  vim.cmd(":botright copen | silent! cc 1")
 end
 
 module.mypy_args = function(include_cmd)

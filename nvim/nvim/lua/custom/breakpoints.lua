@@ -88,9 +88,7 @@ vim.keymap.set("n", "<leader>bs", function()
 
   if get_all_breakpoints() then
     num = vim.fn.getqflist()
-    if #num > 0 then
-      vim.cmd(":copen")
-    else
+    if #num == 0 then
       utils.print_err("No breakpoints found!")
     end
   end
