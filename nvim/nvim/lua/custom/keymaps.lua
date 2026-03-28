@@ -345,22 +345,6 @@ vim.keymap.set("n", "<leader>tb", function()
   end
 end, { desc = "Open [T]erminal in current [B]uffer directory" })
 
-vim.keymap.set("n", "<leader>yc", function()
-  local count = vim.v.count1 -- Get the count (default is 1 if no count is provided)
-  local obj = vim.system({ "sh", "-c", "git log --oneline | head -n " .. count .. " | tac | awk '{print NR \".\", $0}'" })
-      :wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-  end
-  local cb_opts = vim.opt.clipboard:get()
-  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", obj.stdout) end
-  if vim.tbl_contains(cb_opts, "unnamedplus") then
-    vim.fn.setreg("+", obj.stdout)
-  end
-  vim.fn.setreg("", obj.stdout)
-  utils.print("Copied last " .. count .. " commits to clipboard")
-end, { desc = "[Y]ank [C]ommits to clipboard" })
-
 -- Spelling
 vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",
