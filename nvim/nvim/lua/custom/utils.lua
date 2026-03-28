@@ -259,12 +259,14 @@ function module.load_failures(results_file)
       local filename = ""
       local lnum = 1
       local text = test.nodeid
+      local module = ""
 
       if test.call and test.call.crash then
         local crash = test.call.crash
         filename = crash.path or ""
         lnum = crash.lineno or 1
-        text = ("[%s] %s"):format(test.nodeid, crash.message or "")
+        text = crash.message or ""
+        module = test.nodeid or ""
       end
 
       table.insert(qf_items, {
@@ -274,6 +276,7 @@ function module.load_failures(results_file)
         text = text,
         type = "E",
         valid = 1,
+        module = module,
       })
     end
   end
