@@ -58,10 +58,10 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Quickfix list management
-vim.keymap.set("n", "<C-h>", function()
+vim.keymap.set("n", "<M-h>", function()
   pcall(function() vim.cmd(":cnewer") end)
 end, { desc = "Go to older quickfix list" })
-vim.keymap.set("n", "<C-l>", function()
+vim.keymap.set("n", "<M-l>", function()
   pcall(function() vim.cmd(":colder") end)
 end, { desc = "Go to newer quickfix list" })
 
@@ -84,7 +84,7 @@ end, { desc = "Toggle Quickfix" })
 
 
 -- Quickfix list navigation
-vim.keymap.set("n", "<C-j>", function()
+vim.keymap.set("n", "<M-j>", function()
   local qf = vim.fn.getqflist({ idx = 0, items = 0 })
   local current_item = qf.items[qf.idx]
   if current_item == nil then
@@ -114,7 +114,7 @@ vim.keymap.set("n", "<C-j>", function()
     vim.fn.feedkeys("zz")
   end
 end, { desc = "Jump to next qf item" })
-vim.keymap.set("n", "<C-k>", function()
+vim.keymap.set("n", "<M-k>", function()
   local qf = vim.fn.getqflist({ idx = 0, items = 0 })
   local current_item = qf.items[qf.idx]
   if current_item == nil then
@@ -210,17 +210,6 @@ vim.keymap.set({ "n", "t" }, "<C-w>0", "<cmd> tablast<CR>", { desc = "Go to the 
 -- Move tabs left or right
 vim.keymap.set({ "n", "t" }, "<C-w>,", "<cmd> silent -tabmove<CR>", { desc = "Move tab left" })
 vim.keymap.set({ "n", "t" }, "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab right" })
-
--- Window navigation
-vim.keymap.set({ "n", "t" }, "<C-w>h", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> wincmd h<CR>", { desc = "Go to left window" })
-vim.keymap.set({ "n", "t" }, "<C-w>j", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-j>", "<cmd> wincmd j<CR>", { desc = "Go to bottom window" })
-vim.keymap.set({ "n", "t" }, "<C-w>k", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-k>", "<cmd> wincmd k<CR>", { desc = "Go to above window" })
-vim.keymap.set({ "n", "t" }, "<C-w>l", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> wincmd l<CR>", { desc = "Go to right window" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-w>", "<cmd> wincmd w<CR>", { desc = "Switch windows" })
 
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
