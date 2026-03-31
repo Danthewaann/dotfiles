@@ -158,9 +158,9 @@ module.generate_pytest_options = function(mode)
       options.suite = "-n auto"
     end
     if json_report_installed.code == 0 then
-      options.nearest = options.nearest .. " --json-report --json-report-file=results.json"
-      options.file = options.file .. " --json-report --json-report-file=results.json"
-      options.suite = options.suite .. " --json-report --json-report-file=results.json"
+      options.nearest = options.nearest .. " --json-report --json-report-file=.pytest_results.json"
+      options.file = options.file .. " --json-report --json-report-file=.pytest_results.json"
+      options.suite = options.suite .. " --json-report --json-report-file=.pytest_results.json"
     end
   elseif mode == "dap" then
     if xdist_installed.code == 0 then
@@ -235,7 +235,7 @@ local function set_pytest_diagnostics(qf_items)
 end
 
 function module.load_pytest_failures(results_file)
-  results_file = results_file or "results.json"
+  results_file = results_file or ".pytest_results.json"
 
   local f = io.open(results_file, "r")
   if not f then
