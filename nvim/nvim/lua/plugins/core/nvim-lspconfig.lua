@@ -165,6 +165,7 @@ return {
     pcall(vim.keymap.del, "n", "grn")
     pcall(vim.keymap.del, "n", "grr")
     pcall(vim.keymap.del, "n", "grt")
+    pcall(vim.keymap.del, "n", "grx")
     pcall(vim.keymap.del, "n", "gO")
     pcall(vim.keymap.del, { "i" }, "<C-s>")
     pcall(vim.keymap.del, { "v", "x", "o" }, "an")
