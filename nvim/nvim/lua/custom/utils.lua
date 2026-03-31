@@ -263,11 +263,10 @@ function module.load_pytest_failures(results_file)
 
       if test.call and test.call.crash then
         local crash = test.call.crash
-        local stacktrace = test.call.traceback[1]
         local longrepr = test.call.longrepr
-        filename = stacktrace.path or ""
-        lnum = stacktrace.lineno or 1
-        text = (crash.message or "") .. "\n\n" .. longrepr or ""
+        filename = test.nodeid:match("^[^::]*")
+        lnum = (test.lineno + 1) or 1
+        text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
         item_module = test.nodeid or ""
       end
 
