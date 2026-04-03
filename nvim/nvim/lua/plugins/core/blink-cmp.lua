@@ -80,7 +80,7 @@ return {
 
       ["<C-space>"] = { function(cmp)
         if cmp.is_visible() then
-          cmp.show({ providers = { "buffer", "dictionary" } })
+          cmp.show({ providers = { "snippets", "buffer", "dictionary" } })
         else
           cmp.show({ providers = default_sources() })
         end
@@ -116,6 +116,9 @@ return {
       },
 
       providers = {
+        lsp = {
+          score_offset = 100,
+        },
         path = {
           opts = {
             -- Get completions relative to cwd
@@ -133,7 +136,11 @@ return {
               end, vim.api.nvim_list_bufs())
             end
           },
+          score_offset = 80,
+        },
+        snippets = {
           score_offset = 100,
+          max_items = 5,
         },
         dictionary = {
           module = "blink-cmp-dictionary",
@@ -142,7 +149,6 @@ return {
           opts = {
             dictionary_directories = { vim.fn.expand("~/.config/nvim/dictionary") }
           },
-          score_offset = 50,
         },
         git = {
           module = "blink-cmp-git",
