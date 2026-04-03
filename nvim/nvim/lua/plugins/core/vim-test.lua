@@ -71,10 +71,46 @@ local function setup_test_runners()
   setup_runners = true
 end
 
+local bg_term = nil
+
+local function background_term_strategy(cmd)
+  -- Wipe the old buffer if it exists
+  if bg_term and vim.api.nvim_buf_is_valid(bg_term) then
+    vim.api.nvim_buf_delete(bg_term, { force = true })
+  end
+
+  -- listed=true, scratch=false so it appears in the buffer list
+  local buf = vim.api.nvim_create_buf(true, false)
+
+  -- Run jobstart in the context of the new buffer without displaying it
+  vim.api.nvim_buf_call(buf, function()
+    vim.fn.jobstart(cmd, {
+      on_exit = function(_, code)
+        vim.schedule(function()
+          if code ~= 0 then
+            utils.print_err(string.format("Test run failed with code %d", code))
+          else
+            utils.print("Test run completed")
+          end
+        end)
+      end,
+      term = true,
+      width = vim.o.columns - 10
+    })
+  end)
+
+  pcall(vim.api.nvim_buf_set_name, buf, string.format("term://%s", cmd))
+  bg_term = buf
+
+  utils.print("Started test run...")
+end
+
+
 return {
   "vim-test/vim-test",
   config = function()
-    vim.g["test#strategy"] = "neovim_sticky"
+    vim.g["test#custom_strategies"] = { bg_term = background_term_strategy }
+    vim.g["test#strategy"] = "bg_term"
     vim.g["test#python#pytest#options"] = utils.generate_pytest_options("vim-test")
 
     -- Theses are only used for the neovim_sticky test strategy
@@ -133,6 +169,19 @@ return {
         vim.cmd(":TestVisit")
       end,
       desc = "[T]est [V]isit"
+    },
+    {
+      "<leader>to",
+      function()
+        local ok = false
+        if bg_term then
+          ok, _ = pcall(vim.cmd, ":buffer " .. bg_term)
+        end
+        if not ok then
+          utils.print("Test output buffer not found")
+        end
+      end,
+      desc = "[T]est [O]utput"
     },
     {
       "<leader>tq",
