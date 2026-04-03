@@ -101,7 +101,6 @@ else
     selected=$(
         printf "%s\n" "${sessions[@]}" |
             "$HOME"/.tmux/plugins/tmux-fzf/scripts/.fzf-tmux \
-                --header='Select target session.' \
                 --preview='$HOME/.local/bin/tmux-preview {}' \
                 --preview-window 40%,noinfo $TMUX_FZF_OPTIONS |
             cut -d' ' -f2
