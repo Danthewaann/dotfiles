@@ -224,7 +224,7 @@ return {
             prompt_title = "LSP Workspace Symbols (" .. word .. ")",
             query = word,
           })
-        end, "[S]earch [S]symbol")
+        end, "[S]earch [S]ymbol")
         map("<leader>sf", function()
           local word = vim.fn.expand("<cword>")
           local buf = vim.api.nvim_get_current_buf()
