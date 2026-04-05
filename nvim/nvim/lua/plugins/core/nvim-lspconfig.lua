@@ -168,8 +168,6 @@ return {
     pcall(vim.keymap.del, "n", "grx")
     pcall(vim.keymap.del, "n", "gO")
     pcall(vim.keymap.del, { "i" }, "<C-s>")
-    pcall(vim.keymap.del, { "v", "x", "o" }, "an")
-    pcall(vim.keymap.del, { "v", "x", "o" }, "in")
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "<leader>tD", function()
