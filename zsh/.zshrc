@@ -143,7 +143,11 @@ if [[ $OSTYPE == "darwin"* ]]; then
     # mac OS only setup
     #
     # Add brew to path
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    if [[ -f /opt/homebrew/bin/brew ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
 
     # Allow gnu `find` to be available
     export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"

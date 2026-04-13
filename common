@@ -145,7 +145,7 @@ inside_wsl() {
     [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
 }
 
-load_variables() {
+create_variables() {
     if [[ ! -f $BASE_DIR/variables ]]; then
         create=false
         user "variables file not created, create it from variables.example?"
@@ -169,8 +169,7 @@ load_variables() {
         fi
     fi
 
-    source "$BASE_DIR/variables"
     return 0
 }
 
-if ! load_variables; then exit 1; fi
+if ! create_variables; then exit 1; fi

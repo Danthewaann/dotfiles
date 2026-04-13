@@ -8,21 +8,25 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR"/../common
 
 if ! inside_wsl; then
-    run_command "installing xclip" \
-        "sudo apt-get install -y xclip"
+    if [[ $OSTYPE != "darwin"* ]]; then
+	run_command "installing xclip" \
+	    "sudo apt-get install -y xclip"
 
-    run_command "setting up key-repeat" \
-        "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
-        "gsettings set org.gnome.desktop.peripherals.keyboard delay 200"
+	run_command "setting up key-repeat" \
+	    "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
+	    "gsettings set org.gnome.desktop.peripherals.keyboard delay 200"
+    fi
 else
-    if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then
-        run_command "downloading win32yank" \
-            "wget -O $SCRIPT_DIR/win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip"
+    if [[ $OSTYPE != "darwin"* ]]; then
+	if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then
+	    run_command "downloading win32yank" \
+		"wget -O $SCRIPT_DIR/win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip"
 
-        run_command "unpacking $SCRIPT_DIR/win32yank.exe to -> /usr/local/bin" \
-            "unzip -p $SCRIPT_DIR/win32yank.zip win32yank.exe > $SCRIPT_DIR/win32yank.exe" \
-            "chmod +x $SCRIPT_DIR/win32yank.exe" \
-            "sudo mv $SCRIPT_DIR/win32yank.exe /usr/local/bin/"
+	    run_command "unpacking $SCRIPT_DIR/win32yank.exe to -> /usr/local/bin" \
+		"unzip -p $SCRIPT_DIR/win32yank.zip win32yank.exe > $SCRIPT_DIR/win32yank.exe" \
+		"chmod +x $SCRIPT_DIR/win32yank.exe" \
+		"sudo mv $SCRIPT_DIR/win32yank.exe /usr/local/bin/"
+	fi
     fi
 fi
 

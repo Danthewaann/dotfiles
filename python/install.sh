@@ -70,10 +70,10 @@ run_command "installing poetry" \
     "pipx install poetry==$POETRY_VERSION"
 
 run_command "configuring poetry" \
-    "poetry config virtualenvs.in-project true"
+    "~/.local/bin/poetry config virtualenvs.in-project true"
 
 run_command "installing poetry zsh autocomplete" \
-    "poetry completions zsh > ~/.zsh_completions/_poetry"
+    "~/.local/bin/poetry completions zsh > ~/.zsh_completions/_poetry"
 
 if [[ $OSTYPE == "darwin"* ]]; then
     run_command "installing firefox geckodriver" \

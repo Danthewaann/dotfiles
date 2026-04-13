@@ -42,7 +42,6 @@ else
         "sudo unzip -o $SCRIPT_DIR/JetBrainsMono.zip -x \"*.md\" -d /usr/local/share/fonts/"
     run_command "unpacking iosevka fonts to -> /usr/local/share/fonts/" \
         "sudo unzip -o $SCRIPT_DIR/Iosevka.zip -x \"*.md\" -d /usr/local/share/fonts/"
+    run_command "refreshing font cache" \
+        "fc-cache -r -v"
 fi
-
-run_command "refreshing font cache" \
-    "fc-cache -r -v"
