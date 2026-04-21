@@ -95,8 +95,12 @@ vim.keymap.set("n", "<M-j>", function()
   local cursor_lnum = vim.api.nvim_win_get_cursor(0)[1]
   local cursor_bufnr = vim.api.nvim_get_current_buf()
   local on_same_line = cursor_bufnr == current_item.bufnr and cursor_lnum == current_item.lnum
+  local in_diff_mode = false
+  if current_item.user_data then
+    in_diff_mode = current_item.user_data.diff == true
+  end
 
-  if not on_same_line then
+  if not on_same_line and not in_diff_mode then
     local ok, _ = pcall(function() vim.cmd(":cc " .. qf.idx) end)
     if ok then
       vim.fn.feedkeys("zz")
@@ -125,8 +129,12 @@ vim.keymap.set("n", "<M-k>", function()
   local cursor_lnum = vim.api.nvim_win_get_cursor(0)[1]
   local cursor_bufnr = vim.api.nvim_get_current_buf()
   local on_same_line = cursor_bufnr == current_item.bufnr and cursor_lnum == current_item.lnum
+  local in_diff_mode = false
+  if current_item.user_data then
+    in_diff_mode = current_item.user_data.diff == true
+  end
 
-  if not on_same_line then
+  if not on_same_line and not in_diff_mode then
     local ok, _ = pcall(function() vim.cmd(":cc " .. qf.idx) end)
     if ok then
       vim.fn.feedkeys("zz")
