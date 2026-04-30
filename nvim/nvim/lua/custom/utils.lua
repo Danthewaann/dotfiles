@@ -253,8 +253,29 @@ function module.load_pytest_failures(results_file)
   end
 
   local qf_items = {}
+  local tests = data.tests or {}
+  local collectors = data.collectors or {}
 
-  for _, test in ipairs(data.tests or {}) do
+  for _, collector in ipairs(collectors) do
+    if collector.outcome == "failed" then
+      local filename = collector.nodeid
+      local lnum = 1
+      local text = collector.longrepr
+      local item_module = ""
+
+      table.insert(qf_items, {
+        filename = filename,
+        lnum = lnum,
+        col = 1,
+        text = text,
+        type = "E",
+        valid = 1,
+        module = item_module,
+      })
+    end
+  end
+
+  for _, test in ipairs(tests) do
     if test.outcome == "failed" then
       local filename = ""
       local lnum = 1
