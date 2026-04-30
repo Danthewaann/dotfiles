@@ -87,10 +87,31 @@ local function background_term_strategy(cmd)
     vim.fn.jobstart(cmd, {
       on_exit = function(_, code)
         vim.schedule(function()
-          if code ~= 0 then
-            utils.print_err(string.format("Test run failed with code %d", code))
+          if string.find(cmd, "pytest") then
+            local results_file = ".pytest_results.json"
+            local summary = {}
+            local ok, data = pcall(utils.load_pytest_results, results_file)
+            if not ok or type(data) ~= "table" then
+              vim.notify(("Failed to parse JSON from: %s"):format(results_file), vim.log.levels.ERROR)
+              summary = {}
+            else
+              summary = data.summary
+            end
+
+            local passed = summary.passed
+            local skipped = summary.skipped or 0
+            local failed = summary.failed or 0
+            if code ~= 0 then
+              utils.print_err(string.format("Test run failed with %d failure(s)", failed))
+            else
+              utils.print(string.format("Successfully ran %d tests, skipped %d", passed, skipped))
+            end
           else
-            utils.print("Test run completed")
+            if code ~= 0 then
+              utils.print_err(string.format("Test run failed with code %d", code))
+            else
+              utils.print("Successfully ran tests")
+            end
           end
         end)
       end,

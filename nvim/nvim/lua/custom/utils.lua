@@ -244,7 +244,7 @@ local function set_pytest_diagnostics(qf_items)
   end
 end
 
-function module.load_pytest_failures(results_file)
+function module.load_pytest_results(results_file)
   results_file = results_file or ".pytest_results.json"
 
   local f = io.open(results_file, "r")
@@ -256,7 +256,13 @@ function module.load_pytest_failures(results_file)
   local content = f:read("*a")
   f:close()
 
-  local ok, data = pcall(vim.fn.json_decode, content)
+  return vim.fn.json_decode(content)
+end
+
+function module.load_pytest_failures(results_file)
+  results_file = results_file or ".pytest_results.json"
+
+  local ok, data = pcall(module.load_pytest_results, results_file)
   if not ok or type(data) ~= "table" then
     vim.notify(("Failed to parse JSON from: %s"):format(results_file), vim.log.levels.ERROR)
     return
