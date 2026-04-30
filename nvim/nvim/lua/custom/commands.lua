@@ -9,7 +9,6 @@ vim.api.nvim_create_user_command("Mypy", function()
           utils.print_err(vim.fn.trim(obj.stderr))
           return
         end
-        utils.print("Finished running mypy")
         utils.parse_mypy_output(obj.stdout)
       end)
     end)
@@ -24,7 +23,6 @@ vim.api.nvim_create_user_command("DMypy", function()
           utils.print_err(vim.fn.trim(obj.stderr))
           return
         end
-        utils.print("Finished running dmypy")
         utils.parse_mypy_output(obj.stdout)
       end)
     end)
@@ -49,7 +47,6 @@ vim.api.nvim_create_user_command("Ruff", function()
           utils.print_err(vim.fn.trim(obj.stderr))
           return
         end
-        utils.print("Finished running ruff")
         utils.parse_ruff_output(obj.stdout)
       end)
     end)

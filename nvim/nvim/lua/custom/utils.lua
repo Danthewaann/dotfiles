@@ -72,6 +72,11 @@ module.parse_ruff_output = function(output)
   end
 
   vim.fn.setqflist({}, " ", { title = "Ruff errors", items = list })
+  if #list > 0 then
+    module.print_err("Ruff found " .. #list .. " error(s)")
+  else
+    module.print("Ruff finished with no errors")
+  end
 end
 
 module.parse_mypy_output = function(output)
@@ -102,6 +107,11 @@ module.parse_mypy_output = function(output)
   end
 
   vim.fn.setqflist({}, " ", { title = "Mypy errors", items = list })
+  if #list > 0 then
+    module.print_err("Mypy found " .. #list .. " error(s)")
+  else
+    module.print("Mypy finished with no errors")
+  end
 end
 
 module.mypy_args = function(include_cmd)
