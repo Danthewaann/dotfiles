@@ -104,7 +104,11 @@ local function background_term_strategy(cmd)
             if code ~= 0 then
               utils.print_err(string.format("Test run failed with %d failure(s)", failed))
             else
-              utils.print(string.format("Successfully ran %d tests, skipped %d", passed, skipped))
+              local txt = string.format("Successfully ran %d tests", passed)
+              if skipped > 0 then
+                txt = txt .. string.format(", skipped %d", skipped)
+              end
+              utils.print(txt)
             end
           else
             if code ~= 0 then
