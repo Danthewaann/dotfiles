@@ -292,30 +292,68 @@ function module.load_pytest_failures(results_file)
   end
 
   for _, test in ipairs(tests) do
-    if test.outcome == "failed" then
-      local filename = ""
-      local lnum = 1
-      local text = test.nodeid
-      local item_module = ""
-
-      if test.call and test.call.crash then
-        local crash = test.call.crash
-        local longrepr = test.call.longrepr
-        filename = test.nodeid:match("^[^::]*")
-        lnum = (test.lineno + 1) or 1
-        text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
-        item_module = test.nodeid or ""
+    if test.outcome == "error" then
+      if test.setup and test.setup.outcome == "failed" then
+        local crash = test.setup.crash
+        local longrepr = test.setup.longrepr
+        local filename = test.nodeid:match("^[^::]*")
+        local lnum = (test.lineno + 1) or 1
+        local text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
+        local item_module = test.nodeid or ""
+        table.insert(qf_items, {
+          filename = filename,
+          lnum = lnum,
+          col = 1,
+          text = text,
+          type = "E",
+          valid = 1,
+          module = item_module,
+        })
       end
 
-      table.insert(qf_items, {
-        filename = filename,
-        lnum = lnum,
-        col = 1,
-        text = text,
-        type = "E",
-        valid = 1,
-        module = item_module,
-      })
+      if test.teardown and test.teardown.outcome == "failed" then
+        local crash = test.teardown.crash
+        local longrepr = test.teardown.longrepr
+        local filename = test.nodeid:match("^[^::]*")
+        local lnum = (test.lineno + 1) or 1
+        local text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
+        local item_module = test.nodeid or ""
+        table.insert(qf_items, {
+          filename = filename,
+          lnum = lnum,
+          col = 1,
+          text = text,
+          type = "E",
+          valid = 1,
+          module = item_module,
+        })
+      end
+    else
+      if test.outcome == "failed" then
+        local filename = ""
+        local lnum = 1
+        local text = test.nodeid
+        local item_module = ""
+
+        if test.call and test.call.crash then
+          local crash = test.call.crash
+          local longrepr = test.call.longrepr
+          filename = test.nodeid:match("^[^::]*")
+          lnum = (test.lineno + 1) or 1
+          text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
+          item_module = test.nodeid or ""
+        end
+
+        table.insert(qf_items, {
+          filename = filename,
+          lnum = lnum,
+          col = 1,
+          text = text,
+          type = "E",
+          valid = 1,
+          module = item_module,
+        })
+      end
     end
   end
 

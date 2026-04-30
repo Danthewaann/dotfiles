@@ -101,10 +101,15 @@ local function background_term_strategy(cmd)
             local passed = summary.passed
             local skipped = summary.skipped or 0
             local failed = summary.failed or 0
+            local errors = summary.error or 0
             if code ~= 0 then
-              utils.print_err(string.format("Test run failed with %d failure(s)", failed))
+              local txt = string.format("Test run failed with %d failure(s)", failed)
+              if errors > 0 then
+                txt = txt .. string.format(", %d error(s)", errors)
+              end
+              utils.print_err(txt)
             else
-              local txt = string.format("Successfully ran %d tests", passed)
+              local txt = string.format("Successfully ran %d test(s)", passed)
               if skipped > 0 then
                 txt = txt .. string.format(", skipped %d", skipped)
               end
