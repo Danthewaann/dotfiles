@@ -271,24 +271,28 @@ function module.load_pytest_failures(results_file)
   local qf_items = {}
   local tests = data.tests or {}
   local collectors = data.collectors or {}
+  local failed_collectors = {}
 
   for _, collector in ipairs(collectors) do
     if collector.outcome == "failed" then
-      local filename = collector.nodeid
-      local lnum = 1
-      local text = collector.longrepr
-      local item_module = ""
-
-      table.insert(qf_items, {
-        filename = filename,
-        lnum = lnum,
-        col = 1,
-        text = text,
-        type = "E",
-        valid = 1,
-        module = item_module,
-      })
+      failed_collectors[collector.nodeid] = collector
     end
+  end
+  for _, collector in pairs(failed_collectors) do
+    local filename = collector.nodeid
+    local lnum = 1
+    local text = collector.longrepr
+    local item_module = ""
+
+    table.insert(qf_items, {
+      filename = filename,
+      lnum = lnum,
+      col = 1,
+      text = text,
+      type = "E",
+      valid = 1,
+      module = item_module,
+    })
   end
 
   for _, test in ipairs(tests) do
