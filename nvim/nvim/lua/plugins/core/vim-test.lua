@@ -103,7 +103,10 @@ local function background_term_strategy(cmd)
             local failed = summary.failed or 0
             local errors = summary.error or 0
             if code ~= 0 then
-              local txt = string.format("Test run failed with %d failure(s)", failed)
+              local txt = "Test run failed"
+              if failed > 0 then
+                txt = txt .. string.format(", %d failure(s)", failed)
+              end
               if errors > 0 then
                 txt = txt .. string.format(", %d error(s)", errors)
               end

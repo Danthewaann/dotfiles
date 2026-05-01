@@ -369,7 +369,7 @@ function module.load_pytest_failures(results_file)
 
   set_pytest_diagnostics(qf_items)
 
-  vim.notify(("%d pytest failure(s) loaded into quickfix"):format(#qf_items), vim.log.levels.WARN)
+  vim.notify(("%d pytest error(s) loaded into quickfix"):format(#qf_items), vim.log.levels.WARN)
 end
 
 return module
