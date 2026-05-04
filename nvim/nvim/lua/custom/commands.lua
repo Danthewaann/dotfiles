@@ -70,3 +70,7 @@ vim.api.nvim_create_user_command("YankCommits", function(args)
   vim.fn.setreg("", obj.stdout)
   utils.print("Copied last " .. count .. " commits to clipboard")
 end, { desc = "Yank commits to clipboard", nargs = "?" })
+
+vim.api.nvim_create_user_command("DeleteBuffers", function()
+  vim.cmd("%bd|e#|bd#")
+end, { desc = "Delete All Other Buffers" })

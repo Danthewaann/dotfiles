@@ -309,10 +309,6 @@ vim.keymap.set("v", "<leader>rp", function()
   { desc = "[R]e[p]lace selection in file" }
 )
 
-vim.keymap.set("n", "<leader>dB", function()
-  vim.cmd("%bd|e#|bd#")
-end, { desc = "[D]elete All Other [B]uffers" })
-
 vim.keymap.set("n", "<leader>yf", function()
   local path = vim.fn.expand("%:p:.")
   local cb_opts = vim.opt.clipboard:get()
