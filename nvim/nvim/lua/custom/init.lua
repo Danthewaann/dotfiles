@@ -24,3 +24,5 @@ if version.major < 0 or (version.major == 0 and version.minor > 11) then
   vim.cmd("packadd nvim.difftool")
   vim.cmd("packadd nvim.undotree")
 end
+
+require("vim._core.ui2").enable()
