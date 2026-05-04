@@ -225,7 +225,7 @@ return {
             query = word,
           })
         end, "[S]earch [S]ymbol")
-        map("<leader>sf", function()
+        map("<leader>sF", function()
           local word = vim.fn.expand("<cword>")
           local buf = vim.api.nvim_get_current_buf()
           if vim.bo[buf].filetype == "python" then
