@@ -12,7 +12,6 @@ if _utils.inside_worktree():
     proc = subprocess.run(
         ["gitw-update", worktree],
         text=True,
-        check=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     )
