@@ -164,7 +164,7 @@ module.generate_pytest_options = function(mode)
     local json_report_installed = vim.system({ "grep", "pytest-json-report", "pyproject.toml" }, { text = true }):wait()
     if xdist_installed.code == 0 then
       options.nearest = options.nearest .. " -n 0"
-      options.file = "-n 0"
+      options.file = "-n 0 -vv"
       options.suite = "-n auto"
     end
     if json_report_installed.code == 0 then
