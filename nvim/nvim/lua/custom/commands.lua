@@ -60,3 +60,9 @@ end, { desc = "Yank commits to clipboard", nargs = "?" })
 vim.api.nvim_create_user_command("DeleteBuffers", function()
   vim.cmd("%bd|e#|bd#")
 end, { desc = "Delete All Other Buffers" })
+
+-- Setup command line abbreviations for my custom commands
+vim.cmd(":cabbrev mypy Mypy")
+vim.cmd(":cabbrev ruff Ruff")
+vim.cmd(":cabbrev db DeleteBuffers")
+vim.cmd(":cabbrev yc YankCommits")
