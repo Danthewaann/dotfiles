@@ -317,10 +317,9 @@ function module.load_pytest_failures(results_file)
 
       if test.teardown and test.teardown.outcome == "failed" then
         local crash = test.teardown.crash
-        local longrepr = test.teardown.longrepr
         local filename = test.nodeid:match("^[^::]*")
         local lnum = (test.lineno + 1) or 1
-        local text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
+        local text = crash.message or "Failed"
         local item_module = test.nodeid or ""
         table.insert(qf_items, {
           filename = filename,
@@ -341,10 +340,9 @@ function module.load_pytest_failures(results_file)
 
         if test.call and test.call.crash then
           local crash = test.call.crash
-          local longrepr = test.call.longrepr
           filename = test.nodeid:match("^[^::]*")
           lnum = (test.lineno + 1) or 1
-          text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
+          text = crash.message or "Failed"
           item_module = test.nodeid or ""
         end
 
