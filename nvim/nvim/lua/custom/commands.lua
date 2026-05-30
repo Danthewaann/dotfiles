@@ -14,20 +14,6 @@ vim.api.nvim_create_user_command("Mypy", function()
     end)
 end, { desc = "Run Mypy and populate quickfix list with errors" })
 
-vim.api.nvim_create_user_command("DMypy", function()
-  utils.print("Running dmypy...")
-  vim.system(
-    utils.dmypy_args(true), {}, function(obj)
-      vim.schedule(function()
-        if obj.code > 1 then
-          utils.print_err(vim.fn.trim(obj.stderr))
-          return
-        end
-        utils.parse_mypy_output(obj.stdout)
-      end)
-    end)
-end, { desc = "Run DMypy and populate quickfix list with errors" })
-
 vim.api.nvim_create_user_command("Ruff", function()
   utils.print("Running ruff...")
   vim.system(
