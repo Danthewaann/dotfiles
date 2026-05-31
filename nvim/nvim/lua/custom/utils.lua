@@ -132,27 +132,6 @@ module.mypy_args = function(include_cmd)
   return args
 end
 
-module.dmypy_args = function(include_cmd)
-  local args = {}
-  if include_cmd then
-    table.insert(args, module.get_venv_executable_path("dmypy"))
-  end
-
-  table.insert(args, "run")
-  table.insert(args, "--timeout")
-  table.insert(args, "50000")
-  table.insert(args, "--")
-  table.insert(args, ".")
-  table.insert(args, "--show-column-numbers")
-  table.insert(args, "--show-error-end")
-  table.insert(args, "--show-error-codes")
-  table.insert(args, "--hide-error-context")
-  table.insert(args, "--no-color-output")
-  table.insert(args, "--no-error-summary")
-  table.insert(args, "--no-pretty")
-
-  return args
-end
 
 module.get_terminal_buffer = function()
   local terminal_buf = nil
