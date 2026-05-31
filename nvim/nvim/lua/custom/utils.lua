@@ -154,6 +154,21 @@ module.dmypy_args = function(include_cmd)
   return args
 end
 
+module.get_terminal_buffer = function()
+  local terminal_buf = nil
+
+  -- Iterate through all buffers
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    -- Check if the buffer is a terminal and has the variable `_test_vim_neovim_sticky`
+    if vim.bo[buf].buftype == "terminal" and vim.b[buf]._test_vim_neovim_sticky ~= nil then
+      terminal_buf = buf
+      break
+    end
+  end
+
+  return terminal_buf
+end
+
 module.generate_pytest_options = function(mode)
   local options = {}
   -- If pytest-xdist is installed in the current python project, use it when running the suite strategy,

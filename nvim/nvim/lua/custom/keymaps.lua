@@ -161,16 +161,7 @@ vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tab
 
 -- Toggle a terminal that can be used by vim-test
 vim.keymap.set({ "n", "t" }, "<C-t>", function()
-  local terminal_buf = nil
-
-  -- Iterate through all buffers
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    -- Check if the buffer is a terminal and has the variable `_test_vim_neovim_sticky`
-    if vim.bo[buf].buftype == "terminal" and vim.b[buf]._test_vim_neovim_sticky ~= nil then
-      terminal_buf = buf
-      break
-    end
-  end
+  local terminal_buf = utils.get_terminal_buffer()
 
   if terminal_buf then
     -- Check if the terminal is currently visible in any window

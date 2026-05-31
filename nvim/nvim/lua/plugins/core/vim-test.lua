@@ -71,71 +71,24 @@ local function setup_test_runners()
   setup_runners = true
 end
 
-local bg_term = nil
-
 local function background_term_strategy(cmd)
-  -- Wipe the old buffer if it exists
-  if bg_term and vim.api.nvim_buf_is_valid(bg_term) then
-    vim.api.nvim_buf_delete(bg_term, { force = true })
+  local terminal_buf = utils.get_terminal_buffer()
+
+  -- If the terminal buffer doesn't exist, create a new terminal
+  if terminal_buf == nil then
+    -- listed=true, scratch=false so it appears in the buffer list
+    local buf = vim.api.nvim_create_buf(true, false)
+
+    vim.api.nvim_buf_call(buf, function()
+      vim.cmd.term()
+      vim.b[buf]._test_vim_neovim_sticky = true
+      local job_id = vim.b[buf].terminal_job_id
+      vim.fn.chansend(job_id, cmd .. "\n")
+    end)
+  else
+    local job_id = vim.b[terminal_buf].terminal_job_id
+    vim.fn.chansend(job_id, cmd .. "\n")
   end
-
-  -- listed=true, scratch=false so it appears in the buffer list
-  local buf = vim.api.nvim_create_buf(true, false)
-
-  -- Run jobstart in the context of the new buffer without displaying it
-  vim.api.nvim_buf_call(buf, function()
-    vim.fn.jobstart(cmd, {
-      on_exit = function(_, code)
-        vim.schedule(function()
-          if string.find(cmd, "pytest") then
-            local results_file = ".pytest_results.json"
-            local summary = {}
-            local ok, data = pcall(utils.load_pytest_results, results_file)
-            if not ok or type(data) ~= "table" then
-              vim.notify(("Failed to parse JSON from: %s"):format(results_file), vim.log.levels.ERROR)
-              summary = {}
-            else
-              summary = data.summary
-            end
-
-            local passed = summary.passed
-            local skipped = summary.skipped or 0
-            local failed = summary.failed or 0
-            local errors = summary.error or 0
-            if code ~= 0 then
-              local txt = "Test run failed"
-              if failed > 0 then
-                txt = txt .. string.format(", %d failure(s)", failed)
-              end
-              if errors > 0 then
-                txt = txt .. string.format(", %d error(s)", errors)
-              end
-              utils.print_err(txt)
-            else
-              local txt = string.format("Successfully ran %d test(s)", passed)
-              if skipped > 0 then
-                txt = txt .. string.format(", skipped %d", skipped)
-              end
-              utils.print(txt)
-            end
-          else
-            if code ~= 0 then
-              utils.print_err(string.format("Test run failed with code %d", code))
-            else
-              utils.print("Successfully ran tests")
-            end
-          end
-        end)
-      end,
-      term = true,
-      width = vim.o.columns - 10
-    })
-  end)
-
-  pcall(vim.api.nvim_buf_set_name, buf, string.format("term://%s", cmd))
-  bg_term = buf
-
-  utils.print("Started test run...")
 end
 
 
@@ -149,8 +102,8 @@ return {
     -- Theses are only used for the neovim_sticky test strategy
     vim.g["test#neovim#term_position"] = "botright 20"
     vim.g["test#neovim_sticky#kill_previous"] = 0
-    vim.g["test#neovim_sticky#reopen_window"] = 1
-    vim.g["test#neovim_sticky#use_existing"] = 0
+    vim.g["test#neovim_sticky#reopen_window"] = 0
+    vim.g["test#neovim_sticky#use_existing"] = 1
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 1
   end,
@@ -206,12 +159,14 @@ return {
     {
       "<leader>to",
       function()
-        local ok = false
-        if bg_term then
-          ok, _ = pcall(vim.cmd, ":buffer " .. bg_term)
-        end
-        if not ok then
-          utils.print("Test output buffer not found")
+        local terminal_buf = utils.get_terminal_buffer()
+
+        if terminal_buf then
+          vim.cmd(":buffer " .. terminal_buf)
+        else
+          vim.cmd.term()
+          local buf = vim.api.nvim_get_current_buf()
+          vim.b[buf]._test_vim_neovim_sticky = true
         end
       end,
       desc = "[T]est [O]utput"
