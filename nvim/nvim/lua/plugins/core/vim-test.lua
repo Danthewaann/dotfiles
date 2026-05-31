@@ -71,38 +71,16 @@ local function setup_test_runners()
   setup_runners = true
 end
 
-local function background_term_strategy(cmd)
-  local terminal_buf = utils.get_terminal_buffer()
-
-  -- If the terminal buffer doesn't exist, create a new terminal
-  if terminal_buf == nil then
-    -- listed=true, scratch=false so it appears in the buffer list
-    local buf = vim.api.nvim_create_buf(true, false)
-
-    vim.api.nvim_buf_call(buf, function()
-      vim.cmd.term()
-      vim.b[buf]._test_vim_neovim_sticky = true
-      local job_id = vim.b[buf].terminal_job_id
-      vim.fn.chansend(job_id, cmd .. "\n")
-    end)
-  else
-    local job_id = vim.b[terminal_buf].terminal_job_id
-    vim.fn.chansend(job_id, cmd .. "\n")
-  end
-end
-
-
 return {
   "vim-test/vim-test",
   config = function()
-    vim.g["test#custom_strategies"] = { bg_term = background_term_strategy }
-    vim.g["test#strategy"] = "bg_term"
+    vim.g["test#strategy"] = "neovim_sticky"
     vim.g["test#python#pytest#options"] = utils.generate_pytest_options("vim-test")
 
     -- Theses are only used for the neovim_sticky test strategy
     vim.g["test#neovim#term_position"] = "botright 20"
     vim.g["test#neovim_sticky#kill_previous"] = 0
-    vim.g["test#neovim_sticky#reopen_window"] = 0
+    vim.g["test#neovim_sticky#reopen_window"] = 1
     vim.g["test#neovim_sticky#use_existing"] = 1
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 1
@@ -155,35 +133,6 @@ return {
         vim.cmd(":TestVisit")
       end,
       desc = "[T]est [V]isit"
-    },
-    {
-      "<leader>to",
-      function()
-        local terminal_buf = utils.get_terminal_buffer()
-
-        if terminal_buf then
-          vim.cmd(":buffer " .. terminal_buf)
-        else
-          vim.cmd.term()
-          local buf = vim.api.nvim_get_current_buf()
-          vim.b[buf]._test_vim_neovim_sticky = true
-        end
-      end,
-      desc = "[T]est [O]utput"
-    },
-    {
-      "<leader>tq",
-      function()
-        utils.load_pytest_failures()
-      end,
-      desc = "[T]est load results into [Q]uickfix"
-    },
-    {
-      "<leader>tQ",
-      function()
-        utils.clear_pytest_diagnostics()
-      end,
-      desc = "[T]est clear results from [Q]uickfix"
     },
   },
 }
