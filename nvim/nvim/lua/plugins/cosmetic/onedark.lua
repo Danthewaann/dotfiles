@@ -100,7 +100,7 @@ return {
     vim.cmd("highlight Conceal guibg=NONE")
     vim.cmd("highlight Search guifg=NONE guibg=#464d5e")
     vim.cmd("highlight IncSearch guifg=NONE guibg=#464d5e")
-    vim.cmd("highlight CurSearch guifg=NONE guibg=#464d5e")
+    vim.cmd("highlight CurSearch guifg=#0e1013 guibg=#e8c88c")
     vim.cmd("highlight LspReferenceText gui=underline guifg=NONE guibg=NONE")
     vim.cmd("highlight LspReferenceRead gui=underline guifg=NONE guibg=NONE")
     vim.cmd("highlight LspReferenceWrite gui=underline guifg=NONE guibg=NONE")
