@@ -25,11 +25,11 @@ local ft_map = {
   },
   python = {
     breakpoint_stmt = "breakpoint()",
-    get_all_cmd = ":silent grep breakpoint\\(\\) -g \"*.py\" ./",
+    get_all_cmd = ":silent grep 'breakpoint\\(\\)' -g \"*.py\" ./",
   },
   ruby = {
     breakpoint_stmt = "binding.pry",
-    get_all_cmd = ":silent grep binding.pry -g \"*.rb\" ./",
+    get_all_cmd = ":silent grep 'binding.pry' -g \"*.rb\" ./",
   }
 }
 
@@ -80,14 +80,14 @@ vim.keymap.set("n", "<leader>bd", function()
 end, { desc = "[B]reakpoints [D]elete" })
 vim.keymap.set("n", "<leader>bs", function()
   -- If nvim-dap breakpoints are found then just show them over hardcoded ones
-  require("dap").list_breakpoints(true)
-  local num = vim.fn.getqflist()
-  if #num > 0 then
+  local bp = require("dap.breakpoints").get()
+  if next(bp) ~= nil then
+    require("dap").list_breakpoints(false)
     return
   end
 
   if get_all_breakpoints() then
-    num = vim.fn.getqflist()
+    local num = vim.fn.getqflist()
     if #num == 0 then
       utils.print_err("No breakpoints found!")
     end
