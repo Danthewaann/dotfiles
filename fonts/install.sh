@@ -14,7 +14,7 @@ fi
 
 if [[ ! -f "$SCRIPT_DIR/Hack.zip" ]]; then
     run_command "downloading nerd hack fonts" \
-        "wget -O $SCRIPT_DIR/Hack.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip"
+        "wget -O $SCRIPT_DIR/Hack.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
 fi
 
 if [[ ! -f "$SCRIPT_DIR/JetBrainsMono.zip" ]]; then
