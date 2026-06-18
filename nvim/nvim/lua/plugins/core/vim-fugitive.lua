@@ -60,6 +60,7 @@ return {
             end
           end
           vim.fn.setqflist({}, " ", { title = "Git conflicts", items = qf_entries })
+          vim.cmd("copen")
         end)
       end)
     end, { desc = "[G]it [C]onflicts" })
