@@ -33,3 +33,6 @@ git-pr-edit.*.md
 
 # Use in my `load_pytest_failures()` neovim stuff
 .pytest_results.json
+
+# vim-projectionist config
+.projections.json

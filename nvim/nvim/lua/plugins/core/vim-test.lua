@@ -73,6 +73,7 @@ end
 
 return {
   "vim-test/vim-test",
+  dependencies = { { "tpope/vim-projectionist", lazy = false }, },
   config = function()
     vim.g["test#strategy"] = "neovim_sticky"
     vim.g["test#python#pytest#options"] = utils.generate_pytest_options("vim-test")

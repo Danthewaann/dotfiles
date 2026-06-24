@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import shutil
 import argparse
 import os
 import sys
@@ -109,6 +110,12 @@ if proc.stdout:
     print(proc.stdout.rstrip(), file=sys.stderr)
 if proc.returncode != 0:
     sys.exit(1)
+
+# Copy .projections.json if found
+base_repo = _utils.get_worktree()
+projections_file = base_repo / ".projections.json"
+if projections_file.exists():
+    shutil.copy(projections_file, f"{converted_name}/.projections.json")
 
 # Enter the new worktree
 os.chdir(converted_name)
