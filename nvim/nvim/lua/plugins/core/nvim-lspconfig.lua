@@ -192,8 +192,11 @@ return {
       vim.diagnostic.jump({ count = 1 })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", function()
-      vim.diagnostic.setqflist({ open = true })
-    end, { desc = "Open diagnostics in quickfix list" })
+      vim.diagnostic.setqflist({ open = true, bufnr = 0 })
+    end, { desc = "Open buffer diagnostics in quickfix list" })
+    vim.keymap.set("n", "<leader>X", function()
+      vim.diagnostic.setqflist({ open = true, })
+    end, { desc = "Open all diagnostics in quickfix list" })
 
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
