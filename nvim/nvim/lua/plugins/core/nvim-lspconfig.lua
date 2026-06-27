@@ -355,7 +355,7 @@ return {
           },
         }
       },
-      ty = { settings = {} },
+      pyrefly = { settings = {} },
       ruff = {
         settings = {
           organizeImports = true,
@@ -367,7 +367,7 @@ return {
           lint = {
             preview = false,
             ignore = {
-              -- Let ty handle the following errors
+              -- Let pyrefly handle the following errors
               "F821",   -- undefined symbols
               "F841",   -- unused variables
               "ERA001", -- commented out code
