@@ -91,4 +91,8 @@ module.generate_pytest_options = function(mode)
   return options
 end
 
+module.cabbrev = function(lhs, rhs)
+  vim.cmd(string.format("cnoreabbrev <expr> %s getcmdtype() == ':' ? '%s' : '%s'", lhs, rhs, lhs))
+end
+
 return module

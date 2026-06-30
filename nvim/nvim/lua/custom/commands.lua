@@ -136,7 +136,7 @@ vim.api.nvim_create_user_command("DeleteBuffers", function()
 end, { desc = "Delete All Other Buffers" })
 
 -- Setup command line abbreviations for my custom commands
-vim.cmd(":cabbrev mypy Mypy")
-vim.cmd(":cabbrev ruff Ruff")
-vim.cmd(":cabbrev db DeleteBuffers")
-vim.cmd(":cabbrev yc YankCommits")
+utils.cabbrev("mypy", "Mypy")
+utils.cabbrev("ruff", "Ruff")
+utils.cabbrev("db", "DeleteBuffers")
+utils.cabbrev("yc", "YankCommits")
