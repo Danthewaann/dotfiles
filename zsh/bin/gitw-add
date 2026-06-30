@@ -121,7 +121,7 @@ if projections_file.exists():
 os.chdir(converted_name)
 
 # Post checkout steps
-_utils.update_python_deps()
+args = [*args, "update-deps"]
 
 print(file=sys.stderr)
 _utils.success("Successfully created worktree!")
