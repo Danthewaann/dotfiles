@@ -98,5 +98,15 @@ return {
         end
       end
     })
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("git_binds", { clear = true }),
+      pattern = "git",
+      callback = function(event)
+        local buf = event.buf
+        vim.keymap.set("n", "}", "]/", { remap = true, buffer = buf, desc = "Next file" })
+        vim.keymap.set("n", "{", "[/", { remap = true, buffer = buf, desc = "Previous file" })
+      end
+    })
   end
 }
