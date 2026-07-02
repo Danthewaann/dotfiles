@@ -51,6 +51,11 @@ else
             parent_parent_dirname=${parent_dirname%/*}
             parent_parent_basename=${parent_parent_dirname##*/}
             default_sessions+=("$parent_parent_basename/$parent_basename/${line##*/}")
+        # Handle non-bare git clones
+        elif [[ -d "$line/.git" ]]; then
+            parent_dirname=${line%/*}
+            parent_basename=${parent_dirname##*/}
+            default_sessions+=("$parent_basename/${line##*/}")
         # If the parent directory of the current line is TMUX_CURRENT_DIR/misc we add this line
         elif [[ "${line%/*}" == "$TMUX_CURRENT_DIR/misc" ]]; then
             default_sessions+=("misc/${line##*/}")
