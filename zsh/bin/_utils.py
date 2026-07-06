@@ -94,7 +94,7 @@ def get_ticket_number(branch: str | None = None) -> str | None:
     branch = branch or get_current_branch()
     if match := re.search(r"/\D*(\d+)\D*/", branch):
         return match.group(1)
-    error(f"No ticket number found for {branch}")
+    warn(f"No ticket number found for {branch}")
     return None
 
 
