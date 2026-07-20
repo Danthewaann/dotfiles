@@ -47,18 +47,6 @@ return {
       [vim.diagnostic.severity.HINT] = "DiagnosticHint",
     }
 
-    local ignored_codes = {
-      "ERA001", -- commented out code
-    }
-    local function filter_diagnostics(diagnostic)
-      for _, code in ipairs(ignored_codes) do
-        if diagnostic.code == code then
-          return false
-        end
-      end
-      return true
-    end
-
     local virtual_text_config = {
       format = function(diagnostic)
         -- Count number of lines in the message
@@ -82,7 +70,7 @@ return {
       virtual_text = virtual_text_config,
       signs = false,
       float = {
-        source = "if_many",
+        source = true,
         header = { "Diagnostics:", "DiagnosticInfo" },
         border = border,
         prefix = function(diagnostic, i, total)
@@ -94,55 +82,6 @@ return {
 
     -- Styling for floating windows
     require("lspconfig.ui.windows").default_options.border = border
-
-    -- From :h diagnostic-handlers-example
-    local ns = vim.api.nvim_create_namespace("highest_severity_diagnostic")
-
-    -- Get a reference to the original virtual_text handler
-    local orig_vt_handler = vim.diagnostic.handlers.virtual_text
-
-    -- Override the built-in virtual_text handler
-    vim.diagnostic.handlers.virtual_text = {
-      show = function(_, bufnr, _, opts)
-        -- Get all diagnostics from the whole buffer rather than just the
-        -- diagnostics passed to the handler
-        local diagnostics = vim.diagnostic.get(bufnr)
-        diagnostics = vim.tbl_filter(filter_diagnostics, diagnostics)
-
-        -- Find the "worst" diagnostic per line
-        local max_severity_per_line = {}
-        for _, d in ipairs(diagnostics) do
-          local m = max_severity_per_line[d.lnum]
-          if not m or d.severity < m.severity then
-            max_severity_per_line[d.lnum] = d
-          end
-        end
-
-        -- Pass the filtered diagnostics (with our custom namespace) to
-        -- the original handler
-        local filtered_diagnostics = vim.tbl_values(max_severity_per_line)
-        pcall(orig_vt_handler.show, ns, bufnr, filtered_diagnostics, opts)
-      end,
-      hide = function(_, bufnr)
-        orig_vt_handler.hide(ns, bufnr)
-      end,
-    }
-
-    -- Get a reference to the original underline handler
-    local original_underline_handler = vim.diagnostic.handlers.underline
-
-    -- Override the built-in underline handler
-    vim.diagnostic.handlers.underline = {
-      show = function(namespace, bufnr, diagnostics, opts)
-        -- Filter out diagnostics
-        local filtered_diagnostics = vim.tbl_filter(filter_diagnostics, diagnostics)
-        original_underline_handler.show(namespace, bufnr, filtered_diagnostics, opts)
-      end,
-      hide = function(namespace, bufnr)
-        original_underline_handler.hide(namespace, bufnr)
-      end,
-    }
-
 
     -- Remove a bunch of builtin LSP keymaps I don't use
     -- See :h lsp-defaults
