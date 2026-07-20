@@ -9,6 +9,7 @@ node_modules
 *.pyc
 pyrightconfig.json
 .vim
+**/.claude/settings.local.json
 
 # Temporary files
 *.swp
