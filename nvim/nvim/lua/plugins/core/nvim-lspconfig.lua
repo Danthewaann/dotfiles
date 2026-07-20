@@ -48,15 +48,8 @@ return {
     }
 
     local ignored_codes = {
-      -- Let ty handle the following errors
-      "F821",   -- undefined symbols
-      "F841",   -- unused variables
       "ERA001", -- commented out code
-      "E999",   -- syntax errors
-      "PT001",  -- use `@pytest.fixture` over `@pytest.fixture()`
-      "PT023",  -- use `@pytest.mark.something` over `@pytest.mark.something()`
     }
-
     local function filter_diagnostics(diagnostic)
       for _, code in ipairs(ignored_codes) do
         if diagnostic.code == code then
@@ -92,12 +85,6 @@ return {
         source = "if_many",
         header = { "Diagnostics:", "DiagnosticInfo" },
         border = border,
-        format = function(diagnostic)
-          if not filter_diagnostics(diagnostic) then
-            return nil
-          end
-          return diagnostic.message
-        end,
         prefix = function(diagnostic, i, total)
           return symbols[diagnostic.severity], highlights[diagnostic.severity]
         end
@@ -357,7 +344,7 @@ return {
           },
         }
       },
-      ty = { settings = {} },
+      zuban = { settings = {} },
       ruff = {
         settings = {
           organizeImports = true,
