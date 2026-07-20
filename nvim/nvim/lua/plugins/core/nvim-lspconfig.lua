@@ -285,23 +285,18 @@ return {
       },
       zuban = { settings = {} },
       ruff = {
-        settings = {
-          organizeImports = true,
-          fixAll = true,
-          showSyntaxErrors = true,
-          format = {
-            preview = true
-          },
-          lint = {
-            preview = false,
-            ignore = {
-              -- Let other LSPs handle the following errors
-              "F821",   -- undefined symbols
-              "F841",   -- unused variables
-              "ERA001", -- commented out code
-              "E999",   -- syntax errors
-              "PT001",  -- use `@pytest.fixture` over `@pytest.fixture()`
-              "PT023",  -- use `@pytest.mark.something` over `@pytest.mark.something()`
+        init_options = {
+          settings = {
+            configuration = {
+              format = {
+                preview = true
+              },
+              lint = {
+                preview = false,
+                ignore = {
+                  "ERA001", -- commented out code
+                }
+              }
             }
           }
         }
