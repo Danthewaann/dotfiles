@@ -206,7 +206,8 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
-        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]definition")
+        vim.lsp.codelens.enable(true, { bufnr = event.buf })
+        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
         map("<C-w>gh", function()
           require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
         end, "[G]oto Definition In Vertical Split")
@@ -219,7 +220,7 @@ return {
         map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
-        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]definition")
+        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
         map("<leader>sW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
         map("<leader>sS", function()
           local word = vim.fn.expand("<cword>")
@@ -274,6 +275,7 @@ return {
             end
           })
         end, "[C]ode [A]ction")
+        map("<leader>cl", function() vim.lsp.codelens.run() end, "[C]ode [L]ens")
         map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation", "i")
 
         -- Lesser used LSP functionality
