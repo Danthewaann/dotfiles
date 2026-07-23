@@ -31,9 +31,9 @@ vim.keymap.set("v", "<leader>yc", "ygv<cmd>normal gcc<CR>gv<ESC>p",
 
 -- Go to the start and end of the line
 -- If the current line is wrapped, we jump to the start/end of the screen line instead
-vim.keymap.set({ "n", "v", "x", "o" }, "H", "v:count == 0 ? 'g^' : '^'",
+vim.keymap.set({ "n", "v", "x", "o" }, "H", "v:lua.require('custom.utils').is_line_wrapped() ? 'g^' : '^'",
   { expr = true, silent = true, desc = "Jump to first non-blank character in line" })
-vim.keymap.set({ "n", "v", "x", "o" }, "L", "v:count == 0 ? 'g$' : 'g_'",
+vim.keymap.set({ "n", "v", "x", "o" }, "L", "v:lua.require('custom.utils').is_line_wrapped() ? 'g$' : 'g_'",
   { expr = true, silent = true, desc = "Jump to last non-blank character in line" })
 
 -- Prevent the cursor from jumping to the start of a selection after yanking it

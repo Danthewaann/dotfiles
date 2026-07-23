@@ -91,6 +91,18 @@ module.generate_pytest_options = function(mode)
   return options
 end
 
+-- Whether the current line spans more than one screen row
+module.is_line_wrapped = function()
+  if not vim.wo.wrap then
+    return false
+  end
+
+  local win = vim.api.nvim_get_current_win()
+  local text_width = vim.api.nvim_win_get_width(win) - vim.fn.getwininfo(win)[1].textoff
+
+  return vim.fn.virtcol("$") - 1 > text_width
+end
+
 module.cabbrev = function(lhs, rhs)
   vim.cmd(string.format("cnoreabbrev <expr> %s getcmdtype() == ':' ? '%s' : '%s'", lhs, rhs, lhs))
 end
