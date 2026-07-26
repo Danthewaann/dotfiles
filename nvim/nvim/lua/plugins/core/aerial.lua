@@ -3,6 +3,8 @@ return {
   event = "VeryLazy",
   keys = { { "<C-e>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" } } },
   opts = {
+    attach_mode = "global",
+    close_automatic_events = { "unsupported" },
     on_attach = function(bufnr)
       -- Jump forwards/backwards with '{' and '}'
       vim.keymap.set({ "n", "x" }, "{", function()
