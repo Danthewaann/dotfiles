@@ -45,6 +45,7 @@ vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternat
 -- Toggle text based options
 vim.keymap.set("n", "yow", ":set wrap!<CR>", { silent = true, desc = "Toggle word wrap" })
 vim.keymap.set("n", "yol", ":set list!<CR>", { silent = true, desc = "Toggle list chars" })
+vim.keymap.set("n", "yor", ":set relativenumber!<CR>", { silent = true, desc = "Toggle relative line numbers" })
 
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })

@@ -6,6 +6,7 @@ end)
 
 -- Display line numbers
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = "split"
