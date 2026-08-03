@@ -283,7 +283,7 @@ return {
           },
         }
       },
-      zuban = { settings = {} },
+      ty = { settings = {} },
       ruff = {
         init_options = {
           settings = {
