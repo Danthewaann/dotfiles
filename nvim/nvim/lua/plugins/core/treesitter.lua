@@ -35,7 +35,6 @@ return {
       "objc",
       "swift",
       "just",
-      "tmux",
       "html",
     }
 
