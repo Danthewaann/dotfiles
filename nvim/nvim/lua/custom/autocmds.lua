@@ -4,7 +4,7 @@ local utils = require("custom.utils")
 
 autocmd("TermOpen", {
   group = augroup("terminal-settings", { clear = true }),
-  pattern = "",
+  pattern = "*",
   callback = function()
     vim.cmd(":setlocal number")
 
