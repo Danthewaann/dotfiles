@@ -9,7 +9,7 @@ return {
     interactions = {
       chat = {
         adapter = "anthropic",
-        model = "claude-sonnet-4-20250514",
+        model = "claude-sonnet-5",
         keymaps = {
           send = {
             modes = { n = "<CR>", i = "<nop>" },
@@ -26,15 +26,15 @@ return {
       },
       inline = {
         adapter = "anthropic",
-        model = "claude-sonnet-4-20250514",
+        model = "claude-sonnet-5",
       },
       cmd = {
         adapter = "anthropic",
-        model = "claude-sonnet-4-20250514",
+        model = "claude-sonnet-5",
       },
       background = {
         adapter = "anthropic",
-        model = "claude-sonnet-4-20250514",
+        model = "claude-sonnet-5",
       },
     },
   },
