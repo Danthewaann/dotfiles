@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-import shutil
 import argparse
 import os
-import sys
-import subprocess
 import pathlib
+import shutil
+import subprocess
+import sys
 import time
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
+
 import _utils
 
 
@@ -49,8 +51,8 @@ converted_name = branch_name.replace("/", "-").replace(".", "_")
 
 # If we are already inside a worktree change directory to the bare repo
 if _utils.inside_worktree():
-    base_repo = _utils.get_worktree()
-    os.chdir(pathlib.Path(base_repo).parent)
+    cur_worktree = _utils.get_worktree()
+    os.chdir(pathlib.Path(cur_worktree).parent)
 
 # Make sure we are inside a bare repo before proceeding
 if not _utils.inside_bare_repo():
@@ -62,7 +64,8 @@ if pathlib.Path(converted_name).is_dir():
     _utils.info("Switching to worktree...")
     sys.exit(
         subprocess.run(
-            ["tmux-sessionizer", pathlib.Path.cwd() / converted_name, *args]
+            ["tmux-sessionizer", pathlib.Path.cwd() / converted_name, *args],
+            check=False,
         ).returncode
     )
 
@@ -73,10 +76,6 @@ proc = _utils.run_git_fetch()
 if proc.returncode != 0:
     sys.exit(1)
 
-print(file=sys.stderr)
-
-base_branch = _utils.get_base_branch()
-
 # Create or reset the branch at this point. Any commits in this branch that
 # don't match what's in the remote will be removed. I don't think this will
 # cause any problems for my workflow, as I always associate a branch with a
@@ -86,7 +85,10 @@ local_branch_arg = ["-B", branch_name]
 # If this branch exists remotely, set up tracking info for the local branch
 remote_tracking_arg = []
 remote_branches = subprocess.run(
-    ["git", "ls-remote", "--branches", "origin"], text=True, capture_output=True
+    ["git", "ls-remote", "--branches", "origin"],
+    text=True,
+    check=False,
+    capture_output=True,
 ).stdout
 if branch_name in remote_branches:
     remote_tracking_arg = ["--track", f"origin/{branch_name}"]
@@ -104,7 +106,7 @@ add_args = [
 ]
 
 proc = subprocess.run(
-    add_args, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    add_args, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
 )
 if proc.stdout:
     print(proc.stdout.rstrip(), file=sys.stderr)
@@ -112,8 +114,8 @@ if proc.returncode != 0:
     sys.exit(1)
 
 # Copy .projections.json if found
-base_repo = _utils.get_worktree()
-projections_file = base_repo / ".projections.json"
+cur_worktree = _utils.get_worktree(branch=_utils.get_base_branch())
+projections_file = cur_worktree / ".projections.json"
 if projections_file.exists():
     shutil.copy(projections_file, f"{converted_name}/.projections.json")
 
@@ -131,4 +133,8 @@ _utils.success("Successfully created worktree!")
 print(file=sys.stderr)
 _utils.info("Switching to worktree...")
 time.sleep(0.3)
-sys.exit(subprocess.run(["tmux-sessionizer", pathlib.Path.cwd(), *args]).returncode)
+sys.exit(
+    subprocess.run(
+        ["tmux-sessionizer", pathlib.Path.cwd(), *args], check=False
+    ).returncode
+)

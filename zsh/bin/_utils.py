@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import functools
-from typing import TYPE_CHECKING, Callable, Sequence
 import os
+import pathlib
 import re
 import subprocess
 import sys
-import pathlib
 import textwrap
+from collections.abc import Callable, Sequence
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from _typeshed import StrPath
@@ -47,6 +48,7 @@ def inside_worktree() -> bool:
         subprocess.run(
             ["git", "rev-parse", "--is-inside-work-tree"],
             text=True,
+            check=False,
             capture_output=True,
         ).stdout.strip()
         == "true"
@@ -56,24 +58,24 @@ def inside_worktree() -> bool:
 def inside_bare_repo() -> bool:
     return (
         subprocess.run(
-            ["git", "rev-parse", "--is-bare-repository"], text=True, capture_output=True
+            ["git", "rev-parse", "--is-bare-repository"],
+            text=True,
+            check=False,
+            capture_output=True,
         ).stdout.strip()
         == "true"
     )
 
 
 def get_base_branch() -> str:
-    base_branch_file = pathlib.Path(".base_branch")
-    if not base_branch_file.exists():
-        remote_branches = check_output(["git", "remote", "show", "origin"])
-        base_branch: str | None = None
-        if match := re.search(r"HEAD branch: (.*)", remote_branches):
-            base_branch = match.group(1)
-        if not base_branch:
-            raise ValueError("failed to get base git branch")
-        base_branch_file.write_text(base_branch)
-        return base_branch
-    return base_branch_file.read_text().strip()
+    info("Fetching base branch...")
+    remote_branches = check_output(["git", "remote", "show", "origin"])
+    base_branch: str | None = None
+    if match := re.search(r"HEAD branch: (.*)", remote_branches):
+        base_branch = match.group(1)
+    if not base_branch:
+        raise ValueError("failed to get base git branch")
+    return base_branch
 
 
 def get_root_git_dir() -> pathlib.Path:
@@ -81,7 +83,7 @@ def get_root_git_dir() -> pathlib.Path:
 
 
 def get_worktree(branch: str | None = None) -> pathlib.Path:
-    branch = branch or get_base_branch()
+    branch = branch or get_current_branch()
     worktrees = check_output(["git", "worktree", "list"])
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
     if not match:
@@ -104,7 +106,7 @@ def get_current_branch() -> str:
 
 def run_command(cmd: Sequence[str | StrPath]) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(
-        cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        cmd, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
     log: Callable[[str], None] = functools.partial(print, file=sys.stderr)
     if proc.returncode != 0:
@@ -165,18 +167,19 @@ def update_python_deps() -> None:
         print(file=sys.stderr)
         info("Running poetry install...")
         print(file=sys.stderr)
-        subprocess.run(["poetry", "install", "--all-extras"], env=env)
+        subprocess.run(["poetry", "install", "--all-extras"], check=False, env=env)
     elif pathlib.Path("uv.lock").exists():
         print(file=sys.stderr)
         info("Running uv sync...")
         print(file=sys.stderr)
-        subprocess.run(["uv", "sync", "--all-extras"], env=env)
+        subprocess.run(["uv", "sync", "--all-extras"], check=False, env=env)
     elif pathlib.Path("pyproject.toml").exists():
         print(file=sys.stderr)
         info("Running uv pip install...")
         print(file=sys.stderr)
-        subprocess.run(["uv", "venv"], env=env)
+        subprocess.run(["uv", "venv"], check=False, env=env)
         subprocess.run(
             ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],
+            check=False,
             env=env,
         )
