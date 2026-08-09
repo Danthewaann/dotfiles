@@ -40,6 +40,7 @@ return {
         path_display = { "filename_first" },
         results_title = false,
         layout_strategy = "bottom_pane",
+        winblend = 10,
         layout_config = {
           center = {
             anchor = "S",
