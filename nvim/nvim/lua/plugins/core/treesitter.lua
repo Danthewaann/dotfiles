@@ -66,13 +66,7 @@ return {
         local language = vim.treesitter.language.get_lang(filetype)
         if not language then return end
 
-        local installed_parsers = require("nvim-treesitter").get_installed("parsers")
-        if vim.tbl_contains(installed_parsers, language) then
-          treesitter_try_attach(buf, language)
-        else
-          -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
-          treesitter_try_attach(buf, language)
-        end
+        treesitter_try_attach(buf, language)
       end,
     })
   end
