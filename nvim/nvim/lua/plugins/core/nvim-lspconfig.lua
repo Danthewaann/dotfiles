@@ -34,48 +34,17 @@ return {
   config = function()
     local utils = require("custom.utils")
     local border = "rounded"
-    local symbols = {
-      [vim.diagnostic.severity.ERROR] = "󰅚 ",
-      [vim.diagnostic.severity.INFO] = " ",
-      [vim.diagnostic.severity.HINT] = " ",
-      [vim.diagnostic.severity.WARN] = "󰀪 "
-    }
-    local highlights = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
-      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
-    }
-
-    local virtual_text_config = {
-      format = function(diagnostic)
-        -- Count number of lines in the message
-        local _, count = diagnostic.message:gsub("\n", "")
-        count = count + 1
-        -- Extract only the first line of the diagnostic message and trim it
-        local message = diagnostic.message:match("^[^\n]*"):match("^%s*(.-)%s*$")
-        if count > 1 then
-          return message .. " ..."
-        end
-        return message
-      end,
-      prefix = function(diagnostic, i, total)
-        return symbols[diagnostic.severity]
-      end
-    }
 
     -- Setup initial diagnostic config
     vim.diagnostic.config({
       virtual_lines = false,
-      virtual_text = virtual_text_config,
+      virtual_text = false,
       signs = false,
       float = {
-        source = true,
-        header = { "Diagnostics:", "DiagnosticInfo" },
-        border = border,
-        prefix = function(diagnostic, i, total)
-          return symbols[diagnostic.severity], highlights[diagnostic.severity]
-        end
+        source = true
+      },
+      jump = {
+        on_jump = vim.diagnostic.open_float
       },
       severity_sort = true
     })
@@ -105,12 +74,8 @@ return {
       vim.diagnostic.config({ virtual_lines = new_config })
     end, { desc = "[T]oggle Virtual [L]lines" })
     vim.keymap.set("n", "<leader>tV", function()
-      local existing_config = vim.diagnostic.config().virtual_text
-      if existing_config ~= false then
-        vim.diagnostic.config({ virtual_text = false })
-      else
-        vim.diagnostic.config({ virtual_text = virtual_text_config })
-      end
+      local new_config = not vim.diagnostic.config().virtual_text
+      vim.diagnostic.config({ virtual_text = new_config })
     end, { desc = "[T]oggle [V]irtual Text" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, severity = severity })
