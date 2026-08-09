@@ -83,6 +83,22 @@ return {
         vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
         vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buffer = buf, desc = "Git pull" })
         vim.keymap.set("n", "S", "<cmd> Git add .<CR>", { buffer = buf, desc = "Git add all" })
+        vim.keymap.set("n", "cc", function()
+          if utils.file_exists(".gittemplate") then
+            local f, err = io.open(".gittemplate", "r")
+            if err then
+              utils.print_err(err)
+              return
+            end
+
+            assert(f)
+            local message = vim.fn.trim(f:read("*a"))
+            local cmd = string.format(":Git commit -m \"%s\"", message)
+            vim.cmd(cmd)
+          else
+            vim.cmd(":Git commit<CR>")
+          end
+        end, { buffer = buf, desc = "Git add all" })
       end
     })
 
