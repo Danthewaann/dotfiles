@@ -16,6 +16,7 @@ return {
       end,
     },
     "fdschmidt93/telescope-egrepify.nvim",
+    "nvim-telescope/telescope-ui-select.nvim",
   },
   config = function()
     require("telescope").setup({
@@ -122,7 +123,10 @@ return {
           -- Don't highlight search results
           results_ts_hl = false,
           previewer = false,
-        }
+        },
+        ["ui-select"] = {
+          require("telescope.themes").get_dropdown({ layout_strategy = "cursor" })
+        },
       }
     })
 
@@ -132,6 +136,7 @@ return {
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "aerial")
     pcall(require("telescope").load_extension, "egrepify")
+    pcall(require("telescope").load_extension, "ui-select")
 
     -- See `:help telescope.builtin`
     vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
