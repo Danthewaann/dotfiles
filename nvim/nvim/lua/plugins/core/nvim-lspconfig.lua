@@ -270,9 +270,9 @@ return {
           },
         }
       },
-      -- Only use zuban for language services and not type checking as it's mypy
-      -- mode is stricter than mypy itself.
-      zuban = { init_options = { typeCheckingMode = "off" } },
+      pyrefly = { init_options = { pyrefly = { typeCheckingMode = "off" } } },
+      -- zuban = { init_options = { typeCheckingMode = "off" } },
+      -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
       ruff = {
         init_options = {
           settings = {
