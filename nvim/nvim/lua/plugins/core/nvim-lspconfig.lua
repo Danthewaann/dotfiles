@@ -205,7 +205,7 @@ return {
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client then
           -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
-          if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
             vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
               buffer = event.buf,
@@ -229,7 +229,7 @@ return {
           end
 
           -- Enable inlay hints if the LSP server supports it
-          if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map("<leader>lh", function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
             end, "Toggle Inlay [H]ints")
