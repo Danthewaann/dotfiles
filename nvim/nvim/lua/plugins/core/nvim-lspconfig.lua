@@ -270,7 +270,15 @@ return {
           },
         }
       },
-      pyrefly = { init_options = { pyrefly = { typeCheckingMode = "off" } } },
+      pyrefly = {
+        init_options = {
+          pyrefly = {
+            typeCheckingMode = "off",
+            disableTypeErrors = true,
+          },
+          analysis = { showHoverGoToLinks = false },
+        }
+      },
       -- zuban = { init_options = { typeCheckingMode = "off" } },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
       ruff = {
