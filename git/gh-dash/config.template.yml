@@ -49,7 +49,7 @@ keybindings:
     - key: D
       name: difftool
       command: >
-        clear && gitw-add {{.HeadRefName}} "git difftool -d {{.HeadRefName}} origin/{{.BaseRefName}}" -C ~/Workspace/{{.RepoName}}
+        clear && gitw-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -C ~/Workspace/{{.RepoName}}
     - key: E
       name: review
       command: >
