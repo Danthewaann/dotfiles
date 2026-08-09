@@ -96,6 +96,7 @@ return {
     pcall(vim.keymap.del, { "i" }, "<C-s>")
 
     -- Diagnostic keymaps
+    local severity = { min = vim.diagnostic.severity.WARN }
     vim.keymap.set("n", "<leader>tD", function()
       vim.diagnostic.enable(not vim.diagnostic.is_enabled())
     end, { desc = "[T]oggle [D]iagnostics" })
@@ -112,17 +113,17 @@ return {
       end
     end, { desc = "[T]oggle [V]irtual Text" })
     vim.keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1 })
+      vim.diagnostic.jump({ count = -1, severity = severity })
     end, { desc = "Go to previous diagnostic message" })
     vim.keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1 })
+      vim.diagnostic.jump({ count = 1, severity = severity })
     end, { desc = "Go to next diagnostic message" })
     vim.keymap.set("n", "<leader>x", function()
-      vim.diagnostic.setqflist({ open = true, bufnr = 0 })
-    end, { desc = "Open buffer diagnostics in quickfix list" })
+      vim.diagnostic.setqflist({ open = true, bufnr = 0, severity = severity })
+    end, { desc = "Open buffer error diagnostics in quickfix list" })
     vim.keymap.set("n", "<leader>X", function()
-      vim.diagnostic.setqflist({ open = true, })
-    end, { desc = "Open all diagnostics in quickfix list" })
+      vim.diagnostic.setqflist({ open = true, severity = severity })
+    end, { desc = "Open all error diagnostics in quickfix list" })
 
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
