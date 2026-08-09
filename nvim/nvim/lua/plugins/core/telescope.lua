@@ -44,7 +44,7 @@ return {
           center = {
             anchor = "S",
             anchor_padding = 0,
-            height = 0.40,
+            height = 0.30,
             width = { padding = 0 },
             mirror = true,
           },
