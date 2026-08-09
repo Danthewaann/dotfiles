@@ -189,8 +189,7 @@ return {
               -- Filter out the following code actions as I never use them:
               --   Ruff: Fix all auto-fixable problems
               --   Ruff: Organize imports
-              --   Ruff F821: Undefined variable
-              if x.kind == "source.fixAll.ruff" or x.kind == "source.organizeImports.ruff" or x.title:find("Ruff %(F821%):") ~= nil then
+              if x.kind == "source.fixAll.ruff" or x.kind == "source.organizeImports.ruff" then
                 return false
               end
               return true
