@@ -96,7 +96,7 @@ return {
             local cmd = string.format(":Git commit -m \"%s\"", message)
             vim.cmd(cmd)
           else
-            vim.cmd(":Git commit<CR>")
+            vim.cmd(":Git commit")
           end
         end, { buffer = buf, desc = "Git add all" })
       end
