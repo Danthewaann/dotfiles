@@ -258,6 +258,7 @@ return {
                 preview = false,
                 ignore = {
                   "ERA001", -- commented out code
+                  "CPY001", -- missing copyright notice at top of file
                 }
               }
             }
