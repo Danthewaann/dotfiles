@@ -19,6 +19,13 @@ return {
       desc = "Debug: Start/Continue",
     },
     {
+      "<leader>dl",
+      function()
+        require("dap").run_last()
+      end,
+      desc = "Debug: Run Last",
+    },
+    {
       "<F10>",
       function()
         require("dap").step_over()
@@ -76,20 +83,26 @@ return {
       end,
       desc = "Add [B]reakpoint [L]og",
     },
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    {
-      "<F7>",
-      function()
-        require("dapui").toggle()
-      end,
-      desc = "Debug: See last session result.",
-    },
     {
       "<leader>de",
       function()
         require("dap").set_exception_breakpoints()
       end,
       desc = "[D]ebug Set [E]xception Breakpoints",
+    },
+    {
+      "<leader>dc",
+      function()
+        require("dap").run_to_cursor()
+      end,
+      desc = "[D]ebug Run to [C]ursor",
+    },
+    {
+      "<leader>dl",
+      function()
+        require("dap").run_last()
+      end,
+      desc = "[D]ebug [L]ast",
     },
     {
       "<leader>dh",
@@ -122,11 +135,11 @@ return {
       desc = "[D]ebug [S]copes",
     },
     {
-      "<leader>dt",
+      "<C-b>",
       function()
-        require("dapui").toggle()
+        require("dapui").toggle({ reset = true })
       end,
-      desc = "[D]ebug [T]oggle UI"
+      desc = "Toggle DAP UI"
     },
   },
   config = function()
@@ -150,12 +163,19 @@ return {
         },
         {
           elements = {
-            { id = "repl",    size = 0.5 },
-            { id = "console", size = 0.5 }
+            { id = "repl", size = 1 },
           },
           position = "bottom",
-          size = 10
-        } },
+          size = 1
+        },
+        {
+          elements = {
+            { id = "console", size = 1 }
+          },
+          position = "bottom",
+          size = 15
+        }
+      },
       floating = {
         mappings = {
           expand = { "<Tab>" }
@@ -200,13 +220,56 @@ return {
       vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
     end
 
-    dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-    dap.listeners.before.event_exited["dapui_config"] = dapui.close
+    dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 
     -- Don't pause on exceptions for python tests
     dap.defaults.python.exception_breakpoints = {}
 
     local utils = require("custom.utils")
+    ---@type string|dap.Abort|nil
+    local program = nil
+    dap.configurations.python = {
+      {
+        type = "debugpy",
+        request = "launch",
+        name = "Launch CLI",
+        program = function()
+          return coroutine.create(function(dap_run_co)
+            while program == nil do
+              coroutine.yield()
+            end
+            coroutine.resume(dap_run_co, program)
+          end)
+        end,
+        args = function()
+          ---@type table|dap.Abort
+          local args = {}
+
+          vim.ui.input({ prompt = "Enter CLI name: " }, function(input)
+            if input and input ~= "" then
+              program = vim.loop.cwd() .. "/" .. utils.get_venv_executable_path(input)
+            else
+              program = dap.ABORT
+              return
+            end
+
+            ---@type string|dap.Abort
+            vim.ui.input({ prompt = "Enter args: " }, function(input2)
+              if input2 and input2 ~= "" then
+                for token in string.gmatch(input2, "[^%s]+") do
+                  table.insert(args, token)
+                end
+              else
+                args = dap.ABORT
+              end
+            end)
+          end)
+
+          return args
+        end,
+      },
+    }
+
     require("dap-python").setup(utils.get_venv_executable_path("python"))
   end,
 }
