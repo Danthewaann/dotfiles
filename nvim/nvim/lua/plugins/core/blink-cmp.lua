@@ -47,6 +47,7 @@ return {
       dependencies = { "nvim-lua/plenary.nvim" }
     },
     "kristijanhusak/vim-dadbod-completion",
+    "mayromr/blink-cmp-dap",
   },
   --- @module 'blink.cmp'
   --- @type blink.cmp.Config
@@ -113,6 +114,9 @@ return {
         sql = { "dadbod" },
         lua = { inherit_defaults = true, "lazydev" },
         codecompanion = { "codecompanion" },
+        ["dap-repl"] = { "dap" },
+        ["dapui_watches"] = { "dap" },
+        ["dapui_hover"] = { "dap" },
       },
 
       providers = {
@@ -160,6 +164,10 @@ return {
           module = "lazydev.integrations.blink",
           score_offset = 100,
         },
+        dap = {
+          module = "blink-cmp-dap",
+          name = "dap",
+        }
       }
     },
 
