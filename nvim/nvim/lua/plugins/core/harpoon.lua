@@ -27,7 +27,7 @@ return {
     vim.keymap.set("n", "<leader>sf", function() toggle_telescope(harpoon:list()) end,
       { desc = "[S]earch [F]avourite Files" })
 
-    vim.keymap.set("n", "<C-b>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+    vim.keymap.set("n", "<C-n>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
       { desc = "Toggle Harpoon List" })
 
     vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Jump to harpoon item 1" })
