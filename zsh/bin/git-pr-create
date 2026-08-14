@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
-from typing import Any
-import os
 import hashlib
 import json
+import os
 import pathlib
 import platform
 import re
 import subprocess
 import sys
 import time
-import _utils
+from typing import Any
 
+import _utils
 
 # Github label to slack emojis
 pr_types = {
@@ -44,9 +44,9 @@ def print_pr_info(is_draft: bool = False) -> None:
     title = content["title"]
     labels = [label["name"] for label in content["labels"]]
 
-    for pr_type in pr_types:
+    for pr_type, value in pr_types.items():
         if pr_type in labels:
-            slack_label = f" :{pr_types[pr_type]}:"
+            slack_label = f" :{value}:"
             break
 
     if is_draft:
@@ -56,7 +56,7 @@ def print_pr_info(is_draft: bool = False) -> None:
 
     print("\nThe below has been copied to your clipboard! 📋\n")
     print(output)
-    subprocess.run(f"echo '{output}' | {pb_copy}", shell=True, check=True)
+    subprocess.run(f'echo "{output}" | {pb_copy}', shell=True, check=True)
 
 
 current_branch = _utils.get_current_branch()
@@ -94,7 +94,7 @@ if existing_old and existing_new:
 
     old_hash = hashlib.md5(existing_old.read_bytes())
 
-    subprocess.run([editor, new_pr_file])
+    subprocess.run([editor, new_pr_file], check=False)
 else:
     # Get list of labels that are available in the current repository
     repo_labels = _utils.check_output(
@@ -156,7 +156,7 @@ no
 
     old_hash = hashlib.md5(pr_file_content.encode())
 
-    subprocess.run([editor, new_pr_file])
+    subprocess.run([editor, new_pr_file], check=False)
 
 new_hash = hashlib.md5(new_pr_file.read_bytes())
 
@@ -206,12 +206,14 @@ for label in new_labels:
 if new_is_draft == "yes":
     args.append("--draft")
 
-proc = subprocess.run(args, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+proc = subprocess.run(
+    args, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+)
 if proc.returncode != 0:
     _utils.error(proc.stdout)
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{prog}' to use")
     sys.exit(1)
 
-print_pr_info(is_draft=True if new_is_draft == "yes" else False)
+print_pr_info(is_draft=new_is_draft == "yes")
 old_pr_file.unlink(missing_ok=True)
 new_pr_file.unlink(missing_ok=True)
