@@ -1,5 +1,5 @@
 return {
-  "Danthewaann/nvim-lint",
+  "mfussenegger/nvim-lint",
   event = { "BufRead", "BufWritePost", "InsertLeave" },
   config = function()
     require("lint").linters_by_ft = {
@@ -10,6 +10,7 @@ return {
     local utils = require("custom.utils")
     local mypy_linter = require("lint").linters.mypy
     mypy_linter.cmd = utils.get_venv_executable_path("mypy")
+    table.insert(mypy_linter.args, "--no-warn-unused-configs")
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
       callback = function()
