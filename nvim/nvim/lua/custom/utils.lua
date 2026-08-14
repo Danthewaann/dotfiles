@@ -67,12 +67,16 @@ module.generate_pytest_options = function(mode)
   -- and disable it when running the nearest or file test strategies
   local xdist_installed = vim.system({ "grep", "pytest-xdist", "pyproject.toml" }, { text = true }):wait()
   if mode == "vim-test" then
-    options = { nearest = "-vv", class = "-vv" }
+    options = {
+      nearest = "-vv",
+      class = "-vv --force-short-summary",
+      file = "-vv --force-short-summary",
+      suite = "--force-short-summary",
+    }
     if xdist_installed.code == 0 then
       options.nearest = options.nearest .. " -n 0"
       options.class = options.class .. " -n 0"
-      options.file = "-n 0 -vv"
-      options.suite = "-n auto"
+      options.file = options.file .. " -n 0"
     end
   elseif mode == "dap" then
     if xdist_installed.code == 0 then
