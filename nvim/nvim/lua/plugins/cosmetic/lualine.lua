@@ -88,6 +88,13 @@ return {
       end
       return obj.stdout:match("^%s*(.-)%s*$")
     end
+    local lint_progress = function()
+      local linters = require("lint").get_running()
+      if #linters == 0 then
+        return "󰦕"
+      end
+      return "󱉶 " .. table.concat(linters, ", ")
+    end
 
     local dashboard_extension = {
       sections = {
@@ -121,7 +128,7 @@ return {
       extensions = { "man", "quickfix", fugitive_extension, "aerial", dashboard_extension },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { filename_config, "diff", "diagnostics" },
+        lualine_b = { filename_config, "diff", "diagnostics", lint_progress },
         lualine_c = {},
         lualine_x = { "searchcount", "selectioncount", filetype_config, "filesize", "progess" },
         lualine_y = {},
