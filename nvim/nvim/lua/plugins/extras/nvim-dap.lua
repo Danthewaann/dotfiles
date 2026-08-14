@@ -226,46 +226,39 @@ return {
     dap.defaults.python.exception_breakpoints = {}
 
     local utils = require("custom.utils")
-    ---@type string|dap.Abort|nil
-    local program = nil
     dap.configurations.python = {
       {
         type = "debugpy",
         request = "launch",
         name = "Launch CLI",
-        program = function()
-          return coroutine.create(function(dap_run_co)
-            while program == nil do
-              coroutine.yield()
-            end
-            coroutine.resume(dap_run_co, program)
-          end)
-        end,
+        console = "integratedTerminal",
         args = function()
           ---@type table|dap.Abort
-          local args = {}
+          local args = dap.ABORT
 
-          vim.ui.input({ prompt = "Enter CLI name: " }, function(input)
-            if input and input ~= "" then
-              program = vim.loop.cwd() .. "/" .. utils.get_venv_executable_path(input)
-            else
-              program = dap.ABORT
-              return
-            end
-
-            ---@type string|dap.Abort
-            vim.ui.input({ prompt = "Enter args: " }, function(input2)
-              if input2 and input2 ~= "" then
-                for token in string.gmatch(input2, "[^%s]+") do
-                  table.insert(args, token)
-                end
-              else
-                args = dap.ABORT
+          ---@type string|dap.Abort
+          vim.ui.input({ prompt = "Enter args: " }, function(input)
+            if input then
+              args = {}
+              for token in string.gmatch(input, "[^%s]+") do
+                table.insert(args, token)
               end
-            end)
+            end
           end)
 
           return args
+        end,
+        program = function()
+          ---@type string|dap.Abort
+          local program = dap.ABORT
+
+          vim.ui.input({ prompt = "Enter CLI name: " }, function(input)
+            if input and input ~= "" then
+              program = input
+            end
+          end)
+
+          return vim.loop.cwd() .. "/" .. utils.get_venv_executable_path(program)
         end,
       },
     }
