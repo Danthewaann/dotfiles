@@ -117,7 +117,10 @@ if proc.returncode != 0:
 cur_worktree = _utils.get_worktree(branch=_utils.get_base_branch())
 projections_file = cur_worktree / ".projections.json"
 if projections_file.exists():
-    shutil.copy(projections_file, f"{converted_name}/.projections.json")
+    try:
+        shutil.copy(projections_file, f"{converted_name}/.projections.json")
+    except shutil.SameFileError:
+        pass
 
 # Enter the new worktree
 os.chdir(converted_name)
