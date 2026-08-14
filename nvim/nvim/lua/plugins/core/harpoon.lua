@@ -30,6 +30,8 @@ return {
     vim.keymap.set("n", "<C-n>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
       { desc = "Toggle Harpoon List" })
 
+    vim.keymap.set("n", "<M-h>", function() harpoon:list():prev() end)
+    vim.keymap.set("n", "<M-l>", function() harpoon:list():next() end)
     vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Jump to harpoon item 1" })
     vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Jump to harpoon item 2" })
     vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Jump to harpoon item 3" })
