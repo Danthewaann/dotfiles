@@ -1,6 +1,5 @@
 return {
   "mfussenegger/nvim-lint",
-  event = { "BufRead", "BufWritePost", "InsertLeave" },
   config = function()
     require("lint").linters_by_ft = {
       go = { "golangcilint" },
@@ -12,7 +11,7 @@ return {
     mypy_linter.cmd = utils.get_venv_executable_path("mypy")
     table.insert(mypy_linter.args, "--no-warn-unused-configs")
 
-    vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost", "InsertLeave" }, {
+    vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost" }, {
       callback = function()
         -- Only run the linter in buffers that you can modify in order to
         -- avoid superfluous noise, notably within the handy LSP pop-ups that
