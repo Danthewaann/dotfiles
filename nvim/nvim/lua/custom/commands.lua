@@ -12,6 +12,7 @@ vim.api.nvim_create_user_command("Mypy", function()
       "--no-color-output",
       "--no-error-summary",
       "--no-pretty",
+      "--no-warn-unused-configs",
       "."
     }, {}, function(obj)
       vim.schedule(function()
