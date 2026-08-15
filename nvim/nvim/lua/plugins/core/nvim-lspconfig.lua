@@ -98,7 +98,6 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
-        vim.lsp.codelens.enable(true, { bufnr = event.buf })
         map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
         map("<C-w>gh", function()
           require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
@@ -170,6 +169,9 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client then
+          if client.name ~= "lua_ls" then
+            vim.lsp.codelens.enable(true, { bufnr = event.buf })
+          end
           -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
