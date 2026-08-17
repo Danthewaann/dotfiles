@@ -7,12 +7,31 @@ onedark_black2="#272731"
 onedark_white="#abb2bf"
 onedark_green="#98c379"
 
+abbreviations_file="$HOME/.tmux-abbreviations"
+declare -A abbreviations=()
+if [[ -f "$abbreviations_file" ]]; then
+	while IFS='=' read -r key value; do
+		[[ -z "$key" || "$key" == \#* ]] && continue
+		abbreviations["$key"]="$value"
+	done <"$abbreviations_file"
+fi
+
+abbreviate() {
+	local str="$1" word parts result=()
+	IFS='-' read -ra parts <<<"$str"
+	for word in "${parts[@]}"; do
+		result+=("${abbreviations[$word]:-$word}")
+	done
+	local IFS='-'
+	echo "${result[*]}"
+}
+
 sessions=()
 session_number=0
 while IFS=$'\n' read -r line; do
 	session_number=$((session_number + 1))
 	if [[ "$cur_session" == "$line" ]]; then continue; fi
-	repo="$(cut -d'/' -f2 <<<"$line")"
+	repo="$(abbreviate "$(cut -d'/' -f2 <<<"$line")")"
 	worktree="$(cut -d'/' -f3 <<<"$line")"
 	trimmed_worktree="$(sed -E 's/^[^-]+-sc-[0-9]+-?//' <<<"$worktree")"
 	short_repo="${repo:0:repo_len}"

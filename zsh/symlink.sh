@@ -28,3 +28,9 @@ if [[ ! -f "$SCRIPT_DIR/.secretsrc" ]]; then
 fi
 
 echo "$SCRIPT_DIR/.secretsrc" "$HOME/.secretsrc"
+
+if [[ ! -f "$SCRIPT_DIR/.tmux-abbreviations" ]]; then
+    cp "$SCRIPT_DIR/.tmux-abbreviations.example" "$SCRIPT_DIR/.tmux-abbreviations"
+fi
+
+echo "$SCRIPT_DIR/.tmux-abbreviations" "$HOME/.tmux-abbreviations"

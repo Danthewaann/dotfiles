@@ -8,6 +8,7 @@ debug.log
 Session.vim
 *.deb
 .tmux-save-sessions
+.tmux-abbreviations
 .secretsrc
 tmux/tmux-*/
 __pycache__
