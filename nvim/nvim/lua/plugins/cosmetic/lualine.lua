@@ -104,7 +104,7 @@ return {
       local items = {}
       for i, x in ipairs(list.items) do
         if x.value ~= bufname then
-          table.insert(items, "%#lualine_a_normal#" .. i .. "%*" .. "|" .. vim.fn.fnamemodify(x.value, ":t"))
+          table.insert(items, "%#lualine_a_normal#" .. i .. "%*:" .. vim.fn.fnamemodify(x.value, ":t"))
         end
       end
       return table.concat(items, " ")

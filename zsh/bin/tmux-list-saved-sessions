@@ -12,7 +12,7 @@ while IFS=$'\n' read -r line; do
 	repo="$(cut -d'/' -f2 <<<"$line")"
 	worktree="$(cut -d'/' -f3 <<<"$line")"
 	trimmed_worktree="$(cut -d'-' -f4- <<<"$worktree")"
-	sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]|$repo/$trimmed_worktree")
+	sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]:$repo/$trimmed_worktree")
 done <"$HOME/.tmux-save-sessions"
 
 echo "${sessions[@]}"
