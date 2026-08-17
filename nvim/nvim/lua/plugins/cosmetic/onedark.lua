@@ -107,6 +107,7 @@ return {
     vim.cmd("highlight PmenuSel guifg=NONE guibg=#272731")
     vim.cmd("highlight Pmenu guifg=#7a818e guibg=NONE")
     vim.cmd("highlight DiffText guibg=#272731")
+    vim.cmd("highlight ModeMsg guifg=#8ebd6b")
     vim.cmd("highlight! link MasonBackdrop Normal")
     vim.cmd("highlight! link WinBarNC Normal")
     vim.cmd("highlight! link DiagnosticFloatingError DiagnosticError")

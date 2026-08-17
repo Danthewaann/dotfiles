@@ -88,6 +88,7 @@ return {
       end
       return obj.stdout:match("^%s*(.-)%s*$")
     end
+
     local lint_progress = function()
       local linters = require("lint").get_running()
       if #linters == 0 then
@@ -96,11 +97,24 @@ return {
       return "󱉶 " .. table.concat(linters, ", ")
     end
 
+    local list_harpoon = function()
+      local bufname = vim.fn.bufname(vim.api.nvim_get_current_buf())
+      local harpoon = require("harpoon")
+      local list = harpoon:list()
+      local items = {}
+      for i, x in ipairs(list.items) do
+        if x.value ~= bufname then
+          table.insert(items, "%#lualine_a_normal#" .. i .. "%*" .. "|" .. vim.fn.fnamemodify(x.value, ":t"))
+        end
+      end
+      return table.concat(items, " ")
+    end
+
     local dashboard_extension = {
       sections = {
         lualine_a = {},
-        lualine_b = { function() return vim.fn.fnamemodify(vim.loop.cwd(), ":~:.") end },
-        lualine_c = {},
+        lualine_b = {},
+        lualine_c = { list_harpoon },
         lualine_x = { git_shortstat },
         lualine_y = {},
         lualine_z = { function()
@@ -125,10 +139,10 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt" } },
       },
-      extensions = { "man", "quickfix", fugitive_extension, "aerial", dashboard_extension },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", dashboard_extension, "oil" },
       sections = {
-        lualine_a = { "mode" },
-        lualine_b = { filename_config, "diff", "diagnostics", lint_progress },
+        lualine_a = {},
+        lualine_b = { filename_config, "diff", "diagnostics", list_harpoon, lint_progress },
         lualine_c = {},
         lualine_x = { "searchcount", "selectioncount", filetype_config, "filesize", "progess" },
         lualine_y = {},

@@ -66,8 +66,8 @@ vim.o.updatetime = 2000
 -- Set timeoutlen to a lower number for faster mapping completions
 vim.o.timeoutlen = 1000
 
--- Don't show mode information (normal, insert etc.) as I've included it in the statusline
-vim.o.showmode = false
+-- Show mode information (normal, insert etc.)
+vim.o.showmode = true
 
 -- Instead of failing a command because of unsaved changes, instead raise a
 -- dialogue asking if you wish to save changed files
