@@ -142,7 +142,7 @@ return {
       extensions = { "man", "quickfix", fugitive_extension, "aerial", dashboard_extension, "oil" },
       sections = {
         lualine_a = {},
-        lualine_b = { filename_config, "diff", "diagnostics", list_harpoon, lint_progress },
+        lualine_b = { filename_config, list_harpoon, "diff", "diagnostics", lint_progress },
         lualine_c = {},
         lualine_x = { "searchcount", "selectioncount", filetype_config, "filesize", "progess" },
         lualine_y = {},
