@@ -17,13 +17,11 @@ if [[ -f "$abbreviations_file" ]]; then
 fi
 
 abbreviate() {
-	local str="$1" word parts result=()
-	IFS='-' read -ra parts <<<"$str"
-	for word in "${parts[@]}"; do
-		result+=("${abbreviations[$word]:-$word}")
+	local str="$1" key
+	for key in "${!abbreviations[@]}"; do
+		str="$(sed -E "s/${key}/${abbreviations[$key]}/g" <<<"$str")"
 	done
-	local IFS='-'
-	echo "${result[*]}"
+	echo "$str"
 }
 
 sessions=()
