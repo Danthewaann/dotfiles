@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
 cur_session="${1}"
+worktree_max_len="${2:-15}"
+repo_len="${3:-20}"
 onedark_black2="#272731"
 onedark_white="#abb2bf"
 onedark_green="#98c379"
+
 sessions=()
 session_number=0
 while IFS=$'\n' read -r line; do
@@ -11,8 +14,14 @@ while IFS=$'\n' read -r line; do
 	if [[ "$cur_session" == "$line" ]]; then continue; fi
 	repo="$(cut -d'/' -f2 <<<"$line")"
 	worktree="$(cut -d'/' -f3 <<<"$line")"
-	trimmed_worktree="$(cut -d'-' -f4- <<<"$worktree")"
-	sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]:$repo/$trimmed_worktree")
+	trimmed_worktree="$(sed -E 's/^[^-]+-sc-[0-9]+-?//' <<<"$worktree")"
+	short_repo="${repo:0:repo_len}"
+	short_worktree="$trimmed_worktree"
+	if ((${#trimmed_worktree} > worktree_max_len)); then
+		short_worktree="${trimmed_worktree:0:worktree_max_len}…"
+	fi
+	display="$short_repo/$short_worktree"
+	sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]:$display")
 done <"$HOME/.tmux-save-sessions"
 
 echo "${sessions[@]}"
