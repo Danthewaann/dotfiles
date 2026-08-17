@@ -3,10 +3,14 @@ return {
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
+    local utils = require("custom.utils")
     local harpoon = require("harpoon")
     harpoon:setup()
 
-    vim.keymap.set("n", "<leader><space>", function() harpoon:list():add() end, { desc = "Add file to harpoon list" })
+    vim.keymap.set("n", "<leader><space>", function()
+      harpoon:list():add()
+      utils.print("Added " .. vim.fn.bufname() .. " to favourites")
+    end, { desc = "Add file to harpoon list" })
 
     local conf = require("telescope.config").values
     local function toggle_telescope(harpoon_files)
@@ -27,7 +31,7 @@ return {
     vim.keymap.set("n", "<leader>sf", function() toggle_telescope(harpoon:list()) end,
       { desc = "[S]earch [F]avourite Files" })
 
-    vim.keymap.set("n", "<C-n>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+    vim.keymap.set("n", "<C-b>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
       { desc = "Toggle Harpoon List" })
 
     vim.keymap.set("n", "<M-h>", function() harpoon:list():prev() end)
