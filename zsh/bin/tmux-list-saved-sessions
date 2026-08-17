@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+cur_session="${1}"
+onedark_black2="#272731"
+onedark_white="#abb2bf"
+onedark_green="#98c379"
+sessions=()
+session_number=0
+while IFS=$'\n' read -r line; do
+	session_number=$((session_number + 1))
+	if [[ "$cur_session" == "$line" ]]; then continue; fi
+	repo="$(cut -d'/' -f2 <<<"$line")"
+	worktree="$(cut -d'/' -f3 <<<"$line")"
+	trimmed_worktree="$(cut -d'-' -f4- <<<"$worktree")"
+	sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]|$repo/$trimmed_worktree")
+done <"$HOME/.tmux-save-sessions"
+
+echo "${sessions[@]}"
