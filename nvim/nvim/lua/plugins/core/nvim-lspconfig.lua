@@ -87,8 +87,8 @@ return {
       vim.diagnostic.setqflist({ open = true, bufnr = 0, severity = severity })
     end, { desc = "Open buffer error diagnostics in quickfix list" })
     vim.keymap.set("n", "<leader>X", function()
-      vim.diagnostic.setqflist({ open = true, severity = severity })
-    end, { desc = "Open all error diagnostics in quickfix list" })
+      vim.diagnostic.setqflist({ open = true, bufnr = 0 })
+    end, { desc = "Open all buffer diagnostics in quickfix list" })
 
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
