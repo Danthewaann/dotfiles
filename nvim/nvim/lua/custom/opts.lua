@@ -4,6 +4,9 @@ vim.schedule(function()
   vim.o.clipboard = "unnamedplus"
 end)
 
+-- Setup diff options
+vim.o.diffopt = "internal,filler,closeoff,indent-heuristic,inline:simple,linematch:60"
+
 -- Display line numbers
 vim.wo.number = true
 vim.wo.relativenumber = true
