@@ -81,6 +81,13 @@ return {
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
+    local filetype_inactive_config = {
+      "filetype",
+      colored = false,
+      icon_only = false,
+      icon = { align = "right" },
+    }
+
     local git_shortstat = function()
       local obj = vim.system({ "git", "--no-pager", "diff", "HEAD", "--shortstat" }):wait()
       if obj.code ~= 0 then
@@ -110,17 +117,30 @@ return {
       return table.concat(items, " ")
     end
 
+    local function diff_source()
+      local gitsigns = vim.b.gitsigns_status_dict
+      if gitsigns then
+        return {
+          added = gitsigns.added,
+          modified = gitsigns.changed,
+          removed = gitsigns.removed
+        }
+      end
+    end
+
     local dashboard_extension = {
       sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { list_harpoon },
-        lualine_x = { git_shortstat },
+        lualine_a = {
+          function()
+            local version = vim.version()
+            return string.format("%d.%d.%d", version.major, version.minor, version.patch)
+          end,
+        },
+        lualine_b = { git_shortstat },
+        lualine_c = {},
+        lualine_x = {},
         lualine_y = {},
-        lualine_z = { function()
-          local version = vim.version()
-          return string.format("%d.%d.%d", version.major, version.minor, version.patch)
-        end },
+        lualine_z = { list_harpoon },
       },
 
       filetypes = { "dashboard" }
@@ -139,18 +159,25 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt" } },
       },
-      extensions = { "man", "quickfix", fugitive_extension, "aerial", dashboard_extension, "oil" },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", dashboard_extension, "oil" },
       sections = {
         lualine_a = {},
-        lualine_b = { filename_config, list_harpoon, "diff", "diagnostics", lint_progress },
-        lualine_c = {},
-        lualine_x = { "searchcount", "selectioncount", filetype_config, "filesize", "progess" },
+        lualine_b = { filename_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
+        lualine_c = {
+          filetype_config,
+          "filesize",
+          "progess",
+          "location",
+          "searchcount",
+          "selectioncount",
+        },
+        lualine_x = {},
         lualine_y = {},
-        lualine_z = { "location" },
+        lualine_z = { list_harpoon },
       },
       inactive_sections = {
-        lualine_c = { filename_config },
-        lualine_x = { "location" },
+        lualine_c = { filename_config, filetype_inactive_config, "filesize", "location" },
+        lualine_x = {},
       },
     })
   end,
