@@ -1,5 +1,5 @@
 return {
-  "pwntester/octo.nvim",
+  "Danthewaann/octo.nvim",
   keys = {
     { "<leader>op", desc = "[O]cto open [P]R" },
     { "<leader>ov", desc = "[O]cto start or resume PR re[v]iew" },
@@ -14,7 +14,7 @@ return {
     require("octo").setup({
       picker = "telescope",
       use_local_fs = true,
-      reviews = { auto_show_threads = false, focus = "right" },
+      reviews = { show_threads_on_jump = true, auto_show_threads = false, show_virtual_text = false, focus = "right" },
       ui = {
         use_signcolumn = true, -- show "modified" marks on the sign column
         use_signstatus = true, -- show "modified" marks on the status column
