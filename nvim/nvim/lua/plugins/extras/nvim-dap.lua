@@ -98,6 +98,20 @@ return {
       desc = "[D]ebug Run to [C]ursor",
     },
     {
+      "<leader>dd",
+      function()
+        require("dap").down()
+      end,
+      desc = "[D]ebug [D]own Stacktrace",
+    },
+    {
+      "<leader>du",
+      function()
+        require("dap").up()
+      end,
+      desc = "[D]ebug [U]p Stacktrace",
+    },
+    {
       "<leader>dl",
       function()
         require("dap").run_last()
