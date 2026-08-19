@@ -4,6 +4,7 @@ return {
   keys = { { "<C-e>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" } } },
   opts = {
     attach_mode = "global",
+    show_guides = true,
     close_automatic_events = { "unsupported" },
     on_attach = function(bufnr)
       -- Jump forwards/backwards with '{' and '}'
