@@ -88,6 +88,16 @@ return {
       icon = { align = "right" },
     }
 
+    local fileformat_config = {
+      "fileformat",
+      icons_enabled = true,
+      symbols = {
+        unix = "LF",
+        dos = "CRLF",
+        mac = "CR",
+      },
+    }
+
     local git_shortstat = function()
       local obj = vim.system({ "git", "--no-pager", "diff", "HEAD", "--shortstat" }):wait()
       if obj.code ~= 0 then
@@ -166,6 +176,7 @@ return {
         lualine_c = {
           filetype_config,
           "filesize",
+          fileformat_config,
           "progess",
           "location",
           "searchcount",
@@ -176,7 +187,7 @@ return {
         lualine_z = { list_harpoon },
       },
       inactive_sections = {
-        lualine_c = { filename_config, filetype_inactive_config, "filesize", "location" },
+        lualine_c = { filename_config, filetype_inactive_config, "filesize", fileformat_config, "location" },
         lualine_x = {},
       },
     })
