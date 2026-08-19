@@ -31,8 +31,13 @@ session_number=0
 while IFS=$'\n' read -r line; do
 	session_number=$((session_number + 1))
 	if [[ "$cur_session" == "$line" ]]; then continue; fi
-	repo="$(abbreviate "$(cut -d'/' -f2 <<<"$line")")"
-	worktree="$(cut -d'/' -f3 <<<"$line")"
+	num_slashes="${line//[^\/]/}"
+	if [[ ${#num_slashes} -gt 1 ]]; then
+		line="$(cut -d'/' -f2- <<<"$line")"
+	fi
+
+	repo="$(abbreviate "$(cut -d'/' -f1 <<<"$line")")"
+	worktree="$(cut -d'/' -f2 <<<"$line")"
 	trimmed_worktree="$(sed -E 's/^[^-]+-sc-[0-9]+-?//' <<<"$worktree")"
 	short_repo="${repo:0:repo_len}"
 	short_worktree="$trimmed_worktree"
@@ -52,3 +57,13 @@ done <"$HOME/.tmux-save-sessions"
 
 printf "%s " "${sessions[@]}"
 ((${#sessions[@]} > 0)) && printf "| "
+
+num_slashes="${cur_session//[^\/]/}"
+if [[ ${#num_slashes} -gt 1 ]]; then
+	repo="$(abbreviate "$(cut -d'/' -f2 <<<"$cur_session")")"
+	worktree="$(cut -d'/' -f3 <<<"$cur_session")"
+	trimmed_worktree="$(sed -E 's/^[^-]+-sc-[0-9]+-?//' <<<"$worktree")"
+	printf "%s/%s " "$repo" "$trimmed_worktree"
+else
+	printf "%s " "$cur_session"
+fi
