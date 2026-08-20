@@ -5,7 +5,7 @@ vim.schedule(function()
 end)
 
 -- Setup diff options
-vim.o.diffopt = "internal,filler,closeoff,indent-heuristic,inline:simple,linematch:60"
+vim.o.diffopt = "internal,filler,closeoff,indent-heuristic,inline:char,linematch:60"
 
 -- Display line numbers
 vim.wo.number = true
