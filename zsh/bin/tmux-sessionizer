@@ -63,38 +63,25 @@ else
         fi
     done < <(
         find "$TMUX_CURRENT_DIR" -mindepth 1 -maxdepth 3 -type d -not -name '.*' |
-            grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$"
+            grep -F -E -v -f "$HOME/.tmux-save-sessions" -e "$current_session$|dotfiles$|notes$|github$|$base_dir$"
     )
 
     # From: https://www.baeldung.com/linux/sort-bash-arrays
     readarray -td '' default_sessions < <(printf '%s\0' "${default_sessions[@]}" | sort -z)
 
-    # Include saved sessions first
-    session_number=1
+    # First include active sessions in recently used order
     while IFS=$'\n' read -r line; do
-        sessions+=("${session_number}. $line")
-        session_number=$((session_number + 1))
-    done <"$HOME/.tmux-save-sessions"
-
-    # Then include active sessions in recently used order
-    while IFS=$'\n' read -r line; do
-        # If a location appears in the saved sessions or it is the current session, we skip it
-        # shellcheck disable=SC2076
-        if [[ " ${sessions[*]} " =~ " $line " ]]; then
-            continue
-        fi
         sessions+=("* $line")
     done < <(
         tmux list-sessions -F '#{session_last_attached} #S' |
-            grep -E -v "$current_session$|dotfiles$|notes$|github$|$base_dir$" |
+            grep -F -E -v -f "$HOME/.tmux-save-sessions" -e "$current_session$|dotfiles$|notes$|github$|$base_dir$" |
             sort --numeric-sort --reverse |
-            cut -d' ' -f2 |
-            head -n 5
+            cut -d' ' -f2
     )
 
     # Finally add the rest of the found sessions
     for session in "${default_sessions[@]}"; do
-        # If a location appears in the saved or active sessions or it is the current session, we skip it
+        # If a location already appears in sessions or it is the current session, we skip it
         escaped_session=${session/./_}
         # shellcheck disable=SC2076
         if [[ " ${sessions[*]} " =~ " $escaped_session " ]] || [[ "$escaped_session" == "$current_session" ]]; then
