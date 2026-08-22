@@ -159,7 +159,7 @@ autocmd("BufReadPost", {
 -- Some binds for navigating diffs
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("diff_binds", { clear = true }),
-  pattern = "diff",
+  pattern = { "diff", "git" },
   callback = function(event)
     local buf = event.buf
     vim.keymap.set("n", "}", "/diff --git<CR>zt", { silent = true, buffer = buf, desc = "Next file" })

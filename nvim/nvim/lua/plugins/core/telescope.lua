@@ -201,10 +201,10 @@ return {
     end, { desc = "[S]earch emoji [I]cons" })
     vim.keymap.set("n", "<leader>sd", function()
       local buf = vim.api.nvim_get_current_buf()
-      if vim.bo[buf].filetype == "diff" then
+      if vim.bo[buf].filetype == "diff" or vim.bo[buf].filetype == "git" then
         require("telescope.builtin").current_buffer_fuzzy_find()
         vim.schedule(function()
-          vim.api.nvim_feedkeys("^diff --git", "i", false)
+          vim.api.nvim_feedkeys("^diff --git ", "i", false)
         end)
         return
       end
