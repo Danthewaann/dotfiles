@@ -2,6 +2,8 @@ return {
   "Wansmer/symbol-usage.nvim",
   event = "LspAttach", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
   config = function()
+    local utils = require("custom.utils")
+
     local get_highlight = function(name)
       return vim.api.nvim_get_hl(0, { name = name })
     end
@@ -80,9 +82,12 @@ return {
 
     vim.keymap.set(
       "n",
-      "<leader>tu",
-      require("symbol-usage").toggle,
-      { desc = "[T]oggle Symbol [U]sage", silent = true }
+      "<leader>uu",
+      function()
+        local active = require("symbol-usage").toggle_globally()
+        utils.print("Set symbol usage to " .. tostring(active))
+      end,
+      { desc = "Toggle Symbol [U]sage", silent = true }
     )
   end,
 }

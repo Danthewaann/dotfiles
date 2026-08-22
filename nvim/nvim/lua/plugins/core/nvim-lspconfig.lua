@@ -66,8 +66,9 @@ return {
 
     -- Diagnostic keymaps
     local severity = { min = vim.diagnostic.severity.WARN }
-    vim.keymap.set("n", "<leader>tD", function()
+    vim.keymap.set("n", "<leader>ud", function()
       vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+      utils.print("Set diagnostics to " .. tostring(vim.diagnostic.is_enabled()))
     end, { desc = "[T]oggle [D]iagnostics" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, severity = severity })
@@ -190,8 +191,9 @@ return {
 
           -- Enable inlay hints if the LSP server supports it
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map("<leader>lh", function()
+            map("<leader>uh", function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+              utils.print("Set inlay hints to " .. tostring(vim.lsp.inlay_hint.is_enabled()))
             end, "Toggle Inlay [H]ints")
           end
         end

@@ -38,8 +38,10 @@ return {
       { "<leader>r_",  hidden = true },
       { "<leader>s",   group = "[S]earch" },
       { "<leader>s_",  hidden = true },
-      { "<leader>t",   group = "[T]est, [T]erminal, [T]oggle" },
+      { "<leader>t",   group = "[T]est, [T]erminal" },
       { "<leader>t_",  hidden = true },
+      { "<leader>u",   group = "Toggle" },
+      { "<leader>u_",  hidden = true },
       { "<leader>y",   group = "[Y]ank" },
       { "<leader>y_",  hidden = true },
     })

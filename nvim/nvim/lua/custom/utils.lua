@@ -14,6 +14,12 @@ module.get_visual_selection = function()
   end
 end
 
+module.toggle_option = function(opt)
+  vim.cmd(":set " .. opt .. "!")
+  local new_value = vim.o[opt]
+  module.print("Set " .. opt .. " to " .. tostring(new_value))
+end
+
 -- From: https://github.com/neovim/nvim-lspconfig/issues/500#issuecomment-851247107
 module.get_venv_executable_path = function(exe, workspace)
   workspace = workspace or "."
