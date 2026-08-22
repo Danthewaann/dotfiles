@@ -122,6 +122,8 @@ return {
     vim.cmd("highlight! link DiagnosticFloatingHint DiagnosticHint")
     vim.cmd("highlight! link DiagnosticFloatingOk DiagnosticOk")
     vim.cmd("highlight! link LazyBackdrop Normal")
+    vim.cmd("highlight! link SnacksBackdrop Normal")
+    vim.cmd("highlight! link SnacksBackdrop_000000 Normal")
     vim.cmd("highlight TabLineSel guifg=#abb2bf guibg=#272731")
     vim.cmd("highlight TabLine guifg=#828997")
     vim.cmd("highlight DashboardHeader guifg=#98c379")

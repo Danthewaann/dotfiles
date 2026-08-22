@@ -7,12 +7,12 @@ return {
   cmd = "Octo",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
+    "folke/snacks.nvim",
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
     require("octo").setup({
-      picker = "telescope",
+      picker = "snacks",
       use_local_fs = true,
       reviews = { show_threads_on_jump = true, auto_show_threads = false, show_virtual_text = false, focus = "right" },
       ui = {

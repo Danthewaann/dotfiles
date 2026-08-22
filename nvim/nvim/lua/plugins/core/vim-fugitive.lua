@@ -21,7 +21,7 @@ return {
       vim.cmd [[Git]]
     end, { desc = "[G]it Status" })
 
-    vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
+    vim.keymap.set({ "n", "v" }, "<leader>gB", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set("n", "<leader>gx", function()
       vim.system({ "git", "jump", "--stdout", "merge" }, {}, function(obj)
         vim.schedule(function()

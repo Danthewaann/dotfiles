@@ -42,20 +42,6 @@ vim.keymap.set("v", "y", "ygv<Esc>")
 -- Go to alternative buffer
 vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternative buffer" })
 
--- Toggle text based options
-vim.keymap.set("n", "<leader>uw", function()
-  utils.toggle_option("wrap")
-end, { silent = true, desc = "Toggle word wrap" })
-vim.keymap.set("n", "<leader>ul", function()
-  utils.toggle_option("list")
-end, { silent = true, desc = "Toggle list chars" })
-vim.keymap.set("n", "<leader>ur", function()
-  utils.toggle_option("relativenumber")
-end, { silent = true, desc = "Toggle relative line numbers" })
-vim.keymap.set("n", "<leader>us", function()
-  utils.toggle_option("spell")
-end, { silent = true, desc = "Toggle spelling" })
-
 -- Vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump half page up" })

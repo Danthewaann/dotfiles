@@ -13,6 +13,8 @@ return {
           return "help:" .. vim.fn.fnamemodify(file, ":t:r")
         elseif buftype == "quickfix" then
           return "quickfix"
+        elseif filetype == "snacks_picker_input" then
+          return "Picker"
         elseif filetype == "TelescopePrompt" then
           return "Telescope"
         elseif filetype == "git" then
@@ -41,6 +43,8 @@ return {
         local filetype = vim.fn.getbufvar(bufnr, "&filetype")
         local devicons = require "nvim-web-devicons"
         if filetype == "TelescopePrompt" then
+          icon, devhl = devicons.get_icon("telescope")
+        elseif filetype == "snacks_picker_input" then
           icon, devhl = devicons.get_icon("telescope")
         elseif filetype == "vimwiki" then
           icon, devhl = devicons.get_icon("markdown")

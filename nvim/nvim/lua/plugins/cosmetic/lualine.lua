@@ -156,6 +156,11 @@ return {
       filetypes = { "dashboard" }
     }
 
+    local snacks_picker_list_extension = {
+      sections = {},
+      filetypes = { "snacks_layout_box" }
+    }
+
     local fugitive_extension = require("lualine.extensions.fugitive")
     fugitive_extension.sections.lualine_x = { git_shortstat }
 
@@ -167,9 +172,9 @@ return {
         ignore_focus = { "dbui", "git", "dashboard" },
         globalstatus = false,
         always_show_tabline = false,
-        disabled_filetypes = { statusline = { "TelescopePrompt" } },
+        disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input" } },
       },
-      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", dashboard_extension, "oil" },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", dashboard_extension, snacks_picker_list_extension, "oil" },
       sections = {
         lualine_a = {},
         lualine_b = { filename_config, { "diff", source = diff_source }, "diagnostics", lint_progress },

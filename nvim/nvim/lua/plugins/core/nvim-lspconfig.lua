@@ -26,6 +26,7 @@ return {
         library = {
           -- Load luvit types when the `vim.uv` word is found
           { path = "luvit-meta/library", words = { "vim%.uv" } },
+          { path = "snacks.nvim",        words = { "Snacks" } },
         },
       },
     },
@@ -66,10 +67,6 @@ return {
 
     -- Diagnostic keymaps
     local severity = { min = vim.diagnostic.severity.WARN }
-    vim.keymap.set("n", "<leader>ud", function()
-      vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-      utils.print("Set diagnostics to " .. tostring(vim.diagnostic.is_enabled()))
-    end, { desc = "[T]oggle [D]iagnostics" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, severity = severity })
     end, { desc = "Go to previous diagnostic message" })
@@ -90,45 +87,6 @@ return {
           mode = mode or "n"
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
-
-        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-        map("<C-w>gh", function()
-          require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
-        end, "[G]oto Definition In Vertical Split")
-        map("<C-w>gs", function()
-          require("telescope.builtin").lsp_definitions({ jump_type = "split" })
-        end, "[G]oto Definition In [S]plit")
-        map("<C-w>gt", function()
-          require("telescope.builtin").lsp_definitions({ jump_type = "tab" })
-        end, "[G]oto Definition In [T]ab")
-        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-        map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-        map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
-        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-        map("<leader>ss", function()
-          local word = vim.fn.expand("<cword>")
-          require("telescope.builtin").lsp_workspace_symbols({
-            prompt_title = "LSP Workspace Symbols (" .. word .. ")",
-            query = word,
-          })
-        end, "[S]earch [S]ymbol")
-        map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
-        map("<leader>sF", function()
-          local word = vim.fn.expand("<cword>")
-          local buf = vim.api.nvim_get_current_buf()
-          if vim.bo[buf].filetype == "python" then
-            require("telescope.builtin").grep_string({
-              prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
-              search = "def " .. word
-            })
-          else
-            require("telescope.builtin").lsp_workspace_symbols({
-              prompt_title = "LSP Workspace Function Symbols (" .. word .. ")",
-              query = word,
-              symbols = { "function", "method" }
-            })
-          end
-        end, "[S]earch [F]unction Symbol")
 
         -- See `:help K` for why this keymap
         map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
@@ -187,14 +145,6 @@ return {
                 vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
               end,
             })
-          end
-
-          -- Enable inlay hints if the LSP server supports it
-          if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map("<leader>uh", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
-              utils.print("Set inlay hints to " .. tostring(vim.lsp.inlay_hint.is_enabled()))
-            end, "Toggle Inlay [H]ints")
           end
         end
       end

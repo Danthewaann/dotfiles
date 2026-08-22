@@ -1,6 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   event = "VeryLazy",
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -169,7 +170,7 @@ return {
     pcall(require("telescope").load_extension, "advanced_git_search")
 
     -- Core
-    vim.keymap.set("n", "<leader>/", require("telescope.builtin").search_history, { desc = "Search History" })
+    vim.keymap.set("n", "<leader>s/", require("telescope.builtin").search_history, { desc = "Search History" })
     vim.keymap.set("n", "<leader>:", require("telescope.builtin").command_history, { desc = "Search Command History" })
     vim.keymap.set("n", "<leader>B", require("telescope.builtin").builtin, { desc = "Search [B]uiltin Telescope" })
 
@@ -191,7 +192,7 @@ return {
         prompt_title = "Live Grep in Open Buffers",
       }
     end, { desc = "[S]earch in open buffers" })
-    vim.keymap.set("n", "<leader>sg", require("telescope").extensions.egrepify.egrepify, { desc = "[S]earch by Grep" })
+    vim.keymap.set("n", "<leader>/", require("telescope").extensions.egrepify.egrepify, { desc = "[S]earch by Grep" })
     vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
     vim.keymap.set("v", "<leader>sw", function()
       require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
