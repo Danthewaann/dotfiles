@@ -22,7 +22,7 @@ return {
     end, { desc = "[G]it Status" })
 
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
-    vim.keymap.set("n", "<leader>gc", function()
+    vim.keymap.set("n", "<leader>gx", function()
       vim.system({ "git", "jump", "--stdout", "merge" }, {}, function(obj)
         vim.schedule(function()
           if obj.code > 1 then
@@ -45,7 +45,7 @@ return {
           vim.cmd("copen")
         end)
       end)
-    end, { desc = "[G]it [C]onflicts" })
+    end, { desc = "[G]it Conflicts" })
 
     vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>",
       { desc = "[G]it [Y]ank link to clipboard", silent = true })

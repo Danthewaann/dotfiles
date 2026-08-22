@@ -1,7 +1,8 @@
 return {
   -- Theme inspired by Atom
   "navarasu/onedark.nvim",
-  priority = 1000,
+  priority = 1001,
+  lazy = false,
   config = function()
     require("onedark").setup({
       style = "darker",
@@ -111,6 +112,8 @@ return {
     vim.cmd("highlight OctoReviewDiffDelete guibg=#172a3a")
     vim.cmd("highlight OctoReviewDiffAddText guibg=#274964")
     vim.cmd("highlight OctoReviewDiffDeleteText guibg=#274964")
+
+    vim.cmd("highlight! link SnacksPickerBorder FloatBorder")
     vim.cmd("highlight! link MasonBackdrop Normal")
     vim.cmd("highlight! link WinBarNC Normal")
     vim.cmd("highlight! link DiagnosticFloatingError DiagnosticError")
