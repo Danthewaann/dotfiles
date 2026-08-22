@@ -1,6 +1,7 @@
 return {
   "chrishrb/gx.nvim",
   keys = { "gx" },
+  cmd = "Browse",
   config = function()
     local function file_exists(name)
       local f = io.open(name, "r")
@@ -29,7 +30,7 @@ return {
         github = true,                  -- open github issues
         brewfile = true,                -- open Homebrew formulaes and casks
         package_json = true,            -- open dependencies from package.json
-        search = true,                  -- search the web/selection on the web if nothing else is found
+        search = false,                 -- search the web/selection on the web if nothing else is found
       },
       handler_options = {
         search_engine = "google", -- you can select between google, bing and duckduckgo

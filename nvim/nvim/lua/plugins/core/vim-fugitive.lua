@@ -21,24 +21,6 @@ return {
       vim.cmd [[Git]]
     end, { desc = "[G]it Status" })
 
-    local git_log_args =
-    "--full-history --oneline --decorate --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %C(green)(%an)%Creset %s'"
-
-    vim.keymap.set("n", "<leader>gla", string.format("<cmd> tab Git log %s<CR>", git_log_args),
-      { desc = "[G]it [L]og [A]ll" })
-    vim.keymap.set("n", "<leader>glA", "<cmd>Gclog<CR>", { desc = "[G]it [L]og [A]ll in quickfix list" })
-    vim.keymap.set("n", "<leader>glf", function()
-      vim.cmd(string.format("Git log %s --follow %%", git_log_args))
-    end, { desc = "[G]it [L]og current [F]ile" })
-    vim.keymap.set("n", "<leader>glF", "<cmd>0Gclog<CR>", { desc = "[G]it [L]og current [F]ile in quickfix list" })
-    vim.keymap.set("x", "<leader>gl", function()
-      vim.cmd([[ execute "normal! \<ESC>" ]])
-      local start_pos = vim.api.nvim_buf_get_mark(0, "<")[1]
-      local end_pos = vim.api.nvim_buf_get_mark(0, ">")[1]
-      vim.cmd(string.format("Git log %s --no-patch -L %s,%s:%%", git_log_args, start_pos, end_pos))
-    end, { desc = "[G]it [L]og current selection" })
-    vim.keymap.set("v", "<leader>gL", ":Gclog<CR>",
-      { desc = "[G]it [L]og current selection in quickfix list", silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set("n", "<leader>gc", function()
       vim.system({ "git", "jump", "--stdout", "merge" }, {}, function(obj)

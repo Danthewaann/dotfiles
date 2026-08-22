@@ -133,6 +133,8 @@ return {
     })
 
     local utils = require("custom.utils")
+    local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
 
     -- Enable telescope extensions, if installed
     pcall(require("telescope").load_extension, "fzf")
@@ -141,9 +143,9 @@ return {
     pcall(require("telescope").load_extension, "ui-select")
 
     -- Core
-    vim.keymap.set("n", "<leader>/", require("telescope.builtin").search_history, { desc = "[S]earch History" })
+    vim.keymap.set("n", "<leader>/", require("telescope.builtin").search_history, { desc = "Search History" })
     vim.keymap.set("n", "<leader>:", require("telescope.builtin").command_history, { desc = "Search Command History" })
-    vim.keymap.set("n", "<leader>B", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
+    vim.keymap.set("n", "<leader>B", require("telescope.builtin").builtin, { desc = "Search [B]uiltin Telescope" })
 
     -- Find
     vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, { desc = "Files" })
@@ -188,8 +190,83 @@ return {
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 
     -- Git
+    local git_attach_mappings = function(_, map)
+      local open_commit = function(prompt_bufnr)
+        actions.close(prompt_bufnr)
+
+        local selection = action_state.get_selected_entry()
+        local commit_hash = selection.value
+        vim.api.nvim_command(":Gedit " .. commit_hash)
+      end
+
+      local copy_to_clipboard = function(_)
+        local selection = action_state.get_selected_entry()
+        local commit_hash = selection.value
+        vim.notify(
+          "Copied commit hash " .. commit_hash .. " to clipboard",
+          vim.log.levels.INFO
+        )
+
+        vim.fn.setreg("+", commit_hash)
+        vim.fn.setreg("*", commit_hash)
+      end
+
+      local open_pr_in_browser = function(_)
+        local selection = action_state.get_selected_entry()
+        local msg = selection.msg
+        local pr_number = tonumber(
+          msg:match("%(#(%d+)%)%s*$")
+        )
+        if pr_number ~= nil then
+          vim.cmd(":Browse (#" .. pr_number .. ")")
+        end
+      end
+
+      map("i", "<CR>", open_commit)
+      map("i", "<C-y>", copy_to_clipboard)
+      map("i", "<C-b>", open_pr_in_browser)
+
+      -- needs to return true if you want to map default_mappings and
+      -- false if not
+      return true
+    end
+
     vim.keymap.set("n", "<leader>gs", function()
       require("telescope.builtin").git_status({ layout_strategy = "center" })
-    end, { desc = "Git Status" })
+    end, { desc = "[G]it [S]tatus" })
+    vim.keymap.set("n", "<leader>gS", function()
+      require("telescope.builtin").git_stash({ layout_strategy = "center" })
+    end, { desc = "[G]it [S]tash" })
+    vim.keymap.set("n", "<leader>gB", function()
+      require("telescope.builtin").git_branches()
+    end, { desc = "[G]it [B]ranches" })
+    vim.keymap.set("n", "<leader>gl", function()
+      require("telescope.builtin").git_commits({
+        layout_strategy = "center",
+        -- git_command = { "git", "log", "--oneline", "--pretty=format:%h %cr %an %s", "--", "." },
+        attach_mappings = git_attach_mappings,
+      })
+    end, { desc = "[G]it [L]og" })
+    vim.keymap.set("n", "<leader>gL", function()
+      require("telescope.builtin").git_bcommits({
+        layout_strategy = "center",
+        -- git_command = { "git", "log", "--oneline", "--pretty=format:%h (%cr) (%an) %s" },
+        attach_mappings = git_attach_mappings,
+      })
+    end, { desc = "[G]it [L]og current buffer" })
+    vim.keymap.set("x", "<leader>gl", function()
+      vim.cmd([[ execute "normal! \<ESC>" ]])
+      local start_pos = vim.api.nvim_buf_get_mark(0, "<")[1]
+      local end_pos = vim.api.nvim_buf_get_mark(0, ">")[1]
+
+      print(start_pos, end_pos)
+      require("telescope.builtin").git_bcommits_range({
+        layout_strategy = "center",
+        from = start_pos,
+        to = end_pos,
+        -- git_command = { "git", "log", "--oneline", "--pretty=format:%h (%cr) (%an) %s" },
+        attach_mappings = git_attach_mappings,
+      })
+    end, { desc = "[G]it [L]og current line", silent = true })
   end
 }
