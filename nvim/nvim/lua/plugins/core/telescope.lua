@@ -23,10 +23,9 @@ return {
   config = function()
     require("telescope").setup({
       defaults = {
-        -- Cache the last 10 pickers so I can resume them later
         wrap_results = false,
         cache_picker = {
-          num_pickers = 10,
+          num_pickers = 3,
           limit_entries = 1000,
         },
         vimgrep_arguments = {
