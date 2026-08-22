@@ -144,7 +144,15 @@ return {
             search_log_content = {
               layout_strategy = "center",
             },
-            search_log_content_file = "center",
+            search_log_content_file = {
+              layout_strategy = "center",
+            },
+            diff_commit_line = {
+              layout_strategy = "center",
+            },
+            diff_commit_file = {
+              layout_strategy = "center",
+            },
           }
         }
       }
@@ -266,36 +274,15 @@ return {
         attach_mappings = git_attach_mappings,
       })
     end, { desc = "[G]it [L]og" })
-    vim.keymap.set("n", "<leader>gL", function()
-      require("telescope.builtin").git_bcommits({
-        layout_strategy = "center",
-        -- git_command = { "git", "log", "--oneline", "--pretty=format:%h (%cr) (%an) %s" },
-        attach_mappings = git_attach_mappings,
-      })
-    end, { desc = "[G]it [L]og current buffer" })
-    vim.keymap.set("x", "<leader>gl", function()
-      vim.cmd([[ execute "normal! \<ESC>" ]])
-      local start_pos = vim.api.nvim_buf_get_mark(0, "<")[1]
-      local end_pos = vim.api.nvim_buf_get_mark(0, ">")[1]
-
-      print(start_pos, end_pos)
-      require("telescope.builtin").git_bcommits_range({
-        layout_strategy = "center",
-        from = start_pos,
-        to = end_pos,
-        -- git_command = { "git", "log", "--oneline", "--pretty=format:%h (%cr) (%an) %s" },
-        attach_mappings = git_attach_mappings,
-      })
-    end, { desc = "[G]it [L]og current line", silent = true })
 
     vim.keymap.set("n", "<leader>gc", "<cmd> AdvancedGitSearch search_log_content<CR>",
       { desc = "[G]it log [C]ontent" })
     vim.keymap.set("n", "<leader>gC", "<cmd> AdvancedGitSearch search_log_content_file<CR>",
       { desc = "[G]it log current buffer [C]ontent" })
-    -- vim.keymap.set("n", "<leader>gL", ":AdvancedGitSearch diff_commit_file<CR>",
-    --   { desc = "[G]it [L]og current line search commits", silent = true })
-    -- vim.keymap.set("x", "<leader>gl", ":AdvancedGitSearch diff_commit_line<CR>",
-    --   { desc = "[G]it [L]og current line search commits", silent = true })
+    vim.keymap.set("n", "<leader>gL", ":AdvancedGitSearch diff_commit_file<CR>",
+      { desc = "[G]it [L]og current line search commits", silent = true })
+    vim.keymap.set("x", "<leader>gl", ":AdvancedGitSearch diff_commit_line<CR>",
+      { desc = "[G]it [L]og current line search commits", silent = true })
     vim.keymap.set("n", "<leader>gr", "<cmd> AdvancedGitSearch checkout_reflog<CR>",
       { desc = "[G]it show [R]eflog", })
   end
