@@ -69,14 +69,6 @@ return {
     vim.keymap.set("n", "<leader>tD", function()
       vim.diagnostic.enable(not vim.diagnostic.is_enabled())
     end, { desc = "[T]oggle [D]iagnostics" })
-    vim.keymap.set("n", "<leader>tL", function()
-      local new_config = not vim.diagnostic.config().virtual_lines
-      vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "[T]oggle Virtual [L]lines" })
-    vim.keymap.set("n", "<leader>tV", function()
-      local new_config = not vim.diagnostic.config().virtual_text
-      vim.diagnostic.config({ virtual_text = new_config })
-    end, { desc = "[T]oggle [V]irtual Text" })
     vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, severity = severity })
     end, { desc = "Go to previous diagnostic message" })
