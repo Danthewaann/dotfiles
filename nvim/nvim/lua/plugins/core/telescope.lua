@@ -17,6 +17,7 @@ return {
     },
     "fdschmidt93/telescope-egrepify.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
+    "nvim-telescope/telescope-symbols.nvim",
   },
   config = function()
     require("telescope").setup({
@@ -139,33 +140,56 @@ return {
     pcall(require("telescope").load_extension, "egrepify")
     pcall(require("telescope").load_extension, "ui-select")
 
-    -- See `:help telescope.builtin`
-    vim.keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find,
-      { desc = "[S]earch Fuzzily in current buffer [/]" }
-    )
-    vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, { desc = "Search Files" })
-    vim.keymap.set("n", "<C-p>", require("telescope.builtin").git_files, { desc = "Search Git Tracked Files" })
-    vim.keymap.set("n", "<leader>sg", function()
-      require("telescope.builtin").git_status({ layout_strategy = "center" })
-    end, { desc = "Search Changed Git Files" })
-    vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[S]earch Open [B]uffers" })
-    vim.keymap.set("n", "<leader>sB", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
-    vim.keymap.set("n", "<leader>sd", require("telescope").extensions.aerial.aerial,
-      { desc = "[S]earch [D]ocument Symbols" })
-    vim.keymap.set("n", "<leader>sx", require("telescope.builtin").diagnostics, { desc = "[S]earch Diagnostics" })
-    vim.keymap.set("n", "<leader>sq", require("telescope.builtin").quickfix, { desc = "[S]earch [Q]uickfix List" })
-    vim.keymap.set("n", "<leader>sQ", require("telescope.builtin").quickfixhistory,
-      { desc = "[S]earch [Q]uickfix History" })
-    vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-    vim.keymap.set("n", "<leader>so", function()
+    -- Core
+    vim.keymap.set("n", "<leader>/", require("telescope.builtin").search_history, { desc = "[S]earch History" })
+    vim.keymap.set("n", "<leader>:", require("telescope.builtin").command_history, { desc = "Search Command History" })
+    vim.keymap.set("n", "<leader>B", require("telescope.builtin").builtin, { desc = "[S]earch [B]uiltin Telescope" })
+
+    -- Find
+    vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, { desc = "Files" })
+    vim.keymap.set("n", "<C-p>", require("telescope.builtin").git_files, { desc = "Git Files" })
+    vim.keymap.set("n", "<leader>,", require("telescope.builtin").buffers, { desc = "Open Buffers" })
+    vim.keymap.set("n", "<leader>.", function()
       require("telescope.builtin").oldfiles({ only_cwd = true })
-    end, { desc = "[S]earch Recently [O]pened Files" })
-    vim.keymap.set("n", "<leader>ss", require("telescope").extensions.egrepify.egrepify, { desc = "[S]earch by Grep" })
-    vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
-    vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
+    end, { desc = "Oldfiles" })
+
+    -- Search
+    vim.keymap.set("n", "<leader>sb", require("telescope.builtin").current_buffer_fuzzy_find,
+      { desc = "[S]earch current [B]uffer lines" }
+    )
+    vim.keymap.set("n", "<leader>sB", function()
+      require("telescope.builtin").live_grep {
+        grep_open_files = true,
+        prompt_title = "Live Grep in Open Buffers",
+      }
+    end, { desc = "[S]earch in open buffers" })
+    vim.keymap.set("n", "<leader>sg", require("telescope").extensions.egrepify.egrepify, { desc = "[S]earch by Grep" })
     vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
     vim.keymap.set("v", "<leader>sw", function()
       require("telescope.builtin").grep_string({ search = utils.get_visual_selection() })
     end, { desc = "[S]earch [W]ord" })
+    vim.keymap.set("n", "<leader>si", function()
+      require("telescope.builtin").symbols({ sources = { "emoji", "kaomoji", "gitmoji" } })
+    end, { desc = "[S]earch emoji [I]cons" })
+    vim.keymap.set("n", "<leader>sd", require("telescope").extensions.aerial.aerial,
+      { desc = "[S]earch [D]ocument Symbols" })
+    vim.keymap.set("n", "<leader>sx", function()
+      require("telescope.builtin").diagnostics({ bufnr = 0 })
+    end, { desc = "[S]earch diagnostics in current buffer" })
+    vim.keymap.set("n", "<leader>sX", function()
+      require("telescope.builtin").diagnostics({ workspace = true })
+    end, { desc = "[S]earch diagnostics in workspace" })
+    vim.keymap.set("n", "<leader>sq", require("telescope.builtin").quickfix, { desc = "[S]earch [Q]uickfix List" })
+    vim.keymap.set("n", "<leader>sQ", require("telescope.builtin").quickfixhistory,
+      { desc = "[S]earch [Q]uickfix History" })
+    vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+    vim.keymap.set("n", "<leader>sH", require("telescope.builtin").highlights, { desc = "[S]earch [H]ighlights" })
+    vim.keymap.set("n", "<leader>sp", require("telescope.builtin").pickers, { desc = "[S]earch [P]ickers" })
+    vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
+
+    -- Git
+    vim.keymap.set("n", "<leader>gs", function()
+      require("telescope.builtin").git_status({ layout_strategy = "center" })
+    end, { desc = "Git Status" })
   end
 }

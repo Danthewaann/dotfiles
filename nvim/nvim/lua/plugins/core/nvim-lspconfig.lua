@@ -112,14 +112,14 @@ return {
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         map("gO", require("telescope.builtin").lsp_outgoing_calls, "[G]oto [O]utgoing Calls")
         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-        map("<leader>sW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [W]orkspace Symbols")
-        map("<leader>sS", function()
+        map("<leader>ss", function()
           local word = vim.fn.expand("<cword>")
           require("telescope.builtin").lsp_workspace_symbols({
             prompt_title = "LSP Workspace Symbols (" .. word .. ")",
             query = word,
           })
         end, "[S]earch [S]ymbol")
+        map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
         map("<leader>sF", function()
           local word = vim.fn.expand("<cword>")
           local buf = vim.api.nvim_get_current_buf()
