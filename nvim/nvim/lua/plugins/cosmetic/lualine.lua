@@ -115,7 +115,7 @@ return {
     end
 
     local list_harpoon = function()
-      local bufname = vim.fn.bufname(vim.api.nvim_get_current_buf())
+      local bufname = vim.fn.fnamemodify(vim.fn.bufname(vim.api.nvim_get_current_buf()), ":.")
       local harpoon = require("harpoon")
       local list = harpoon:list()
       local items = {}
