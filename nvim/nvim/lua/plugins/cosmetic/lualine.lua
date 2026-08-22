@@ -178,7 +178,10 @@ return {
       sections = {
         lualine_a = {},
         lualine_b = { filename_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
-        lualine_c = {
+        lualine_c = {},
+        lualine_x = { list_harpoon },
+        lualine_y = {},
+        lualine_z = {
           filetype_config,
           "filesize",
           fileformat_config,
@@ -187,9 +190,6 @@ return {
           "searchcount",
           "selectioncount",
         },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = { list_harpoon },
       },
       inactive_sections = {
         lualine_c = { filename_config, filetype_inactive_config, "filesize", fileformat_config, "location" },
