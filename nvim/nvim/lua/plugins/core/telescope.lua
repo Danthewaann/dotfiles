@@ -199,8 +199,17 @@ return {
     vim.keymap.set("n", "<leader>si", function()
       require("telescope.builtin").symbols({ sources = { "emoji", "kaomoji", "gitmoji" } })
     end, { desc = "[S]earch emoji [I]cons" })
-    vim.keymap.set("n", "<leader>sd", require("telescope").extensions.aerial.aerial,
-      { desc = "[S]earch [D]ocument Symbols" })
+    vim.keymap.set("n", "<leader>sd", function()
+      local buf = vim.api.nvim_get_current_buf()
+      if vim.bo[buf].filetype == "diff" then
+        require("telescope.builtin").current_buffer_fuzzy_find()
+        vim.schedule(function()
+          vim.api.nvim_feedkeys("^diff --git", "i", false)
+        end)
+        return
+      end
+      require("telescope").extensions.aerial.aerial()
+    end, { desc = "[S]earch [D]ocument Symbols" })
     vim.keymap.set("n", "<leader>sx", function()
       require("telescope.builtin").diagnostics({ bufnr = 0 })
     end, { desc = "[S]earch diagnostics in current buffer" })
