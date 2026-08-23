@@ -238,10 +238,8 @@ return {
       local copy_to_clipboard = function(_)
         local selection = action_state.get_selected_entry()
         local commit_hash = selection.value
-        vim.notify(
-          "Copied commit hash " .. commit_hash .. " to clipboard",
-          vim.log.levels.INFO
-        )
+        local utils = require("custom.utils")
+        utils.print("Copied commit hash " .. commit_hash .. " to clipboard")
 
         vim.fn.setreg("+", commit_hash)
         vim.fn.setreg("*", commit_hash)

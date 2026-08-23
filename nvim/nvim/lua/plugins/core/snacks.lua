@@ -8,10 +8,8 @@ local git_opts = {
   actions = {
     ["copy_commit_hash"] = function(_, item)
       local commit_hash = item.commit
-      vim.notify(
-        "Copied commit hash " .. commit_hash .. " to clipboard",
-        vim.log.levels.INFO
-      )
+      local utils = require("custom.utils")
+      utils.print("Copied commit hash " .. commit_hash .. " to clipboard")
 
       vim.fn.setreg("+", commit_hash)
       vim.fn.setreg("*", commit_hash)

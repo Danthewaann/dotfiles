@@ -39,14 +39,17 @@ module.file_exists = function(filename)
 end
 
 module.print = function(msg, opts)
+  opts = opts or { title = "INFO" }
   vim.notify(msg, vim.log.levels.INFO, opts)
 end
 
 module.print_warn = function(msg, opts)
+  opts = opts or { title = "WARN" }
   vim.notify(msg, vim.log.levels.WARN, opts)
 end
 
 module.print_err = function(err, opts)
+  opts = opts or { title = "ERROR" }
   vim.notify(err, vim.log.levels.ERROR, opts)
 end
 
@@ -127,7 +130,7 @@ module.load_pytest_results = function(results_file)
 
   local f = io.open(results_file, "r")
   if not f then
-    vim.notify(("Could not open: %s"):format(results_file), vim.log.levels.ERROR)
+    module.print_err(("Could not open: %s"):format(results_file))
     return
   end
 
@@ -142,7 +145,7 @@ function module.load_pytest_failures(results_file)
 
   local ok, data = pcall(module.load_pytest_results, results_file)
   if not ok or type(data) ~= "table" then
-    vim.notify(("Failed to parse JSON from: %s"):format(results_file), vim.log.levels.ERROR)
+    module.print_err(("Failed to parse JSON from: %s"):format(results_file))
     return
   end
 
@@ -238,7 +241,7 @@ function module.load_pytest_failures(results_file)
   end
 
   if #qf_items == 0 then
-    vim.notify("No test failures found", vim.log.levels.INFO)
+    module.print("No test failures found")
     return
   end
 
@@ -247,7 +250,7 @@ function module.load_pytest_failures(results_file)
     items = qf_items,
   })
 
-  vim.notify(("%d pytest error(s) loaded into quickfix"):format(#qf_items), vim.log.levels.WARN)
+  module.print(("%d pytest error(s) loaded into quickfix"):format(#qf_items))
 end
 
 return module
