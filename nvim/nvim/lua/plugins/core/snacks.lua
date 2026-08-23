@@ -34,6 +34,21 @@ local git_opts = {
   },
 }
 
+local picker_keys = {
+  ["<C-s>"] = false,
+  ["<C-x>"] = { "edit_split", mode = { "i", "n" } },
+  ["?"] = false,
+  ["<C-h>"] = { "toggle_help_input", mode = { "i", "n" } },
+  ["<M-p>"] = false,
+  ["<C-o>"] = { "toggle_preview", mode = { "i", "n" } },
+  ["<M-m>"] = false,
+  ["<M-o>"] = { "toggle_maximize", mode = { "i", "n" } },
+  ["<M-w>"] = false,
+  ["<C-e>"] = { "cycle_win", mode = { "i", "n" } },
+  ["/"] = false,
+  ["<M-e>"] = { "toggle_focus", mode = { "i", "n" } },
+}
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -53,30 +68,7 @@ return {
     indent = { enabled = false },
     input = { enabled = true },
     picker = {
-      win = {
-        input = {
-          keys = {
-            ["<c-s>"] = false,
-            ["<c-x>"] = { "edit_split", mode = { "i", "n" } },
-            ["<c-h>"] = { "toggle_help_input", mode = "i" },
-            ["<c-o>"] = { "toggle_preview", mode = { "i", "n" } },
-            ["<M-o>"] = { "toggle_maximize", mode = { "i", "n" } },
-            ["<c-e>"] = { "cycle_win", mode = { "i", "n" } },
-            ["<M-e>"] = { "toggle_focus", mode = { "i", "n" } },
-          }
-        },
-        list = {
-          keys = {
-            ["<c-s>"] = false,
-            ["<c-x>"] = { "edit_split", mode = { "i", "n" } },
-            ["<c-h>"] = { "toggle_help_input", mode = "i" },
-            ["<c-o>"] = { "toggle_preview", mode = { "i", "n" } },
-            ["<M-o>"] = { "toggle_maximize", mode = { "i", "n" } },
-            ["<c-e>"] = { "cycle_win", mode = { "i", "n" } },
-            ["<M-e>"] = { "toggle_focus", mode = { "i", "n" } },
-          }
-        },
-      },
+      win = { input = { keys = picker_keys }, list = { keys = picker_keys } },
       layout = "my_default_layout",
       layouts = {
         my_default_layout = {
