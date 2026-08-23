@@ -74,6 +74,10 @@ end
 return {
   "vim-test/vim-test",
   dependencies = { { "tpope/vim-projectionist", lazy = false }, },
+  init = function()
+    -- This must be put here so vim-test picks it up as it loads
+    vim.g["test#runner_commands"] = { "PyTest" }
+  end,
   config = function()
     vim.g["test#strategy"] = "neovim_sticky"
     vim.g["test#python#pytest#options"] = utils.generate_pytest_options("vim-test")
@@ -141,6 +145,25 @@ return {
         utils.load_pytest_failures()
       end,
       desc = "[T]est view errors [x]"
+    },
+    {
+      "<leader>tq",
+      function()
+        local qflist = vim.fn.getqflist()
+        if #qflist == 0 then
+          utils.print("No test failures found to re-run")
+          return
+        end
+
+        local tests = {}
+        for _, test in ipairs(qflist) do
+          table.insert(tests, test.module)
+        end
+
+        local options = utils.generate_pytest_options("vim-test", false)
+        vim.cmd(":PyTest " .. options.nearest .. " " .. table.concat(tests, " "))
+      end,
+      desc = "[T]est run in [Q]uickfix"
     },
   },
 }

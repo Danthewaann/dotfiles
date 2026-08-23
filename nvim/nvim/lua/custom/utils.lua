@@ -68,7 +68,9 @@ module.get_terminal_buffer = function()
   return terminal_buf
 end
 
-module.generate_pytest_options = function(mode)
+module.generate_pytest_options = function(mode, include_json_report)
+  mode = mode or "vim-test"
+  include_json_report = include_json_report == true
   local options = {}
   -- If pytest-xdist is installed in the current python project, use it when running the suite strategy,
   -- and disable it when running the nearest or file test strategies
@@ -86,7 +88,7 @@ module.generate_pytest_options = function(mode)
       options.class = options.class .. " -n 0"
       options.file = options.file .. " -n 0"
     end
-    if json_report_installed.code == 0 then
+    if include_json_report and json_report_installed.code == 0 then
       local json_report_args = " --json-report --json-report-file=.pytest_results.json"
       options.nearest = options.nearest .. json_report_args
       options.file = options.file .. json_report_args
