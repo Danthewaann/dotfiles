@@ -3,22 +3,21 @@ return {
   "nvim-lualine/lualine.nvim",
   -- See `:help lualine.txt`
   config = function()
-    -- Custom onedark theme
-    -- From https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/onedark.lua
+    local custom_colors = require("custom.colours")
     local colors = {
-      blue   = "#61afef",
-      green  = "#98c379",
-      purple = "#c678dd",
-      cyan   = "#56b6c2",
-      red1   = "#e06c75",
-      red2   = "#be5046",
-      yellow = "#e5c07b",
-      fg     = "#abb2bf",
-      bg     = "#1a1d21",
-      bg2    = "#272731",
-      gray1  = "#828997",
-      gray2  = "#2c323c",
-      gray3  = "#3e4452",
+      blue   = custom_colors.bg_blue,
+      green  = custom_colors.green,
+      purple = custom_colors.purple,
+      cyan   = custom_colors.cyan,
+      red1   = custom_colors.red,
+      red2   = custom_colors.dark_red,
+      yellow = custom_colors.yellow,
+      fg     = custom_colors.fg,
+      bg     = custom_colors.bg0,
+      bg2    = custom_colors.bg1,
+      gray1  = custom_colors.light_grey,
+      gray2  = custom_colors.bg3,
+      gray3  = custom_colors.bg3,
     }
 
     local custom_theme = {
