@@ -1,42 +1,17 @@
 return {
   -- Theme inspired by Atom
   "navarasu/onedark.nvim",
-  priority = 1001,
+  priority = 1000,
   lazy = false,
   config = function()
+    local colors = require("custom.colours")
+
     require("onedark").setup({
       style = "darker",
-      colors = {
-        black = "#0e1013",
-        bg0 = "#1a1d21",
-        bg1 = "#272731",
-        bg2 = "#272731",
-        bg3 = "#323641",
-        bg_d = "#181b20",
-        bg_blue = "#61afef",
-        bg_yellow = "#e8c88c",
-        fg = "#a0a8b7",
-        purple = "#bf68d9",
-        green = "#8ebd6b",
-        orange = "#cc9057",
-        blue = "#4fa6ed",
-        yellow = "#e2b86b",
-        cyan = "#48b0bd",
-        red = "#e55561",
-        grey = "#535965",
-        light_grey = "#7a818e",
-        dark_cyan = "#266269",
-        dark_red = "#8b3434",
-        dark_yellow = "#835d1a",
-        dark_purple = "#7e3992",
-        diff_add = "#272e23",
-        diff_delete = "#2d2223",
-        diff_change = "#172a3a",
-        diff_text = "#274964",
-      },
+      colors = colors,
       highlights = {
-        ["@variable"] = { fg = "#e55561" },
-        ["@lsp.type.variable"] = { fg = "#e55561" },
+        ["@variable"] = { fg = colors.red },
+        ["@lsp.type.variable"] = { fg = colors.red },
       },
     })
 
@@ -83,49 +58,50 @@ return {
 
     require("onedark").load()
 
-    vim.cmd("highlight LspSignatureActiveParameter ctermbg=242 guibg=#323641")
-    vim.cmd("highlight LspInfoBorder guifg=#31353f")
-    vim.cmd("highlight QuickFixLine gui=None guifg=None guibg=#2a2834")
-    vim.cmd("highlight TelescopePromptBorder guifg=#31353f")
-    vim.cmd("highlight NotificationInfo guibg=#31353f")
-    vim.cmd("highlight NotificationWarning guibg=#31353f")
-    vim.cmd("highlight NotificationError guibg=#31353f")
-    vim.cmd("highlight TelescopeResultsBorder guifg=#31353f")
-    vim.cmd("highlight TelescopePreviewBorder guifg=#31353f")
-    vim.cmd("highlight FloatBorder guifg=#31353f guibg=NONE")
-    vim.cmd("highlight BlinkCmpMenuBorder guifg=#31353f guibg=NONE")
-    vim.cmd("highlight BlinkCmpDocBorder guifg=#31353f guibg=NONE")
-    vim.cmd("highlight BlinkCmpSignatureHelpBorder guifg=#31353f guibg=NONE")
-    vim.cmd("highlight NormalFloat guibg=NONE")
-    vim.cmd("highlight TreesitterContext guibg=#272731")
-    vim.cmd("highlight Conceal guibg=NONE")
-    vim.cmd("highlight Search guifg=NONE guibg=#464d5e")
-    vim.cmd("highlight IncSearch guifg=NONE guibg=#464d5e")
-    vim.cmd("highlight CurSearch guifg=#0e1013 guibg=#e2b86b")
-    vim.cmd("highlight LspReferenceText gui=underline guifg=NONE guibg=NONE")
-    vim.cmd("highlight LspReferenceRead gui=underline guifg=NONE guibg=NONE")
-    vim.cmd("highlight LspReferenceWrite gui=underline guifg=NONE guibg=NONE")
-    vim.cmd("highlight PmenuSel guifg=NONE guibg=#272731")
-    vim.cmd("highlight Pmenu guifg=#7a818e guibg=NONE")
-    vim.cmd("highlight ModeMsg guifg=#8ebd6b")
-    vim.cmd("highlight OctoReviewDiffAdd guibg=#172a3a")
-    vim.cmd("highlight OctoReviewDiffDelete guibg=#172a3a")
-    vim.cmd("highlight OctoReviewDiffAddText guibg=#274964")
-    vim.cmd("highlight OctoReviewDiffDeleteText guibg=#274964")
+    vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { bg = colors.bg3 })
+    vim.api.nvim_set_hl(0, "LspInfoBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "QuickFixLine", { bg = colors.qf_line })
+    vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "NotificationInfo", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "NotificationWarning", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "NotificationError", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "FloatBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "NormalFloat", {})
+    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = colors.bg1 })
+    vim.api.nvim_set_hl(0, "Conceal", {})
+    vim.api.nvim_set_hl(0, "Search", { bg = colors.search })
+    vim.api.nvim_set_hl(0, "IncSearch", { bg = colors.search })
+    vim.api.nvim_set_hl(0, "CurSearch", { fg = colors.black, bg = colors.yellow })
+    vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
+    vim.api.nvim_set_hl(0, "LspReferenceRead", { underline = true })
+    vim.api.nvim_set_hl(0, "LspReferenceWrite", { underline = true })
+    vim.api.nvim_set_hl(0, "PmenuSel", { bg = colors.bg1 })
+    vim.api.nvim_set_hl(0, "Pmenu", { fg = colors.light_grey })
+    vim.api.nvim_set_hl(0, "ModeMsg", { fg = colors.green })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffAdd", { bg = colors.diff_change })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffDelete", { bg = colors.diff_change })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffAddText", { bg = colors.diff_text })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffDeleteText", { bg = colors.diff_text })
+    vim.api.nvim_set_hl(0, "TabLineSel", { fg = "#abb2bf", bg = colors.bg1 })
+    vim.api.nvim_set_hl(0, "TabLine", { fg = "#828997" })
+    vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#98c379" })
 
-    vim.cmd("highlight! link SnacksPickerBorder FloatBorder")
-    vim.cmd("highlight! link MasonBackdrop Normal")
-    vim.cmd("highlight! link WinBarNC Normal")
-    vim.cmd("highlight! link DiagnosticFloatingError DiagnosticError")
-    vim.cmd("highlight! link DiagnosticFloatingWarn DiagnosticWarn")
-    vim.cmd("highlight! link DiagnosticFloatingInfo DiagnosticInfo")
-    vim.cmd("highlight! link DiagnosticFloatingHint DiagnosticHint")
-    vim.cmd("highlight! link DiagnosticFloatingOk DiagnosticOk")
-    vim.cmd("highlight! link LazyBackdrop Normal")
-    vim.cmd("highlight! link SnacksBackdrop Normal")
-    vim.cmd("highlight! link SnacksBackdrop_000000 Normal")
-    vim.cmd("highlight TabLineSel guifg=#abb2bf guibg=#272731")
-    vim.cmd("highlight TabLine guifg=#828997")
-    vim.cmd("highlight DashboardHeader guifg=#98c379")
+    -- Links
+    vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "FloatBorder" })
+    vim.api.nvim_set_hl(0, "MasonBackdrop", { link = "Normal" })
+    vim.api.nvim_set_hl(0, "WinBarNC", { link = "Normal" })
+    vim.api.nvim_set_hl(0, "DiagnosticFloatingError", { link = "DiagnosticError" })
+    vim.api.nvim_set_hl(0, "DiagnosticFloatingWarn", { link = "DiagnosticWarn" })
+    vim.api.nvim_set_hl(0, "DiagnosticFloatingInfo", { link = "DiagnosticInfo" })
+    vim.api.nvim_set_hl(0, "DiagnosticFloatingHint", { link = "DiagnosticHint" })
+    vim.api.nvim_set_hl(0, "DiagnosticFloatingOk", { link = "DiagnosticOk" })
+    vim.api.nvim_set_hl(0, "LazyBackdrop", { link = "Normal" })
+    vim.api.nvim_set_hl(0, "SnacksBackdrop", { link = "Normal" })
+    vim.api.nvim_set_hl(0, "SnacksBackdrop_000000", { link = "Normal" })
   end
 }
