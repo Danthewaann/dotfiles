@@ -135,5 +135,12 @@ return {
       end,
       desc = "[T]est [V]isit"
     },
+    {
+      "<leader>tx",
+      function()
+        utils.load_pytest_failures()
+      end,
+      desc = "[T]est view errors [x]"
+    },
   },
 }

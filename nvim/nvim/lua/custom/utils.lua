@@ -70,6 +70,7 @@ module.generate_pytest_options = function(mode)
   -- If pytest-xdist is installed in the current python project, use it when running the suite strategy,
   -- and disable it when running the nearest or file test strategies
   local xdist_installed = vim.system({ "grep", "pytest-xdist", "pyproject.toml" }, { text = true }):wait()
+  local json_report_installed = vim.system({ "grep", "pytest-json-report", "pyproject.toml" }, { text = true }):wait()
   if mode == "vim-test" then
     options = {
       nearest = "-vv",
@@ -81,6 +82,12 @@ module.generate_pytest_options = function(mode)
       options.nearest = options.nearest .. " -n 0"
       options.class = options.class .. " -n 0"
       options.file = options.file .. " -n 0"
+    end
+    if json_report_installed.code == 0 then
+      local json_report_args = " --json-report --json-report-file=.pytest_results.json"
+      options.nearest = options.nearest .. json_report_args
+      options.file = options.file .. json_report_args
+      options.suite = options.suite .. json_report_args
     end
   elseif mode == "dap" then
     if xdist_installed.code == 0 then
@@ -113,6 +120,134 @@ end
 
 module.cabbrev = function(lhs, rhs)
   vim.cmd(string.format("cnoreabbrev <expr> %s getcmdtype() == ':' ? '%s' : '%s'", lhs, rhs, lhs))
+end
+
+module.load_pytest_results = function(results_file)
+  results_file = results_file or ".pytest_results.json"
+
+  local f = io.open(results_file, "r")
+  if not f then
+    vim.notify(("Could not open: %s"):format(results_file), vim.log.levels.ERROR)
+    return
+  end
+
+  local content = f:read("*a")
+  f:close()
+
+  return vim.fn.json_decode(content)
+end
+
+function module.load_pytest_failures(results_file)
+  results_file = results_file or ".pytest_results.json"
+
+  local ok, data = pcall(module.load_pytest_results, results_file)
+  if not ok or type(data) ~= "table" then
+    vim.notify(("Failed to parse JSON from: %s"):format(results_file), vim.log.levels.ERROR)
+    return
+  end
+
+  local qf_items = {}
+  local tests = data.tests or {}
+  local collectors = data.collectors or {}
+  local failed_collectors = {}
+
+  for _, collector in ipairs(collectors) do
+    if collector.outcome == "failed" then
+      failed_collectors[collector.nodeid] = collector
+    end
+  end
+  for _, collector in pairs(failed_collectors) do
+    local filename = collector.nodeid
+    local lnum = 1
+    local text = collector.longrepr
+    local item_module = ""
+
+    table.insert(qf_items, {
+      filename = filename,
+      lnum = lnum,
+      col = 1,
+      text = text,
+      type = "E",
+      valid = 1,
+      module = item_module,
+    })
+  end
+
+  for _, test in ipairs(tests) do
+    if test.outcome == "error" then
+      if test.setup and test.setup.outcome == "failed" then
+        local crash = test.setup.crash
+        local longrepr = test.setup.longrepr
+        local filename = test.nodeid:match("^[^::]*")
+        local lnum = (test.lineno + 1) or 1
+        local text = (crash.message or "") .. ("\n\n" .. (longrepr or ""))
+        local item_module = test.nodeid or ""
+        table.insert(qf_items, {
+          filename = filename,
+          lnum = lnum,
+          col = 1,
+          text = text,
+          type = "E",
+          valid = 1,
+          module = item_module,
+        })
+      end
+
+      if test.teardown and test.teardown.outcome == "failed" then
+        local crash = test.teardown.crash
+        local filename = test.nodeid:match("^[^::]*")
+        local lnum = (test.lineno + 1) or 1
+        local text = crash.message or "Failed"
+        local item_module = test.nodeid or ""
+        table.insert(qf_items, {
+          filename = filename,
+          lnum = lnum,
+          col = 1,
+          text = text,
+          type = "E",
+          valid = 1,
+          module = item_module,
+        })
+      end
+    else
+      if test.outcome == "failed" then
+        local filename = ""
+        local lnum = 1
+        local text = test.nodeid
+        local item_module = ""
+
+        if test.call and test.call.crash then
+          local crash = test.call.crash
+          filename = test.nodeid:match("^[^::]*")
+          lnum = (test.lineno + 1) or 1
+          text = crash.message or "Failed"
+          item_module = test.nodeid or ""
+        end
+
+        table.insert(qf_items, {
+          filename = filename,
+          lnum = lnum,
+          col = 1,
+          text = text,
+          type = "E",
+          valid = 1,
+          module = item_module,
+        })
+      end
+    end
+  end
+
+  if #qf_items == 0 then
+    vim.notify("No test failures found", vim.log.levels.INFO)
+    return
+  end
+
+  vim.fn.setqflist({}, "r", {
+    title = ("Pytest Failures [%s]"):format(results_file),
+    items = qf_items,
+  })
+
+  vim.notify(("%d pytest error(s) loaded into quickfix"):format(#qf_items), vim.log.levels.WARN)
 end
 
 return module
