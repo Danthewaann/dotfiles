@@ -38,12 +38,16 @@ module.file_exists = function(filename)
   return vim.uv.fs_stat(filename)
 end
 
-module.print = function(msg)
-  vim.notify(msg, vim.log.levels.INFO)
+module.print = function(msg, opts)
+  vim.notify(msg, vim.log.levels.INFO, opts)
 end
 
-module.print_err = function(err)
-  vim.notify(err, vim.log.levels.ERROR)
+module.print_warn = function(msg, opts)
+  vim.notify(msg, vim.log.levels.WARN, opts)
+end
+
+module.print_err = function(err, opts)
+  vim.notify(err, vim.log.levels.ERROR, opts)
 end
 
 module.get_terminal_buffer = function()

@@ -8,8 +8,28 @@ return {
     harpoon:setup()
 
     vim.keymap.set("n", "<leader><space>", function()
-      harpoon:list():add()
-      utils.print("Added " .. vim.fn.bufname() .. " to favourites")
+      local err_msg = { "Can't add buffer to favourites", { title = "Harpoon" } }
+      local buf = vim.api.nvim_get_current_buf()
+      local buftype = vim.bo[buf].buftype
+      table.unpack = table.unpack or unpack -- 5.1 compatibility
+      if buftype ~= "" then
+        utils.print_err(table.unpack(err_msg))
+        return
+      end
+      local cur_buf_name = vim.fn.fnamemodify(vim.fn.bufname(), ":.")
+      if cur_buf_name == "" then
+        utils.print_err(table.unpack(err_msg))
+        return
+      end
+
+      local list = harpoon:list()
+      if list:get_by_value(cur_buf_name) then
+        utils.print_warn("Buffer already added to favourites", { title = "Harpoon" })
+        return
+      end
+
+      list:add()
+      utils.print("Added " .. cur_buf_name .. " to favourites", { title = "Harpoon" })
     end, { desc = "Add file to harpoon list" })
 
     vim.keymap.set("n", "<C-b>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
