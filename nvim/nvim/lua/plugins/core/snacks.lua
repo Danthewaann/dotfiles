@@ -205,6 +205,7 @@ return {
         Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
         Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
         Snacks.toggle.option("list", { name = "List" }):map("<leader>ui")
+        Snacks.toggle.option("eventignore", { name = "Events", off = "all", on = "" }):map("<leader>ue")
         Snacks.toggle.line_number():map("<leader>ul")
         Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
         Snacks.toggle.diagnostics():map("<leader>ud")
