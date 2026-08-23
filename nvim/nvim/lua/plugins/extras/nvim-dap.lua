@@ -67,21 +67,35 @@ return {
       function()
         require("dap").toggle_breakpoint()
       end,
-      desc = "Toggle [B]reak[p]oint",
+      desc = "Toggle visual [B]reak[p]oint",
     },
     {
       "<leader>bc",
       function()
         require("dap").set_breakpoint(vim.fn.input "Breakpoint condition: ")
       end,
-      desc = "Add [B]reakpoint [C]ondition",
+      desc = "Add visual [B]reakpoint [C]ondition",
     },
     {
       "<leader>bl",
       function()
         require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
       end,
-      desc = "Add [B]reakpoint [L]og",
+      desc = "Add visual [B]reakpoint [L]og",
+    },
+    {
+      "<leader>bs",
+      function()
+        require("dap").list_breakpoints(true)
+      end,
+      desc = "[B]reakpoints [S]how visual",
+    },
+    {
+      "<leader>bd",
+      function()
+        require("dap").clear_breakpoints()
+      end,
+      desc = "[B]reakpoints [D]elete visual",
     },
     {
       "<leader>de",
