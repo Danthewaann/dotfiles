@@ -6,6 +6,12 @@ return {
       "barrettruth/diffs.nvim",
       init = function()
         vim.g.diffs = { integrations = { fugitive = true, gitsigns = true } }
+        vim.keymap.set("n", "<leader>co", "<Plug>(diffs-conflict-ours)", { desc = "[C]onflict ours" })
+        vim.keymap.set("n", "<leader>ct", "<Plug>(diffs-conflict-theirs)", { desc = "[C]onflict theirs" })
+        vim.keymap.set("n", "<leader>cb", "<Plug>(diffs-conflict-both)", { desc = "[C]onflict both" })
+        vim.keymap.set("n", "<leader>c0", "<Plug>(diffs-conflict-none)", { desc = "[C]onflict none" })
+        vim.keymap.set("n", "]x", "<Plug>(diffs-conflict-next)", { desc = "Next conflict" })
+        vim.keymap.set("n", "[x", "<Plug>(diffs-conflict-prev)", { desc = "Previous conflict" })
       end,
       dependencies = { "lewis6991/gitsigns.nvim" }
     }
