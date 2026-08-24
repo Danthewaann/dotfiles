@@ -45,6 +45,7 @@
   "onedark.nvim": { "branch": "master", "commit": "df4792accde9db0043121f32628bcf8e645d9aea" },
   "persistent-breakpoints.nvim": { "branch": "main", "commit": "d1656221836207787b8a7969cc2dc72668c4742a" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
+  "python-import.nvim": { "branch": "master", "commit": "8115abc864a53f3d98a2875566db31e02f468640" },
   "rainbow_csv.nvim": { "branch": "main", "commit": "26de78d8324f7ac6a3e478319d1eb1f17123eb5b" },
   "render-markdown.nvim": { "branch": "main", "commit": "4663eb3ecd538bd5062628fb6d95bbe6bdca78f6" },
   "snacks.nvim": { "branch": "main", "commit": "882c996cf28183f4d63640de0b4c02ec886d01f2" },
