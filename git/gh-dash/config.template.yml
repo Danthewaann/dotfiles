@@ -45,7 +45,7 @@ keybindings:
     - key: d
       name: diff
       command: >
-        clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -
+        clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -c "lua require('diffs').attach()" -
     - key: D
       name: difftool
       command: >

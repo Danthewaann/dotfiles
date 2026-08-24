@@ -1,6 +1,15 @@
 return {
   "tpope/vim-fugitive",
-  dependencies = { "tpope/vim-rhubarb" },
+  dependencies = {
+    "tpope/vim-rhubarb",
+    {
+      "barrettruth/diffs.nvim",
+      init = function()
+        vim.g.diffs = { integrations = { fugitive = true, gitsigns = true } }
+      end,
+      dependencies = { "lewis6991/gitsigns.nvim" }
+    }
+  },
   config = function()
     local utils = require("custom.utils")
     vim.keymap.set("n", "<C-g>", function()
