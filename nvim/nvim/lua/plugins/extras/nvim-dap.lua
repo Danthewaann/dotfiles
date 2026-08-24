@@ -7,9 +7,13 @@ return {
     -- Required dependency for nvim-dap-ui
     "nvim-neotest/nvim-nio",
 
+    -- Persisted breakpoints
+    { "Weissle/persistent-breakpoints.nvim", opts = { load_breakpoints_event = { "BufReadPost" } } },
+
     -- Add your own debuggers here
     "mfussenegger/nvim-dap-python",
   },
+  lazy = false,
   keys = {
     {
       "<F5>",
@@ -65,21 +69,21 @@ return {
     {
       "<leader>bp",
       function()
-        require("dap").toggle_breakpoint()
+        require("persistent-breakpoints.api").toggle_breakpoint()
       end,
       desc = "Toggle visual [B]reak[p]oint",
     },
     {
       "<leader>bc",
       function()
-        require("dap").set_breakpoint(vim.fn.input "Breakpoint condition: ")
+        require("persistent-breakpoints.api").set_conditional_breakpoint()
       end,
       desc = "Add visual [B]reakpoint [C]ondition",
     },
     {
       "<leader>bl",
       function()
-        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+        require("persistent-breakpoints.api").set_log_point()
       end,
       desc = "Add visual [B]reakpoint [L]og",
     },
@@ -93,7 +97,7 @@ return {
     {
       "<leader>bd",
       function()
-        require("dap").clear_breakpoints()
+        require("persistent-breakpoints.api").clear_all_breakpoints()
       end,
       desc = "[B]reakpoints [D]elete visual",
     },
