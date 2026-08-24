@@ -64,7 +64,7 @@ return {
     },
     bigfile = { enabled = true },
     dashboard = { enabled = false },
-    explorer = { enabled = true },
+    explorer = { enabled = false },
     indent = { enabled = false },
     input = { enabled = true },
     picker = {
