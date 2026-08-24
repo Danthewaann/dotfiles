@@ -7,8 +7,28 @@ return {
     -- Required dependency for nvim-dap-ui
     "nvim-neotest/nvim-nio",
 
-    -- Persisted breakpoints
+    -- DAP enchancements
     { "Weissle/persistent-breakpoints.nvim", opts = { load_breakpoints_event = { "BufReadPost" } } },
+    {
+      "theHamsta/nvim-dap-virtual-text",
+      opts = {
+        display_callback = function(variable, buf, stackframe, node, options)
+          -- by default, strip out new line characters
+          local output = ""
+          if options.virt_text_pos == "inline" then
+            output = " = " .. variable.value:gsub("%s+", " ")
+          else
+            output = variable.name .. " = " .. variable.value:gsub("%s+", " ")
+          end
+
+          if #output > 200 then
+            output = " " .. output:sub(1, 200) .. "..."
+          end
+
+          return output
+        end,
+      }
+    },
 
     -- Add your own debuggers here
     "mfussenegger/nvim-dap-python",
@@ -61,6 +81,8 @@ return {
           return
         end
         if filetype == "python" then
+          -- Set the last test position
+          vim.g["test#last_position"] = { file = vim.fn.bufname(), col = vim.fn.col("."), line = vim.fn.line(".") }
           require("dap-python").test_method(utils.generate_pytest_options("dap"))
         end
       end,
