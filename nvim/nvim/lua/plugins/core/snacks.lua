@@ -24,6 +24,7 @@ local git_opts = {
       end
     end
   },
+  layout = "wide",
   win = {
     input = {
       keys = {
@@ -89,6 +90,20 @@ return {
               { win = "preview", title = "{preview}", width = 0.6, border = "left" },
             },
           }
+        },
+        wide = {
+          fullscreen = true,
+          layout = {
+            box = "vertical",
+            width = 0.95,
+            height = 0.95,
+            border = "top",
+            title = "{title} {live} {flags}",
+            title_pos = "center",
+            { win = "input",   border = "bottom",   height = 1 },
+            { win = "list",    border = "none",     height = 10 },
+            { win = "preview", title = "{preview}", border = "top" },
+          },
         },
       },
     },
