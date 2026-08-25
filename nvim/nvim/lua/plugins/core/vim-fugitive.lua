@@ -119,6 +119,8 @@ return {
         local buf = event.buf
         vim.keymap.set("n", "}", "]/", { remap = true, buffer = buf, desc = "Next file" })
         vim.keymap.set("n", "{", "[/", { remap = true, buffer = buf, desc = "Previous file" })
+        vim.keymap.set("n", "X", ".Git reset<C-e>^<CR>",
+          { remap = true, silent = true, buffer = buf, desc = "Reset commit under cursor" })
       end
     })
   end
