@@ -84,6 +84,11 @@ return {
     indent = { enabled = false },
     input = { enabled = true },
     styles = {
+      input = {
+        relative = "editor",
+        -- Make the input prompt appear in the centre of the screen
+        row = 0.45,
+      },
       notification_history = {
         width = 0.90,
         height = 0.90,
