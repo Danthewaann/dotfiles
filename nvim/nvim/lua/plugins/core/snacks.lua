@@ -81,6 +81,13 @@ return {
     explorer = { enabled = false },
     indent = { enabled = false },
     input = { enabled = true },
+    styles = {
+      notification_history = {
+        width = 0.90,
+        height = 0.90,
+        minimal = false,
+      }
+    },
     picker = {
       win = { input = { keys = picker_keys }, list = { keys = picker_keys } },
       layout = "my_default_layout",
