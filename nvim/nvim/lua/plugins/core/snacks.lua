@@ -106,6 +106,25 @@ return {
           },
         },
       },
+      sources = {
+        lsp_references = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").references(opts, ctx)
+          end,
+          transform = function(item, ctx)
+            -- Filter out duplicate items
+            -- From: https://github.com/folke/snacks.nvim/discussions/2590
+            local seen = ctx.picker.seen
+            local id = vim.inspect({ item.file, item.pos, item.end_pos })
+            if seen[id] then
+              return false
+            end
+            seen[id] = true
+            return true
+          end,
+        },
+      },
     },
     notifier = { enabled = true },
     quickfile = { enabled = true },
