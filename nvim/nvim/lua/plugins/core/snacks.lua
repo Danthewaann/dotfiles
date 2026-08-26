@@ -88,6 +88,7 @@ return {
         relative = "editor",
         -- Make the input prompt appear in the centre of the screen
         row = 0.45,
+        b = { completion = true },
       },
       notification_history = {
         width = 0.90,
