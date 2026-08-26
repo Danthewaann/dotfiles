@@ -157,6 +157,7 @@ return {
     local capabilities = require("blink.cmp").get_lsp_capabilities()
 
     -- Enable the following language servers
+    ---@type table<string, vim.lsp.ClientConfig>
     local servers = {
       clangd = { settings = {} },
       gopls = {
