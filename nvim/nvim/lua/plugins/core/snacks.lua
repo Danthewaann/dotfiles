@@ -1,3 +1,5 @@
+local colours = require("custom.colours")
+
 ---@type snacks.picker.Config
 local git_opts = {
   confirm = function(picker, item)
@@ -72,7 +74,7 @@ return {
   opts = {
     win = {
       backdrop = {
-        bg = "#1a1d21",
+        bg = colours.bg0,
         blend = 40,
       },
     },
