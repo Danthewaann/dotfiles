@@ -46,7 +46,7 @@ return {
     require("symbol-usage").setup({
       request_pending_text = false,
       disable = {
-        lsp = {}
+        lsp = { "pyrefly" }
       },
       text_format = text_format,
       kinds = {

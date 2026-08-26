@@ -191,7 +191,14 @@ return {
           analysis = { showHoverGoToLinks = false },
         }
       },
-      -- zuban = { init_options = { typeCheckingMode = "off" } },
+      zuban = {
+        init_options = { typeCheckingMode = "off" },
+        on_attach = function(client)
+          -- Disable stuff in favour of pyrefly
+          client.server_capabilities.hoverProvider = false
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
+      },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
       ruff = {
         init_options = {
