@@ -50,6 +50,19 @@ local picker_keys = {
   ["<M-e>"] = { "toggle_focus", mode = { "i", "n" } },
 }
 
+local lsp_picker_transform = function(item, ctx)
+  -- Filter out duplicate items
+  -- From: https://github.com/folke/snacks.nvim/discussions/2590
+  local seen = ctx.picker.seen
+  local id = vim.inspect({ item.file, item.pos, item.end_pos })
+  if seen[id] then
+    return false
+  end
+  seen[id] = true
+  return true
+end
+
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -107,22 +120,68 @@ return {
         },
       },
       sources = {
+        lsp_definitions = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").definitions(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
+        },
+        lsp_implementations = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").implementations(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
+        },
+        lsp_symbols = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").symbols(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
+        },
+        lsp_workspace_symbols = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").symbols(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
+        },
         lsp_references = {
           finder = function(opts, ctx)
             ctx.picker.seen = {}
             return require("snacks.picker.source.lsp").references(opts, ctx)
           end,
-          transform = function(item, ctx)
-            -- Filter out duplicate items
-            -- From: https://github.com/folke/snacks.nvim/discussions/2590
-            local seen = ctx.picker.seen
-            local id = vim.inspect({ item.file, item.pos, item.end_pos })
-            if seen[id] then
-              return false
-            end
-            seen[id] = true
-            return true
+          transform = lsp_picker_transform,
+        },
+        lsp_declarations = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").declarations(opts, ctx)
           end,
+          transform = lsp_picker_transform,
+        },
+        lsp_type_definitions = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").type_definitions(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
+        },
+        lsp_incoming_calls = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").incoming_calls(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
+        },
+        lsp_outgoing_calls = {
+          finder = function(opts, ctx)
+            ctx.picker.seen = {}
+            return require("snacks.picker.source.lsp").outgoing_calls(opts, ctx)
+          end,
+          transform = lsp_picker_transform,
         },
       },
     },
