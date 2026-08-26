@@ -1,5 +1,5 @@
+---@type snacks.picker.Config
 local git_opts = {
-  ---@type snacks.picker.Action.fn
   confirm = function(picker, item)
     local commit_hash = item.commit
     picker:close()
