@@ -5,6 +5,7 @@ return {
   opts = {
     attach_mode = "global",
     show_guides = true,
+    autojump = true,
     close_automatic_events = { "unsupported" },
     on_attach = function(bufnr)
       -- Jump forwards/backwards with '{' and '}'
