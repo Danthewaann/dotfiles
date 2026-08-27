@@ -3,6 +3,7 @@ return {
   "lewis6991/gitsigns.nvim",
   version = "*",
   opts = {
+    attach_to_untracked = true,
     signs = {
       add = { text = "+" },
       change = { text = "~" },
@@ -37,8 +38,8 @@ return {
       map("n", "<leader>hR", gs.reset_buffer, { buffer = bufnr, desc = "Reset buffer" })
       map("n", "<leader>hd", gs.diffthis, { buffer = bufnr, desc = "Show diff of buffer" })
       map("n", "<leader>hD", function()
-        gs.diffthis("~")
-      end, { buffer = bufnr, desc = "Show diff of buffer" })
+        gs.diffthis("main")
+      end, { buffer = bufnr, desc = "Show diff of buffer against main" })
 
       -- don't override the built-in keymaps
       map({ "n", "v" }, "]c", function()
