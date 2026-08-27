@@ -55,7 +55,7 @@ local picker_keys = {
 local lsp_picker_transform = function(item, ctx)
   -- Filter out duplicate items
   -- From: https://github.com/folke/snacks.nvim/discussions/2590
-  local seen = ctx.picker.seen
+  local seen = ctx.picker.seen or {}
   local id = vim.inspect({ item.file, item.pos, item.end_pos })
   if seen[id] then
     return false
