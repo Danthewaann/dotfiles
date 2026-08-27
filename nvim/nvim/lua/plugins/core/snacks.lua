@@ -70,7 +70,7 @@ end
 
 
 return {
-  "folke/snacks.nvim",
+  "Danthewaann/snacks.nvim",
   priority = 1000,
   enabled = true,
   lazy = false,
@@ -101,6 +101,11 @@ return {
       }
     },
     picker = {
+      previewers = {
+        diff = {
+          style = "syntax",
+        },
+      },
       win = { input = { keys = picker_keys }, list = { keys = picker_keys } },
       layout = "my_default_layout",
       layouts = {
