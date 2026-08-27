@@ -30,7 +30,7 @@ local git_opts = {
   win = {
     input = {
       keys = {
-        ["<c-y>"] = { "copy_commit_hash", mode = { "i", "n" } },
+        ["<C-y>"] = { "copy_commit_hash", mode = { "i", "n" } },
         ["o"] = { "open_pr_in_browser", mode = { "n" } }
       }
     }
@@ -50,6 +50,10 @@ local picker_keys = {
   ["<C-e>"] = { "cycle_win", mode = { "i", "n" } },
   ["/"] = false,
   ["<M-e>"] = { "toggle_focus", mode = { "i", "n" } },
+  ["<C-f>"] = { "list_scroll_down", mode = { "i", "n" } },
+  ["<C-b>"] = { "list_scroll_down", mode = { "i", "n" } },
+  ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+  ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
 }
 
 local lsp_picker_transform = function(item, ctx)
@@ -259,8 +263,8 @@ return {
     { "<leader>su", function() Snacks.picker.undo() end,                         desc = "Undo History" },
     { "<leader>sL", function() Snacks.picker.picker_layouts() end,               desc = "Picker Layouts" },
     -- git
-    { "<leader>gs", function() Snacks.picker.git_status() end,                   desc = "Git Status" },
-    { "<leader>gS", function() Snacks.picker.git_stash() end,                    desc = "Git Stash" },
+    { "<leader>gs", function() Snacks.picker.git_status(git_opts) end,           desc = "Git Status" },
+    { "<leader>gS", function() Snacks.picker.git_stash(git_opts) end,            desc = "Git Stash" },
     { "<leader>gb", function() Snacks.picker.git_branches() end,                 desc = "Git Branches" },
     { "<leader>gl", function() Snacks.picker.git_log(git_opts) end,              desc = "Git Log" },
     { "<leader>gL", function() Snacks.picker.git_log_line(git_opts) end,         desc = "Git Log Line" },
