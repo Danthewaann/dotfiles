@@ -8,7 +8,7 @@ return {
       function()
         require("python_import.api").add_import_current_word_and_notify()
       end,
-      mode = { "i", "n" },
+      mode = { "n" },
       silent = true,
       desc = "Add python import",
       ft = "python",
