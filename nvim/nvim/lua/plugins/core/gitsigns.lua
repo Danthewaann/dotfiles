@@ -34,7 +34,7 @@ return {
       map("n", "<leader>hr", gs.reset_hunk, { buffer = bufnr, desc = "Reset git hunk" })
       map("v", "<leader>hr", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "Resert git hunk" })
+      end, { buffer = bufnr, desc = "Reset git hunk" })
       map("n", "<leader>hR", gs.reset_buffer, { buffer = bufnr, desc = "Reset buffer" })
       map("n", "<leader>hd", gs.diffthis, { buffer = bufnr, desc = "Show diff of buffer" })
       map("n", "<leader>hD", function()
