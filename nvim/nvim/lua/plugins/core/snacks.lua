@@ -68,6 +68,9 @@ local lsp_picker_transform = function(item, ctx)
   return true
 end
 
+vim.api.nvim_create_user_command("GLog", function()
+  Snacks.picker.git_log(git_log_opts)
+end, { desc = "Show git log" })
 
 return {
   "Danthewaann/snacks.nvim",
