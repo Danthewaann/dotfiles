@@ -8,7 +8,6 @@ return {
     "nvim-neotest/nvim-nio",
 
     -- DAP enchancements
-    { "Weissle/persistent-breakpoints.nvim", opts = { load_breakpoints_event = { "BufReadPost" } } },
     {
       "theHamsta/nvim-dap-virtual-text",
       opts = {
@@ -91,21 +90,21 @@ return {
     {
       "<leader>bp",
       function()
-        require("persistent-breakpoints.api").toggle_breakpoint()
+        require("dap").toggle_breakpoint()
       end,
       desc = "Toggle visual [B]reak[p]oint",
     },
     {
       "<leader>bc",
       function()
-        require("persistent-breakpoints.api").set_conditional_breakpoint()
+        require("dap").set_conditional_breakpoint()
       end,
       desc = "Add visual [B]reakpoint [C]ondition",
     },
     {
       "<leader>bl",
       function()
-        require("persistent-breakpoints.api").set_log_point()
+        require("dap").set_log_point()
       end,
       desc = "Add visual [B]reakpoint [L]og",
     },
@@ -119,7 +118,7 @@ return {
     {
       "<leader>bd",
       function()
-        require("persistent-breakpoints.api").clear_all_breakpoints()
+        require("dap").clear_all_breakpoints()
       end,
       desc = "[B]reakpoints [D]elete visual",
     },
