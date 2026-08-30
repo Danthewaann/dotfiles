@@ -70,7 +70,7 @@ end
 
 module.generate_pytest_options = function(mode, include_json_report)
   mode = mode or "vim-test"
-  include_json_report = include_json_report == true
+  include_json_report = include_json_report == nil or include_json_report == true
   local options = {}
   -- If pytest-xdist is installed in the current python project, use it when running the suite strategy,
   -- and disable it when running the nearest or file test strategies
