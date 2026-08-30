@@ -296,7 +296,6 @@ return {
     { "<leader>z",  function() Snacks.zen({ win = { border = "rounded" } }) end,  desc = "Toggle Zen Mode" },
     { "<leader>Z",  function() Snacks.zen.zoom() end,                             desc = "Toggle Zoom" },
     { "<leader>n",  function() Snacks.notifier.show_history() end,                desc = "Notification History" },
-    { "<leader>bD", function() Snacks.bufdelete() end,                            desc = "Delete Buffer" },
     { "<leader>rf", function() Snacks.rename.rename_file() end,                   desc = "Rename File" },
     { "<leader>un", function() Snacks.notifier.hide() end,                        desc = "Dismiss All Notifications" },
   },

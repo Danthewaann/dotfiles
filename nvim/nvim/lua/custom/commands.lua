@@ -132,6 +132,10 @@ vim.api.nvim_create_user_command("YankCommits", function(args)
   utils.print("Copied last " .. count .. " commits to clipboard")
 end, { desc = "Yank commits to clipboard", nargs = "?" })
 
+vim.api.nvim_create_user_command("DeleteBuffers", function()
+  vim.cmd("%bd|e#|bd#")
+end, { desc = "Delete all other buffers" })
+
 vim.api.nvim_create_user_command("Term", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
   local cmd = { "tmux", "new-window", "-c", cur_dur }
@@ -145,3 +149,4 @@ end, { desc = "Open terminal in current buffer directory" })
 utils.cabbrev("mypy", "Mypy")
 utils.cabbrev("ruff", "Ruff")
 utils.cabbrev("yc", "YankCommits")
+utils.cabbrev("del", "DeleteBuffers")
