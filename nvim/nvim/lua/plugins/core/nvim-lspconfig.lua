@@ -115,9 +115,6 @@ return {
         map("<leader>cl", function() vim.lsp.codelens.run() end, "[C]ode [L]ens")
         map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation", "i")
 
-        -- Lesser used LSP functionality
-        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client then
           if client.name ~= "lua_ls" then
