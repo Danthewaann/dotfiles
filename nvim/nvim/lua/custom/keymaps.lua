@@ -280,15 +280,6 @@ vim.keymap.set("n", "<leader>yF", function()
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current [F]ile absolute path" })
 
-vim.keymap.set("n", "<leader>tb", function()
-  local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
-  local cmd = { "tmux", "new-window", "-c", cur_dur }
-  local obj = vim.system(cmd):wait()
-  if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
-  end
-end, { desc = "Open [T]erminal in current [B]uffer directory" })
-
 -- Spelling
 vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",

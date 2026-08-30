@@ -134,7 +134,16 @@ end, { desc = "Yank commits to clipboard", nargs = "?" })
 
 vim.api.nvim_create_user_command("DeleteBuffers", function()
   vim.cmd("%bd|e#|bd#")
-end, { desc = "Delete All Other Buffers" })
+end, { desc = "Delete all other buffers" })
+
+vim.api.nvim_create_user_command("Term", function()
+  local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local cmd = { "tmux", "new-window", "-c", cur_dur }
+  local obj = vim.system(cmd):wait()
+  if obj.code ~= 0 then
+    utils.print_err(vim.fn.trim(obj.stderr))
+  end
+end, { desc = "Open terminal in current buffer directory" })
 
 -- Setup command line abbreviations for my custom commands
 utils.cabbrev("mypy", "Mypy")
