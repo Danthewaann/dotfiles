@@ -27,7 +27,7 @@ return {
     require("which-key").add({
       { "<leader>b",  group = "[B]reakpoints" },
       { "<leader>b_", hidden = true },
-      { "<leader>c",  group = "[C]ode" },
+      { "<leader>c",  group = "[C]ode, [C]onflict" },
       { "<leader>c_", hidden = true },
       { "<leader>d",  group = "[D]ebug" },
       { "<leader>d_", hidden = true },
