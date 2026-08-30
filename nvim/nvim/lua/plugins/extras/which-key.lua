@@ -35,8 +35,6 @@ return {
       { "<leader>g_", hidden = true },
       { "<leader>h",  group = "Git [H]unk" },
       { "<leader>h_", hidden = true },
-      { "<leader>l",  group = "[L]SP" },
-      { "<leader>l_", hidden = true },
       { "<leader>o",  group = "[O]cto PR review" },
       { "<leader>o_", hidden = true },
       { "<leader>r",  group = "[R]ename, [R]eplace" },
