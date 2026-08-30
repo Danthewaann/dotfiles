@@ -49,6 +49,7 @@ return {
       }
     })
     vim.keymap.set("n", "<leader>op", function()
+      local utils = require("custom.utils")
       local buffers = vim.api.nvim_list_bufs()
       for _, buf in ipairs(buffers) do
         local buf_name = vim.api.nvim_buf_get_name(buf)
@@ -57,11 +58,12 @@ return {
           vim.api.nvim_buf_delete(buf, { force = true })
         end
       end
-      print("Opening PR...")
+      utils.print("Opening PR...")
       vim.cmd("Octo pr")
     end, { desc = "Open PR for current branch" })
     vim.keymap.set("n", "<leader>ov", function()
-      print("Opening review for PR...")
+      local utils = require("custom.utils")
+      utils.print("Opening review for PR...")
       vim.cmd("Octo review")
     end, { desc = "Start or resume review" })
   end
