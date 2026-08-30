@@ -1,16 +1,12 @@
 return {
   "kristijanhusak/vim-dadbod-ui",
-  keys = {
-    {
-      -- Open DB connections window
-      "<leader>db",
-      "<cmd> tab DBUI<CR>",
-      silent = true,
-      desc = "Open [DB] UI"
-    }
-  },
+  cmd = "DB",
   dependencies = { "tpope/vim-dadbod" },
   config = function()
+    vim.api.nvim_create_user_command("DB", function()
+      vim.cmd(":tab DBUI")
+    end, { desc = "Open [DB] UI" })
+
     local utils = require("custom.utils")
     local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
     local autocmd = vim.api.nvim_create_autocmd -- Create autocommand

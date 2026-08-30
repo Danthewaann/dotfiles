@@ -29,7 +29,7 @@ return {
       { "<leader>b_", hidden = true },
       { "<leader>c",  group = "[C]ode" },
       { "<leader>c_", hidden = true },
-      { "<leader>d",  group = "[DB], [D]ebug" },
+      { "<leader>d",  group = "[D]ebug" },
       { "<leader>d_", hidden = true },
       { "<leader>g",  group = "[G]it" },
       { "<leader>g_", hidden = true },
