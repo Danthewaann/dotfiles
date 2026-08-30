@@ -117,6 +117,20 @@ vim.opt.jumpoptions = { "stack", "clean" }
 vim.o.wildmenu = false
 vim.o.wildmode = "longest:full,full"
 
+-- Diagnostics
+vim.diagnostic.config({
+  virtual_lines = false,
+  virtual_text = false,
+  signs = false,
+  float = {
+    source = true
+  },
+  jump = {
+    on_jump = vim.diagnostic.open_float
+  },
+  severity_sort = true
+})
+
 -- Setup project specific shada file to store marks, history
 -- for just the current project if we can create the `.vim` folder.
 -- If the current directory is writable and we are just running `nvim` with no arguments

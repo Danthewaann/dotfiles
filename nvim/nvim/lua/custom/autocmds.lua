@@ -2,6 +2,73 @@ local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 local utils = require("custom.utils")
 
+autocmd("LspAttach", {
+  group = augroup("lsp-attach", { clear = true }),
+  callback = function(event)
+    local map = function(keys, func, desc, mode)
+      mode = mode or "n"
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+    end
+
+    -- See `:help K` for why this keymap
+    map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
+    map("<leader>lr", function()
+      utils.print("Restarting LSP client...")
+      vim.cmd(":lsp restart")
+    end, "[L]sp [R]estart")
+    map("<leader>ls", function()
+      utils.print("Stopping LSP client...")
+      vim.cmd(":lsp stop")
+    end, "[L]sp [S]top")
+    map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+    map("<leader>ca", function()
+      vim.lsp.buf.code_action({
+        filter = function(x)
+          -- Filter out the following code actions as I never use them:
+          --   Ruff: Fix all auto-fixable problems
+          --   Ruff: Organize imports
+          if x.kind == "source.fixAll.ruff" or x.kind == "source.organizeImports.ruff" then
+            return false
+          end
+          return true
+        end
+      })
+    end, "[C]ode [A]ction")
+    map("<leader>cl", function() vim.lsp.codelens.run() end, "[C]ode [L]ens")
+    map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation", "i")
+
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if client then
+      if client.name ~= "lua_ls" then
+        vim.lsp.codelens.enable(true, { bufnr = event.buf })
+      end
+      -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
+      if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+        local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+          buffer = event.buf,
+          group = highlight_augroup,
+          callback = vim.lsp.buf.document_highlight,
+        })
+
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+          buffer = event.buf,
+          group = highlight_augroup,
+          callback = vim.lsp.buf.clear_references,
+        })
+
+        vim.api.nvim_create_autocmd("LspDetach", {
+          group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+          callback = function(event2)
+            vim.lsp.buf.clear_references()
+            vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
+          end,
+        })
+      end
+    end
+  end
+})
+
 autocmd("TermOpen", {
   group = augroup("terminal-settings", { clear = true }),
   pattern = "*",

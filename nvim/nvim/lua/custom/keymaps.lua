@@ -225,6 +225,33 @@ vim.keymap.set("n", "*", "*N")
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
+-- Remove a bunch of builtin LSP keymaps I don't use
+-- See :h lsp-defaults
+pcall(vim.keymap.del, "n", "gra")
+pcall(vim.keymap.del, "n", "grr")
+pcall(vim.keymap.del, "n", "gri")
+pcall(vim.keymap.del, "n", "grn")
+pcall(vim.keymap.del, "n", "grr")
+pcall(vim.keymap.del, "n", "grt")
+pcall(vim.keymap.del, "n", "grx")
+pcall(vim.keymap.del, "n", "gO")
+pcall(vim.keymap.del, { "i" }, "<C-s>")
+
+-- Diagnostic keymaps
+local severity = { min = vim.diagnostic.severity.WARN }
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.jump({ count = -1, severity = severity })
+end, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.jump({ count = 1, severity = severity })
+end, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>x", function()
+  vim.diagnostic.setqflist({ open = true, bufnr = 0, severity = severity })
+end, { desc = "Open buffer error diagnostics in quickfix list" })
+vim.keymap.set("n", "<leader>X", function()
+  vim.diagnostic.setqflist({ open = true, bufnr = 0 })
+end, { desc = "Open all buffer diagnostics in quickfix list" })
+
 -- Replace current word in current file or all files in quickfix list
 vim.keymap.set("n", "<leader>rp", function()
     local selection = vim.fn.expand("<cword>")

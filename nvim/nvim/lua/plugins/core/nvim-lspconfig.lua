@@ -33,119 +33,7 @@ return {
     { "Bilal2453/luvit-meta", lazy = true },
   },
   config = function()
-    local utils = require("custom.utils")
-    local border = "rounded"
-
-    -- Setup initial diagnostic config
-    vim.diagnostic.config({
-      virtual_lines = false,
-      virtual_text = false,
-      signs = false,
-      float = {
-        source = true
-      },
-      jump = {
-        on_jump = vim.diagnostic.open_float
-      },
-      severity_sort = true
-    })
-
-    -- Styling for floating windows
-    require("lspconfig.ui.windows").default_options.border = border
-
-    -- Remove a bunch of builtin LSP keymaps I don't use
-    -- See :h lsp-defaults
-    pcall(vim.keymap.del, "n", "gra")
-    pcall(vim.keymap.del, "n", "grr")
-    pcall(vim.keymap.del, "n", "gri")
-    pcall(vim.keymap.del, "n", "grn")
-    pcall(vim.keymap.del, "n", "grr")
-    pcall(vim.keymap.del, "n", "grt")
-    pcall(vim.keymap.del, "n", "grx")
-    pcall(vim.keymap.del, "n", "gO")
-    pcall(vim.keymap.del, { "i" }, "<C-s>")
-
-    -- Diagnostic keymaps
-    local severity = { min = vim.diagnostic.severity.WARN }
-    vim.keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, severity = severity })
-    end, { desc = "Go to previous diagnostic message" })
-    vim.keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, severity = severity })
-    end, { desc = "Go to next diagnostic message" })
-    vim.keymap.set("n", "<leader>x", function()
-      vim.diagnostic.setqflist({ open = true, bufnr = 0, severity = severity })
-    end, { desc = "Open buffer error diagnostics in quickfix list" })
-    vim.keymap.set("n", "<leader>X", function()
-      vim.diagnostic.setqflist({ open = true, bufnr = 0 })
-    end, { desc = "Open all buffer diagnostics in quickfix list" })
-
-    vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-      callback = function(event)
-        local map = function(keys, func, desc, mode)
-          mode = mode or "n"
-          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-        end
-
-        -- See `:help K` for why this keymap
-        map("K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "Hover Documentation")
-        map("<leader>lr", function()
-          utils.print("Restarting LSP client...")
-          vim.cmd(":lsp restart")
-        end, "[L]sp [R]estart")
-        map("<leader>ls", function()
-          utils.print("Stopping LSP client...")
-          vim.cmd(":lsp stop")
-        end, "[L]sp [S]top")
-        map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        map("<leader>ca", function()
-          vim.lsp.buf.code_action({
-            filter = function(x)
-              -- Filter out the following code actions as I never use them:
-              --   Ruff: Fix all auto-fixable problems
-              --   Ruff: Organize imports
-              if x.kind == "source.fixAll.ruff" or x.kind == "source.organizeImports.ruff" then
-                return false
-              end
-              return true
-            end
-          })
-        end, "[C]ode [A]ction")
-        map("<leader>cl", function() vim.lsp.codelens.run() end, "[C]ode [L]ens")
-        map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation", "i")
-
-        local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client then
-          if client.name ~= "lua_ls" then
-            vim.lsp.codelens.enable(true, { bufnr = event.buf })
-          end
-          -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
-          if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-            local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.document_highlight,
-            })
-
-            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.clear_references,
-            })
-
-            vim.api.nvim_create_autocmd("LspDetach", {
-              group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
-              callback = function(event2)
-                vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
-              end,
-            })
-          end
-        end
-      end
-    })
+    require("lspconfig.ui.windows").default_options.border = "rounded"
 
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -269,6 +157,7 @@ return {
     }
 
     -- Only install solargraph LSP if ruby is installed
+    local utils = require("custom.utils")
     if utils.file_exists(os.getenv("HOME") .. "/.rbenv") then
       servers["solargraph"] = { settings = {} }
     end
