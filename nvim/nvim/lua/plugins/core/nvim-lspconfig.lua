@@ -83,6 +83,7 @@ return {
           -- Disable stuff in favour of pyrefly
           client.server_capabilities.hoverProvider = false
           client.server_capabilities.semanticTokensProvider = nil
+          client.server_capabilities.renameProvider = nil
         end,
       },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
