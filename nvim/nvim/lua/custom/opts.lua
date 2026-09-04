@@ -7,6 +7,9 @@ end)
 -- Setup diff options
 vim.o.diffopt = "internal,filler,closeoff,indent-heuristic,inline:char,linematch:60"
 
+-- Setup session options for :mksession and nvim -S
+vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+
 -- Display line numbers
 vim.wo.number = true
 vim.wo.relativenumber = true
