@@ -9,7 +9,9 @@ return {
     local utils = require("custom.utils")
     local mypy_linter = require("lint").linters.mypy
     mypy_linter.cmd = utils.get_venv_executable_path("mypy")
-    table.insert(mypy_linter.args, "--no-warn-unused-configs")
+    for _, option in ipairs(utils.generate_mypy_options()) do
+      table.insert(mypy_linter.args, option)
+    end
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufWritePost" }, {
       callback = function()

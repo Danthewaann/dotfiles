@@ -1,80 +1,83 @@
 local utils = require("custom.utils")
 
 vim.api.nvim_create_user_command("Mypy", function()
-  utils.print("Running mypy...")
-  vim.system(
-    {
-      utils.get_venv_executable_path("mypy"),
-      "--show-column-numbers",
-      "--show-error-end",
-      "--show-error-codes",
-      "--hide-error-context",
-      "--no-color-output",
-      "--no-error-summary",
-      "--no-pretty",
-      "--no-warn-unused-configs",
-      "."
-    }, {}, function(obj)
-      vim.schedule(function()
-        if obj.code > 1 then
-          utils.print_err(vim.fn.trim(obj.stderr))
-          return
-        end
+  local cmd = {
+    utils.get_venv_executable_path("mypy"),
+    "--show-column-numbers",
+    "--show-error-end",
+    "--show-error-codes",
+    "--hide-error-context",
+    "--no-color-output",
+    "--no-error-summary",
+    "--no-pretty",
+  }
+  for _, option in ipairs(utils.generate_mypy_options()) do
+    table.insert(cmd, option)
+  end
+  table.insert(cmd, ".")
 
-        -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
-        local output = obj.stdout
-        local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"
-        local severities = {
-          error = "E",
-          warning = "W",
-          note = "N",
-        }
+  utils.print("Running mypy\n\nCOMMAND:\n" .. table.concat(cmd, " "))
+  vim.system(cmd, {}, function(obj)
+    vim.schedule(function()
+      if obj.code > 1 then
+        utils.handle_system_err("mypy", cmd, obj)
+        return
+      end
 
-        local list = {}
-        for line in vim.gsplit(output, "\n", { plain = true }) do
-          local file, lnum, col, end_lnum, end_col, severity, message, code = line:match(pattern)
-          if file then
-            table.insert(list, {
-              filename = file,
-              lnum = lnum,
-              col = col,
-              end_lnum = end_lnum,
-              end_col = end_col,
-              nr = code,
-              type = severities[severity],
-              text = message .. " # type: ignore [" .. code .. "]",
-              source = "mypy"
-            })
-          end
-        end
+      -- From: https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/mypy.lua
+      local output = obj.stdout
+      local pattern = "([^:]+):(%d+):(%d+):(%d+):(%d+): (%a+): (.*) %[(%a[%a-]+)%]"
+      local severities = {
+        error = "E",
+        warning = "W",
+        note = "N",
+      }
 
-        vim.fn.setqflist({}, " ", { title = "Mypy errors", items = list })
-        if #list > 0 then
-          utils.print_err("Mypy found " .. #list .. " error(s)")
-        else
-          utils.print("Mypy finished with no errors")
+      local list = {}
+      for line in vim.gsplit(output, "\n", { plain = true }) do
+        local file, lnum, col, end_lnum, end_col, severity, message, code = line:match(pattern)
+        if file then
+          table.insert(list, {
+            filename = file,
+            lnum = lnum,
+            col = col,
+            end_lnum = end_lnum,
+            end_col = end_col,
+            nr = code,
+            type = severities[severity],
+            text = message .. " # type: ignore [" .. code .. "]",
+            source = "mypy"
+          })
         end
-      end)
+      end
+
+      vim.fn.setqflist({}, " ", { title = "Mypy errors", items = list })
+      if #list > 0 then
+        utils.print_err("Mypy found " .. #list .. " error(s)")
+      else
+        utils.print("Mypy finished with no errors")
+      end
     end)
+  end)
 end, { desc = "Run Mypy and populate quickfix list with errors" })
 
 vim.api.nvim_create_user_command("Ruff", function()
-  utils.print("Running ruff...")
-  vim.system(
-    {
-      utils.get_venv_executable_path("ruff"),
-      "check",
-      "--force-exclude",
-      "--quiet",
-      "--no-fix",
-      "--output-format",
-      "json",
-      ".",
-    }, {},
+  local cmd = {
+    utils.get_venv_executable_path("ruff"),
+    "check",
+    "--force-exclude",
+    "--quiet",
+    "--no-fix",
+    "--output-format",
+    "json",
+    ".",
+  }
+  utils.print("Running ruff\n\nCOMMAND:\n" .. table.concat(cmd, " "))
+  vim.system(cmd, {},
     function(obj)
       vim.schedule(function()
         if obj.code > 1 then
-          utils.print_err(vim.fn.trim(obj.stderr))
+          utils.handle_system_err("ruff", cmd, obj)
           return
         end
 
@@ -118,10 +121,10 @@ vim.api.nvim_create_user_command("YankCommits", function(args)
   if #args.args > 0 then
     count = tonumber(args.args) or 1
   end
-  local obj = vim.system({ "sh", "-c", "git log --oneline | head -n " .. count .. " | tac | awk '{print NR \".\", $0}'" })
-      :wait()
+  local cmd = { "sh", "-c", "git log --oneline | head -n " .. count .. " | tac | awk '{print NR \".\", $0}'" }
+  local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
+    utils.handle_system_err("yank commits", cmd, obj)
   end
   local cb_opts = vim.opt.clipboard:get()
   if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", obj.stdout) end
@@ -141,7 +144,7 @@ vim.api.nvim_create_user_command("Term", function()
   local cmd = { "tmux", "new-window", "-c", cur_dur }
   local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
-    utils.print_err(vim.fn.trim(obj.stderr))
+    utils.handle_system_err("term", cmd, obj)
   end
 end, { desc = "Open terminal in current buffer directory" })
 

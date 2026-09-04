@@ -49,10 +49,11 @@ return {
 
     vim.keymap.set({ "n", "v" }, "<leader>gB", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set("n", "<leader>gx", function()
-      vim.system({ "git", "jump", "--stdout", "merge" }, {}, function(obj)
+      local cmd = { "git", "jump", "--stdout", "merge" }
+      vim.system(cmd, {}, function(obj)
         vim.schedule(function()
           if obj.code > 1 then
-            utils.print_err(vim.fn.trim(obj.stderr))
+            utils.handle_system_err("git jump", cmd, obj)
             return
           end
           local qf_entries = {}

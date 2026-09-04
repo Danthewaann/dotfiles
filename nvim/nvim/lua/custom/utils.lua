@@ -68,6 +68,29 @@ module.get_terminal_buffer = function()
   return terminal_buf
 end
 
+module.handle_system_err = function(title, cmd, obj)
+  local stdout = vim.fn.trim(obj.stdout)
+  local stderr = vim.fn.trim(obj.stderr)
+  local msg = title .. " failed\n\nCOMMAND:\n" .. table.concat(cmd, " ")
+  if stdout ~= "" then
+    msg = msg .. "\n\nSTDOUT:\n" .. stdout
+  end
+  if stderr ~= "" then
+    msg = msg .. "\n\nSTDERR:\n" .. stdout
+  end
+
+  module.print_err(msg)
+end
+
+
+module.generate_mypy_options = function()
+  local options = { "--no-warn-unused-configs" }
+  if module.file_exists("mypy.toml") then
+    table.insert(options, "--config-file=mypy.toml")
+  end
+  return options
+end
+
 module.generate_pytest_options = function(mode, include_json_report)
   mode = mode or "vim-test"
   include_json_report = include_json_report == nil or include_json_report == true
