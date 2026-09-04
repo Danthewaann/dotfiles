@@ -318,6 +318,18 @@ vim.keymap.set("n", "<leader>ya", function()
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current file [A]bsolute path" })
 
+-- Remove newlines when yanking the visual selection
+-- Needed for the neovim terminal as it insert newlines
+-- when a line is too long for the screen
+vim.keymap.set("v", "<leader>ys", function()
+  local lines = {}
+  for s in utils.get_visual_selection():gmatch("[^\n]+") do
+    table.insert(lines, s)
+  end
+
+  vim.fn.setreg("+", table.concat(lines))
+end, { desc = "[Y]ank [S]election and remove line breaks" })
+
 -- Spelling
 vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
   desc = "Fix last spelling mistake whilst persisting the cursor position",

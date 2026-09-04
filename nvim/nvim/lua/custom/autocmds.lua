@@ -71,18 +71,6 @@ autocmd("TermOpen", {
     vim.keymap.set({ "n", "x", "o" }, "{", [[?^\$<CR>]], { buffer = 0, silent = true })
     vim.keymap.set({ "n", "x", "o" }, "}", [[/^\$<CR>]], { buffer = 0, silent = true })
 
-    -- Remove newlines when yanking the visual selection
-    -- Needed for the neovim terminal as it insert newlines
-    -- when a line is too long for the screen
-    vim.keymap.set("v", "<leader>y", function()
-      local lines = {}
-      for s in utils.get_visual_selection():gmatch("[^\n]+") do
-        table.insert(lines, s)
-      end
-
-      vim.fn.setreg("+", table.concat(lines))
-    end, { buffer = 0, desc = "[Y]ank selection and remove line breaks" })
-
     local function jump_to_file(in_tab)
       -- Get the current sequence of non-blank characters
       if vim.fn.mode() == "n" then
