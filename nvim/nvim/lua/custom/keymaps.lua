@@ -55,7 +55,7 @@ vim.keymap.set("n", "}", "}zz", { desc = "Jump to previous paragraph" })
 -- Jump list navigation
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
-vim.keymap.set("n", "<C-q>", function()
+vim.keymap.set("n", "<M-x>", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win["quickfix"] == 1 then
@@ -149,7 +149,7 @@ vim.keymap.set({ "n", "t" }, "<C-t>", function()
 end, { desc = "Toggle Terminal" })
 
 -- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
 vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
 
 -- Go to tab by number
@@ -217,6 +217,9 @@ vim.keymap.set("n", "<M-Up>", function()
     vim.cmd(":wincmd p")
   end
 end, { desc = "Adjust window height down" })
+
+-- Exit the current window
+vim.keymap.set("n", "<C-q>", "<cmd> q<CR>", { desc = "Close window" })
 
 -- Keep the cursor position when searching, don't move to next match
 vim.keymap.set("n", "*", "*N")
