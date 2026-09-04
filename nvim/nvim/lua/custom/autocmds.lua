@@ -184,11 +184,7 @@ autocmd("TextYankPost", {
   group = augroup("YankHighlight", { clear = true }),
   pattern = "*",
   callback = function()
-    local buf = vim.api.nvim_get_current_buf()
-    -- TODO: Highlighting a yank inside a quickfix list doesn't work
-    if vim.bo[buf].filetype ~= "qf" then
-      vim.hl.on_yank({ higroup = "Visual" })
-    end
+    vim.hl.on_yank({ higroup = "Visual" })
   end,
 })
 
