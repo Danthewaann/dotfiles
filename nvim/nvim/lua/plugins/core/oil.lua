@@ -34,6 +34,7 @@ return {
       keymaps = {
         ["<C-s>"] = false,
         ["<C-h>"] = false,
+        ["<C-t>"] = false,
         ["<Tab>"] = "actions.preview",
         ["<C-p>"] = false,
         ["<C-c>"] = "actions.close",
