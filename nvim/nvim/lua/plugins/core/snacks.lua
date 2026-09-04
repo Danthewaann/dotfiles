@@ -37,6 +37,11 @@ local git_log_opts = {
   },
 }
 
+---@type snacks.picker.lsp.Config
+local lsp_opts = {
+  auto_confirm = false
+}
+
 local picker_keys = {
   ["<C-s>"] = false,
   ["<C-x>"] = { "edit_split", mode = { "i", "n" } },
@@ -284,15 +289,15 @@ return {
     { "<leader>gp", function() Snacks.picker.gh_pr() end,                         desc = "GitHub Pull Requests (open)" },
     { "<leader>gP", function() Snacks.picker.gh_pr({ state = "all" }) end,        desc = "GitHub Pull Requests (all)" },
     -- LSP
-    { "gd",         function() Snacks.picker.lsp_definitions() end,               desc = "Goto Definition" },
-    { "gD",         function() Snacks.picker.lsp_declarations() end,              desc = "Goto Declaration" },
-    { "gr",         function() Snacks.picker.lsp_references() end,                nowait = true,                       desc = "References" },
-    { "gI",         function() Snacks.picker.lsp_implementations() end,           desc = "Goto Implementation" },
-    { "gy",         function() Snacks.picker.lsp_type_definitions() end,          desc = "Goto T[y]pe Definition" },
-    { "gai",        function() Snacks.picker.lsp_incoming_calls() end,            desc = "C[a]lls Incoming" },
-    { "gao",        function() Snacks.picker.lsp_outgoing_calls() end,            desc = "C[a]lls Outgoing" },
-    { "<leader>ss", function() Snacks.picker.lsp_symbols() end,                   desc = "LSP Symbols" },
-    { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end,         desc = "LSP Workspace Symbols" },
+    { "gd",         function() Snacks.picker.lsp_definitions(lsp_opts) end,       desc = "Goto Definition" },
+    { "gD",         function() Snacks.picker.lsp_declarations(lsp_opts) end,      desc = "Goto Declaration" },
+    { "gr",         function() Snacks.picker.lsp_references(lsp_opts) end,        nowait = true,                       desc = "References" },
+    { "gI",         function() Snacks.picker.lsp_implementations(lsp_opts) end,   desc = "Goto Implementation" },
+    { "gy",         function() Snacks.picker.lsp_type_definitions(lsp_opts) end,  desc = "Goto T[y]pe Definition" },
+    { "gai",        function() Snacks.picker.lsp_incoming_calls(lsp_opts) end,    desc = "C[a]lls Incoming" },
+    { "gao",        function() Snacks.picker.lsp_outgoing_calls(lsp_opts) end,    desc = "C[a]lls Outgoing" },
+    { "<leader>ss", function() Snacks.picker.lsp_symbols(lsp_opts) end,           desc = "LSP Symbols" },
+    { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols(lsp_opts) end, desc = "LSP Workspace Symbols" },
     -- Other
     { "<leader>z",  function() Snacks.zen({ win = { border = "rounded" } }) end,  desc = "Toggle Zen Mode" },
     { "<leader>Z",  function() Snacks.zen.zoom() end,                             desc = "Toggle Zoom" },
