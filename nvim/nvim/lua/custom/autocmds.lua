@@ -31,7 +31,7 @@ autocmd("LspAttach", {
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client then
-      if client.name ~= "lua_ls" then
+      if not vim.tbl_contains({ "lua_ls", "rust_analyzer" }, client.name) then
         vim.lsp.codelens.enable(true, { bufnr = event.buf })
       end
       -- Enable highlighting usages of the symbol under the cursor if the LSP server supports it
