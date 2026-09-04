@@ -90,6 +90,7 @@ return {
     vim.api.nvim_set_hl(0, "TabLineSel", { fg = "#abb2bf", bg = colors.bg1 })
     vim.api.nvim_set_hl(0, "TabLine", { fg = "#828997" })
     vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#98c379" })
+    vim.api.nvim_set_hl(0, "Yank", { fg = colors.purple, bg = colors.bg1 })
 
     -- Links
     vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "FloatBorder" })

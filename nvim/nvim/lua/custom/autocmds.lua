@@ -184,7 +184,7 @@ autocmd("TextYankPost", {
   group = augroup("YankHighlight", { clear = true }),
   pattern = "*",
   callback = function()
-    vim.hl.on_yank({ higroup = "Visual" })
+    vim.hl.on_yank({ higroup = "Yank" })
   end,
 })
 
