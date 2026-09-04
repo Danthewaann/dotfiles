@@ -4,6 +4,9 @@ vim.schedule(function()
   vim.o.clipboard = "unnamedplus"
 end)
 
+-- Keep the cursor in the middle of the screen
+vim.o.scrolloff = 999
+
 -- Setup diff options
 vim.o.diffopt = "internal,filler,closeoff,indent-heuristic,inline:char,linematch:60"
 
