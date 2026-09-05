@@ -91,7 +91,13 @@ return {
       },
     },
     bigfile = { enabled = true },
-    dashboard = { enabled = false },
+    dashboard = {
+      enabled = true,
+      sections = {
+        { section = "header" },
+        { section = "startup" },
+      }
+    },
     explorer = { enabled = false },
     indent = { enabled = false },
     input = { enabled = true },

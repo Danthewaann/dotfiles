@@ -4,14 +4,14 @@ return {
   priority = 1000,
   lazy = false,
   config = function()
-    local colors = require("custom.colours")
+    local colours = require("custom.colours")
 
     require("onedark").setup({
       style = "darker",
-      colors = colors,
+      colors = colours,
       highlights = {
-        ["@variable"] = { fg = colors.red },
-        ["@lsp.type.variable"] = { fg = colors.red },
+        ["@variable"] = { fg = colours.red },
+        ["@lsp.type.variable"] = { fg = colours.red },
       },
     })
 
@@ -58,39 +58,41 @@ return {
 
     require("onedark").load()
 
-    vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { bg = colors.bg3 })
-    vim.api.nvim_set_hl(0, "LspInfoBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "QuickFixLine", { bg = colors.qf_line })
-    vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "NotificationInfo", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "NotificationWarning", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "NotificationError", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "FloatBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { fg = colors.border })
-    vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { fg = colors.border })
+    vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { bg = colours.bg3 })
+    vim.api.nvim_set_hl(0, "LspInfoBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "QuickFixLine", { bg = colours.qf_line })
+    vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "NotificationInfo", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "NotificationWarning", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "NotificationError", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "FloatBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { fg = colours.border })
+    vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { fg = colours.border })
     vim.api.nvim_set_hl(0, "NormalFloat", {})
-    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = colors.bg1 })
+    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = colours.bg1 })
     vim.api.nvim_set_hl(0, "Conceal", {})
-    vim.api.nvim_set_hl(0, "Search", { bg = colors.search })
-    vim.api.nvim_set_hl(0, "IncSearch", { bg = colors.search })
-    vim.api.nvim_set_hl(0, "CurSearch", { fg = colors.black, bg = colors.yellow })
+    vim.api.nvim_set_hl(0, "Search", { bg = colours.search })
+    vim.api.nvim_set_hl(0, "IncSearch", { bg = colours.search })
+    vim.api.nvim_set_hl(0, "CurSearch", { fg = colours.black, bg = colours.yellow })
     vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
     vim.api.nvim_set_hl(0, "LspReferenceRead", { underline = true })
     vim.api.nvim_set_hl(0, "LspReferenceWrite", { underline = true })
-    vim.api.nvim_set_hl(0, "PmenuSel", { bg = colors.bg1 })
-    vim.api.nvim_set_hl(0, "Pmenu", { fg = colors.light_grey })
-    vim.api.nvim_set_hl(0, "ModeMsg", { fg = colors.green })
-    vim.api.nvim_set_hl(0, "OctoReviewDiffAdd", { bg = colors.diff_change })
-    vim.api.nvim_set_hl(0, "OctoReviewDiffDelete", { bg = colors.diff_change })
-    vim.api.nvim_set_hl(0, "OctoReviewDiffAddText", { bg = colors.diff_text })
-    vim.api.nvim_set_hl(0, "OctoReviewDiffDeleteText", { bg = colors.diff_text })
-    vim.api.nvim_set_hl(0, "TabLineSel", { fg = "#abb2bf", bg = colors.bg1 })
+    vim.api.nvim_set_hl(0, "PmenuSel", { bg = colours.bg1 })
+    vim.api.nvim_set_hl(0, "Pmenu", { fg = colours.light_grey })
+    vim.api.nvim_set_hl(0, "ModeMsg", { fg = colours.green })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffAdd", { bg = colours.diff_change })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffDelete", { bg = colours.diff_change })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffAddText", { bg = colours.diff_text })
+    vim.api.nvim_set_hl(0, "OctoReviewDiffDeleteText", { bg = colours.diff_text })
+    vim.api.nvim_set_hl(0, "TabLineSel", { fg = "#abb2bf", bg = colours.bg1 })
     vim.api.nvim_set_hl(0, "TabLine", { fg = "#828997" })
-    vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#98c379" })
-    vim.api.nvim_set_hl(0, "Yank", { fg = colors.purple, bg = colors.bg1 })
+    vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#98c379" })
+    vim.api.nvim_set_hl(0, "SnacksDashboardFooter", { fg = colours.light_grey })
+    vim.api.nvim_set_hl(0, "SnacksDashboardSpecial", { fg = colours.fg })
+    vim.api.nvim_set_hl(0, "Yank", { fg = colours.purple, bg = colours.bg1 })
 
     -- Links
     vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "FloatBorder" })
