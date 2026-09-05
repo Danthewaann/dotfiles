@@ -3,6 +3,12 @@ return {
   event = "VeryLazy",
   keys = { { "<C-e>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" } } },
   opts = {
+    backends = {
+      ["_"]    = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
+      python   = { "lsp", "treesitter" },
+      lua      = { "lsp", "treesitter" },
+      markdown = { "treesitter" },
+    },
     attach_mode = "global",
     show_guides = true,
     autojump = true,
