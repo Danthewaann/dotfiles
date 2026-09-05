@@ -12,6 +12,21 @@ return {
     attach_mode = "global",
     show_guides = true,
     autojump = true,
+    filter_kind = {
+      ["_"] = {
+        "Class",
+        "Constructor",
+        "Enum",
+        "Field",
+        "Function",
+        "Interface",
+        "Module",
+        "Namespace",
+        "Method",
+        "Struct",
+      },
+      python = false,
+    },
     close_automatic_events = { "unsupported" },
     on_attach = function(bufnr)
       -- Jump forwards/backwards
