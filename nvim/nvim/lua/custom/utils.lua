@@ -58,8 +58,8 @@ module.get_terminal_buffer = function()
 
   -- Iterate through all buffers
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    -- Check if the buffer is a terminal and has the variable `_test_vim_neovim_sticky`
-    if vim.bo[buf].buftype == "terminal" and vim.b[buf]._test_vim_neovim_sticky ~= nil then
+    -- Check if the buffer is a terminal and has the variable `_my_terminal`
+    if vim.bo[buf].buftype == "terminal" and vim.b[buf]._my_terminal ~= nil then
       terminal_buf = buf
       break
     end

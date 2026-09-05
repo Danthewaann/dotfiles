@@ -86,7 +86,8 @@ return {
     vim.g["test#neovim#term_position"] = "botright 20"
     vim.g["test#neovim_sticky#kill_previous"] = 0
     vim.g["test#neovim_sticky#reopen_window"] = 1
-    vim.g["test#neovim_sticky#use_existing"] = 1
+    -- This means only re-use the term opened by vim-test, not any other terminal
+    vim.g["test#neovim_sticky#use_existing"] = 0
     vim.g["test#echo_command"] = 0
     vim.g["test#preserve_screen"] = 1
   end,
