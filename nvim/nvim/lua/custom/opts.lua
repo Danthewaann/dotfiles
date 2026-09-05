@@ -15,7 +15,7 @@ vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localo
 
 -- Display line numbers
 vim.wo.number = true
-vim.wo.relativenumber = true
+vim.wo.relativenumber = false
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = "split"
