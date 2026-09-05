@@ -72,45 +72,6 @@ vim.keymap.set("n", "<M-x>", function()
   vim.cmd "botright copen"
 end, { desc = "Toggle Quickfix" })
 
-
--- Quickfix list navigation
-vim.keymap.set("n", "<M-j>", function()
-  local qf = vim.fn.getqflist({ idx = 0, items = 0 })
-  local current_item = qf.items[qf.idx]
-  if current_item == nil then
-    utils.print("No quickfix list items found")
-    return
-  end
-
-  local ok, _ = pcall(function() vim.cmd(":cnext") end)
-  if not ok then
-    ok, _ = pcall(function() vim.cmd(":cfirst") end)
-    if ok then
-      vim.fn.feedkeys("zz")
-    end
-  else
-    vim.fn.feedkeys("zz")
-  end
-end, { desc = "Jump to next qf item" })
-vim.keymap.set("n", "<M-k>", function()
-  local qf = vim.fn.getqflist({ idx = 0, items = 0 })
-  local current_item = qf.items[qf.idx]
-  if current_item == nil then
-    utils.print("No quickfix list items found")
-    return
-  end
-
-  local ok, _ = pcall(function() vim.cmd(":cprevious") end)
-  if not ok then
-    ok, _ = pcall(function() vim.cmd(":clast") end)
-    if ok then
-      vim.fn.feedkeys("zz")
-    end
-  else
-    vim.fn.feedkeys("zz")
-  end
-end, { desc = "Jump to previous qf item" })
-
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
 

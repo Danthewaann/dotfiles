@@ -8,15 +8,15 @@ return {
     autojump = true,
     close_automatic_events = { "unsupported" },
     on_attach = function(bufnr)
-      -- Jump forwards/backwards with '{' and '}'
-      vim.keymap.set({ "n", "x" }, "{", function()
+      -- Jump forwards/backwards
+      vim.keymap.set({ "n", "x" }, "<M-k>", function()
         local count = vim.v.count
         if count == 0 then
           count = 1
         end
         require("aerial").prev(count)
       end, { buffer = bufnr, silent = true })
-      vim.keymap.set({ "n", "x" }, "}", function()
+      vim.keymap.set({ "n", "x" }, "<M-j>", function()
         local count = vim.v.count
         if count == 0 then
           count = 1
