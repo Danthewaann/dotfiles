@@ -274,6 +274,7 @@ return {
     -- other search
     { '<leader>s"', function() Snacks.picker.registers() end,                     desc = "Registers" },
     { "<leader>sa", function() Snacks.picker.autocmds() end,                      desc = "Autocmds" },
+    { "<leader>sC", function() Snacks.picker.commands() end,                      desc = "Commands" },
     { "<leader>sj", function() Snacks.picker.jumps() end,                         desc = "Jumps" },
     { "<leader>sk", function() Snacks.picker.keymaps() end,                       desc = "Keymaps" },
     { "<leader>sl", function() Snacks.picker.loclist() end,                       desc = "Location List" },
