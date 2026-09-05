@@ -11,7 +11,7 @@ vim.o.scrolloff = 999
 vim.o.diffopt = "internal,filler,closeoff,indent-heuristic,inline:char,linematch:60"
 
 -- Setup session options for :mksession and nvim -S
-vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+vim.o.sessionoptions = "buffers,curdir,folds,tabpages,winsize,winpos,localoptions"
 
 -- Display line numbers
 vim.wo.number = true
