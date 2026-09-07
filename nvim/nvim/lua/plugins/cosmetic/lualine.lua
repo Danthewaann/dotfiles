@@ -137,24 +137,6 @@ return {
       end
     end
 
-    local dashboard_extension = {
-      sections = {
-        lualine_a = {
-          function()
-            local version = vim.version()
-            return string.format("%d.%d.%d", version.major, version.minor, version.patch)
-          end,
-        },
-        lualine_b = { git_shortstat },
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = { list_harpoon },
-      },
-
-      filetypes = { "dashboard" }
-    }
-
     local snacks_picker_list_extension = {
       sections = {},
       filetypes = { "snacks_layout_box" }
@@ -173,7 +155,7 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input" } },
       },
-      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", dashboard_extension, snacks_picker_list_extension, "oil" },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, "oil" },
       sections = {
         lualine_a = {},
         lualine_b = { filename_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
