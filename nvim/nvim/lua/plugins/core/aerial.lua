@@ -25,7 +25,6 @@ return {
         "Method",
         "Struct",
       },
-      python = false,
     },
     close_automatic_events = { "unsupported" },
     on_attach = function(bufnr)
