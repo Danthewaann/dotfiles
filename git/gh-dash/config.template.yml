@@ -49,12 +49,12 @@ keybindings:
     - key: D
       name: difftool
       command: >
-        clear && gitw-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -C ~/Workspace/{{.RepoName}}
+        clear && gitw-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -C ~/Workspace/{{.RepoName}} -n
     - key: E
       name: review
       command: >
         clear &&
-        gitw-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'" -C ~/Workspace/{{.RepoName}}
+        gitw-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'" -C ~/Workspace/{{.RepoName}} -n
     - key: T
       name: open ticket url
       command: >
@@ -64,12 +64,12 @@ keybindings:
       name: rebase with base
       command: >
         clear &&
-        gitw-add {{.HeadRefName}} "gitw-rebase {{.BaseRefName}} && git push --force" -C ~/Workspace/{{.RepoName}}
+        gitw-add {{.HeadRefName}} "gitw-rebase {{.BaseRefName}} && git push --force" -C ~/Workspace/{{.RepoName}} -x
     - key: M
       name: merge with base
       command: >
         clear &&
-        gitw-add {{.HeadRefName}} "gitw-merge {{.BaseRefName}} && git push" -C ~/Workspace/{{.RepoName}}
+        gitw-add {{.HeadRefName}} "gitw-merge {{.BaseRefName}} && git push" -C ~/Workspace/{{.RepoName}} -x
   issues: []
 pager:
   diff: less

@@ -33,11 +33,26 @@ parser = argparse.ArgumentParser(prog="gitw-add")
 parser.add_argument("branch")
 parser.add_argument("args", nargs="*")
 parser.add_argument("-C", dest="working_dir", type=validate_working_dir)
+parser.add_argument("-n", dest="new_win", action="store_true", default=False)
+parser.add_argument("-x", dest="new_split_pane", action="store_true", default=False)
+parser.add_argument("-v", dest="new_horiz_pane", action="store_true", default=False)
 
 parsed_args = parser.parse_args()
 branch_name: str = parsed_args.branch
 args: Sequence[str] = parsed_args.args
 working_dir: pathlib.Path | None = parsed_args.working_dir
+new_win: bool = parsed_args.new_win
+new_split_pane: bool = parsed_args.new_split_pane
+new_horiz_pane: bool = parsed_args.new_horiz_pane
+
+# For use in tmux-sessionizer
+win_args = []
+if new_win:
+    win_args = ["NEW-WIN"]
+elif new_split_pane:
+    win_args = ["NEW-SPLIT-PANE"]
+elif new_horiz_pane:
+    win_args = ["NEW-HORIZ-PANE"]
 
 if working_dir:
     os.chdir(working_dir)
@@ -64,7 +79,7 @@ if pathlib.Path(converted_name).is_dir():
     _utils.info("Switching to worktree...")
     sys.exit(
         subprocess.run(
-            ["tmux-sessionizer", pathlib.Path.cwd() / converted_name, *args],
+            ["tmux-sessionizer", pathlib.Path.cwd() / converted_name, *win_args, *args],
             check=False,
         ).returncode
     )
@@ -138,6 +153,6 @@ _utils.info("Switching to worktree...")
 time.sleep(0.3)
 sys.exit(
     subprocess.run(
-        ["tmux-sessionizer", pathlib.Path.cwd(), *args], check=False
+        ["tmux-sessionizer", pathlib.Path.cwd(), *win_args, *args], check=False
     ).returncode
 )

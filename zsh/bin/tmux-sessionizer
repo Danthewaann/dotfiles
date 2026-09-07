@@ -126,9 +126,18 @@ if ! tmux has-session -t="$selected_session" 2>/dev/null; then
 fi
 
 if [[ $# -gt 0 ]]; then
-    tmux split-window -h -c "#{pane_current_path}" -t "$selected_session:^"
+    win_arg=$1
+    if [[ "$win_arg" == "NEW-WIN" ]]; then
+        tmux new-window -c "#{pane_current_path}" -t "$selected_session:"
+        shift
+    elif [[ "$win_arg" == "NEW-SPLIT-PANE" ]]; then
+        tmux split-window -v -c "#{pane_current_path}" -t "$selected_session:^"
+        shift
+    elif [[ "$win_arg" == "NEW-HORIZ-PANE" ]]; then
+        tmux split-window -h -c "#{pane_current_path}" -t "$selected_session:^"
+        shift
+    fi
     tmux send-keys -t "$selected_session": "$*" ENTER
-    tmux select-pane -t "$selected_session": -L
 fi
 
 tmux switch-client -t "$selected_session"
