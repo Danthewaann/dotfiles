@@ -84,6 +84,7 @@ return {
           client.server_capabilities.hoverProvider = false
           client.server_capabilities.semanticTokensProvider = nil
           client.server_capabilities.renameProvider = nil
+          client.server_capabilities.completionProvider = nil
         end,
       },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
