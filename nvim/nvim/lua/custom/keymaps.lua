@@ -105,7 +105,7 @@ vim.keymap.set({ "n", "t" }, "<C-t>", function()
     -- If the terminal buffer doesn't exist, create a new terminal
     vim.api.nvim_command("botright 20 split | terminal")
     local new_buf = vim.api.nvim_get_current_buf()
-    vim.b[new_buf]._my_terminal = true
+    vim.b[new_buf]._test_vim_neovim_sticky = true
   end
 end, { desc = "Toggle Terminal" })
 
