@@ -131,10 +131,10 @@ if [[ $# -gt 0 ]]; then
         tmux new-window -c "#{pane_current_path}" -t "$selected_session:"
         shift
     elif [[ "$win_arg" == "NEW-SPLIT-PANE" ]]; then
-        tmux split-window -v -c "#{pane_current_path}" -t "$selected_session:^"
+        tmux split-window -v -c "#{pane_current_path}" -t "$selected_session:"
         shift
     elif [[ "$win_arg" == "NEW-HORIZ-PANE" ]]; then
-        tmux split-window -h -c "#{pane_current_path}" -t "$selected_session:^"
+        tmux split-window -h -c "#{pane_current_path}" -t "$selected_session:"
         shift
     fi
     tmux send-keys -t "$selected_session": "$*" ENTER
