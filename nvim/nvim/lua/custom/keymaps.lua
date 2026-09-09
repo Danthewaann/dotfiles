@@ -99,7 +99,7 @@ vim.keymap.set({ "n", "t" }, "<C-t>", function()
 
     -- If the terminal is not visible, open it in a new split
     if not is_visible then
-      vim.api.nvim_command("botright 20 split | buffer " .. terminal_buf)
+      vim.api.nvim_command("botright 15 split | buffer " .. terminal_buf)
     end
   else
     -- If the terminal buffer doesn't exist, create a new terminal

@@ -83,7 +83,7 @@ return {
     vim.g["test#python#pytest#options"] = utils.generate_pytest_options("vim-test")
 
     -- Theses are only used for the neovim_sticky test strategy
-    vim.g["test#neovim#term_position"] = "botright 20"
+    vim.g["test#neovim#term_position"] = "botright 15"
     vim.g["test#neovim_sticky#kill_previous"] = 0
     vim.g["test#neovim_sticky#reopen_window"] = 1
     -- This means only re-use the term opened by vim-test, not any other terminal
