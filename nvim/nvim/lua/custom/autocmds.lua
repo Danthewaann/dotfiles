@@ -68,8 +68,8 @@ autocmd("TermOpen", {
     vim.cmd(":setlocal number")
 
     -- Jump between prompts in the terminal
-    vim.keymap.set({ "n", "x", "o" }, "{", [[?^\$<CR>]], { buffer = 0, silent = true })
-    vim.keymap.set({ "n", "x", "o" }, "}", [[/^\$<CR>]], { buffer = 0, silent = true })
+    vim.keymap.set({ "n", "x", "o" }, "{", [[?^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
+    vim.keymap.set({ "n", "x", "o" }, "}", [[/^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
 
     local function jump_to_file(in_tab)
       -- Get the current sequence of non-blank characters
