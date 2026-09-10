@@ -63,7 +63,7 @@ if existing_old and existing_new:
 
     old_hash = hashlib.md5(existing_old.read_bytes())
 
-    subprocess.run([editor, new_pr_file])
+    subprocess.run([editor, new_pr_file], check=False)
 else:
     # Get list of labels that are available in the current repository
     repo_labels = _utils.check_output(
@@ -122,7 +122,7 @@ else:
 
     old_hash = hashlib.md5(pr_file_content.encode())
 
-    subprocess.run([editor, new_pr_file])
+    subprocess.run([editor, new_pr_file], check=False)
 
 new_hash = hashlib.md5(new_pr_file.read_bytes())
 
@@ -174,13 +174,15 @@ for label in labels:
         args.append("--add-label")
     args.append(label)
 
-proc = subprocess.run(args, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+proc = subprocess.run(
+    args, check=False, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+)
 if proc.returncode != 0:
     _utils.error(proc.stdout)
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{prog}' to use")
     sys.exit(1)
 
-new_is_draft = True if new_is_draft == "yes" else False
+new_is_draft = new_is_draft == "yes"
 
 if new_is_draft is not is_draft:
     if new_is_draft is False:
