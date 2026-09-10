@@ -8,6 +8,8 @@ return {
   opts = {
     suppressed_dirs = { "~/", "~/Downloads", "/" },
     bypass_save_filetypes = { "dashboard" },
+    -- Don't save/restore a session if any arg is passed to `nvim`
+    args_allow_single_directory = false,
     -- Save and restore dap breakpoints
     save_extra_data = function(_)
       local ok, breakpoints = pcall(require, "dap.breakpoints")
