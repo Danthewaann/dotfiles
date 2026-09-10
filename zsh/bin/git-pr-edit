@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
+import hashlib
 import json
 import os
-import hashlib
 import pathlib
 import re
 import subprocess
 import sys
 import time
+
 import _utils
 
 editor = os.getenv("EDITOR")
@@ -160,9 +161,10 @@ args = [
     new_title,
     "--body",
     new_body,
-    "--base",
-    new_base_branch,
 ]
+
+if new_base_branch != base_branch:
+    args.extend(("--base", new_base_branch))
 
 for label in labels:
     # Delete labels that are not in the original labels for the PR
