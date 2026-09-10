@@ -150,7 +150,7 @@ return {
         theme = custom_theme,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
-        ignore_focus = { "dbui", "git", "dashboard" },
+        ignore_focus = { "dbui", "git", "snacks_dashboard" },
         globalstatus = false,
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input" } },
