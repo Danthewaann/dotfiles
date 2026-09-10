@@ -56,7 +56,11 @@ def print_pr_info(is_draft: bool = False) -> None:
 
     print("\nThe below has been copied to your clipboard! 📋\n")
     print(output)
-    subprocess.run(f'echo "{output}" | {pb_copy}', shell=True, check=True)
+    subprocess.run(
+        f"echo '{output.replace('`', r'\`')}' | {pb_copy}",
+        shell=True,
+        check=True,
+    )
 
 
 current_branch = _utils.get_current_branch()
