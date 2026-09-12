@@ -90,10 +90,10 @@ autocmd("TermOpen", {
         return
       end
 
-      local cmd = { "pytest-node-path", selection }
+      local cmd = { "pytest-qf", selection }
       local obj = vim.system(cmd):wait()
       if obj.code ~= 0 then
-        utils.handle_system_err("pytest-node-path", cmd, obj)
+        utils.handle_system_err("pytest-qf", cmd, obj)
         return
       end
 

@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+import argparse
+import ast
+import sys
+
+import _utils
+
+parser = argparse.ArgumentParser(prog="pytest-qf")
+parser.add_argument(
+    "nodes",
+    nargs="*",
+    help="variable number of pytest nodes to convert to quickfix items. can provide `-` to read from stdin",
+)
+args = parser.parse_args()
+nodes: list[str] = args.nodes
+
+cache: dict[str, dict[str, int]] = {}
+
+
+def index(path: str) -> dict[str, int]:
+    if path not in cache:
+        out: dict[str, int] = {}
+        try:
+            with open(path, "r") as rfp:
+                tree = ast.parse(rfp.read())
+        except (OSError, SyntaxError) as e:
+            _utils.error(f"Failed to read {path}: {e}")
+            sys.exit(1)
+        if tree is not None:
+            for node in tree.body:
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    out[node.name] = node.lineno
+                elif isinstance(node, ast.ClassDef):
+                    out[node.name] = node.lineno
+                    for m in node.body:
+                        if isinstance(m, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                            out[f"{node.name}::{m.name}"] = m.lineno
+        cache[path] = out
+    return cache[path]
+
+
+seen: set[tuple[str, str]] = set()
+
+if len(nodes) == 1 and nodes[0] == "-":
+    _input = sys.stdin
+elif nodes:
+    _input = nodes
+else:
+    _utils.error("must provide nodes as args or `-` to read from stdin")
+    sys.exit(1)
+
+for node in _input:
+    node = node.strip()
+    if "::" not in node:
+        continue
+    path, _, nodeid = node.partition("::")
+    nodeid = nodeid.split("[")[0]  # collapse parametrised cases
+    if (path, nodeid) in seen:
+        continue
+    seen.add((path, nodeid))
+    print(f"{path}:{index(path).get(nodeid, 1)}: {nodeid}")
