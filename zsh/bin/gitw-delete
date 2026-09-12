@@ -5,6 +5,7 @@ import pathlib
 import re
 import subprocess
 import sys
+
 import _utils
 
 if len(sys.argv) < 2:
@@ -34,6 +35,7 @@ if re.search(cur_branch, prs):
 local_branch_rev = _utils.check_output(["git", "rev-parse", cur_branch]).strip()
 proc = subprocess.run(
     ["git", "rev-parse", f"origin/{cur_branch}"],
+    check=False,
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.DEVNULL,
@@ -50,6 +52,7 @@ if local_branch_rev != remote_branch_rev:
 
 proc = subprocess.run(
     ["git", "worktree", "remove", worktree, *args],
+    check=False,
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,

@@ -2,6 +2,7 @@
 
 import platform
 import subprocess
+
 import _utils
 
 if platform.system() == "Darwin":
@@ -11,4 +12,4 @@ else:
 
 patch = _utils.check_output(command)
 
-subprocess.run(["git", "apply", "-"], text=True, input=patch)
+subprocess.run(["git", "apply", "-"], check=False, text=True, input=patch)

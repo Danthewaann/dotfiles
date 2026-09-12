@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
+import argparse
 import json
 import os
 import pathlib
 import re
 import subprocess
 import sys
+
 import _utils
-import argparse
 
 # From: https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
 #
@@ -74,7 +75,8 @@ with open(".git", "w") as git_file:
 
 # Explicitly sets the remote origin fetch so we can fetch remote branches
 proc = subprocess.run(
-    ["git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"]
+    ["git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"],
+    check=False,
 )
 if proc.returncode != 0:
     sys.exit(1)
@@ -111,6 +113,7 @@ proc = subprocess.run(
         "--json",
         "isFork",
     ],
+    check=False,
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
@@ -149,4 +152,4 @@ print(file=sys.stderr)
 _utils.info("Creating base worktree...")
 print(file=sys.stderr)
 base_branch = _utils.get_base_branch()
-subprocess.run(["gitw-add", base_branch])
+subprocess.run(["gitw-add", base_branch], check=False)

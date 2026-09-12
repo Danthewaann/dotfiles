@@ -3,8 +3,9 @@
 import pathlib
 import re
 import subprocess
-import _utils
 import sys
+
+import _utils
 
 args = sys.argv[1:]
 
@@ -12,7 +13,9 @@ if not _utils.inside_bare_repo():
     for dirpath, dirnames, filenames in pathlib.Path.cwd().walk():
         for dir in dirnames:
             if (dirpath / dir / ".bare").exists():
-                subprocess.run(["gitw-delete-all", *args], cwd=dirpath / dir)
+                subprocess.run(
+                    ["gitw-delete-all", *args], check=False, cwd=dirpath / dir
+                )
 else:
     cur_dir = pathlib.Path.cwd().stem
     print(f"Checking for git worktrees in {cur_dir}...")
@@ -21,6 +24,7 @@ else:
         if not re.search(r"(\[main\]|\[master\]|\(bare\))", worktree):
             proc = subprocess.run(
                 ["gitw-delete", worktree.split()[0], *args],
+                check=False,
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,

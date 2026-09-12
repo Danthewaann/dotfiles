@@ -2,8 +2,8 @@
 
 import subprocess
 import sys
-import _utils
 
+import _utils
 
 if _utils.inside_worktree():
     branch = sys.argv[1] if len(sys.argv) > 1 else _utils.get_base_branch()
@@ -11,6 +11,7 @@ if _utils.inside_worktree():
     _utils.info(f"Updating '{branch}' branch...")
     proc = subprocess.run(
         ["gitw-update", worktree],
+        check=False,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
