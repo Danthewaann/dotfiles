@@ -71,7 +71,7 @@ autocmd("TermOpen", {
     vim.keymap.set({ "n", "x", "o" }, "{", [[?^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
     vim.keymap.set({ "n", "x", "o" }, "}", [[/^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
 
-    local function jump_to_file(in_tab)
+    local function jump_to_file(tab)
       -- Get the current sequence of non-blank characters
       if vim.fn.mode() == "n" then
         vim.cmd(":normal viW")
@@ -79,56 +79,43 @@ autocmd("TermOpen", {
 
       local selection = utils.get_visual_selection()
 
-      -- Separate the path from the potential line number
-      -- e.g. some/path/to/file:42:
-      --      ^ path            ^ line number
-      local t = {}
-      for str in string.gmatch(selection, "([^:]*)") do
-        if str ~= "" then
-          t[#t + 1] = str
+      -- If this is a normal path then just use normal `gf` functionality.
+      -- pytest nodes contain `::` so they need special handling below.
+      if not string.find(selection, "::") then
+        if tab then
+          vim.cmd(":wincmd gF")
+        else
+          vim.cmd(":normal gF")
         end
-      end
-
-      -- Check if the file exists
-      if not utils.file_exists(t[1]) then
-        utils.print_err("File not found!")
         return
       end
 
-      -- Jump back to the first tab or the last window
-      if in_tab then
-        vim.cmd(":tabprevious")
+      local cmd = { "pytest-node-path", selection }
+      local obj = vim.system(cmd):wait()
+      if obj.code ~= 0 then
+        utils.handle_system_err("pytest-node-path", cmd, obj)
+        return
+      end
+
+      -- Separate the path from the line number
+      -- e.g. some/path/to/file:42:
+      --      ^ path            ^ line number
+      local output = vim.fn.trim(obj.stdout)
+      local parts = {}
+      for str in string.gmatch(output, "([^:]*)") do
+        if str ~= "" then
+          parts[#parts + 1] = str
+        end
+      end
+
+      local file = parts[1]
+      local lnum = tonumber(parts[2])
+      if tab then
+        vim.cmd((":tabnew +%d %s"):format(lnum, file))
       else
-        vim.cmd(":wincmd p")
+        vim.cmd(":wincmd k")
+        vim.cmd((":e +%d %s"):format(lnum, file))
       end
-
-      -- If a line number was found, open the file and jump to that line number.
-      -- If a name was found, just to that name in the file,
-      -- otherwise just open the file
-      if #t == 1 then
-        vim.cmd(":e " .. t[1])
-      elseif #t == 2 then
-        local lnum = tonumber(t[2])
-        if lnum ~= nil then
-          vim.cmd(":e +" .. lnum .. " " .. t[1])
-        else
-          -- Split on `[` character as pytest data driven tests contain the sub test name that can't be searched
-          local s = {}
-          for str in string.gmatch(t[2], "([^\\[]*)") do
-            s[#s + 1] = str
-          end
-          vim.cmd(":e +/" .. s[1] .. " " .. t[1])
-        end
-      elseif #t == 3 then
-        -- Split on `[` character as pytest data driven tests contain the sub test name that can't be searched
-        local s = {}
-        for str in string.gmatch(t[3], "([^\\[]*)") do
-          s[#s + 1] = str
-        end
-        vim.cmd(":e +/" .. s[1] .. " " .. t[1])
-      end
-
-      vim.cmd(":nohlsearch")
     end
 
     -- For a running terminal emulator that contains file paths that I would like to jump to in another buffer
