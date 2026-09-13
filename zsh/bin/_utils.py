@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import functools
+import json
 import os
 import pathlib
 import re
@@ -79,8 +80,19 @@ def inside_bare_repo() -> bool:
     )
 
 
-def get_base_branch() -> str:
+def get_base_branch(check_gh: bool = False) -> str:
     info("Fetching base branch...")
+    if check_gh:
+        proc = subprocess.run(
+            ["gh", "pr", "view", "--json", "baseRefName"],
+            text=True,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        if proc.returncode == 0:
+            return json.loads(proc.stdout)["baseRefName"]
+
     remote_branches = check_output(["git", "remote", "show", "origin"])
     base_branch: str | None = None
     if match := re.search(r"HEAD branch: (.*)", remote_branches):
@@ -151,14 +163,14 @@ def run_git_pull() -> subprocess.CompletedProcess[str]:
 
 
 def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str]:
-    branch = branch or get_base_branch()
+    branch = branch or get_base_branch(check_gh=True)
     return run_command(
         ["git", "-c", "color.ui=always", "rebase", branch],
     )
 
 
 def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
-    branch = branch or get_base_branch()
+    branch = branch or get_base_branch(check_gh=True)
     return run_command(
         ["git", "-c", "color.ui=always", "merge", branch],
     )
