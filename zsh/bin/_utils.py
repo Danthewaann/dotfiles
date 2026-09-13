@@ -13,14 +13,26 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from _typeshed import StrPath
 
-WHITE_BOLD = "\033[1m"
-GREEN_BOLD = "\033[1;32m"
-BLUE_BOLD = "\033[1;34m"
-RED_BOLD = "\033[1;31m"
-YELLOW_BOLD = "\033[1;33m"
-YELLOW = "\033[0;33m"
-NC = "\033[0m"
-RED = "\033[0;31m"
+IN_TTY = sys.stdout.isatty()
+
+if IN_TTY:
+    WHITE_BOLD = "\033[1m"
+    GREEN_BOLD = "\033[1;32m"
+    BLUE_BOLD = "\033[1;34m"
+    RED_BOLD = "\033[1;31m"
+    YELLOW_BOLD = "\033[1;33m"
+    YELLOW = "\033[0;33m"
+    NC = "\033[0m"
+    RED = "\033[0;31m"
+else:
+    WHITE_BOLD = ""
+    GREEN_BOLD = ""
+    BLUE_BOLD = ""
+    RED_BOLD = ""
+    YELLOW_BOLD = ""
+    YELLOW = ""
+    NC = ""
+    RED = ""
 
 
 def error(message: str, end: str = "\n") -> None:
