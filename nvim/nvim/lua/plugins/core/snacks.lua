@@ -299,7 +299,7 @@ return {
     -- git
     { "<leader>gs", function() Snacks.picker.git_status({ layout = "wide" }) end, desc = "Git Status" },
     { "<leader>gS", function() Snacks.picker.git_stash({ layout = "wide" }) end,  desc = "Git Stash" },
-    { "<leader>gb", function() Snacks.picker.git_branches() end,                  desc = "Git Branches" },
+    { "<leader>gB", function() Snacks.picker.git_branches() end,                  desc = "Git Branches" },
     { "<leader>gl", function() Snacks.picker.git_log(git_log_opts) end,           desc = "Git Log" },
     { "<leader>gL", function() Snacks.picker.git_log_line(git_log_opts) end,      desc = "Git Log Line" },
     { "<leader>gf", function() Snacks.picker.git_log_file(git_log_opts) end,      desc = "Git Log File" },
