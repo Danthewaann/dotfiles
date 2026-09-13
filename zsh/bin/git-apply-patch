@@ -2,6 +2,7 @@
 
 import platform
 import subprocess
+import sys
 
 import _utils
 
@@ -12,4 +13,6 @@ else:
 
 patch = _utils.check_output(command)
 
-subprocess.run(["git", "apply", "-"], check=False, text=True, input=patch)
+proc = subprocess.run(["git", "apply", "-"], check=False, text=True, input=patch)
+if proc.returncode != 0:
+    sys.exit(1)
