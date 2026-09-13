@@ -2,6 +2,7 @@
 
 import platform
 import subprocess
+import sys
 
 import _utils
 
@@ -16,5 +17,5 @@ else:
 
 subprocess.run(f"echo '{repo_url}' | {command}", shell=True, check=True)
 
-print("\nThe below has been copied to your clipboard! 📋\n")
+print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)
 print(repo_url)

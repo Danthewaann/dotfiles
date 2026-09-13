@@ -20,5 +20,5 @@ else:
 ticket_number = _utils.get_ticket_number()
 ticket_url = f"{base_tickets_url}{ticket_number}"
 subprocess.run(f"echo '{ticket_url}' | {command}", shell=True, check=True)
-print("\nThe below has been copied to your clipboard! 📋\n")
+print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)
 print(ticket_url)

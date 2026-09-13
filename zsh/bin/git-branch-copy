@@ -2,6 +2,7 @@
 
 import platform
 import subprocess
+import sys
 
 import _utils
 
@@ -14,5 +15,5 @@ else:
 
 subprocess.run(f"echo '{branch}' | {command}", shell=True, check=True)
 
-print("\nThe below has been copied to your clipboard! 📋\n")
+print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)
 print(branch)

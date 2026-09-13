@@ -47,7 +47,6 @@ return {
       vim.cmd [[Git]]
     end, { desc = "[G]it Status" })
 
-    vim.keymap.set({ "n", "v" }, "<leader>gB", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set("n", "<leader>gx", function()
       local cmd = { "git", "jump", "--stdout", "merge" }
       vim.system(cmd, {}, function(obj)
