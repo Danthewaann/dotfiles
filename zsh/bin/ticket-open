@@ -12,5 +12,7 @@ if not base_tickets_url:
     sys.exit(1)
 
 ticket_number = _utils.get_ticket_number()
+if not ticket_number:
+    sys.exit(1)
 ticket_url = f"{base_tickets_url}{ticket_number}"
 subprocess.run(["open", ticket_url], check=True)
