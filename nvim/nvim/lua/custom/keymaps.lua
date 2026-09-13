@@ -40,21 +40,9 @@ vim.keymap.set({ "n", "v", "x", "o" }, "L", "v:lua.require('custom.utils').is_li
 vim.keymap.set("v", "y", "ygv<Esc>")
 
 -- Go to alternative buffer
-vim.keymap.set("n", "<BS>", ":b#<CR>zz", { silent = true, desc = "Go to alternative buffer" })
+vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true, desc = "Go to alternative buffer" })
 
--- Vertical navigation
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump half page up" })
-vim.keymap.set("n", "<M-d>", "<C-e>", { desc = "Scroll page down" })
-vim.keymap.set("n", "<M-u>", "<C-y>", { desc = "Scroll page up" })
-vim.keymap.set("n", "gg", "ggzz", { desc = "Jump to first line" })
-vim.keymap.set("n", "G", "Gzz", { desc = "Jump to last line" })
-vim.keymap.set("n", "{", "{zz", { desc = "Jump to next paragraph" })
-vim.keymap.set("n", "}", "}zz", { desc = "Jump to previous paragraph" })
-
--- Jump list navigation
-vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
-vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
+-- Quickfix
 vim.keymap.set("n", "<M-x>", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
@@ -184,10 +172,6 @@ vim.keymap.set("n", "<C-q>", "<cmd> q<CR>", { desc = "Close window" })
 
 -- Keep the cursor position when searching, don't move to next match
 vim.keymap.set("n", "*", "*N")
-
--- Center screen when moving through search results
-vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
-vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
 -- Remove a bunch of builtin LSP keymaps I don't use
 -- See :h lsp-defaults

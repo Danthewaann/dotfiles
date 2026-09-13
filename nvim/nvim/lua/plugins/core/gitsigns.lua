@@ -44,20 +44,16 @@ return {
       -- don't override the built-in keymaps
       map({ "n", "v" }, "]c", function()
         if vim.wo.diff then
-          return "]czz"
+          return "]c"
         else
-          gs.nav_hunk("next", { preview = false }, function()
-            vim.fn.feedkeys("zz")
-          end)
+          gs.nav_hunk("next", { preview = false })
         end
       end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
       map({ "n", "v" }, "[c", function()
         if vim.wo.diff then
-          return "[czz"
+          return "[c"
         else
-          gs.nav_hunk("prev", { preview = false }, function()
-            vim.fn.feedkeys("zz")
-          end)
+          gs.nav_hunk("prev", { preview = false })
         end
       end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
     end,
