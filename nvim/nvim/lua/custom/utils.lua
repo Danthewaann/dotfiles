@@ -76,7 +76,7 @@ module.handle_system_err = function(title, cmd, obj)
     msg = msg .. "\n\nSTDOUT:\n" .. stdout
   end
   if stderr ~= "" then
-    msg = msg .. "\n\nSTDERR:\n" .. stdout
+    msg = msg .. "\n\nSTDERR:\n" .. stderr
   end
 
   module.print_err(msg)
