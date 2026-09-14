@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
 import os
 import pathlib
 import re
@@ -58,7 +57,6 @@ value.mkdir(parents=True, exist_ok=True)
 # new-awesome-feature
 # hotfix-bug-12
 # ...
-print(file=sys.stderr)
 _utils.info(f"Cloning bare {value} repository...")
 proc = _utils.run_command(
     ["git", "-C", value, "clone", "--bare", f"git@github.com:{value}.git", ".bare"]
@@ -74,21 +72,18 @@ with open(".git", "w") as git_file:
     git_file.write("gitdir: ./.bare\n")
 
 # Explicitly sets the remote origin fetch so we can fetch remote branches
-proc = subprocess.run(
-    ["git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"],
-    check=False,
+proc = _utils.run_command(
+    ["git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"]
 )
 if proc.returncode != 0:
     sys.exit(1)
 
 # Gets all branches from origin
-print(file=sys.stderr)
 _utils.info("Fetching remote branches...")
 proc = _utils.run_command(["git", "fetch", "origin"])
 if proc.returncode != 0:
     sys.exit(1)
 
-print(file=sys.stderr)
 _utils.info("Setting default repo...")
 proc = _utils.run_command(
     [
@@ -101,36 +96,15 @@ proc = _utils.run_command(
 if proc.returncode != 0:
     sys.exit(1)
 
-print(file=sys.stderr)
 _utils.info("Fetching parent settings...")
-proc = subprocess.run(
-    [
-        "gh",
-        "repo",
-        "view",
-        "--json",
-        "parent",
-        "--json",
-        "isFork",
-    ],
-    check=False,
-    text=True,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT,
-)
-if proc.returncode != 0:
-    sys.exit(1)
-
-settings = json.loads(proc.stdout)
-
-if not settings["isFork"]:
+result = _utils.repo_is_fork()
+if result is None:
     print(
         f"{_utils.YELLOW}This repo is not a fork, skipping upstream fetch{_utils.NC}",
         file=sys.stderr,
     )
 else:
-    owner = settings["parent"]["owner"]["login"]
-    print(file=sys.stderr)
+    owner, repo = result
     _utils.info("Fetching upstream branches...")
     proc = _utils.run_command(
         [
@@ -138,7 +112,7 @@ else:
             "remote",
             "add",
             "upstream",
-            f"https://github.com/{owner}/{value.name}.git",
+            f"https://github.com/{owner}/{repo}.git",
         ]
     )
     if proc.returncode != 0:
@@ -147,9 +121,7 @@ else:
     if proc.returncode != 0:
         sys.exit(1)
 
-# Creating base worktree
-print(file=sys.stderr)
 _utils.info("Creating base worktree...")
-print(file=sys.stderr)
 base_branch = _utils.get_base_branch()
+print(file=sys.stderr)
 subprocess.run(["gitw-add", base_branch], check=False)
