@@ -15,6 +15,7 @@ parser.add_argument("args", nargs="*")
 args = parser.parse_args()
 worktree = pathlib.Path(args.worktree)
 cmd_args: list[str] = args.args
+force = "--force" in cmd_args or "-f" in cmd_args
 
 if not worktree.is_dir():
     _utils.error(f"Worktree '{worktree.name}' doesn't exist!")
@@ -26,7 +27,7 @@ cur_branch = _utils.get_current_branch()
 
 # Check if I have opened a PR for the current branch
 prs = _utils.check_output(["gh", "pr", "list", "--author", "@me"])
-if re.search(cur_branch, prs):
+if not force and re.search(cur_branch, prs):
     _utils.warn("Skipping: ", end="")
     print(worktree_name, file=sys.stderr)
     print(_utils.indent("A PR is open for this worktree"))
