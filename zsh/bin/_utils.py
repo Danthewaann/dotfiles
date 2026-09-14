@@ -176,6 +176,25 @@ def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]
     )
 
 
+def repo_is_fork() -> tuple[str, str] | None:
+    proc = subprocess.run(
+        ["gh", "repo", "view", "--json", "parent,isFork"],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+    if proc.returncode != 0:
+        sys.exit(1)
+
+    settings = json.loads(proc.stdout)
+    if settings["isFork"]:
+        owner = settings["parent"]["owner"]["login"]
+        repo = settings["parent"]["name"]
+        return owner, repo
+
+    return None
+
+
 def update_python_deps() -> None:
     # We need to deactivate the current virtual environment otherwise poetry/uv
     # will install packages into the current virtual environment instead of the new
@@ -188,19 +207,13 @@ def update_python_deps() -> None:
         env.pop("PYTHONPATH", None)
 
     if pathlib.Path("poetry.lock").exists():
-        print(file=sys.stderr)
         info("Running poetry install...")
-        print(file=sys.stderr)
         subprocess.run(["poetry", "install", "--all-extras"], check=False, env=env)
     elif pathlib.Path("uv.lock").exists():
-        print(file=sys.stderr)
         info("Running uv sync...")
-        print(file=sys.stderr)
         subprocess.run(["uv", "sync", "--all-extras"], check=False, env=env)
     elif pathlib.Path("pyproject.toml").exists():
-        print(file=sys.stderr)
         info("Running uv pip install...")
-        print(file=sys.stderr)
         subprocess.run(["uv", "venv"], check=False, env=env)
         subprocess.run(
             ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],

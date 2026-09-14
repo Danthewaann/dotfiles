@@ -5,28 +5,34 @@ import sys
 
 import _utils
 
-if _utils.inside_worktree():
-    branch = sys.argv[1] if len(sys.argv) > 1 else _utils.get_base_branch(check_gh=True)
-    worktree = _utils.get_worktree(branch)
-    _utils.info(f"Updating '{branch}' branch...")
-    proc = subprocess.run(
-        ["gitw-update", worktree],
-        check=False,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-    if proc.returncode != 0:
-        print(proc.stdout.rstrip(), file=sys.stderr)
-        sys.exit(1)
-
-    print(file=sys.stderr)
-    _utils.info(f"Rebasing with '{branch}' branch...")
-    proc = _utils.run_git_rebase(branch)
-    if proc.returncode != 0:
-        sys.exit(1)
-    _utils.update_python_deps()
-else:
-    print(file=sys.stderr)
+if not _utils.inside_worktree():
     _utils.error("Must be run inside a git worktree")
     sys.exit(1)
+
+cur_branch = _utils.get_current_branch()
+base_branch = (
+    sys.argv[1] if len(sys.argv) > 1 else _utils.get_base_branch(check_gh=True)
+)
+base_worktree = _utils.get_worktree(base_branch)
+_utils.info(f"Updating {base_branch}...")
+proc = subprocess.run(
+    ["gitw-update", base_worktree],
+    check=False,
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+)
+if proc.returncode != 0:
+    print(proc.stdout.rstrip(), file=sys.stderr)
+    sys.exit(1)
+
+if _utils.repo_is_fork() and cur_branch == base_branch:
+    upstream = f"upstream/{base_branch}"
+    _utils.info(f"Rebasing {cur_branch} onto {upstream}...")
+    proc = _utils.run_git_rebase(upstream)
+else:
+    _utils.info(f"Rebasing {cur_branch} onto {base_branch}...")
+    proc = _utils.run_git_rebase(base_branch)
+if proc.returncode != 0:
+    sys.exit(1)
+_utils.update_python_deps()
