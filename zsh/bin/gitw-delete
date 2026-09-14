@@ -8,12 +8,13 @@ import sys
 
 import _utils
 
-if len(sys.argv) < 2:
-    _utils.error("Must provide a worktree!")
-    sys.exit(1)
+parser = _utils.create_parser(prog="gitw-delete")
+parser.add_argument("worktree")
+parser.add_argument("args", nargs="*")
 
-worktree = pathlib.Path(sys.argv[1])
-args = sys.argv[2:]
+args = parser.parse_args()
+worktree = pathlib.Path(args.worktree)
+cmd_args: list[str] = args.args
 
 if not worktree.is_dir():
     _utils.error(f"Worktree '{worktree.name}' doesn't exist!")
@@ -51,7 +52,7 @@ if local_branch_rev != remote_branch_rev:
     sys.exit(0)
 
 proc = subprocess.run(
-    ["git", "worktree", "remove", worktree, *args],
+    ["git", "worktree", "remove", worktree, *cmd_args],
     check=False,
     text=True,
     stdout=subprocess.PIPE,

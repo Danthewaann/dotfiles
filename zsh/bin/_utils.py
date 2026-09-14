@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import functools
 import json
 import os
@@ -9,31 +10,47 @@ import subprocess
 import sys
 import textwrap
 from collections.abc import Callable, Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from _typeshed import StrPath
 
-IN_TTY = sys.stdout.isatty()
 
-if IN_TTY:
-    WHITE_BOLD = "\033[1m"
-    GREEN_BOLD = "\033[1;32m"
-    BLUE_BOLD = "\033[1;34m"
-    RED_BOLD = "\033[1;31m"
-    YELLOW_BOLD = "\033[1;33m"
-    YELLOW = "\033[0;33m"
-    NC = "\033[0m"
-    RED = "\033[0;31m"
-else:
-    WHITE_BOLD = ""
-    GREEN_BOLD = ""
-    BLUE_BOLD = ""
-    RED_BOLD = ""
-    YELLOW_BOLD = ""
-    YELLOW = ""
-    NC = ""
-    RED = ""
+WHITE_BOLD = "\033[1m"
+GREEN_BOLD = "\033[1;32m"
+BLUE_BOLD = "\033[1;34m"
+RED_BOLD = "\033[1;31m"
+YELLOW_BOLD = "\033[1;33m"
+YELLOW = "\033[0;33m"
+NC = "\033[0m"
+RED = "\033[0;31m"
+
+
+class Parser(argparse.ArgumentParser):
+    def parse_args(self, args: Any | None = None, namespace: Any | None = None) -> Any:
+        parsed_args = super().parse_args(args, namespace)
+        load_colours(parsed_args.colour)
+        return parsed_args
+
+
+def create_parser(prog: str) -> Parser:
+    parser = Parser(prog=prog)
+    parser.add_argument("--colour", action="store_true", default=False)
+    return parser
+
+
+def load_colours(enable: bool = False) -> None:
+    IN_TTY = sys.stdout.isatty()
+    if not enable and not IN_TTY:
+        global WHITE_BOLD, GREEN_BOLD, BLUE_BOLD, RED_BOLD, YELLOW_BOLD, YELLOW, NC, RED
+        WHITE_BOLD = ""
+        GREEN_BOLD = ""
+        BLUE_BOLD = ""
+        RED_BOLD = ""
+        YELLOW_BOLD = ""
+        YELLOW = ""
+        NC = ""
+        RED = ""
 
 
 def error(message: str, end: str = "\n") -> None:
@@ -52,8 +69,8 @@ def warn(message: str, end: str = "\n") -> None:
     print(f"{YELLOW}WARN: {message}{NC}", end=end, file=sys.stderr)
 
 
-def indent(message: str) -> str:
-    return textwrap.indent(message, "    ")
+def indent(message: str, prefix="  ") -> str:
+    return textwrap.indent(message, prefix)
 
 
 def inside_worktree() -> bool:
@@ -128,7 +145,9 @@ def get_current_branch() -> str:
     return check_output(["git", "branch", "--show-current"]).strip()
 
 
-def run_command(cmd: Sequence[str | StrPath]) -> subprocess.CompletedProcess[str]:
+def run_and_log_command(
+    cmd: Sequence[str | StrPath],
+) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(
         cmd, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
@@ -136,7 +155,7 @@ def run_command(cmd: Sequence[str | StrPath]) -> subprocess.CompletedProcess[str
     if proc.returncode != 0:
         log = error
     if proc.stdout:
-        log(proc.stdout.rstrip())
+        log(indent(proc.stdout.rstrip()))
 
     return proc
 
@@ -151,27 +170,27 @@ def check_output(cmd: Sequence[str | StrPath]) -> str:
 
 def run_git_fetch() -> subprocess.CompletedProcess[str]:
     info("Running git fetch...")
-    return run_command(
+    return run_and_log_command(
         ["git", "-c", "color.ui=always", "fetch"],
     )
 
 
 def run_git_pull() -> subprocess.CompletedProcess[str]:
-    return run_command(
+    return run_and_log_command(
         ["git", "-c", "color.ui=always", "pull", "--no-all"],
     )
 
 
 def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch(check_gh=True)
-    return run_command(
+    return run_and_log_command(
         ["git", "-c", "color.ui=always", "rebase", branch],
     )
 
 
 def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch(check_gh=True)
-    return run_command(
+    return run_and_log_command(
         ["git", "-c", "color.ui=always", "merge", branch],
     )
 
@@ -184,7 +203,7 @@ def repo_is_fork() -> tuple[str, str] | None:
         capture_output=True,
     )
     if proc.returncode != 0:
-        sys.exit(1)
+        return None
 
     settings = json.loads(proc.stdout)
     if settings["isFork"]:

@@ -12,16 +12,12 @@ worktree = (
     else _utils.get_worktree(_utils.get_current_branch())
 )
 
-print(file=sys.stderr)
 _utils.info(f"Entering '{worktree.stem}' worktree...")
 os.chdir(worktree)
-print(file=sys.stderr)
 _utils.run_git_fetch()
-print(file=sys.stderr)
 
 _utils.info("Updating with remote...")
 status = _utils.check_output(["git", "status", "-uno"])
-print(status, file=sys.stderr)
 if "up to date" not in status:
     proc = _utils.run_git_pull()
     if proc.returncode != 0:

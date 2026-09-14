@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-import argparse
 import ast
 import sys
 
 import _utils
 
-parser = argparse.ArgumentParser(prog="pytest-qf")
+parser = _utils.create_parser(prog="pytest-qf")
 parser.add_argument(
     "nodes",
     nargs="*",

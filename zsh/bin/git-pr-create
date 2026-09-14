@@ -74,7 +74,6 @@ if not re.search(current_branch, remote_branches):
 # Check if a PR has already been opened for the current branch
 pr_info = _utils.check_output(["gh", "pr", "list"])
 if re.search(current_branch, pr_info):
-    print(file=sys.stderr)
     _utils.warn("A PR has already been opened for this branch")
     print_pr_info()
     sys.exit(1)

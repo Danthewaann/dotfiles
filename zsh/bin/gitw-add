@@ -31,7 +31,7 @@ def validate_working_dir(value: Any) -> pathlib.Path | None:
     return working_dir
 
 
-parser = argparse.ArgumentParser(prog="gitw-add")
+parser = _utils.create_parser(prog="gitw-add")
 parser.add_argument("branch")
 parser.add_argument("args", nargs="*")
 parser.add_argument("-C", dest="working_dir", type=validate_working_dir)
@@ -121,12 +121,7 @@ add_args = [
     *local_branch_arg,
     *remote_tracking_arg,
 ]
-
-proc = subprocess.run(
-    add_args, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-)
-if proc.stdout:
-    print(proc.stdout.rstrip(), file=sys.stderr)
+proc = _utils.run_and_log_command(add_args)
 if proc.returncode != 0:
     sys.exit(1)
 
@@ -148,9 +143,7 @@ if args:
 else:
     args = ["update-deps"]
 
-print(file=sys.stderr)
 _utils.success("Successfully created worktree!")
-print(file=sys.stderr)
 _utils.info("Switching to worktree...")
 time.sleep(0.3)
 sys.exit(
