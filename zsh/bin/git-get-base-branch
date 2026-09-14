@@ -2,4 +2,4 @@
 
 import _utils
 
-print(_utils.get_base_branch())
+print(_utils.get_base_branch(check_gh=True))

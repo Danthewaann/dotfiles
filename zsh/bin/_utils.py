@@ -98,7 +98,6 @@ def inside_bare_repo() -> bool:
 
 
 def get_base_branch(check_gh: bool = False) -> str:
-    info("Fetching base branch...")
     if check_gh:
         proc = subprocess.run(
             ["gh", "pr", "view", "--json", "baseRefName"],
