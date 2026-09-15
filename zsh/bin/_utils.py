@@ -127,7 +127,7 @@ def get_worktree(branch: str | None = None) -> pathlib.Path:
     worktrees = check_output(["git", "worktree", "list"])
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
     if not match:
-        raise ValueError("failed to get worktree")
+        raise ValueError(f"failed to get worktree for branch: {branch}")
     worktree = match.group(1)
     return pathlib.Path(worktree)
 
