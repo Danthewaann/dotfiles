@@ -93,9 +93,27 @@ return {
     },
     bigfile = { enabled = true },
     dashboard = {
+      width = 30,
       enabled = true,
       sections = {
         { section = "header" },
+        function()
+          local harpoon = require("harpoon")
+          harpoon:setup()
+          local list = harpoon:list()
+
+          ---@type snacks.dashboard.Section
+          local section = { padding = 1 }
+          for i, item in ipairs(list.items) do
+            section[#section + 1] = {
+              title = vim.fn.fnamemodify(item.value, ":t"),
+              icon = " ",
+              action = ":e " .. vim.fn.fnameescape(item.value),
+              key = "<leader>" .. i,
+            }
+          end
+          return section
+        end,
         { section = "startup" },
       }
     },
