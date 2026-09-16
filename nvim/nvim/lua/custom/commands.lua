@@ -1,6 +1,19 @@
 local utils = require("custom.utils")
 
-vim.api.nvim_create_user_command("Mypy", function()
+---@param cmd string
+---@param action function
+---@param opts table
+---@param abbrev string | false | nil
+local command = function(cmd, action, opts, abbrev)
+  vim.api.nvim_create_user_command(cmd, action, opts)
+  if abbrev == false then
+    return
+  end
+  abbrev = abbrev or cmd:lower()
+  utils.cabbrev(abbrev, cmd)
+end
+
+command("Mypy", function()
   local cmd = {
     utils.get_venv_executable_path("mypy"),
     "--show-column-numbers",
@@ -61,7 +74,7 @@ vim.api.nvim_create_user_command("Mypy", function()
   end)
 end, { desc = "Run Mypy and populate quickfix list with errors" })
 
-vim.api.nvim_create_user_command("Ruff", function()
+command("Ruff", function()
   local cmd = {
     utils.get_venv_executable_path("ruff"),
     "check",
@@ -116,7 +129,7 @@ vim.api.nvim_create_user_command("Ruff", function()
     end)
 end, { desc = "Run Ruff and populate quickfix list with errors" })
 
-vim.api.nvim_create_user_command("YankCommits", function(args)
+command("YankCommits", function(args)
   local count = 1
   if #args.args > 0 then
     count = tonumber(args.args) or 1
@@ -133,23 +146,137 @@ vim.api.nvim_create_user_command("YankCommits", function(args)
   end
   vim.fn.setreg("", obj.stdout)
   utils.print("Copied last " .. count .. " commits to clipboard")
-end, { desc = "Yank commits to clipboard", nargs = "?" })
+end, { desc = "Yank commits to clipboard", nargs = "?" }, "yc")
 
-vim.api.nvim_create_user_command("DeleteBuffers", function()
+command("DeleteBuffers", function()
   vim.cmd("%bd|e#|bd#")
-end, { desc = "Delete all other buffers" })
+end, { desc = "Delete all other buffers" }, "del")
 
-vim.api.nvim_create_user_command("Term", function()
+command("TmuxTerm", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
   local cmd = { "tmux", "new-window", "-c", cur_dur }
   local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
     utils.handle_system_err("term", cmd, obj)
   end
-end, { desc = "Open terminal in current buffer directory" })
+end, { desc = "Open terminal in current buffer directory" }, "tt")
 
--- Setup command line abbreviations for my custom commands
-utils.cabbrev("mypy", "Mypy")
-utils.cabbrev("ruff", "Ruff")
-utils.cabbrev("yc", "YankCommits")
-utils.cabbrev("del", "DeleteBuffers")
+
+-- Git/GitHub commands
+local gitw_script = function(oper)
+  return function()
+    local cmd = { ("gitw-%s"):format(oper) }
+    local name = table.concat(cmd, " ")
+    utils.print(("Running %s..."):format(name))
+    vim.system(cmd, { text = true }, function(out)
+      vim.schedule(function()
+        if out.code ~= 0 then
+          utils.handle_system_err(name, cmd, out)
+          return
+        end
+        utils.print(("%s was successful"):format(name))
+      end)
+    end)
+  end
+end
+
+local git_pr_script = function(oper)
+  return function()
+    local cmd = { "tmux", "split-window", "-h", "-c", "#{pane_current_path}" }
+    vim.system(cmd, { text = true }, function(out)
+      vim.schedule(function()
+        if out.code ~= 0 then
+          utils.handle_system_err(table.concat(cmd, " "), cmd, out)
+          return
+        end
+
+        cmd = { "tmux", "send-keys", ("git-pr-%s"):format(oper), "ENTER" }
+        vim.system(cmd, { text = true }, function(out2)
+          vim.schedule(function()
+            if out2.code ~= 0 then
+              utils.handle_system_err(table.concat(cmd, " "), cmd, out2)
+              return
+            end
+          end)
+        end)
+      end)
+    end)
+  end
+end
+
+local github_view = function(oper)
+  return function()
+    local cmd = { "gh", oper, "view", "--web" }
+    vim.system(cmd, { text = true }, function(out)
+      vim.schedule(function()
+        if out.code ~= 0 then
+          utils.handle_system_err(table.concat(cmd, " "), cmd, out)
+          return
+        end
+      end)
+    end)
+  end
+end
+
+local copy_to_clipboard = function(oper)
+  return function()
+    local cmd = { ("%s-copy"):format(oper) }
+    vim.system(cmd, { text = true }, function(out)
+      vim.schedule(function()
+        if out.code ~= 0 then
+          utils.handle_system_err(table.concat(cmd, " "), cmd, out)
+          return
+        end
+        utils.print(("Copied %s to clipboard"):format(vim.fn.trim(out.stdout)))
+      end)
+    end)
+  end
+end
+
+command("Gu", gitw_script("update"), { desc = "Git update current branch with origin" })
+command("Gr", gitw_script("rebase"), { desc = "Git rebase current branch with origin base" })
+command("Gm", gitw_script("merge"), { desc = "Git merge current branch with origin base" })
+command("Prc", git_pr_script("create"), { desc = "GitHub create PR" })
+command("Pre", git_pr_script("edit"), { desc = "GitHub edit PR" })
+command("Rv", github_view("repo"), { desc = "GitHub view current repo in browser" })
+command("Rc", copy_to_clipboard("git-repo"), { desc = "GitHub copy current repo to clipboard" })
+command("Pv", github_view("pr"), { desc = "GitHub view current PR in browser" })
+command("Pc", copy_to_clipboard("git-pr"), { desc = "GitHub copy current PR to clipboard" })
+command("Bv", function()
+  local cmd = { "git", "branch", "--show-current" }
+  vim.system(cmd, { text = true }, function(out)
+    vim.schedule(function()
+      if out.code ~= 0 then
+        utils.handle_system_err(table.concat(cmd, " "), cmd, out)
+        return
+      end
+      cmd = { "gh", "repo", "view", "--web", "--branch", vim.fn.trim(out.stdout) }
+      vim.system(cmd, { text = true }, function(out2)
+        vim.schedule(function()
+          if out2.code ~= 0 then
+            utils.handle_system_err(table.concat(cmd, " "), cmd, out2)
+          end
+        end)
+      end)
+    end)
+  end)
+end, { desc = "GitHub view current branch in browser" })
+command("Bc", copy_to_clipboard("git-branch"), { desc = "GitHub copy current branch to clipboard" })
+command("Tv", function()
+  local cmd = { "ticket-open" }
+  vim.system(cmd, { text = true }, function(out)
+    vim.schedule(function()
+      if out.code ~= 0 then
+        utils.handle_system_err(table.concat(cmd, " "), cmd, out)
+      end
+    end)
+  end)
+end, { desc = "GitHub view current ticket in browser" })
+command("Tc", copy_to_clipboard("ticket"), { desc = "GitHub copy current ticket to clipboard" })
+command("Gap", function()
+  local cmd = { "git-apply-patch" }
+  local obj = vim.system(cmd):wait()
+  if obj.code ~= 0 then
+    utils.handle_system_err(table.concat(cmd, " "), cmd, obj)
+  end
+end, { desc = "Git apply patch from clipboard" })
