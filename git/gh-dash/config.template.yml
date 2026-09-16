@@ -46,6 +46,11 @@ keybindings:
       name: diff
       command: >
         clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -c "lua require('diffs').attach()" -
+    - key: e
+      name: edit PR description
+      command: >
+        clear &&
+        gitw-add {{.HeadRefName}} "git-pr-edit" -C ~/Workspace/{{.RepoName}} -n
     - key: D
       name: difftool
       command: >
