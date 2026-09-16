@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import platform
-import subprocess
 import sys
 
 import _utils
@@ -12,15 +10,10 @@ if not base_tickets_url:
     _utils.error("BASE_TICKETS_URL environment variables is not set!")
     sys.exit(1)
 
-if platform.system() == "Darwin":
-    command = "pbcopy"
-else:
-    command = "xclip"
-
 ticket_number = _utils.get_ticket_number()
 if not ticket_number:
     sys.exit(1)
 ticket_url = f"{base_tickets_url}{ticket_number}"
-subprocess.run(f"echo '{ticket_url}' | {command}", shell=True, check=True)
+_utils.copy_to_clipboard(ticket_url)
 print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)
 print(ticket_url)

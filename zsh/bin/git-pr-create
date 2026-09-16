@@ -4,7 +4,6 @@ import hashlib
 import json
 import os
 import pathlib
-import platform
 import re
 import subprocess
 import sys
@@ -26,11 +25,6 @@ editor = os.getenv("EDITOR")
 assert editor
 
 prog = pathlib.Path(sys.argv[0]).stem
-
-if platform.system() == "Darwin":
-    pb_copy = "pbcopy"
-else:
-    pb_copy = "xclip"
 
 
 def print_pr_info(is_draft: bool = False) -> None:
@@ -56,11 +50,8 @@ def print_pr_info(is_draft: bool = False) -> None:
 
     print("\nThe below has been copied to your clipboard! 📋\n")
     print(output)
-    subprocess.run(
-        f"echo '{output.replace('`', r'\`')}' | {pb_copy}",
-        shell=True,
-        check=True,
-    )
+    output = output.replace("`", r"\`")
+    _utils.copy_to_clipboard(output)
 
 
 current_branch = _utils.get_current_branch()

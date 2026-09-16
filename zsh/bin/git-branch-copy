@@ -1,19 +1,10 @@
 #!/usr/bin/env python3
 
-import platform
-import subprocess
 import sys
 
 import _utils
 
 branch = _utils.get_current_branch()
-
-if platform.system() == "Darwin":
-    command = "pbcopy"
-else:
-    command = "xclip"
-
-subprocess.run(f"echo '{branch}' | {command}", shell=True, check=True)
-
+_utils.copy_to_clipboard(branch)
 print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)
 print(branch)

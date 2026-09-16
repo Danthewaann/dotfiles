@@ -5,6 +5,7 @@ import functools
 import json
 import os
 import pathlib
+import platform
 import re
 import subprocess
 import sys
@@ -142,6 +143,21 @@ def get_ticket_number(branch: str | None = None) -> str | None:
 
 def get_current_branch() -> str:
     return check_output(["git", "branch", "--show-current"]).strip()
+
+
+def get_copy_to_clipboard_command() -> str:
+    if platform.system() == "Darwin":
+        return "pbcopy"
+    return "xclip"
+
+
+def copy_to_clipboard(value: str) -> None:
+    subprocess.run(
+        [get_copy_to_clipboard_command()],
+        input=value.strip(),
+        text=True,
+        check=True,
+    )
 
 
 def run_and_log_command(
