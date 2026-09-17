@@ -5,11 +5,11 @@ return {
     "nvim-treesitter/nvim-treesitter", -- Mandatory
     "nvim-tree/nvim-web-devicons",     -- Optional but recommended
   },
-  ft = { "markdown", "codecompanion" },
+  ft = { "markdown" },
   config = function()
     require("render-markdown").setup({
       enabled = false,
-      file_types = { "markdown", "codecompanion" }
+      file_types = { "markdown" }
     })
 
     vim.keymap.set("n", "<leader>um", "<cmd>RenderMarkdown toggle<cr>", { desc = "Toggle Markdown View" })

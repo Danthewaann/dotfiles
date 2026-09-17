@@ -113,7 +113,6 @@ return {
       per_filetype = {
         sql = { "dadbod" },
         lua = { inherit_defaults = true, "lazydev" },
-        codecompanion = { "codecompanion" },
         snacks_input = { "path", "buffer" },
         ["dap-repl"] = { "dap" },
         ["dapui_watches"] = { "dap" },
