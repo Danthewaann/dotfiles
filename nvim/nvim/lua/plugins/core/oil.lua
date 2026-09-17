@@ -53,7 +53,10 @@ return {
       }
     })
 
-    vim.keymap.set("n", "-", "<cmd> Oil <CR>", { desc = "Open file tree in current dir" })
-    vim.keymap.set("n", "_", "<cmd> Oil .<CR>", { desc = "Open file tree in project root" })
+    local utils = require("custom.utils")
+    utils.create_command("Ex", "Oil <args>", { nargs = "*" })
+    utils.create_command("Sex", ":split | Oil <args>", { nargs = "*" })
+    utils.create_command("Vex", ":vsplit | Oil <args>", { nargs = "*" })
+    utils.create_command("Tex", ":tabnew | Oil <args>", { nargs = "*" })
   end,
 }
