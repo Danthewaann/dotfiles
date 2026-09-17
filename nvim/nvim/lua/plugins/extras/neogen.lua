@@ -1,12 +1,13 @@
 return {
   "danymat/neogen",
   dependencies = "nvim-treesitter/nvim-treesitter",
-  cmd = "GenerateDocs",
+  event = "VeryLazy",
   opts = { snippet_engine = "luasnip" },
   config = function(opts)
     require("neogen").setup(opts)
+    local utils = require("custom.utils")
 
-    vim.api.nvim_create_user_command("GenerateDocs", function()
+    utils.create_command("Gen", function()
       require("neogen").generate()
     end, { desc = "Generate docs for code under the cursor" })
   end

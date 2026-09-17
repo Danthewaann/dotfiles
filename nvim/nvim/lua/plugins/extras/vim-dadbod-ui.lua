@@ -1,9 +1,8 @@
 local utils = require("custom.utils")
-utils.cabbrev("db", "tab DBUI")
 
 return {
   "kristijanhusak/vim-dadbod-ui",
-  cmd = "DBUI",
+  event = "VeryLazy",
   dependencies = { "tpope/vim-dadbod" },
   config = function()
     local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
@@ -32,6 +31,8 @@ return {
 
     -- Use neovim's notfication system
     vim.g.db_ui_use_nvim_notify = 1
+
+    utils.create_command("Db", "tab DBUI")
 
     augroup("dadbod-ui", { clear = true })
     autocmd("FileType", {
