@@ -1,49 +1,37 @@
 local setup_runners = false
 local utils = require("custom.utils")
 
+local test_runners = {
+  python = {
+    custom = "make",
+    fallback = "pytest",
+    pattern = "test_*.py"
+  },
+  go = {
+    custom = "make",
+    fallback = "gotest",
+    pattern = "*_test.go"
+  },
+  ruby = {
+    custom = "make",
+    fallback = "rspec",
+    pattern = "*_spec.rb"
+  },
+}
+
 local function setup_test_runners()
   if setup_runners then
     return
   end
 
-  local test_runners = {
-    python = {
-      custom = "make",
-      fallback = "pytest",
-      pattern = "test_*.py"
-    },
-    go = {
-      custom = "make",
-      fallback = "gotest",
-      pattern = "*_test.go"
-    },
-    ruby = {
-      custom = "make",
-      fallback = "rspec",
-      pattern = "*_spec.rb"
-    },
-  }
   local custom_runners = {}
   local enabled_runners = {}
-  local use_make = false
-  local has_makefile = vim.fn.executable("make") and vim.fn.empty(vim.fn.glob("Makefile")) == 0
-  local has_dockerfile = vim.fn.empty(vim.fn.glob("Dockerfile")) == 0
-  if has_makefile and has_dockerfile then
-    local obj = vim.system({ "grep", "^unit:", "Makefile" }):wait()
-    if obj.code == 0 then
-      use_make = true
-    end
-  end
 
   for runner, data in pairs(test_runners) do
     custom_runners[runner] = { data.custom }
-    if use_make then
-      vim.g["test#" .. runner .. "#runner"] = data.custom
-      table.insert(enabled_runners, runner .. "#" .. data.custom)
-    else
-      vim.g["test#" .. runner .. "#runner"] = data.fallback
-      table.insert(enabled_runners, runner .. "#" .. data.fallback)
-    end
+    vim.g["test#" .. runner .. "#runner"] = data.fallback
+    table.insert(enabled_runners, runner .. "#" .. data.fallback)
+    table.insert(enabled_runners, runner .. "#" .. data.custom)
 
     -- From https://github.com/vim-test/vim-test/issues/147#issuecomment-667483332
     -- Try to infer the test suite, so that :TestSuite works without opening a test file
@@ -177,6 +165,25 @@ return {
         vim.cmd(":PyTest " .. options.nearest .. " " .. table.concat(tests, " "))
       end,
       desc = "[T]est run in [Q]uickfix"
+    },
+    {
+      "<leader>ur",
+      function()
+        setup_test_runners()
+        local msg = {}
+        for runner, data in pairs(test_runners) do
+          local current = vim.g["test#" .. runner .. "#runner"]
+          if current ~= data.custom then
+            table.insert(msg, ("- %s: %s"):format(runner, data.custom))
+            vim.g["test#" .. runner .. "#runner"] = data.custom
+          else
+            table.insert(msg, ("- %s: %s"):format(runner, data.fallback))
+            vim.g["test#" .. runner .. "#runner"] = data.fallback
+          end
+        end
+        utils.print("Toggling test runners\n\n" .. table.concat(msg, "\n"))
+      end,
+      desc = "Toggle Test Runners"
     },
   },
 }
