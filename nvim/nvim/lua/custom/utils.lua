@@ -278,4 +278,62 @@ function module.load_pytest_failures(results_file)
   module.print(("%d pytest error(s) loaded into quickfix"):format(#qf_items))
 end
 
+---@class jump_to_file_opts
+---@field tab? boolean open file in new tab
+
+---@param opts jump_to_file_opts?
+module.jump_to_file = function(opts)
+  opts = opts or {}
+
+  -- Get the current sequence of non-blank characters
+  if vim.fn.mode() == "n" then
+    vim.cmd(":normal viW")
+  end
+
+  local selection = module.get_visual_selection()
+  local filetype = vim.bo.filetype
+
+  if vim.tbl_contains({ "git", "diff" }, filetype) then
+    -- Allow jumping to files in git diffs
+    local index = string.find(selection, "a/")
+    if index == 1 then
+      selection = string.sub(selection, 3)
+    else
+      index = string.find(selection, "b/")
+      if index == 1 then
+        selection = string.sub(selection, 3)
+      end
+    end
+  elseif string.find(selection, "::") then
+    -- Handle pytest test nodes
+    local cmd = { "pytest-qf", selection }
+    local obj = vim.system(cmd):wait()
+    if obj.code ~= 0 then
+      module.handle_system_err("pytest-qf", cmd, obj)
+      return
+    end
+
+    selection = vim.fn.trim(obj.stdout)
+  end
+
+  -- Separate the path from the line number
+  -- e.g. some/path/to/file:42:
+  --      ^ path            ^ line number
+  local parts = {}
+  for str in string.gmatch(selection, "([^:]*)") do
+    if str ~= "" then
+      parts[#parts + 1] = str
+    end
+  end
+
+  local file = parts[1]
+  local lnum = tonumber(parts[2] or 1)
+  if opts.tab then
+    vim.cmd((":tabnew +%d %s"):format(lnum, file))
+  else
+    vim.cmd(":wincmd k")
+    vim.cmd((":e +%d %s"):format(lnum, file))
+  end
+end
+
 return module

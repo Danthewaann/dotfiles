@@ -1,6 +1,5 @@
 local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
-local utils = require("custom.utils")
 
 autocmd("LspAttach", {
   group = augroup("lsp-attach", { clear = true }),
@@ -70,57 +69,6 @@ autocmd("TermOpen", {
     -- Jump between prompts in the terminal
     vim.keymap.set({ "n", "x", "o" }, "{", [[?^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
     vim.keymap.set({ "n", "x", "o" }, "}", [[/^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
-
-    local function jump_to_file(tab)
-      -- Get the current sequence of non-blank characters
-      if vim.fn.mode() == "n" then
-        vim.cmd(":normal viW")
-      end
-
-      local selection = utils.get_visual_selection()
-
-      -- If this is a normal path then just use normal `gf` functionality.
-      -- pytest nodes contain `::` so they need special handling below.
-      if not string.find(selection, "::") then
-        if tab then
-          vim.cmd(":wincmd gF")
-        else
-          vim.cmd(":normal gF")
-        end
-        return
-      end
-
-      local cmd = { "pytest-qf", selection }
-      local obj = vim.system(cmd):wait()
-      if obj.code ~= 0 then
-        utils.handle_system_err("pytest-qf", cmd, obj)
-        return
-      end
-
-      -- Separate the path from the line number
-      -- e.g. some/path/to/file:42:
-      --      ^ path            ^ line number
-      local output = vim.fn.trim(obj.stdout)
-      local parts = {}
-      for str in string.gmatch(output, "([^:]*)") do
-        if str ~= "" then
-          parts[#parts + 1] = str
-        end
-      end
-
-      local file = parts[1]
-      local lnum = tonumber(parts[2])
-      if tab then
-        vim.cmd((":tabnew +%d %s"):format(lnum, file))
-      else
-        vim.cmd(":wincmd k")
-        vim.cmd((":e +%d %s"):format(lnum, file))
-      end
-    end
-
-    -- For a running terminal emulator that contains file paths that I would like to jump to in another buffer
-    vim.keymap.set({ "n", "x" }, "gf", function() jump_to_file(false) end, { buffer = 0, silent = true })
-    vim.keymap.set({ "n", "x" }, "<C-w>gf", function() jump_to_file(true) end, { buffer = 0, silent = true })
   end,
 })
 

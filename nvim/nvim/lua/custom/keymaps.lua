@@ -236,6 +236,10 @@ vim.keymap.set("v", "<leader>rp", function()
   { desc = "[R]e[p]lace selection in file" }
 )
 
+-- Better gf
+vim.keymap.set({ "n", "x" }, "gf", function() utils.jump_to_file() end, { silent = true })
+vim.keymap.set({ "n", "x" }, "<C-w>gf", function() utils.jump_to_file({ tab = true }) end, { silent = true })
+
 -- Yank binds
 vim.keymap.set("n", "<leader>yf", function()
   local path = vim.fn.expand("%:t")
