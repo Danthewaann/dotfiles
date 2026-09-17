@@ -27,12 +27,10 @@ if proc.returncode != 0:
     sys.exit(1)
 
 if _utils.repo_is_fork() and cur_branch == base_branch:
-    upstream = f"upstream/{base_branch}"
-    _utils.info(f"Rebasing {cur_branch} onto {upstream}...")
-    proc = _utils.run_git_rebase(upstream)
-else:
-    _utils.info(f"Rebasing {cur_branch} onto {base_branch}...")
-    proc = _utils.run_git_rebase(base_branch)
+    base_branch = f"upstream/{base_branch}"
+
+_utils.info(f"Rebasing {cur_branch} onto {base_branch}...")
+proc = _utils.run_git_rebase(base_branch)
 if proc.returncode != 0:
     sys.exit(1)
 _utils.update_python_deps()
