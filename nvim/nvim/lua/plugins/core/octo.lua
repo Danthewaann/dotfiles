@@ -1,10 +1,6 @@
 return {
   "Danthewaann/octo.nvim",
-  keys = {
-    { "<leader>op", desc = "[O]cto open [P]R" },
-    { "<leader>ov", desc = "[O]cto start or resume PR re[v]iew" },
-  },
-  cmd = "Octo",
+  event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "folke/snacks.nvim",
@@ -42,8 +38,9 @@ return {
         }
       }
     })
-    vim.keymap.set("n", "<leader>op", function()
-      local utils = require("custom.utils")
+
+    local utils = require("custom.utils")
+    utils.create_command("Prr", function()
       local buffers = vim.api.nvim_list_bufs()
       for _, buf in ipairs(buffers) do
         local buf_name = vim.api.nvim_buf_get_name(buf)
@@ -53,12 +50,7 @@ return {
         end
       end
       utils.print("Opening PR...")
-      vim.cmd("Octo pr")
+      vim.cmd("tabnew | Octo pr")
     end, { desc = "Open PR for current branch" })
-    vim.keymap.set("n", "<leader>ov", function()
-      local utils = require("custom.utils")
-      utils.print("Opening review for PR...")
-      vim.cmd("Octo review")
-    end, { desc = "Start or resume review" })
   end
 }
