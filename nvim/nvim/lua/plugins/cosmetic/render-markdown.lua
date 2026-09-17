@@ -12,6 +12,6 @@ return {
       file_types = { "markdown", "codecompanion" }
     })
 
-    vim.keymap.set("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>", { desc = "[T]oggle [M]arkdown view" })
+    vim.keymap.set("n", "<leader>um", "<cmd>RenderMarkdown toggle<cr>", { desc = "Toggle Markdown View" })
   end,
 }

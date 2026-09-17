@@ -27,6 +27,6 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<leader>ct", require("csvview").toggle, { desc = "[C]sv View [T]oggle" })
+    vim.keymap.set("n", "<leader>uv", require("csvview").toggle, { desc = "Toggle Csv View" })
   end
 }

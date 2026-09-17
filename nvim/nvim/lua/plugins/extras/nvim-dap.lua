@@ -188,7 +188,7 @@ return {
       desc = "[D]ebug [S]copes",
     },
     {
-      "<leader>du",
+      "<leader>ue",
       function()
         require("dapui").toggle({ reset = true })
       end,
