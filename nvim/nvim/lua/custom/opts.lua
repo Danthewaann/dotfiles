@@ -126,13 +126,10 @@ vim.o.wildmode = "longest:full,full"
 -- Diagnostics
 vim.diagnostic.config({
   virtual_lines = false,
-  virtual_text = false,
+  virtual_text = true,
   signs = false,
   float = {
     source = true
-  },
-  jump = {
-    on_jump = vim.diagnostic.open_float
   },
   severity_sort = true
 })
