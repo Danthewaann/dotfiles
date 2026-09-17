@@ -336,4 +336,18 @@ module.jump_to_file = function(opts)
   end
 end
 
+---@param cmd string
+---@param action string|fun(args: vim.api.keyset.create_user_command.command_args)
+---@param opts vim.api.keyset.user_command?
+---@param abbrev string | false | nil
+module.create_command = function(cmd, action, opts, abbrev)
+  opts = opts or {}
+  vim.api.nvim_create_user_command(cmd, action, opts)
+  if abbrev == false then
+    return
+  end
+  abbrev = abbrev or cmd:lower()
+  module.cabbrev(abbrev, cmd)
+end
+
 return module

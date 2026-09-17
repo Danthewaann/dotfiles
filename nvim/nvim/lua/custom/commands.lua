@@ -1,19 +1,6 @@
 local utils = require("custom.utils")
 
----@param cmd string
----@param action function
----@param opts table
----@param abbrev string | false | nil
-local command = function(cmd, action, opts, abbrev)
-  vim.api.nvim_create_user_command(cmd, action, opts)
-  if abbrev == false then
-    return
-  end
-  abbrev = abbrev or cmd:lower()
-  utils.cabbrev(abbrev, cmd)
-end
-
-command("Mypy", function()
+utils.create_command("Mypy", function()
   local cmd = {
     utils.get_venv_executable_path("mypy"),
     "--show-column-numbers",
@@ -74,7 +61,7 @@ command("Mypy", function()
   end)
 end, { desc = "Run Mypy and populate quickfix list with errors" })
 
-command("Ruff", function()
+utils.create_command("Ruff", function()
   local cmd = {
     utils.get_venv_executable_path("ruff"),
     "check",
@@ -129,7 +116,7 @@ command("Ruff", function()
     end)
 end, { desc = "Run Ruff and populate quickfix list with errors" })
 
-command("YankCommits", function(args)
+utils.create_command("YankCommits", function(args)
   local count = 1
   if #args.args > 0 then
     count = tonumber(args.args) or 1
@@ -148,11 +135,11 @@ command("YankCommits", function(args)
   utils.print("Copied last " .. count .. " commits to clipboard")
 end, { desc = "Yank commits to clipboard", nargs = "?" }, "yc")
 
-command("DeleteBuffers", function()
+utils.create_command("DeleteBuffers", function()
   vim.cmd("%bd|e#|bd#")
 end, { desc = "Delete all other buffers" }, "del")
 
-command("TmuxTerm", function()
+utils.create_command("TmuxTerm", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
   local cmd = { "tmux", "new-window", "-c", cur_dur }
   local obj = vim.system(cmd):wait()
@@ -237,17 +224,17 @@ local copy_to_clipboard = function(oper)
   end
 end
 
-command("Ga", gitw_script("add"), { nargs = 1, desc = "Git add branch and checkout to worktree" })
-command("Gu", gitw_script("update"), { desc = "Git update current branch with origin" })
-command("Gr", gitw_script("rebase"), { desc = "Git rebase current branch with origin base" })
-command("Gm", gitw_script("merge"), { desc = "Git merge current branch with origin base" })
-command("Prc", git_pr_script("create"), { desc = "GitHub create PR" })
-command("Pre", git_pr_script("edit"), { desc = "GitHub edit PR" })
-command("Rv", github_view("repo"), { desc = "GitHub view current repo in browser" })
-command("Rc", copy_to_clipboard("git-repo"), { desc = "GitHub copy current repo to clipboard" })
-command("Pv", github_view("pr"), { desc = "GitHub view current PR in browser" })
-command("Pc", copy_to_clipboard("git-pr"), { desc = "GitHub copy current PR to clipboard" })
-command("Bv", function()
+utils.create_command("Ga", gitw_script("add"), { nargs = 1, desc = "Git add branch and checkout to worktree" })
+utils.create_command("Gu", gitw_script("update"), { desc = "Git update current branch with origin" })
+utils.create_command("Gr", gitw_script("rebase"), { desc = "Git rebase current branch with origin base" })
+utils.create_command("Gm", gitw_script("merge"), { desc = "Git merge current branch with origin base" })
+utils.create_command("Prc", git_pr_script("create"), { desc = "GitHub create PR" })
+utils.create_command("Pre", git_pr_script("edit"), { desc = "GitHub edit PR" })
+utils.create_command("Rv", github_view("repo"), { desc = "GitHub view current repo in browser" })
+utils.create_command("Rc", copy_to_clipboard("git-repo"), { desc = "GitHub copy current repo to clipboard" })
+utils.create_command("Pv", github_view("pr"), { desc = "GitHub view current PR in browser" })
+utils.create_command("Pc", copy_to_clipboard("git-pr"), { desc = "GitHub copy current PR to clipboard" })
+utils.create_command("Bv", function()
   local cmd = { "git", "branch", "--show-current" }
   vim.system(cmd, { text = true }, function(out)
     vim.schedule(function()
@@ -266,8 +253,8 @@ command("Bv", function()
     end)
   end)
 end, { desc = "GitHub view current branch in browser" })
-command("Bc", copy_to_clipboard("git-branch"), { desc = "GitHub copy current branch to clipboard" })
-command("Tv", function()
+utils.create_command("Bc", copy_to_clipboard("git-branch"), { desc = "GitHub copy current branch to clipboard" })
+utils.create_command("Tv", function()
   local cmd = { "ticket-open" }
   vim.system(cmd, { text = true }, function(out)
     vim.schedule(function()
@@ -277,15 +264,15 @@ command("Tv", function()
     end)
   end)
 end, { desc = "GitHub view current ticket in browser" })
-command("Tc", copy_to_clipboard("ticket"), { desc = "GitHub copy current ticket to clipboard" })
-command("Gap", function()
+utils.create_command("Tc", copy_to_clipboard("ticket"), { desc = "GitHub copy current ticket to clipboard" })
+utils.create_command("Gap", function()
   local cmd = { "git-apply-patch" }
   local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
     utils.handle_system_err(table.concat(cmd, " "), cmd, obj)
   end
 end, { desc = "Git apply patch from clipboard" })
-command("Gx", function()
+utils.create_command("Gx", function()
   local cmd = { "git", "jump", "--stdout", "merge" }
   vim.system(cmd, {}, function(obj)
     vim.schedule(function()
