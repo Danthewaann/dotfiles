@@ -1,5 +1,5 @@
 return {
-  "stevearc/aerial.nvim",
+  "Danthewaann/aerial.nvim",
   event = "VeryLazy",
   keys = { { "<C-e>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" } } },
   opts = {
