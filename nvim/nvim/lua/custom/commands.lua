@@ -285,3 +285,33 @@ command("Gap", function()
     utils.handle_system_err(table.concat(cmd, " "), cmd, obj)
   end
 end, { desc = "Git apply patch from clipboard" })
+command("Gx", function()
+  local cmd = { "git", "jump", "--stdout", "merge" }
+  vim.system(cmd, {}, function(obj)
+    vim.schedule(function()
+      if obj.code > 1 then
+        utils.handle_system_err("git jump", cmd, obj)
+        return
+      end
+      local qf_entries = {}
+      for line in obj.stdout:gmatch("[^\r\n]+") do
+        local filename, lnum, text = line:match("([^:]+):(%d+):%s*(.+)")
+        if filename and lnum and text then
+          table.insert(qf_entries, {
+            filename = filename,
+            lnum = tonumber(lnum),
+            col = 0,
+            text = text,
+          })
+        end
+      end
+
+      if #qf_entries == 0 then
+        utils.print("No git conflicts found!")
+        return
+      end
+      vim.fn.setqflist({}, " ", { title = "Git conflicts", items = qf_entries })
+      vim.cmd("copen")
+    end)
+  end)
+end, { desc = "Show Git Conflicts" })

@@ -48,32 +48,6 @@ return {
     end, { desc = "[G]it Status" })
 
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
-    vim.keymap.set("n", "<leader>gx", function()
-      local cmd = { "git", "jump", "--stdout", "merge" }
-      vim.system(cmd, {}, function(obj)
-        vim.schedule(function()
-          if obj.code > 1 then
-            utils.handle_system_err("git jump", cmd, obj)
-            return
-          end
-          local qf_entries = {}
-          for line in obj.stdout:gmatch("[^\r\n]+") do
-            local filename, lnum, text = line:match("([^:]+):(%d+):%s*(.+)")
-            if filename and lnum and text then
-              table.insert(qf_entries, {
-                filename = filename,
-                lnum = tonumber(lnum),
-                col = 0,
-                text = text,
-              })
-            end
-          end
-          vim.fn.setqflist({}, " ", { title = "Git conflicts", items = qf_entries })
-          vim.cmd("copen")
-        end)
-      end)
-    end, { desc = "[G]it Conflicts" })
-
     vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>",
       { desc = "[G]it [Y]ank link to clipboard", silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>go", ":GBrowse<CR>", { desc = "[G]it [O]pen link in browser", silent = true })

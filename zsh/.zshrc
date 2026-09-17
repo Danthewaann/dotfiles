@@ -94,7 +94,7 @@ alias pv='gh pr view --web'
 alias rv='gh repo view --web'
 alias tv='ticket-open'
 alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.RunningFor}}\t{{.State}}\t{{.Size}}"'
-alias gc='git jump merge'
+alias gx='git jump merge'
 alias gp='git-apply-patch'
 function dt () { nvim -d "$1" "$2" }
 function gd () { base_branch=${1:-origin/$(git-get-base-branch)}..HEAD; nvim . -c "Git diff $base_branch | only" }
