@@ -73,7 +73,19 @@ end
 
 return {
   "vim-test/vim-test",
-  dependencies = { { "tpope/vim-projectionist", lazy = false }, },
+  dependencies = {
+    {
+      "tpope/vim-projectionist",
+      lazy = false,
+      config = function()
+        -- Make it easier to jump to the alternate file
+        utils.cabbrev("aa", "A")
+        utils.cabbrev("as", "AS")
+        utils.cabbrev("av", "AV")
+        utils.cabbrev("at", "AT")
+      end
+    },
+  },
   init = function()
     -- This must be put here so vim-test picks it up as it loads
     vim.g["test#runner_commands"] = { "PyTest" }
