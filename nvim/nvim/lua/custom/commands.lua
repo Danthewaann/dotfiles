@@ -164,8 +164,12 @@ end, { desc = "Open terminal in current buffer directory" }, "tt")
 
 -- Git/GitHub commands
 local gitw_script = function(oper)
-  return function()
+  ---@param args vim.api.keyset.create_user_command.command_args
+  return function(args)
     local cmd = { ("gitw-%s"):format(oper) }
+    if args.args ~= "" then
+      table.insert(cmd, args.args)
+    end
     local name = table.concat(cmd, " ")
     utils.print(("Running %s..."):format(name))
     vim.system(cmd, { text = true }, function(out)
@@ -233,6 +237,7 @@ local copy_to_clipboard = function(oper)
   end
 end
 
+command("Ga", gitw_script("add"), { nargs = 1, desc = "Git add branch and checkout to worktree" })
 command("Gu", gitw_script("update"), { desc = "Git update current branch with origin" })
 command("Gr", gitw_script("rebase"), { desc = "Git rebase current branch with origin base" })
 command("Gm", gitw_script("merge"), { desc = "Git merge current branch with origin base" })
