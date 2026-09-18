@@ -5,26 +5,31 @@ import sys
 
 import _utils
 
-if _utils.inside_worktree():
-    branch = sys.argv[1] if len(sys.argv) > 1 else _utils.get_base_branch(check_gh=True)
-    worktree = _utils.get_worktree(branch)
-    _utils.info(f"Updating {branch}...")
-    proc = subprocess.run(
-        ["gitw-update", worktree],
-        check=False,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-    if proc.returncode != 0:
-        print(proc.stdout.rstrip(), file=sys.stderr)
-        sys.exit(1)
+parser = _utils.create_parser()
+parser.add_argument(
+    "branch", nargs="?", default=None, help="branch to merge current branch with"
+)
+args = parser.parse_args()
 
-    _utils.info(f"Merging with {branch}...")
-    proc = _utils.run_git_merge(branch)
-    if proc.returncode != 0:
-        sys.exit(1)
-    _utils.update_python_deps()
-else:
+if not _utils.inside_worktree():
     _utils.error("Must be run inside a git worktree")
     sys.exit(1)
+
+base_branch = args.branch if args.branch else _utils.get_base_branch(check_gh=True)
+_utils.info(f"Updating {base_branch}...")
+proc = subprocess.run(
+    ["gitw-update", base_branch],
+    check=False,
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+)
+if proc.returncode != 0:
+    print(proc.stdout.rstrip(), file=sys.stderr)
+    sys.exit(1)
+
+_utils.info(f"Merging with {base_branch}...")
+proc = _utils.run_git_merge(base_branch)
+if proc.returncode != 0:
+    sys.exit(1)
+_utils.update_python_deps()

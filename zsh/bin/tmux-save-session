@@ -4,15 +4,13 @@ import pathlib
 
 import _utils
 
-parser = _utils.create_parser(prog="tmux-save-session")
-parser.add_argument("current_session", nargs="?")
+parser = _utils.create_parser()
+parser.add_argument("session", nargs="?", default=None, help="session to save")
 
 args = parser.parse_args()
-current_session: str = args.current_session
-
-current_session = (
-    current_session
-    or _utils.check_output(["tmux", "display-message", "-p", "#S"]).strip()
+session: str | None = args.session
+session = (
+    session or _utils.check_output(["tmux", "display-message", "-p", "#S"]).strip()
 )
 
 saved_sessions_file = pathlib.Path.home() / ".tmux-save-sessions"
@@ -21,18 +19,18 @@ if saved_sessions_file.exists():
     for line in saved_sessions_file.read_text().splitlines():
         saved_sessions.append(line.strip())
 
-if current_session not in saved_sessions:
+if session not in saved_sessions:
     with saved_sessions_file.open("a") as wfp:
-        wfp.write(current_session)
+        wfp.write(session)
         wfp.write("\n")
     _utils.check_output(
-        ["tmux", "display-message", f"Added {current_session} to saved sessions!"]
+        ["tmux", "display-message", f"Added {session} to saved sessions!"]
     )
 else:
     _utils.check_output(
         [
             "tmux",
             "display-message",
-            f"{current_session} already added to saved sessions!",
+            f"{session} already added to saved sessions!",
         ]
     )

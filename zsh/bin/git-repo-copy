@@ -4,6 +4,9 @@ import sys
 
 import _utils
 
+parser = _utils.create_parser()
+args = parser.parse_args()
+
 repo_url = _utils.check_output(
     ["gh", "repo", "view", "--json", "url", "--jq", ".url"]
 ).strip()

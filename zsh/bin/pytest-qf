@@ -5,7 +5,7 @@ import sys
 
 import _utils
 
-parser = _utils.create_parser(prog="pytest-qf")
+parser = _utils.create_parser()
 parser.add_argument(
     "nodes",
     nargs="*",

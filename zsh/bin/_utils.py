@@ -11,7 +11,7 @@ import subprocess
 import sys
 import textwrap
 from collections.abc import Callable, Sequence
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
     from _typeshed import StrPath
@@ -29,20 +29,28 @@ RED = "\033[0;31m"
 
 class Parser(argparse.ArgumentParser):
     def parse_args(self, args: Any | None = None, namespace: Any | None = None) -> Any:
-        parsed_args = super().parse_args(args, namespace)
+        class Arguments:
+            colour: Literal["yes", "no", "auto"]
+
+        parsed_args = super().parse_args(args, namespace=Arguments())
         load_colours(parsed_args.colour)
         return parsed_args
 
 
-def create_parser(prog: str) -> Parser:
+def create_parser(prog: str | None = None) -> Parser:
     parser = Parser(prog=prog)
-    parser.add_argument("--colour", action="store_true", default=False)
+    parser.add_argument(
+        "--colour",
+        help='colour terminal output, defaults to "%(default)s"',
+        choices=("yes", "no", "auto"),
+        default="auto",
+    )
     return parser
 
 
-def load_colours(enable: bool = False) -> None:
+def load_colours(colour: Literal["yes", "no", "auto"]) -> None:
     IN_TTY = sys.stdout.isatty()
-    if not enable and not IN_TTY:
+    if colour == "no" or (colour == "auto" and not IN_TTY):
         global WHITE_BOLD, GREEN_BOLD, BLUE_BOLD, RED_BOLD, YELLOW_BOLD, YELLOW, NC, RED
         WHITE_BOLD = ""
         GREEN_BOLD = ""

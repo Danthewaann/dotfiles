@@ -11,9 +11,11 @@ import time
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 editor = os.getenv("EDITOR")
 assert editor
-prog = pathlib.Path(sys.argv[0]).stem
 current_branch = _utils.get_current_branch()
 base_branch = _utils.get_base_branch()
 existing_old_pr_files = list(pathlib.Path(".").glob("git-pr-create*old*"))
@@ -179,7 +181,7 @@ proc = subprocess.run(
 )
 if proc.returncode != 0:
     _utils.error(proc.stdout)
-    _utils.warn(f"PR file written to {new_pr_file}, re-run '{prog}' to use")
+    _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")
     sys.exit(1)
 
 new_is_draft = new_is_draft == "yes"

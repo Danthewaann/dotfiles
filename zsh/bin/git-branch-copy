@@ -4,6 +4,9 @@ import sys
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 branch = _utils.get_current_branch()
 _utils.copy_to_clipboard(branch)
 print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)

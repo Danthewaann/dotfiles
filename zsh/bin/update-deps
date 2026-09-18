@@ -2,5 +2,8 @@
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 # Post checkout steps
 _utils.update_python_deps()

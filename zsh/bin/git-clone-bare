@@ -32,8 +32,13 @@ def validate_value(value: str) -> pathlib.Path:
         )
 
 
-parser = _utils.create_parser(prog="git-clone-bare")
-parser.add_argument("value", metavar="[GIT_URL or <USER>/<REPO>]", type=validate_value)
+parser = _utils.create_parser()
+parser.add_argument(
+    "value",
+    metavar="[GIT_URL or <USER>/<REPO>]",
+    type=validate_value,
+    help="git URL or user/repo to clone",
+)
 
 if len(sys.argv) < 2:
     parser.print_usage()

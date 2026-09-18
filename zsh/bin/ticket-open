@@ -6,6 +6,9 @@ import sys
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 base_tickets_url = os.getenv("BASE_TICKETS_URL")
 if not base_tickets_url:
     _utils.error("BASE_TICKETS_URL environment variables is not set!")

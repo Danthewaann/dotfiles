@@ -127,13 +127,13 @@ fi
 
 if [[ $# -gt 0 ]]; then
     win_arg=$1
-    if [[ "$win_arg" == "NEW-WIN" ]]; then
+    if [[ "$win_arg" == "win" ]]; then
         tmux new-window -c "#{pane_current_path}" -t "$selected_session:"
         shift
-    elif [[ "$win_arg" == "NEW-SPLIT-PANE" ]]; then
+    elif [[ "$win_arg" == "split" ]]; then
         tmux split-window -v -c "#{pane_current_path}" -t "$selected_session:"
         shift
-    elif [[ "$win_arg" == "NEW-HORIZ-PANE" ]]; then
+    elif [[ "$win_arg" == "vsplit" ]]; then
         tmux split-window -h -c "#{pane_current_path}" -t "$selected_session:"
         shift
     fi

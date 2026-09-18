@@ -4,6 +4,9 @@ import sys
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 pr_url = _utils.check_output(
     ["gh", "pr", "view", "--json", "url", "--jq", ".url"]
 ).strip()

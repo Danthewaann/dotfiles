@@ -6,9 +6,15 @@ import subprocess
 
 import _utils
 
-parser = _utils.create_parser(prog="tmux-kill-sessions")
+SESSIONS_TO_KEEP = 10
+
+parser = _utils.create_parser()
 parser.add_argument(
-    "--keep-recent", action="store_true", default=False, dest="keep_recent"
+    "--keep-recent",
+    dest="keep_recent",
+    action="store_true",
+    default=False,
+    help=f"don't kill the last {SESSIONS_TO_KEEP} active non-saved sessions",
 )
 
 args = parser.parse_args()
@@ -51,7 +57,7 @@ else:
     recent_active_sessions: list[str] = []
     count = 0
     for session in active_sessions:
-        if count == 10:
+        if count == SESSIONS_TO_KEEP:
             break
 
         _, session = session.split()

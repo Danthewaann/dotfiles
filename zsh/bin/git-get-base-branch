@@ -2,4 +2,7 @@
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 print(_utils.get_base_branch(check_gh=True))

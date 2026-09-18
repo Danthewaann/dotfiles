@@ -8,9 +8,9 @@ import sys
 
 import _utils
 
-parser = _utils.create_parser(prog="gitw-delete")
-parser.add_argument("worktree")
-parser.add_argument("args", nargs="*")
+parser = _utils.create_parser()
+parser.add_argument("worktree", help="worktree path to delete")
+parser.add_argument("args", nargs="*", help="args to pass to 'git worktree remove'")
 
 args = parser.parse_args()
 worktree = pathlib.Path(args.worktree)

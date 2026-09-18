@@ -12,6 +12,9 @@ from typing import Any
 
 import _utils
 
+parser = _utils.create_parser()
+parser.parse_args()
+
 # Github label to slack emojis
 pr_types = {
     "python": "python",
@@ -23,8 +26,6 @@ pr_types = {
 }
 editor = os.getenv("EDITOR")
 assert editor
-
-prog = pathlib.Path(sys.argv[0]).stem
 
 
 def print_pr_info(is_draft: bool = False) -> None:
@@ -205,7 +206,7 @@ proc = subprocess.run(
 )
 if proc.returncode != 0:
     _utils.error(proc.stdout)
-    _utils.warn(f"PR file written to {new_pr_file}, re-run '{prog}' to use")
+    _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")
     sys.exit(1)
 
 print_pr_info(is_draft=new_is_draft == "yes")

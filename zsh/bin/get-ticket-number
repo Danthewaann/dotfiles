@@ -4,9 +4,14 @@ import sys
 
 import _utils
 
-branch = sys.argv[1] if len(sys.argv) > 1 else _utils.get_current_branch()
-ticket_number = _utils.get_ticket_number(branch)
+parser = _utils.create_parser()
+parser.add_argument(
+    "branch", nargs="?", default=None, help="git branch to parse ticket number from"
+)
+args = parser.parse_args()
+branch = args.branch if args.branch else _utils.get_current_branch()
 
+ticket_number = _utils.get_ticket_number(branch)
 if ticket_number is None:
     sys.exit(1)
 
