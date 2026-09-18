@@ -18,6 +18,11 @@ return {
       enable_builtin = true,
       mappings_disable_default = false,
       mappings = {
+        pull_request = {
+          review = { lhs = "<localleader>vs" },
+          review_start = { lhs = "" },
+          review_resume = { lhs = "" },
+        },
         submit_win = {
           close_review_tab = { lhs = "" },
         },
