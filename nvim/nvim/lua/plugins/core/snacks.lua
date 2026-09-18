@@ -139,7 +139,12 @@ return {
           style = "syntax",
         },
       },
-      win = { input = { keys = picker_keys }, list = { keys = picker_keys } },
+      win = {
+        input = { keys = picker_keys },
+        list = { keys = picker_keys },
+        -- Need to disable folds so the preview window works in diff reviews in Octo.nvim
+        preview = { wo = { foldenable = false } },
+      },
       layout = "my_default_layout",
       layouts = {
         my_default_layout = {
