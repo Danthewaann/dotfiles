@@ -31,9 +31,20 @@ assert editor
 def print_pr_info(is_draft: bool = False) -> None:
     slack_label = ""
     content: dict[str, Any] = json.loads(
-        _utils.check_output(
-            ["gh", "pr", "view", "--json", "url", "--json", "labels", "--json", "title"]
-        )
+        _utils.run_system_command(
+            [
+                "gh",
+                "pr",
+                "view",
+                "--json",
+                "url",
+                "--json",
+                "labels",
+                "--json",
+                "title",
+            ],
+            log_output=False,
+        ).stdout
     )
     url = content["url"]
     title = content["title"]
@@ -58,13 +69,15 @@ def print_pr_info(is_draft: bool = False) -> None:
 current_branch = _utils.get_current_branch()
 
 # Check that this branch exists remotely
-remote_branches = _utils.check_output(["git", "branch", "-r"])
+remote_branches = _utils.run_system_command(
+    ["git", "branch", "-r"], log_output=False
+).stdout
 if not re.search(current_branch, remote_branches):
     _utils.error("Branch doesn't exist on remote origin!")
     sys.exit(1)
 
 # Check if a PR has already been opened for the current branch
-pr_info = _utils.check_output(["gh", "pr", "list"])
+pr_info = _utils.run_system_command(["gh", "pr", "list"], log_output=False).stdout
 if re.search(current_branch, pr_info):
     _utils.warn("A PR has already been opened for this branch")
     print_pr_info()
@@ -90,12 +103,15 @@ if existing_old and existing_new:
     subprocess.run([editor, new_pr_file], check=False)
 else:
     # Get list of labels that are available in the current repository
-    repo_labels = _utils.check_output(
+    repo_labels = _utils.run_system_command(
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
-    ).splitlines()
+        log_output=False,
+    ).stdout.splitlines()
 
     # Use the last commit message as the PR title
-    pr_title = _utils.check_output(["git", "log", "-1", "--pretty=%B"])
+    pr_title = _utils.run_system_command(
+        ["git", "log", "-1", "--pretty=%B"], log_output=False
+    ).stdout
     cur_time = int(time.time())
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
     new_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.new.md")

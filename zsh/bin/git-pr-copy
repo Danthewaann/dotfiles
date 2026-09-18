@@ -7,9 +7,9 @@ import _utils
 parser = _utils.create_parser()
 parser.parse_args()
 
-pr_url = _utils.check_output(
-    ["gh", "pr", "view", "--json", "url", "--jq", ".url"]
-).strip()
+pr_url = _utils.run_system_command(
+    ["gh", "pr", "view", "--json", "url", "--jq", ".url"], log_output=False
+).stdout.strip()
 
 _utils.copy_to_clipboard(pr_url)
 print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)

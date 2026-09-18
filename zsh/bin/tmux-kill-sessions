@@ -21,17 +21,21 @@ args = parser.parse_args()
 keep_recent: bool = args.keep_recent
 
 base_dir = str(pathlib.Path(os.environ["TMUX_CURRENT_DIR"]).stem)
-current_session = _utils.check_output(["tmux", "display-message", "-p", "#S"]).strip()
+current_session = _utils.run_system_command(
+    ["tmux", "display-message", "-p", "#S"], log_output=False
+).stdout.strip()
 all_sessions = list(
     map(
         str.strip,
-        _utils.check_output(["tmux", "list-sessions", "-F", "#S"]).splitlines(),
+        _utils.run_system_command(
+            ["tmux", "list-sessions", "-F", "#S"], log_output=False
+        ).stdout.splitlines(),
     )
 )
 active_sessions: list[str] = sorted(
-    _utils.check_output(
-        ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"]
-    ).splitlines(),
+    _utils.run_system_command(
+        ["tmux", "list-sessions", "-F", "#{session_last_attached} #S"], log_output=False
+    ).stdout.splitlines(),
     reverse=True,
 )
 

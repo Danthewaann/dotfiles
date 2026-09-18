@@ -10,7 +10,10 @@ parser.add_argument("session", nargs="?", default=None, help="session to save")
 args = parser.parse_args()
 session: str | None = args.session
 session = (
-    session or _utils.check_output(["tmux", "display-message", "-p", "#S"]).strip()
+    session
+    or _utils.run_system_command(
+        ["tmux", "display-message", "-p", "#S"], log_output=False
+    ).stdout.strip()
 )
 
 saved_sessions_file = pathlib.Path.home() / ".tmux-save-sessions"
@@ -23,14 +26,16 @@ if session not in saved_sessions:
     with saved_sessions_file.open("a") as wfp:
         wfp.write(session)
         wfp.write("\n")
-    _utils.check_output(
-        ["tmux", "display-message", f"Added {session} to saved sessions!"]
+    _utils.run_system_command(
+        ["tmux", "display-message", f"Added {session} to saved sessions!"],
+        log_output=False,
     )
 else:
-    _utils.check_output(
+    _utils.run_system_command(
         [
             "tmux",
             "display-message",
             f"{session} already added to saved sessions!",
-        ]
+        ],
+        log_output=False,
     )

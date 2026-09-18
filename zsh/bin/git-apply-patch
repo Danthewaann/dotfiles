@@ -14,8 +14,7 @@ if platform.system() == "Darwin":
 else:
     command = ["xclip", "-selection", "clipboard", "-o"]
 
-patch = _utils.check_output(command)
-
+patch = _utils.run_system_command(command, log_output=False).stdout
 proc = subprocess.run(["git", "apply", "-"], check=False, text=True, input=patch)
 if proc.returncode != 0:
     sys.exit(1)

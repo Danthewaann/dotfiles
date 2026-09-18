@@ -7,9 +7,9 @@ import _utils
 parser = _utils.create_parser()
 args = parser.parse_args()
 
-repo_url = _utils.check_output(
-    ["gh", "repo", "view", "--json", "url", "--jq", ".url"]
-).strip()
+repo_url = _utils.run_system_command(
+    ["gh", "repo", "view", "--json", "url", "--jq", ".url"], log_output=False
+).stdout.strip()
 
 _utils.copy_to_clipboard(repo_url)
 print("\nThe below has been copied to your clipboard! 📋\n", file=sys.stderr)

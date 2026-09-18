@@ -118,7 +118,9 @@ def get_base_branch(check_gh: bool = False) -> str:
         if proc.returncode == 0:
             return json.loads(proc.stdout)["baseRefName"]
 
-    remote_branches = check_output(["git", "remote", "show", "origin"])
+    remote_branches = run_system_command(
+        ["git", "remote", "show", "origin"], log_output=False
+    ).stdout
     base_branch: str | None = None
     if match := re.search(r"HEAD branch: (.*)", remote_branches):
         base_branch = match.group(1)
@@ -128,12 +130,16 @@ def get_base_branch(check_gh: bool = False) -> str:
 
 
 def get_root_git_dir() -> pathlib.Path:
-    return pathlib.Path(check_output(["git", "rev-parse", "--show-toplevel"]).strip())
+    return pathlib.Path(
+        run_system_command(
+            ["git", "rev-parse", "--show-toplevel"], log_output=False
+        ).stdout.strip()
+    )
 
 
 def get_worktree(branch: str | None = None) -> pathlib.Path:
     branch = branch or get_current_branch()
-    worktrees = check_output(["git", "worktree", "list"])
+    worktrees = run_system_command(["git", "worktree", "list"], log_output=False).stdout
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
     if not match:
         raise ValueError(f"failed to get worktree for branch: {branch}")
@@ -150,7 +156,9 @@ def get_ticket_number(branch: str | None = None) -> str | None:
 
 
 def get_current_branch() -> str:
-    return check_output(["git", "branch", "--show-current"]).strip()
+    return run_system_command(
+        ["git", "branch", "--show-current"], log_output=False
+    ).stdout.strip()
 
 
 def get_copy_to_clipboard_command() -> str:
@@ -177,6 +185,11 @@ def run_system_command(
 ) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(cmd, text=True, check=False, stdout=stdout, stderr=stderr)
 
+    if exit_on_error and proc.returncode != 0:
+        if proc.stdout:
+            error(proc.stdout.rstrip())
+        sys.exit(1)
+
     if log_output:
         log: Callable[[str], None] = functools.partial(print, file=sys.stderr)
         if proc.returncode != 0:
@@ -184,18 +197,7 @@ def run_system_command(
         if proc.stdout:
             log(indent(proc.stdout.rstrip()))
 
-    if exit_on_error and proc.returncode != 0:
-        sys.exit(1)
-
     return proc
-
-
-def check_output(cmd: Sequence[str | StrPath]) -> str:
-    try:
-        return subprocess.check_output(cmd, text=True, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as e:
-        error(e.stdout.rstrip())
-        sys.exit(1)
 
 
 def run_git_fetch() -> subprocess.CompletedProcess[str]:

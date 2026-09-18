@@ -25,7 +25,7 @@ existing_new = existing_new_pr_files[0] if existing_new_pr_files else None
 
 _utils.info("Fetching pull request...")
 content = json.loads(
-    _utils.check_output(
+    _utils.run_system_command(
         [
             "gh",
             "pr",
@@ -44,8 +44,9 @@ content = json.loads(
             "number",
             "--json",
             "baseRefName",
-        ]
-    )
+        ],
+        log_output=False,
+    ).stdout
 )
 pr_number = content["number"]
 title = content["title"]
@@ -67,9 +68,10 @@ if existing_old and existing_new:
     subprocess.run([editor, new_pr_file], check=False)
 else:
     # Get list of labels that are available in the current repository
-    repo_labels = _utils.check_output(
+    repo_labels = _utils.run_system_command(
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
-    ).splitlines()
+        log_output=False,
+    ).stdout.splitlines()
 
     cur_time = int(time.time())
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")

@@ -26,7 +26,9 @@ worktree_name = pathlib.Path.cwd().parent.stem + "/" + worktree.stem
 cur_branch = _utils.get_current_branch()
 
 # Check if I have opened a PR for the current branch
-prs = _utils.check_output(["gh", "pr", "list", "--author", "@me"])
+prs = _utils.run_system_command(
+    ["gh", "pr", "list", "--author", "@me"], log_output=False
+).stdout
 if not force and re.search(cur_branch, prs):
     _utils.warn("Skipping: ", end="")
     print(worktree_name, file=sys.stderr)
@@ -34,7 +36,9 @@ if not force and re.search(cur_branch, prs):
     sys.exit(0)
 
 # Make sure we don't delete worktrees that aren't pushed to their remote origin
-local_branch_rev = _utils.check_output(["git", "rev-parse", cur_branch]).strip()
+local_branch_rev = _utils.run_system_command(
+    ["git", "rev-parse", cur_branch], log_output=False
+).stdout.strip()
 proc = subprocess.run(
     ["git", "rev-parse", f"origin/{cur_branch}"],
     check=False,

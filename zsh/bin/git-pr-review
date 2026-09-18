@@ -13,9 +13,9 @@ args = parser.parse_args()
 pr_number = (
     args.pr_number
     if args.pr_number is not None
-    else _utils.check_output(
-        ["gh", "pr", "view", "--json", "number", "--jq", ".number"]
-    ).strip()
+    else _utils.run_system_command(
+        ["gh", "pr", "view", "--json", "number", "--jq", ".number"], log_output=False
+    ).stdout.strip()
 )
 
 subprocess.run(f"nvim . -c 'Octo pr edit {pr_number}'", shell=True, check=True)
