@@ -18,11 +18,6 @@ return {
       enable_builtin = true,
       mappings_disable_default = false,
       mappings = {
-        pull_request = {
-          list_commits = { lhs = "<localleader>oc", desc = "list PR commits" },
-          list_changed_files = { lhs = "<localleader>of", desc = "list PR changed files" },
-          show_pr_diff = { lhs = "<localleader>od", desc = "show PR diff" },
-        },
         submit_win = {
           close_review_tab = { lhs = "" },
         },
