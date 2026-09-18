@@ -52,7 +52,9 @@ if local_branch_rev != remote_branch_rev:
     print(_utils.indent("Local branch is not synced with remote origin branch"))
     sys.exit(0)
 
-proc = _utils.run_and_log_command(["git", "worktree", "remove", worktree, *cmd_args])
+proc = _utils.run_system_command(
+    ["git", "worktree", "remove", worktree, *cmd_args], exit_on_error=False
+)
 if proc.returncode != 0:
     _utils.error("Failed to delete: ", end="")
     print(worktree_name, file=sys.stderr)

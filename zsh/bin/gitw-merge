@@ -16,12 +16,8 @@ if not _utils.inside_worktree():
 
 base_branch = args.branch or _utils.get_base_branch(check_gh=True)
 _utils.info(f"Updating {base_branch}...")
-proc = _utils.run_and_log_command(["gitw-update", base_branch])
-if proc.returncode != 0:
-    sys.exit(1)
+_utils.run_system_command(["gitw-update", base_branch])
 
 _utils.info(f"Merging with {base_branch}...")
-proc = _utils.run_git_merge(base_branch)
-if proc.returncode != 0:
-    sys.exit(1)
+_utils.run_git_merge(base_branch)
 _utils.update_python_deps()

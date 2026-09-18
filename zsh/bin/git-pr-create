@@ -200,7 +200,7 @@ if new_is_draft == "yes":
     args.append("--draft")
 
 _utils.info("Creating pull request...")
-proc = _utils.run_and_log_command(args)
+proc = _utils.run_system_command(args, exit_on_error=False)
 if proc.returncode != 0:
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")
     sys.exit(1)

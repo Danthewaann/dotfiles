@@ -168,17 +168,24 @@ def copy_to_clipboard(value: str) -> None:
     )
 
 
-def run_and_log_command(
+def run_system_command(
     cmd: Sequence[str | StrPath],
+    stdout: int | None = subprocess.PIPE,
+    stderr: int | None = subprocess.STDOUT,
+    log_output: bool = True,
+    exit_on_error: bool = True,
 ) -> subprocess.CompletedProcess[str]:
-    proc = subprocess.run(
-        cmd, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
-    log: Callable[[str], None] = functools.partial(print, file=sys.stderr)
-    if proc.returncode != 0:
-        log = error
-    if proc.stdout:
-        log(indent(proc.stdout.rstrip()))
+    proc = subprocess.run(cmd, text=True, check=False, stdout=stdout, stderr=stderr)
+
+    if log_output:
+        log: Callable[[str], None] = functools.partial(print, file=sys.stderr)
+        if proc.returncode != 0:
+            log = error
+        if proc.stdout:
+            log(indent(proc.stdout.rstrip()))
+
+    if exit_on_error and proc.returncode != 0:
+        sys.exit(1)
 
     return proc
 
@@ -193,28 +200,28 @@ def check_output(cmd: Sequence[str | StrPath]) -> str:
 
 def run_git_fetch() -> subprocess.CompletedProcess[str]:
     info("Running git fetch...")
-    return run_and_log_command(
+    return run_system_command(
         ["git", "-c", "color.ui=always", "fetch"],
     )
 
 
 def run_git_pull() -> subprocess.CompletedProcess[str]:
     info("Running git pull...")
-    return run_and_log_command(
+    return run_system_command(
         ["git", "-c", "color.ui=always", "pull", "--no-all"],
     )
 
 
 def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch(check_gh=True)
-    return run_and_log_command(
+    return run_system_command(
         ["git", "-c", "color.ui=always", "rebase", branch],
     )
 
 
 def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch(check_gh=True)
-    return run_and_log_command(
+    return run_system_command(
         ["git", "-c", "color.ui=always", "merge", branch],
     )
 

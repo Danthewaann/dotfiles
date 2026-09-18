@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 
 import _utils
 
@@ -16,12 +15,7 @@ os.chdir(base_worktree)
 _utils.run_git_fetch()
 
 _utils.info("Checking if up-to-date with remote...")
-proc = _utils.run_and_log_command(["git", "status", "-uno"])
-if proc.returncode != 0:
-    sys.exit(1)
-
+proc = _utils.run_system_command(["git", "status", "-uno"])
 if "up to date" not in proc.stdout:
-    proc = _utils.run_git_pull()
-    if proc.returncode != 0:
-        sys.exit(1)
+    _utils.run_git_pull()
     _utils.update_python_deps()
