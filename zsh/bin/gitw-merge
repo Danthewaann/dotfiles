@@ -15,7 +15,7 @@ if not _utils.inside_worktree():
     _utils.error("Must be run inside a git worktree")
     sys.exit(1)
 
-base_branch = args.branch if args.branch else _utils.get_base_branch(check_gh=True)
+base_branch = args.branch or _utils.get_base_branch(check_gh=True)
 _utils.info(f"Updating {base_branch}...")
 proc = subprocess.run(
     ["gitw-update", base_branch],

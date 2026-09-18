@@ -16,7 +16,7 @@ if not _utils.inside_worktree():
     sys.exit(1)
 
 cur_branch = _utils.get_current_branch()
-base_branch = args.branch if args.branch else _utils.get_base_branch(check_gh=True)
+base_branch = args.branch or _utils.get_base_branch(check_gh=True)
 _utils.info(f"Updating {base_branch}...")
 proc = subprocess.run(
     ["gitw-update", base_branch],
