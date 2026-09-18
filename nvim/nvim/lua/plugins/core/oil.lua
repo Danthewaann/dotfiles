@@ -56,7 +56,7 @@ return {
     local utils = require("custom.utils")
     utils.create_command("Ex", "Oil <args>", { nargs = "*" })
     utils.create_command("Sex", ":split | Oil <args>", { nargs = "*" })
-    utils.create_command("Vex", ":vsplit | Oil <args>", { nargs = "*" })
+    utils.create_command("Vex", ":topleft vsplit | Oil <args>", { nargs = "*" })
     utils.create_command("Tex", ":tabnew | Oil <args>", { nargs = "*" })
   end,
 }
