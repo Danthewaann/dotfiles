@@ -84,11 +84,10 @@ def indent(message: str, prefix="  ") -> str:
 
 def inside_worktree() -> bool:
     return (
-        subprocess.run(
+        run_system_command(
             ["git", "rev-parse", "--is-inside-work-tree"],
-            text=True,
-            check=False,
-            capture_output=True,
+            log_output=False,
+            exit_on_error=False,
         ).stdout.strip()
         == "true"
     )
@@ -96,11 +95,10 @@ def inside_worktree() -> bool:
 
 def inside_bare_repo() -> bool:
     return (
-        subprocess.run(
+        run_system_command(
             ["git", "rev-parse", "--is-bare-repository"],
-            text=True,
-            check=False,
-            capture_output=True,
+            log_output=False,
+            exit_on_error=False,
         ).stdout.strip()
         == "true"
     )
@@ -108,12 +106,10 @@ def inside_bare_repo() -> bool:
 
 def get_base_branch(check_gh: bool = False) -> str:
     if check_gh:
-        proc = subprocess.run(
+        proc = run_system_command(
             ["gh", "pr", "view", "--json", "baseRefName"],
-            text=True,
-            check=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            log_output=False,
+            exit_on_error=False,
         )
         if proc.returncode == 0:
             return json.loads(proc.stdout)["baseRefName"]
@@ -168,22 +164,34 @@ def get_copy_to_clipboard_command() -> str:
 
 
 def copy_to_clipboard(value: str) -> None:
-    subprocess.run(
+    run_system_command(
         [get_copy_to_clipboard_command()],
         input=value.strip(),
-        text=True,
-        check=True,
+        log_output=False,
     )
 
 
 def run_system_command(
     cmd: Sequence[str | StrPath],
+    input: str | None = None,
+    env: dict[str, str] | None = None,
+    cwd: StrPath | None = None,
+    capture_output: bool = True,
     stdout: int | None = subprocess.PIPE,
     stderr: int | None = subprocess.STDOUT,
     log_output: bool = True,
     exit_on_error: bool = True,
 ) -> subprocess.CompletedProcess[str]:
-    proc = subprocess.run(cmd, text=True, check=False, stdout=stdout, stderr=stderr)
+    proc = subprocess.run(
+        cmd,
+        input=input,
+        env=env,
+        cwd=cwd,
+        text=True,
+        check=False,
+        stdout=stdout if capture_output else None,
+        stderr=stderr if capture_output else None,
+    )
 
     if exit_on_error and proc.returncode != 0:
         if proc.stdout:
@@ -229,11 +237,10 @@ def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]
 
 
 def repo_is_fork() -> tuple[str, str] | None:
-    proc = subprocess.run(
+    proc = run_system_command(
         ["gh", "repo", "view", "--json", "parent,isFork"],
-        check=False,
-        text=True,
-        capture_output=True,
+        log_output=False,
+        exit_on_error=False,
     )
     if proc.returncode != 0:
         return None
@@ -260,15 +267,28 @@ def update_python_deps() -> None:
 
     if pathlib.Path("poetry.lock").exists():
         info("Running poetry install...")
-        subprocess.run(["poetry", "install", "--all-extras"], check=False, env=env)
+        run_system_command(
+            ["poetry", "install", "--all-extras"],
+            capture_output=False,
+            exit_on_error=False,
+            env=env,
+        )
     elif pathlib.Path("uv.lock").exists():
         info("Running uv sync...")
-        subprocess.run(["uv", "sync", "--all-extras"], check=False, env=env)
+        run_system_command(
+            ["uv", "sync", "--all-extras"],
+            capture_output=False,
+            exit_on_error=False,
+            env=env,
+        )
     elif pathlib.Path("pyproject.toml").exists():
         info("Running uv pip install...")
-        subprocess.run(["uv", "venv"], check=False, env=env)
-        subprocess.run(
+        run_system_command(
+            ["uv", "venv"], capture_output=False, exit_on_error=False, env=env
+        )
+        run_system_command(
             ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],
-            check=False,
+            capture_output=False,
+            exit_on_error=False,
             env=env,
         )

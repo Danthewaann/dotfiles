@@ -39,11 +39,9 @@ if not force and re.search(cur_branch, prs):
 local_branch_rev = _utils.run_system_command(
     ["git", "rev-parse", cur_branch], log_output=False
 ).stdout.strip()
-proc = subprocess.run(
+proc = _utils.run_system_command(
     ["git", "rev-parse", f"origin/{cur_branch}"],
-    check=False,
-    text=True,
-    stdout=subprocess.PIPE,
+    exit_on_error=False,
     stderr=subprocess.DEVNULL,
 )
 remote_branch_rev = local_branch_rev

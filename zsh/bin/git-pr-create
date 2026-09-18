@@ -5,7 +5,6 @@ import json
 import os
 import pathlib
 import re
-import subprocess
 import sys
 import time
 from typing import Any
@@ -100,7 +99,7 @@ if existing_old and existing_new:
 
     old_hash = hashlib.md5(existing_old.read_bytes())
 
-    subprocess.run([editor, new_pr_file], check=False)
+    _utils.run_system_command([editor, new_pr_file], capture_output=False)
 else:
     # Get list of labels that are available in the current repository
     repo_labels = _utils.run_system_command(
@@ -165,7 +164,7 @@ no
 
     old_hash = hashlib.md5(pr_file_content.encode())
 
-    subprocess.run([editor, new_pr_file], check=False)
+    _utils.run_system_command([editor, new_pr_file], capture_output=False)
 
 new_hash = hashlib.md5(new_pr_file.read_bytes())
 

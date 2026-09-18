@@ -4,7 +4,6 @@ import argparse
 import os
 import pathlib
 import re
-import subprocess
 import sys
 
 import _utils
@@ -114,4 +113,4 @@ else:
 print(file=sys.stderr)
 _utils.info("Creating base worktree...")
 base_branch = _utils.get_base_branch()
-subprocess.run(["gitw-add", base_branch], check=False)
+_utils.run_system_command(["gitw-add", base_branch], capture_output=False)

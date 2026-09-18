@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import subprocess
 
 import _utils
 
@@ -18,4 +17,6 @@ pr_number = (
     ).stdout.strip()
 )
 
-subprocess.run(f"nvim . -c 'Octo pr edit {pr_number}'", shell=True, check=True)
+_utils.run_system_command(
+    ["nvim", ".", "-c", f"Octo pr edit {pr_number}"], capture_output=False
+)

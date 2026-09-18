@@ -2,7 +2,6 @@
 
 import pathlib
 import re
-import subprocess
 
 import _utils
 
@@ -13,7 +12,12 @@ if not _utils.inside_bare_repo():
     for dirpath, dirnames, filenames in pathlib.Path.cwd().walk():
         for dir in dirnames:
             if (dirpath / dir / ".bare").exists():
-                subprocess.run("gitw-list", check=False, cwd=dirpath / dir)
+                _utils.run_system_command(
+                    "gitw-list",
+                    capture_output=False,
+                    exit_on_error=False,
+                    cwd=dirpath / dir,
+                )
 else:
     cur_dir = pathlib.Path.cwd()
     worktrees = _utils.run_system_command(

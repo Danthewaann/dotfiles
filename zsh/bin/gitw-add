@@ -4,7 +4,6 @@ import argparse
 import os
 import pathlib
 import shutil
-import subprocess
 import sys
 import time
 from collections.abc import Sequence
@@ -83,9 +82,10 @@ if not _utils.inside_bare_repo():
 if pathlib.Path(converted_name).is_dir():
     _utils.info("Switching to worktree...")
     sys.exit(
-        subprocess.run(
+        _utils.run_system_command(
             ["tmux-sessionizer", pathlib.Path.cwd() / converted_name, *win_args, *args],
-            check=False,
+            capture_output=False,
+            exit_on_error=False,
         ).returncode
     )
 
@@ -102,11 +102,8 @@ local_branch_arg = ["-B", branch_name]
 
 # If this branch exists remotely, set up tracking info for the local branch
 remote_tracking_arg = []
-remote_branches = subprocess.run(
-    ["git", "ls-remote", "--branches", "origin"],
-    text=True,
-    check=False,
-    capture_output=True,
+remote_branches = _utils.run_system_command(
+    ["git", "ls-remote", "--branches", "origin"]
 ).stdout
 if branch_name in remote_branches:
     remote_tracking_arg = ["--track", f"origin/{branch_name}"]
@@ -145,7 +142,9 @@ _utils.success("Successfully created worktree!")
 _utils.info("Switching to worktree...")
 time.sleep(0.3)
 sys.exit(
-    subprocess.run(
-        ["tmux-sessionizer", pathlib.Path.cwd(), *win_args, *args], check=False
+    _utils.run_system_command(
+        ["tmux-sessionizer", pathlib.Path.cwd(), *win_args, *args],
+        capture_output=False,
+        exit_on_error=False,
     ).returncode
 )

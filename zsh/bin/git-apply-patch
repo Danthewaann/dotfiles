@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import platform
-import subprocess
-import sys
 
 import _utils
 
@@ -15,6 +13,4 @@ else:
     command = ["xclip", "-selection", "clipboard", "-o"]
 
 patch = _utils.run_system_command(command, log_output=False).stdout
-proc = subprocess.run(["git", "apply", "-"], check=False, text=True, input=patch)
-if proc.returncode != 0:
-    sys.exit(1)
+_utils.run_system_command(["git", "apply", "-"], capture_output=False, input=patch)

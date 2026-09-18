@@ -2,7 +2,6 @@
 
 import os
 import pathlib
-import subprocess
 
 import _utils
 
@@ -56,7 +55,9 @@ if not keep_recent:
             and session not in default_sessions
             and session not in saved_sessions
         ):
-            subprocess.run(["tmux", "kill-session", "-t", session], check=True)
+            _utils.run_system_command(
+                ["tmux", "kill-session", "-t", session], capture_output=False
+            )
 else:
     recent_active_sessions: list[str] = []
     count = 0
@@ -79,4 +80,6 @@ else:
             and session not in saved_sessions
             and session not in recent_active_sessions
         ):
-            subprocess.run(["tmux", "kill-session", "-t", session], check=True)
+            _utils.run_system_command(
+                ["tmux", "kill-session", "-t", session], capture_output=False
+            )

@@ -5,7 +5,6 @@ import json
 import os
 import pathlib
 import re
-import subprocess
 import sys
 import time
 
@@ -65,7 +64,7 @@ if existing_old and existing_new:
 
     old_hash = hashlib.md5(existing_old.read_bytes())
 
-    subprocess.run([editor, new_pr_file], check=False)
+    _utils.run_system_command([editor, new_pr_file], capture_output=False)
 else:
     # Get list of labels that are available in the current repository
     repo_labels = _utils.run_system_command(
@@ -125,7 +124,7 @@ else:
 
     old_hash = hashlib.md5(pr_file_content.encode())
 
-    subprocess.run([editor, new_pr_file], check=False)
+    _utils.run_system_command([editor, new_pr_file], capture_output=False)
 
 new_hash = hashlib.md5(new_pr_file.read_bytes())
 
@@ -178,7 +177,7 @@ for label in labels:
     args.append(label)
 
 _utils.info("Updating pull request...")
-proc = _utils.run_system_command(args, exit_on_error=False)
+proc = _utils.run_system_command(args, capture_output=False, exit_on_error=False)
 if proc.returncode != 0:
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")
     sys.exit(1)
@@ -187,15 +186,19 @@ new_is_draft = new_is_draft == "yes"
 
 if new_is_draft is not is_draft:
     if new_is_draft is False:
-        subprocess.run(["gh", "pr", "ready"], check=True)
+        _utils.run_system_command(["gh", "pr", "ready"], capture_output=False)
     else:
-        subprocess.run(["gh", "pr", "ready", "--undo"], check=True)
+        _utils.run_system_command(["gh", "pr", "ready", "--undo"], capture_output=False)
 
 if new_state != state:
     if new_state == "open" and state == "closed":
-        subprocess.run(["gh", "pr", "reopen", pr_number], check=True)
+        _utils.run_system_command(
+            ["gh", "pr", "reopen", pr_number], capture_output=False
+        )
     elif new_state == "closed":
-        subprocess.run(["gh", "pr", "close", pr_number], check=True)
+        _utils.run_system_command(
+            ["gh", "pr", "close", pr_number], capture_output=False
+        )
 
 old_pr_file.unlink(missing_ok=True)
 new_pr_file.unlink(missing_ok=True)
