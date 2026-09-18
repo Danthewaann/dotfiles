@@ -201,11 +201,8 @@ for label in new_labels:
 if new_is_draft == "yes":
     args.append("--draft")
 
-proc = subprocess.run(
-    args, text=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-)
+proc = _utils.run_and_log_command(args)
 if proc.returncode != 0:
-    _utils.error(proc.stdout)
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")
     sys.exit(1)
 

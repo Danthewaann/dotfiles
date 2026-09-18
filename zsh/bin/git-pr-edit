@@ -176,11 +176,8 @@ for label in labels:
         args.append("--add-label")
     args.append(label)
 
-proc = subprocess.run(
-    args, check=False, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-)
+proc = _utils.run_and_log_command(args)
 if proc.returncode != 0:
-    _utils.error(proc.stdout)
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")
     sys.exit(1)
 

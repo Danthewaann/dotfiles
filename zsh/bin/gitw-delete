@@ -52,27 +52,10 @@ if local_branch_rev != remote_branch_rev:
     print(_utils.indent("Local branch is not synced with remote origin branch"))
     sys.exit(0)
 
-proc = subprocess.run(
-    ["git", "worktree", "remove", worktree, *cmd_args],
-    check=False,
-    text=True,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT,
-)
+proc = _utils.run_and_log_command(["git", "worktree", "remove", worktree, *cmd_args])
 if proc.returncode != 0:
     _utils.error("Failed to delete: ", end="")
     print(worktree_name, file=sys.stderr)
-    if re.search(
-        "contains modified or untracked files, use --force to delete it", proc.stdout
-    ):
-        print(
-            _utils.indent(
-                "This worktree contains modified or untracked files, use --force to delete it"
-            ),
-            file=sys.stderr,
-        )
-    else:
-        print(_utils.indent(proc.stdout), file=sys.stderr)
     sys.exit(1)
 
 _utils.success("Successfully deleted: ", end="")
