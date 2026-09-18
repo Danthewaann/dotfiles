@@ -70,8 +70,6 @@ if re.search(current_branch, pr_info):
     print_pr_info()
     sys.exit(1)
 
-base_branch = _utils.get_base_branch()
-
 existing_old_pr_files = list(pathlib.Path(".").glob("git-pr-create*old*"))
 existing_old_pr_files.sort(key=lambda x: x.stem)
 existing_new_pr_files = list(pathlib.Path(".").glob("git-pr-create*new*"))
@@ -85,7 +83,7 @@ if existing_old and existing_new:
     old_pr_file = existing_old
     new_pr_file = existing_new
     _utils.info(f"Using existing PR file: {existing_new}")
-    time.sleep(0.5)
+    time.sleep(0.3)
 
     old_hash = hashlib.md5(existing_old.read_bytes())
 
@@ -135,7 +133,7 @@ no
 
 ## Base Branch
 
-{base_branch.strip()}
+{_utils.get_base_branch().strip()}
 
 <!-- END -->
 
