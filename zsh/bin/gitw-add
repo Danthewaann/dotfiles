@@ -114,8 +114,6 @@ if branch_name in remote_branches:
     remote_tracking_arg = ["--track", f"origin/{branch_name}"]
 
 # Create a new worktree using the converted name whilst checking out the branch
-_utils.info("Creating worktree...")
-
 add_args = [
     "git",
     "worktree",
@@ -124,6 +122,7 @@ add_args = [
     *local_branch_arg,
     *remote_tracking_arg,
 ]
+_utils.info("Creating worktree...")
 proc = _utils.run_and_log_command(add_args)
 if proc.returncode != 0:
     sys.exit(1)

@@ -176,6 +176,7 @@ for label in labels:
         args.append("--add-label")
     args.append(label)
 
+_utils.info("Updating pull request...")
 proc = _utils.run_and_log_command(args)
 if proc.returncode != 0:
     _utils.warn(f"PR file written to {new_pr_file}, re-run '{parser.prog}' to use")

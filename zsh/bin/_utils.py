@@ -199,6 +199,7 @@ def run_git_fetch() -> subprocess.CompletedProcess[str]:
 
 
 def run_git_pull() -> subprocess.CompletedProcess[str]:
+    info("Running git pull...")
     return run_and_log_command(
         ["git", "-c", "color.ui=always", "pull", "--no-all"],
     )

@@ -77,6 +77,7 @@ with open(".git", "w") as git_file:
     git_file.write("gitdir: ./.bare\n")
 
 # Explicitly sets the remote origin fetch so we can fetch remote branches
+_utils.info("Configuring remote.origin.fetch...")
 proc = _utils.run_and_log_command(
     ["git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"]
 )

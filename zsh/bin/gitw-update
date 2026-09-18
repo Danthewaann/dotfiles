@@ -15,9 +15,12 @@ _utils.info(f"Entering '{base_worktree.stem}' worktree...")
 os.chdir(base_worktree)
 _utils.run_git_fetch()
 
-_utils.info("Updating with remote...")
-status = _utils.check_output(["git", "status", "-uno"])
-if "up to date" not in status:
+_utils.info("Checking if up-to-date with remote...")
+proc = _utils.run_and_log_command(["git", "status", "-uno"])
+if proc.returncode != 0:
+    sys.exit(1)
+
+if "up to date" not in proc.stdout:
     proc = _utils.run_git_pull()
     if proc.returncode != 0:
         sys.exit(1)
