@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import functools
 import json
 import os
 import pathlib
@@ -10,7 +9,6 @@ import re
 import subprocess
 import sys
 import textwrap
-from collections.abc import Callable, Sequence
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
@@ -63,7 +61,7 @@ def load_colours(colour: Literal["yes", "no", "auto"]) -> None:
 
 
 def error(message: str, end: str = "\n") -> None:
-    print(f"{RED}ERROR: {message}{NC}", end=end, file=sys.stderr)
+    print(f"{RED}Error{NC}: {message}", end=end, file=sys.stderr)
 
 
 def info(message: str, end: str = "\n") -> None:
@@ -75,7 +73,7 @@ def success(message: str, end: str = "\n") -> None:
 
 
 def warn(message: str, end: str = "\n") -> None:
-    print(f"{YELLOW}WARN: {message}{NC}", end=end, file=sys.stderr)
+    print(f"{YELLOW}Warn{NC}: {message}", end=end, file=sys.stderr)
 
 
 def indent(message: str, prefix="  ") -> str:
@@ -172,7 +170,7 @@ def copy_to_clipboard(value: str) -> None:
 
 
 def run_system_command(
-    cmd: Sequence[str | StrPath],
+    cmd: list[StrPath],
     input: str | None = None,
     env: dict[str, str] | None = None,
     cwd: StrPath | None = None,
@@ -193,17 +191,16 @@ def run_system_command(
         stderr=stderr if capture_output else None,
     )
 
-    if exit_on_error and proc.returncode != 0:
-        if proc.stdout:
-            error(proc.stdout.rstrip())
-        sys.exit(1)
+    prefix = "  "
+    if proc.returncode != 0:
+        prefix = "       "
+        error(f"failed to run: {' '.join(map(str, cmd))}")
 
-    if log_output:
-        log: Callable[[str], None] = functools.partial(print, file=sys.stderr)
-        if proc.returncode != 0:
-            log = error
-        if proc.stdout:
-            log(indent(proc.stdout.rstrip()))
+    if log_output and proc.stdout:
+        print(indent(proc.stdout.rstrip(), prefix=prefix), file=sys.stderr)
+
+    if exit_on_error and proc.returncode != 0:
+        sys.exit(1)
 
     return proc
 

@@ -103,10 +103,7 @@ _utils.run_system_command(["gh", "repo", "set-default", value])
 _utils.info("Fetching parent settings...")
 result = _utils.repo_is_fork()
 if result is None:
-    print(
-        f"{_utils.YELLOW}This repo is not a fork, skipping upstream fetch{_utils.NC}",
-        file=sys.stderr,
-    )
+    _utils.warn("This repo is not a fork, skipping upstream fetch")
 else:
     owner, repo = result
     _utils.info("Fetching upstream branches...")
