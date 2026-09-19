@@ -18,17 +18,17 @@ import _utils
 # => Clones to a /my-repo directory
 
 
-def validate_value(value: str) -> pathlib.Path:
-    if value.startswith("git@github.com"):
-        _, value = value.split(":")
-        value = value.removesuffix(".git")
-        return pathlib.Path(value)
-    elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value):
-        return pathlib.Path(value)
-    else:
+def validate_value(value: str) -> str:
+    if (
+        not value.startswith("git@github.com:")
+        and not value.startswith("ssh://git@")
+        and not re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value)
+    ):
         raise argparse.ArgumentTypeError(
-            "Invalid value provided, must be a 'git@github.com' url or a '<user>/<repo>' string"
+            "Invalid value provided, must be a 'git@github.com/ssh://git@<domain>' url or a '<user>/<repo>' string"
         )
+
+    return value
 
 
 parser = _utils.create_parser()
@@ -44,13 +44,24 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 args = parser.parse_args()
-value: pathlib.Path = args.value
+value: str = args.value
 
-if value.exists():
+if value.startswith("git@github.com:"):
+    _, tmp = value.split(":")
+    tmp = tmp.removesuffix(".git")
+    path = pathlib.Path(tmp)
+elif value.startswith("ssh://git@"):
+    path = pathlib.Path(value)
+    path = pathlib.Path(path.parent.name) / path.stem
+elif re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$", value):
+    path = pathlib.Path(value)
+    value = f"git@github.com:{value}.git"
+
+if path.exists():
     _utils.error(f"{value} already exists!")
     sys.exit(1)
 
-value.mkdir(parents=True, exist_ok=True)
+path.mkdir(parents=True, exist_ok=True)
 
 # Moves all the administrative git files (a.k.a $GIT_DIR) under .bare directory.
 #
@@ -61,17 +72,17 @@ value.mkdir(parents=True, exist_ok=True)
 # new-awesome-feature
 # hotfix-bug-12
 # ...
-_utils.info(f"Cloning bare {value} repository...")
+_utils.info(f"Cloning bare {path} repository...")
 proc = _utils.run_system_command(
-    ["git", "-C", value, "clone", "--bare", f"git@github.com:{value}.git", ".bare"],
+    ["git", "-C", path, "clone", "--bare", value, ".bare"],
     exit_on_error=False,
 )
 if proc.returncode != 0:
-    value.rmdir()
+    path.rmdir()
     sys.exit(1)
 
 # Jump into the bare repo directory
-os.chdir(value)
+os.chdir(path)
 
 with open(".git", "w") as git_file:
     git_file.write("gitdir: ./.bare\n")
