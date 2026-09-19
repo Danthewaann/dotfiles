@@ -46,12 +46,19 @@ parser.add_argument(
     default=None,
     help="window arg to pass to 'tmux-sessionizer'",
 )
+parser.add_argument(
+    "--only-checkout",
+    action="store_true",
+    default=False,
+    help="only checkout the branch into a worktree",
+)
 
 parsed_args = parser.parse_args()
 branch_name: str = parsed_args.branch
 args: Sequence[str] = parsed_args.args
 working_dir: pathlib.Path | None = parsed_args.working_dir
 new_win: Literal["win", "split", "vsplit"] | None = parsed_args.new_win
+only_checkout: bool = parsed_args.only_checkout
 
 # For use in tmux-sessionizer
 win_args: list[str] = []
@@ -78,8 +85,13 @@ if not _utils.inside_bare_repo():
     _utils.error("Must be run in a worktree or bare repository!")
     sys.exit(1)
 
-# If the worktree already exists, switch to it
-if pathlib.Path(converted_name).is_dir():
+# If the worktree already exists and `--only-checkout` is set then just exit
+worktree_exists = pathlib.Path(converted_name).is_dir()
+if only_checkout and worktree_exists:
+    sys.exit(0)
+
+# If the worktree already exists and `--only-checkout` isn't set, switch to it
+if not only_checkout and worktree_exists:
     _utils.info("Switching to worktree...")
     sys.exit(
         _utils.run_system_command(
@@ -128,6 +140,10 @@ if projections_file.exists():
         shutil.copy(projections_file, f"{converted_name}/.projections.json")
     except shutil.SameFileError:
         pass
+
+# We have now created the worktree, so exit here if `--only-checkout` is set
+if only_checkout:
+    sys.exit(0)
 
 # Enter the new worktree
 os.chdir(converted_name)

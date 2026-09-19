@@ -9,10 +9,20 @@ parser.add_argument("branch", nargs="?", default=None, help="branch to update")
 args = parser.parse_args()
 
 base_branch = args.branch or _utils.get_current_branch()
-base_worktree = _utils.get_worktree(base_branch)
-_utils.info(f"Entering '{base_worktree.stem}' worktree...")
-os.chdir(base_worktree)
-_utils.run_git_fetch()
+try:
+    base_worktree = _utils.get_worktree(base_branch)
+except FileNotFoundError:
+    # The base branch isn't checked out in a worktree, so we need to create it
+    _utils.info(f"Worktree for branch '{base_branch}' not found, creating it...")
+    _utils.run_system_command(
+        ["gitw-add", base_branch, "--only-checkout"],
+        capture_output=False,
+        log_output=False,
+    )
+else:
+    _utils.info(f"Entering '{base_worktree.stem}' worktree...")
+    os.chdir(base_worktree)
+    _utils.run_git_fetch()
 
 _utils.info("Checking if up-to-date with remote...")
 proc = _utils.run_system_command(["git", "status", "-uno"])

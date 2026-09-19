@@ -136,7 +136,7 @@ def get_worktree(branch: str | None = None) -> pathlib.Path:
     worktrees = run_system_command(["git", "worktree", "list"], log_output=False).stdout
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
     if not match:
-        raise ValueError(f"failed to get worktree for branch: {branch}")
+        raise FileNotFoundError(f"failed to get worktree for branch: {branch}")
     worktree = match.group(1)
     return pathlib.Path(worktree)
 
@@ -191,13 +191,14 @@ def run_system_command(
         stderr=stderr if capture_output else None,
     )
 
-    prefix = "  "
-    if proc.returncode != 0:
-        prefix = "       "
-        error(f"failed to run: {' '.join(map(str, cmd))}")
+    if log_output:
+        prefix = "  "
+        if proc.returncode != 0:
+            prefix = "       "
+            error(f"failed to run: {' '.join(map(str, cmd))}")
 
-    if log_output and proc.stdout:
-        print(indent(proc.stdout.rstrip(), prefix=prefix), file=sys.stderr)
+        if proc.stdout:
+            print(indent(proc.stdout.rstrip(), prefix=prefix), file=sys.stderr)
 
     if exit_on_error and proc.returncode != 0:
         sys.exit(1)
