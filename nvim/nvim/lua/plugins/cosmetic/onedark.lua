@@ -95,6 +95,7 @@ return {
     vim.api.nvim_set_hl(0, "Yank", { fg = colours.purple, bg = colours.bg1 })
 
     -- Links
+    vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", { link = "DiffChange" })
     vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "FloatBorder" })
     vim.api.nvim_set_hl(0, "MasonBackdrop", { link = "Normal" })
     vim.api.nvim_set_hl(0, "WinBarNC", { link = "Normal" })

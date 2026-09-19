@@ -9,7 +9,8 @@ return {
   config = function()
     require("render-markdown").setup({
       enabled = false,
-      file_types = { "markdown" }
+      file_types = { "markdown" },
+      anti_conceal = { enabled = false },
     })
 
     vim.keymap.set("n", "<leader>um", "<cmd>RenderMarkdown toggle<cr>", { desc = "Toggle Markdown View" })
