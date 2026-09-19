@@ -134,10 +134,16 @@ def get_root_git_dir() -> pathlib.Path:
 def get_worktree(branch: str | None = None) -> pathlib.Path:
     branch = branch or get_current_branch()
     worktrees = run_system_command(["git", "worktree", "list"], log_output=False).stdout
-    match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]", worktrees)
+    match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]\s+(prunable|)", worktrees)
     if not match:
         raise FileNotFoundError(f"failed to get worktree for branch: {branch}")
     worktree = match.group(1)
+    prunable = match.group(3)
+    if prunable:
+        # The worktree exists but it associated with a checkout,
+        # so it needs to be removed first so it can be checked out
+        run_system_command(["git", "worktree", "remove", worktree])
+        raise FileNotFoundError(f"failed to get worktree for branch: {branch}")
     return pathlib.Path(worktree)
 
 
