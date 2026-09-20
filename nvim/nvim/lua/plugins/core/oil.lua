@@ -53,10 +53,29 @@ return {
       }
     })
 
+    local open_oil = function(dir, opts, cb)
+      opts = opts or { preview = { vertical = true } }
+      cb = cb or function()
+        vim.schedule(function()
+          vim.cmd(":vertical resize 50")
+        end)
+      end
+
+      require("oil").open(dir, opts, cb)
+    end
+
+    vim.keymap.set("n", "-", open_oil, { desc = "Open file tree in current dir" })
+    vim.keymap.set("n", "_", function() open_oil(".") end, { desc = "Open file tree in project root" })
+
     local utils = require("custom.utils")
-    utils.create_command("Ex", "Oil <args>", { nargs = "*" })
-    utils.create_command("Sex", ":split | Oil <args>", { nargs = "*" })
-    utils.create_command("Vex", ":topleft vsplit | Oil <args>", { nargs = "*" })
-    utils.create_command("Tex", ":tabnew | Oil <args>", { nargs = "*" })
+    utils.create_command("Ex", open_oil, { nargs = "*" })
+    utils.create_command("Sex", function()
+      vim.cmd(":split")
+      open_oil()
+    end, { nargs = "*" })
+    utils.create_command("Tex", function()
+      vim.cmd(":tabnew")
+      open_oil()
+    end, { nargs = "*" })
   end,
 }
