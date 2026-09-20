@@ -3,11 +3,10 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("luatab").setup({
-      separator = function() return "" end,
       title = function(bufnr)
-        local file = vim.fn.bufname(bufnr)
-        local buftype = vim.fn.getbufvar(bufnr, "&buftype")
-        local filetype = vim.fn.getbufvar(bufnr, "&filetype")
+        local file = vim.api.nvim_buf_get_name(bufnr)
+        local buftype = vim.bo[bufnr].buftype
+        local filetype = vim.bo[bufnr].filetype
 
         if buftype == "help" then
           return "help:" .. vim.fn.fnamemodify(file, ":t:r")
@@ -38,9 +37,9 @@ return {
       end,
       devicon = function(bufnr, isSelected)
         local icon, devhl
-        local file = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":t")
-        local buftype = vim.fn.getbufvar(bufnr, "&buftype")
-        local filetype = vim.fn.getbufvar(bufnr, "&filetype")
+        local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
+        local buftype = vim.bo[bufnr].buftype
+        local filetype = vim.bo[bufnr].filetype
         local devicons = require "nvim-web-devicons"
         if filetype == "TelescopePrompt" then
           icon, devhl = devicons.get_icon("telescope")
@@ -56,6 +55,8 @@ return {
           icon, devhl = devicons.get_icon("sql")
         elseif filetype == "sql" then
           icon, devhl = devicons.get_icon("sql")
+        elseif filetype == "fugitive" then
+          icon, devhl = devicons.get_icon("git")
         elseif buftype == "terminal" then
           icon, devhl = devicons.get_icon("zsh")
         else
@@ -79,6 +80,9 @@ return {
         end
         line = line .. "%#TabLineFill#%="
         return line
+      end,
+      separator = function(index)
+        return (index < vim.fn.tabpagenr("$") and "%#TabLine# |" or "")
       end,
       windowCount = function() return "" end,
     })
