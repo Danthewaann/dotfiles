@@ -93,7 +93,7 @@ return {
     },
     bigfile = { enabled = true },
     dashboard = {
-      width = 30,
+      width = 60,
       enabled = true,
       sections = {
         { section = "header" },
@@ -112,7 +112,16 @@ return {
               key = "<leader>" .. i,
             }
           end
-          return section
+
+          if #section > 0 then
+            local out = { padding = 1 }
+            ---@diagnostic disable-next-line: param-type-mismatch
+            for _, s in ipairs(section) do
+              table.insert(out, s)
+            end
+            return out
+          end
+          return {}
         end,
         { section = "startup" },
       }
