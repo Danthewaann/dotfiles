@@ -1,5 +1,9 @@
 local utils = require("custom.utils")
 
+---------------
+--- GENERAL ---
+---------------
+
 -- Treat <space> as a noop
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true, desc = "No-op" })
 
@@ -42,6 +46,30 @@ vim.keymap.set("v", "y", "ygv<Esc>")
 -- Go to alternative buffer
 vim.keymap.set("n", "<BS>", ":b#<CR>", { silent = true, desc = "Go to alternative buffer" })
 
+-- Enter normal-mode in nvim terminal
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
+vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
+
+-- Keep the cursor position when searching, don't move to next match
+vim.keymap.set("n", "*", "*N")
+
+-- Better gf
+vim.keymap.set({ "n", "x" }, "gf", function() utils.jump_to_file() end, { silent = true })
+vim.keymap.set({ "n", "x" }, "<C-w>gf", function() utils.jump_to_file({ tab = true }) end, { silent = true })
+
+-- Fix last spelling mistake
+vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
+  desc = "Fix last spelling mistake whilst persisting the cursor position",
+})
+
+-- I tend to mistype stuff so these abbreviations helps my fingers
+utils.cabbrev("Wa", "wa")
+utils.cabbrev("Qa", "qa")
+
+---------------
+--- TOGGLES ---
+---------------
+
 -- Quickfix
 vim.keymap.set("n", "<M-x>", function()
   local qf_exists = false
@@ -59,12 +87,6 @@ vim.keymap.set("n", "<M-x>", function()
   end
   vim.cmd "botright copen"
 end, { desc = "Toggle Quickfix" })
-
--- Close tab
-vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
-
--- Close all tabs except current one
-vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
 
 -- Toggle a terminal that can be used by vim-test
 vim.keymap.set({ "n", "t" }, "<C-t>", function()
@@ -97,9 +119,15 @@ vim.keymap.set({ "n", "t" }, "<C-t>", function()
   end
 end, { desc = "Toggle Terminal" })
 
--- Enter normal-mode in nvim terminal
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal normal-mode" })
-vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode and scroll half a page up" })
+------------------------
+--- WINDOWS AND TABS ---
+------------------------
+
+-- Close tab
+vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
+
+-- Close all tabs except current one
+vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
 
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
@@ -170,8 +198,9 @@ end, { desc = "Adjust window height down" })
 -- Exit the current window
 vim.keymap.set("n", "<C-q>", "<cmd> q<CR>", { desc = "Close window" })
 
--- Keep the cursor position when searching, don't move to next match
-vim.keymap.set("n", "*", "*N")
+---------------------------
+--- LSP AND DIAGNOSTICS ---
+---------------------------
 
 -- Remove a bunch of builtin LSP keymaps I don't use
 -- See :h lsp-defaults
@@ -202,6 +231,10 @@ end, { desc = "Open buffer error diagnostics in quickfix list" })
 vim.keymap.set("n", "<leader>X", function()
   vim.diagnostic.setqflist({ open = true })
 end, { desc = "Open all buffer diagnostics in quickfix list" })
+
+--------------------
+--- REPLACEMENTS ---
+--------------------
 
 -- Replace current word in current file or all files in quickfix list
 vim.keymap.set("n", "<leader>rp", function()
@@ -236,11 +269,10 @@ vim.keymap.set("v", "<leader>rp", function()
   { desc = "[R]e[p]lace selection in file" }
 )
 
--- Better gf
-vim.keymap.set({ "n", "x" }, "gf", function() utils.jump_to_file() end, { silent = true })
-vim.keymap.set({ "n", "x" }, "<C-w>gf", function() utils.jump_to_file({ tab = true }) end, { silent = true })
+-------------
+--- YANKS ---
+-------------
 
--- Yank binds
 vim.keymap.set("n", "<leader>yf", function()
   local path = vim.fn.expand("%:t")
   local cb_opts = vim.opt.clipboard:get()
@@ -285,12 +317,3 @@ vim.keymap.set("v", "<leader>ys", function()
 
   vim.fn.setreg("+", table.concat(lines))
 end, { desc = "[Y]ank [S]election and remove line breaks" })
-
--- Spelling
-vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
-  desc = "Fix last spelling mistake whilst persisting the cursor position",
-})
-
--- I tend to mistype stuff so these abbreviations helps my fingers
-utils.cabbrev("Wa", "wa")
-utils.cabbrev("Qa", "qa")
