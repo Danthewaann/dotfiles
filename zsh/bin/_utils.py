@@ -27,10 +27,7 @@ RED = "\033[0;31m"
 
 class Parser(argparse.ArgumentParser):
     def parse_args(self, args: Any | None = None, namespace: Any | None = None) -> Any:
-        class Arguments:
-            colour: Literal["yes", "no", "auto"]
-
-        parsed_args = super().parse_args(args, namespace=Arguments())
+        parsed_args = super().parse_args(args, namespace=namespace)
         load_colours(parsed_args.colour)
         return parsed_args
 
