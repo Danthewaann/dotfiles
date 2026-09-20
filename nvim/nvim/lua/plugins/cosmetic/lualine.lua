@@ -145,6 +145,23 @@ return {
     local fugitive_extension = require("lualine.extensions.fugitive")
     fugitive_extension.sections.lualine_x = { git_shortstat }
 
+    local oil_extension = require("lualine.extensions.oil")
+    oil_extension.sections.lualine_a = {
+      function()
+        local ok, oil = pcall(require, "oil")
+        if ok then
+          local oil_dir = oil.get_current_dir()
+          local cur_dir = vim.fn.fnamemodify(oil_dir, ":~:.")
+          if cur_dir ~= "" then
+            return cur_dir
+          end
+          return vim.fn.fnamemodify(oil_dir, ":p:h:t")
+        else
+          return ""
+        end
+      end,
+    }
+
     require("lualine").setup({
       options = {
         theme = custom_theme,
@@ -155,7 +172,7 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input" } },
       },
-      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, "oil" },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, oil_extension },
       sections = {
         lualine_a = {},
         lualine_b = { filename_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
