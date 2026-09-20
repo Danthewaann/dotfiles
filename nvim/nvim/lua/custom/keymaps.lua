@@ -129,6 +129,10 @@ vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current 
 -- Close all tabs except current one
 vim.keymap.set("n", "<C-w><C-o>", "<cmd> tabonly<CR>", { desc = "Close other tabs" })
 
+-- Tab navigation
+vim.keymap.set({ "n", "t" }, "<C-w><C-h>", "<cmd> silent tabprevious<CR>", { desc = "Go to previous tab" })
+vim.keymap.set({ "n", "t" }, "<C-w><C-l>", "<cmd> silent tabnext<CR>", { desc = "Go to next tab" })
+
 -- Go to tab by number
 vim.keymap.set("n", "<C-w>1", "<cmd> tabn1<CR>", { desc = "Go to tab 1" })
 vim.keymap.set("n", "<C-w>2", "<cmd> tabn2<CR>", { desc = "Go to tab 2" })
