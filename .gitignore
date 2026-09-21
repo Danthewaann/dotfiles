@@ -15,6 +15,6 @@ __pycache__
 
 zsh/completions/*
 !zsh/completions/_db
-!zsh/completions/_gitw-*
+!zsh/completions/_git-worktree-*
 docker/config.json
 variables

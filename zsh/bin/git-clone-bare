@@ -121,4 +121,4 @@ else:
 print(file=sys.stderr)
 _utils.info("Creating base worktree...")
 base_branch = _utils.get_base_branch()
-_utils.run_system_command(["gitw-add", base_branch], capture_output=False)
+_utils.run_system_command(["git-worktree-add", base_branch], capture_output=False)

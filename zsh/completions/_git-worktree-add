@@ -1,4 +1,4 @@
-#compdef gitw-add
+#compdef git-worktree-add
 
 # Keeping this here in case I need it
 #
@@ -15,4 +15,4 @@ _git_branch_names () {
   compadd "${(@)${(f)$(git branch)}#??}"
 }
 
-compdef _git_branch_names gitw-add
+compdef _git_branch_names git-worktree-add

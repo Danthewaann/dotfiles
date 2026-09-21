@@ -15,7 +15,7 @@ except FileNotFoundError:
     # The base branch isn't checked out in a worktree, so we need to create it
     _utils.info(f"Worktree for branch '{base_branch}' not found, creating it...")
     _utils.run_system_command(
-        ["gitw-add", base_branch, "--only-checkout"],
+        ["git-worktree-add", base_branch, "--only-checkout"],
         capture_output=False,
         log_output=False,
     )
