@@ -57,7 +57,7 @@ return {
       opts = opts or { preview = { vertical = true } }
       cb = cb or function()
         vim.schedule(function()
-          vim.cmd(":vertical resize 50")
+          vim.cmd(":vertical resize 30")
         end)
       end
 
