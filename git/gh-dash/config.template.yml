@@ -74,7 +74,7 @@ keybindings:
       name: merge with base
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} "gitw-merge {{.BaseRefName}} && git push" -C ~/Workspace/{{.RepoName}} -n split
+        git-worktree-add {{.HeadRefName}} "git-worktree-merge {{.BaseRefName}} && git push" -C ~/Workspace/{{.RepoName}} -n split
   issues: []
 pager:
   diff: less
