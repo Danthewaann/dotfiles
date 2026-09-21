@@ -78,7 +78,7 @@ converted_name = branch_name.replace("/", "-").replace(".", "_")
 # If we are already inside a worktree change directory to the bare repo
 if _utils.inside_worktree():
     cur_worktree = _utils.get_worktree()
-    os.chdir(pathlib.Path(cur_worktree).parent)
+    os.chdir(cur_worktree.parent)
 
 # Make sure we are inside a bare repo before proceeding
 if not _utils.inside_bare_repo():

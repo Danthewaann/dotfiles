@@ -9,76 +9,126 @@ import sys
 import _utils
 
 parser = _utils.create_parser()
-parser.add_argument("worktree", help="worktree path to delete")
+parser.add_argument(
+    "worktree",
+    nargs="?",
+    default=None,
+    help="worktree path to delete, if not provided will delete all worktrees in same repository or worktrees in all repositories immediately below cwd",
+)
 parser.add_argument("args", nargs="*", help="args to pass to 'git worktree remove'")
 
 args = parser.parse_args()
-worktree = pathlib.Path(args.worktree)
+worktree = pathlib.Path(args.worktree) if args.worktree else None
 cmd_args: list[str] = args.args
 force = "--force" in cmd_args or "-f" in cmd_args
 warn_prefix = "      "
 error_prefix = "       "
 
-if not worktree.is_dir():
-    _utils.error(f"Worktree '{worktree.name}' doesn't exist!")
-    sys.exit(1)
-os.chdir(worktree)
+worktrees_to_delete: list[pathlib.Path] = []
+if worktree is None:
+    # If we are already inside a worktree change directory to the bare repo
+    if _utils.inside_worktree():
+        os.chdir(_utils.get_worktree().parent)
+    elif not _utils.inside_bare_repo():
+        # Find all bare repositories that are immediately below the current working directory
+        failed = False
+        for dirpath, dirnames, filenames in pathlib.Path.cwd().walk():
+            for dir in dirnames:
+                if (dirpath / dir / ".bare").exists():
+                    cur_dir = (dirpath / dir).stem
+                    _utils.info(f"Checking for git worktrees in {cur_dir}...")
+                    proc = _utils.run_system_command(
+                        ["git-worktree-delete", "--colour=yes", *cmd_args],
+                        capture_output=False,
+                        log_output=False,
+                        cwd=dirpath / dir,
+                    )
+                    if proc.returncode != 0:
+                        failed = True
+        sys.exit(1 if failed else 0)
 
-worktree_name = pathlib.Path.cwd().parent.stem + "/" + worktree.stem
-cur_branch = _utils.get_current_branch()
+    worktrees = _utils.run_system_command(
+        ["git", "worktree", "list"], log_output=False
+    ).stdout
+    for raw_worktree in worktrees.splitlines():
+        if not re.search(r"(\[main\]|\[master\]|\(bare\))", raw_worktree):
+            worktrees_to_delete.append(pathlib.Path(raw_worktree.split()[0]))
+else:
+    worktrees_to_delete.append(worktree)
 
-# Check if I have opened a PR for the current branch
-prs = _utils.run_system_command(
-    ["gh", "pr", "list", "--author", "@me"], log_output=False
-).stdout
-if not force and re.search(cur_branch, prs):
-    _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
-    print(_utils.indent(" a PR is open for this worktree", prefix=warn_prefix))
-    sys.exit(0)
 
-# Make sure we don't delete worktrees that aren't pushed to their remote origin
-local_branch_rev = _utils.run_system_command(
-    ["git", "rev-parse", cur_branch], log_output=False
-).stdout.strip()
-proc = _utils.run_system_command(
-    ["git", "rev-parse", f"origin/{cur_branch}"],
-    exit_on_error=False,
-    log_output=False,
-    stderr=subprocess.DEVNULL,
-)
-remote_branch_rev = local_branch_rev
-if proc.returncode == 0:
-    remote_branch_rev = proc.stdout.strip()
+failed = False
+for worktree in worktrees_to_delete:
+    if not worktree.is_dir():
+        _utils.error(f"Worktree '{worktree.name}' doesn't exist!")
+        sys.exit(1)
 
-if local_branch_rev != remote_branch_rev:
-    _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
-    print(
-        _utils.indent(
-            " local branch is not synced with remote origin branch", prefix=warn_prefix
-        )
+    os.chdir(worktree)
+    worktree_name = pathlib.Path.cwd().parent.stem + "/" + worktree.stem
+    cur_branch = _utils.get_current_branch()
+
+    # Check if I have opened a PR for the current branch
+    prs = _utils.run_system_command(
+        ["gh", "pr", "list", "--author", "@me"], log_output=False
+    ).stdout
+    if not force and re.search(cur_branch, prs):
+        _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
+        print(_utils.indent(" a PR is open for this worktree", prefix=warn_prefix))
+        failed = True
+        continue
+
+    # Make sure we don't delete worktrees that aren't pushed to their remote origin
+    local_branch_rev = _utils.run_system_command(
+        ["git", "rev-parse", cur_branch], log_output=False
+    ).stdout.strip()
+    proc = _utils.run_system_command(
+        ["git", "rev-parse", f"origin/{cur_branch}"],
+        exit_on_error=False,
+        log_output=False,
+        stderr=subprocess.DEVNULL,
     )
-    sys.exit(0)
+    remote_branch_rev = local_branch_rev
+    if proc.returncode == 0:
+        remote_branch_rev = proc.stdout.strip()
 
-proc = _utils.run_system_command(
-    ["git", "worktree", "remove", worktree, *cmd_args],
-    exit_on_error=False,
-    log_output=False,
-)
-if proc.returncode != 0:
-    _utils.error(f"failed to delete {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
-    if re.search(
-        "contains modified or untracked files, use --force to delete it", proc.stdout
-    ):
+    if local_branch_rev != remote_branch_rev:
+        _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
         print(
             _utils.indent(
-                "this worktree contains modified or untracked files, use --force to delete it",
-                prefix=error_prefix,
-            ),
-            file=sys.stderr,
+                " local branch is not synced with remote origin branch",
+                prefix=warn_prefix,
+            )
         )
-    else:
-        print(_utils.indent(proc.stdout, prefix=error_prefix), file=sys.stderr)
-    sys.exit(1)
+        failed = True
+        continue
 
-_utils.success("Successfully deleted", end="")
-print(f": {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}", file=sys.stderr)
+    proc = _utils.run_system_command(
+        ["git", "worktree", "remove", worktree, *cmd_args],
+        exit_on_error=False,
+        log_output=False,
+    )
+    if proc.returncode != 0:
+        _utils.error(f"failed to delete {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
+        if re.search(
+            "contains modified or untracked files, use --force to delete it",
+            proc.stdout,
+        ):
+            print(
+                _utils.indent(
+                    "this worktree contains modified or untracked files, use --force to delete it",
+                    prefix=error_prefix,
+                ),
+                file=sys.stderr,
+            )
+        else:
+            print(_utils.indent(proc.stdout, prefix=error_prefix), file=sys.stderr)
+        failed = True
+        continue
+
+    print(
+        f"{_utils.WHITE_BOLD}Info{_utils.NC}:  successfully deleted {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}",
+        file=sys.stderr,
+    )
+
+if failed:
+    sys.exit(1)
