@@ -7,7 +7,7 @@ import sys
 import _utils
 
 parser = _utils.create_parser()
-parser.add_argument("args", nargs="*", help="args to pass to 'gitw-delete'")
+parser.add_argument("args", nargs="*", help="args to pass to 'git-worktree-delete'")
 args: list[str] = parser.parse_args().args
 
 if not _utils.inside_bare_repo():
@@ -28,7 +28,7 @@ else:
     for worktree in worktrees.splitlines():
         if not re.search(r"(\[main\]|\[master\]|\(bare\))", worktree):
             proc = _utils.run_system_command(
-                ["gitw-delete", "--colour=yes", worktree.split()[0], *args],
+                ["git-worktree-delete", "--colour=yes", worktree.split()[0], *args],
                 log_output=False,
                 exit_on_error=False,
             )
