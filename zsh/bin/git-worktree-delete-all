@@ -15,7 +15,7 @@ if not _utils.inside_bare_repo():
         for dir in dirnames:
             if (dirpath / dir / ".bare").exists():
                 _utils.run_system_command(
-                    ["gitw-delete-all", "--colour=yes", *args],
+                    ["git-worktree-delete-all", "--colour=yes", *args],
                     capture_output=False,
                     cwd=dirpath / dir,
                 )
