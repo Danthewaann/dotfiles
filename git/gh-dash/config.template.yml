@@ -69,7 +69,7 @@ keybindings:
       name: rebase with base
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} "gitw-rebase {{.BaseRefName}} && git push --force" -C ~/Workspace/{{.RepoName}} -n split
+        git-worktree-add {{.HeadRefName}} "git-worktree-rebase {{.BaseRefName}} && git push --force" -C ~/Workspace/{{.RepoName}} -n split
     - key: M
       name: merge with base
       command: >
