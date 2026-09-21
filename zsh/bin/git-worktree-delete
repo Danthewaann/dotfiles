@@ -27,8 +27,10 @@ error_prefix = "       "
 worktrees_to_delete: list[pathlib.Path] = []
 if worktree is None:
     # If we are already inside a worktree change directory to the bare repo
+    cur_worktree: pathlib.Path | None = None
     if _utils.inside_worktree():
-        os.chdir(_utils.get_worktree().parent)
+        cur_worktree = _utils.get_worktree()
+        os.chdir(cur_worktree.parent)
     elif not _utils.inside_bare_repo():
         # Find all bare repositories that are immediately below the current working directory
         failed = False
@@ -51,8 +53,11 @@ if worktree is None:
         ["git", "worktree", "list"], log_output=False
     ).stdout
     for raw_worktree in worktrees.splitlines():
-        if not re.search(r"(\[main\]|\[master\]|\(bare\))", raw_worktree):
-            worktrees_to_delete.append(pathlib.Path(raw_worktree.split()[0]))
+        parsed_worktree = raw_worktree.split()[0]
+        if not re.search(
+            r"(\[main\]|\[master\]|\(bare\))", raw_worktree
+        ) and parsed_worktree != str(cur_worktree):
+            worktrees_to_delete.append(pathlib.Path(parsed_worktree))
 else:
     worktrees_to_delete.append(worktree)
 
