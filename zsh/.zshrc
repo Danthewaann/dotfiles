@@ -115,7 +115,7 @@ function gds () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-bra
 #   %ar: author date, relative
 #   %ai: author date, ISO 8601-like format
 #   %s: subject
-function gl () { nvim -c "GLog" }
+function gl () { nvim . -c "GLog" }
 
 # Some convenience functions
 function b64e () { echo -n "$1" | base64 }
