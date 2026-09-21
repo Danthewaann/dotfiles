@@ -57,6 +57,8 @@ return {
           icon, devhl = devicons.get_icon("sql")
         elseif filetype == "fugitive" then
           icon, devhl = devicons.get_icon("git")
+        elseif filetype == "git" then
+          icon, devhl = devicons.get_icon("git")
         elseif buftype == "terminal" then
           icon, devhl = devicons.get_icon("zsh")
         else
