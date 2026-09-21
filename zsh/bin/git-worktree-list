@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import pathlib
 import re
 
@@ -7,6 +8,11 @@ import _utils
 
 parser = _utils.create_parser()
 parser.parse_args()
+
+# If we are already inside a worktree change directory to the bare repo
+if _utils.inside_worktree():
+    cur_worktree = _utils.get_worktree()
+    os.chdir(pathlib.Path(cur_worktree).parent)
 
 if not _utils.inside_bare_repo():
     for dirpath, dirnames, filenames in pathlib.Path.cwd().walk():
