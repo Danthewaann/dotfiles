@@ -295,11 +295,9 @@ module.jump_to_file = function(opts)
 
   if vim.tbl_contains({ "git", "diff" }, filetype) then
     -- Allow jumping to files in git diffs
-    local index = string.find(selection, "a/")
-    if index == 1 then
-      selection = string.sub(selection, 3)
-    else
-      index = string.find(selection, "b/")
+    local patterns = { "a/", "b/", "c/", "w/" }
+    for _, pattern in ipairs(patterns) do
+      local index = string.find(selection, pattern)
       if index == 1 then
         selection = string.sub(selection, 3)
       end
