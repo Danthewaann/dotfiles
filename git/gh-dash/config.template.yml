@@ -47,19 +47,19 @@ keybindings:
       command: >
         clear && gh pr diff {{.PrNumber}} -R {{.RepoName}} 2>&1 | nvim -R -c "lua require('diffs').attach()" -
     - key: E
-      name: edit PR description
-      command: >
-        clear &&
-        git-worktree-add {{.HeadRefName}} "git-pr-edit" -C ~/Workspace/{{.RepoName}} -n win
-    - key: D
-      name: difftool
-      command: >
-        clear && git-worktree-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -C ~/Workspace/{{.RepoName}} -n win
-    - key: S
       name: review
       command: >
         clear &&
         git-worktree-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'" -C ~/Workspace/{{.RepoName}} -n win
+    - key: D
+      name: difftool
+      command: >
+        clear && git-worktree-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -C ~/Workspace/{{.RepoName}} -n win
+    - key: I
+      name: edit PR description
+      command: >
+        clear &&
+        git-worktree-add {{.HeadRefName}} "git-pr-edit" -C ~/Workspace/{{.RepoName}} -n win
     - key: T
       name: open ticket url
       command: >
