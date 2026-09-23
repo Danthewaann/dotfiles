@@ -302,3 +302,54 @@ utils.create_command("Gx", function()
     end)
   end)
 end, { desc = "Show Git Conflicts" })
+
+-- Diff commands
+utils.create_command("Gds", function()
+  local cmd = { "git-get-base-branch" }
+  local obj = vim.system(cmd):wait()
+  if obj.code ~= 0 then
+    utils.handle_system_err("get base branch", cmd, obj)
+    return
+  end
+  local base_branch = vim.fn.trim(obj.stdout)
+
+  cmd = { "git", "--no-pager", "diff", "--shortstat", ("%s..HEAD"):format(base_branch) }
+  obj = vim.system(cmd):wait()
+  if obj.code ~= 0 then
+    utils.handle_system_err("get base branch", cmd, obj)
+    return
+  end
+  local stat = vim.fn.trim(obj.stdout)
+
+  utils.print(stat)
+end, { desc = "Show diff stats with base branch" })
+utils.create_command("Dt", function(args)
+  local first = nil
+  local second = nil
+
+  -- If we haven't provided two buffers, then diff two buffers
+  -- in the current tabpage if there is only two windows
+  if #args.fargs == 0 then
+    local wins = vim.api.nvim_tabpage_list_wins(0)
+    local valid_bufs = {}
+    for _, win in ipairs(wins) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.bo[buf].buftype == "" then
+        table.insert(valid_bufs, buf)
+      end
+    end
+    if #valid_bufs == 2 then
+      first = vim.api.nvim_buf_get_name(valid_bufs[1])
+      second = vim.api.nvim_buf_get_name(valid_bufs[2])
+    end
+  else
+    first = args.fargs[1]
+    second = args.fargs[2]
+  end
+
+  if first and second then
+    require("difftool").open(first, second)
+  else
+    utils.print_err("Can only diff with two buffers")
+  end
+end, { desc = "Show diff of two buffers", nargs = "?" })
