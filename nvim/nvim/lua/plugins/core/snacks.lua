@@ -44,22 +44,30 @@ local lsp_opts = {
 }
 
 local picker_keys = {
-  ["<C-s>"] = false,
-  ["<C-x>"] = { "edit_split", mode = { "i", "n" } },
+  ["<C-S>"] = false,
+  ["<C-X>"] = { "edit_split", mode = { "i", "n" } },
   ["?"] = false,
-  ["<C-h>"] = { "toggle_help_input", mode = { "i", "n" } },
-  ["<M-p>"] = false,
-  ["<C-o>"] = { "toggle_preview", mode = { "i", "n" } },
-  ["<M-m>"] = false,
-  ["<M-o>"] = { "toggle_maximize", mode = { "i", "n" } },
-  ["<M-w>"] = false,
-  ["<C-e>"] = { "cycle_win", mode = { "i", "n" } },
+  ["<C-H>"] = { "toggle_help_input", mode = { "i", "n" } },
+  ["<M-P>"] = false,
+  ["<C-O>"] = { "toggle_preview", mode = { "i", "n" } },
+  ["<M-M>"] = false,
+  ["<M-O>"] = { "toggle_maximize", mode = { "i", "n" } },
+  ["<M-W>"] = false,
+  ["<C-E>"] = { "cycle_win", mode = { "i", "n" } },
   ["/"] = false,
-  ["<M-e>"] = { "toggle_focus", mode = { "i", "n" } },
-  ["<C-f>"] = { "list_scroll_down", mode = { "i", "n" } },
-  ["<C-b>"] = { "list_scroll_down", mode = { "i", "n" } },
-  ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
-  ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+  ["<M-E>"] = { "toggle_focus", mode = { "i", "n" } },
+  ["<C-F>"] = { "list_scroll_down", mode = { "i", "n" } },
+  ["<C-B>"] = { "list_scroll_down", mode = { "i", "n" } },
+  ["<C-D>"] = { "preview_scroll_down", mode = { "i", "n" } },
+  ["<C-U>"] = { "preview_scroll_up", mode = { "i", "n" } },
+}
+
+---@type snacks.picker.buffers.Config
+local buffer_opts = {
+  win = {
+    input = { keys = { ["<C-X>"] = picker_keys["<C-X>"] } },
+    list = { keys = { ["dd"] = "bufdelete" } },
+  }
 }
 
 local lsp_picker_transform = function(item, ctx)
@@ -274,7 +282,7 @@ return {
     -- find
     { "<C-f>",      function() Snacks.picker.files({ hidden = true }) end,               desc = "Find Files" },
     { "<C-p>",      function() Snacks.picker.git_files() end,                            desc = "Find Git Files" },
-    { "<leader>,",  function() Snacks.picker.buffers() end,                              desc = "Buffers" },
+    { "<leader>,",  function() Snacks.picker.buffers(buffer_opts) end,                   desc = "Buffers" },
     { "<leader>.",  function() Snacks.picker.recent() end,                               desc = "Recent" },
     { "<leader>S",  function() Snacks.picker.smart() end,                                desc = "Smart Find Files" },
     -- main search
