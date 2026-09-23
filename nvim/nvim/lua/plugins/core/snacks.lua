@@ -185,6 +185,7 @@ return {
         },
         wide = {
           fullscreen = true,
+          hidden = { "preview" },
           layout = {
             box = "vertical",
             backdrop = false,
@@ -195,7 +196,7 @@ return {
             title_pos = "left",
             { win = "input",   border = "bottom",   height = 1 },
             { win = "list",    border = "none",     height = 0 },
-            { win = "preview", title = "{preview}", height = 0.7, border = "top" },
+            { win = "preview", title = "{preview}", height = 0.9, border = "top" },
           },
         },
       },
