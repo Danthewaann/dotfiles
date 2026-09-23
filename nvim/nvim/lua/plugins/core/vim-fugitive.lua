@@ -47,6 +47,16 @@ return {
       vim.cmd [[Git]]
     end, { desc = "[G]it Status" })
 
+    utils.create_command("Gd", function()
+      local cmd = { "git-get-base-branch" }
+      local obj = vim.system(cmd):wait()
+      if obj.code ~= 0 then
+        utils.handle_system_err("git-get-base-branch", cmd, obj)
+        return
+      end
+      local base_branch = vim.fn.trim(obj.stdout)
+      vim.cmd(":Git diff " .. base_branch .. " | only")
+    end, { desc = "Show diff base branch" })
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>",
       { desc = "[G]it [Y]ank link to clipboard", silent = true })
