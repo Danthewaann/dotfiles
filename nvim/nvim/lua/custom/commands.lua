@@ -226,8 +226,11 @@ end
 
 utils.create_command("Gwa", git_worktree_script("add"), { nargs = 1, desc = "Git add branch and checkout to worktree" })
 utils.create_command("Gwu", git_worktree_script("update"), { desc = "Git update current branch with origin" })
-utils.create_command("Gwr", git_worktree_script("rebase"), { desc = "Git rebase current branch with origin base" })
-utils.create_command("Gwm", git_worktree_script("merge"), { desc = "Git merge current branch with origin base" })
+utils.create_command("Gwr", git_worktree_script("rebase"),
+  { nargs = "?", desc = "Git rebase current branch with origin base" }
+)
+utils.create_command("Gwm", git_worktree_script("merge"),
+  { nargs = "?", desc = "Git merge current branch with origin base" })
 utils.create_command("Prc", git_pr_script("create"), { desc = "GitHub create PR" })
 utils.create_command("Pre", git_pr_script("edit"), { desc = "GitHub edit PR" })
 utils.create_command("Rv", github_view("repo"), { desc = "GitHub view current repo in browser" })
