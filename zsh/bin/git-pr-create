@@ -130,9 +130,8 @@ else:
 
 <!-- END -->
 
-## Existing Labels
-
-{"\n".join(repo_labels)}
+<!-- Existing Labels -->
+<!-- {" ".join(repo_labels)} -->
 
 <!-- END -->
 
