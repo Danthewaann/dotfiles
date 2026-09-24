@@ -54,6 +54,7 @@ is_draft = content["isDraft"]
 state = content["state"].lower()
 base_branch = content["baseRefName"]
 labels = [label["name"] for label in content["labels"]]
+display_labels = [f"- {label['name']}" for label in content["labels"]]
 
 # If a PR file already exists (if a previous attempt to create a PR has failed) use that file instead
 if existing_old and existing_new:
@@ -71,6 +72,7 @@ else:
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
         log_output=False,
     ).stdout.splitlines()
+    repo_labels = [f"'{label}'" for label in repo_labels]
 
     cur_time = int(time.time())
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")
@@ -82,14 +84,11 @@ else:
 
 <!-- END -->
 
-<!-- Existing Labels -->
-<!-- {" ".join(repo_labels)} -->
-
-<!-- END -->
+<!-- Existing labels: {", ".join(repo_labels)} -->
 
 ## Labels
 
-{"\n".join(labels)}
+{"\n".join(display_labels) or "- "}
 
 <!-- END -->
 
@@ -167,13 +166,17 @@ args = [
 if new_base_branch != base_branch:
     args.extend(("--base", new_base_branch))
 
+new_labels = [label.removeprefix("- ").strip() for label in new_labels]
 for label in labels:
     # Delete labels that are not in the original labels for the PR
     if label not in new_labels:
         args.append("--remove-label")
-    else:
+        args.append(label)
+for label in new_labels:
+    # Add new labels that are not in the original labels for the PR
+    if label not in labels:
         args.append("--add-label")
-    args.append(label)
+        args.append(label)
 
 _utils.info("Updating pull request...")
 proc = _utils.run_system_command(args, capture_output=False, exit_on_error=False)

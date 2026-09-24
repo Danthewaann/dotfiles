@@ -106,6 +106,7 @@ else:
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
         log_output=False,
     ).stdout.splitlines()
+    repo_labels = [f"'{label}'" for label in repo_labels]
 
     # Use the last commit message as the PR title
     pr_title = _utils.run_system_command(
@@ -130,12 +131,11 @@ else:
 
 <!-- END -->
 
-<!-- Existing Labels -->
-<!-- {" ".join(repo_labels)} -->
-
-<!-- END -->
+<!-- Existing labels: {", ".join(repo_labels)} -->
 
 ## Labels
+
+- 
 
 <!-- END -->
 
@@ -207,6 +207,7 @@ args = [
     new_base_branch,
 ]
 
+new_labels = [label.removeprefix("- ").strip() for label in new_labels]
 for label in new_labels:
     args.append("--label")
     args.append(label)
