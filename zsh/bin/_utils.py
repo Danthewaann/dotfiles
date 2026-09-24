@@ -195,13 +195,11 @@ def run_system_command(
     )
 
     if log_output:
-        prefix = "  "
         if proc.returncode != 0:
-            prefix = "       "
             error(f"failed to run: {' '.join(map(str, cmd))}")
 
         if proc.stdout:
-            print(indent(proc.stdout.rstrip(), prefix=prefix), file=sys.stderr)
+            print(proc.stdout.rstrip(), file=sys.stderr)
 
     if exit_on_error and proc.returncode != 0:
         sys.exit(1)
