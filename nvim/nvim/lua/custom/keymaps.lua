@@ -65,6 +65,7 @@ vim.keymap.set("i", "<C-l>", "<Esc>[s1z=gi", {
 -- I tend to mistype stuff so these abbreviations helps my fingers
 utils.cabbrev("Wa", "wa")
 utils.cabbrev("Qa", "qa")
+utils.cabbrev("msg", "messages")
 
 ---------------
 --- TOGGLES ---
