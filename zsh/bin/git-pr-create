@@ -207,7 +207,7 @@ args = [
     new_base_branch,
 ]
 
-new_labels = [label.removeprefix("- ").strip() for label in new_labels]
+new_labels = [label.removeprefix("-").strip() for label in new_labels]
 for label in new_labels:
     args.append("--label")
     args.append(label)
