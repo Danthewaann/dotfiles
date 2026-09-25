@@ -31,12 +31,13 @@ session_number=0
 while IFS=$'\n' read -r line; do
 	session_number=$((session_number + 1))
 	if [[ "$cur_session" == "$line" ]]; then continue; fi
+	line="$(abbreviate "$line")"
 	num_slashes="${line//[^\/]/}"
 	if [[ ${#num_slashes} -gt 1 ]]; then
 		line="$(cut -d'/' -f2- <<<"$line")"
 	fi
 
-	repo="$(abbreviate "$(cut -d'/' -f1 <<<"$line")")"
+	repo="$(cut -d'/' -f1 <<<"$line")"
 	worktree="$(cut -d'/' -f2 <<<"$line")"
 	trimmed_worktree="$(sed -E 's/^[^-]+-sc-[0-9]+-?//' <<<"$worktree")"
 	short_repo="${repo:0:repo_len}"
