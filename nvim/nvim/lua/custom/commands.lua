@@ -148,7 +148,6 @@ utils.create_command("TmuxTerm", function()
   end
 end, { desc = "Open terminal in current buffer directory" }, "tt")
 
-
 -- Git/GitHub commands
 local git_worktree_script = function(oper)
   ---@param args vim.api.keyset.create_user_command.command_args
@@ -158,16 +157,8 @@ local git_worktree_script = function(oper)
       table.insert(cmd, args.args)
     end
     local name = table.concat(cmd, " ")
-    utils.print(("Running %s..."):format(name))
-    vim.system(cmd, { text = true }, function(out)
-      vim.schedule(function()
-        if out.code ~= 0 then
-          utils.handle_system_err(name, cmd, out)
-          return
-        end
-        utils.print(("%s was successful"):format(name))
-      end)
-    end)
+    print(("Running %s..."):format(name))
+    utils.stream_command(cmd)
   end
 end
 

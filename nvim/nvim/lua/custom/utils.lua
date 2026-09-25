@@ -342,6 +342,24 @@ module.jump_to_file = function(opts)
   end
 end
 
+---@param cmd table
+module.stream_command = function(cmd)
+  local function on_output(_, data)
+    if not data then return end
+    vim.schedule(function()
+      for line in data:gmatch("[^\r\n]+") do
+        local highlight = "Normal"
+        if string.find(line, "Error:") then
+          highlight = "ErrorMsg"
+        end
+        vim.api.nvim_echo({ { line, highlight } }, true, {})
+      end
+    end)
+  end
+
+  vim.system(cmd, { stdout = on_output, stderr = on_output, text = true })
+end
+
 ---@param cmd string
 ---@param action string|fun(args: vim.api.keyset.create_user_command.command_args)
 ---@param opts vim.api.keyset.user_command?
