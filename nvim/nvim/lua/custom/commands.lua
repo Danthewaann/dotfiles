@@ -231,6 +231,8 @@ utils.create_command("Gwr", git_worktree_script("rebase"),
 )
 utils.create_command("Gwm", git_worktree_script("merge"),
   { nargs = "?", desc = "Git merge current branch with origin base" })
+utils.create_command("Gwd", git_worktree_script("delete"),
+  { nargs = "?", desc = "Git delete worktrees in current repo, or just the provided worktree" })
 utils.create_command("Prc", git_pr_script("create"), { desc = "GitHub create PR" })
 utils.create_command("Pre", git_pr_script("edit"), { desc = "GitHub edit PR" })
 utils.create_command("Rv", github_view("repo"), { desc = "GitHub view current repo in browser" })

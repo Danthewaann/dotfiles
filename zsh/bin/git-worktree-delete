@@ -62,6 +62,10 @@ else:
     worktrees_to_delete.append(worktree)
 
 
+if not worktrees_to_delete:
+    _utils.info("No worktrees to delete")
+    sys.exit(0)
+
 failed = False
 for worktree in worktrees_to_delete:
     if not worktree.is_dir():
