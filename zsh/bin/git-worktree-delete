@@ -18,7 +18,7 @@ parser.add_argument(
 parser.add_argument("args", nargs="*", help="args to pass to 'git worktree remove'")
 
 args = parser.parse_args()
-worktree = pathlib.Path(args.worktree) if args.worktree else None
+worktree = pathlib.Path(args.worktree).resolve() if args.worktree else None
 cmd_args: list[str] = args.args
 force = "--force" in cmd_args or "-f" in cmd_args
 warn_prefix = "      "
