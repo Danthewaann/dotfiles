@@ -39,11 +39,10 @@ while IFS=$'\n' read -r line; do
 
 	repo="$(cut -d'/' -f1 <<<"$line")"
 	worktree="$(cut -d'/' -f2 <<<"$line")"
-	trimmed_worktree="$(sed -E 's/^[^-]+-sc-[0-9]+-?//' <<<"$worktree")"
 	short_repo="${repo:0:repo_len}"
-	short_worktree="$trimmed_worktree"
-	if ((${#trimmed_worktree} > worktree_max_len)); then
-		short_worktree="${trimmed_worktree:0:worktree_max_len}…"
+	short_worktree="$worktree"
+	if ((${#worktree} > worktree_max_len)); then
+		short_worktree="${worktree:0:worktree_max_len}…"
 	fi
 	display="$short_repo/$short_worktree"
 	plain="${session_number}:${display}"
