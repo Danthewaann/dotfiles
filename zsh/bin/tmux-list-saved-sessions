@@ -11,48 +11,48 @@ onedark_green="#98c379"
 abbreviations_file="$HOME/.tmux-abbreviations"
 declare -A abbreviations=()
 if [[ -f "$abbreviations_file" ]]; then
-	while IFS='=' read -r key value; do
-		[[ -z "$key" || "$key" == \#* ]] && continue
-		abbreviations["$key"]="$value"
-	done <"$abbreviations_file"
+    while IFS='=' read -r key value; do
+        [[ -z "$key" || "$key" == \#* ]] && continue
+        abbreviations["$key"]="$value"
+    done <"$abbreviations_file"
 fi
 
 abbreviate() {
-	local str="$1" key
-	for key in "${!abbreviations[@]}"; do
-		str="$(sed -E "s/${key}/${abbreviations[$key]}/g" <<<"$str")"
-	done
-	echo "$str"
+    local str="$1" key
+    for key in "${!abbreviations[@]}"; do
+        str="$(sed -E "s/${key}/${abbreviations[$key]}/g" <<<"$str")"
+    done
+    echo "$str"
 }
 
 sessions=()
 total_len=0
 session_number=0
 while IFS=$'\n' read -r line; do
-	session_number=$((session_number + 1))
-	if [[ "$cur_session" == "$line" ]]; then continue; fi
-	line="$(abbreviate "$line")"
-	num_slashes="${line//[^\/]/}"
-	if [[ ${#num_slashes} -gt 1 ]]; then
-		line="$(cut -d'/' -f2- <<<"$line")"
-	fi
+    session_number=$((session_number + 1))
+    if [[ "$cur_session" == "$line" ]]; then continue; fi
+    line="$(abbreviate "$line")"
+    num_slashes="${line//[^\/]/}"
+    if [[ ${#num_slashes} -gt 1 ]]; then
+        line="$(cut -d'/' -f2- <<<"$line")"
+    fi
 
-	repo="$(cut -d'/' -f1 <<<"$line")"
-	worktree="$(cut -d'/' -f2 <<<"$line")"
-	short_repo="${repo:0:repo_len}"
-	short_worktree="$worktree"
-	if ((${#worktree} > worktree_max_len)); then
-		short_worktree="${worktree:0:worktree_max_len}…"
-	fi
-	display="$short_repo/$short_worktree"
-	plain="${session_number}:${display}"
-	sep=0
-	((${#sessions[@]} > 0)) && sep=1
-	if ((total_len + sep + ${#plain} > max_width)); then
-		break
-	fi
-	total_len=$((total_len + sep + ${#plain}))
-	sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]:$display")
+    repo="$(cut -d'/' -f1 <<<"$line")"
+    worktree="$(cut -d'/' -f2 <<<"$line")"
+    short_repo="${repo:0:repo_len}"
+    short_worktree="$worktree"
+    if ((${#worktree} > worktree_max_len)); then
+        short_worktree="${worktree:0:worktree_max_len}…"
+    fi
+    display="$short_repo/$short_worktree"
+    plain="${session_number}:${display}"
+    sep=0
+    ((${#sessions[@]} > 0)) && sep=1
+    if ((total_len + sep + ${#plain} > max_width)); then
+        break
+    fi
+    total_len=$((total_len + sep + ${#plain}))
+    sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]:$display")
 done <"$HOME/.tmux-save-sessions"
 
 ((${#sessions[@]} > 0)) && printf "%s " "${sessions[@]}" || printf "no saved sessions, use <prefix><space> to save current session"
