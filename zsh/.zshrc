@@ -29,26 +29,6 @@ plugins=(
 # Load oh-my-zsh (this also runs compinit)
 source $ZSH/oh-my-zsh.sh
 
-# Setup root variables
-export NVM_ROOT="$HOME/.nvm"
-export PYENV_ROOT="$HOME/.pyenv"
-export RBENV_ROOT="$HOME/.rbenv"
-
-# Preferred editor for local and remote sessions
-export EDITOR='nvim'
-
-# Add XDG_CONFIG_HOME to broadbast where my config files should live
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# Use nvim as the manpager
-export MANPAGER='nvim +Man!'
-
-# Add pyenv bin, bob, local scripts and golang to path
-export PATH="$PYENV_ROOT/bin:$HOME/.local/share/bob/nvim-bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin${PATH+:$PATH}"
-
-# Set theme for bat
-export BAT_THEME="TwoDark"
-
 # Setup fzf to use ripgrep for search
 export FZF_DEFAULT_COMMAND='rg --files --hidden --color=never --ignore-file ~/.gitignore --glob ""'
 
@@ -146,16 +126,6 @@ bindkey "^N" down-line-or-beginning-search
 
 if [[ $OSTYPE == "darwin"* ]]; then
     # mac OS only setup
-    #
-    # Add brew to path
-    if [[ -f /opt/homebrew/bin/brew ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    else
-        eval "$(/usr/local/bin/brew shellenv)"
-    fi
-
-    # Allow gnu `find` to be available
-    export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
     alias sed="gsed"
 else
     # Linux only setup
