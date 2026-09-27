@@ -2,34 +2,39 @@
 
 set -e
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR"/../common
 
+if [[ ! -f "$SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz" ]]; then
+    run_command "downloading tmux" \
+        "wget -O $SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz \\
+        https://github.com/tmux/tmux/releases/download/$TMUX_VERSION/tmux-$TMUX_VERSION.tar.gz"
+fi
+
+run_command "unpacking tmux" \
+    "tar -C $SCRIPT_DIR -zxf $SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz"
+
 if [[ $OSTYPE == "darwin"* ]]; then
-    run_command "installing tmux" \
-        "brew install tmux"
+    run_command "installing tmux build dependencies" \
+        "brew install libevent ncurses pkg-config bison utf8proc jemalloc"
+
+    cd "$SCRIPT_DIR/tmux-$TMUX_VERSION"
+    run_command "compiling and installing tmux to /usr/local/bin" \
+        "./configure --enable-jemalloc --enable-utf8proc && make && sudo make install"
+    cd - >/dev/null
 
     run_command "installing kitty" \
         "brew install --cask kitty"
 else
-    if [[ ! -f "$SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz" ]]; then
-        run_command "downloading tmux" \
-            "wget -O $SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz \\
-            https://github.com/tmux/tmux/releases/download/$TMUX_VERSION/tmux-$TMUX_VERSION.tar.gz"
-    fi
-
-    run_command "installing libevent tmux dependency" \
+    run_command "installing tmux build dependencies" \
         "sudo apt-get install -y libevent-dev ncurses-dev build-essential bison pkg-config"
-
-    run_command "unpacking tmux" \
-        "tar -C $SCRIPT_DIR -zxf $SCRIPT_DIR/tmux-$TMUX_VERSION.tar.gz"
 
     cd "$SCRIPT_DIR/tmux-$TMUX_VERSION"
     run_command "compiling and installing tmux to /usr/local/bin" \
         "./configure && make && sudo make install"
-    cd - > /dev/null
+    cd - >/dev/null
 
     run_command "installing kitty" \
         "curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n"
@@ -49,7 +54,7 @@ else
     sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
     sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
     # Make xdg-terminal-exec (and hence desktop environments that support it use kitty)
-    echo 'kitty.desktop' > ~/.config/xdg-terminals.list
+    echo 'kitty.desktop' >~/.config/xdg-terminals.list
 fi
 
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
@@ -60,4 +65,3 @@ fi
 # Install TPM plugins
 run_command "installing tpm plugins" \
     "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
-
