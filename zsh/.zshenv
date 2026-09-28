@@ -40,21 +40,4 @@ if [[ -z $TMUX ]]; then
     #
     # From: https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=3664231#gistcomment-3664231
     skip_global_compinit=1
-
-    if [[ $OSTYPE == "darwin"* ]]; then
-        # The following is from the output of `/opt/homebrew/bin/brew shellenv`
-        export HOMEBREW_PREFIX="/opt/homebrew";
-        export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-        export HOMEBREW_REPOSITORY="/opt/homebrew";
-        fpath[1,0]="/opt/homebrew/share/zsh/site-functions";
-        export FPATH;
-        export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
-        [ -z "${MANPATH-}" ] || { export MANPATH="${MANPATH%"${MANPATH##*[!:]}"}"; export MANPATH=":${MANPATH#"${MANPATH%%[!:]*}"}"; };
-        export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
-    else
-        eval "$(/usr/local/bin/brew shellenv)"
-    fi
-
-    # Allow gnu `find` to be available
-    export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
 fi

@@ -125,10 +125,25 @@ bindkey "^P" up-line-or-beginning-search
 bindkey "^N" down-line-or-beginning-search
 
 if [[ $OSTYPE == "darwin"* ]]; then
-    # mac OS only setup
+    # To make sure tmux doesn't add duplicate entries to `PATH`
+    if [[ -z $TMUX ]]; then
+        # mac OS only setup
+        # The following is from the output of `/opt/homebrew/bin/brew shellenv`
+        export HOMEBREW_PREFIX="/opt/homebrew";
+        export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+        export HOMEBREW_REPOSITORY="/opt/homebrew";
+        fpath[1,0]="/opt/homebrew/share/zsh/site-functions";
+        export FPATH;
+        export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+        [ -z "${MANPATH-}" ] || { export MANPATH="${MANPATH%"${MANPATH##*[!:]}"}"; export MANPATH=":${MANPATH#"${MANPATH%%[!:]*}"}"; };
+        export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+        # Allow gnu `find` to be available
+        export PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
+    fi
     alias sed="gsed"
 else
     # Linux only setup
+    eval "$(/usr/local/bin/brew shellenv)"
     alias pbcopy="xclip"
 fi
 
