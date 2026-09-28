@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cur_session="${1}"
-worktree_max_len="${2:-15}"
+worktree_max_len="${2:-30}"
 repo_len="${3:-20}"
 max_width="${4:-$(tmux display-message -p '#{client_width}' 2>/dev/null || tput cols)}"
 onedark_black2="#272731"
@@ -31,14 +31,13 @@ session_number=0
 while IFS=$'\n' read -r line; do
     session_number=$((session_number + 1))
     if [[ "$cur_session" == "$line" ]]; then continue; fi
-    line="$(abbreviate "$line")"
     num_slashes="${line//[^\/]/}"
     if [[ ${#num_slashes} -gt 1 ]]; then
         line="$(cut -d'/' -f2- <<<"$line")"
     fi
 
-    repo="$(cut -d'/' -f1 <<<"$line")"
-    worktree="$(cut -d'/' -f2 <<<"$line")"
+    repo="$(abbreviate "$(cut -d'/' -f1 <<<"$line")")"
+    worktree="$(abbreviate "$(cut -d'/' -f2 <<<"$line")")"
     short_repo="${repo:0:repo_len}"
     short_worktree="$worktree"
     if ((${#worktree} > worktree_max_len)); then
