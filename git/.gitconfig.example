@@ -20,12 +20,16 @@
     excludesfile = ~/.gitignore
 [difftool "nvim_difftool"]
     cmd = nvim . -c \"packadd nvim.difftool\" -c \"DiffTool $LOCAL $REMOTE\"
+[mergetool "nvim_mergetool"]
+    cmd = nvim . -c \"Git mergetool\"
 [diff]
     algorithm = histogram
     colorMoved = plain
     mnemonicPrefix = true
     renames = true
     tool = nvim_difftool
+[merge]
+    tool = nvim_mergetool
 [fetch]
     prune = true
     pruneTags = true

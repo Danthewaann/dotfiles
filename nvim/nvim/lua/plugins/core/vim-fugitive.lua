@@ -67,6 +67,9 @@ return {
       local base_branch = vim.fn.trim(obj.stdout)
       vim.cmd((":Git difftool -y origin/%s..HEAD"):format(base_branch))
     end, { desc = "Diff current branch dir against remote base branch dir" })
+    utils.create_command("Gmt", function()
+      vim.cmd(":Git mergetool")
+    end, { desc = "Diff current branch dir against remote base branch dir and jump to conflicts" })
 
 
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })

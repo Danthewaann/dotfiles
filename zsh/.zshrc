@@ -83,6 +83,7 @@ function dt () { nvim -d "$1" "$2" }
 function gd () { base_branch=${1:-origin/$(git-get-base-branch)}..HEAD; nvim . -c "Git diff $base_branch | only" }
 function gdt () { cur_branch=${1:-$(git branch --show-current)}; base_branch=${2:-origin/$(git-get-base-branch)}; git difftool -d "$base_branch" "$cur_branch" }
 function gds () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
+function gmt () { git mergetool }
 # see `git help log` for detailed help.
 #   %h: abbreviated commit hash
 #   %d: ref names, like the --decorate option of git-log(1)
