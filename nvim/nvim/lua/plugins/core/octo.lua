@@ -1,5 +1,5 @@
 return {
-  "Danthewaann/octo.nvim",
+  "pwntester/octo.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "folke/snacks.nvim",
