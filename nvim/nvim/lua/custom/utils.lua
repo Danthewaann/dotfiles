@@ -360,6 +360,16 @@ module.stream_command = function(cmd)
   vim.system(cmd, { stdout = on_output, stderr = on_output, text = true })
 end
 
+---@param input string
+module.copy_to_clipboard = function(input)
+  local cb_opts = vim.opt.clipboard:get()
+  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", input) end
+  if vim.tbl_contains(cb_opts, "unnamedplus") then
+    vim.fn.setreg("+", input)
+  end
+  vim.fn.setreg("", input)
+end
+
 ---@param cmd string
 ---@param action string|fun(args: vim.api.keyset.create_user_command.command_args)
 ---@param opts vim.api.keyset.user_command?

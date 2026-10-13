@@ -126,12 +126,7 @@ utils.create_command("YankCommits", function(args)
   if obj.code ~= 0 then
     utils.handle_system_err("yank commits", cmd, obj)
   end
-  local cb_opts = vim.opt.clipboard:get()
-  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", obj.stdout) end
-  if vim.tbl_contains(cb_opts, "unnamedplus") then
-    vim.fn.setreg("+", obj.stdout)
-  end
-  vim.fn.setreg("", obj.stdout)
+  utils.copy_to_clipboard(obj.stdout)
   utils.print("Copied last " .. count .. " commits to clipboard")
 end, { desc = "Yank commits to clipboard", nargs = "?" }, "yc")
 

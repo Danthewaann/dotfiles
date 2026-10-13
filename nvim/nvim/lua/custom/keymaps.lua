@@ -280,34 +280,19 @@ vim.keymap.set("v", "<leader>rp", function()
 
 vim.keymap.set("n", "<leader>yf", function()
   local path = vim.fn.expand("%:t")
-  local cb_opts = vim.opt.clipboard:get()
-  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
-  if vim.tbl_contains(cb_opts, "unnamedplus") then
-    vim.fn.setreg("+", path)
-  end
-  vim.fn.setreg("", path)
+  utils.copy_to_clipboard(path)
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current [F]ile name" })
 
 vim.keymap.set("n", "<leader>yF", function()
   local path = vim.fn.expand("%:p:.")
-  local cb_opts = vim.opt.clipboard:get()
-  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
-  if vim.tbl_contains(cb_opts, "unnamedplus") then
-    vim.fn.setreg("+", path)
-  end
-  vim.fn.setreg("", path)
+  utils.copy_to_clipboard(path)
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current [F]ile relative to project path" })
 
 vim.keymap.set("n", "<leader>ya", function()
   local path = vim.fn.expand("%:p")
-  local cb_opts = vim.opt.clipboard:get()
-  if vim.tbl_contains(cb_opts, "unnamed") then vim.fn.setreg("*", path) end
-  if vim.tbl_contains(cb_opts, "unnamedplus") then
-    vim.fn.setreg("+", path)
-  end
-  vim.fn.setreg("", path)
+  utils.copy_to_clipboard(path)
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current file [A]bsolute path" })
 

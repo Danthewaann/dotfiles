@@ -167,6 +167,25 @@ return {
       desc = "[T]est run in [Q]uickfix"
     },
     {
+      "<leader>yt",
+      function()
+        setup_test_runners()
+        if vim.fn["test#exists"]() then
+          local filename_modifer = vim.g["test#filename_modifer"] or ":."
+          local path             = vim.fn.expand("%")
+          local position         = {}
+          position["file"]       = vim.fn.fnamemodify(path, filename_modifer)
+          position["line"]       = path == vim.fn.expand("%") and vim.fn.line(".") or 1
+          position["col"]        = path == vim.fn.expand("%") and vim.fn.col(".") or 1
+          local runner           = vim.fn["test#determine_runner"](position["file"])
+          local test             = vim.fn[("test#%s#build_position"):format(runner)]("nearest", position)[1]
+          utils.copy_to_clipboard(test)
+          utils.print(("Copied %s to clipboard"):format(test))
+        end
+      end,
+      desc = "[Y]ank nearest [T]est"
+    },
+    {
       "<leader>ur",
       function()
         setup_test_runners()
