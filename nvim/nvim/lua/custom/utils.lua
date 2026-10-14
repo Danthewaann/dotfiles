@@ -351,7 +351,7 @@ module.stream_command = function(cmd)
   local function on_output(_, data)
     if not data then return end
     vim.schedule(function()
-      for line in data:gmatch("[^\r\n]+") do
+      for line in data:gmatch("[^\n]+") do
         local highlight = "Normal"
         if string.find(line, "Error:") then
           highlight = "ErrorMsg"
