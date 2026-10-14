@@ -279,20 +279,24 @@ function module.load_pytest_failures(results_file)
 end
 
 ---@class jump_to_file_opts
+---@field file? string|nil file to open if provided
 ---@field tab? boolean open file in new tab
 
 ---@param opts jump_to_file_opts?
 module.jump_to_file = function(opts)
   opts = opts or {}
 
-  -- Get the current sequence of non-blank characters
-  if vim.fn.mode() == "n" then
-    vim.cmd(":normal viW")
+  local selection = opts.file
+  if selection == nil then
+    -- Get the current sequence of non-blank characters
+    if vim.fn.mode() == "n" then
+      vim.cmd(":normal viW")
+    end
+
+    selection = module.get_visual_selection()
   end
 
-  local selection = module.get_visual_selection()
   local filetype = vim.bo.filetype
-
   if vim.tbl_contains({ "git", "diff" }, filetype) then
     -- Allow jumping to files in git diffs
     local patterns = { "a/", "b/", "c/", "w/" }

@@ -143,6 +143,10 @@ utils.create_command("TmuxTerm", function()
   end
 end, { desc = "Open terminal in current buffer directory" }, "tt")
 
+utils.create_command("GotoFile", function(args)
+  utils.jump_to_file({ file = args.args })
+end, { nargs = 1, desc = "Go to file (supports pytest nodeids)" }, "gf")
+
 -- Git/GitHub commands
 local git_worktree_script = function(oper)
   ---@param args vim.api.keyset.create_user_command.command_args
