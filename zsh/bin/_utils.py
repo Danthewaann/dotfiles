@@ -269,7 +269,6 @@ def update_python_deps() -> None:
         run_system_command(
             ["poetry", "install", "--all-extras"],
             capture_output=False,
-            exit_on_error=False,
             env=env,
         )
     elif pathlib.Path("uv.lock").exists():
@@ -277,14 +276,11 @@ def update_python_deps() -> None:
         run_system_command(
             ["uv", "sync", "--all-extras"],
             capture_output=False,
-            exit_on_error=False,
             env=env,
         )
     elif pathlib.Path("pyproject.toml").exists():
         info("Running uv pip install...")
-        run_system_command(
-            ["uv", "venv"], capture_output=False, exit_on_error=False, env=env
-        )
+        run_system_command(["uv", "venv"], capture_output=False, env=env)
         run_system_command(
             ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],
             capture_output=False,
