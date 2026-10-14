@@ -18,9 +18,15 @@ return {
         ruff_fix = {
           command = utils.get_venv_executable_path("ruff")
         },
+        ruff_format = {
+          command = utils.get_venv_executable_path("ruff")
+        },
         black = {
           command = black_exe
         },
+        codespell = {
+          command = utils.get_venv_executable_path("codespell")
+        }
       },
       formatters_by_ft = {
         -- Conform will run multiple formatters sequentially
