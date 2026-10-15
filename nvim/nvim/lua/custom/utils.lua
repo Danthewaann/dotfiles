@@ -348,17 +348,23 @@ end
 
 ---@param cmd table
 module.stream_command = function(cmd)
+  -- Chunks from stdout/stderr can contain partial or multiple lines, so buffer them
+  -- and only print once a complete line has been received.
+  local buffer = ""
   local function on_output(_, data)
-    if not data then return end
-    vim.schedule(function()
-      for line in data:gmatch("[^\n]+") do
-        local highlight = "Normal"
-        if string.find(line, "Error:") then
-          highlight = "ErrorMsg"
-        end
-        vim.api.nvim_echo({ { line, highlight } }, true, {})
-      end
-    end)
+    if not data then
+      -- EOF: flush any trailing line without a newline
+      if buffer ~= "" then print(buffer) end
+      buffer = ""
+      return
+    end
+    buffer = buffer .. data
+    while true do
+      local newline = buffer:find("\n", 1, true)
+      if not newline then break end
+      print(buffer:sub(1, newline - 1))
+      buffer = buffer:sub(newline + 1)
+    end
   end
 
   vim.system(cmd, { stdout = on_output, stderr = on_output, text = true })
