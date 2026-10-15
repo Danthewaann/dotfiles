@@ -316,8 +316,9 @@ module.jump_to_file = function(opts)
     end
 
     selection = vim.fn.trim(obj.stdout)
-  else
-    -- If this is a normal path then just use normal `gf` functionality.
+  elseif opts.file == nil then
+    -- If a file wasn't manually provided and this is a normal path
+    -- then just use normal `gf` functionality.
     if opts.tab then
       vim.cmd(":wincmd normal! gF")
     else
