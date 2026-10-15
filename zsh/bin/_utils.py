@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Literal
 if TYPE_CHECKING:
     from _typeshed import StrPath
 
-
+LOAD_COLOURS = True
 WHITE_BOLD = "\033[1m"
 GREEN_BOLD = "\033[1;32m"
 BLUE_BOLD = "\033[1;34m"
@@ -46,7 +46,17 @@ def create_parser(prog: str | None = None) -> Parser:
 def load_colours(colour: Literal["yes", "no", "auto"]) -> None:
     IN_TTY = sys.stdout.isatty()
     if colour == "no" or (colour == "auto" and not IN_TTY):
-        global WHITE_BOLD, GREEN_BOLD, BLUE_BOLD, RED_BOLD, YELLOW_BOLD, YELLOW, NC, RED
+        global \
+            LOAD_COLOURS, \
+            WHITE_BOLD, \
+            GREEN_BOLD, \
+            BLUE_BOLD, \
+            RED_BOLD, \
+            YELLOW_BOLD, \
+            YELLOW, \
+            NC, \
+            RED
+        LOAD_COLOURS = False
         WHITE_BOLD = ""
         GREEN_BOLD = ""
         BLUE_BOLD = ""
@@ -209,29 +219,41 @@ def run_system_command(
 
 def run_git_fetch() -> subprocess.CompletedProcess[str]:
     info("Running git fetch...")
+    colour = ["-c", "color.ui=always"]
+    if not LOAD_COLOURS:
+        colour = []
     return run_system_command(
-        ["git", "-c", "color.ui=always", "fetch"],
+        ["git", *colour, "fetch"],
     )
 
 
 def run_git_pull() -> subprocess.CompletedProcess[str]:
     info("Running git pull...")
+    colour = ["-c", "color.ui=always"]
+    if not LOAD_COLOURS:
+        colour = []
     return run_system_command(
-        ["git", "-c", "color.ui=always", "pull", "--no-all"],
+        ["git", *colour, "pull", "--no-all"],
     )
 
 
 def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch(check_gh=True)
+    colour = ["-c", "color.ui=always"]
+    if not LOAD_COLOURS:
+        colour = []
     return run_system_command(
-        ["git", "-c", "color.ui=always", "rebase", branch],
+        ["git", *colour, "rebase", branch],
     )
 
 
 def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
     branch = branch or get_base_branch(check_gh=True)
+    colour = ["-c", "color.ui=always"]
+    if not LOAD_COLOURS:
+        colour = []
     return run_system_command(
-        ["git", "-c", "color.ui=always", "merge", branch],
+        ["git", *colour, "merge", branch],
     )
 
 
