@@ -16,7 +16,7 @@ utils.create_command("Mypy", function()
   end
   table.insert(cmd, ".")
 
-  utils.print("Running mypy\n\nCOMMAND:\n" .. table.concat(cmd, " "))
+  utils.print("Running mypy...")
   vim.system(cmd, {}, function(obj)
     vim.schedule(function()
       if obj.code > 1 then
@@ -72,7 +72,7 @@ utils.create_command("Ruff", function()
     "json",
     ".",
   }
-  utils.print("Running ruff\n\nCOMMAND:\n" .. table.concat(cmd, " "))
+  utils.print("Running ruff...")
   vim.system(cmd, {},
     function(obj)
       vim.schedule(function()
