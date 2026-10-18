@@ -96,7 +96,7 @@ function gmt () { git mergetool }
 #   %ar: author date, relative
 #   %ai: author date, ISO 8601-like format
 #   %s: subject
-function gl () { nvim . -c "GLog" }
+function gl () { nvim . -c "Git log --graph --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %C(green)(%an)%Creset %s' | only" }
 
 # Some convenience functions
 function b64e () { echo -n "$1" | base64 }
