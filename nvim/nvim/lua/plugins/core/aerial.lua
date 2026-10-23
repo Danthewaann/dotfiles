@@ -55,12 +55,12 @@ return {
     disable_max_size = 0,
     layout = {
       max_width = { 80, 0.4 },
-      default_direction = "right",
+      default_direction = "prefer_right",
+      placement = "edge",
       win_opts = {
         number = true
-      }
+      },
     },
-
   },
   -- Optional dependencies
   dependencies = {
