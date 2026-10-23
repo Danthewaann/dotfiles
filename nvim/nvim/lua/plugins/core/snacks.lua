@@ -11,7 +11,6 @@ local git_log_opts = {
   actions = {
     ["copy_commit_hash"] = function(_, item)
       local commit_hash = item.commit
-      local utils = require("custom.utils")
       utils.print("Copied commit hash " .. commit_hash .. " to clipboard")
 
       vim.fn.setreg("+", commit_hash)

@@ -70,7 +70,22 @@ return {
     utils.create_command("Gmt", function()
       vim.cmd(":Git mergetool")
     end, { desc = "Diff current branch dir against remote base branch dir and jump to conflicts" })
-
+    utils.create_command("Gl", function()
+      -- see `git help log` for detailed help.
+      --   %h: abbreviated commit hash
+      --   %d: ref names, like the --decorate option of git-log(1)
+      --   %cn: committer name
+      --   %ce: committer email
+      --   %cr: committer date, relative
+      --   %ci: committer date, ISO 8601-like format
+      --   %an: author name
+      --   %ae: author email
+      --   %ar: author date, relative
+      --   %ai: author date, ISO 8601-like format
+      --   %s: subject
+      vim.cmd(
+        ":Git log --graph --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %C(green)(%an)%Creset %s'")
+    end, { desc = "Show diff base branch" })
 
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>",

@@ -83,19 +83,7 @@ function gd () { base_branch=${1:-origin/$(git-get-base-branch)}..HEAD; nvim . -
 alias gdt='git-diff-tool'
 function gds () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
 function gmt () { git mergetool }
-# see `git help log` for detailed help.
-#   %h: abbreviated commit hash
-#   %d: ref names, like the --decorate option of git-log(1)
-#   %cn: committer name
-#   %ce: committer email
-#   %cr: committer date, relative
-#   %ci: committer date, ISO 8601-like format
-#   %an: author name
-#   %ae: author email
-#   %ar: author date, relative
-#   %ai: author date, ISO 8601-like format
-#   %s: subject
-function gl () { nvim . -c "Git log --graph --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %C(green)(%an)%Creset %s' | only" }
+function gl () { nvim . -c "Gl" -c "only" }
 
 # Some convenience functions
 function b64e () { echo -n "$1" | base64 }
