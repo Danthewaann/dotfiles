@@ -170,7 +170,7 @@ return {
         ignore_focus = { "dbui", "git", "snacks_dashboard" },
         globalstatus = false,
         always_show_tabline = false,
-        disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input" } },
+        disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input", "tmux-saved-sessions" } },
       },
       extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, oil_extension },
       sections = {
