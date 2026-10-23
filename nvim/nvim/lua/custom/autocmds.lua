@@ -1,3 +1,4 @@
+local utils = require("custom.utils")
 local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
@@ -70,6 +71,24 @@ autocmd("TermOpen", {
     vim.keymap.set({ "n", "x", "o" }, "{", [[?^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buf = event.buf, silent = true })
     vim.keymap.set({ "n", "x", "o" }, "}", [[/^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buf = event.buf, silent = true })
   end,
+})
+
+-- Setup custom binds for my special tmux-saved-sessions buffer
+autocmd("FileType", {
+  group = augroup("tmux-saved-sessions", { clear = true }),
+  pattern = { "tmux-saved-sessions" },
+  callback = function(event)
+    vim.keymap.set("n", "<CR>", function()
+      local lnum = vim.fn.line(".")
+      if lnum == 0 then
+        utils.print_err("Couldn't get current line")
+        return
+      end
+
+      vim.system({ "tmux-sessionizer", tostring(lnum) }):wait()
+      vim.cmd("q!")
+    end, { buf = event.buf })
+  end
 })
 
 -- Disable highlighting for sql files.
