@@ -20,5 +20,4 @@ cur_branch: str = args.cur_branch or _utils.get_current_branch()
 _utils.run_system_command(
     ["git", "difftool", "-d", base_branch, cur_branch],
     capture_output=False,
-    log_output=False,
 )

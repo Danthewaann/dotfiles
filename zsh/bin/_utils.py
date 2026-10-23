@@ -222,9 +222,7 @@ def run_git_fetch() -> subprocess.CompletedProcess[str]:
     colour = ["-c", "color.ui=always"]
     if not LOAD_COLOURS:
         colour = []
-    return run_system_command(
-        ["git", *colour, "fetch"],
-    )
+    return run_system_command(["git", *colour, "fetch"], capture_output=False)
 
 
 def run_git_pull() -> subprocess.CompletedProcess[str]:
@@ -233,7 +231,7 @@ def run_git_pull() -> subprocess.CompletedProcess[str]:
     if not LOAD_COLOURS:
         colour = []
     return run_system_command(
-        ["git", *colour, "pull", "--no-all"],
+        ["git", *colour, "pull", "--no-all"], capture_output=False
     )
 
 
@@ -242,9 +240,7 @@ def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str
     colour = ["-c", "color.ui=always"]
     if not LOAD_COLOURS:
         colour = []
-    return run_system_command(
-        ["git", *colour, "rebase", branch],
-    )
+    return run_system_command(["git", *colour, "rebase", branch], capture_output=False)
 
 
 def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
@@ -252,9 +248,7 @@ def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]
     colour = ["-c", "color.ui=always"]
     if not LOAD_COLOURS:
         colour = []
-    return run_system_command(
-        ["git", *colour, "merge", branch],
-    )
+    return run_system_command(["git", *colour, "merge", branch], capture_output=False)
 
 
 def repo_is_fork() -> tuple[str, str] | None:
@@ -306,6 +300,5 @@ def update_python_deps() -> None:
         run_system_command(
             ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],
             capture_output=False,
-            exit_on_error=False,
             env=env,
         )

@@ -113,9 +113,10 @@ _utils.run_git_fetch()
 local_branch_arg = ["-B", branch_name]
 
 # If this branch exists remotely, set up tracking info for the local branch
+_utils.info("Fetching remote branches...")
 remote_tracking_arg = []
 remote_branches = _utils.run_system_command(
-    ["git", "ls-remote", "--branches", "origin"]
+    ["git", "ls-remote", "--branches", "origin"], log_output=False
 ).stdout
 if branch_name in remote_branches:
     remote_tracking_arg = ["--track", f"origin/{branch_name}"]
@@ -130,7 +131,7 @@ add_args = [
     *remote_tracking_arg,
 ]
 _utils.info("Creating worktree...")
-_utils.run_system_command(add_args)
+_utils.run_system_command(add_args, capture_output=False)
 
 # Copy .projections.json if found
 cur_worktree = _utils.get_worktree(branch=_utils.get_base_branch())
