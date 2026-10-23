@@ -47,36 +47,36 @@ return {
         vim.cmd("unmap <buffer> <C-p>")
         vim.cmd("unmap <buffer> <C-n>")
 
-        vim.keymap.set("n", "<Tab>", "<Plug>(DBUI_SelectLine)", { buffer = 0 })
+        vim.keymap.set("n", "<Tab>", "<Plug>(DBUI_SelectLine)", { buf = 0 })
       end,
     })
     autocmd("FileType", {
       group = "dadbod-ui",
       pattern = { "sql", "mysql", "plsql" },
-      callback = function()
+      callback = function(event)
         vim.keymap.set(
           "n",
           "<leader>e",
           ":normal mavip<CR><Plug>(DBUI_ExecuteQuery)`a",
-          { silent = true, buffer = true, desc = "[E]xecute SQL query under cursor" }
+          { silent = true, buf = event.buf, desc = "[E]xecute SQL query under cursor" }
         )
         vim.keymap.set(
           { "v", "x" },
           "<leader>e",
           "ma<Plug>(DBUI_ExecuteQuery)`a",
-          { silent = true, buffer = true, desc = "[E]xecute SQL query under cursor" }
+          { silent = true, buf = event.buf, desc = "[E]xecute SQL query under cursor" }
         )
       end
     })
     autocmd("FileType", {
       group = "dadbod-ui",
       pattern = "dbout",
-      callback = function()
+      callback = function(event)
         vim.keymap.set(
           "n",
           "<CR>",
           "<Plug>(DBUI_JumpToForeignKey)",
-          { buffer = true, desc = "Jump to foreign key" }
+          { buf = event.buf, desc = "Jump to foreign key" }
         )
       end
     })

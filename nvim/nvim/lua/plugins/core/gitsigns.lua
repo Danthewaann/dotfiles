@@ -23,7 +23,7 @@ return {
 
       local function map(mode, l, r, opts)
         opts = opts or {}
-        opts.buffer = bufnr
+        opts.buf = bufnr
         vim.keymap.set(mode, l, r, opts)
       end
 
@@ -31,15 +31,15 @@ return {
       map("n", "<leader>hC", function()
         gs.setqflist("all")
       end, { desc = "Show all hunks in a quickfix list" })
-      map("n", "<leader>hr", gs.reset_hunk, { buffer = bufnr, desc = "Reset git hunk" })
+      map("n", "<leader>hr", gs.reset_hunk, { desc = "Reset git hunk" })
       map("v", "<leader>hr", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "Reset git hunk" })
-      map("n", "<leader>hR", gs.reset_buffer, { buffer = bufnr, desc = "Reset buffer" })
-      map("n", "<leader>hd", gs.diffthis, { buffer = bufnr, desc = "Show diff of buffer" })
+      end, { desc = "Reset git hunk" })
+      map("n", "<leader>hR", gs.reset_buffer, { desc = "Reset buffer" })
+      map("n", "<leader>hd", gs.diffthis, { desc = "Show diff of buffer" })
       map("n", "<leader>hD", function()
         gs.diffthis("main")
-      end, { buffer = bufnr, desc = "Show diff of buffer against main" })
+      end, { desc = "Show diff of buffer against main" })
 
       -- don't override the built-in keymaps
       map({ "n", "v" }, "]c", function()
@@ -48,14 +48,14 @@ return {
         else
           gs.nav_hunk("next", { preview = false })
         end
-      end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+      end, { expr = true, desc = "Jump to next hunk" })
       map({ "n", "v" }, "[c", function()
         if vim.wo.diff then
           return "[c"
         else
           gs.nav_hunk("prev", { preview = false })
         end
-      end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
+      end, { expr = true, desc = "Jump to previous hunk" })
     end,
   },
 }

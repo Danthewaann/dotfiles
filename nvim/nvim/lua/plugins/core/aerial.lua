@@ -35,21 +35,21 @@ return {
           count = 1
         end
         require("aerial").prev(count)
-      end, { buffer = bufnr, silent = true })
+      end, { buf = bufnr, silent = true })
       vim.keymap.set({ "n", "x" }, "<M-j>", function()
         local count = vim.v.count
         if count == 0 then
           count = 1
         end
         require("aerial").next(count)
-      end, { buffer = bufnr, silent = true })
+      end, { buf = bufnr, silent = true })
       vim.keymap.set("n", "gs", function()
         local count = vim.v.count
         if count == 0 then
           count = 1
         end
         require("aerial").select({ index = count })
-      end, { desc = "[G]o to [S]ymbol", buffer = bufnr, silent = true })
+      end, { desc = "[G]o to [S]ymbol", buf = bufnr, silent = true })
     end,
     disable_max_lines = 0,
     disable_max_size = 0,

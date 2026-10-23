@@ -6,7 +6,7 @@ autocmd("LspAttach", {
   callback = function(event)
     local map = function(keys, func, desc, mode)
       mode = mode or "n"
-      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+      vim.keymap.set(mode, keys, func, { buf = event.buf, desc = "LSP: " .. desc })
     end
 
     -- See `:help K` for why this keymap
@@ -37,13 +37,13 @@ autocmd("LspAttach", {
       if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
         local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
         vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-          buffer = event.buf,
+          buf = event.buf,
           group = highlight_augroup,
           callback = vim.lsp.buf.document_highlight,
         })
 
         vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-          buffer = event.buf,
+          buf = event.buf,
           group = highlight_augroup,
           callback = vim.lsp.buf.clear_references,
         })
@@ -52,7 +52,7 @@ autocmd("LspAttach", {
           group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
           callback = function(event2)
             vim.lsp.buf.clear_references()
-            vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
+            vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buf = event2.buf })
           end,
         })
       end
@@ -63,12 +63,12 @@ autocmd("LspAttach", {
 autocmd("TermOpen", {
   group = augroup("terminal-settings", { clear = true }),
   pattern = "*",
-  callback = function()
+  callback = function(event)
     vim.cmd(":setlocal number")
 
     -- Jump between prompts in the terminal
-    vim.keymap.set({ "n", "x", "o" }, "{", [[?^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
-    vim.keymap.set({ "n", "x", "o" }, "}", [[/^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buffer = 0, silent = true })
+    vim.keymap.set({ "n", "x", "o" }, "{", [[?^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buf = event.buf, silent = true })
+    vim.keymap.set({ "n", "x", "o" }, "}", [[/^\(.*\| \)\$ .*$<CR>:nohlsearch<CR>]], { buf = event.buf, silent = true })
   end,
 })
 
@@ -139,8 +139,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("diff_binds", { clear = true }),
   pattern = { "diff", "git" },
   callback = function(event)
-    local buf = event.buf
-    vim.keymap.set("n", "}", "/diff --git<CR>zt", { silent = true, buffer = buf, desc = "Next file" })
-    vim.keymap.set("n", "{", "?diff --git<CR>zt", { silent = true, buffer = buf, desc = "Previous file" })
+    vim.keymap.set("n", "}", "/diff --git<CR>zt", { silent = true, buf = event.buf, desc = "Next file" })
+    vim.keymap.set("n", "{", "?diff --git<CR>zt", { silent = true, buf = event.buf, desc = "Previous file" })
   end
 })

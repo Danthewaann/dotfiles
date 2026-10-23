@@ -96,16 +96,15 @@ return {
       group = vim.api.nvim_create_augroup("fugitive_binds", { clear = true }),
       pattern = "fugitive",
       callback = function(event)
-        local buf = event.buf
         vim.opt_local.signcolumn = "no"
-        vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buffer = buf })
+        vim.keymap.set("n", "<Tab>", function() vim.fn.feedkeys("=") end, { buf = event.buf })
         vim.keymap.set("n", "gl", "<cmd> vertical Git log --oneline --full-history<CR>",
-          { buffer = buf, desc = "Git log" })
-        vim.keymap.set("n", "p", "<nop>", { buffer = buf })
-        vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buffer = buf, desc = "Git push" })
-        vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buffer = buf, desc = "Git push --force" })
-        vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buffer = buf, desc = "Git pull" })
-        vim.keymap.set("n", "S", "<cmd> Git add .<CR>", { buffer = buf, desc = "Git add all" })
+          { buf = event.buf, desc = "Git log" })
+        vim.keymap.set("n", "p", "<nop>", { buf = event.buf })
+        vim.keymap.set("n", "pp", "<cmd> Git push<CR>", { buf = event.buf, desc = "Git push" })
+        vim.keymap.set("n", "pf", "<cmd> Git push --force<CR>", { buf = event.buf, desc = "Git push --force" })
+        vim.keymap.set("n", "Pp", "<cmd> Git pull<CR>", { buf = event.buf, desc = "Git pull" })
+        vim.keymap.set("n", "S", "<cmd> Git add .<CR>", { buf = event.buf, desc = "Git add all" })
         vim.keymap.set("n", "cc", function()
           if utils.file_exists(".gittemplate") then
             local f, err = io.open(".gittemplate", "r")
@@ -121,7 +120,7 @@ return {
           else
             vim.cmd(":Git commit")
           end
-        end, { buffer = buf, desc = "Git add all" })
+        end, { buf = event.buf, desc = "Git add all" })
       end
     })
 
@@ -129,9 +128,8 @@ return {
       group = vim.api.nvim_create_augroup("gitcommit_startinsert", { clear = true }),
       pattern = "gitcommit",
       callback = function(event)
-        local buf = event.buf
         vim.keymap.set("n", "gl", "<cmd> vertical Git log --oneline --full-history<CR>",
-          { buffer = buf, desc = "Git log" })
+          { buf = event.buf, desc = "Git log" })
         if #vim.fn.getline(".") == 0 then
           vim.cmd.startinsert()
         end
@@ -142,11 +140,10 @@ return {
       group = vim.api.nvim_create_augroup("git_binds", { clear = true }),
       pattern = "git",
       callback = function(event)
-        local buf = event.buf
-        vim.keymap.set("n", "}", "]/", { remap = true, buffer = buf, desc = "Next file" })
-        vim.keymap.set("n", "{", "[/", { remap = true, buffer = buf, desc = "Previous file" })
+        vim.keymap.set("n", "}", "]/", { remap = true, buf = event.buf, desc = "Next file" })
+        vim.keymap.set("n", "{", "[/", { remap = true, buf = event.buf, desc = "Previous file" })
         vim.keymap.set("n", "X", ".Git reset<C-e>^<CR>",
-          { remap = true, silent = true, buffer = buf, desc = "Reset commit under cursor" })
+          { remap = true, silent = true, buf = event.buf, desc = "Reset commit under cursor" })
       end
     })
   end

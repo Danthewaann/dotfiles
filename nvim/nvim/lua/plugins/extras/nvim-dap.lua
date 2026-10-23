@@ -250,7 +250,7 @@ return {
       pattern = "dap-float",
       callback = function(args)
         vim.keymap.set("n", "<Tab>", "<cmd>lua require('dap.ui').trigger_actions({ mode = 'first' })<CR>",
-          { buffer = args.buf })
+          { buf = args.buf })
       end
     })
 
