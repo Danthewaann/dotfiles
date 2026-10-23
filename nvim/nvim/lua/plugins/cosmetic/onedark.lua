@@ -92,9 +92,9 @@ return {
     vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#98c379" })
     vim.api.nvim_set_hl(0, "SnacksDashboardFooter", { fg = colours.light_grey })
     vim.api.nvim_set_hl(0, "SnacksDashboardSpecial", { fg = colours.fg })
-    vim.api.nvim_set_hl(0, "Yank", { fg = colours.purple, bg = colours.bg1 })
 
     -- Links
+    vim.api.nvim_set_hl(0, "Yank", { link = "Visual" })
     vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", { link = "DiffChange" })
     vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "FloatBorder" })
     vim.api.nvim_set_hl(0, "MasonBackdrop", { link = "Normal" })
