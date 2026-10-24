@@ -110,7 +110,7 @@ return {
       if #linters == 0 then
         return "󰦕"
       end
-      return "󱉶 " .. table.concat(linters, ", ")
+      return "󱉶 " .. table.concat(vim.list.unique(linters), ", ")
     end
 
     local list_harpoon = function()
