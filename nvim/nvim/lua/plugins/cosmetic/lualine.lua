@@ -76,25 +76,15 @@ return {
     local filetype_config = {
       "filetype",
       colored = true,             -- Displays filetype icon in color if set to true
-      icon_only = false,          -- Display only an icon for filetype
+      icon_only = true,           -- Display only an icon for filetype
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     }
 
     local filetype_inactive_config = {
       "filetype",
       colored = false,
-      icon_only = false,
+      icon_only = true,
       icon = { align = "right" },
-    }
-
-    local fileformat_config = {
-      "fileformat",
-      icons_enabled = true,
-      symbols = {
-        unix = "LF",
-        dos = "CRLF",
-        mac = "CR",
-      },
     }
 
     local git_shortstat = function()
@@ -178,14 +168,12 @@ return {
       extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, oil_extension },
       sections = {
         lualine_a = {},
-        lualine_b = { filename_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
+        lualine_b = { filename_config, filetype_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
         lualine_c = {},
         lualine_x = { list_harpoon },
         lualine_y = {},
         lualine_z = {
-          filetype_config,
           "filesize",
-          fileformat_config,
           "progess",
           "location",
           "searchcount",
