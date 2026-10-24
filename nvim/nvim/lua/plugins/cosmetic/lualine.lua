@@ -109,7 +109,7 @@ return {
       local harpoon = require("harpoon")
       local list = harpoon:list()
       local items = {}
-      for i, x in ipairs(list.items) do
+      for i, x in ipairs(vim.list_slice(list.items, 1, 5)) do
         if not x.value or not show_cur_file and x.value == bufname then
           goto continue
         end
