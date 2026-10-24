@@ -155,6 +155,36 @@ return {
       end,
     }
 
+    local sections = {
+      lualine_a = {},
+      lualine_b = { filename_config, filetype_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
+      lualine_c = {},
+      lualine_x = { list_harpoon },
+      lualine_y = {},
+      lualine_z = {
+        "filesize",
+        "progess",
+        "location",
+        "searchcount",
+        "selectioncount",
+      },
+    }
+
+    local inactive_sections = {
+      lualine_a = {},
+      lualine_b = { filename_config, filetype_inactive_config },
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {
+        "filesize",
+        "progess",
+        "location",
+        "searchcount",
+        "selectioncount",
+      },
+    }
+
     require("lualine").setup({
       options = {
         theme = custom_theme,
@@ -166,24 +196,8 @@ return {
         disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input", "tmux-saved-sessions" } },
       },
       extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, oil_extension },
-      sections = {
-        lualine_a = {},
-        lualine_b = { filename_config, filetype_config, { "diff", source = diff_source }, "diagnostics", lint_progress },
-        lualine_c = {},
-        lualine_x = { list_harpoon },
-        lualine_y = {},
-        lualine_z = {
-          "filesize",
-          "progess",
-          "location",
-          "searchcount",
-          "selectioncount",
-        },
-      },
-      inactive_sections = {
-        lualine_c = { filename_config, filetype_inactive_config, "filesize", fileformat_config, "location" },
-        lualine_x = {},
-      },
+      sections = sections,
+      inactive_sections = inactive_sections,
     })
   end,
 }
