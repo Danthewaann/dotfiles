@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cur_session="${1}"
+show_cur_session=true
 worktree_max_len="${2:-30}"
 repo_len="${3:-20}"
 max_width="${4:-$(tmux display-message -p '#{client_width}' 2>/dev/null || tput cols)}"
@@ -30,7 +31,7 @@ total_len=0
 session_number=0
 while IFS=$'\n' read -r line; do
     session_number=$((session_number + 1))
-    if [[ "$cur_session" == "$line" ]]; then continue; fi
+    if [[ $show_cur_session != "true" ]] && [[ "$cur_session" == "$line" ]]; then continue; fi
     num_slashes="${line//[^\/]/}"
     if [[ ${#num_slashes} -gt 1 ]]; then
         line="$(cut -d'/' -f2- <<<"$line")"
