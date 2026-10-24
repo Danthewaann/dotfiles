@@ -114,14 +114,17 @@ return {
     end
 
     local list_harpoon = function()
+      local show_cur_file = true
       local bufname = vim.fn.fnamemodify(vim.fn.bufname(vim.api.nvim_get_current_buf()), ":.")
       local harpoon = require("harpoon")
       local list = harpoon:list()
       local items = {}
       for i, x in ipairs(list.items) do
-        if x.value and x.value ~= bufname then
-          table.insert(items, "%#lualine_a_normal#" .. i .. "%*:" .. vim.fn.fnamemodify(x.value, ":t"))
+        if not x.value or not show_cur_file and x.value == bufname then
+          goto continue
         end
+        table.insert(items, "%#lualine_a_normal#" .. i .. "%*:" .. vim.fn.fnamemodify(x.value, ":t"))
+        ::continue::
       end
       return table.concat(items, " ")
     end
