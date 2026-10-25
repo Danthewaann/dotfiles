@@ -30,8 +30,9 @@ sessions=()
 total_len=0
 session_number=0
 while IFS=$'\n' read -r line; do
+    orig_line="$line"
     session_number=$((session_number + 1))
-    if [[ $show_cur_session != "true" ]] && [[ "$cur_session" == "$line" ]]; then continue; fi
+    if [[ $show_cur_session != "true" ]] && [[ "$cur_session" == "$orig_line" ]]; then continue; fi
     num_slashes="${line//[^\/]/}"
     if [[ ${#num_slashes} -gt 1 ]]; then
         line="$(cut -d'/' -f2- <<<"$line")"
@@ -52,7 +53,11 @@ while IFS=$'\n' read -r line; do
         break
     fi
     total_len=$((total_len + sep + ${#plain}))
-    sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}#[fg=$onedark_white,bg=$onedark_black2]:$display")
+    if [[ "$cur_session" == "$orig_line" ]]; then
+        sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}:$display*")
+    else
+        sessions+=("#[fg=$onedark_white,bg=$onedark_black2]${session_number}:$display")
+    fi
 done <"$HOME/.tmux-save-sessions"
 
 ((${#sessions[@]} > 0)) && printf "%s " "${sessions[@]}" || printf "no saved sessions, use <prefix><space> to save current session"
