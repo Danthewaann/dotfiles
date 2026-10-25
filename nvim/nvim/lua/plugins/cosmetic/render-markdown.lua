@@ -8,7 +8,7 @@ return {
   ft = { "markdown" },
   config = function()
     require("render-markdown").setup({
-      enabled = true,
+      enabled = false,
       file_types = { "markdown" },
       anti_conceal = { enabled = false },
     })
