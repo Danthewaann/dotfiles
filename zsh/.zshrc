@@ -83,7 +83,7 @@ function gd () { base_branch=${1:-origin/$(git-get-base-branch)}..HEAD; nvim . -
 alias gdt='git-diff-tool'
 function gds () { git --no-pager diff --shortstat ${1:-origin/$(git-get-base-branch)}..HEAD | trim }
 function gmt () { git mergetool }
-function gl () { nvim . -c "Gl" -c "only" }
+function gl () { nvim . -c "GitLog" -c "only" }
 
 # Some convenience functions
 function b64e () { echo -n "$1" | base64 }
