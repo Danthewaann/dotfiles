@@ -343,11 +343,12 @@ return {
       function()
         Snacks.picker.commands({
           title = "My Custom Commands",
+          layout = "select",
           transform = function(item, ctx)
             if string.find(item.command.definition, "CUSTOM: ") == nil then
               return false
             end
-            return item
+            return true
           end
         })
       end,
