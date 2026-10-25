@@ -46,7 +46,7 @@ return {
     require("symbol-usage").setup({
       request_pending_text = false,
       disable = {
-        lsp = { "pyrefly" }
+        lsp = {}
       },
       text_format = text_format,
       kinds = {
@@ -78,6 +78,13 @@ return {
           },
         },
       },
+      symbol_filter = function(ctx)
+        return function(symbol)
+          local file = vim.fn.bufname(ctx.bufnr)
+          -- If we are in a test file, don't search for symbol references
+          return string.find(file, "tests/") == nil
+        end
+      end
     })
 
     vim.keymap.set(

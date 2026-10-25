@@ -77,16 +77,16 @@ return {
           analysis = { showHoverGoToLinks = false },
         }
       },
-      zuban = {
-        init_options = { typeCheckingMode = "off" },
-        on_attach = function(client)
-          -- Disable stuff in favour of pyrefly
-          client.server_capabilities.hoverProvider = false
-          client.server_capabilities.semanticTokensProvider = nil
-          client.server_capabilities.renameProvider = nil
-          client.server_capabilities.completionProvider = nil
-        end,
-      },
+      -- zuban = {
+      --   init_options = { typeCheckingMode = "off" },
+      --   on_attach = function(client)
+      --     -- Disable stuff in favour of pyrefly
+      --     client.server_capabilities.hoverProvider = false
+      --     client.server_capabilities.semanticTokensProvider = nil
+      --     client.server_capabilities.renameProvider = nil
+      --     client.server_capabilities.completionProvider = nil
+      --   end,
+      -- },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
       ruff = {
         init_options = {
@@ -105,6 +105,12 @@ return {
             }
           }
         }
+      },
+      pytest_language_server = {
+        on_attach = function(client)
+          client.server_capabilities.codeLensProvider = nil
+        end,
+        settings = {},
       },
       rust_analyzer = { settings = {} },
       ts_ls = { settings = {} },
