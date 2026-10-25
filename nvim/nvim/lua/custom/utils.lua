@@ -387,6 +387,12 @@ end
 ---@param abbrev string | false | nil
 module.create_command = function(cmd, action, opts, abbrev)
   opts = opts or {}
+  if opts.desc == nil then
+    module.print_warn("Command '%s' has no description")
+  else
+    -- Add `CUSTOM:` here so I can filter for my custom commands in snacks
+    opts.desc = "CUSTOM: " .. opts.desc
+  end
   vim.api.nvim_create_user_command(cmd, action, opts)
   if abbrev == false then
     return

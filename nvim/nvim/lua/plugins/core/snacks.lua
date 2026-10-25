@@ -329,16 +329,30 @@ return {
       end,
       desc = "Document Symbols"
     },
-    { "<leader>sx", function() Snacks.picker.diagnostics_buffer() end,              desc = "Buffer Diagnostics" },
-    { "<leader>sX", function() Snacks.picker.diagnostics() end,                     desc = "Diagnostics" },
-    { "<leader>sq", function() Snacks.picker.qflist() end,                          desc = "Quickfix List" },
-    { "<leader>sh", function() Snacks.picker.help() end,                            desc = "Help Pages" },
-    { "<leader>sH", function() Snacks.picker.highlights() end,                      desc = "Highlights" },
-    { "<leader>sr", function() Snacks.picker.resume() end,                          desc = "Resume" },
+    { "<leader>sx", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
+    { "<leader>sX", function() Snacks.picker.diagnostics() end,        desc = "Diagnostics" },
+    { "<leader>sq", function() Snacks.picker.qflist() end,             desc = "Quickfix List" },
+    { "<leader>sh", function() Snacks.picker.help() end,               desc = "Help Pages" },
+    { "<leader>sH", function() Snacks.picker.highlights() end,         desc = "Highlights" },
+    { "<leader>sr", function() Snacks.picker.resume() end,             desc = "Resume" },
     -- other search
-    { '<leader>s"', function() Snacks.picker.registers() end,                       desc = "Registers" },
-    { "<leader>sa", function() Snacks.picker.autocmds() end,                        desc = "Autocmds" },
-    { "<leader>sc", function() Snacks.picker.commands() end,                        desc = "Commands" },
+    { '<leader>s"', function() Snacks.picker.registers() end,          desc = "Registers" },
+    { "<leader>sa", function() Snacks.picker.autocmds() end,           desc = "Autocmds" },
+    {
+      "<leader>sc",
+      function()
+        Snacks.picker.commands({
+          title = "My Custom Commands",
+          transform = function(item, ctx)
+            if string.find(item.command.definition, "CUSTOM: ") == nil then
+              return false
+            end
+            return item
+          end
+        })
+      end,
+      desc = "My Custom Commands"
+    },
     { "<leader>sj", function() Snacks.picker.jumps() end,                           desc = "Jumps" },
     { "<leader>sk", function() Snacks.picker.keymaps() end,                         desc = "Keymaps" },
     { "<leader>sl", function() Snacks.picker.loclist() end,                         desc = "Location List" },
