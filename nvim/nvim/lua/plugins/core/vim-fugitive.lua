@@ -127,9 +127,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("gitcommit_startinsert", { clear = true }),
       pattern = "gitcommit",
-      callback = function(event)
-        vim.keymap.set("n", "gl", "<cmd> vertical Git log --oneline --full-history<CR>",
-          { buf = event.buf, desc = "Git log" })
+      callback = function()
         if #vim.fn.getline(".") == 0 then
           vim.cmd.startinsert()
         end
