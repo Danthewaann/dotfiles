@@ -80,8 +80,13 @@ return {
       },
       symbol_filter = function(ctx)
         return function(symbol)
+          -- Only filter symbols for python code
+          if vim.bo[ctx.bufnr].filetype ~= "python" then
+            return true
+          end
           local file = vim.fn.bufname(ctx.bufnr)
-          -- If we are in a test file, don't search for symbol references
+          -- If we are in a python test file, don't search for symbol references
+          -- `pytest_language_server` handles references better for fixtures
           return string.find(file, "tests/") == nil
         end
       end
