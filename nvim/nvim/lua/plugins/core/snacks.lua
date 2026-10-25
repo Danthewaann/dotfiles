@@ -295,10 +295,10 @@ return {
       desc = "Selection in Buffer Lines",
       mode = { "v" }
     },
-    { "<leader>sB", function() Snacks.picker.grep_buffers() end,               desc = "Grep Open Buffers" },
-    { "<leader>/",  function() Snacks.picker.grep({ hidden = true }) end,      desc = "Grep" },
-    { "<leader>sw", function() Snacks.picker.grep_word({ hidden = true }) end, desc = "Visual selection or word", mode = { "n", "x" } },
-    { "<leader>si", function() Snacks.picker.icons({ layout = "select" }) end, desc = "Icons" },
+    { "<leader>sB", function() Snacks.picker.grep_buffers() end,                                            desc = "Grep Open Buffers" },
+    { "<leader>/",  function() Snacks.picker.grep({ hidden = true }) end,                                   desc = "Grep" },
+    { "<leader>sw", function() Snacks.picker.grep_word({ hidden = true }) end,                              desc = "Visual selection or word", mode = { "n", "x" } },
+    { "<leader>si", function() Snacks.picker.icons({ layout = "select", icon_sources = { "emoji" } }) end,  desc = "Icons" },
     {
       "<leader>sd",
       function()
