@@ -155,7 +155,8 @@ return {
       },
       vimls = { settings = {} },
       marksman = { settings = {} },
-      terraformls = { settings = {} }
+      terraformls = { settings = {} },
+      dockerls = { settings = {} },
     }
 
     -- Only install solargraph LSP if ruby is installed
