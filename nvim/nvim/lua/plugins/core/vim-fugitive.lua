@@ -48,7 +48,7 @@ return {
       vim.cmd("Git | normal 1gu")
     end, { desc = "[G]it Status" })
 
-    utils.create_command("Gd", function()
+    utils.create_command("GitDiff", function()
       local cmd = { "git-get-base-branch" }
       local obj = vim.system(cmd):wait()
       if obj.code ~= 0 then
@@ -57,8 +57,8 @@ return {
       end
       local base_branch = vim.fn.trim(obj.stdout)
       vim.cmd(":Git diff " .. base_branch .. " | only")
-    end, { desc = "Show diff base branch" })
-    utils.create_command("Gdt", function()
+    end, { desc = "Show diff base branch" }, "gd")
+    utils.create_command("GitDiffTool", function()
       local cmd = { "git-get-base-branch" }
       local obj = vim.system(cmd):wait()
       if obj.code ~= 0 then
@@ -66,12 +66,12 @@ return {
         return
       end
       local base_branch = vim.fn.trim(obj.stdout)
-      vim.cmd((":Git difftool -y origin/%s..HEAD"):format(base_branch))
+      vim.cmd((":Git difftool -y origin/%s..HEAD"):format(base_branch), "gdt")
     end, { desc = "Diff current branch dir against remote base branch dir" })
-    utils.create_command("Gmt", function()
+    utils.create_command("GitMergeTool", function()
       vim.cmd(":Git mergetool")
-    end, { desc = "Diff current branch dir against remote base branch dir and jump to conflicts" })
-    utils.create_command("Gl", function()
+    end, { desc = "Diff current branch dir against remote base branch dir and jump to conflicts" }, "gmt")
+    utils.create_command("GitLog", function()
       -- see `git help log` for detailed help.
       --   %h: abbreviated commit hash
       --   %d: ref names, like the --decorate option of git-log(1)
@@ -86,7 +86,7 @@ return {
       --   %s: subject
       vim.cmd(
         ":Git log --graph --pretty=format:'%C(auto)%h%Creset %C(cyan)(%cr)%Creset %C(green)(%an)%Creset %s'")
-    end, { desc = "Show diff base branch" })
+    end, { desc = "Show diff base branch" }, "gl")
 
     vim.keymap.set({ "n", "v" }, "<leader>gb", ":Git blame<CR>", { desc = "[G]it [B]lame", silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>gy", ":GBrowse!<CR>",

@@ -39,7 +39,7 @@ return {
     })
 
     local utils = require("custom.utils")
-    utils.create_command("Prr", function()
+    utils.create_command("GitPRReview", function()
       local buffers = vim.api.nvim_list_bufs()
       for _, buf in ipairs(buffers) do
         local buf_name = vim.api.nvim_buf_get_name(buf)
@@ -50,6 +50,6 @@ return {
       end
       utils.print("Opening PR...")
       vim.cmd("tabnew | Octo pr")
-    end, { desc = "Open PR for current branch" })
+    end, { desc = "Open PR for current branch" }, "prr")
   end
 }

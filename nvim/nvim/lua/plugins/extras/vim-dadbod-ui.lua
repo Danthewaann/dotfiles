@@ -32,7 +32,7 @@ return {
     -- Use neovim's notfication system
     vim.g.db_ui_use_nvim_notify = 1
 
-    utils.create_command("Db", "tab DBUI", { desc = "Open DB UI" })
+    utils.create_command("DBView", "tab DBUI", { desc = "Open DB UI" }, "db")
 
     augroup("dadbod-ui", { clear = true })
     autocmd("FileType", {

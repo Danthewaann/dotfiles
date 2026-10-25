@@ -214,22 +214,29 @@ local copy_to_clipboard = function(oper)
   end
 end
 
-utils.create_command("Gwa", git_worktree_script("add"), { nargs = 1, desc = "Git add branch and checkout to worktree" })
-utils.create_command("Gwu", git_worktree_script("update"), { desc = "Git update current branch with origin" })
-utils.create_command("Gwr", git_worktree_script("rebase"),
-  { nargs = "?", desc = "Git rebase current branch with origin base" }
+utils.create_command("GitWorktreeAdd", git_worktree_script("add"),
+  { nargs = 1, desc = "Git add branch and checkout to worktree" }, "gwa")
+utils.create_command("GitWorktreeUpdate", git_worktree_script("update"),
+  { desc = "Git update current branch with origin" }, "gwu")
+utils.create_command("GitWorktreeRebase", git_worktree_script("rebase"),
+  { nargs = "?", desc = "Git rebase current branch with origin base" }, "gwr"
 )
-utils.create_command("Gwm", git_worktree_script("merge"),
-  { nargs = "?", desc = "Git merge current branch with origin base" })
-utils.create_command("Gwd", git_worktree_script("delete"),
-  { nargs = "?", desc = "Git delete worktrees in current repo, or just the provided worktree" })
-utils.create_command("Prc", git_pr_script("create"), { desc = "GitHub create PR" })
-utils.create_command("Pre", git_pr_script("edit"), { desc = "GitHub edit PR" })
-utils.create_command("Rv", github_view("repo"), { desc = "GitHub view current repo in browser" })
-utils.create_command("Rc", copy_to_clipboard("git-repo"), { desc = "GitHub copy current repo to clipboard" })
-utils.create_command("Pv", github_view("pr"), { desc = "GitHub view current PR in browser" })
-utils.create_command("Pc", copy_to_clipboard("git-pr"), { desc = "GitHub copy current PR to clipboard" })
-utils.create_command("Bv", function()
+utils.create_command("GitWorktreeMerge", git_worktree_script("merge"),
+  { nargs = "?", desc = "Git merge current branch with origin base" }, "gwm")
+utils.create_command("GitWorktreeDelete", git_worktree_script("delete"),
+  { nargs = "?", desc = "Git delete worktrees in current repo, or just the provided worktree" }, "gwd")
+utils.create_command("GitPRCreate", git_pr_script("create"), { desc = "GitHub create PR" }, "prc")
+utils.create_command("GitPREdit", git_pr_script("edit"), { desc = "GitHub edit PR" }, "pre")
+utils.create_command("GitRepoView", github_view("repo"), { desc = "GitHub view current repo in browser" }, "rv")
+utils.create_command(
+  "GitRepoCopy",
+  copy_to_clipboard("git-repo"),
+  { desc = "GitHub copy current repo to clipboard" },
+  "rc"
+)
+utils.create_command("GitPRView", github_view("pr"), { desc = "GitHub view current PR in browser" }, "pv")
+utils.create_command("GitPRCopy", copy_to_clipboard("git-pr"), { desc = "GitHub copy current PR to clipboard" }, "pc")
+utils.create_command("GitBranchView", function()
   local cmd = { "git", "branch", "--show-current" }
   vim.system(cmd, { text = true }, function(out)
     vim.schedule(function()
@@ -247,9 +254,10 @@ utils.create_command("Bv", function()
       end)
     end)
   end)
-end, { desc = "GitHub view current branch in browser" })
-utils.create_command("Bc", copy_to_clipboard("git-branch"), { desc = "GitHub copy current branch to clipboard" })
-utils.create_command("Tv", function()
+end, { desc = "GitHub view current branch in browser" }, "bv")
+utils.create_command("GitBranchCopy", copy_to_clipboard("git-branch"),
+  { desc = "GitHub copy current branch to clipboard" }, "bc")
+utils.create_command("TicketView", function()
   local cmd = { "ticket-open" }
   vim.system(cmd, { text = true }, function(out)
     vim.schedule(function()
@@ -258,16 +266,21 @@ utils.create_command("Tv", function()
       end
     end)
   end)
-end, { desc = "GitHub view current ticket in browser" })
-utils.create_command("Tc", copy_to_clipboard("ticket"), { desc = "GitHub copy current ticket to clipboard" })
-utils.create_command("Gap", function()
+end, { desc = "GitHub view current ticket in browser" }, "tv")
+utils.create_command(
+  "TicketCopy",
+  copy_to_clipboard("ticket"),
+  { desc = "GitHub copy current ticket to clipboard" },
+  "tc"
+)
+utils.create_command("GitApplyPatch", function()
   local cmd = { "git-apply-patch" }
   local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
     utils.handle_system_err(table.concat(cmd, " "), cmd, obj)
   end
-end, { desc = "Git apply patch from clipboard" })
-utils.create_command("Gx", function()
+end, { desc = "Git apply patch from clipboard" }, "gap")
+utils.create_command("GitConflicts", function()
   local cmd = { "git", "jump", "--stdout", "merge" }
   vim.system(cmd, {}, function(obj)
     vim.schedule(function()
@@ -296,10 +309,10 @@ utils.create_command("Gx", function()
       vim.cmd("copen")
     end)
   end)
-end, { desc = "Show Git Conflicts" })
+end, { desc = "Show Git Conflicts" }, "gx")
 
 -- Diff commands
-utils.create_command("Gds", function()
+utils.create_command("GitDiffStats", function()
   local cmd = { "git-get-base-branch" }
   local obj = vim.system(cmd):wait()
   if obj.code ~= 0 then
@@ -317,8 +330,8 @@ utils.create_command("Gds", function()
   local stat = vim.fn.trim(obj.stdout)
 
   utils.print(stat)
-end, { desc = "Show diff stats with base branch" })
-utils.create_command("Dt", function(args)
+end, { desc = "Show diff stats with base branch" }, "gds")
+utils.create_command("DiffFiles", function(args)
   local first = nil
   local second = nil
 
@@ -347,4 +360,4 @@ utils.create_command("Dt", function(args)
   else
     utils.print_err("Can only diff with two buffers")
   end
-end, { desc = "Show diff of two buffers", nargs = "?" })
+end, { desc = "Show diff of two buffers", nargs = "?" }, "dt")

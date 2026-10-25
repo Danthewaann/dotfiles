@@ -57,13 +57,13 @@ return {
     vim.keymap.set("n", "_", function() require("oil").open(".") end, { desc = "Open file tree in project root" })
 
     local utils = require("custom.utils")
-    utils.create_command("Sex", function(args)
+    utils.create_command("Sexplore", function(args)
       vim.cmd(":split")
       require("oil").open(args.args)
-    end, { desc = "Open file tree in split", nargs = "*" })
-    utils.create_command("Tex", function(args)
+    end, { desc = "Open file tree in split", nargs = "*" }, "sex")
+    utils.create_command("Texplore", function(args)
       vim.cmd(":tabnew")
       require("oil").open(args.args)
-    end, { desc = "Open file tree in new tab", nargs = "*" })
+    end, { desc = "Open file tree in new tab", nargs = "*" }, "tex")
   end,
 }
