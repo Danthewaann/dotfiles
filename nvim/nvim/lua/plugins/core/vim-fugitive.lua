@@ -44,7 +44,8 @@ return {
           end
         end
       end
-      vim.cmd [[Git]]
+      -- Focus the cursor on the first untracked change when opening the fugitive window
+      vim.cmd("Git | normal 1gu")
     end, { desc = "[G]it Status" })
 
     utils.create_command("Gd", function()
