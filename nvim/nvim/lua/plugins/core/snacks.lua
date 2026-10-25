@@ -9,6 +9,21 @@ local git_log_opts = {
     vim.api.nvim_command(":Gedit " .. commit_hash)
   end,
   actions = {
+    ["edit_vsplit"] = function(picker, item)
+      local commit_hash = item.commit
+      picker:close()
+      vim.api.nvim_command(":vsplit | Gedit " .. commit_hash)
+    end,
+    ["edit_split"] = function(picker, item)
+      local commit_hash = item.commit
+      picker:close()
+      vim.api.nvim_command(":split | Gedit " .. commit_hash)
+    end,
+    ["tab"] = function(picker, item)
+      local commit_hash = item.commit
+      picker:close()
+      vim.api.nvim_command(":tabnew | Gedit " .. commit_hash)
+    end,
     ["copy_commit_hash"] = function(_, item)
       local commit_hash = item.commit
       utils.print("Copied commit hash " .. commit_hash .. " to clipboard")
@@ -295,10 +310,10 @@ return {
       desc = "Selection in Buffer Lines",
       mode = { "v" }
     },
-    { "<leader>sB", function() Snacks.picker.grep_buffers() end,                                            desc = "Grep Open Buffers" },
-    { "<leader>/",  function() Snacks.picker.grep({ hidden = true }) end,                                   desc = "Grep" },
-    { "<leader>sw", function() Snacks.picker.grep_word({ hidden = true }) end,                              desc = "Visual selection or word", mode = { "n", "x" } },
-    { "<leader>si", function() Snacks.picker.icons({ layout = "select", icon_sources = { "emoji" } }) end,  desc = "Icons" },
+    { "<leader>sB", function() Snacks.picker.grep_buffers() end,                                           desc = "Grep Open Buffers" },
+    { "<leader>/",  function() Snacks.picker.grep({ hidden = true }) end,                                  desc = "Grep" },
+    { "<leader>sw", function() Snacks.picker.grep_word({ hidden = true }) end,                             desc = "Visual selection or word", mode = { "n", "x" } },
+    { "<leader>si", function() Snacks.picker.icons({ layout = "select", icon_sources = { "emoji" } }) end, desc = "Icons" },
     {
       "<leader>sd",
       function()
