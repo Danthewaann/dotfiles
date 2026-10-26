@@ -6,9 +6,15 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
+    local use_local_fs = true
+    local pr_is_fork = os.getenv("OCTO_PR_IS_FORK")
+    if pr_is_fork == "true" then
+      use_local_fs = false
+    end
+
     require("octo").setup({
       picker = "snacks",
-      use_local_fs = false,
+      use_local_fs = use_local_fs,
       reviews = { auto_show_threads = true, show_virtual_text = false, focus = "right" },
       ui = {
         use_signcolumn = true, -- show "modified" marks on the sign column

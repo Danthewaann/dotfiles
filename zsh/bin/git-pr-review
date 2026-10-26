@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 
+import json
+import os
+import sys
+
 import _utils
 
 parser = _utils.create_parser()
@@ -9,14 +13,36 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-pr_number = (
-    args.pr_number
-    if args.pr_number is not None
-    else _utils.run_system_command(
-        ["gh", "pr", "view", "--json", "number", "--jq", ".number"], log_output=False
-    ).stdout.strip()
-)
+if args.pr_number is not None:
+    pr_number = args.pr_number
+    proc = _utils.run_system_command(
+        ["gh", "pr", "view", str(pr_number), "--json", "isCrossRepository"],
+        log_output=False,
+        exit_on_error=False,
+    )
+    if proc.returncode != 0:
+        _utils.error(f"failed to fetch PR number '{pr_number}': {proc.stdout.rstrip()}")
+        sys.exit(1)
+
+    pr_from_fork = json.loads(proc.stdout)["isCrossRepository"]
+else:
+    proc = _utils.run_system_command(
+        ["gh", "pr", "view", "--json", "number,isCrossRepository"],
+        log_output=False,
+        exit_on_error=False,
+    )
+    if proc.returncode != 0:
+        _utils.error(f"failed to fetch PR for current branch: {proc.stdout.rstrip()}")
+        sys.exit(1)
+
+    output = json.loads(proc.stdout)
+    pr_number = output["number"]
+    pr_from_fork = output["isCrossRepository"]
+
+env = os.environ.copy()
+if pr_from_fork:
+    env["OCTO_PR_IS_FORK"] = "true"
 
 _utils.run_system_command(
-    ["nvim", ".", "-c", f"Octo pr edit {pr_number}"], capture_output=False
+    ["nvim", ".", "-c", f"Octo pr edit {pr_number}"], capture_output=False, env=env
 )
