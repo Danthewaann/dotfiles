@@ -8,7 +8,7 @@ return {
   config = function()
     require("octo").setup({
       picker = "snacks",
-      use_local_fs = true,
+      use_local_fs = false,
       reviews = { auto_show_threads = true, show_virtual_text = false, focus = "right" },
       ui = {
         use_signcolumn = true, -- show "modified" marks on the sign column
