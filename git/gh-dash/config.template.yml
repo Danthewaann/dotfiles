@@ -43,7 +43,7 @@ keybindings:
       name: checkout
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} -C ~/Workspace/{{.RepoName}}
+        git-worktree-add {{.HeadRefName}} -r {{.RepoName}} --check-if-fork
     - key: d
       name: diff
       command: >
@@ -52,16 +52,16 @@ keybindings:
       name: review
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'" -C ~/Workspace/{{.RepoName}} -n win
+        git-worktree-add {{.HeadRefName}} "git-pr-review '{{.PrNumber}}'" -r {{.RepoName}} -n win
     - key: D
       name: difftool
       command: >
-        clear && git-worktree-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -C ~/Workspace/{{.RepoName}} -n win
+        clear && git-worktree-add {{.HeadRefName}} "git difftool -d origin/{{.BaseRefName}} {{.HeadRefName}}" -r {{.RepoName}} -n win
     - key: I
       name: edit PR description
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} "git-pr-edit" -C ~/Workspace/{{.RepoName}} -n win
+        git-worktree-add {{.HeadRefName}} "git-pr-edit" -r {{.RepoName}} -n win
     - key: T
       name: open ticket url
       command: >
@@ -71,12 +71,12 @@ keybindings:
       name: rebase with base
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} "git-worktree-rebase {{.BaseRefName}} && git push --force" -C ~/Workspace/{{.RepoName}} -n split
+        git-worktree-add {{.HeadRefName}} "git-worktree-rebase {{.BaseRefName}} && git push --force" -r {{.RepoName}} -n split
     - key: M
       name: merge with base
       command: >
         clear &&
-        git-worktree-add {{.HeadRefName}} "git-worktree-merge {{.BaseRefName}} && git push" -C ~/Workspace/{{.RepoName}} -n split
+        git-worktree-add {{.HeadRefName}} "git-worktree-merge {{.BaseRefName}} && git push" -r {{.RepoName}} -n split
   issues: []
 pager:
   diff: less

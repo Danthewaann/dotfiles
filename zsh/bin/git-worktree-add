@@ -1,43 +1,24 @@
 #!/usr/bin/env python3
 
-import argparse
+import json
 import os
 import pathlib
 import shutil
 import sys
 import time
 from collections.abc import Sequence
-from typing import Any, Literal
+from typing import Literal
 
 import _utils
-
-
-def validate_working_dir(value: Any) -> pathlib.Path | None:
-    if not value:
-        return None
-
-    working_dir = pathlib.Path(value)
-    if not working_dir.exists():
-        # If this directory doesn't exist, check if it exists under my directory
-        # This is useful for switching to my forks of github repos
-        working_dir = pathlib.Path("Workspace/Danthewaann").resolve() / working_dir.name
-
-        if not working_dir.is_dir():
-            raise argparse.ArgumentTypeError(
-                f"must provide a valid directory, got {working_dir}"
-            )
-
-    return working_dir
-
 
 parser = _utils.create_parser()
 parser.add_argument("branch", help="branch to create a worktree for")
 parser.add_argument("args", nargs="*", help="args to pass to 'tmux-sessionizer'")
 parser.add_argument(
-    "-C",
-    dest="working_dir",
-    type=validate_working_dir,
-    help="directory to run this script within",
+    "-r",
+    dest="repo",
+    default=None,
+    help="base github repository, must exist under $TMUX_CURRENT_DIR",
 )
 parser.add_argument(
     "-n",
@@ -52,21 +33,62 @@ parser.add_argument(
     default=False,
     help="only checkout the branch into a worktree",
 )
+parser.add_argument(
+    "--check-if-fork",
+    action="store_true",
+    default=False,
+    help="check if the branch belongs to a fork of the provided repository",
+)
 
 parsed_args = parser.parse_args()
 branch_name: str = parsed_args.branch
 args: Sequence[str] = parsed_args.args
-working_dir: pathlib.Path | None = parsed_args.working_dir
+repo: pathlib.Path | None = pathlib.Path(parsed_args.repo) if parsed_args.repo else None
 new_win: Literal["win", "split", "vsplit"] | None = parsed_args.new_win
 only_checkout: bool = parsed_args.only_checkout
+check_if_fork: bool = parsed_args.check_if_fork
+current_dir = pathlib.Path(os.environ["TMUX_CURRENT_DIR"]).resolve()
+
+if check_if_fork:
+    if not repo:
+        _utils.error("must provide -r to check if branch is from a forked repository")
+        sys.exit(1)
+
+    proc = _utils.run_system_command(
+        [
+            "gh",
+            "pr",
+            "view",
+            "--repo",
+            repo,
+            f"Danthewaann:{branch_name}",
+            "--json",
+            "isCrossRepository",
+        ],
+        log_output=False,
+        exit_on_error=False,
+    )
+
+    if proc.returncode == 0:
+        output: dict[str, bool] = json.loads(proc.stdout)
+        if output["isCrossRepository"]:
+            repo = (
+                pathlib.Path("Workspace/Danthewaann").resolve()
+                / pathlib.Path(repo).name
+            )
 
 # For use in tmux-sessionizer
 win_args: list[str] = []
 if new_win is not None:
     win_args = [new_win]
 
-if working_dir:
-    os.chdir(working_dir)
+if repo:
+    repo_path = current_dir / repo
+    if not repo_path.exists():
+        _utils.error(f"repo '{repo}' doesn't exist under $TMUX_CURRENT_DIR")
+        sys.exit(1)
+
+    os.chdir(repo_path)
 
 # If the branch name starts with `origin/` remove that section
 if branch_name.startswith("origin/"):
