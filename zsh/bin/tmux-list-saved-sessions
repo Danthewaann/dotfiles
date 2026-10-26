@@ -54,9 +54,9 @@ while IFS=$'\n' read -r line; do
     fi
     total_len=$((total_len + sep + ${#plain}))
     if [[ "$cur_session" == "$orig_line" ]]; then
-        sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}:$display*")
+        sessions+=("#[fg=$onedark_green,bg=$onedark_black2]${session_number}:$display* ")
     else
-        sessions+=("#[fg=$onedark_white,bg=$onedark_black2]${session_number}:$display")
+        sessions+=("#[fg=$onedark_white,bg=$onedark_black2]${session_number}:$display ")
     fi
 done <"$HOME/.tmux-save-sessions"
 
