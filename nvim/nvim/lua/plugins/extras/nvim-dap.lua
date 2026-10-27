@@ -118,7 +118,7 @@ return {
     {
       "<leader>bd",
       function()
-        require("dap").clear_all_breakpoints()
+        require("dap").clear_breakpoints()
       end,
       desc = "[B]reakpoints [D]elete visual",
     },
