@@ -109,7 +109,6 @@ return {
         blend = 40,
       },
     },
-    bigfile = { enabled = true },
     dashboard = {
       width = 60,
       enabled = true,
@@ -144,9 +143,6 @@ return {
         { section = "startup" },
       }
     },
-    explorer = { enabled = false },
-    indent = { enabled = false },
-    input = { enabled = true },
     styles = {
       input = {
         relative = "editor",
@@ -276,6 +272,10 @@ return {
         },
       },
     },
+    bigfile = { enabled = false },
+    explorer = { enabled = false },
+    indent = { enabled = false },
+    input = { enabled = true },
     notifier = { enabled = false },
     quickfile = { enabled = true },
     scope = { enabled = false },
