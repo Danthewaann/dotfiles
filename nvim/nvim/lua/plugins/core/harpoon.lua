@@ -8,7 +8,6 @@ return {
     harpoon:setup()
 
     local harpoon_extensions = require("harpoon.extensions")
-    harpoon:extend(harpoon_extensions.builtins.navigate_with_number())
     harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
 
     harpoon:extend({

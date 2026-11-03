@@ -69,6 +69,10 @@ return {
         }
       },
       pyrefly = {
+        on_attach = function(client)
+          -- Disable the hover provider so we use zuban's
+          client.server_capabilities.hoverProvider = nil
+        end,
         init_options = {
           pyrefly = {
             typeCheckingMode = "off",
@@ -77,16 +81,16 @@ return {
           analysis = { showHoverGoToLinks = false },
         }
       },
-      -- zuban = {
-      --   init_options = { typeCheckingMode = "off" },
-      --   on_attach = function(client)
-      --     -- Disable stuff in favour of pyrefly
-      --     client.server_capabilities.hoverProvider = false
-      --     client.server_capabilities.semanticTokensProvider = nil
-      --     client.server_capabilities.renameProvider = nil
-      --     client.server_capabilities.completionProvider = nil
-      --   end,
-      -- },
+      zuban = {
+        init_options = { typeCheckingMode = "off" },
+        on_attach = function(client)
+          -- Disable stuff in favour of pyrefly
+          -- I use zuban for it's hover provider as pyrefly's returns bad markdown
+          client.server_capabilities.semanticTokensProvider = nil
+          client.server_capabilities.renameProvider = nil
+          client.server_capabilities.completionProvider = nil
+        end,
+      },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
       ruff = {
         init_options = {
