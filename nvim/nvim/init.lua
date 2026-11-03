@@ -32,6 +32,12 @@ require("lazy").setup({
   { import = "plugins.cosmetic" },
   { import = "plugins.extras" },
 }, {
+  dev = {
+    ---@type string | fun(plugin: LazyPlugin): string
+    path = function(plugin)
+      return ("~/Workspace/%s/%s/main"):format(os.getenv("MY_GITHUB_USERNAME"), plugin.name)
+    end
+  },
   ui = {
     border = "rounded"
   },
