@@ -132,7 +132,7 @@ end, { desc = "Yank commits to clipboard", nargs = "?" }, "yc")
 
 utils.create_command("DeleteBuffers", function()
   vim.cmd("%bd|e#|bd#")
-end, { desc = "Delete all other buffers" }, "del")
+end, { desc = "Delete all other buffers" }, "dd")
 
 utils.create_command("TmuxTerm", function()
   local cur_dur = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
