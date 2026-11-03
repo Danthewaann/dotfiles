@@ -89,6 +89,11 @@ return {
           client.server_capabilities.semanticTokensProvider = nil
           client.server_capabilities.renameProvider = nil
           client.server_capabilities.completionProvider = nil
+          client.server_capabilities.referencesProvider = nil
+          client.server_capabilities.declarationProvider = nil
+          client.server_capabilities.implementationProvider = nil
+          client.server_capabilities.callHierarchyProvider = nil
+          client.server_capabilities.colorProvider = nil
         end,
       },
       -- basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "off" } } } },
