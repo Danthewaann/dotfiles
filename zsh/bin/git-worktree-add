@@ -61,7 +61,7 @@ if check_if_fork:
             "view",
             "--repo",
             repo,
-            f"Danthewaann:{branch_name}",
+            f"{os.environ['MY_GITHUB_USERNAME']}:{branch_name}",
             "--json",
             "isCrossRepository",
         ],
@@ -73,7 +73,7 @@ if check_if_fork:
         output: dict[str, bool] = json.loads(proc.stdout)
         if output["isCrossRepository"]:
             repo = (
-                pathlib.Path("Workspace/Danthewaann").resolve()
+                pathlib.Path(f"Workspace/{os.environ['MY_GITHUB_USERNAME']}").resolve()
                 / pathlib.Path(repo).name
             )
 

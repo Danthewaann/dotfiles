@@ -11,7 +11,10 @@ if [[ -z $TMUX ]]; then
     export RBENV_ROOT="$HOME/.rbenv"
 
     # Preferred editor for local and remote sessions
-    export EDITOR='nvim'
+    export EDITOR="nvim"
+
+    # My name on github, for use in scripts
+    export MY_GITHUB_USERNAME="Danthewaann"
 
     # Set theme for bat
     export BAT_THEME="TwoDark"
