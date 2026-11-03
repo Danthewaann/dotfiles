@@ -7,6 +7,26 @@ return {
     local harpoon = require("harpoon")
     harpoon:setup()
 
+    local harpoon_extensions = require("harpoon.extensions")
+    harpoon:extend(harpoon_extensions.builtins.navigate_with_number())
+    harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
+
+    harpoon:extend({
+      UI_CREATE = function(cx)
+        vim.keymap.set("n", "<C-v>", function()
+          harpoon.ui:select_menu_item({ vsplit = true })
+        end, { buffer = cx.bufnr })
+
+        vim.keymap.set("n", "<C-x>", function()
+          harpoon.ui:select_menu_item({ split = true })
+        end, { buffer = cx.bufnr })
+
+        vim.keymap.set("n", "<C-t>", function()
+          harpoon.ui:select_menu_item({ tabedit = true })
+        end, { buffer = cx.bufnr })
+      end,
+    })
+
     vim.keymap.set("n", "<leader><space>", function()
       local err_msg = { "Can't add buffer to favourites", { title = "Harpoon" } }
       local buf = vim.api.nvim_get_current_buf()
