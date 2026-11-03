@@ -66,8 +66,8 @@ return {
         return
       end
       local base_branch = vim.fn.trim(obj.stdout)
-      vim.cmd((":Git difftool -y origin/%s..HEAD"):format(base_branch), "gdt")
-    end, { desc = "Diff current branch dir against remote base branch dir" })
+      vim.cmd((":Git difftool -y origin/%s..HEAD"):format(base_branch))
+    end, { desc = "Diff current branch dir against remote base branch dir" }, "gdt")
     utils.create_command("GitMergeTool", function()
       vim.cmd(":Git mergetool")
     end, { desc = "Diff current branch dir against remote base branch dir and jump to conflicts" }, "gmt")
