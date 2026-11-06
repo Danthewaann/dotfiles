@@ -272,7 +272,7 @@ return {
         },
       },
     },
-    bigfile = { enabled = false },
+    bigfile = { enabled = true },
     explorer = { enabled = false },
     indent = { enabled = false },
     input = { enabled = true },
