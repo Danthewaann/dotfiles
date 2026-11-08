@@ -191,6 +191,7 @@ def run_system_command(
     stdout: int | None = subprocess.PIPE,
     stderr: int | None = subprocess.STDOUT,
     log_output: bool = True,
+    only_log_on_failure: bool = False,
     exit_on_error: bool = True,
 ) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(
@@ -205,11 +206,13 @@ def run_system_command(
     )
 
     if log_output:
-        if proc.returncode != 0:
+        if only_log_on_failure and proc.returncode != 0:
             error(f"failed to run: {' '.join(map(str, cmd))}")
-
-        if proc.stdout:
-            print(proc.stdout.rstrip(), file=sys.stderr)
+            if proc.stdout:
+                print(proc.stdout.rstrip(), file=sys.stderr)
+        elif not only_log_on_failure:
+            if proc.stdout:
+                print(proc.stdout.rstrip(), file=sys.stderr)
 
     if exit_on_error and proc.returncode != 0:
         sys.exit(1)
@@ -222,7 +225,7 @@ def run_git_fetch() -> subprocess.CompletedProcess[str]:
     colour = ["-c", "color.ui=always"]
     if not LOAD_COLOURS:
         colour = []
-    return run_system_command(["git", *colour, "fetch"], capture_output=False)
+    return run_system_command(["git", *colour, "fetch"], only_log_on_failure=True)
 
 
 def run_git_pull() -> subprocess.CompletedProcess[str]:
@@ -231,7 +234,7 @@ def run_git_pull() -> subprocess.CompletedProcess[str]:
     if not LOAD_COLOURS:
         colour = []
     return run_system_command(
-        ["git", *colour, "pull", "--no-all"], capture_output=False
+        ["git", *colour, "pull", "--no-all"], only_log_on_failure=True
     )
 
 
@@ -240,7 +243,9 @@ def run_git_rebase(branch: str | None = None) -> subprocess.CompletedProcess[str
     colour = ["-c", "color.ui=always"]
     if not LOAD_COLOURS:
         colour = []
-    return run_system_command(["git", *colour, "rebase", branch], capture_output=False)
+    return run_system_command(
+        ["git", *colour, "rebase", branch], only_log_on_failure=True
+    )
 
 
 def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]:
@@ -248,7 +253,9 @@ def run_git_merge(branch: str | None = None) -> subprocess.CompletedProcess[str]
     colour = ["-c", "color.ui=always"]
     if not LOAD_COLOURS:
         colour = []
-    return run_system_command(["git", *colour, "merge", branch], capture_output=False)
+    return run_system_command(
+        ["git", *colour, "merge", branch], only_log_on_failure=True
+    )
 
 
 def repo_is_fork() -> tuple[str, str] | None:
@@ -284,14 +291,14 @@ def update_python_deps() -> None:
         info("Running poetry install...")
         run_system_command(
             ["poetry", "install", "--all-extras"],
-            capture_output=False,
+            only_log_on_failure=True,
             env=env,
         )
     elif pathlib.Path("uv.lock").exists():
         info("Running uv sync...")
         run_system_command(
             ["uv", "sync", "--all-extras"],
-            capture_output=False,
+            only_log_on_failure=True,
             env=env,
         )
     elif pathlib.Path("pyproject.toml").exists():
@@ -299,6 +306,10 @@ def update_python_deps() -> None:
         run_system_command(["uv", "venv"], capture_output=False, env=env)
         run_system_command(
             ["uv", "pip", "install", "-e", ".", "-r", "pyproject.toml", "--all-extras"],
-            capture_output=False,
+            only_log_on_failure=True,
             env=env,
         )
+    else:
+        return
+
+    success("Python dependencies are up-to-date!")
