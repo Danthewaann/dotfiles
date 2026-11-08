@@ -53,6 +53,10 @@ vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Terminal normal-mode 
 -- Keep the cursor position when searching, don't move to next match
 vim.keymap.set("n", "*", "*N")
 
+-- Center screen when moving through search results
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
+
 -- Better gf
 vim.keymap.set({ "n", "x" }, "gf", function() utils.jump_to_file() end, { silent = true })
 vim.keymap.set({ "n", "x" }, "<C-w>gf", function() utils.jump_to_file({ tab = true }) end, { silent = true })
@@ -123,6 +127,18 @@ end, { desc = "Toggle Terminal" })
 ------------------------
 --- WINDOWS AND TABS ---
 ------------------------
+
+-- Vertical navigation
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump half page down" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump half page up" })
+vim.keymap.set("n", "gg", "ggzz", { desc = "Jump to first line" })
+vim.keymap.set("n", "G", "Gzz", { desc = "Jump to last line" })
+vim.keymap.set("n", "{", "{zz", { desc = "Jump to next paragraph" })
+vim.keymap.set("n", "}", "}zz", { desc = "Jump to previous paragraph" })
+
+-- Jump list navigation
+vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Next jump" })
+vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Previous jump" })
 
 -- Close tab
 vim.keymap.set("n", "<C-w>q", "<cmd> tabclose<CR>", { desc = "Close the current tab" })
