@@ -196,8 +196,9 @@ return {
     },
   },
   config = function()
-    local dap = require "dap"
-    local dapui = require "dapui"
+    local dap = require("dap")
+    local dapui = require("dapui")
+    local utils = require("custom.utils")
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
@@ -266,12 +267,13 @@ return {
       vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
     end
 
-    dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+    dap.listeners.after.event_process["my_process_start"] = function()
+      utils.print("Starting debug session...")
+    end
 
     -- Don't pause on exceptions for python tests
     dap.defaults.python.exception_breakpoints = {}
 
-    local utils = require("custom.utils")
     dap.configurations.python = {
       {
         type = "debugpy",
