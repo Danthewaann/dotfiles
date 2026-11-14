@@ -312,5 +312,65 @@ return {
     }
 
     require("dap-python").setup(utils.get_venv_executable_path("python"))
+
+    local save_breakpoints = function()
+      local breakpoints = require("dap.breakpoints")
+      local bps = {}
+      local breakpoints_by_buf = breakpoints.get()
+      for buf, buf_bps in pairs(breakpoints_by_buf) do
+        bps[vim.api.nvim_buf_get_name(buf)] = buf_bps
+      end
+
+      local data = { breakpoints = bps }
+      if vim.tbl_isempty(bps) then
+        vim.fn.delete(".nvim-dap-breakpoints.json")
+        return
+      end
+
+      local extra_data = { breakpoints = bps }
+      local data = vim.fn.json_encode(extra_data)
+      vim.fn.writefile(data, ".nvim-dap-breakpoints.json")
+    end
+
+    local restore_breakpoints = function()
+      -- Need to schedule this work. If we don't then syntax highlighting gets interrupted for some reason
+      vim.schedule(function()
+        local ok, data = pcall(vim.fn.readfile, ".nvim-dap-breakpoints.json")
+        if not ok or not data then
+          return
+        end
+        local json = vim.fn.json_decode(data)
+
+        if json.breakpoints then
+          local breakpoints = require("dap.breakpoints")
+          for buf_name, buf_bps in pairs(json.breakpoints) do
+            for _, bp in pairs(buf_bps) do
+              local line = bp.line
+              local opts = {
+                condition = bp.condition,
+                log_message = bp.logMessage,
+                hit_condition = bp.hitCondition,
+              }
+
+              local bufnr = vim.fn.bufnr(buf_name, true)
+              if vim.fn.bufloaded(bufnr) == 0 then
+                vim.api.nvim_buf_call(bufnr, vim.cmd.edit)
+              end
+
+              breakpoints.set(opts, bufnr, line)
+            end
+          end
+        end
+      end)
+    end
+
+    vim.api.nvim_create_autocmd("VimEnter", {
+      group = vim.api.nvim_create_augroup("restore-dap-breakpoints", { clear = true }),
+      callback = restore_breakpoints
+    })
+    vim.api.nvim_create_autocmd("VimLeave", {
+      group = vim.api.nvim_create_augroup("save-dap-breakpoints", { clear = true }),
+      callback = save_breakpoints
+    })
   end,
 }

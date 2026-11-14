@@ -37,3 +37,6 @@ git-pr-edit.*.md
 
 # vim-projectionist config
 .projections.json
+
+# saved breakpoints from nvim-dap
+.nvim-dap-breakpoints.json
