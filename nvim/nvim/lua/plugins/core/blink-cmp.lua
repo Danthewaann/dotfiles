@@ -11,7 +11,7 @@ end
 
 return {
   "saghen/blink.cmp",
-  event = "VimEnter",
+  event = "InsertEnter",
   version = "1.*",
   enabled = true,
   dependencies = {
@@ -181,18 +181,18 @@ return {
       implementation = "prefer_rust_with_warning",
       sorts = {
         -- Filter for keyword arguments for python
-        function(entry1, entry2)
-          local entry1_is_keyword_arg = string.sub(entry1.label, -1) == "="
-          local entry2_is_keyword_arg = string.sub(entry2.label, -1) == "="
-          if entry1_is_keyword_arg and entry2_is_keyword_arg then
-            return nil
-          elseif entry1_is_keyword_arg then
-            return true
-          elseif entry2_is_keyword_arg then
-            return false
-          end
-          return nil
-        end,
+        -- function(entry1, entry2)
+        --   local entry1_is_keyword_arg = string.sub(entry1.label, -1) == "="
+        --   local entry2_is_keyword_arg = string.sub(entry2.label, -1) == "="
+        --   if entry1_is_keyword_arg and entry2_is_keyword_arg then
+        --     return nil
+        --   elseif entry1_is_keyword_arg then
+        --     return true
+        --   elseif entry2_is_keyword_arg then
+        --     return false
+        --   end
+        --   return nil
+        -- end,
         -- default sorts
         "score",
         "sort_text",
