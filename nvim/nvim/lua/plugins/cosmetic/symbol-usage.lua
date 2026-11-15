@@ -16,14 +16,14 @@ return {
     local function text_format(symbol)
       local fragments = {}
 
-      if symbol.references > 0 then
+      if symbol.references and symbol.references > 0 then
         local usage = symbol.references <= 1 and "usage" or "usages"
         local num = symbol.references
         table.insert(fragments, { "󰌹 ", "SymbolUsageRef" })
         table.insert(fragments, { ("%s %s"):format(num, usage), "SymbolUsageContent" })
       end
 
-      if symbol.definition then
+      if symbol.definition and symbol.definition > 0 then
         if #fragments > 0 then
           table.insert(fragments, { " ", "NonText" })
         end
@@ -31,7 +31,7 @@ return {
         table.insert(fragments, { symbol.definition .. " defs", "SymbolUsageContent" })
       end
 
-      if symbol.implementation then
+      if symbol.implementation and symbol.implementation > 0 then
         if #fragments > 0 then
           table.insert(fragments, { " ", "NonText" })
         end
@@ -48,6 +48,9 @@ return {
       disable = {
         lsp = {}
       },
+      references = { enabled = true, include_declaration = false },
+      definition = { enabled = false },
+      implementation = { enabled = true },
       text_format = text_format,
       kinds = {
         SymbolKind.Function,
@@ -55,29 +58,10 @@ return {
         SymbolKind.Class,
         SymbolKind.Struct,
         SymbolKind.Constant,
+        SymbolKind.Variable,
+        SymbolKind.Field,
       },
       vt_position = "end_of_line",
-      filetypes = {
-        lua = {
-          kinds = {
-            SymbolKind.Function,
-            SymbolKind.Method,
-            SymbolKind.Class,
-            SymbolKind.Struct,
-          },
-        },
-        go = {
-          kinds = {
-            SymbolKind.Function,
-            SymbolKind.Method,
-            SymbolKind.Class,
-            SymbolKind.Struct,
-            SymbolKind.Constant,
-            SymbolKind.Variable,
-            SymbolKind.Field,
-          },
-        },
-      },
       symbol_filter = function(ctx)
         return function(symbol)
           -- Only filter symbols for python code
