@@ -169,8 +169,6 @@ vim.keymap.set("n", "<C-w>.", "<cmd> silent +tabmove<CR>", { desc = "Move tab ri
 -- Re-position the current view
 vim.keymap.set("n", "<M-d>", "<C-e>", { desc = "Scroll page down" })
 vim.keymap.set("n", "<M-u>", "<C-y>", { desc = "Scroll page up" })
-vim.keymap.set("n", "<M-h>", "zh", { desc = "Scroll page left" })
-vim.keymap.set("n", "<M-l>", "zl", { desc = "Scroll page right" })
 
 -- Resize the current window
 vim.keymap.set("n", "<M-Left>", function()
