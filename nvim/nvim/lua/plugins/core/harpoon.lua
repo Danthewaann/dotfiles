@@ -1,6 +1,7 @@
 return {
   "Danthewaann/harpoon",
   branch = "harpoon2",
+  event = "VeryLazy",
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local utils = require("custom.utils")
