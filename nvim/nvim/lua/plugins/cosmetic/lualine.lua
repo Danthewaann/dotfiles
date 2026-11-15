@@ -195,7 +195,7 @@ return {
         always_show_tabline = false,
         disabled_filetypes = { statusline = { "TelescopePrompt", "snacks_picker_input", "tmux-saved-sessions" } },
       },
-      extensions = { "man", "quickfix", fugitive_extension, "aerial", "symbols-outline", snacks_picker_list_extension, oil_extension },
+      extensions = { "man", "quickfix", fugitive_extension, "aerial", snacks_picker_list_extension, oil_extension },
       sections = sections,
       inactive_sections = inactive_sections,
     })
