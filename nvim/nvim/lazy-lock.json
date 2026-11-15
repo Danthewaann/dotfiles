@@ -44,6 +44,7 @@
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "python-import.nvim": { "branch": "master", "commit": "d78e7d3fe985ce19cbdcd536ee180b4e2a1f7848" },
   "rainbow_csv.nvim": { "branch": "main", "commit": "26de78d8324f7ac6a3e478319d1eb1f17123eb5b" },
+  "recall.nvim": { "branch": "main", "commit": "812b3b0ec40568fa6f1a62f5baf052a4e3c60367" },
   "render-markdown.nvim": { "branch": "main", "commit": "8801162e041e34c64d0d1397cd1f353a14b01950" },
   "snacks.nvim": { "branch": "main", "commit": "50419fcd65d79ec4d4904063320e2afd5dd826d4" },
   "substitute.nvim": { "branch": "main", "commit": "0d2077398552f069abccbd964a26dd7cd26882cd" },
