@@ -300,18 +300,36 @@ vim.keymap.set("v", "<leader>rp", function()
 
 vim.keymap.set("n", "<leader>yf", function()
   local path = vim.fn.expand("%:t")
+  if path == "" then
+    utils.print_err("Cannot copy empty path")
+    return
+  end
   utils.copy_to_clipboard(path)
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current [F]ile name" })
 
 vim.keymap.set("n", "<leader>yF", function()
   local path = vim.fn.expand("%:p:.")
+  if string.find(path, "oil://") then
+    path = string.sub(path, 7)
+  end
+  if path == "" then
+    utils.print_err("Cannot copy empty path")
+    return
+  end
   utils.copy_to_clipboard(path)
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current [F]ile relative to project path" })
 
 vim.keymap.set("n", "<leader>ya", function()
   local path = vim.fn.expand("%:p")
+  if string.find(path, "oil://") then
+    path = string.sub(path, 7)
+  end
+  if path == "" then
+    utils.print_err("Cannot copy empty path")
+    return
+  end
   utils.copy_to_clipboard(path)
   utils.print("Copied " .. path .. " to clipboard")
 end, { desc = "[Y]ank current file [A]bsolute path" })
