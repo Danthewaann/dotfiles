@@ -354,11 +354,26 @@ return {
       end,
       desc = "My Custom Commands"
     },
-    { "<leader>sj", function() Snacks.picker.jumps() end,                         desc = "Jumps" },
-    { "<leader>sk", function() Snacks.picker.keymaps() end,                       desc = "Keymaps" },
-    { "<leader>sl", function() Snacks.picker.loclist() end,                       desc = "Location List" },
-    { "<leader>sm", function() Snacks.picker.marks({}) end,                       desc = "Marks" },
-    { "<leader>sM", function() Snacks.picker.man() end,                           desc = "Man Pages" },
+    { "<leader>sj", function() Snacks.picker.jumps() end,   desc = "Jumps" },
+    { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
+    { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
+    {
+      "<leader>sm",
+      function()
+        Snacks.picker.marks({
+          global = false,
+          transform = function(item, ctx)
+            -- Show only marks from a-z
+            if item.label:match("%w") then
+              return true
+            end
+            return false
+          end
+        })
+      end,
+      desc = "Local Marks"
+    },
+    { "<leader>sM", function() Snacks.picker.marks() end,                         desc = "Marks" },
     { "<leader>sp", function() Snacks.picker.lazy() end,                          desc = "Search for Plugin Spec" },
     { "<leader>su", function() Snacks.picker.undo() end,                          desc = "Undo History" },
     { "<leader>sL", function() Snacks.picker.picker_layouts() end,                desc = "Picker Layouts" },
