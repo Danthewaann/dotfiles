@@ -10,6 +10,7 @@ import _utils
 
 warn_prefix = "      "
 error_prefix = "       "
+tmux_current_dir = pathlib.Path(os.environ["TMUX_CURRENT_DIR"]).resolve()
 
 
 def delete_worktree(
@@ -109,6 +110,11 @@ if not worktrees_to_delete:
     sys.exit(0)
 
 failed = False
+saved_sessions = [
+    tmux_current_dir / p
+    for p in (pathlib.Path().home() / ".tmux-save-sessions").read_text().splitlines()
+]
+
 for worktree in worktrees_to_delete:
     if not worktree.is_dir():
         _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree}{_utils.NC}")
@@ -117,6 +123,16 @@ for worktree in worktrees_to_delete:
 
     os.chdir(worktree)
     worktree_name = pathlib.Path.cwd().parent.stem + "/" + worktree.stem
+    if worktree in saved_sessions:
+        _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
+        print(
+            _utils.indent(
+                " this worktree is a saved tmux session, it must be manually removed first",
+                prefix=warn_prefix,
+            )
+        )
+        continue
+
     if force:
         if not delete_worktree(worktree, worktree_name, cmd_args):
             failed = True
