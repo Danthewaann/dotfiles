@@ -25,6 +25,10 @@ NC = "\033[0m"
 RED = "\033[0;31m"
 
 
+class GitError(Exception):
+    """Error related to failed git operations."""
+
+
 class Parser(argparse.ArgumentParser):
     def parse_args(self, args: Any | None = None, namespace: Any | None = None) -> Any:
         parsed_args = super().parse_args(args, namespace=namespace)
@@ -165,9 +169,14 @@ def get_ticket_number(branch: str | None = None) -> str | None:
 
 
 def get_current_branch() -> str:
-    return run_system_command(
+    cur_branch = run_system_command(
         ["git", "branch", "--show-current"], only_log_on_failure=True
     ).stdout.strip()
+    if not cur_branch:
+        raise GitError(
+            "Cannot determine branch name, is an interactive rebase in progress?"
+        )
+    return cur_branch
 
 
 def get_copy_to_clipboard_command() -> str:

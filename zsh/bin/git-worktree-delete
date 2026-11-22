@@ -15,12 +15,20 @@ parser.add_argument(
     default=None,
     help="worktree path to delete, if not provided will delete all worktrees in same repository or worktrees in all repositories immediately below cwd",
 )
-parser.add_argument("args", nargs="*", help="args to pass to 'git worktree remove'")
+parser.add_argument(
+    "-f",
+    "--force",
+    action="store_true",
+    default=False,
+    help="force removal of worktrees, even if dirty or locked",
+)
 
 args = parser.parse_args()
 worktree = pathlib.Path(args.worktree).resolve() if args.worktree else None
-cmd_args: list[str] = args.args
-force = "--force" in cmd_args or "-f" in cmd_args
+force: bool = args.force
+cmd_args = []
+if force:
+    cmd_args = ["--force"]
 warn_prefix = "      "
 error_prefix = "       "
 
@@ -74,7 +82,12 @@ for worktree in worktrees_to_delete:
 
     os.chdir(worktree)
     worktree_name = pathlib.Path.cwd().parent.stem + "/" + worktree.stem
-    cur_branch = _utils.get_current_branch()
+    try:
+        cur_branch = _utils.get_current_branch()
+    except _utils.GitError as e:
+        _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
+        print(_utils.indent(f" {str(e).lower()}", prefix=warn_prefix))
+        continue
 
     # Check if I have opened a PR for the current branch
     prs = _utils.run_system_command(
