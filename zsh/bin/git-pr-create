@@ -42,7 +42,7 @@ def print_pr_info(is_draft: bool = False) -> None:
                 "--json",
                 "title",
             ],
-            log_output=False,
+            only_log_on_failure=True,
         ).stdout
     )
     url = content["url"]
@@ -69,14 +69,16 @@ current_branch = _utils.get_current_branch()
 
 # Check that this branch exists remotely
 remote_branches = _utils.run_system_command(
-    ["git", "branch", "-r"], log_output=False
+    ["git", "branch", "-r"], only_log_on_failure=True
 ).stdout
 if not re.search(current_branch, remote_branches):
     _utils.error("Branch doesn't exist on remote origin!")
     sys.exit(1)
 
 # Check if a PR has already been opened for the current branch
-pr_info = _utils.run_system_command(["gh", "pr", "list"], log_output=False).stdout
+pr_info = _utils.run_system_command(
+    ["gh", "pr", "list"], only_log_on_failure=True
+).stdout
 if re.search(current_branch, pr_info):
     _utils.warn("A PR has already been opened for this branch")
     print_pr_info()
@@ -104,13 +106,13 @@ else:
     # Get list of labels that are available in the current repository
     repo_labels = _utils.run_system_command(
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
-        log_output=False,
+        only_log_on_failure=True,
     ).stdout.splitlines()
     repo_labels = [f"'{label}'" for label in repo_labels]
 
     # Use the last commit message as the PR title
     pr_title = _utils.run_system_command(
-        ["git", "log", "-1", "--pretty=%B"], log_output=False
+        ["git", "log", "-1", "--pretty=%B"], only_log_on_failure=True
     ).stdout
     cur_time = int(time.time())
     old_pr_file = pathlib.Path(f"./git-pr-create.{cur_time}.old.md")

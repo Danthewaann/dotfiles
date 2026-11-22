@@ -8,7 +8,7 @@ parser = _utils.create_parser()
 parser.parse_args()
 
 pr_url = _utils.run_system_command(
-    ["gh", "pr", "view", "--json", "url", "--jq", ".url"], log_output=False
+    ["gh", "pr", "view", "--json", "url", "--jq", ".url"], only_log_on_failure=True
 ).stdout.strip()
 
 _utils.copy_to_clipboard(pr_url)

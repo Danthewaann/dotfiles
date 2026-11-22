@@ -138,7 +138,7 @@ local_branch_arg = ["-B", branch_name]
 _utils.info("Fetching remote branches...")
 remote_tracking_arg = []
 remote_branches = _utils.run_system_command(
-    ["git", "ls-remote", "--branches", "origin"], log_output=False
+    ["git", "ls-remote", "--branches", "origin"], only_log_on_failure=True
 ).stdout
 if branch_name in remote_branches:
     remote_tracking_arg = ["--track", f"origin/{branch_name}"]

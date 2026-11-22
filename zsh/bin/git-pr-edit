@@ -44,7 +44,7 @@ content = json.loads(
             "--json",
             "baseRefName",
         ],
-        log_output=False,
+        only_log_on_failure=True,
     ).stdout
 )
 pr_number = content["number"]
@@ -70,7 +70,7 @@ else:
     # Get list of labels that are available in the current repository
     repo_labels = _utils.run_system_command(
         ["gh", "label", "list", "--json", "name", "--jq", ".[].name", "--limit", "100"],
-        log_output=False,
+        only_log_on_failure=True,
     ).stdout.splitlines()
     repo_labels = [f"'{label}'" for label in repo_labels]
 

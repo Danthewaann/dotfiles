@@ -120,7 +120,7 @@ def get_base_branch(check_gh: bool = False) -> str:
             return json.loads(proc.stdout)["baseRefName"]
 
     remote_branches = run_system_command(
-        ["git", "remote", "show", "origin"], log_output=False
+        ["git", "remote", "show", "origin"], only_log_on_failure=True
     ).stdout
     base_branch: str | None = None
     if match := re.search(r"HEAD branch: (.*)", remote_branches):
@@ -133,14 +133,16 @@ def get_base_branch(check_gh: bool = False) -> str:
 def get_root_git_dir() -> pathlib.Path:
     return pathlib.Path(
         run_system_command(
-            ["git", "rev-parse", "--show-toplevel"], log_output=False
+            ["git", "rev-parse", "--show-toplevel"], only_log_on_failure=True
         ).stdout.strip()
     )
 
 
 def get_worktree(branch: str | None = None) -> pathlib.Path:
     branch = branch or get_current_branch()
-    worktrees = run_system_command(["git", "worktree", "list"], log_output=False).stdout
+    worktrees = run_system_command(
+        ["git", "worktree", "list"], only_log_on_failure=True
+    ).stdout
     match = re.search(rf"(\S+)\s+(\S+)\s+\[{branch}\]\s+(prunable|)", worktrees)
     if not match:
         raise FileNotFoundError(f"failed to get worktree for branch: {branch}")
@@ -164,7 +166,7 @@ def get_ticket_number(branch: str | None = None) -> str | None:
 
 def get_current_branch() -> str:
     return run_system_command(
-        ["git", "branch", "--show-current"], log_output=False
+        ["git", "branch", "--show-current"], only_log_on_failure=True
     ).stdout.strip()
 
 
@@ -178,7 +180,7 @@ def copy_to_clipboard(value: str) -> None:
     run_system_command(
         [get_copy_to_clipboard_command()],
         input=value.strip(),
-        log_output=False,
+        only_log_on_failure=True,
     )
 
 
@@ -210,9 +212,8 @@ def run_system_command(
             error(f"failed to run: {' '.join(map(str, cmd))}")
             if proc.stdout:
                 print(proc.stdout.rstrip(), file=sys.stderr)
-        elif not only_log_on_failure:
-            if proc.stdout:
-                print(proc.stdout.rstrip(), file=sys.stderr)
+        elif not only_log_on_failure and proc.stdout:
+            print(proc.stdout.rstrip(), file=sys.stderr)
 
     if exit_on_error and proc.returncode != 0:
         sys.exit(1)

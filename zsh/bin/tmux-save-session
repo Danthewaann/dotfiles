@@ -12,7 +12,7 @@ session: str | None = args.session
 session = (
     session
     or _utils.run_system_command(
-        ["tmux", "display-message", "-p", "#S"], log_output=False
+        ["tmux", "display-message", "-p", "#S"], only_log_on_failure=True
     ).stdout.strip()
 )
 
@@ -28,7 +28,7 @@ if session not in saved_sessions:
         wfp.write("\n")
     _utils.run_system_command(
         ["tmux", "display-message", f"Added {session} to saved sessions!"],
-        log_output=False,
+        only_log_on_failure=True,
     )
 else:
     _utils.run_system_command(
@@ -37,5 +37,5 @@ else:
             "display-message",
             f"{session} already added to saved sessions!",
         ],
-        log_output=False,
+        only_log_on_failure=True,
     )

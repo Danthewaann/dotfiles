@@ -50,7 +50,7 @@ if worktree is None:
         sys.exit(1 if failed else 0)
 
     worktrees = _utils.run_system_command(
-        ["git", "worktree", "list"], log_output=False
+        ["git", "worktree", "list"], only_log_on_failure=True
     ).stdout
     for raw_worktree in worktrees.splitlines():
         parsed_worktree = raw_worktree.split()[0]
@@ -78,7 +78,7 @@ for worktree in worktrees_to_delete:
 
     # Check if I have opened a PR for the current branch
     prs = _utils.run_system_command(
-        ["gh", "pr", "list", "--author", "@me"], log_output=False
+        ["gh", "pr", "list", "--author", "@me"], only_log_on_failure=True
     ).stdout
     if not force and re.search(cur_branch, prs):
         _utils.warn(f" skipping {_utils.WHITE_BOLD}{worktree_name}{_utils.NC}")
@@ -88,7 +88,7 @@ for worktree in worktrees_to_delete:
 
     # Make sure we don't delete worktrees that aren't pushed to their remote origin
     local_branch_rev = _utils.run_system_command(
-        ["git", "rev-parse", cur_branch], log_output=False
+        ["git", "rev-parse", cur_branch], only_log_on_failure=True
     ).stdout.strip()
     proc = _utils.run_system_command(
         ["git", "rev-parse", f"origin/{cur_branch}"],

@@ -27,7 +27,7 @@ if not _utils.inside_bare_repo():
 else:
     cur_dir = pathlib.Path.cwd()
     worktrees = _utils.run_system_command(
-        ["git", "worktree", "list"], log_output=False
+        ["git", "worktree", "list"], only_log_on_failure=True
     ).stdout
     for worktree in worktrees.splitlines():
         if not re.search(r"(\[main\]|\[master\]|\(bare\))", worktree):

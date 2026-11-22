@@ -12,5 +12,5 @@ if platform.system() == "Darwin":
 else:
     command = ["xclip", "-selection", "clipboard", "-o"]
 
-patch = _utils.run_system_command(command, log_output=False).stdout
+patch = _utils.run_system_command(command, only_log_on_failure=True).stdout
 _utils.run_system_command(["git", "apply", "-"], capture_output=False, input=patch)

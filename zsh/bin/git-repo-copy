@@ -8,7 +8,7 @@ parser = _utils.create_parser()
 args = parser.parse_args()
 
 repo_url = _utils.run_system_command(
-    ["gh", "repo", "view", "--json", "url", "--jq", ".url"], log_output=False
+    ["gh", "repo", "view", "--json", "url", "--jq", ".url"], only_log_on_failure=True
 ).stdout.strip()
 
 _utils.copy_to_clipboard(repo_url)
