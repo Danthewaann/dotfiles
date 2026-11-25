@@ -31,6 +31,7 @@ git-pr-edit.*.md
 
 # File used by the dmypy daemon
 .dmypy.json
+.mypy_worker
 
 # Use in my `load_pytest_failures()` neovim stuff
 .pytest_results.json
