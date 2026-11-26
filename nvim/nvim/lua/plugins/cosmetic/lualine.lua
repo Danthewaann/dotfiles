@@ -155,6 +155,7 @@ return {
         end
       end,
     }
+    oil_extension.sections.lualine_x = { list_harpoon }
 
     local sections = {
       lualine_a = {},
@@ -175,7 +176,7 @@ return {
       lualine_a = {},
       lualine_b = { filename_config, filetype_inactive_config },
       lualine_c = {},
-      lualine_x = {},
+      lualine_x = { list_harpoon },
       lualine_y = {},
       lualine_z = {
         "filesize",
