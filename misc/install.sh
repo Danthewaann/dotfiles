@@ -119,7 +119,7 @@ else
     if [[ ! -f "$SCRIPT_DIR/keyring.deb" ]]; then
         # From: https://i3wm.org/docs/repositories.html
         run_command "downloading i3 keyring" \
-            "/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2025.03.09_all.deb $SCRIPT_DIR/keyring.deb SHA256:2c2601e6053d5c68c2c60bcd088fa9797acec5f285151d46de9c830aaba6173c"
+            "/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2025.12.14_all.deb $SCRIPT_DIR/keyring.deb SHA256:2c816fbd12ea4d84811818aed0ce3a5da589be1afa30833eb32abc1e4fe6349e"
         run_command "installing i3 keyring" \
             "sudo apt-get install -y $SCRIPT_DIR/keyring.deb"
         run_command "adding i3 keyring to -> /etc/apt/sources.list.d/sur5r-i3.list" \
@@ -200,14 +200,14 @@ else
         "sudo apt-get install -y rename"
 
     run_command "removing apport in ubuntu" \
-        "sudo apt-get purge apport"
+        "sudo apt-get purge -y apport"
 
     if ! inside_wsl; then
         run_command "installing xclip" \
             "sudo apt-get install -y xclip"
 
         run_command "setting up key-repeat in gnome" \
-            "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 10" \
+            "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 15" \
             "gsettings set org.gnome.desktop.peripherals.keyboard delay 200"
     else
         if [[ ! -f "$SCRIPT_DIR/win32yank.zip" ]]; then

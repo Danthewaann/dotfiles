@@ -5,8 +5,11 @@
 #
 # ~/.zshenv is sourced in all terminals and before ~/.zshrc
 if [[ -z $TMUX ]]; then
+    # Add XDG_CONFIG_HOME to broadbast where my config files should live
+    export XDG_CONFIG_HOME="$HOME/.config"
+
     # Setup root variables
-    export NVM_ROOT="$HOME/.nvm"
+    export NVM_DIR="$XDG_CONFIG_HOME/nvm"
     export PYENV_ROOT="$HOME/.pyenv"
     export RBENV_ROOT="$HOME/.rbenv"
 
@@ -19,9 +22,6 @@ if [[ -z $TMUX ]]; then
     # Set theme for bat
     export BAT_THEME="TwoDark"
 
-    # Add XDG_CONFIG_HOME to broadbast where my config files should live
-    export XDG_CONFIG_HOME="$HOME/.config"
-
     # Use nvim as the manpager
     export MANPAGER='nvim +Man!'
 
@@ -29,8 +29,8 @@ if [[ -z $TMUX ]]; then
     export PATH="$PYENV_ROOT/bin:$HOME/.local/share/bob/nvim-bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin${PATH+:$PATH}"
 
     # Use the default nvm alias
-    if [[ -e ~/.nvm/alias/default ]]; then
-        export PATH="$HOME/.nvm/versions/node/v$(< ~/.nvm/alias/default)/bin${PATH+:$PATH}"
+    if [[ -e "$NVM_ROOT/alias/default" ]]; then
+        export PATH="$NVM_ROOT/versions/node/v$(< $NVM_ROOT/alias/default)/bin${PATH+:$PATH}"
     fi
 
     # Allow python and ruby to be findable

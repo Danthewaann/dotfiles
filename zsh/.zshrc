@@ -131,7 +131,6 @@ if [[ $OSTYPE == "darwin"* ]]; then
     alias sed="gsed"
 else
     # Linux only setup
-    eval "$(/usr/local/bin/brew shellenv)"
     alias pbcopy="xclip"
 fi
 
